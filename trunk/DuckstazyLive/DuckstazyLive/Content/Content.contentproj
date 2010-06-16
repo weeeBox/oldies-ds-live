@@ -43,14 +43,6 @@
       <Name>ContentLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\..\..\..\..\test.txt">
-      <Link>test.txt</Link>
-      <Name>test</Name>
-      <Importer>PSImporter</Importer>
-      <Processor>PSProcessor</Processor>
-    </Compile>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
