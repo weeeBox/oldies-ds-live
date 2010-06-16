@@ -49,8 +49,6 @@ namespace DuckstazyLive
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            PSContent c = Content.Load<PSContent>("test");
-            Console.WriteLine("Test string: \"" + c.Data + "\"");
             // TODO: use this.Content to load your game content here
         }
 
