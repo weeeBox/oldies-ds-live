@@ -16,12 +16,18 @@ namespace DuckstazyLive
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class DuckstazyGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Game1()
+        Matrix worldMatrix;
+        Matrix projectionMatrix;
+        Matrix viewMatrix;
+
+        Background background;
+
+        public DuckstazyGame()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
@@ -34,10 +40,18 @@ namespace DuckstazyLive
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {
-            // TODO: Add your initialization logic here
+        {                        
+            InitializeMatrices();
+            background = new Background(GraphicsDevice, ref worldMatrix, ref viewMatrix, ref projectionMatrix);
 
             base.Initialize();
+        }
+
+        private void InitializeMatrices()
+        {
+            worldMatrix = Matrix.Identity;
+            viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+            projectionMatrix = Matrix.CreateOrthographicOffCenter(0, (float)GetWidth(), (float)GetHeight(), 0, 1.0f, 1000.0f);
         }
 
         /// <summary>
@@ -85,9 +99,24 @@ namespace DuckstazyLive
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            
+            background.Draw(GraphicsDevice);
 
             base.Draw(gameTime);
         }
+
+        #region Helpers
+
+        private int GetWidth()
+        {
+            return GraphicsDevice.Viewport.Width;
+        }
+
+        private int GetHeight()
+        {
+            return GraphicsDevice.Viewport.Height;
+        }
+
+        #endregion
     }
 }
