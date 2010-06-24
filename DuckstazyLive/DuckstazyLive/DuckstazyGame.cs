@@ -26,8 +26,9 @@ namespace DuckstazyLive
         Matrix viewMatrix;
         
         Background background;
+        Hero hero;
 
-        long elapsed;
+        private const float GROUND_Y = 80;
 
         public DuckstazyGame()
         {
@@ -42,10 +43,17 @@ namespace DuckstazyLive
         /// and initialize them as well.
         /// </summary>
         protected override void Initialize()
-        {                        
+        {
+            graphics.PreferredBackBufferWidth = 640;
+            graphics.PreferredBackBufferHeight = 480;
+            graphics.ApplyChanges();
+
+            Application app = new Application(640, 480);
+
             InitializeMatrices();                     
             
-            background = new Background(GraphicsDevice, 150.0f);
+            background = new Background(GraphicsDevice, GROUND_Y);
+            hero = new Hero();
 
             base.Initialize();
         }
@@ -65,6 +73,7 @@ namespace DuckstazyLive
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Resources.Instance.Init(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -89,11 +98,7 @@ namespace DuckstazyLive
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            elapsed += gameTime.ElapsedGameTime.Milliseconds;
-            if(elapsed > 2000)
-            {
-                background.fillGround(Color.Black);
-            }
+            hero.Update(gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
 
             base.Update(gameTime);
         }
@@ -108,6 +113,10 @@ namespace DuckstazyLive
                         
             background.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
 
+            spriteBatch.Begin();
+            hero.Draw(spriteBatch);
+            spriteBatch.End();
+                
             base.Draw(gameTime);
         }
 

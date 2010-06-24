@@ -84,13 +84,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="app\Application.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="GradientRect.cs" />
+    <Compile Include="game\Hero.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="PSContent.cs" />
     <Compile Include="PSReader.cs" />
+    <Compile Include="res\Res.cs" />
+    <Compile Include="res\Resources.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
