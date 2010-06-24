@@ -8,53 +8,38 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DuckstazyLive
 {
     public class Background
-    {
-        private VertexDeclaration vertexDeclaration;
-        private BasicEffect basicEffect;
-        private VertexBuffer vertexBuffer;
-
-        private VertexPositionColor[] vertices;
-        private short[] indices;
+    {        
         private static Color SKY_UPPER_COLOR = new Color(63, 181, 242);
         private static Color SKY_LOWER_COLOR = new Color(221, 242, 255);
 
-        public Background(GraphicsDevice device, ref Matrix worldMatrix, ref Matrix viewMatrix, ref Matrix projectionMatrix)
+        private static Color GROUND_UPPER_COLOR = new Color(55, 29, 6);
+        private static Color GROUND_LOWER_COLOR = new Color(93, 49, 12);
+
+        private GradientRect sky;
+        private GradientRect ground;
+        
+        private GraphicsDevice device;
+
+        public Background(GraphicsDevice device, float groundHeight)
         {
-            float width = device.Viewport.Width;
-            float height = device.Viewport.Height;
-
-            vertices = new VertexPositionColor[4];
-            vertices[0] = new VertexPositionColor(new Vector3(0.0f, height, 0.0f), SKY_LOWER_COLOR);
-            vertices[1] = new VertexPositionColor(new Vector3(0.0f, 0.0f, 0.0f), SKY_UPPER_COLOR);
-            vertices[2] = new VertexPositionColor(new Vector3(width, height, 0.0f), SKY_LOWER_COLOR);
-            vertices[3] = new VertexPositionColor(new Vector3(width, 0.0f, 0.0f), SKY_UPPER_COLOR);
-
-            indices = new short[4] { 0, 1, 2, 3};
-
-            vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
-            basicEffect = new BasicEffect(device, null);
-            basicEffect.VertexColorEnabled = true;
-            basicEffect.World = worldMatrix;
-            basicEffect.View = viewMatrix;
-            basicEffect.Projection = projectionMatrix;            
-
-            vertexBuffer = new VertexBuffer(device, VertexPositionColor.SizeInBytes * vertices.Length, BufferUsage.WriteOnly);
-            vertexBuffer.SetData(vertices);
+            float screenWidth = device.Viewport.Width;
+            float screenHeight = device.Viewport.Height;
+            float skyHeight = screenHeight - groundHeight;
+            sky = new GradientRect(device, 0, 0, screenWidth, skyHeight, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
+            ground = new GradientRect(device, 0, skyHeight, screenWidth, groundHeight, GROUND_UPPER_COLOR, GROUND_LOWER_COLOR);
+                        
+            this.device = device;
         }
 
-        public void Draw(GraphicsDevice device)
+        public void Draw(ref Matrix viewMatrix, ref Matrix projectionMatrix, ref Matrix worldMatrix)
         {
-            device.VertexDeclaration = vertexDeclaration;
-            basicEffect.Begin();
+            sky.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
+            ground.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
+        }
 
-            foreach (EffectPass pass in basicEffect.CurrentTechnique.Passes)
-            {
-                pass.Begin();
-                device.DrawUserIndexedPrimitives<VertexPositionColor>(PrimitiveType.TriangleStrip, vertices, 0, vertices.Length, indices, 0, indices.Length - 2);
-                pass.End();
-            }    
-
-            basicEffect.End();
+        public void fillGround(Color color)
+        {
+            ground.fillWith(color);
         }
     }
 }
