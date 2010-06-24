@@ -24,8 +24,10 @@ namespace DuckstazyLive
         Matrix worldMatrix;
         Matrix projectionMatrix;
         Matrix viewMatrix;
-
+        
         Background background;
+
+        long elapsed;
 
         public DuckstazyGame()
         {
@@ -41,8 +43,9 @@ namespace DuckstazyLive
         /// </summary>
         protected override void Initialize()
         {                        
-            InitializeMatrices();
-            background = new Background(GraphicsDevice, ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+            InitializeMatrices();                     
+            
+            background = new Background(GraphicsDevice, 150.0f);
 
             base.Initialize();
         }
@@ -86,7 +89,11 @@ namespace DuckstazyLive
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            elapsed += gameTime.ElapsedGameTime.Milliseconds;
+            if(elapsed > 2000)
+            {
+                background.fillGround(Color.Black);
+            }
 
             base.Update(gameTime);
         }
@@ -97,10 +104,9 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            
-            background.Draw(GraphicsDevice);
+            GraphicsDevice.Clear(Color.CornflowerBlue);            
+                        
+            background.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
 
             base.Draw(gameTime);
         }
