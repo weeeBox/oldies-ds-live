@@ -26,7 +26,7 @@ namespace DuckstazyLive
         Matrix viewMatrix;
         
         Background background;
-        Hero hero;
+        Hero hero;        
 
         private const float GROUND_Y = 80;
 
@@ -115,6 +115,19 @@ namespace DuckstazyLive
 
             spriteBatch.Begin();
             hero.Draw(spriteBatch);
+            spriteBatch.End();
+
+            Texture2D grass = Resources.GetTexture(Res.IMG_GRASS);
+            int width = grass.Width;
+            int height = grass.Height;
+
+            Rectangle source = new Rectangle(0, 0, (int)GetWidth(), grass.Height);
+            Vector2 position = new Vector2(0, GetHeight() - GROUND_Y - grass.Height);
+
+            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
+            GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
+            GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
+            spriteBatch.Draw(grass, position, source, Color.White);
             spriteBatch.End();
                 
             base.Draw(gameTime);

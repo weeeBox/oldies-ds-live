@@ -23,8 +23,9 @@ namespace DuckstazyLive
 
         public void Init(ContentManager content)
         {
-            resources = new IDisposable[1];
-            resources[0] = content.Load<Texture2D>("duck");
+            resources = new IDisposable[Res.RESOURCES_COUNT];
+            resources[Res.IMG_DUCK] = content.Load<Texture2D>("duck");
+            resources[Res.IMG_GRASS] = content.Load<Texture2D>("grass");
         }       
 
         public static Texture2D GetTexture(int id)
