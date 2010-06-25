@@ -89,6 +89,7 @@
     <Compile Include="env\EnvCloud.cs" />
     <Compile Include="env\GradientRect.cs" />
     <Compile Include="game\Hero.cs" />
+    <Compile Include="graphics\Primitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DuckstazyGame.cs" />

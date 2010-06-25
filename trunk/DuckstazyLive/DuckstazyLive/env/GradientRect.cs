@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.graphics;
 
 namespace DuckstazyLive
 {
@@ -14,12 +15,12 @@ namespace DuckstazyLive
         private float width;
         private float height;
 
-        private VertexPositionColor[] vertices;
-        private short[] indices;
-
-        private VertexDeclaration vertexDeclaration;
+        private VertexPositionColor[] vertices;        
+                
         private GraphicsDevice device;
         private BasicEffect effect;
+
+        private Primitive primitive;
         
         public GradientRect(GraphicsDevice device, float x, float y, float width, float height, Color upperColor, Color lowerColor)
         {
@@ -40,12 +41,12 @@ namespace DuckstazyLive
             vertices[2] = new VertexPositionColor(new Vector3(x + width, y + height, 0), lowerColor);
             vertices[3] = new VertexPositionColor(new Vector3(x, y + height, 0), lowerColor);
 
-            indices = new short[4] {3, 0, 2, 1};
-
-            vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
+            short[] indices = new short[4] {3, 0, 2, 1};                 
 
             effect = new BasicEffect(device, null);
             effect.VertexColorEnabled = true;
+
+            primitive = new Primitive(device, vertices, indices, PrimitiveType.TriangleStrip, indices.Length - 2);
         }              
 
         public void fillWith(Color color)
@@ -62,17 +63,7 @@ namespace DuckstazyLive
             effect.Projection = projection;
             effect.World = world;
 
-            effect.Begin();
-            device.VertexDeclaration = vertexDeclaration;
-
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Begin();
-                device.DrawUserIndexedPrimitives(PrimitiveType.TriangleStrip, vertices, 0, vertices.Length, indices, 0, indices.Length - 2);
-                pass.End();
-            }
-
-            effect.End();
+            primitive.Draw(effect);
         }
 
         public float GetX()
