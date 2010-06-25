@@ -18,8 +18,6 @@ namespace DuckstazyLive
         private VertexPositionColor[] vertices;        
                 
         private GraphicsDevice device;
-        private BasicEffect effect;
-
         private Primitive primitive;
         
         public GradientRect(GraphicsDevice device, float x, float y, float width, float height, Color upperColor, Color lowerColor)
@@ -42,10 +40,6 @@ namespace DuckstazyLive
             vertices[3] = new VertexPositionColor(new Vector3(x, y + height, 0), lowerColor);
 
             short[] indices = new short[4] {3, 0, 2, 1};                 
-
-            effect = new BasicEffect(device, null);
-            effect.VertexColorEnabled = true;
-
             primitive = new Primitive(device, vertices, indices, PrimitiveType.TriangleStrip, indices.Length - 2);
         }              
 
@@ -57,12 +51,8 @@ namespace DuckstazyLive
             }
         }
 
-        public void Draw(ref Matrix view, ref Matrix projection, ref Matrix world)
+        public void Draw(BasicEffect effect)
         {
-            effect.View = view;
-            effect.Projection = projection;
-            effect.World = world;
-
             primitive.Draw(effect);
         }
 
