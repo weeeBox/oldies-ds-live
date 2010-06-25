@@ -50,11 +50,13 @@ namespace DuckstazyLive
             graphics.ApplyChanges();
 
             Application app = new Application(640, 480);
+            app.GraphicsDevice = GraphicsDevice;
+            app.SpriteBatch = spriteBatch;
 
             InitializeMatrices();
             InitializeEffect();
             
-            background = new Background(GraphicsDevice, GROUND_Y);
+            background = new Background(GROUND_Y);
             hero = new Hero();
 
             base.Initialize();

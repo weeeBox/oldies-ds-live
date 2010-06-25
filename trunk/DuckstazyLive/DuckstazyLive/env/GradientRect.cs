@@ -16,17 +16,14 @@ namespace DuckstazyLive
         private float height;
 
         private VertexPositionColor[] vertices;        
-                
-        private GraphicsDevice device;
         private Primitive primitive;
         
-        public GradientRect(GraphicsDevice device, float x, float y, float width, float height, Color upperColor, Color lowerColor)
+        public GradientRect(float x, float y, float width, float height, Color upperColor, Color lowerColor)
         {
             this.x = x;
             this.y = y;
             this.width = width;
-            this.height = height;
-            this.device = device;
+            this.height = height;           
 
             InitVertices(ref upperColor, ref lowerColor);
         }
@@ -40,7 +37,7 @@ namespace DuckstazyLive
             vertices[3] = new VertexPositionColor(new Vector3(x, y + height, 0), lowerColor);
 
             short[] indices = new short[4] {3, 0, 2, 1};                 
-            primitive = new Primitive(device, vertices, indices, PrimitiveType.TriangleStrip, indices.Length - 2);
+            primitive = new Primitive(vertices, indices, PrimitiveType.TriangleStrip, indices.Length - 2);
         }              
 
         public void fillWith(Color color)
