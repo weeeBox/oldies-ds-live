@@ -10,12 +10,12 @@ namespace DuckstazyLive
     {
         private static Application instance;
 
-        private float width;
-        private float height;
+        private int width;
+        private int height;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
 
-        public Application(float width, float height)
+        public Application(int width, int height)
         {
             instance = this;
 
@@ -23,12 +23,12 @@ namespace DuckstazyLive
             this.height = height;
         }
 
-        public float Width
+        public int Width
         {
             get { return width; }
         }
 
-        public float Height
+        public int Height
         {
             get { return height; }
         }

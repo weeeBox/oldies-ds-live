@@ -48,6 +48,9 @@ namespace DuckstazyLive
             graphics.PreferredBackBufferHeight = 480;
             graphics.ApplyChanges();
 
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);           
+
             Application app = new Application(640, 480);
             app.GraphicsDevice = GraphicsDevice;
             app.SpriteBatch = spriteBatch;
@@ -65,7 +68,7 @@ namespace DuckstazyLive
         {
             worldMatrix = Matrix.Identity;
             viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-            projectionMatrix = Matrix.CreateOrthographicOffCenter(0, (float)GetWidth(), (float)GetHeight(), 0, 1.0f, 1000.0f);
+            projectionMatrix = Matrix.CreateOrthographicOffCenter(0, Width, Height, 0, 1.0f, 1000.0f);
         }
 
         private void InitializeEffect()
@@ -83,10 +86,7 @@ namespace DuckstazyLive
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
             Resources.Instance.Init(Content);
-
             // TODO: use this.Content to load your game content here
         }
 
@@ -123,38 +123,27 @@ namespace DuckstazyLive
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);            
                         
-            background.Draw(effect);
+            background.DrawSky(effect);
 
             spriteBatch.Begin();
             hero.Draw(spriteBatch);
             spriteBatch.End();
 
-            Texture2D grass = Resources.GetTexture(Res.IMG_GRASS);
-            int width = grass.Width;
-            int height = grass.Height;
-
-            Rectangle source = new Rectangle(0, 0, (int)GetWidth(), grass.Height);
-            Vector2 position = new Vector2(0, GetHeight() - Constants.GROUND_POSITION - grass.Height);
-
-            spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
-            GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
-            GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
-            spriteBatch.Draw(grass, position, source, Color.White);
-            spriteBatch.End();
+            background.DrawGround(effect);
                 
             base.Draw(gameTime);
         }
 
         #region Helpers
 
-        private int GetWidth()
+        private int Width
         {
-            return GraphicsDevice.Viewport.Width;
+            get { return Application.Instance.Width; }
         }
 
-        private int GetHeight()
+        private int Height
         {
-            return GraphicsDevice.Viewport.Height;
+            get { return Application.Instance.Height; }
         }
 
         #endregion
