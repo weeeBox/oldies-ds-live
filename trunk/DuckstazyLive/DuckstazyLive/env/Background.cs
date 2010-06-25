@@ -29,11 +29,15 @@ namespace DuckstazyLive
             ground = new Ground(0, skyHeight, screenWidth, groundHeight);
         }
 
-        public void Draw(BasicEffect effect)
+        public void DrawSky(BasicEffect effect)
         {
-            sky.Draw(effect);            
-            ground.Draw(effect);
+            sky.Draw(effect);                        
         }             
+
+        public void DrawGround(BasicEffect effect)
+        {
+            ground.Draw(effect);
+        }
 
         private Application App
         {
