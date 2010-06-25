@@ -18,17 +18,13 @@ namespace DuckstazyLive
         private GradientRect sky;
         private GradientRect ground;
         
-        private GraphicsDevice device;
-
-        public Background(GraphicsDevice device, float groundHeight)
+        public Background(float groundHeight)
         {
-            float screenWidth = device.Viewport.Width;
-            float screenHeight = device.Viewport.Height;
+            float screenWidth = App.Width;
+            float screenHeight = App.Height;
             float skyHeight = screenHeight - groundHeight;
-            sky = new GradientRect(device, 0, 0, screenWidth, skyHeight, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
-            ground = new GradientRect(device, 0, skyHeight, screenWidth, groundHeight, GROUND_UPPER_COLOR, GROUND_LOWER_COLOR);
-                        
-            this.device = device;
+            sky = new GradientRect(0, 0, screenWidth, skyHeight, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
+            ground = new GradientRect(0, skyHeight, screenWidth, groundHeight, GROUND_UPPER_COLOR, GROUND_LOWER_COLOR);            
         }
 
         public void Draw(BasicEffect effect)
@@ -40,6 +36,11 @@ namespace DuckstazyLive
         public void fillGround(Color color)
         {
             ground.fillWith(color);
+        }
+
+        private Application App
+        {
+            get { return Application.Instance; }
         }
     }
 }

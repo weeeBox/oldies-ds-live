@@ -10,20 +10,18 @@ namespace DuckstazyLive.graphics
     {
         private VertexPositionColor[] vertices;
         private short[] indices;
-        private VertexDeclaration vertexDeclaration;
-        private GraphicsDevice device;
+        private VertexDeclaration vertexDeclaration;        
         private PrimitiveType primitiveType;
         private int primitivesCount;
 
-        public Primitive(GraphicsDevice device, VertexPositionColor[] vertices, short[] indices, PrimitiveType type, int primitivesCount)
-        {
-            this.device = device;
+        public Primitive(VertexPositionColor[] vertices, short[] indices, PrimitiveType type, int primitivesCount)
+        {            
             this.vertices = vertices;
             this.indices = indices;
             this.primitiveType = type;
             this.primitivesCount = primitivesCount;
 
-            vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);            
+            vertexDeclaration = new VertexDeclaration(GraphicsDevice, VertexPositionColor.VertexElements);            
         }
 
         public void Draw(BasicEffect effect)
@@ -38,12 +36,7 @@ namespace DuckstazyLive.graphics
                 pass.End();
             }
             effect.End();
-        }       
-
-        protected GraphicsDevice GraphicsDevice
-        {
-            get { return device; }
-        }
+        }              
 
         protected VertexPositionColor[] Vertices
         {
@@ -53,6 +46,11 @@ namespace DuckstazyLive.graphics
         protected short[] Indices
         {
             get { return indices; }
+        }        
+
+        private GraphicsDevice GraphicsDevice
+        {
+            get { return Application.Instance.GraphicsDevice; }
         }
     }
 }
