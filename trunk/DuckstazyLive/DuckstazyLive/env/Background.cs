@@ -31,10 +31,10 @@ namespace DuckstazyLive
             this.device = device;
         }
 
-        public void Draw(ref Matrix viewMatrix, ref Matrix projectionMatrix, ref Matrix worldMatrix)
+        public void Draw(BasicEffect effect)
         {
-            sky.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
-            ground.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
+            sky.Draw(effect);
+            ground.Draw(effect);
         }
 
         public void fillGround(Color color)

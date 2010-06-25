@@ -24,6 +24,7 @@ namespace DuckstazyLive
         Matrix worldMatrix;
         Matrix projectionMatrix;
         Matrix viewMatrix;
+        BasicEffect effect;
         
         Background background;
         Hero hero;        
@@ -50,7 +51,8 @@ namespace DuckstazyLive
 
             Application app = new Application(640, 480);
 
-            InitializeMatrices();                     
+            InitializeMatrices();
+            InitializeEffect();
             
             background = new Background(GraphicsDevice, GROUND_Y);
             hero = new Hero();
@@ -63,6 +65,15 @@ namespace DuckstazyLive
             worldMatrix = Matrix.Identity;
             viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
             projectionMatrix = Matrix.CreateOrthographicOffCenter(0, (float)GetWidth(), (float)GetHeight(), 0, 1.0f, 1000.0f);
+        }
+
+        private void InitializeEffect()
+        {
+            effect = new BasicEffect(GraphicsDevice, null);
+            effect.World = worldMatrix;
+            effect.View = viewMatrix;
+            effect.Projection = projectionMatrix;
+            effect.VertexColorEnabled = true;
         }
 
         /// <summary>
@@ -111,7 +122,7 @@ namespace DuckstazyLive
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);            
                         
-            background.Draw(ref viewMatrix, ref projectionMatrix, ref worldMatrix);
+            background.Draw(effect);
 
             spriteBatch.Begin();
             hero.Draw(spriteBatch);
