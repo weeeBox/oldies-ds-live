@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive
 {
@@ -27,9 +28,7 @@ namespace DuckstazyLive
         BasicEffect effect;
         
         Background background;
-        Hero hero;        
-
-        private const float GROUND_Y = 80;
+        Hero hero;         
 
         public DuckstazyGame()
         {
@@ -56,7 +55,7 @@ namespace DuckstazyLive
             InitializeMatrices();
             InitializeEffect();
             
-            background = new Background(GROUND_Y);
+            background = new Background(Constants.GROUND_POSITION);
             hero = new Hero();
 
             base.Initialize();
@@ -135,7 +134,7 @@ namespace DuckstazyLive
             int height = grass.Height;
 
             Rectangle source = new Rectangle(0, 0, (int)GetWidth(), grass.Height);
-            Vector2 position = new Vector2(0, GetHeight() - GROUND_Y - grass.Height);
+            Vector2 position = new Vector2(0, GetHeight() - Constants.GROUND_POSITION - grass.Height);
 
             spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;

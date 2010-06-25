@@ -85,9 +85,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\Application.cs" />
+    <Compile Include="app\Constants.cs" />
     <Compile Include="env\Background.cs" />
     <Compile Include="env\EnvCloud.cs" />
     <Compile Include="env\GradientRect.cs" />
+    <Compile Include="env\Grass.cs" />
+    <Compile Include="env\Ground.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="graphics\Primitive.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
