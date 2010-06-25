@@ -17,7 +17,6 @@ namespace DuckstazyLive
         private static Color GROUND_LOWER_COLOR = new Color(93, 49, 12);
 
         private GradientRect sky;
-        private GradientRect ground1;
         private Ground ground;
         
         public Background(float groundHeight)
