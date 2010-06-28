@@ -93,6 +93,7 @@
     <Compile Include="env\Ground.cs" />
     <Compile Include="env\sky\AbstractSky.cs" />
     <Compile Include="game\Hero.cs" />
+    <Compile Include="graphics\Camera.cs" />
     <Compile Include="graphics\Circle.cs" />
     <Compile Include="graphics\Primitive.cs" />
     <Compile Include="graphics\Wave.cs" />
