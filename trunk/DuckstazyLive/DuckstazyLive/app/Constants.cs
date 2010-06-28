@@ -7,6 +7,6 @@ namespace DuckstazyLive.app
 {
     public sealed class Constants
     {
-        public static readonly float GROUND_POSITION = 80.0f;
+        public static readonly float GROUND_HEIGHT = 80.0f;
     }
 }

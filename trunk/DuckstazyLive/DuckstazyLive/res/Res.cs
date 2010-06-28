@@ -9,7 +9,8 @@ namespace DuckstazyLive
     {
         public static readonly int IMG_DUCK = 0;
         public static readonly int IMG_GRASS = 1;
+        public static readonly int EFFECT_WAVE = 2;
 
-        public static readonly int RESOURCES_COUNT = 2;
+        public static readonly int RESOURCES_COUNT = 3;
     }
 }

@@ -37,7 +37,8 @@ namespace DuckstazyLive
             vertices[3] = new VertexPositionColor(new Vector3(x, y + height, 0), lowerColor);
 
             short[] indices = new short[4] {3, 0, 2, 1};                 
-            primitive = new Primitive(vertices, indices, PrimitiveType.TriangleStrip, indices.Length - 2);
+            primitive = new Primitive();
+            primitive.SetData(vertices, indices, PrimitiveType.TriangleStrip, indices.Length - 2);
         }              
 
         public void fillWith(Color color)
