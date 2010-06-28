@@ -67,7 +67,7 @@ namespace DuckstazyLive
             float h = 22.5f;
             float x = 0;
             float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
-            wave = new Wave(x, y, w, h, 10);
+            wave = new Wave(x, y, w, h, 10);                      
 
             base.Initialize();
         }
@@ -150,6 +150,7 @@ namespace DuckstazyLive
             customEffect.Parameters["Omega"].SetValue(4 * MathHelper.Pi);
             customEffect.Parameters["Top"].SetValue(0);
             customEffect.Parameters["Phase"].SetValue(0.3f);
+            customEffect.Parameters["Color"].SetValue(new Color(93, 49, 12).ToVector4());
             wave.Draw(customEffect);            
                 
             base.Draw(gameTime);

@@ -9,10 +9,7 @@ using DuckstazyLive.app;
 namespace DuckstazyLive.env
 {
     public sealed class Grass
-    {
-        private Color tiltColor = Color.Red;
-        private bool hasTilt = true;
-
+    {     
         public void Draw()
         {
             Texture2D grass = Resources.GetTexture(Res.IMG_GRASS);
@@ -25,7 +22,7 @@ namespace DuckstazyLive.env
             SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
             GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
             GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
-            SpriteBatch.Draw(grass, position, source, hasTilt ? tiltColor : Color.White);
+            SpriteBatch.Draw(grass, position, source, Color.White);
             SpriteBatch.End();
         }
 

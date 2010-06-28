@@ -7,6 +7,7 @@ float WaveLength;
 float Omega;
 float Top;
 float Phase;
+float4 Color : COLOR0;
 
 // TODO: add effect parameters here.
 
@@ -44,9 +45,7 @@ VertexShaderOutput VertexShaderFunction(VertexShaderInput input)
 
 float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 {
-    // TODO: add your pixel shader code here.
-
-    return float4(1, 0, 0, 1);
+    return Color;
 }
 
 technique Technique1
