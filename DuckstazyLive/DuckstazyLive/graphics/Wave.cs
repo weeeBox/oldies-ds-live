@@ -4,18 +4,19 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.graphics
 {
-    class Wave : Primitive
+    class Wave
     {
-        private float elapsed;        
-        private int pointsCount;
+        private readonly int pointsCount = 100;
 
-        public Wave(float x, float y, float width, float height, int pointsCount)
+        private float elapsed;                
+        private Primitive wave;
+
+        public Wave(float x, float y, float width, float height)
         {            
-            this.pointsCount = pointsCount;
-            GenerateGeometry(x, y, width, height, pointsCount);
+            wave = GenerateGeometry(x, y, width, height, pointsCount);
         }
 
-        private void GenerateGeometry(float x, float y, float width, float height, int pointsCount)
+        private Primitive GenerateGeometry(float x, float y, float width, float height, int pointsCount)
         {
             int vertexCount = 2 * pointsCount;
             VertexPositionColor[] vertices = new VertexPositionColor[vertexCount];
@@ -43,67 +44,36 @@ namespace DuckstazyLive.graphics
                 lowerPosition.X += dx;
             }
 
-            SetData(vertices, indices, PrimitiveType.TriangleStrip, vertexCount - 2);
+            Primitive primitive = new Primitive();
+            primitive.SetData(vertices, indices, PrimitiveType.TriangleStrip, vertexCount - 2);
+
+            return primitive;
         }                      
-
-        //private void GenerateGeometry(float x, float y, float width, float height, int pointsCount)
-        //{            
-        //    int vertexCount = pointsCount * 2;
-        //    VertexPositionColor[] vertices = new VertexPositionColor[vertexCount];
-        //    short[] indices = new short[vertexCount];
-
-        //    float dx = (float)(width - 1) / (pointsCount - 1);
-        //    Vector3 upperPosition = new Vector3(x, y, 0);
-        //    Vector3 lowerPosition = new Vector3(x, y + height, 0);
-        //    int vertexIndex = 0;
-        //    for (int pointIndex = 0; pointIndex < pointsCount; pointIndex++)
-        //    {
-        //        // lower vertices
-        //        vertices[vertexIndex] = new VertexPositionColor(lowerPosition, Color.White);
-        //        indices[vertexIndex] = (short)vertexIndex;
-        //        vertexIndex++;
-
-        //        // upper vertices;
-        //        vertices[vertexIndex] = new VertexPositionColor(upperPosition, Color.White);
-        //        indices[vertexIndex] = (short)vertexIndex;
-        //        vertexIndex++;
-
-        //        // shift position
-        //        upperPosition.X += dx;
-        //        lowerPosition.X += dx;
-        //    }
-
-        //    SetData(vertices, indices, PrimitiveType.TriangleStrip, vertexCount - 2);
-        //}                      
-
+          
         public void Update(float dt)
         {
-            elapsed += dt;
-            UpdateGeometry(elapsed);
+            elapsed += dt;        
+        }             
+
+        public void Draw(GameTime gameTime)
+        {
+            Effect customEffect = Resources.GetEffect(Res.EFFECT_WAVE);
+            customEffect.Parameters["World"].SetValue(Camera.World);
+            customEffect.Parameters["View"].SetValue(Camera.View);
+            customEffect.Parameters["Projection"].SetValue(Camera.Projection);
+            customEffect.Parameters["Timer"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);            
+            customEffect.Parameters["Amplitude"].SetValue(10.0f);
+            customEffect.Parameters["WaveLength"].SetValue(Application.Instance.Width);
+            customEffect.Parameters["Omega"].SetValue(4 * MathHelper.Pi);
+            customEffect.Parameters["Top"].SetValue(0);
+            customEffect.Parameters["Phase"].SetValue(0.3f);
+            customEffect.Parameters["Color"].SetValue(new Color(93, 49, 12).ToVector4());
+            wave.Draw(customEffect);            
         }
 
-        private void UpdateGeometry(float t)
+        private Camera Camera
         {
-            VertexPositionColor[] vertices = new VertexPositionColor[pointsCount];
-            short[] indices = new short[pointsCount];
-
-            Vector3 position = new Vector3();
-            float periodLength = 400.0f;
-            float dx = periodLength / pointsCount;
-            float lambda = Application.Instance.Width;
-            double omega = 2*Math.PI;
-
-            for (int pointIndex = 0; pointIndex < pointsCount; pointIndex++)
-            {
-                double a = 50.0f;
-                position.Y = (float) (a * Math.Sin(2 * Math.PI * position.X / lambda - omega * t)) + 200;
-                vertices[pointIndex] = new VertexPositionColor(position, Color.White);
-                indices[pointIndex] = (short)pointIndex;
-
-                position.X += dx;
-            }
-
-            SetData(vertices, indices, PrimitiveType.LineStrip, vertices.Length - 2);
+            get { return Application.Instance.Camera; }
         }
     }
 }

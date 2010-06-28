@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -55,10 +53,13 @@ namespace DuckstazyLive
 
             Application app = new Application(640, 480);
             app.GraphicsDevice = GraphicsDevice;
-            app.SpriteBatch = spriteBatch;
+            app.SpriteBatch = spriteBatch;            
 
             InitializeMatrices();
             InitializeEffect();
+
+            Camera camera = new Camera(worldMatrix, viewMatrix, projectionMatrix);
+            app.Camera = camera;
             
             background = new Background(Constants.GROUND_HEIGHT);
             hero = new Hero();
@@ -67,7 +68,7 @@ namespace DuckstazyLive
             float h = 22.5f;
             float x = 0;
             float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
-            wave = new Wave(x, y, w, h, 10);                      
+            wave = new Wave(x, y, w, h);                      
 
             base.Initialize();
         }
@@ -138,20 +139,8 @@ namespace DuckstazyLive
             hero.Draw(spriteBatch);
             spriteBatch.End();
             
-            background.DrawGround(effect);            
-
-            Effect customEffect = Resources.GetEffect(Res.EFFECT_WAVE);
-            customEffect.Parameters["World"].SetValue(worldMatrix);
-            customEffect.Parameters["View"].SetValue(viewMatrix);
-            customEffect.Parameters["Projection"].SetValue(projectionMatrix);
-            customEffect.Parameters["Timer"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);            
-            customEffect.Parameters["Amplitude"].SetValue(10.0f);
-            customEffect.Parameters["WaveLength"].SetValue(Application.Instance.Width);
-            customEffect.Parameters["Omega"].SetValue(4 * MathHelper.Pi);
-            customEffect.Parameters["Top"].SetValue(0);
-            customEffect.Parameters["Phase"].SetValue(0.3f);
-            customEffect.Parameters["Color"].SetValue(new Color(93, 49, 12).ToVector4());
-            wave.Draw(customEffect);            
+            background.DrawGround(effect);
+            wave.Draw(gameTime);            
                 
             base.Draw(gameTime);
         }

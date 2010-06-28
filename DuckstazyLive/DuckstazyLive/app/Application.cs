@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.graphics;
 
 namespace DuckstazyLive
 {
@@ -14,6 +15,7 @@ namespace DuckstazyLive
         private int height;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
+        private Camera camera;
 
         public Application(int width, int height)
         {
@@ -43,6 +45,12 @@ namespace DuckstazyLive
         {
             get { return spriteBatch; }
             set { spriteBatch = value; }
+        }
+
+        public Camera Camera
+        {
+            get { return camera; }
+            set { camera = value; }
         }
 
         public static Application Instance
