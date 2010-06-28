@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using DuckstazyLive.app;
+using DuckstazyLive.graphics;
 
 namespace DuckstazyLive
 {
@@ -28,8 +29,9 @@ namespace DuckstazyLive
         BasicEffect effect;
         
         Background background;
-        Hero hero;         
-
+        Hero hero;
+        Wave wave;
+        
         public DuckstazyGame()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -45,7 +47,7 @@ namespace DuckstazyLive
         protected override void Initialize()
         {
             graphics.PreferredBackBufferWidth = 640;
-            graphics.PreferredBackBufferHeight = 480;
+            graphics.PreferredBackBufferHeight = 480;            
             graphics.ApplyChanges();
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -58,8 +60,14 @@ namespace DuckstazyLive
             InitializeMatrices();
             InitializeEffect();
             
-            background = new Background(Constants.GROUND_POSITION);
+            background = new Background(Constants.GROUND_HEIGHT);
             hero = new Hero();
+            
+            float w = app.Width;
+            float h = 22.5f;
+            float x = 0;
+            float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
+            wave = new Wave(x, y, w, h, 10);
 
             base.Initialize();
         }
@@ -77,7 +85,7 @@ namespace DuckstazyLive
             effect.World = worldMatrix;
             effect.View = viewMatrix;
             effect.Projection = projectionMatrix;
-            effect.VertexColorEnabled = true;
+            effect.VertexColorEnabled = true;            
         }
 
         /// <summary>
@@ -110,10 +118,11 @@ namespace DuckstazyLive
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            hero.Update(gameTime.ElapsedGameTime.Milliseconds / 1000.0f);
+            float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            hero.Update(dt);                       
 
             base.Update(gameTime);
-        }
+        }       
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -128,8 +137,20 @@ namespace DuckstazyLive
             spriteBatch.Begin();
             hero.Draw(spriteBatch);
             spriteBatch.End();
+            
+            background.DrawGround(effect);            
 
-            background.DrawGround(effect);
+            Effect customEffect = Resources.GetEffect(Res.EFFECT_WAVE);
+            customEffect.Parameters["World"].SetValue(worldMatrix);
+            customEffect.Parameters["View"].SetValue(viewMatrix);
+            customEffect.Parameters["Projection"].SetValue(projectionMatrix);
+            customEffect.Parameters["Timer"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);            
+            customEffect.Parameters["Amplitude"].SetValue(10.0f);
+            customEffect.Parameters["WaveLength"].SetValue(Application.Instance.Width);
+            customEffect.Parameters["Omega"].SetValue(4 * MathHelper.Pi);
+            customEffect.Parameters["Top"].SetValue(0);
+            customEffect.Parameters["Phase"].SetValue(0.3f);
+            wave.Draw(customEffect);            
                 
             base.Draw(gameTime);
         }

@@ -14,17 +14,20 @@ namespace DuckstazyLive.graphics
         private PrimitiveType primitiveType;
         private int primitivesCount;
 
-        public Primitive(VertexPositionColor[] vertices, short[] indices, PrimitiveType type, int primitivesCount)
-        {            
+        public Primitive()
+        {
+            vertexDeclaration = new VertexDeclaration(GraphicsDevice, VertexPositionColor.VertexElements);            
+        }
+
+        public void SetData(VertexPositionColor[] vertices, short[] indices, PrimitiveType type, int primitivesCount)
+        {
             this.vertices = vertices;
             this.indices = indices;
             this.primitiveType = type;
             this.primitivesCount = primitivesCount;
-
-            vertexDeclaration = new VertexDeclaration(GraphicsDevice, VertexPositionColor.VertexElements);            
         }
 
-        public void Draw(BasicEffect effect)
+        public void Draw(Effect effect)
         {
             GraphicsDevice.VertexDeclaration = vertexDeclaration;
 

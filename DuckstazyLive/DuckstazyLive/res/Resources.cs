@@ -26,11 +26,17 @@ namespace DuckstazyLive
             resources = new IDisposable[Res.RESOURCES_COUNT];
             resources[Res.IMG_DUCK] = content.Load<Texture2D>("duck");
             resources[Res.IMG_GRASS] = content.Load<Texture2D>("grass");
+            resources[Res.EFFECT_WAVE] = content.Load<Effect>("shaders\\WaveEffect");
         }       
 
         public static Texture2D GetTexture(int id)
         {            
             return (Texture2D)instance.resources[id];
+        }
+
+        public static Effect GetEffect(int id)
+        {
+            return (Effect)instance.resources[id];
         }
     }
 }
