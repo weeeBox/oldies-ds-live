@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.env;
+using DuckstazyLive.graphics;
 
 namespace DuckstazyLive
 {
@@ -28,14 +29,14 @@ namespace DuckstazyLive
             ground = new Ground(0, skyHeight, screenWidth, groundHeight);
         }
 
-        public void DrawSky(BasicEffect effect)
+        public void DrawSky(RenderContext context)
         {
-            sky.Draw(effect);                        
+            sky.Draw(context);                        
         }             
 
-        public void DrawGround(BasicEffect effect)
+        public void DrawGround(RenderContext context)
         {
-            ground.Draw(effect);
+            ground.Draw(context);
         }
 
         private Application App

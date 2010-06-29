@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.graphics;
 
 namespace DuckstazyLive.env
 {
@@ -16,9 +17,9 @@ namespace DuckstazyLive.env
             grass = new Grass();
         }
 
-        public void Draw(BasicEffect effect)
+        public void Draw(RenderContext context)
         {
-            ground.Draw(effect);
+            ground.Draw(context);
             grass.Draw();
         }
     }
