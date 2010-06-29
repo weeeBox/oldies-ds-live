@@ -19,12 +19,9 @@ namespace DuckstazyLive
     public class DuckstazyGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
+        SpriteBatch spriteBatch;       
 
-        Matrix worldMatrix;
-        Matrix projectionMatrix;
-        Matrix viewMatrix;
-        BasicEffect effect;
+        RenderContext renderContext;
         
         Background background;
         Hero hero;
@@ -53,10 +50,17 @@ namespace DuckstazyLive
 
             Application app = new Application(640, 480);
             app.GraphicsDevice = GraphicsDevice;
-            app.SpriteBatch = spriteBatch;            
+            app.SpriteBatch = spriteBatch;
 
-            InitializeMatrices();
-            InitializeEffect();
+
+            Matrix worldMatrix;
+            Matrix viewMatrix;
+            Matrix projectionMatrix;
+
+            InitializeMatrices(out worldMatrix, out viewMatrix, out projectionMatrix);
+            BasicEffect basicEffect = InitializeEffect(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
+
+            renderContext = new RenderContext(spriteBatch, basicEffect);
 
             Camera camera = new Camera(worldMatrix, viewMatrix, projectionMatrix);
             app.Camera = camera;
@@ -73,20 +77,22 @@ namespace DuckstazyLive
             base.Initialize();
         }
 
-        private void InitializeMatrices()
+        private void InitializeMatrices(out Matrix world, out Matrix view, out Matrix projection)
         {
-            worldMatrix = Matrix.Identity;
-            viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-            projectionMatrix = Matrix.CreateOrthographicOffCenter(0, Width, Height, 0, 1.0f, 1000.0f);
+            world = Matrix.Identity;
+            view = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+            projection = Matrix.CreateOrthographicOffCenter(0, Width, Height, 0, 1.0f, 1000.0f);
         }
 
-        private void InitializeEffect()
+        private BasicEffect InitializeEffect(ref Matrix world, ref Matrix view, ref Matrix projection)
         {
-            effect = new BasicEffect(GraphicsDevice, null);
-            effect.World = worldMatrix;
-            effect.View = viewMatrix;
-            effect.Projection = projectionMatrix;
-            effect.VertexColorEnabled = true;            
+            BasicEffect effect = new BasicEffect(GraphicsDevice, null);
+            effect.World = world;
+            effect.View = view;
+            effect.Projection = projection;
+            effect.VertexColorEnabled = true;
+
+            return effect;
         }
 
         /// <summary>
@@ -131,15 +137,15 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);            
-                        
-            background.DrawSky(effect);
+            GraphicsDevice.Clear(Color.CornflowerBlue);                                   
+            
+            background.DrawSky(renderContext.BasicEffect);
 
             spriteBatch.Begin();
-            hero.Draw(spriteBatch);
+            hero.Draw(renderContext.SpriteBatch);
             spriteBatch.End();
             
-            background.DrawGround(effect);
+            background.DrawGround(renderContext.BasicEffect);
             wave.Draw(gameTime);            
                 
             base.Draw(gameTime);
