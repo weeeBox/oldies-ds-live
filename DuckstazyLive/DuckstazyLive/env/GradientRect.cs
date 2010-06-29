@@ -49,9 +49,9 @@ namespace DuckstazyLive
             }
         }
 
-        public void Draw(BasicEffect effect)
+        public void Draw(RenderContext context)
         {
-            primitive.Draw(effect);
+            primitive.Draw(context.BasicEffect);
         }
 
         public float GetX()

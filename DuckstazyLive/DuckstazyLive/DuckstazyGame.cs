@@ -139,13 +139,13 @@ namespace DuckstazyLive
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);                                   
             
-            background.DrawSky(renderContext.BasicEffect);
+            background.DrawSky(renderContext);
 
             spriteBatch.Begin();
             hero.Draw(renderContext.SpriteBatch);
             spriteBatch.End();
             
-            background.DrawGround(renderContext.BasicEffect);
+            background.DrawGround(renderContext);
             wave.Draw(gameTime);            
                 
             base.Draw(gameTime);
