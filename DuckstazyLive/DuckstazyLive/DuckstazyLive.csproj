@@ -96,6 +96,7 @@
     <Compile Include="graphics\Camera.cs" />
     <Compile Include="graphics\Circle.cs" />
     <Compile Include="graphics\Primitive.cs" />
+    <Compile Include="graphics\RenderContext.cs" />
     <Compile Include="graphics\Wave.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
