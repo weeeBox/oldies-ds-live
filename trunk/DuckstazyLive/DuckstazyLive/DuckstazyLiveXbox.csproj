@@ -65,6 +65,9 @@
   <ItemGroup>
     <Compile Include="app\Application.cs" />
     <Compile Include="app\Constants.cs" />
+    <Compile Include="core\input\InputAdapter.cs" />
+    <Compile Include="core\input\InputListener.cs" />
+    <Compile Include="core\input\InputManager.cs" />
     <Compile Include="env\Background.cs" />
     <Compile Include="env\EnvCloud.cs" />
     <Compile Include="env\GradientRect.cs" />
