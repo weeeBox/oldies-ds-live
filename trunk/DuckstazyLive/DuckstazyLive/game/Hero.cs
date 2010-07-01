@@ -41,8 +41,10 @@ namespace DuckstazyLive
         private float x;
         private float y;
 
-        private float xLast;
-        private float yLast;
+        private bool flying;
+        private float vx;        
+        private float vy;
+                
         private float power;
         private bool sleep;
         private bool wingLock;
@@ -51,7 +53,7 @@ namespace DuckstazyLive
         private float wingY;
         private float jumpWingVel;
         private float diveK;
-        private float jumpVel;
+        
         private float jumpStartVel;
         private float wingCounter;
         private float wingAngle;
@@ -61,9 +63,9 @@ namespace DuckstazyLive
 
         private bool steping;
         private bool flip;
-        private float vx;        
+        
         private float steppingDistance;
-        private bool fly;
+        
 
         public Hero()
         {            
@@ -79,7 +81,7 @@ namespace DuckstazyLive
             float dx = x;
             float dy = y;                     
 
-            if (steppingDistance > 2 && !fly)
+            if (steppingDistance > 2 && !flying)
             {
                 dy -= 2.0f;
             }
@@ -107,9 +109,6 @@ namespace DuckstazyLive
 
         public void Update(float dt)
         {
-            xLast = x;
-            yLast = y;
-
             //media.updateSFX(x + duck_w);
 
             //power = newPower;
@@ -148,7 +147,7 @@ namespace DuckstazyLive
                 }
             }
 
-            if (fly)
+            if (flying)
             {
                 if (key_down)
                 {
@@ -161,7 +160,7 @@ namespace DuckstazyLive
                     if (diveK < 0.0f) diveK = 0.0f;
                 }
 
-                if (jumpVel > 0.0f)
+                if (vy > 0.0f)
                     wingYLocked = false;
 
                 if (wingLock && !sleep && wingYLocked)
@@ -173,11 +172,11 @@ namespace DuckstazyLive
                 {
                     if (wingLock && !sleep)
                     {
-                        if (jumpVel >= 0.0)
+                        if (vy >= 0.0)
                         {
-                            jumpVel -= gravity * (diveK + 1.0f) * dt;
-                            y -= jumpVel * dt;
-                            if (jumpVel <= 0.0)
+                            vy -= gravity * (diveK + 1.0f) * dt;
+                            y -= vy * dt;
+                            if (vy <= 0.0)
                             {
                                 wingYLocked = true;
                                 wingY = y;
@@ -185,21 +184,21 @@ namespace DuckstazyLive
                         }
                         else
                         {
-                            jumpVel += 5.0f * gravity * dt;
-                            y -= jumpVel * dt;
+                            vy += 5.0f * gravity * dt;
+                            y -= vy * dt;
                         }
                     }
                     else
                     {
-                        jumpVel -= gravity * (diveK + 1.0f) * dt;
-                        y -= jumpVel * dt;
+                        vy -= gravity * (diveK + 1.0f) * dt;
+                        y -= vy * dt;
                     }
                 }
                 
                 if (y >= App.Height - Constants.GROUND_HEIGHT - height)
                 {
                     wingLock = false;
-                    fly = false;
+                    flying = false;
                     y = App.Height - Constants.GROUND_HEIGHT - height;
 
                     //media.playLand();
@@ -254,7 +253,7 @@ namespace DuckstazyLive
                 if (steppingDistance > STEP_DISTANCE_MAX)
                 {
                     steppingDistance -= STEP_DISTANCE_MAX;
-                    if (!fly)
+                    if (!flying)
                     {
                         //media.playStep();
                         //doStepBubble();
@@ -264,7 +263,7 @@ namespace DuckstazyLive
 
             if (!key_left && !key_right)
             {
-                float slow = fly ? slowdownSky : slowdownGround;
+                float slow = flying ? slowdownSky : slowdownGround;
                 vx -= vx * slow * dt;
                 if (steppingDistance > STEP_DISTANCE_MAX)
                 {
@@ -296,13 +295,13 @@ namespace DuckstazyLive
                 {
                     if (key_up)
                     {
-                        if (fly)
+                        if (flying)
                         {
                             if (wingLock)
                             {
                                 wingLock = false;
-                                if (jumpVel < 0.0f)
-                                    jumpVel = 0.0f;
+                                if (vy < 0.0f)
+                                    vy = 0.0f;
                             }
 
                             //if(jumpVel>0 && gravityK==1)
@@ -336,12 +335,12 @@ namespace DuckstazyLive
                     {
                         if (!key_up)
                         {
-                            if (!fly)
+                            if (!flying)
                             {
                                 if (!sleep)
                                 {
-                                    fly = true;
-                                    jumpVel = jumpStartVel;
+                                    flying = true;
+                                    vy = jumpStartVel;
                                     //gravityK = 1;
 
                                     //media.playJump();
