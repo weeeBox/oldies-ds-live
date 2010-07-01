@@ -32,11 +32,7 @@ namespace DuckstazyLive
         private bool key_left;
         private bool key_right;
         private bool key_up;
-        private bool key_down;
-
-        private GamePadState oldGamePadState;
-        private KeyboardState oldKeyState;
-        private KeyboardState keyState;
+        private bool key_down;        
         
         // Vars
 
@@ -74,9 +70,7 @@ namespace DuckstazyLive
             position = new Vector2(0, 0);
 
             x = (App.Width - duck_w2) / 2;
-            y = App.Height - Constants.GROUND_HEIGHT -duck_h2;
-
-            oldKeyState = Keyboard.GetState();            
+            y = App.Height - Constants.GROUND_HEIGHT -duck_h2;            
         }
 
         public void Draw(SpriteBatch batch)
@@ -369,39 +363,18 @@ namespace DuckstazyLive
                     break;
 
                 case Buttons.DPadRight:
-                    {
-                        key_right = true;
-                    }
-                    break;
+                    key_right = true;         
+                break;
 
-                case Buttons.DPadLeft:
-                    {
-                        key_left = true;
-                    }
-                    break;
+                case Buttons.DPadLeft:                
+                    key_left = true;                
+                break;
 
-                case Buttons.DPadDown:
-                    {
-                        key_down = true;
-                    }
-                    break;
+                case Buttons.DPadDown:                
+                    key_down = true;                    
+                break;
             }
-        }
-
-        private bool IsKeyPressed(Keys key)
-        {
-            return keyState.IsKeyDown(key) && !oldKeyState.IsKeyDown(key);
-        }
-
-        private bool IsKey(Keys key)
-        {
-            return keyState.IsKeyDown(key) && oldKeyState.IsKeyDown(key);
-        }
-
-        private bool IsKeyReleased(Keys key)
-        {
-            return !keyState.IsKeyDown(key) && oldKeyState.IsKeyDown(key);
-        }
+        }              
 
         private Application App
         {
