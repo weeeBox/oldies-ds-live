@@ -27,11 +27,7 @@ namespace DuckstazyLive
         private static readonly int STEP_DISTANCE_MAX = 4;
 
         private const float duck_wings_limit = -20;
-        private const float duck_wings_bonus = 60;
-
-        private readonly float[] WAVERINGS = { 0.0f, 0.2f };
-        private readonly float WAVERINGS_TIMEOUT = 0.05f; // 50 мс
-        private float waveringsElapsedTime; // время, прошедшее с начала колебаний
+        private const float duck_wings_bonus = 60;       
 
         private bool key_left;
         private bool key_right;
@@ -102,16 +98,10 @@ namespace DuckstazyLive
         }
 
         public void Update(float dt)
-        {
-            UpdateWavering(dt);
+        {         
             UpdateHorizontalPosition(dt);
             UpdateVerticalPosition(dt);
-        }
-
-        private void UpdateWavering(float dt)
-        {
-            waveringsElapsedTime += dt;
-        }
+        }       
        
         private void UpdateHorizontalPosition(float dt)
         {
@@ -212,18 +202,7 @@ namespace DuckstazyLive
         private float GetJumpStartVy(float x)
 		{
 			return Utils.lerp(x, JUMP_START_VY_MIN, JUMP_START_VY_MAX);
-		}
-
-        private float GetWavering()
-        {
-            int index = ((int) (waveringsElapsedTime / WAVERINGS_TIMEOUT)) % WAVERINGS.Length;
-            return WAVERINGS[index];
-        }
-
-        private void ResetWavering()
-        {
-            waveringsElapsedTime = 0;
-        }
+		}        
 
         public override void ButtonUp(Buttons button)
         {
