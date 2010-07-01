@@ -3,14 +3,15 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
 using DuckstazyLive.app;
+using DuckstazyLive.core.input;
 
 namespace DuckstazyLive
 {
-    class Hero
+    class Hero : InputAdapter
     {
         // consts                
         private const int duck_w2 = 2 * 53;
-        private const int duck_h2 = 2 * 41;
+        private const int duck_h2 = 2 * 40;
 
         // duck logic consts
         private const float duck_jump_start_vel_min = 2 * 127;
@@ -33,9 +34,10 @@ namespace DuckstazyLive
         private bool key_up;
         private bool key_down;
 
+        private GamePadState oldGamePadState;
         private KeyboardState oldKeyState;
         private KeyboardState keyState;
-
+        
         // Vars
 
         private float x;
@@ -74,7 +76,7 @@ namespace DuckstazyLive
             x = (App.Width - duck_w2) / 2;
             y = App.Height - Constants.GROUND_HEIGHT -duck_h2;
 
-            oldKeyState = Keyboard.GetState();
+            oldKeyState = Keyboard.GetState();            
         }
 
         public void Draw(SpriteBatch batch)
@@ -110,10 +112,6 @@ namespace DuckstazyLive
 
         public void Update(float dt)
         {
-            handleKeyboardEvents();
-
-            
-
             xLast = x;
             yLast = y;
 
@@ -297,64 +295,99 @@ namespace DuckstazyLive
 			return Utils.lerp(x, duck_jump_start_vel_min, duck_jump_start_vel_max);
 		}
 
-        private void handleKeyboardEvents()
+        public override void ButtonUp(Buttons button)
         {
-            keyState = Keyboard.GetState();
-
-            if (IsKeyPressed(Keys.Up))
+            switch (button)
             {
-                if (!key_up)
+                case Buttons.A:
                 {
-                    if (!fly)
+                    if (key_up)
                     {
-                        if (!sleep)
+                        if (fly)
                         {
-                            fly = true;
-                            jumpVel = jumpStartVel;
-                            //gravityK = 1;
+                            if (wingLock)
+                            {
+                                wingLock = false;
+                                if (jumpVel < 0.0f)
+                                    jumpVel = 0.0f;
+                            }
 
-                            //media.playJump();
-                            //doLandBubbles();
+                            //if(jumpVel>0 && gravityK==1)
+                            //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
                         }
                     }
-                    else if (!wingLock && !sleep)
-                    {
-                        wingLock = true;
-                        wingMod = 1.0f;
-                        wingYLocked = false;
-
-                        //wingBeat();
-                    }
+                    key_up = false;
                 }
-                key_up = true;
+                break;
+
+                case Buttons.DPadRight:
+                    key_right = false;
+                break;
+
+                case Buttons.DPadLeft:                
+                    key_left = false;                
+                break;
+
+                case Buttons.DPadDown:                
+                    key_down = false;                
+                break;
             }
-            else if (IsKeyReleased(Keys.Up))
-            {
-                if (key_up)
-                {
-                    if (fly)
-                    {
-                        if (wingLock)
-                        {
-                            wingLock = false;
-                            if (jumpVel < 0.0f)
-                                jumpVel = 0.0f;
-                        }
-
-                        //if(jumpVel>0 && gravityK==1)
-                        //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
-                    }
-                }
-                key_up = false;
-            }
-
-            key_left = IsKeyPressed(Keys.Left) || IsKey(Keys.Left);
-            key_right = IsKeyPressed(Keys.Right) || IsKey(Keys.Right);
-            key_down = IsKeyPressed(Keys.Down) || IsKey(Keys.Down);                      
-
-            oldKeyState = keyState;
+            
         }
-        
+
+        public override void ButtonDown(Buttons button)
+        {
+            switch (button)
+            {
+                case Buttons.A:
+                    {
+                        if (!key_up)
+                        {
+                            if (!fly)
+                            {
+                                if (!sleep)
+                                {
+                                    fly = true;
+                                    jumpVel = jumpStartVel;
+                                    //gravityK = 1;
+
+                                    //media.playJump();
+                                    //doLandBubbles();
+                                }
+                            }
+                            else if (!wingLock && !sleep)
+                            {
+                                wingLock = true;
+                                wingMod = 1.0f;
+                                wingYLocked = false;
+
+                                //wingBeat();
+                            }
+                        }
+                        key_up = true;
+                    }
+                    break;
+
+                case Buttons.DPadRight:
+                    {
+                        key_right = true;
+                    }
+                    break;
+
+                case Buttons.DPadLeft:
+                    {
+                        key_left = true;
+                    }
+                    break;
+
+                case Buttons.DPadDown:
+                    {
+                        key_down = true;
+                    }
+                    break;
+            }
+        }
+
         private bool IsKeyPressed(Keys key)
         {
             return keyState.IsKeyDown(key) && !oldKeyState.IsKeyDown(key);
