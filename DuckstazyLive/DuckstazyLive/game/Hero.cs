@@ -10,21 +10,23 @@ namespace DuckstazyLive
     class Hero : InputAdapter
     {
         // consts                
-        private const int duck_w2 = 2 * 53;
-        private const int duck_h2 = 2 * 40;
+        private const int width = 2 * 53;
+        private const int height = 2 * 40;
 
         // duck logic consts
-        private const float duck_jump_start_vel_min = 2 * 127;
-        private const float duck_jump_start_vel_max = 2 * 379;
+        private static readonly float jumpStarVelMin = 2 * 127;
+        private static readonly float jumpStartVelMax = 2 * 379;
 
-        private const float duck_jump_gravity = 2 * 200;
-        private const float duck_jump_toxic = 2 * 100;
+        private static readonly float gravity = 2 * 200;
+        private static readonly float duck_jump_toxic = 2 * 100;
 
-        private const float duck_move_speed_min = 2 * 40;
-        private const float duck_move_speed_max = 2 * 250;
-        private const float duck_move_acc = 2 * 5;
-        private const float duck_move_slowing = 2 * 10;
-        private const float duck_move_slowing_in_the_sky = 2 * 1;
+        private static readonly float vxMin = 2 * 40;
+        private static readonly float vxMax = 2 * 250;
+        private static readonly float slowdownSky = 2;
+
+        private static readonly float ax = 10;
+        private static readonly float slowdownGround = 2 * 10;
+        private static readonly int STEP_DISTANCE_MAX = 4;
 
         private const float duck_wings_limit = -20;
         private const float duck_wings_bonus = 60;
@@ -59,18 +61,17 @@ namespace DuckstazyLive
 
         private bool steping;
         private bool flip;
-        private float move;
-        private float slow;
-        private float step;
+        private float vx;        
+        private float steppingDistance;
         private bool fly;
 
         public Hero()
         {            
-            origin = new Vector2(duck_w2 / 2.0f, 0);
+            origin = new Vector2(width / 2.0f, 0);
             position = new Vector2(0, 0);
 
-            x = (App.Width - duck_w2) / 2;
-            y = App.Height - Constants.GROUND_HEIGHT -duck_h2;            
+            x = (App.Width - width) / 2;
+            y = App.Height - Constants.GROUND_HEIGHT -height;            
         }
 
         public void Draw(SpriteBatch batch)
@@ -78,7 +79,7 @@ namespace DuckstazyLive
             float dx = x;
             float dy = y;                     
 
-            if (step > 2 && !fly)
+            if (steppingDistance > 2 && !fly)
             {
                 dy -= 2.0f;
             }
@@ -89,7 +90,7 @@ namespace DuckstazyLive
                 dx += App.Width;
                 Draw(batch, dx, dy);
             }
-            else if (dx > App.Width - duck_w2)
+            else if (dx > App.Width - width)
             {
                 dx -= App.Width;
                 Draw(batch, dx, dy);
@@ -113,7 +114,7 @@ namespace DuckstazyLive
 
             //power = newPower;
 
-            jumpStartVel = get_jump_start_vel(power);                       
+            jumpStartVel = GetJumpStartVy(power);                       
 
             if (sleep && power <= 0)
             {
@@ -174,7 +175,7 @@ namespace DuckstazyLive
                     {
                         if (jumpVel >= 0.0)
                         {
-                            jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
+                            jumpVel -= gravity * (diveK + 1.0f) * dt;
                             y -= jumpVel * dt;
                             if (jumpVel <= 0.0)
                             {
@@ -184,22 +185,22 @@ namespace DuckstazyLive
                         }
                         else
                         {
-                            jumpVel += 5.0f * duck_jump_gravity * dt;
+                            jumpVel += 5.0f * gravity * dt;
                             y -= jumpVel * dt;
                         }
                     }
                     else
                     {
-                        jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
+                        jumpVel -= gravity * (diveK + 1.0f) * dt;
                         y -= jumpVel * dt;
                     }
                 }
                 
-                if (y >= App.Height - Constants.GROUND_HEIGHT - duck_h2)
+                if (y >= App.Height - Constants.GROUND_HEIGHT - height)
                 {
                     wingLock = false;
                     fly = false;
-                    y = App.Height - Constants.GROUND_HEIGHT - duck_h2;
+                    y = App.Height - Constants.GROUND_HEIGHT - height;
 
                     //media.playLand();
 
@@ -230,27 +231,29 @@ namespace DuckstazyLive
             {
                 steping = true;
                 flip = false;
-                move -= duck_move_acc * dt;
-                if (move < -1)
-                    move = -1;
+                vx -= ax * dt;
+                if (vx < -1)
+                    vx = -1;
             }
             if (key_right)
             {
                 steping = true;
                 flip = true;
-                move += duck_move_acc * dt;
-                if (move > 1)
-                    move = 1;
+                vx += ax * dt;
+                if (vx > 1)
+                    vx = 1;
             }
 
             if (steping)
             {
-                if (move >= 0.0) step += move * dt * 2 * 15.0f;
-                else step -= move * dt * 2 * 15.0f;
+                if (vx >= 0.0) 
+                    steppingDistance += vx * dt * 2 * 15.0f;
+                else 
+                    steppingDistance -= vx * dt * 2 * 15.0f;
 
-                if (step > 4)
+                if (steppingDistance > STEP_DISTANCE_MAX)
                 {
-                    step -= 4;
+                    steppingDistance -= STEP_DISTANCE_MAX;
                     if (!fly)
                     {
                         //media.playStep();
@@ -261,32 +264,28 @@ namespace DuckstazyLive
 
             if (!key_left && !key_right)
             {
-                if (fly)
-                    slow = duck_move_slowing_in_the_sky;
-                else
-                    slow = duck_move_slowing;
-
-                move -= move * slow * dt;
-                if (step > 2.0)
+                float slow = fly ? slowdownSky : slowdownGround;
+                vx -= vx * slow * dt;
+                if (steppingDistance > STEP_DISTANCE_MAX)
                 {
                     //if (!fly)
                     //    media.playStep();
 
-                    step = 0.0f;
+                    steppingDistance = 0.0f;
                 }
             }
 
-            x += move * Utils.lerp(power, duck_move_speed_min, duck_move_speed_max) * dt;
+            x += vx * Utils.lerp(power, vxMin, vxMax) * dt;
             
-            if (x < -duck_w2)
+            if (x < -width)
                 x += App.Width;
-            if (x > (App.Width - duck_w2))
+            if (x > (App.Width - width))
                 x -= App.Width;
         }
 
-        private float get_jump_start_vel(float x)
+        private float GetJumpStartVy(float x)
 		{
-			return Utils.lerp(x, duck_jump_start_vel_min, duck_jump_start_vel_max);
+			return Utils.lerp(x, jumpStarVelMin, jumpStartVelMax);
 		}
 
         public override void ButtonUp(Buttons button)
