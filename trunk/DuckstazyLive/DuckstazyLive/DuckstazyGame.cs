@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using DuckstazyLive.app;
 using DuckstazyLive.graphics;
+using DuckstazyLive.core.input;
 
 namespace DuckstazyLive
 {
@@ -26,6 +27,7 @@ namespace DuckstazyLive
         Background background;
         Hero hero;
         Wave wave;
+        InputManager inputManager;
         
         public DuckstazyGame()
         {
@@ -75,7 +77,10 @@ namespace DuckstazyLive
             float h = 2 * 22.5f;
             float x = 0;
             float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
-            wave = new Wave(x, y, w, h);                      
+            wave = new Wave(x, y, w, h);
+
+            inputManager = new InputManager();
+            inputManager.AddInputListener(hero);
 
             base.Initialize();
         }
@@ -129,7 +134,8 @@ namespace DuckstazyLive
                 this.Exit();
 
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            hero.Update(dt);                       
+            hero.Update(dt);
+            inputManager.Update(gameTime);
 
             base.Update(gameTime);
         }       
