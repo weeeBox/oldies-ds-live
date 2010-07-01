@@ -2,27 +2,28 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using System;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive
 {
     class Hero
     {
         // consts                
-        private const int duck_w2 = 53;
-        private const int duck_h2 = 41;
+        private const int duck_w2 = 2 * 53;
+        private const int duck_h2 = 2 * 41;
 
         // duck logic consts
-        private const float duck_jump_start_vel_min = 127;
-        private const float duck_jump_start_vel_max = 379;
+        private const float duck_jump_start_vel_min = 2 * 127;
+        private const float duck_jump_start_vel_max = 2 * 379;
 
-        private const float duck_jump_gravity = 200;
-        private const float duck_jump_toxic = 100;
+        private const float duck_jump_gravity = 2 * 200;
+        private const float duck_jump_toxic = 2 * 100;
 
-        private const float duck_move_speed_min = 40;
-        private const float duck_move_speed_max = 250;
-        private const float duck_move_acc = 5;
-        private const float duck_move_slowing = 10;
-        private const float duck_move_slowing_in_the_sky = 1;
+        private const float duck_move_speed_min = 2 * 40;
+        private const float duck_move_speed_max = 2 * 250;
+        private const float duck_move_acc = 2 * 5;
+        private const float duck_move_slowing = 2 * 10;
+        private const float duck_move_slowing_in_the_sky = 2 * 1;
 
         private const float duck_wings_limit = -20;
         private const float duck_wings_bonus = 60;
@@ -71,7 +72,7 @@ namespace DuckstazyLive
             position = new Vector2(0, 0);
 
             x = (App.Width - duck_w2) / 2;
-            y = 400-duck_h2;
+            y = App.Height - Constants.GROUND_HEIGHT -duck_h2;
 
             oldKeyState = Keyboard.GetState();
         }
@@ -81,9 +82,9 @@ namespace DuckstazyLive
             float dx = x;
             float dy = y;                     
 
-            if (step > 1 && !fly)
+            if (step > 2 && !fly)
             {
-                dy -= 1.0f;
+                dy -= 2.0f;
             }
 
             Draw(batch, dx, dy);
@@ -92,7 +93,7 @@ namespace DuckstazyLive
                 dx += App.Width;
                 Draw(batch, dx, dy);
             }
-            else if (dx > 640.0 - duck_w2)
+            else if (dx > App.Width - duck_w2)
             {
                 dx -= App.Width;
                 Draw(batch, dx, dy);
@@ -150,7 +151,7 @@ namespace DuckstazyLive
 
                 if (wingYLocked && y > wingY)
                 {
-                    jumpWingVel = 28.0f;
+                    jumpWingVel = 2 * 28.0f;
                 }
             }
 
@@ -172,7 +173,7 @@ namespace DuckstazyLive
 
                 if (wingLock && !sleep && wingYLocked)
                 {
-                    jumpWingVel -= 392.0f * dt;//(gravityK+diveK)*dt;
+                    jumpWingVel -= 2 * 392.0f * dt;//(gravityK+diveK)*dt;
                     y -= jumpWingVel * dt;
                 }
                 else
@@ -202,11 +203,11 @@ namespace DuckstazyLive
                     }
                 }
                 
-                if (y >= 400 - duck_h2)
+                if (y >= App.Height - Constants.GROUND_HEIGHT - duck_h2)
                 {
                     wingLock = false;
                     fly = false;
-                    y = 400 - duck_h2;
+                    y = App.Height - Constants.GROUND_HEIGHT - duck_h2;
 
                     //media.playLand();
 
@@ -217,8 +218,8 @@ namespace DuckstazyLive
                     //frags = 0;
                     diveK = 0.0f;
                 }
-                else if (y < -50.0f)
-                    y = -50.0f;
+                else if (y < -2 * 50.0f)
+                    y = -2 * 50.0f;
             }
 
             //if (wingCounter > 0)
@@ -252,12 +253,12 @@ namespace DuckstazyLive
 
             if (steping)
             {
-                if (move >= 0.0) step += move * dt * 15.0f;
-                else step -= move * dt * 15.0f;
+                if (move >= 0.0) step += move * dt * 2 * 15.0f;
+                else step -= move * dt * 2 * 15.0f;
 
-                if (step > 2)
+                if (step > 4)
                 {
-                    step -= 2;
+                    step -= 4;
                     if (!fly)
                     {
                         //media.playStep();
@@ -274,7 +275,7 @@ namespace DuckstazyLive
                     slow = duck_move_slowing;
 
                 move -= move * slow * dt;
-                if (step > 1.0)
+                if (step > 2.0)
                 {
                     //if (!fly)
                     //    media.playStep();
