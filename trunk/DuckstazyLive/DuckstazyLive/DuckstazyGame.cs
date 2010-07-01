@@ -41,14 +41,17 @@ namespace DuckstazyLive
         /// </summary>
         protected override void Initialize()
         {
-            graphics.PreferredBackBufferWidth = 640;
-            graphics.PreferredBackBufferHeight = 480;            
+            int bufferWidth = 1280;
+            int bufferHeight = 720;
+
+            graphics.PreferredBackBufferWidth = bufferWidth;
+            graphics.PreferredBackBufferHeight = bufferHeight;            
             graphics.ApplyChanges();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);           
 
-            Application app = new Application(640, 480);
+            Application app = new Application(bufferWidth, bufferHeight);
             app.GraphicsDevice = GraphicsDevice;
             app.SpriteBatch = spriteBatch;
 
@@ -69,7 +72,7 @@ namespace DuckstazyLive
             hero = new Hero();
             
             float w = app.Width;
-            float h = 22.5f;
+            float h = 2 * 22.5f;
             float x = 0;
             float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
             wave = new Wave(x, y, w, h);                      
