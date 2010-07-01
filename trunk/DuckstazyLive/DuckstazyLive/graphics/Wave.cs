@@ -62,7 +62,7 @@ namespace DuckstazyLive.graphics
             customEffect.Parameters["View"].SetValue(Camera.View);
             customEffect.Parameters["Projection"].SetValue(Camera.Projection);
             customEffect.Parameters["Timer"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);            
-            customEffect.Parameters["Amplitude"].SetValue(10.0f);
+            customEffect.Parameters["Amplitude"].SetValue(20.0f);
             customEffect.Parameters["WaveLength"].SetValue(Application.Instance.Width);
             customEffect.Parameters["Omega"].SetValue(4 * MathHelper.Pi);
             customEffect.Parameters["Top"].SetValue(0);

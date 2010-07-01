@@ -8,28 +8,30 @@ using DuckstazyLive.core.input;
 namespace DuckstazyLive
 {
     class Hero : InputAdapter
-    {
-        // consts                
+    {        
         private const int width = 2 * 53;
         private const int height = 2 * 40;
+        
+        private static readonly float JUMP_START_VY_MIN = 2 * 127;
+        private static readonly float JUMP_START_VY_MAX = 2 * 379;
 
-        // duck logic consts
-        private static readonly float jumpStarVelMin = 2 * 127;
-        private static readonly float jumpStartVelMax = 2 * 379;
+        private static readonly float ACC_X = 10; // ускорение по оси oX
+        private static readonly float ACC_Y = -400; // ускорение по оси oY       
 
-        private static readonly float gravity = 2 * 200;
-        private static readonly float duck_jump_toxic = 2 * 100;
+        private static readonly float VX_MIN = 80;
+        private static readonly float VX_MAX = 500;
 
-        private static readonly float vxMin = 2 * 40;
-        private static readonly float vxMax = 2 * 250;
-        private static readonly float slowdownSky = 2;
+        private static readonly float SLOWDOWN_SKY = 2;        
+        private static readonly float SLOWDOWN_GROUND = 20;
 
-        private static readonly float ax = 10;
-        private static readonly float slowdownGround = 2 * 10;
         private static readonly int STEP_DISTANCE_MAX = 4;
 
         private const float duck_wings_limit = -20;
         private const float duck_wings_bonus = 60;
+
+        private readonly float[] WAVERINGS = { 0.0f, 0.2f };
+        private readonly float WAVERINGS_TIMEOUT = 0.05f; // 50 мс
+        private float waveringsElapsedTime; // время, прошедшее с начала колебаний
 
         private bool key_left;
         private bool key_right;
@@ -45,18 +47,10 @@ namespace DuckstazyLive
         private float vx;        
         private float vy;
                 
-        private float power;
-        private bool sleep;
-        private bool wingLock;
-        private float wingMod;
-        private bool wingYLocked;
-        private float wingY;
-        private float jumpWingVel;
-        private float diveK;
+        private float power;        
+        private bool flyingOnWings;                
         
-        private float jumpStartVel;
-        private float wingCounter;
-        private float wingAngle;
+        private float gravityBoostCoeff;       
         
         private Vector2 position;
         private Vector2 origin;
@@ -73,13 +67,13 @@ namespace DuckstazyLive
             position = new Vector2(0, 0);
 
             x = (App.Width - width) / 2;
-            y = App.Height - Constants.GROUND_HEIGHT -height;            
+            y = 0;            
         }
 
         public void Draw(SpriteBatch batch)
         {            
             float dx = x;
-            float dy = y;                     
+            float dy = App.Height - Constants.GROUND_HEIGHT - y;                     
 
             if (steppingDistance > 2 && !flying)
             {
@@ -103,134 +97,30 @@ namespace DuckstazyLive
         {
             Texture2D duck = Resources.GetTexture(Res.IMG_DUCK);
             position.X = x + duck.Width / 2;
-            position.Y = y;
+            position.Y = y - duck.Height;
             batch.Draw(duck, position, null, Color.White, 0.0f, origin, 1.0f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.0f);
         }
 
         public void Update(float dt)
         {
-            //media.updateSFX(x + duck_w);
-
-            //power = newPower;
-
-            jumpStartVel = GetJumpStartVy(power);                       
-
-            if (sleep && power <= 0)
-            {
-                sleep = false;
-                //startSleepParticles();
-
-                //media.playAwake();
-            }
-
-            //if (blinkTime > 0.0)
-            //    blinkTime -= dt * 8.0;
-
-            steping = false;
-
-            updateHorizontalSpeed(dt);
-            
-
-            if (wingLock && !sleep)
-            {
-                wingMod -= dt * 7.0f;
-                if (wingMod <= 0.0)
-                {
-                    wingMod += 1.0f;
-                    //wingBeat();
-                }
-
-
-                if (wingYLocked && y > wingY)
-                {
-                    jumpWingVel = 2 * 28.0f;
-                }
-            }
-
-            if (flying)
-            {
-                if (key_down)
-                {
-                    diveK += dt * 6;
-                    if (diveK > 3.0f) diveK = 3.0f;
-                }
-                else
-                {
-                    diveK -= dt * 6;
-                    if (diveK < 0.0f) diveK = 0.0f;
-                }
-
-                if (vy > 0.0f)
-                    wingYLocked = false;
-
-                if (wingLock && !sleep && wingYLocked)
-                {
-                    jumpWingVel -= 2 * 392.0f * dt;//(gravityK+diveK)*dt;
-                    y -= jumpWingVel * dt;
-                }
-                else
-                {
-                    if (wingLock && !sleep)
-                    {
-                        if (vy >= 0.0)
-                        {
-                            vy -= gravity * (diveK + 1.0f) * dt;
-                            y -= vy * dt;
-                            if (vy <= 0.0)
-                            {
-                                wingYLocked = true;
-                                wingY = y;
-                            }
-                        }
-                        else
-                        {
-                            vy += 5.0f * gravity * dt;
-                            y -= vy * dt;
-                        }
-                    }
-                    else
-                    {
-                        vy -= gravity * (diveK + 1.0f) * dt;
-                        y -= vy * dt;
-                    }
-                }
-                
-                if (y >= App.Height - Constants.GROUND_HEIGHT - height)
-                {
-                    wingLock = false;
-                    flying = false;
-                    y = App.Height - Constants.GROUND_HEIGHT - height;
-
-                    //media.playLand();
-
-                    //doLandBubbles();
-
-                    //sleep_collected = 0;
-                    //toxic_collected = 0;
-                    //frags = 0;
-                    diveK = 0.0f;
-                }
-                else if (y < -2 * 50.0f)
-                    y = -2 * 50.0f;
-            }
-
-            //if (wingCounter > 0)
-            //{
-            //    wingCounter -= 10 * dt;
-            //    if (wingCounter < 0)
-            //        wingCounter = 0;
-
-            //    wingAngle = 0.5 * Math.sin(wingCounter * 4.71);
-            //}                       
+            UpdateWavering(dt);
+            UpdateHorizontalPosition(dt);
+            UpdateVerticalPosition(dt);
         }
 
-        private void updateHorizontalSpeed(float dt)
+        private void UpdateWavering(float dt)
         {
+            waveringsElapsedTime += dt;
+        }
+       
+        private void UpdateHorizontalPosition(float dt)
+        {
+            steping = false;
             if (key_left)
             {
                 steping = true;
                 flip = false;
-                vx -= ax * dt;
+                vx -= ACC_X * dt;
                 if (vx < -1)
                     vx = -1;
             }
@@ -238,7 +128,7 @@ namespace DuckstazyLive
             {
                 steping = true;
                 flip = true;
-                vx += ax * dt;
+                vx += ACC_X * dt;
                 if (vx > 1)
                     vx = 1;
             }
@@ -246,9 +136,9 @@ namespace DuckstazyLive
             if (steping)
             {
                 if (vx >= 0.0) 
-                    steppingDistance += vx * dt * 2 * 15.0f;
+                    steppingDistance += vx * dt * 30.0f;
                 else 
-                    steppingDistance -= vx * dt * 2 * 15.0f;
+                    steppingDistance -= vx * dt * 30.0f;
 
                 if (steppingDistance > STEP_DISTANCE_MAX)
                 {
@@ -260,11 +150,11 @@ namespace DuckstazyLive
                     }
                 }
             }
-
-            if (!key_left && !key_right)
+            else            
             {
-                float slow = flying ? slowdownSky : slowdownGround;
+                float slow = flying ? SLOWDOWN_SKY : SLOWDOWN_GROUND;
                 vx -= vx * slow * dt;
+                
                 if (steppingDistance > STEP_DISTANCE_MAX)
                 {
                     //if (!fly)
@@ -274,7 +164,8 @@ namespace DuckstazyLive
                 }
             }
 
-            x += vx * Utils.lerp(power, vxMin, vxMax) * dt;
+            float dx = vx * Utils.lerp(power, VX_MIN, VX_MAX) * dt;            
+            x += dx;
             
             if (x < -width)
                 x += App.Width;
@@ -282,10 +173,57 @@ namespace DuckstazyLive
                 x -= App.Width;
         }
 
+        private void UpdateVerticalPosition(float dt)
+        {
+            if (flying)
+            {
+                if (key_down)
+                {
+                    gravityBoostCoeff += dt * 6;
+                    if (gravityBoostCoeff > 3.0f) gravityBoostCoeff = 3.0f;
+                }
+                else
+                {
+                    gravityBoostCoeff -= dt * 6;
+                    if (gravityBoostCoeff < 0.0f) gravityBoostCoeff = 0.0f;
+                }
+
+                if (flyingOnWings && vy <= 0) // we can't go down, if we fly on wings
+                {
+                    vy = 0.0f;
+                    
+                }
+                else
+                {
+                    vy += ACC_Y * (gravityBoostCoeff + 1.0f) * dt;
+                    y += vy * dt;                    
+                }
+
+                if (y <= 0)
+                {
+                    flyingOnWings = false;
+                    flying = false;
+                    y = 0;
+                    gravityBoostCoeff = 0.0f;
+                }
+            }
+        }
+
         private float GetJumpStartVy(float x)
 		{
-			return Utils.lerp(x, jumpStarVelMin, jumpStartVelMax);
+			return Utils.lerp(x, JUMP_START_VY_MIN, JUMP_START_VY_MAX);
 		}
+
+        private float GetWavering()
+        {
+            int index = ((int) (waveringsElapsedTime / WAVERINGS_TIMEOUT)) % WAVERINGS.Length;
+            return WAVERINGS[index];
+        }
+
+        private void ResetWavering()
+        {
+            waveringsElapsedTime = 0;
+        }
 
         public override void ButtonUp(Buttons button)
         {
@@ -297,9 +235,9 @@ namespace DuckstazyLive
                     {
                         if (flying)
                         {
-                            if (wingLock)
+                            if (flyingOnWings)
                             {
-                                wingLock = false;
+                                flyingOnWings = false;
                                 if (vy < 0.0f)
                                     vy = 0.0f;
                             }
@@ -335,26 +273,15 @@ namespace DuckstazyLive
                     {
                         if (!key_up)
                         {
-                            if (!flying)
+                            if (flying)
                             {
-                                if (!sleep)
-                                {
-                                    flying = true;
-                                    vy = jumpStartVel;
-                                    //gravityK = 1;
-
-                                    //media.playJump();
-                                    //doLandBubbles();
-                                }
+                                flyingOnWings = true;
                             }
-                            else if (!wingLock && !sleep)
-                            {
-                                wingLock = true;
-                                wingMod = 1.0f;
-                                wingYLocked = false;
-
-                                //wingBeat();
-                            }
+                            else
+                            {                               
+                                flying = true;
+                                vy = GetJumpStartVy(power); ;
+                            }                            
                         }
                         key_up = true;
                     }
