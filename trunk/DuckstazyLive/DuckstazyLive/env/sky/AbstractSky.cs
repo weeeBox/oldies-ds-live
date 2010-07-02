@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using DuckstazyLive.graphics;
 
 namespace DuckstazyLive.env.sky
 {
@@ -18,8 +20,8 @@ namespace DuckstazyLive.env.sky
             this.lowerColor = lowerColor;
         }
 
-        public abstract void Draw();
-        public virtual void Update(float dt) {}
+        public abstract void Draw(RenderContext context);
+        public virtual void Update(GameTime gameTime) {}
 
         protected GradientRect Backfill
         {

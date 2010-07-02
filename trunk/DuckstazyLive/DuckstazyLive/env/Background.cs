@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.env;
 using DuckstazyLive.graphics;
+using DuckstazyLive.env.sky;
 
 namespace DuckstazyLive
 {
@@ -16,8 +17,8 @@ namespace DuckstazyLive
 
         private static Color GROUND_UPPER_COLOR = new Color(55, 29, 6);
         private static Color GROUND_LOWER_COLOR = new Color(93, 49, 12);
-
-        private GradientRect sky;
+        
+        private AbstractSky sky;
         private Ground ground;
         
         public Background(float groundHeight)
@@ -25,13 +26,14 @@ namespace DuckstazyLive
             float screenWidth = App.Width;
             float screenHeight = App.Height;
             float skyHeight = screenHeight - groundHeight;
-            sky = new GradientRect(0, 0, screenWidth, skyHeight, SKY_UPPER_COLOR, SKY_LOWER_COLOR);            
+            float radius = (float)Math.Sqrt(screenWidth * screenWidth + skyHeight * skyHeight);
+            sky = new RadialSky(10, new Vector2(screenWidth / 2, skyHeight / 2), radius, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
             ground = new Ground(0, skyHeight, screenWidth, groundHeight);
         }
 
         public void DrawSky(RenderContext context)
         {
-            sky.Draw(context);                        
+            sky.Draw(context);
         }             
 
         public void DrawGround(RenderContext context)
