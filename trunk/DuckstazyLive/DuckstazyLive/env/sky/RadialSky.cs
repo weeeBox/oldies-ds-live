@@ -12,14 +12,22 @@ namespace DuckstazyLive.env.sky
     {
         private Primitive raysPrimitive;
         private Circle circle;
+        private BasicEffect effect;
+        private Matrix translate;
+        private Matrix rotate;
+        private float rotation;
+        private Vector2 position;
 
         public RadialSky(int raysCount, Vector2 position, float radius, Color upperColor, Color lowerColor) : base(upperColor, lowerColor)
         {
-            raysPrimitive = InitializeRaysGeometry(position, radius, raysCount);
-            circle = new Circle(position, 20.0f, 100);
+            this.position = position;
+            raysPrimitive = InitializeRaysGeometry(radius, raysCount);
+            circle = new Circle(Vector2.Zero, 20.0f, 100);
+            effect = new BasicEffect(Application.Instance.GraphicsDevice, null);
+            translate = Matrix.CreateTranslation(position.X, position.Y, 0.0f);
         }
 
-        private Primitive InitializeRaysGeometry(Vector2 center, float radius, int raysCount)
+        private Primitive InitializeRaysGeometry(float radius, int raysCount)
         {
             int verticesCount = 1 + raysCount * 2;
             int indicesCount = raysCount * 3;
@@ -28,7 +36,7 @@ namespace DuckstazyLive.env.sky
             short[] indices = new short[indicesCount];
 
             // center
-            Vector3 position = new Vector3(center, 0.0f);
+            Vector3 position = Vector3.Zero;
             vertices[0] = new VertexPositionColor(position, Color.White);            
 
             // rays
@@ -36,8 +44,8 @@ namespace DuckstazyLive.env.sky
             float angle = -da / 2 - MathHelper.PiOver2;            
             for (int vertexIndex = 1; vertexIndex < verticesCount; vertexIndex++)
             {
-                position.X = center.X + (float)(radius * Math.Cos(angle));
-                position.Y = center.Y + (float)(radius * Math.Sin(angle));
+                position.X = (float)(radius * Math.Cos(angle));
+                position.Y = (float)(radius * Math.Sin(angle));
                 vertices[vertexIndex] = new VertexPositionColor(position, Color.White);                
                 angle += da;                
             }
@@ -58,13 +66,23 @@ namespace DuckstazyLive.env.sky
 
         public override void Update(GameTime gameTime)
         {
-            
+            rotation += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            Matrix.CreateRotationZ(rotation, out rotate);           
         }
 
         public override void Draw(RenderContext context)
         {
-            raysPrimitive.Draw(context.BasicEffect);
-            circle.Draw(context.BasicEffect);
+            Matrix transform = context.BasicEffect.World;
+            transform = Matrix.Multiply(transform, rotate);
+            transform = Matrix.Multiply(transform, translate);
+            
+            
+            effect.World = transform;
+            effect.View = context.BasicEffect.View;
+            effect.Projection = context.BasicEffect.Projection;
+
+            raysPrimitive.Draw(effect);
+            circle.Draw(effect);
         }
     }
 }

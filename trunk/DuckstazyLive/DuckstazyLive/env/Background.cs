@@ -31,6 +31,11 @@ namespace DuckstazyLive
             ground = new Ground(0, skyHeight, screenWidth, groundHeight);
         }
 
+        public void Update(GameTime gameTime)
+        {
+            sky.Update(gameTime);
+        }
+
         public void DrawSky(RenderContext context)
         {
             sky.Draw(context);

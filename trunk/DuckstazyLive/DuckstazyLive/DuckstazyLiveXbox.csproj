@@ -74,6 +74,7 @@
     <Compile Include="env\Grass.cs" />
     <Compile Include="env\Ground.cs" />
     <Compile Include="env\sky\AbstractSky.cs" />
+    <Compile Include="env\sky\RadialSky.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="graphics\Camera.cs" />
     <Compile Include="graphics\Circle.cs" />

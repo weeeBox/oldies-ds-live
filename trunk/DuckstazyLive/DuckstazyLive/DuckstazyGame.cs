@@ -89,7 +89,7 @@ namespace DuckstazyLive
         {
             world = Matrix.Identity;
             view = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-            projection = Matrix.CreateOrthographicOffCenter(0, Width, Height, 0, 1.0f, 1000.0f);
+            projection = Matrix.CreateOrthographicOffCenter(0, Width, Height, 0, 1.0f, 1000.0f);            
         }
 
         private BasicEffect InitializeEffect(ref Matrix world, ref Matrix view, ref Matrix projection)
@@ -136,6 +136,7 @@ namespace DuckstazyLive
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             hero.Update(dt);
             inputManager.Update(gameTime);
+            background.Update(gameTime);
 
             base.Update(gameTime);
         }       
