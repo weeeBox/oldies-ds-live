@@ -13,15 +13,34 @@ namespace DuckstazyLive.env.sky
         private GradientRect backfill;
         private Color upperColor;
         private Color lowerColor;
+        private float width;
+        private float height;
 
-        public AbstractSky(Color upperColor, Color lowerColor)
+        public AbstractSky(float width, float height, Color upperColor, Color lowerColor)
         {
             this.upperColor = upperColor;
             this.lowerColor = lowerColor;
+            this.width = width;
+            this.height = height;
+            backfill = new GradientRect(0.0f, 0.0f, width, height, upperColor, lowerColor);            
         }
 
-        public abstract void Draw(RenderContext context);
+        public virtual void Draw(RenderContext context)
+        {
+            backfill.Draw(context);
+        }
+
         public virtual void Update(GameTime gameTime) {}
+
+        public float Width
+        {
+            get { return width; }
+        }
+
+        public float Height
+        {
+            get { return height; }
+        }
 
         protected GradientRect Backfill
         {

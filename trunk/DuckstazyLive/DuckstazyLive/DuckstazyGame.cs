@@ -43,8 +43,13 @@ namespace DuckstazyLive
         /// </summary>
         protected override void Initialize()
         {
+#if XBOX
+            int bufferWidth = 1920;
+            int bufferHeight = 1080;
+#else
             int bufferWidth = 1280;
             int bufferHeight = 720;
+#endif
 
             graphics.PreferredBackBufferWidth = bufferWidth;
             graphics.PreferredBackBufferHeight = bufferHeight;            
@@ -68,9 +73,8 @@ namespace DuckstazyLive
             renderContext = new RenderContext(spriteBatch, basicEffect);
 
             Camera camera = new Camera(worldMatrix, viewMatrix, projectionMatrix);
-            app.Camera = camera;
+            app.Camera = camera;            
             
-            background = new Background(Constants.GROUND_HEIGHT);
             hero = new Hero();
             
             float w = app.Width;
@@ -110,7 +114,7 @@ namespace DuckstazyLive
         protected override void LoadContent()
         {
             Resources.Instance.Init(Content);
-            // TODO: use this.Content to load your game content here
+            background = new Background(Constants.GROUND_HEIGHT);
         }
 
         /// <summary>
@@ -147,7 +151,8 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);                                   
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.RenderState.MultiSampleAntiAlias = true;
             
             background.DrawSky(renderContext);
 

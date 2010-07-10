@@ -69,11 +69,12 @@
     <Compile Include="core\input\InputListener.cs" />
     <Compile Include="core\input\InputManager.cs" />
     <Compile Include="env\Background.cs" />
-    <Compile Include="env\EnvCloud.cs" />
     <Compile Include="env\GradientRect.cs" />
     <Compile Include="env\Grass.cs" />
     <Compile Include="env\Ground.cs" />
     <Compile Include="env\sky\AbstractSky.cs" />
+    <Compile Include="env\sky\CloudsManager.cs" />
+    <Compile Include="env\sky\NormalSky.cs" />
     <Compile Include="env\sky\RadialSky.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="graphics\Camera.cs" />
