@@ -12,19 +12,28 @@ namespace DuckstazyLive.env.sky
     {
         private Primitive raysPrimitive;
         private Circle circle;
-        private BasicEffect effect;
+        private Effect effect;
         private Matrix translate;
         private Matrix rotate;
         private float rotation;
         private Vector2 position;
+        private float speed;
+        Vector4 upperColor;
+        Vector4 lowerColor;
+        float width;
+        float height;
 
-        public RadialSky(int raysCount, Vector2 position, float radius, Color upperColor, Color lowerColor) : base(upperColor, lowerColor)
+        public RadialSky(float width, float height, int raysCount, Color upperColor, Color lowerColor) : base(width, height, upperColor, lowerColor)
         {
-            this.position = position;
+            this.position = new Vector2(width / 2, height / 2);
+            float radius = (float)Math.Sqrt(width * width + height * height);
             raysPrimitive = InitializeRaysGeometry(radius, raysCount);
             circle = new Circle(Vector2.Zero, 20.0f, 100);
-            effect = new BasicEffect(Application.Instance.GraphicsDevice, null);
+            effect = Resources.GetEffect(Res.EFFECT_RADIAL);
             translate = Matrix.CreateTranslation(position.X, position.Y, 0.0f);
+
+            this.upperColor = upperColor.ToVector4();
+            this.lowerColor = lowerColor.ToVector4();
         }
 
         private Primitive InitializeRaysGeometry(float radius, int raysCount)
@@ -72,14 +81,18 @@ namespace DuckstazyLive.env.sky
 
         public override void Draw(RenderContext context)
         {
+            base.Draw(context);
+
             Matrix transform = context.BasicEffect.World;
             transform = Matrix.Multiply(transform, rotate);
             transform = Matrix.Multiply(transform, translate);
-            
-            
-            effect.World = transform;
-            effect.View = context.BasicEffect.View;
-            effect.Projection = context.BasicEffect.Projection;
+
+            effect.Parameters["World"].SetValue(transform);
+            effect.Parameters["View"].SetValue(context.BasicEffect.View);
+            effect.Parameters["Projection"].SetValue(context.BasicEffect.Projection);
+            effect.Parameters["UpperColor"].SetValue(upperColor);
+            effect.Parameters["LowerColor"].SetValue(lowerColor);
+            effect.Parameters["Height"].SetValue(height);
 
             raysPrimitive.Draw(effect);
             circle.Draw(effect);

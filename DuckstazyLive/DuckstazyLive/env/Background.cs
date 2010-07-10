@@ -25,9 +25,9 @@ namespace DuckstazyLive
         {
             float screenWidth = App.Width;
             float screenHeight = App.Height;
-            float skyHeight = screenHeight - groundHeight;
-            float radius = (float)Math.Sqrt(screenWidth * screenWidth + skyHeight * skyHeight);
-            sky = new RadialSky(10, new Vector2(screenWidth / 2, skyHeight / 2), radius, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
+            float skyWidth = screenWidth;
+            float skyHeight = screenHeight - groundHeight;            
+            sky = new NormalSky(skyWidth, skyHeight, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
             ground = new Ground(0, skyHeight, screenWidth, groundHeight);
         }
 
