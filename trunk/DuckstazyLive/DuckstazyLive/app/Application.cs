@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.graphics;
+using DuckstazyLive.env.particles;
 
 namespace DuckstazyLive
 {
@@ -16,6 +17,8 @@ namespace DuckstazyLive
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
         private Camera camera;
+        private ParticlesManager particles;
+        private Random random;
 
         public Application(int width, int height)
         {
@@ -23,6 +26,12 @@ namespace DuckstazyLive
 
             this.width = width;
             this.height = height;
+        }
+
+        public void Init()
+        {
+            particles = new ParticlesManager();
+            random = new Random();
         }
 
         public int Width
@@ -51,6 +60,16 @@ namespace DuckstazyLive
         {
             get { return camera; }
             set { camera = value; }
+        }
+
+        public ParticlesManager Particles
+        {
+            get { return particles; }
+        }
+
+        public Random Random
+        {
+            get { return random; }
         }
 
         public static Application Instance

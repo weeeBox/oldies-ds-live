@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Storage;
 using DuckstazyLive.app;
 using DuckstazyLive.graphics;
 using DuckstazyLive.core.input;
+using DuckstazyLive.env;
+using DuckstazyLive.env.particles;
 
 namespace DuckstazyLive
 {
@@ -27,7 +29,7 @@ namespace DuckstazyLive
         Background background;
         Hero hero;
         Wave wave;
-        InputManager inputManager;
+        InputManager inputManager;        
         
         public DuckstazyGame()
         {
@@ -59,9 +61,9 @@ namespace DuckstazyLive
             spriteBatch = new SpriteBatch(GraphicsDevice);           
 
             Application app = new Application(bufferWidth, bufferHeight);
+            app.Init();
             app.GraphicsDevice = GraphicsDevice;
             app.SpriteBatch = spriteBatch;
-
 
             Matrix worldMatrix;
             Matrix viewMatrix;
@@ -84,7 +86,7 @@ namespace DuckstazyLive
             wave = new Wave(x, y, w, h);
 
             inputManager = new InputManager();
-            inputManager.AddInputListener(hero);
+            inputManager.AddInputListener(hero);           
 
             base.Initialize();
         }
@@ -142,6 +144,8 @@ namespace DuckstazyLive
             inputManager.Update(gameTime);
             background.Update(gameTime);
 
+            Application.Instance.Particles.Update(gameTime);
+
             base.Update(gameTime);
         }       
 
@@ -161,7 +165,9 @@ namespace DuckstazyLive
             spriteBatch.End();
             
             background.DrawGround(renderContext);
-            wave.Draw(gameTime);            
+            wave.Draw(gameTime);
+
+            Application.Instance.Particles.Draw(renderContext);
                 
             base.Draw(gameTime);
         }

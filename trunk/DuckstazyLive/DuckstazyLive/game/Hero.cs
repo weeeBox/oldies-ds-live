@@ -136,9 +136,11 @@ namespace DuckstazyLive
                     if (!flying)
                     {
                         //media.playStep();
-                        //doStepBubble();
+                        
                     }
                 }
+
+                doStepBubbles();
             }
             else            
             {
@@ -279,6 +281,11 @@ namespace DuckstazyLive
                 break;
             }
         }              
+
+        private void doStepBubbles()
+        {
+            App.Particles.StartStepBubbles(100, 100);
+        }
 
         private Application App
         {

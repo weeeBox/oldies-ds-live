@@ -72,6 +72,7 @@
     <Compile Include="env\GradientRect.cs" />
     <Compile Include="env\Grass.cs" />
     <Compile Include="env\Ground.cs" />
+    <Compile Include="env\particles\ParticlesManager.cs" />
     <Compile Include="env\sky\AbstractSky.cs" />
     <Compile Include="env\sky\CloudsManager.cs" />
     <Compile Include="env\sky\NormalSky.cs" />
