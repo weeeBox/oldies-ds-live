@@ -33,6 +33,7 @@ namespace DuckstazyLive
             resources[Res.IMG_SKY_CLOUD_1] = content.Load<Texture2D>("cloud_1");
             resources[Res.IMG_SKY_CLOUD_2] = content.Load<Texture2D>("cloud_2");
             resources[Res.IMG_SKY_CLOUD_3] = content.Load<Texture2D>("cloud_3");
+            resources[Res.IMG_BUBBLE] = content.Load<Texture2D>("bubble");
         }       
 
         public static Texture2D GetTexture(int id)
