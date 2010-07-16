@@ -167,9 +167,7 @@ namespace DuckstazyLive
             spriteBatch.End();
             
             background.DrawGround(renderContext);
-            wave.Draw(gameTime);
-
-            
+            wave.Draw(gameTime);            
                 
             base.Draw(gameTime);
         }

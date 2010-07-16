@@ -89,9 +89,7 @@ namespace DuckstazyLive.env.particles
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             int processedParticles = 0;
-            int totalParticles = numParticles;
-
-            if (numParticles > 0) Console.WriteLine("Particles count: " + numParticles);
+            int totalParticles = numParticles;            
 
             for (int particleIndex = 0; processedParticles < totalParticles; particleIndex++)
             {
@@ -155,16 +153,11 @@ namespace DuckstazyLive.env.particles
             vys[index] = vy;
             lifeTimes[index] = lifeTime;
 
-            numParticles++;
-
-            Console.WriteLine("Add particle: " + index);
-            Console.WriteLine("Total particles: " + numParticles);
+            numParticles++;            
         }
 
         private void RemoveParticle(int index)
         {
-            Console.WriteLine("Remove particle: " + index);
-
             lifeTimes[index] = 0;
             numParticles--;
         }
