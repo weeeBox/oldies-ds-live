@@ -67,6 +67,26 @@ namespace DuckstazyLive
             get { return particles; }
         }
 
+        public int GetRandomInt(int maxValue)
+        {
+            return random.Next(maxValue);
+        }
+
+        public int GetRandomInt(int minValue, int maxValue)
+        {
+            return random.Next(minValue, maxValue);
+        }
+
+        public float GetRandomFloat()
+        {
+            return (float)(((random.Next() % 2) == 0 ? 1 : -1) * random.NextDouble());
+        }
+
+        public float GetRandomNonNegativeFloat()
+        {
+            return (float)(random.NextDouble());
+        }
+
         public Random Random
         {
             get { return random; }

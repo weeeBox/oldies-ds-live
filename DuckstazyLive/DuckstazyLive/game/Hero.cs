@@ -52,7 +52,7 @@ namespace DuckstazyLive
         private Vector2 origin;
 
         private bool steping;
-        private bool flip;
+        private bool flipped;
         
         private float steppingDistance;
         
@@ -94,7 +94,7 @@ namespace DuckstazyLive
             Texture2D duck = Resources.GetTexture(Res.IMG_DUCK);
             position.X = x + duck.Width / 2;
             position.Y = y - duck.Height;
-            batch.Draw(duck, position, null, Color.White, 0.0f, origin, 1.0f, flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.0f);
+            batch.Draw(duck, position, null, Color.White, 0.0f, origin, 1.0f, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.0f);
         }
 
         public void Update(float dt)
@@ -109,7 +109,7 @@ namespace DuckstazyLive
             if (key_left)
             {
                 steping = true;
-                flip = false;
+                flipped = false;
                 vx -= ACC_X * dt;
                 if (vx < -1)
                     vx = -1;
@@ -117,7 +117,7 @@ namespace DuckstazyLive
             if (key_right)
             {
                 steping = true;
-                flip = true;
+                flipped = true;
                 vx += ACC_X * dt;
                 if (vx > 1)
                     vx = 1;
@@ -136,11 +136,9 @@ namespace DuckstazyLive
                     if (!flying)
                     {
                         //media.playStep();
-                        
+                        doStepBubbles();        
                     }
-                }
-
-                doStepBubbles();
+                }                
             }
             else            
             {
@@ -284,7 +282,9 @@ namespace DuckstazyLive
 
         private void doStepBubbles()
         {
-            App.Particles.StartStepBubbles(100, 100);
+            float particleX = flipped ? x : x + width;
+            float particleY = -5;
+            App.Particles.StartStepBubbles(particleX, particleY);
         }
 
         private Application App
