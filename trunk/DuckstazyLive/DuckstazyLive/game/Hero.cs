@@ -180,8 +180,7 @@ namespace DuckstazyLive
 
                 if (flyingOnWings && vy <= 0) // we can't go down, if we fly on wings
                 {
-                    vy = 0.0f;
-                    
+                    vy = 0.0f;                    
                 }
                 else
                 {
@@ -195,6 +194,7 @@ namespace DuckstazyLive
                     flying = false;
                     y = 0;
                     gravityBoostCoeff = 0.0f;
+                    doLandBubble(vy);
                 }
             }
         }
@@ -285,6 +285,17 @@ namespace DuckstazyLive
             float particleX = flipped ? x : x + width;
             float particleY = -5;
             App.Particles.StartStepBubbles(particleX, particleY);
+        }
+
+        private void doLandBubble(float vy)
+        {            
+            int particlesCount = Math.Abs((int)(vy / 20));
+            for (int i = 0; i < particlesCount; i++)
+            {
+                float particleX = x + 0.5f * width * (1 + App.GetRandomFloat());
+                float particleY = -5;
+                App.Particles.StartStepBubbles(particleX, particleY);
+            }
         }
 
         private Application App
