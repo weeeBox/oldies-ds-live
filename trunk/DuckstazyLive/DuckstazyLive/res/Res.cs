@@ -15,7 +15,10 @@ namespace DuckstazyLive
         public static readonly int IMG_SKY_CLOUD_2 = 5;
         public static readonly int IMG_SKY_CLOUD_3 = 6;
         public static readonly int IMG_BUBBLE = 7;
+        public static readonly int IMG_PILL_BASE = 8;
+        public static readonly int IMG_PILL_QUESTION = 9;
+        public static readonly int IMG_PILL_STAR = 10;
 
-        public static readonly int RESOURCES_COUNT = 8;
+        public static readonly int RESOURCES_COUNT = 11;
     }
 }

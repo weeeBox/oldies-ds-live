@@ -7,6 +7,7 @@ using DuckstazyLive.graphics;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using DuckstazyLive.app;
+using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive.env.particles
 {
@@ -27,8 +28,7 @@ namespace DuckstazyLive.env.particles
         public int[] imageIds;
         public float[] lifeTimes;
         public int numParticles;
-
-        private Vector2 drawPos;
+        public Color[] colors;        
 
         public ParticlesManager()
         {            
@@ -41,6 +41,7 @@ namespace DuckstazyLive.env.particles
             alphaSpeeds = new float[PARTICLES_MAX_COUNT];
             imageIds = new int[PARTICLES_MAX_COUNT];
             lifeTimes = new float[PARTICLES_MAX_COUNT];
+            colors = new Color[PARTICLES_MAX_COUNT];
 
             Console.WriteLine("Constructor");
         }
@@ -65,12 +66,12 @@ namespace DuckstazyLive.env.particles
             b.End();
         }
 
-        private void DrawParticle(SpriteBatch b, int index)
+        private void DrawParticle(SpriteBatch batch, int index)
         {
             int imageId = imageIds[index];
-            Texture2D image = Resources.GetTexture(imageId);
-            drawPos.X = xs[index];
-            drawPos.Y = ys[index] + (Application.Instance.Height - Constants.GROUND_HEIGHT);
+            Image image = Resources.GetImage(imageId);
+            float x = xs[index];
+            float y = ys[index] + (Application.Instance.Height - Constants.GROUND_HEIGHT);
 
             int type = types[index];
             switch (type)
@@ -78,7 +79,11 @@ namespace DuckstazyLive.env.particles
                 case PARTICLE_TYPE_BUBBLE:
                     {
                         float scale = lifeTimes[index] / LIFETIME_BUBBLE;
-                        b.Draw(image, drawPos, null, Color.White, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+                        image.SetScale(scale);
+                        image.SetColor(colors[index]);
+                        image.SetOriginToCenter();
+                        //batch.Draw(image, drawPos, null, colors[index], 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+                        image.Draw(batch, x, y);
                     }
                     break;
             }
@@ -140,20 +145,21 @@ namespace DuckstazyLive.env.particles
             return lifeTimes[index] <= 0;
         }
 
-        private void AddParticle(byte type, int imageId, float x, float y, float vx, float vy, float lifeTime)
+        private int AddParticle(byte type, int imageId, float x, float y, float vx, float vy, float lifeTime)
         {
             int index = FindDead();
-            if (index == -1)
-                return;
+            if (index != -1)
+            {
+                imageIds[index] = imageId;
+                xs[index] = x;
+                ys[index] = y;
+                vxs[index] = vx;
+                vys[index] = vy;
+                lifeTimes[index] = lifeTime;
 
-            imageIds[index] = imageId;
-            xs[index] = x;
-            ys[index] = y;
-            vxs[index] = vx;
-            vys[index] = vy;
-            lifeTimes[index] = lifeTime;
-
-            numParticles++;            
+                numParticles++;
+            }
+            return index;
         }
 
         private void RemoveParticle(int index)
@@ -173,11 +179,15 @@ namespace DuckstazyLive.env.particles
             return -1;
         }
 
-        public void StartStepBubbles(float x, float y)
+        public void StartBubble(float x, float y, Color color)
         {
             float vx = -40.0f + App.GetRandomNonNegativeFloat() * 80.0f;
             float vy = -200 * App.GetRandomNonNegativeFloat();
-            AddParticle(0, Res.IMG_BUBBLE, x, y, vx, vy, Math.Max(0.2f, App.GetRandomNonNegativeFloat()) * LIFETIME_BUBBLE);
+            int index = AddParticle(0, Res.IMG_BUBBLE, x, y, vx, vy, Math.Max(0.2f, App.GetRandomNonNegativeFloat()) * LIFETIME_BUBBLE);
+            if (index != -1)
+            {
+                colors[index] = color;
+            }
         }
 
         private Application App

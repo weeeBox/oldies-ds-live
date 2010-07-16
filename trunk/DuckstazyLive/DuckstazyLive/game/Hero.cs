@@ -4,11 +4,18 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using DuckstazyLive.app;
 using DuckstazyLive.core.input;
+using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive
 {
     class Hero : InputAdapter
-    {        
+    {
+        private static readonly Color COLOR_STEP_BUBBLE = new Color(127, 72, 0);
+        private static readonly Color COLOR_LAND_BUBBLE = new Color(152, 152, 152);
+
+        private static readonly int STEP_BUBBLE_OFFSET_X = 20;
+        private static readonly int STEP_BUBBLE_OFFSET_Y = -5;
+
         private const int width = 2 * 53;
         private const int height = 2 * 40;
         
@@ -46,9 +53,8 @@ namespace DuckstazyLive
         private float power;        
         private bool flyingOnWings;                
         
-        private float gravityBoostCoeff;       
+        private float gravityBoostCoeff;               
         
-        private Vector2 position;
         private Vector2 origin;
 
         private bool steping;
@@ -60,7 +66,6 @@ namespace DuckstazyLive
         public Hero()
         {            
             origin = new Vector2(width / 2.0f, 0);
-            position = new Vector2(0, 0);
 
             x = (App.Width - width) / 2;
             y = 0;            
@@ -91,10 +96,14 @@ namespace DuckstazyLive
 
         private void Draw(SpriteBatch batch, float x, float y)
         {
-            Texture2D duck = Resources.GetTexture(Res.IMG_DUCK);
-            position.X = x + duck.Width / 2;
-            position.Y = y - duck.Height;
-            batch.Draw(duck, position, null, Color.White, 0.0f, origin, 1.0f, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None, 0.0f);
+            Image duck = Resources.GetImage(Res.IMG_DUCK);
+
+            if (flipped)
+                duck.FlipHorizontal();
+            else
+                duck.ResetFlips();
+
+            duck.Draw(batch, x, y, Image.HCENTER | Image.BOTTOM);
         }
 
         public void Update(float dt)
@@ -260,6 +269,7 @@ namespace DuckstazyLive
                             {                               
                                 flying = true;
                                 vy = GetJumpStartVy(power); ;
+                                doLandBubble(vy);
                             }                            
                         }
                         key_up = true;
@@ -282,9 +292,9 @@ namespace DuckstazyLive
 
         private void doStepBubbles()
         {
-            float particleX = flipped ? x : x + width;
-            float particleY = -5;
-            App.Particles.StartStepBubbles(particleX, particleY);
+            float particleX = flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X);
+            float particleY = STEP_BUBBLE_OFFSET_Y;
+            App.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
         }
 
         private void doLandBubble(float vy)
@@ -292,9 +302,9 @@ namespace DuckstazyLive
             int particlesCount = Math.Abs((int)(vy / 20));
             for (int i = 0; i < particlesCount; i++)
             {
-                float particleX = x + 0.5f * width * (1 + App.GetRandomFloat());
-                float particleY = -5;
-                App.Particles.StartStepBubbles(particleX, particleY);
+                float particleX = x + 0.5f * width * App.GetRandomFloat();
+                float particleY = STEP_BUBBLE_OFFSET_Y;
+                App.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
             }
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive.env.sky
 {
@@ -23,10 +24,7 @@ namespace DuckstazyLive.env.sky
         private float[] velocity;
         private float[] elapsedTimes;        
 
-        private Rectangle bounds;
-
-        private Vector2 drawPosition;
-        private Vector2 scale;
+        private Rectangle bounds;               
 
         private Random random;
 
@@ -52,15 +50,12 @@ namespace DuckstazyLive.env.sky
                 y[cloudIndex] = bounds.Y + random.Next(0, bounds.Height);
                 velocity[cloudIndex] = -10.0f;
             }
-
-            drawPosition = Vector2.Zero;            
-            scale = new Vector2(1.0f, 1.0f);            
         }       
      
         private void SpawnCloud(int cloudIndex)
         {
             int imageId = CLOUDS_IMAGE_ID[random.Next(CLOUDS_IMAGE_ID.Length)];
-            Texture2D img = Resources.GetTexture(imageId);
+            Image img = Resources.GetImage(imageId);
 
             int width = img.Width;
             int height = img.Height;
@@ -84,7 +79,7 @@ namespace DuckstazyLive.env.sky
 
         private void UpdateCloud(int cloudIndex, float dt)
         {
-            Texture2D image = GetCloudImage(cloudIndex);
+            Image image = GetCloudImage(cloudIndex);
 
             float minCloudX = bounds.X - image.Width / 2;
             if (x[cloudIndex] < minCloudX)
@@ -112,20 +107,15 @@ namespace DuckstazyLive.env.sky
 
         private void DrawCloud(int cloudIndex, ref SpriteBatch batch)
         {
-            Texture2D img = Resources.GetTexture(imageIds[cloudIndex]);
-            Vector2 origin = new Vector2(0.5f * img.Width, 0.5f * img.Height);
-            drawPosition.X = x[cloudIndex];
-            drawPosition.Y = y[cloudIndex];
-
-            scale.X = scaleX[cloudIndex];
-            scale.Y = scaleY[cloudIndex];
-
-            batch.Draw(img, drawPosition, null, Color.White, 0, origin, scale, SpriteEffects.None, 0);
+            Image img = Resources.GetImage(imageIds[cloudIndex]);            
+            img.SetOriginToCenter();
+            img.Scale(scaleX[cloudIndex], scaleY[cloudIndex]);
+            img.Draw(batch, x[cloudIndex], y[cloudIndex]);
         }
 
-        private Texture2D GetCloudImage(int cloudIndex)
+        private Image GetCloudImage(int cloudIndex)
         {
-            return Resources.GetTexture(imageIds[cloudIndex]);
+            return Resources.GetImage(imageIds[cloudIndex]);
         }
 
         private int GetCloudWidth(int cloudIndex)

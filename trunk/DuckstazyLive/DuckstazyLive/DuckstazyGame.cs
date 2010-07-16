@@ -158,13 +158,13 @@ namespace DuckstazyLive
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.RenderState.MultiSampleAntiAlias = true;
             
-            background.DrawSky(renderContext);
-
-            Application.Instance.Particles.Draw(renderContext);
+            background.DrawSky(renderContext);            
 
             spriteBatch.Begin();
             hero.Draw(renderContext.SpriteBatch);
             spriteBatch.End();
+
+            Application.Instance.Particles.Draw(renderContext);
             
             background.DrawGround(renderContext);
             wave.Draw(gameTime);            
