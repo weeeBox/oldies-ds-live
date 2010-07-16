@@ -160,6 +160,8 @@ namespace DuckstazyLive
             
             background.DrawSky(renderContext);
 
+            Application.Instance.Particles.Draw(renderContext);
+
             spriteBatch.Begin();
             hero.Draw(renderContext.SpriteBatch);
             spriteBatch.End();
@@ -167,7 +169,7 @@ namespace DuckstazyLive
             background.DrawGround(renderContext);
             wave.Draw(gameTime);
 
-            Application.Instance.Particles.Draw(renderContext);
+            
                 
             base.Draw(gameTime);
         }
