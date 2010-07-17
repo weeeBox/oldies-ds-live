@@ -68,9 +68,8 @@ namespace DuckstazyLive.env.sky
             Console.WriteLine("Spawn cloud: imageId=" + imageIds[cloudIndex] + " x=" + x[cloudIndex] + " y=" + y[cloudIndex] + " velocity=" + velocity[cloudIndex]);
         }        
 
-        public void Update(GameTime gameTime)
+        public void Update(float dt)
         {            
-            float dt = gameTime.ElapsedGameTime.Milliseconds / 1000f;
             for (int cloudIndex = 0; cloudIndex < velocity.Length; cloudIndex++)
             {
                 UpdateCloud(cloudIndex, dt);

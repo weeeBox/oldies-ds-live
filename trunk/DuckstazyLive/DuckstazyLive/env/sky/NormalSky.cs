@@ -19,9 +19,9 @@ namespace DuckstazyLive.env.sky
             cloudsManager = new CloudsManager(CLOUDS_COUNT, bounds);            
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float dt)
         {            
-            cloudsManager.Update(gameTime);            
+            cloudsManager.Update(dt);            
         }
 
         public override void Draw(RenderContext context)

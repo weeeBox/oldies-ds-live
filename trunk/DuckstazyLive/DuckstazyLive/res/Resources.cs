@@ -38,6 +38,7 @@ namespace DuckstazyLive
             resources[Res.IMG_PILL_BASE] = new Image(content.Load<Texture2D>("pills\\pill_base"));
             resources[Res.IMG_PILL_QUESTION] = new Image(content.Load<Texture2D>("pills\\pill_question"));
             resources[Res.IMG_PILL_STAR] = new Image(content.Load<Texture2D>("pills\\pill_star"));
+            resources[Res.IMG_STAR] = new Image(content.Load<Texture2D>("star"));
         }       
 
         public static Texture2D GetTexture(int id)

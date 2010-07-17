@@ -76,6 +76,7 @@
     <Compile Include="env\particles\ParticlesManager.cs" />
     <Compile Include="env\sky\AbstractSky.cs" />
     <Compile Include="env\sky\CloudsManager.cs" />
+    <Compile Include="env\sky\NightSky.cs" />
     <Compile Include="env\sky\NormalSky.cs" />
     <Compile Include="env\sky\RadialSky.cs" />
     <Compile Include="game\Hero.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="graphics\Primitive.cs" />
     <Compile Include="graphics\RenderContext.cs" />
     <Compile Include="graphics\Wave.cs" />
+    <Compile Include="pills\effects\PillsGrid.cs" />
     <Compile Include="pills\effects\PillsWave.cs" />
     <Compile Include="pills\Pill.cs" />
     <Compile Include="pills\PillListener.cs" />

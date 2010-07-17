@@ -50,12 +50,17 @@ namespace DuckstazyLive
         /// </summary>
         protected override void Initialize()
         {
-
-            int bufferWidth = 1280;
-            int bufferHeight = 720;
-
+            int bufferWidth;
+            int bufferHeight;
+#if XBOX
+            bufferWidth = 1920;
+            bufferHeight = 1080;            
+#else
+            bufferWidth = 1280;
+            bufferHeight = 720;            
+#endif
             graphics.PreferredBackBufferWidth = bufferWidth;
-            graphics.PreferredBackBufferHeight = bufferHeight;            
+            graphics.PreferredBackBufferHeight = bufferHeight;
             graphics.ApplyChanges();
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -94,6 +99,8 @@ namespace DuckstazyLive
             
             pillsWave = new PillsWave(pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
             pillsGrid = new PillsGrid(pillsOffsetX, pillsOffsetY, Application.Instance.Width - 2 * pillsOffsetX, Application.Instance.Height - Constants.GROUND_HEIGHT - 2 * pillsOffsetY, 12);
+
+            Console.WriteLine(app.Width + " " + app.Height);
 
             base.Initialize();
         }
@@ -149,7 +156,7 @@ namespace DuckstazyLive
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             hero.Update(dt);
             inputManager.Update(gameTime);
-            background.Update(gameTime);
+            background.Update(dt);
             pillsGrid.Update(dt);
             //pillsWave.Update(dt);
 
