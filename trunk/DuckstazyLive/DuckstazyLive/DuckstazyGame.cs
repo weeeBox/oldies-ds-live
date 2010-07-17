@@ -13,6 +13,7 @@ using DuckstazyLive.graphics;
 using DuckstazyLive.core.input;
 using DuckstazyLive.env;
 using DuckstazyLive.env.particles;
+using DuckstazyLive.pills;
 
 namespace DuckstazyLive
 {
@@ -29,7 +30,8 @@ namespace DuckstazyLive
         Background background;
         Hero hero;
         Wave wave;
-        InputManager inputManager;        
+        InputManager inputManager;
+        PillsManager pillsManager;
         
         public DuckstazyGame()
         {
@@ -86,7 +88,9 @@ namespace DuckstazyLive
             wave = new Wave(x, y, w, h);
 
             inputManager = new InputManager();
-            inputManager.AddInputListener(hero);           
+            inputManager.AddInputListener(hero);
+
+            pillsManager = new PillsManager(100);
 
             base.Initialize();
         }
@@ -117,6 +121,19 @@ namespace DuckstazyLive
         {
             Resources.Instance.Init(Content);
             background = new Background(Constants.GROUND_HEIGHT);
+
+            int pillsCount = 10;
+            float dx = Application.Instance.Width / ((float)(pillsCount + 1));
+
+            float pillX = dx;
+            for (int pillIndex = 0; pillIndex < pillsCount / 2; pillIndex++)
+            {
+                pillsManager.AddPill(PillType.STAR, pillX, 200);
+                pillX += dx;
+
+                pillsManager.AddPill(PillType.QUESTION, pillX, 200);
+                pillX += dx;
+            }            
         }
 
         /// <summary>
@@ -143,6 +160,7 @@ namespace DuckstazyLive
             hero.Update(dt);
             inputManager.Update(gameTime);
             background.Update(gameTime);
+            pillsManager.Update(dt);
 
             Application.Instance.Particles.Update(gameTime);
 
@@ -162,6 +180,7 @@ namespace DuckstazyLive
 
             spriteBatch.Begin();
             hero.Draw(renderContext.SpriteBatch);
+            pillsManager.Draw(renderContext.SpriteBatch);
             spriteBatch.End();
 
             Application.Instance.Particles.Draw(renderContext);
