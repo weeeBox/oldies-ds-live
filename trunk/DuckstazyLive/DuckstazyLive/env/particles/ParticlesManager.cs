@@ -78,11 +78,14 @@ namespace DuckstazyLive.env.particles
             {
                 case PARTICLE_TYPE_BUBBLE:
                     {
+                        Color color = colors[index];
+
                         float scale = lifeTimes[index] / LIFETIME_BUBBLE;
+                        color.A = (byte)(255 - 64 * (1 - scale));
+
                         image.SetScale(scale);
-                        image.SetColor(colors[index]);
-                        image.SetOriginToCenter();
-                        //batch.Draw(image, drawPos, null, colors[index], 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+                        image.SetColor(color);
+                        image.SetOriginToCenter();                        
                         image.Draw(batch, x, y);
                     }
                     break;
