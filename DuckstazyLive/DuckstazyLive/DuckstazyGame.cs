@@ -34,6 +34,7 @@ namespace DuckstazyLive
         InputManager inputManager;
         
         PillsWave pillsWave;
+        PillsGrid pillsGrid;
         
         public DuckstazyGame()
         {
@@ -88,8 +89,11 @@ namespace DuckstazyLive
             inputManager = new InputManager();
             inputManager.AddInputListener(hero);
 
-            float pillsOffset = Application.Instance.Width / 16f;
-            pillsWave = new PillsWave(pillsOffset, 400, Application.Instance.Width - 2 * pillsOffset, 15, 15);
+            float pillsOffsetX = Application.Instance.Width / 16f;
+            float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
+            
+            pillsWave = new PillsWave(pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
+            pillsGrid = new PillsGrid(pillsOffsetX, pillsOffsetY, Application.Instance.Width - 2 * pillsOffsetX, Application.Instance.Height - Constants.GROUND_HEIGHT - 2 * pillsOffsetY, 12);
 
             base.Initialize();
         }
@@ -146,7 +150,8 @@ namespace DuckstazyLive
             hero.Update(dt);
             inputManager.Update(gameTime);
             background.Update(gameTime);
-            pillsWave.Update(dt);
+            pillsGrid.Update(dt);
+            //pillsWave.Update(dt);
 
             Application.Instance.Particles.Update(gameTime);
 
@@ -167,7 +172,8 @@ namespace DuckstazyLive
             spriteBatch.Begin();
 
             hero.Draw(spriteBatch);
-            pillsWave.Draw(spriteBatch);
+            // pillsWave.Draw(spriteBatch);
+            pillsGrid.Draw(spriteBatch);
 
             spriteBatch.End();
 
