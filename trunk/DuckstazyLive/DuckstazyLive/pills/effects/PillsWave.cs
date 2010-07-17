@@ -9,6 +9,8 @@ namespace DuckstazyLive.pills.effects
 {
     public class PillsWave : IDisposable
     {        
+        private const float SPAWN_TIMEOUT = 0.5f;
+
         private Pill[] pills;
         private float lambda;
         private float amplitude;
@@ -23,16 +25,19 @@ namespace DuckstazyLive.pills.effects
             amplitude = height;
             omega = MathHelper.PiOver2;
 
+            float spawnTime = SPAWN_TIMEOUT;
+
             float pillX = x;
             float pillY = y + height / 2f;
             pills = new Pill[pillsCount];            
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
             {
                 Pill pill = new Pill();
-                pill.Init(PillType.QUESTION, pillX, pillY);
+                pill.Init(PillType.QUESTION, pillX, pillY, 0.0f, 0.0f, spawnTime);
                 pills[pillIndex] = pill;
 
                 pillX += dx;
+                spawnTime += SPAWN_TIMEOUT;
             }
 
             baseY = pillY;
@@ -45,6 +50,8 @@ namespace DuckstazyLive.pills.effects
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
             {
                 Pill pill = pills[pillIndex];
+
+                pill.delay -= dt;
                 pill.y = baseY + (float)(amplitude * Math.Sin(omega * (t - MathHelper.TwoPi / lambda * pill.x)));
             }
         }
@@ -52,8 +59,10 @@ namespace DuckstazyLive.pills.effects
         public void Draw(SpriteBatch batch)
         {
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
-            {                
-                pills[pillIndex].Draw(batch);
+            {
+                Pill pill = pills[pillIndex];
+                if (pill.delay <= 0.0f)
+                    pill.Draw(batch);
             }
         }
 
