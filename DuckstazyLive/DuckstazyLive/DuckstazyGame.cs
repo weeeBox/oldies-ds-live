@@ -32,7 +32,7 @@ namespace DuckstazyLive
         Hero hero;
         Wave wave;
         InputManager inputManager;
-        PillsManager pillsManager;
+        
         PillsWave pillsWave;
         
         public DuckstazyGame()
@@ -88,10 +88,8 @@ namespace DuckstazyLive
             inputManager = new InputManager();
             inputManager.AddInputListener(hero);
 
-            pillsManager = new PillsManager(100);
-
             float pillsOffset = Application.Instance.Width / 16f;
-            pillsWave = new PillsWave(pillsOffset, 400, Application.Instance.Width - 2 * pillsOffset, 50, 15);
+            pillsWave = new PillsWave(pillsOffset, 400, Application.Instance.Width - 2 * pillsOffset, 15, 15);
 
             base.Initialize();
         }
@@ -122,19 +120,6 @@ namespace DuckstazyLive
         {
             Resources.Instance.Init(Content);
             background = new Background(Constants.GROUND_HEIGHT);
-
-            int pillsCount = 10;
-            float dx = Application.Instance.Width / ((float)(pillsCount + 1));
-
-            float pillX = dx;
-            for (int pillIndex = 0; pillIndex < pillsCount / 2; pillIndex++)
-            {
-                pillsManager.AddPill(PillType.STAR, pillX, 200);
-                pillX += dx;
-
-                pillsManager.AddPill(PillType.QUESTION, pillX, 200);
-                pillX += dx;
-            }            
         }
 
         /// <summary>
@@ -161,7 +146,6 @@ namespace DuckstazyLive
             hero.Update(dt);
             inputManager.Update(gameTime);
             background.Update(gameTime);
-            pillsManager.Update(dt);
             pillsWave.Update(dt);
 
             Application.Instance.Particles.Update(gameTime);
@@ -183,7 +167,6 @@ namespace DuckstazyLive
             spriteBatch.Begin();
 
             hero.Draw(spriteBatch);
-            pillsManager.Draw(spriteBatch);
             pillsWave.Draw(spriteBatch);
 
             spriteBatch.End();

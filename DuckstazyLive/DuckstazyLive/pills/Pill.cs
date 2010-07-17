@@ -10,13 +10,14 @@ namespace DuckstazyLive.pills
 {
     public class Pill : IDisposable
     {
-        private PillType type;
-        private float x;
-        private float y;
-        private float vx;
-        private float vy;
-        private float lifeTime;
-        private float delay;
+        public PillType type;
+        public float x;
+        public float y;
+        public float vx;
+        public float vy;
+        public float lifeTime;
+        public float delay;
+        public Color color;
 
         private PillsManager manager;
 
@@ -27,6 +28,7 @@ namespace DuckstazyLive.pills
         public Pill(PillsManager manager)
         {
             this.manager = manager;
+            color = Color.White;
         }        
 
         public void Init(PillType type, float x, float y)
@@ -71,6 +73,9 @@ namespace DuckstazyLive.pills
 
             Image pillImage = GetPillImage(type);
             pillImage.SetOriginToCenter();
+
+            pillImage.SetColor(color);
+            baseImage.SetColor(color);
 
             baseImage.Draw(batch, x, y);
             pillImage.Draw(batch, x, y);
