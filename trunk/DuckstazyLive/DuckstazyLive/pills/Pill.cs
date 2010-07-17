@@ -20,6 +20,10 @@ namespace DuckstazyLive.pills
 
         private PillsManager manager;
 
+        public Pill() : this(null)
+        {
+        }
+
         public Pill(PillsManager manager)
         {
             this.manager = manager;
