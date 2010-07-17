@@ -73,9 +73,9 @@ namespace DuckstazyLive.env.sky
             return primitive;
         }
 
-        public override void Update(GameTime gameTime)
+        public override void Update(float dt)
         {
-            rotation += gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
+            rotation += dt;
             Matrix.CreateRotationZ(rotation, out rotate);           
         }
 

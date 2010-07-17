@@ -27,13 +27,13 @@ namespace DuckstazyLive
             float screenHeight = App.Height;
             float skyWidth = screenWidth;
             float skyHeight = screenHeight - groundHeight;            
-            sky = new NormalSky(skyWidth, skyHeight, SKY_UPPER_COLOR, SKY_LOWER_COLOR);
+            sky = new NightSky(skyWidth, skyHeight, new Color(17, 17, 51), new Color(17, 17, 51), 50, 50);
             ground = new Ground(0, skyHeight, screenWidth, groundHeight);
         }
 
-        public void Update(GameTime gameTime)
+        public void Update(float dt)
         {
-            sky.Update(gameTime);
+            sky.Update(dt);
         }
 
         public void DrawSky(RenderContext context)
