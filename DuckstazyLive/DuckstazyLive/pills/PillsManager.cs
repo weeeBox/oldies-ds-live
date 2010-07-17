@@ -41,21 +41,24 @@ namespace DuckstazyLive.pills
 
         #region Lifecycle
 
-        public void AddPill(PillType type, float x, float y)
+        public Pill AddPill(PillType type, float x, float y)
         {
-            AddPill(type, x, y, 0.0f, 0.0f);
+            return AddPill(type, x, y, 0.0f, 0.0f);
         }
 
-        public void AddPill(PillType type, float x, float y, float vx, float vy)
+        public Pill AddPill(PillType type, float x, float y, float vx, float vy)
         {
             Debug.Assert(pillsCount < maxPillsCount, "Out of pills: " + pillsCount);
             if (pillsCount == maxPillsCount)
             {
-                return;
+                return null;
             }
 
-            pills[pillsCount].Init(type, x, y, vx, vy, 0.0f);
+            Pill pill = pills[pillsCount];
+            pill.Init(type, x, y, vx, vy, 0.0f);
             pillsCount++;
+
+            return pill;
         }
 
         public void RemovePill(int index)

@@ -105,6 +105,7 @@
     <Compile Include="graphics\Primitive.cs" />
     <Compile Include="graphics\RenderContext.cs" />
     <Compile Include="graphics\Wave.cs" />
+    <Compile Include="pills\effects\PillsWave.cs" />
     <Compile Include="pills\Pill.cs" />
     <Compile Include="pills\PillListener.cs" />
     <Compile Include="pills\PillsManager.cs" />

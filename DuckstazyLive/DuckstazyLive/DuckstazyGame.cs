@@ -14,6 +14,7 @@ using DuckstazyLive.core.input;
 using DuckstazyLive.env;
 using DuckstazyLive.env.particles;
 using DuckstazyLive.pills;
+using DuckstazyLive.pills.effects;
 
 namespace DuckstazyLive
 {
@@ -32,6 +33,7 @@ namespace DuckstazyLive
         Wave wave;
         InputManager inputManager;
         PillsManager pillsManager;
+        PillsWave pillsWave;
         
         public DuckstazyGame()
         {
@@ -47,13 +49,9 @@ namespace DuckstazyLive
         /// </summary>
         protected override void Initialize()
         {
-#if XBOX
-            int bufferWidth = 1920;
-            int bufferHeight = 1080;
-#else
+
             int bufferWidth = 1280;
             int bufferHeight = 720;
-#endif
 
             graphics.PreferredBackBufferWidth = bufferWidth;
             graphics.PreferredBackBufferHeight = bufferHeight;            
@@ -91,6 +89,9 @@ namespace DuckstazyLive
             inputManager.AddInputListener(hero);
 
             pillsManager = new PillsManager(100);
+
+            float pillsOffset = Application.Instance.Width / 16f;
+            pillsWave = new PillsWave(pillsOffset, 400, Application.Instance.Width - 2 * pillsOffset, 50, 15);
 
             base.Initialize();
         }
@@ -161,6 +162,7 @@ namespace DuckstazyLive
             inputManager.Update(gameTime);
             background.Update(gameTime);
             pillsManager.Update(dt);
+            pillsWave.Update(dt);
 
             Application.Instance.Particles.Update(gameTime);
 
@@ -179,8 +181,11 @@ namespace DuckstazyLive
             background.DrawSky(renderContext);            
 
             spriteBatch.Begin();
-            hero.Draw(renderContext.SpriteBatch);
-            pillsManager.Draw(renderContext.SpriteBatch);
+
+            hero.Draw(spriteBatch);
+            pillsManager.Draw(spriteBatch);
+            pillsWave.Draw(spriteBatch);
+
             spriteBatch.End();
 
             Application.Instance.Particles.Draw(renderContext);

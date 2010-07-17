@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="app\Application.cs" />
     <Compile Include="app\Constants.cs" />
+    <Compile Include="core\graphics\Image.cs" />
     <Compile Include="core\input\InputAdapter.cs" />
     <Compile Include="core\input\InputListener.cs" />
     <Compile Include="core\input\InputManager.cs" />
@@ -83,6 +84,11 @@
     <Compile Include="graphics\Primitive.cs" />
     <Compile Include="graphics\RenderContext.cs" />
     <Compile Include="graphics\Wave.cs" />
+    <Compile Include="pills\effects\PillsWave.cs" />
+    <Compile Include="pills\Pill.cs" />
+    <Compile Include="pills\PillListener.cs" />
+    <Compile Include="pills\PillsManager.cs" />
+    <Compile Include="pills\PillType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DuckstazyGame.cs" />
