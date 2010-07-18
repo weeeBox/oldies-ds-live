@@ -50,8 +50,6 @@ namespace DuckstazyLive.pills
             else
             {
                 lifeTime += dt;
-                x += vx * dt;
-                y += vy * dt;            
             }            
         }
 

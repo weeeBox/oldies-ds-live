@@ -109,7 +109,8 @@
     <Compile Include="pills\effects\PillsGrid.cs" />
     <Compile Include="pills\effects\PillsWave.cs" />
     <Compile Include="pills\Pill.cs" />
-    <Compile Include="pills\PillListener.cs" />
+    <Compile Include="pills\IPillListener.cs" />
+    <Compile Include="pills\PillParticles.cs" />
     <Compile Include="pills\PillsManager.cs" />
     <Compile Include="pills\PillType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

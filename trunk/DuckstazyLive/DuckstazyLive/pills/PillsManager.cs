@@ -13,7 +13,7 @@ namespace DuckstazyLive.pills
         protected int maxPillsCount;
         protected int pillsCount;        
         protected Pill[] pills;
-        private List<PillListener> pillListeners;
+        private List<IPillListener> pillListeners;
 
         public PillsManager(int maxPillsCount)
         {
@@ -23,7 +23,7 @@ namespace DuckstazyLive.pills
             {
                 pills[pillIndex] = new Pill();
             }            
-            pillListeners = new List<PillListener>();
+            pillListeners = new List<IPillListener>();
         }        
 
         #region Update
@@ -32,11 +32,23 @@ namespace DuckstazyLive.pills
         {
             for (int pillIndex = 0; pillIndex < pillsCount; pillIndex++)
             {
-                Pill pill = pills[pillIndex];
-                pill.Update(dt);
+                UpdatePill(pillIndex, dt);
             }
         }               
 
+        public virtual void UpdatePill(int pillIndex, float dt)
+        {
+            Pill pill = pills[pillIndex];
+            float oldDelay = pill.delay;
+
+            pill.Update(dt);
+
+            float delay = pill.delay;
+            if (oldDelay > 0 && delay <= 0)
+            {
+                OnPillAdded(pill);
+            }
+        }
         #endregion
 
         #region Lifecycle
@@ -79,27 +91,27 @@ namespace DuckstazyLive.pills
         #endregion
 
         #region Listeners
-        public void AddPillListener(PillListener listener)
+        public void AddPillListener(IPillListener listener)
         {
             pillListeners.Add(listener);
         }
 
-        public void RemovePillListener(PillListener listener)
+        public void RemovePillListener(IPillListener listener)
         {
             pillListeners.Remove(listener);
         }
 
-        public void OnPillAdded(Pill pill)
+        private void OnPillAdded(Pill pill)
         {
-            foreach (PillListener listener in pillListeners)
+            foreach (IPillListener listener in pillListeners)
             {
                 listener.PillAdded(pill);
             }
         }
 
-        public void OnPillRemoved(Pill pill)
+        private void OnPillRemoved(Pill pill)
         {
-            foreach (PillListener listener in pillListeners)
+            foreach (IPillListener listener in pillListeners)
             {
                 listener.PillRemoved(pill);
             }

@@ -18,11 +18,13 @@ namespace DuckstazyLive.pills.effects
         private float baseY;
 
         public PillsWave(float x, float y, float width, float height, int pillsCount) : base(pillsCount)
-        {        
+        {
+            this.pillsCount = pillsCount;
+
             float dx = width / (pillsCount - 1f);
             lambda = 0.75f * width;
             amplitude = height;
-            omega = MathHelper.PiOver2;
+            omega = MathHelper.PiOver2;           
 
             float spawnTime = SPAWN_TIMEOUT;
 
@@ -43,14 +45,15 @@ namespace DuckstazyLive.pills.effects
         public override void Update(float dt)
         {
             t += dt;
+            base.Update(dt);
+        }
 
-            for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
-            {
-                Pill pill = pills[pillIndex];
+        public override void UpdatePill(int pillIndex, float dt)
+        {
+            base.UpdatePill(pillIndex, dt);
 
-                pill.delay -= dt;
-                pill.y = baseY + (float)(amplitude * Math.Sin(omega * (t - MathHelper.TwoPi / lambda * pill.x)));
-            }
+            Pill pill = pills[pillIndex];
+            pill.y = baseY + (float)(amplitude * Math.Sin(omega * (t - MathHelper.TwoPi / lambda * pill.x)));
         }
 
         public override void Draw(SpriteBatch batch)

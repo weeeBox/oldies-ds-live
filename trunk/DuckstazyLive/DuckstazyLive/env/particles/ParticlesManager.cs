@@ -71,7 +71,7 @@ namespace DuckstazyLive.env.particles
             int imageId = imageIds[index];
             Image image = Resources.GetImage(imageId);
             float x = xs[index];
-            float y = ys[index] + (Application.Instance.Height - Constants.GROUND_HEIGHT);
+            float y = ys[index];
 
             int type = types[index];
             switch (type)
