@@ -31,7 +31,6 @@ namespace DuckstazyLive
         Background background;
         Hero hero;
         Wave wave;
-        InputManager inputManager;
         
         PillsWave pillsWave;
         PillsGrid pillsGrid;
@@ -91,8 +90,7 @@ namespace DuckstazyLive
             float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
             wave = new Wave(x, y, w, h);
 
-            inputManager = new InputManager();
-            inputManager.AddInputListener(hero);
+            app.InputManager.AddInputListener(hero);
 
             float pillsOffsetX = Application.Instance.Width / 16f;
             float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
@@ -155,12 +153,11 @@ namespace DuckstazyLive
 
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             hero.Update(dt);
-            inputManager.Update(gameTime);
             background.Update(dt);
             pillsGrid.Update(dt);
             //pillsWave.Update(dt);
 
-            Application.Instance.Particles.Update(gameTime);
+            Application.Instance.Update(dt);
 
             base.Update(gameTime);
         }       
@@ -178,9 +175,10 @@ namespace DuckstazyLive
 
             spriteBatch.Begin();
 
+            pillsGrid.Draw(spriteBatch);
             hero.Draw(spriteBatch);
             // pillsWave.Draw(spriteBatch);
-            pillsGrid.Draw(spriteBatch);
+            
 
             spriteBatch.End();
 
