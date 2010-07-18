@@ -7,19 +7,18 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.pills.effects
 {
-    public class PillsWave : IDisposable
+    public class PillsWave : PillsManager
     {        
         private const float SPAWN_TIMEOUT = 0.5f;
-
-        private Pill[] pills;
+        
         private float lambda;
         private float amplitude;
         private float omega;
         private float t;
         private float baseY;
 
-        public PillsWave(float x, float y, float width, float height, int pillsCount)
-        {            
+        public PillsWave(float x, float y, float width, float height, int pillsCount) : base(pillsCount)
+        {        
             float dx = width / (pillsCount - 1f);
             lambda = 0.75f * width;
             amplitude = height;
@@ -29,12 +28,10 @@ namespace DuckstazyLive.pills.effects
 
             float pillX = x;
             float pillY = y + height / 2f;
-            pills = new Pill[pillsCount];            
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
             {
-                Pill pill = new Pill();
-                pill.Init(PillType.QUESTION, pillX, pillY, 0.0f, 0.0f, spawnTime);
-                pills[pillIndex] = pill;
+                Pill pill = pills[pillIndex];
+                pill.Init(PillType.QUESTION, pillX, pillY, 0.0f, 0.0f, spawnTime);                
 
                 pillX += dx;
                 spawnTime += SPAWN_TIMEOUT;
@@ -43,7 +40,7 @@ namespace DuckstazyLive.pills.effects
             baseY = pillY;
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             t += dt;
 
@@ -56,7 +53,7 @@ namespace DuckstazyLive.pills.effects
             }
         }
 
-        public void Draw(SpriteBatch batch)
+        public override void Draw(SpriteBatch batch)
         {
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
             {
@@ -64,16 +61,6 @@ namespace DuckstazyLive.pills.effects
                 if (pill.delay <= 0.0f)
                     pill.Draw(batch);
             }
-        }
-
-        public void Dispose()
-        {
-            for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
-            {
-                pills[pillIndex].Dispose();
-                pills[pillIndex] = null;
-            }
-            pills = null;
-        }
+        }        
     }
 }

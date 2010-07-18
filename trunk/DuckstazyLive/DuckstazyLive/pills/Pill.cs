@@ -17,17 +17,10 @@ namespace DuckstazyLive.pills
         public float vy;
         public float lifeTime;
         public float delay;
-        public Color color;
+        public Color color;        
 
-        private PillsManager manager;
-
-        public Pill() : this(null)
-        {
-        }
-
-        public Pill(PillsManager manager)
-        {
-            this.manager = manager;
+        public Pill()
+        {            
             color = Color.White;
         }        
 
@@ -53,10 +46,6 @@ namespace DuckstazyLive.pills
             if (delay > 0.0f)
             {
                 delay -= dt;
-                if (delay <= 0.0f)
-                {
-                    manager.OnPillAdded(this);
-                }
             }
             else
             {
