@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckstazyLive.pills
 {
-    public interface PillListener
+    public interface IPillListener
     {
         void PillAdded(Pill pill);
         void PillRemoved(Pill pill);

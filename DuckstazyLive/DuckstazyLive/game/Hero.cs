@@ -335,7 +335,7 @@ namespace DuckstazyLive
         private void doStepBubbles()
         {
             float particleX = flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X);
-            float particleY = STEP_BUBBLE_OFFSET_Y;
+            float particleY = STEP_BUBBLE_OFFSET_Y + (Application.Instance.Height - Constants.GROUND_HEIGHT);
             App.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
         }
 
@@ -345,7 +345,7 @@ namespace DuckstazyLive
             for (int i = 0; i < particlesCount; i++)
             {
                 float particleX = x + 0.5f * width * App.GetRandomFloat();
-                float particleY = STEP_BUBBLE_OFFSET_Y;
+                float particleY = STEP_BUBBLE_OFFSET_Y + (Application.Instance.Height - Constants.GROUND_HEIGHT);
                 App.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
             }
         }

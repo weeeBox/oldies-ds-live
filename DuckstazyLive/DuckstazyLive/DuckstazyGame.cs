@@ -15,6 +15,7 @@ using DuckstazyLive.env;
 using DuckstazyLive.env.particles;
 using DuckstazyLive.pills;
 using DuckstazyLive.pills.effects;
+using DuckstazyLiveXbox.pills;
 
 namespace DuckstazyLive
 {
@@ -30,10 +31,9 @@ namespace DuckstazyLive
         
         Background background;
         Hero hero;
-        Wave wave;
+        Wave wave;        
         
-        PillsWave pillsWave;
-        PillsGrid pillsGrid;
+        PillsManager pillsManager;
         
         public DuckstazyGame()
         {
@@ -95,8 +95,9 @@ namespace DuckstazyLive
             float pillsOffsetX = Application.Instance.Width / 16f;
             float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
             
-            pillsWave = new PillsWave(pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
-            pillsGrid = new PillsGrid(pillsOffsetX, pillsOffsetY, Application.Instance.Width - 2 * pillsOffsetX, Application.Instance.Height - Constants.GROUND_HEIGHT - 2 * pillsOffsetY, 12);
+            pillsManager = new PillsWave(pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
+            pillsManager.AddPillListener(new PillParticles());
+            // pillsManager = new PillsGrid(pillsOffsetX, pillsOffsetY, Application.Instance.Width - 2 * pillsOffsetX, Application.Instance.Height - Constants.GROUND_HEIGHT - 2 * pillsOffsetY, 12);
 
             Console.WriteLine(app.Width + " " + app.Height);
 
@@ -154,7 +155,7 @@ namespace DuckstazyLive
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             hero.Update(dt);
             background.Update(dt);
-            pillsGrid.Update(dt);
+            pillsManager.Update(dt);
             //pillsWave.Update(dt);
 
             Application.Instance.Update(dt);
@@ -175,7 +176,7 @@ namespace DuckstazyLive
 
             spriteBatch.Begin();
 
-            pillsGrid.Draw(spriteBatch);
+            pillsManager.Draw(spriteBatch);
             hero.Draw(spriteBatch);
             // pillsWave.Draw(spriteBatch);
             
