@@ -9,7 +9,7 @@ namespace DuckstazyLive.pills.effects
 {
     public class PillsWave : PillsManager
     {        
-        private const float SPAWN_TIMEOUT = 0.5f;
+        private const float SPAWN_TIMEOUT = 0.3f;
         
         private float lambda;
         private float amplitude;

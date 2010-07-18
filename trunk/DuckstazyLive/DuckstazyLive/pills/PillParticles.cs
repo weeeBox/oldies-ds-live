@@ -15,10 +15,10 @@ namespace DuckstazyLiveXbox.pills
 
         public void PillAdded(Pill pill)
         {
-            int particlesCount = 10;
+            int particlesCount = 20;
             for (int particleIndex = 0; particleIndex < particlesCount; particleIndex++)
             {
-                Particles.StartBubble(pill.x, pill.y, Color.Red);
+                Particles.StartDrop(pill.x, pill.y, Color.Black);
             }
         }
 
