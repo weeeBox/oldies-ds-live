@@ -49,6 +49,8 @@ namespace DuckstazyLive
         private bool flying;
         private float vx;        
         private float vy;
+
+        private bool controlledByDPad;
                 
         private float power;        
         private bool flyingOnWings;                
@@ -107,9 +109,41 @@ namespace DuckstazyLive
         }
 
         public void Update(float dt)
-        {         
+        {
+            UpdateGamepadInput();
             UpdateHorizontalPosition(dt);
             UpdateVerticalPosition(dt);
+        }
+
+        private void UpdateGamepadInput()
+        {
+            float dx = InputManager.LeftThumbStickX;
+            if (Math.Abs(dx) < 0.15f)
+            {
+                if (!controlledByDPad)
+                {
+                    key_right = false;
+                    key_left = false;
+                }
+                controlledByDPad = true;
+                return; // DEAD ZONE
+            }            
+            
+            controlledByDPad = false;
+            if (dx > 0)
+            {
+                key_right = true;
+                key_left = false;
+
+                vx = dx * dx;
+            }
+            else
+            {
+                key_right = false;
+                key_left = true;
+
+                vx = -dx * dx;
+            }            
         }       
        
         private void UpdateHorizontalPosition(float dt)
@@ -119,17 +153,23 @@ namespace DuckstazyLive
             {
                 steping = true;
                 flipped = false;
-                vx -= ACC_X * dt;
-                if (vx < -1)
-                    vx = -1;
+                if (controlledByDPad)
+                {
+                    vx -= ACC_X * dt;
+                    if (vx < -1)
+                        vx = -1;
+                }
             }
             if (key_right)
             {
                 steping = true;
                 flipped = true;
-                vx += ACC_X * dt;
-                if (vx > 1)
-                    vx = 1;
+                if (controlledByDPad)
+                {
+                    vx += ACC_X * dt;
+                    if (vx > 1)
+                        vx = 1;
+                }
             }
 
             if (steping)
@@ -277,11 +317,13 @@ namespace DuckstazyLive
                     break;
 
                 case Buttons.DPadRight:
-                    key_right = true;         
+                    key_right = true;
+                    controlledByDPad = true;
                 break;
 
                 case Buttons.DPadLeft:                
-                    key_left = true;                
+                    key_left = true;
+                    controlledByDPad = true;
                 break;
 
                 case Buttons.DPadDown:                
@@ -311,6 +353,11 @@ namespace DuckstazyLive
         private Application App
         {
             get { return Application.Instance; }
+        }
+
+        private InputManager InputManager
+        {
+            get { return App.InputManager; }
         }
     }    
 }

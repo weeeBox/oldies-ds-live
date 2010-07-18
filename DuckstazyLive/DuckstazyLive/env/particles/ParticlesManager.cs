@@ -93,9 +93,8 @@ namespace DuckstazyLive.env.particles
             
         }       
 
-        public void Update(GameTime gameTime)
-        {
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        public void Update(float dt)
+        {            
             int processedParticles = 0;
             int totalParticles = numParticles;            
 

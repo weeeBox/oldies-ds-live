@@ -39,10 +39,30 @@ namespace DuckstazyLive.core.input
             listeners = new List<InputListener>();
         }
 
-        public void Update(GameTime gameTime)        
+        public void Update()        
         {
             UpdateKeyboard();
             UpdateGamePad();
+        }
+
+        public float LeftThumbStickX
+        {
+            get { return gamePadState.ThumbSticks.Left.X; }
+        }
+
+        public float LeftThumbStickY
+        {
+            get { return gamePadState.ThumbSticks.Left.Y; }
+        }
+
+        public float RightThumbStickX
+        {
+            get { return gamePadState.ThumbSticks.Right.X; }
+        }
+
+        public float RightThumbStickY
+        {
+            get { return gamePadState.ThumbSticks.Right.Y; }
         }
 
         private void UpdateKeyboard()
