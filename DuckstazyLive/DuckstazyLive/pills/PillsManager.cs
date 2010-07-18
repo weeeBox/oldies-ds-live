@@ -8,11 +8,11 @@ using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive.pills
 {
-    public class PillsManager : IDisposable
+    public abstract class PillsManager : IDisposable
     {
-        private int maxPillsCount;
-        private int pillsCount;        
-        private Pill[] pills;
+        protected int maxPillsCount;
+        protected int pillsCount;        
+        protected Pill[] pills;
         private List<PillListener> pillListeners;
 
         public PillsManager(int maxPillsCount)
@@ -21,14 +21,14 @@ namespace DuckstazyLive.pills
             pills = new Pill[maxPillsCount];
             for (int pillIndex = 0; pillIndex < maxPillsCount; pillIndex++)
             {
-                pills[pillIndex] = new Pill(this);
-            }
+                pills[pillIndex] = new Pill();
+            }            
             pillListeners = new List<PillListener>();
-        }
+        }        
 
         #region Update
 
-        public void Update(float dt)
+        public virtual void Update(float dt)
         {
             for (int pillIndex = 0; pillIndex < pillsCount; pillIndex++)
             {
@@ -108,7 +108,7 @@ namespace DuckstazyLive.pills
 
         #region Drawing
 
-        public void Draw(SpriteBatch batch)
+        public virtual void Draw(SpriteBatch batch)
         {
             for (int pillIndex = 0; pillIndex < pillsCount; pillIndex++)
             {
@@ -120,7 +120,7 @@ namespace DuckstazyLive.pills
 
         #region Cleanup
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             pillListeners.Clear();
             pillListeners = null;

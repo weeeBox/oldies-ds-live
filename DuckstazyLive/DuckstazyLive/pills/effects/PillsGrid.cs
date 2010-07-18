@@ -7,19 +7,16 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.pills.effects
 {
-    public class PillsGrid
+    public class PillsGrid : PillsManager
     {
         private const int PILLS_COUNT_LONG_ROW = 6;
         private const int PILLS_COUNT_SHORT_ROW = 5;
 
-        private Pill[] pills;
-
-        public PillsGrid(float x, float y, float width, float height, int rowsCount)
+        public PillsGrid(float x, float y, float width, float height, int rowsCount) : base((PILLS_COUNT_LONG_ROW + PILLS_COUNT_SHORT_ROW) * rowsCount / 2)
         {
             Debug.Assert(rowsCount > 1, rowsCount.ToString());
 
-            int pillsCount = (PILLS_COUNT_LONG_ROW + PILLS_COUNT_SHORT_ROW) * rowsCount / 2;
-            pills = new Pill[pillsCount];
+            pillsCount = (PILLS_COUNT_LONG_ROW + PILLS_COUNT_SHORT_ROW) * rowsCount / 2;
 
             float linesDistance = height / (rowsCount - 1f);
             float pillsDistance = width / (PILLS_COUNT_LONG_ROW - 1f);            
@@ -30,10 +27,9 @@ namespace DuckstazyLive.pills.effects
                 float pillX = x;                
                 for (int i = 0; i < PILLS_COUNT_LONG_ROW; i++)
                 {
-                    Pill pill = new Pill();
+                    Pill pill = pills[pillIndex++];
                     pill.x = pillX;
-                    pill.y = pillY;
-                    pills[pillIndex++] = pill;
+                    pill.y = pillY;                  
 
                     pillX += pillsDistance;
                 }
@@ -42,28 +38,19 @@ namespace DuckstazyLive.pills.effects
                 pillX = x + pillsDistance / 2f;
                 for (int i = 0; i < PILLS_COUNT_SHORT_ROW; i++)
                 {
-                    Pill pill = new Pill();
+                    Pill pill = pills[pillIndex++];
                     pill.x = pillX;
                     pill.y = pillY;
-                    pills[pillIndex++] = pill;
-
+                    
                     pillX += pillsDistance;
                 }
                 pillY += linesDistance;
             }
-        }
+        }        
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
 
-        }
-
-        public void Draw(SpriteBatch batch)
-        {
-            for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
-            {
-                pills[pillIndex].Draw(batch);
-            }
-        }
+        }        
     }
 }
