@@ -32,7 +32,7 @@ namespace DuckstazyLive
 
         public void Init()
         {
-            particles = new ParticlesManager();
+            particles = new ParticlesManager(100);
             random = new Random();
             inputManager = new InputManager();
         }

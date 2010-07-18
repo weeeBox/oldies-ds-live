@@ -11,14 +11,16 @@ using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive.env.particles
 {
-    public class ParticlesManager
+    public enum ParticleType
     {
-        private const byte PARTICLE_TYPE_BUBBLE = 0;
-        private const float LIFETIME_BUBBLE = 2.0f;
+        BUBBLE, DROP, STAR
+    }
 
-        private static readonly int PARTICLES_MAX_COUNT = 20;        
+    public class ParticlesManager
+    {        
+        private const float LIFETIME_BUBBLE = 2.0f;        
         
-        public byte[] types;
+        public ParticleType[] types;
         public float[] xs;
         public float[] ys;
         public float[] vxs;
@@ -30,18 +32,18 @@ namespace DuckstazyLive.env.particles
         public int numParticles;
         public Color[] colors;        
 
-        public ParticlesManager()
+        public ParticlesManager(int maxParticlesCount)
         {            
-            types = new byte[PARTICLES_MAX_COUNT];
-            xs = new float[PARTICLES_MAX_COUNT];
-            ys = new float[PARTICLES_MAX_COUNT];
-            vxs = new float[PARTICLES_MAX_COUNT];
-            vys = new float[PARTICLES_MAX_COUNT];
-            alphas = new float[PARTICLES_MAX_COUNT];
-            alphaSpeeds = new float[PARTICLES_MAX_COUNT];
-            imageIds = new int[PARTICLES_MAX_COUNT];
-            lifeTimes = new float[PARTICLES_MAX_COUNT];
-            colors = new Color[PARTICLES_MAX_COUNT];
+            types = new ParticleType[maxParticlesCount];
+            xs = new float[maxParticlesCount];
+            ys = new float[maxParticlesCount];
+            vxs = new float[maxParticlesCount];
+            vys = new float[maxParticlesCount];
+            alphas = new float[maxParticlesCount];
+            alphaSpeeds = new float[maxParticlesCount];
+            imageIds = new int[maxParticlesCount];
+            lifeTimes = new float[maxParticlesCount];
+            colors = new Color[maxParticlesCount];
 
             Console.WriteLine("Constructor");
         }
@@ -73,21 +75,21 @@ namespace DuckstazyLive.env.particles
             float x = xs[index];
             float y = ys[index];
 
-            int type = types[index];
-            switch (type)
+            switch (types[index])
             {
-                case PARTICLE_TYPE_BUBBLE:
-                    {
-                        Color color = colors[index];
+                case ParticleType.BUBBLE:
+                case ParticleType.DROP:
+                {
+                    Color color = colors[index];
 
-                        float scale = lifeTimes[index] / LIFETIME_BUBBLE;
-                        color.A = (byte)(255 - 64 * (1 - scale));
+                    float scale = lifeTimes[index] / LIFETIME_BUBBLE;
+                    color.A = (byte)(255 - 64 * (1 - scale));
 
-                        image.SetScale(scale);
-                        image.SetColor(color);
-                        image.SetOriginToCenter();                        
-                        image.Draw(batch, x, y);
-                    }
+                    image.SetScale(scale);
+                    image.SetColor(color);
+                    image.SetOriginToCenter();                        
+                    image.Draw(batch, x, y);
+                }
                     break;
             }
             
@@ -119,23 +121,34 @@ namespace DuckstazyLive.env.particles
                 return;
             }
 
-            int type = types[index];        
-            switch (type)
+            switch (types[index])
             {
-                case PARTICLE_TYPE_BUBBLE:                    
+                case ParticleType.BUBBLE:                    
                     UpdateBubbleParticle(index, dt);                    
                     break;
 
+                case ParticleType.DROP:
+                    UpdateDropParticle(index, dt);
+                    break;
+
                 default:
-                    Debug.Assert(false, "Particle type not supported: " + type);
+                    Debug.Assert(false, "Particle type not supported: " + types[index]);
                     break;
             }
-        }
+        }        
 
         private void UpdateBubbleParticle(int index, float dt)
         {
             vys[index] -= 100.0f * dt;
             vxs[index] += (float)(200 * Math.Sin(MathHelper.TwoPi * lifeTimes[index]) * dt);
+
+            xs[index] += vxs[index] * dt;
+            ys[index] += vys[index] * dt;
+        }
+
+        private void UpdateDropParticle(int index, float dt)
+        {
+            vys[index] += 500f * dt;
 
             xs[index] += vxs[index] * dt;
             ys[index] += vys[index] * dt;
@@ -147,11 +160,12 @@ namespace DuckstazyLive.env.particles
             return lifeTimes[index] <= 0;
         }
 
-        private int AddParticle(byte type, int imageId, float x, float y, float vx, float vy, float lifeTime)
+        private int AddParticle(ParticleType type, int imageId, float x, float y, float vx, float vy, float lifeTime)
         {
             int index = FindDead();
             if (index != -1)
             {
+                types[index] = type;
                 imageIds[index] = imageId;
                 xs[index] = x;
                 ys[index] = y;
@@ -185,7 +199,18 @@ namespace DuckstazyLive.env.particles
         {
             float vx = -40.0f + App.GetRandomNonNegativeFloat() * 80.0f;
             float vy = -200 * App.GetRandomNonNegativeFloat();
-            int index = AddParticle(0, Res.IMG_BUBBLE, x, y, vx, vy, Math.Max(0.2f, App.GetRandomNonNegativeFloat()) * LIFETIME_BUBBLE);
+            int index = AddParticle(ParticleType.BUBBLE, Res.IMG_BUBBLE, x, y, vx, vy, Math.Max(0.2f, App.GetRandomNonNegativeFloat()) * LIFETIME_BUBBLE);
+            if (index != -1)
+            {
+                colors[index] = color;
+            }
+        }
+
+        public void StartDrop(float x, float y, Color color)
+        {
+            float vx = -200.0f + App.GetRandomNonNegativeFloat() * 400.0f;
+            float vy = -200.0f + App.GetRandomNonNegativeFloat() * 100.0f;
+            int index = AddParticle(ParticleType.DROP, Res.IMG_BUBBLE, x, y, vx, vy, Math.Max(0.2f, App.GetRandomNonNegativeFloat()) * LIFETIME_BUBBLE);
             if (index != -1)
             {
                 colors[index] = color;
