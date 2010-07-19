@@ -86,6 +86,7 @@
   <ItemGroup>
     <Compile Include="app\Application.cs" />
     <Compile Include="app\Constants.cs" />
+    <Compile Include="core\graphics\GDebug.cs" />
     <Compile Include="core\graphics\Image.cs" />
     <Compile Include="core\input\InputAdapter.cs" />
     <Compile Include="core\input\InputListener.cs" />

@@ -4,9 +4,26 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive.pills.effects
 {
+    struct Bounds
+    {
+        public float x;
+        public float y;
+        public float w;
+        public float h;
+
+        public Bounds(float x, float y, float width, float height)
+        {
+            this.x = x;
+            this.y = y;
+            w = width;
+            h = height;
+        }
+    }
+
     public class PillsWave : PillsManager
     {        
         private const float SPAWN_TIMEOUT = 0.3f;
@@ -17,6 +34,8 @@ namespace DuckstazyLive.pills.effects
         private float t;
         private float baseY;
 
+        private Bounds bounds;
+
         public PillsWave(float x, float y, float width, float height, int pillsCount) : base(pillsCount)
         {
             this.pillsCount = pillsCount;
@@ -24,7 +43,9 @@ namespace DuckstazyLive.pills.effects
             float dx = width / (pillsCount - 1f);
             lambda = 0.75f * width;
             amplitude = height;
-            omega = MathHelper.PiOver2;           
+            omega = MathHelper.PiOver2;
+
+            bounds = new Bounds(x, y - amplitude, width, height + 2 * amplitude);
 
             float spawnTime = SPAWN_TIMEOUT;
 

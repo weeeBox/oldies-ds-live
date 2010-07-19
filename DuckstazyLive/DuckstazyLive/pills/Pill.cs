@@ -64,6 +64,8 @@ namespace DuckstazyLive.pills
             pillImage.SetColor(color);
             baseImage.SetColor(color);
 
+            GDebug.DrawCircle(x, y, baseImage.Width / 2);
+
             baseImage.Draw(batch, x, y);
             pillImage.Draw(batch, x, y);
         }
