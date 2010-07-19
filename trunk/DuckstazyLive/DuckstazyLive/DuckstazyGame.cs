@@ -17,6 +17,7 @@ using DuckstazyLive.pills;
 using DuckstazyLive.pills.effects;
 using DuckstazyLiveXbox.pills;
 using DuckstazyLive.game;
+using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive
 {
@@ -81,6 +82,7 @@ namespace DuckstazyLive
             engine = new Engine(0, 0, app.Width, app.Height - Constants.GROUND_HEIGHT);
 
             Console.WriteLine(app.Width + " " + app.Height);
+            GDebug.Init(GraphicsDevice, basicEffect);
 
             base.Initialize();
         }
@@ -151,6 +153,10 @@ namespace DuckstazyLive
             GraphicsDevice.RenderState.MultiSampleAntiAlias = true;
 
             engine.Draw(renderContext);            
+
+#if DEBUG
+            GDebug.Flush();
+#endif
                 
             base.Draw(gameTime);
         }
