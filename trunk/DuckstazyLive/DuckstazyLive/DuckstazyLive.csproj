@@ -101,6 +101,7 @@
     <Compile Include="env\sky\NightSky.cs" />
     <Compile Include="env\sky\NormalSky.cs" />
     <Compile Include="env\sky\RadialSky.cs" />
+    <Compile Include="game\CollisionHelper.cs" />
     <Compile Include="game\Engine.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="graphics\Camera.cs" />
