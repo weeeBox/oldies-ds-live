@@ -100,6 +100,7 @@
     <Compile Include="env\sky\NightSky.cs" />
     <Compile Include="env\sky\NormalSky.cs" />
     <Compile Include="env\sky\RadialSky.cs" />
+    <Compile Include="game\Engine.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="graphics\Camera.cs" />
     <Compile Include="graphics\Circle.cs" />
@@ -120,7 +121,7 @@
     <Compile Include="PSReader.cs" />
     <Compile Include="res\Res.cs" />
     <Compile Include="res\Resources.cs" />
-    <Compile Include="Utils.cs" />   
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
