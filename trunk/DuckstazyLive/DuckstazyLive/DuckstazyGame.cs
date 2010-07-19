@@ -16,6 +16,7 @@ using DuckstazyLive.env.particles;
 using DuckstazyLive.pills;
 using DuckstazyLive.pills.effects;
 using DuckstazyLiveXbox.pills;
+using DuckstazyLive.game;
 
 namespace DuckstazyLive
 {
@@ -28,12 +29,7 @@ namespace DuckstazyLive
         SpriteBatch spriteBatch;       
 
         RenderContext renderContext;
-        
-        Background background;
-        Hero hero;
-        Wave wave;        
-        
-        PillsManager pillsManager;
+        Engine engine;        
         
         public DuckstazyGame()
         {
@@ -80,24 +76,9 @@ namespace DuckstazyLive
             renderContext = new RenderContext(spriteBatch, basicEffect);
 
             Camera camera = new Camera(worldMatrix, viewMatrix, projectionMatrix);
-            app.Camera = camera;            
-            
-            hero = new Hero();
-            
-            float w = app.Width;
-            float h = 2 * 22.5f;
-            float x = 0;
-            float y = app.Height - (Constants.GROUND_HEIGHT + h) / 2;
-            wave = new Wave(x, y, w, h);
+            app.Camera = camera;
 
-            app.InputManager.AddInputListener(hero);
-
-            float pillsOffsetX = Application.Instance.Width / 16f;
-            float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
-            
-            pillsManager = new PillsWave(pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
-            pillsManager.AddPillListener(new PillParticles());
-            // pillsManager = new PillsGrid(pillsOffsetX, pillsOffsetY, Application.Instance.Width - 2 * pillsOffsetX, Application.Instance.Height - Constants.GROUND_HEIGHT - 2 * pillsOffsetY, 12);
+            engine = new Engine(0, 0, app.Width, app.Height - Constants.GROUND_HEIGHT);
 
             Console.WriteLine(app.Width + " " + app.Height);
 
@@ -129,7 +110,7 @@ namespace DuckstazyLive
         protected override void LoadContent()
         {
             Resources.Instance.Init(Content);
-            background = new Background(Constants.GROUND_HEIGHT);
+            engine.LoadContent();
         }
 
         /// <summary>
@@ -153,10 +134,7 @@ namespace DuckstazyLive
                 this.Exit();
 
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            hero.Update(dt);
-            background.Update(dt);
-            pillsManager.Update(dt);
-            //pillsWave.Update(dt);
+            engine.Update(dt);            
 
             Application.Instance.Update(dt);
 
@@ -171,22 +149,8 @@ namespace DuckstazyLive
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             GraphicsDevice.RenderState.MultiSampleAntiAlias = true;
-            
-            background.DrawSky(renderContext);            
 
-            spriteBatch.Begin();
-
-            pillsManager.Draw(spriteBatch);
-            hero.Draw(spriteBatch);
-            // pillsWave.Draw(spriteBatch);
-            
-
-            spriteBatch.End();
-
-            Application.Instance.Particles.Draw(renderContext);
-            
-            background.DrawGround(renderContext);
-            wave.Draw(gameTime);            
+            engine.Draw(renderContext);            
                 
             base.Draw(gameTime);
         }

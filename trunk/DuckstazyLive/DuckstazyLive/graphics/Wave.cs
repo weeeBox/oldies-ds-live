@@ -55,13 +55,13 @@ namespace DuckstazyLive.graphics
             elapsed += dt;        
         }             
 
-        public void Draw(GameTime gameTime)
+        public void Draw()
         {
             Effect customEffect = Resources.GetEffect(Res.EFFECT_WAVE);
             customEffect.Parameters["World"].SetValue(Camera.World);
             customEffect.Parameters["View"].SetValue(Camera.View);
             customEffect.Parameters["Projection"].SetValue(Camera.Projection);
-            customEffect.Parameters["Timer"].SetValue((float)gameTime.TotalGameTime.TotalSeconds);            
+            customEffect.Parameters["Timer"].SetValue(elapsed);            
             customEffect.Parameters["Amplitude"].SetValue(20.0f);
             customEffect.Parameters["WaveLength"].SetValue(Application.Instance.Width);
             customEffect.Parameters["Omega"].SetValue(4 * MathHelper.Pi);
