@@ -5,10 +5,11 @@ using System;
 using DuckstazyLive.app;
 using DuckstazyLive.core.input;
 using DuckstazyLive.core.graphics;
-
+using DuckstazyLive.pills;
+using DuckstazyLive.core.collision;
 namespace DuckstazyLive
 {
-    class Hero : InputAdapter
+    public class Hero : InputAdapter
     {
         private static readonly Color COLOR_STEP_BUBBLE = new Color(127, 72, 0);
         private static readonly Color COLOR_LAND_BUBBLE = new Color(152, 152, 152);
@@ -16,14 +17,20 @@ namespace DuckstazyLive
         private static readonly int STEP_BUBBLE_OFFSET_X = 20;
         private static readonly int STEP_BUBBLE_OFFSET_Y = -5;
 
-        private const int width = 2 * 53;
-        private const int height = 2 * 40;
+        private const int width = 108;
+        private const int height = 84;
+        private const int COLLISION_RADIUS = 57;
         
         private static readonly float JUMP_START_VY_MIN = 2 * 127;
         private static readonly float JUMP_START_VY_MAX = 2 * 379;
 
         private static readonly float ACC_X = 10; // ускорение по оси oX
         private static readonly float ACC_Y = -400; // ускорение по оси oY       
+
+        private static readonly float DUCK_Y_OFFSET = -7;
+        private static readonly float Y_MIN = 0.5f * height + DUCK_Y_OFFSET;
+        
+        // TODO: add y_max
 
         private static readonly float VX_MIN = 80;
         private static readonly float VX_MAX = 500;
@@ -50,6 +57,8 @@ namespace DuckstazyLive
         private float vx;        
         private float vy;
 
+        private CollisionCircle collision;
+
         private bool controlledByDPad;
                 
         private float power;        
@@ -63,19 +72,20 @@ namespace DuckstazyLive
         private bool flipped;
         
         private float steppingDistance;
-        
 
         public Hero()
         {            
             origin = new Vector2(width / 2.0f, 0);
 
-            x = (App.Width - width) / 2;
-            y = 0;            
+            x = 0;
+            y = height / 2 + DUCK_Y_OFFSET;
+
+            collision = new CollisionCircle(x, y, COLLISION_RADIUS);
         }
 
         public void Draw(SpriteBatch batch)
         {            
-            float dx = x;
+            float dx = App.Width / 2 + x;
             float dy = App.Height - Constants.GROUND_HEIGHT - y;                     
 
             if (steppingDistance > 2 && !flying)
@@ -84,16 +94,18 @@ namespace DuckstazyLive
             }
 
             Draw(batch, dx, dy);
-            if (dx < 0)
+            if (dx < - App.Width / 2)
             {
                 dx += App.Width;
                 Draw(batch, dx, dy);
             }
-            else if (dx > App.Width - width)
+            else if (dx > (App.Width - width) / 2)
             {
                 dx -= App.Width;
                 Draw(batch, dx, dy);
             }
+
+            // GDebug.DrawRect(x - 108 * 0.5f, App.Height - Constants.GROUND_HEIGHT - y - 84, 108, 84);
         }
 
         private void Draw(SpriteBatch batch, float x, float y)
@@ -105,7 +117,7 @@ namespace DuckstazyLive
             else
                 duck.ResetFlips();
 
-            duck.Draw(batch, x, y, Image.HCENTER | Image.BOTTOM);
+            duck.Draw(batch, x, y, Image.HCENTER | Image.VCENTER);
         }
 
         public void Update(float dt)
@@ -209,7 +221,7 @@ namespace DuckstazyLive
             if (x < -width)
                 x += App.Width;
             if (x > (App.Width - width))
-                x -= App.Width;
+                x -= App.Width;            
         }
 
         private void UpdateVerticalPosition(float dt)
@@ -237,11 +249,11 @@ namespace DuckstazyLive
                     y += vy * dt;                    
                 }
 
-                if (y <= 0)
+                if (y <= Y_MIN)
                 {
                     flyingOnWings = false;
                     flying = false;
-                    y = 0;
+                    y = Y_MIN;
                     gravityBoostCoeff = 0.0f;
                     doLandBubble(vy);
                 }
@@ -334,7 +346,7 @@ namespace DuckstazyLive
 
         private void doStepBubbles()
         {
-            float particleX = flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X);
+            float particleX = App.Width / 2 + (flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X));
             float particleY = STEP_BUBBLE_OFFSET_Y + (Application.Instance.Height - Constants.GROUND_HEIGHT);
             App.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
         }
@@ -344,10 +356,15 @@ namespace DuckstazyLive
             int particlesCount = Math.Abs((int)(vy / 20));
             for (int i = 0; i < particlesCount; i++)
             {
-                float particleX = x + 0.5f * width * App.GetRandomFloat();
+                float particleX = App.Width / 2 + (x + 0.5f * width * App.GetRandomFloat());
                 float particleY = STEP_BUBBLE_OFFSET_Y + (Application.Instance.Height - Constants.GROUND_HEIGHT);
                 App.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
             }
+        }
+
+        public bool collidesWith(Pill pill)
+        {
+            return false;
         }
 
         private Application App
