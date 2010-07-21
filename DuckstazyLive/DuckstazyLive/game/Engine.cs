@@ -42,7 +42,7 @@ namespace DuckstazyLive.game
             float pillsOffsetX = Application.Instance.Width / 16f;
             float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
 
-            pillsManager = new PillsWave(pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
+            pillsManager = new PillsWave(hero, pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
             pillsManager.AddPillListener(new PillParticles());
         }
 
@@ -77,7 +77,6 @@ namespace DuckstazyLive.game
             hero.Update(dt);
             background.Update(dt);
             pillsManager.Update(dt);
-            // wave.Update(dt);
         }
 
         private Application App

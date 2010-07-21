@@ -14,10 +14,12 @@ namespace DuckstazyLive.pills
         protected int pillsCount;        
         protected Pill[] pills;
         private List<IPillListener> pillListeners;
+        private Hero hero;
 
-        public PillsManager(int maxPillsCount)
+        public PillsManager(Hero hero, int maxPillsCount)
         {
             this.maxPillsCount = maxPillsCount;
+            this.hero = hero;
             pills = new Pill[maxPillsCount];
             for (int pillIndex = 0; pillIndex < maxPillsCount; pillIndex++)
             {

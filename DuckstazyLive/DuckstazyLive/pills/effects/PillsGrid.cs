@@ -12,7 +12,7 @@ namespace DuckstazyLive.pills.effects
         private const int PILLS_COUNT_LONG_ROW = 6;
         private const int PILLS_COUNT_SHORT_ROW = 5;
 
-        public PillsGrid(float x, float y, float width, float height, int rowsCount) : base((PILLS_COUNT_LONG_ROW + PILLS_COUNT_SHORT_ROW) * rowsCount / 2)
+        public PillsGrid(Hero hero, float x, float y, float width, float height, int rowsCount) : base(hero, (PILLS_COUNT_LONG_ROW + PILLS_COUNT_SHORT_ROW) * rowsCount / 2)
         {
             Debug.Assert(rowsCount > 1, rowsCount.ToString());
 

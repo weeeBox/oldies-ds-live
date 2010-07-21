@@ -36,7 +36,7 @@ namespace DuckstazyLive.pills.effects
 
         private Bounds bounds;
 
-        public PillsWave(float x, float y, float width, float height, int pillsCount) : base(pillsCount)
+        public PillsWave(Hero hero, float x, float y, float width, float height, int pillsCount) : base(hero, pillsCount)
         {
             this.pillsCount = pillsCount;
 
@@ -71,10 +71,11 @@ namespace DuckstazyLive.pills.effects
 
         public override void UpdatePill(int pillIndex, float dt)
         {
-            base.UpdatePill(pillIndex, dt);
-
             Pill pill = pills[pillIndex];
+            base.UpdatePill(pillIndex, dt);            
             pill.y = baseY + (float)(amplitude * Math.Sin(omega * (t - MathHelper.TwoPi / lambda * pill.x)));
+
+            float r = 0.5f * Resources.GetImage(Res.IMG_PILL_BASE).Width;            
         }
 
         public override void Draw(SpriteBatch batch)
