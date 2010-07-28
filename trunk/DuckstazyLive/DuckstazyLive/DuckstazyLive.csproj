@@ -91,11 +91,13 @@
     <Compile Include="core\collision\ComplexCollisionRect.cs" />
     <Compile Include="core\collision\ICollidable.cs" />
     <Compile Include="core\collision\RectangleBounds.cs" />
+    <Compile Include="core\GameObject.cs" />
     <Compile Include="core\graphics\GDebug.cs" />
     <Compile Include="core\graphics\Image.cs" />
     <Compile Include="core\input\InputAdapter.cs" />
     <Compile Include="core\input\InputListener.cs" />
     <Compile Include="core\input\InputManager.cs" />
+    <Compile Include="debug\FPS.cs" />
     <Compile Include="env\Background.cs" />
     <Compile Include="env\GradientRect.cs" />
     <Compile Include="env\Grass.cs" />

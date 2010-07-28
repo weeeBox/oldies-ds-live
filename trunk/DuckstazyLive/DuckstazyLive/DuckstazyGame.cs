@@ -18,6 +18,7 @@ using DuckstazyLive.pills.effects;
 using DuckstazyLiveXbox.pills;
 using DuckstazyLive.game;
 using DuckstazyLive.core.graphics;
+using DuckstazyLive.debug;
 
 namespace DuckstazyLive
 {
@@ -30,7 +31,8 @@ namespace DuckstazyLive
         SpriteBatch spriteBatch;       
 
         RenderContext renderContext;
-        Engine engine;        
+        Engine engine;
+        FPS fps;
         
         public DuckstazyGame()
         {
@@ -83,6 +85,8 @@ namespace DuckstazyLive
 
             Console.WriteLine(app.Width + " " + app.Height);
             GDebug.Init(GraphicsDevice, basicEffect);
+
+            fps = new FPS(1.0f, 20, 20);
 
             base.Initialize();
         }
@@ -139,6 +143,7 @@ namespace DuckstazyLive
             engine.Update(dt);            
 
             Application.Instance.Update(dt);
+            fps.Update(dt);
 
             base.Update(gameTime);
         }       
@@ -157,6 +162,8 @@ namespace DuckstazyLive
 #if DEBUG
             GDebug.Flush();
 #endif
+
+            fps.Draw(renderContext);
                 
             base.Draw(gameTime);
         }
