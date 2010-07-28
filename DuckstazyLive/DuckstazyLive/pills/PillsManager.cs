@@ -23,7 +23,7 @@ namespace DuckstazyLive.pills
             pills = new Pill[maxPillsCount];
             for (int pillIndex = 0; pillIndex < maxPillsCount; pillIndex++)
             {
-                pills[pillIndex] = new Pill();
+                pills[pillIndex] = new Pill(this);
             }            
             pillListeners = new List<IPillListener>();
         }        
@@ -34,22 +34,14 @@ namespace DuckstazyLive.pills
         {
             for (int pillIndex = 0; pillIndex < pillsCount; pillIndex++)
             {
-                UpdatePill(pillIndex, dt);
+                Pill pill = pills[pillIndex];
+                UpdatePill(pill, dt);
             }
         }               
 
-        public virtual void UpdatePill(int pillIndex, float dt)
-        {
-            Pill pill = pills[pillIndex];
-            float oldDelay = pill.delay;
-
-            pill.Update(dt);
-
-            float delay = pill.delay;
-            if (oldDelay > 0 && delay <= 0)
-            {
-                OnPillAdded(pill);
-            }
+        public virtual void UpdatePill(Pill pill, float dt)
+        {            
+            pill.Update(dt);            
         }
         #endregion
 
@@ -103,7 +95,7 @@ namespace DuckstazyLive.pills
             pillListeners.Remove(listener);
         }
 
-        private void OnPillAdded(Pill pill)
+        internal void FirePillAdded(Pill pill)
         {
             foreach (IPillListener listener in pillListeners)
             {
@@ -111,7 +103,7 @@ namespace DuckstazyLive.pills
             }
         }
 
-        private void OnPillRemoved(Pill pill)
+        internal void FirePillRemoved(Pill pill)
         {
             foreach (IPillListener listener in pillListeners)
             {
