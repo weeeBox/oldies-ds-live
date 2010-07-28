@@ -10,7 +10,7 @@ namespace DuckstazyLive
 {
     public class Resources
     {
-        private IDisposable[] resources;
+        private object[] resources;
         private static Resources instance = new Resources();
 
         private Resources()
@@ -26,7 +26,7 @@ namespace DuckstazyLive
         {
             Console.WriteLine("Load resources...");
 
-            resources = new IDisposable[Res.RESOURCES_COUNT];
+            resources = new object[Res.RESOURCES_COUNT];
             resources[Res.IMG_DUCK] = new Image(content.Load<Texture2D>("duck"));
             resources[Res.IMG_GRASS] = content.Load<Texture2D>("grass");
             resources[Res.EFFECT_WAVE] = content.Load<Effect>("shaders\\WaveEffect");
@@ -38,8 +38,14 @@ namespace DuckstazyLive
             resources[Res.IMG_PILL_BASE] = new Image(content.Load<Texture2D>("pills\\pill_base"));
             resources[Res.IMG_PILL_QUESTION] = new Image(content.Load<Texture2D>("pills\\pill_question"));
             resources[Res.IMG_PILL_STAR] = new Image(content.Load<Texture2D>("pills\\pill_star"));
-            resources[Res.IMG_STAR] = new Image(content.Load<Texture2D>("star"));
+            resources[Res.IMG_STAR] = new Image(content.Load<Texture2D>("star"));            
+            resources[Res.FONT_REGULAR] = content.Load<SpriteFont>("font_regular");            
         }       
+
+        public static SpriteFont GetSpriteFont(int id)
+        {
+            return (SpriteFont)instance.resources[id];
+        }
 
         public static Texture2D GetTexture(int id)
         {            

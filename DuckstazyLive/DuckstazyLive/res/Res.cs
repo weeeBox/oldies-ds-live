@@ -19,7 +19,8 @@ namespace DuckstazyLive
         public static readonly int IMG_PILL_QUESTION = 9;
         public static readonly int IMG_PILL_STAR = 10;
         public static readonly int IMG_STAR = 11;
+        public static readonly int FONT_REGULAR = 12;
 
-        public static readonly int RESOURCES_COUNT = 12;
+        public static readonly int RESOURCES_COUNT = 13;
     }
 }
