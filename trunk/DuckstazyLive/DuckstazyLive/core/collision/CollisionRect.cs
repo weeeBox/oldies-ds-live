@@ -7,7 +7,7 @@ using DuckstazyLive.game;
 
 namespace DuckstazyLive.core.collision
 {
-    public class CollisionRect : ICollidable
+    public class CollisionRect
     {
         private float x;
         private float y;
@@ -20,17 +20,7 @@ namespace DuckstazyLive.core.collision
             this.y = y;
             this.width = width;
             this.height = height;
-        }
-
-        public bool Collides(CollisionRect other)
-        {
-            return CollisionHelper.RectanglesCollide(x, y, width, height, other.x, other.y, other.width, other.height);
-        }        
-
-        public bool Collides(CollisionCircle other)
-        {
-            return CollisionHelper.CicleRectangleCollide(other.CenterX, other.CenterY, other.Radius, x, y, width, height);
-        }
+        }       
 
         public float X
         {
@@ -66,15 +56,6 @@ namespace DuckstazyLive.core.collision
         {
             get { return height; }
             set { height = value; }
-        }
-
-        public void Dispose() {}
-
-#if DEBUG
-        public void DrawDebug()
-        {
-            GDebug.DrawRect(x, y, width, height);
-        }
-#endif
+        }        
     }
 }

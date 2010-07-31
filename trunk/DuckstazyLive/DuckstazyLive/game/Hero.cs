@@ -57,7 +57,7 @@ namespace DuckstazyLive
         private float vx;        
         private float vy;
 
-        private CollisionCircle collision;
+        private CollisionRect collision;
 
         private bool controlledByDPad;
                 
@@ -80,7 +80,7 @@ namespace DuckstazyLive
             x = 0;
             y = height / 2 + DUCK_Y_OFFSET;
 
-            collision = new CollisionCircle(x, y, COLLISION_RADIUS);
+            collision = new CollisionRect(0, 0, width, height);
         }
 
         public void Draw(SpriteBatch batch)
@@ -108,6 +108,13 @@ namespace DuckstazyLive
             // GDebug.DrawRect(x - 108 * 0.5f, App.Height - Constants.GROUND_HEIGHT - y - 84, 108, 84);
         }
 
+#if DEBUG
+        private void DrawDebug()
+        {
+            GDebug.DrawRect(collision.X, App.Height - Constants.GROUND_HEIGHT - collision.Y, collision.Width, collision.Height);
+        }
+#endif
+
         private void Draw(SpriteBatch batch, float x, float y)
         {
             Image duck = Resources.GetImage(Res.IMG_DUCK);
@@ -116,7 +123,7 @@ namespace DuckstazyLive
                 duck.FlipHorizontal();
             else
                 duck.ResetFlips();
-
+            
             duck.Draw(batch, x, y, Image.HCENTER | Image.VCENTER);
         }
 
@@ -221,7 +228,7 @@ namespace DuckstazyLive
             if (x < -width)
                 x += App.Width;
             if (x > (App.Width - width))
-                x -= App.Width;            
+                x -= App.Width;
         }
 
         private void UpdateVerticalPosition(float dt)
