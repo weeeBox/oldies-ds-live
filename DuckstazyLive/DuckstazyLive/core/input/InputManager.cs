@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive.core.input
 {
-    public class InputManager
+    public class InputManager : Timer
     {
+        private static readonly float REFRESH_RATE = 0.75f;
+
         private KeyboardState keyboardState;
         private GamePadState gamePadState;
         private List<InputListener> listeners;
@@ -32,14 +35,14 @@ namespace DuckstazyLive.core.input
             Buttons.DPadRight,
         };
 
-        public InputManager()
+        public InputManager() : base(REFRESH_RATE)
         {
             keyboardState = Keyboard.GetState();
             gamePadState = GamePad.GetState(PlayerIndex.One);
             listeners = new List<InputListener>();
         }
 
-        public void Update()        
+        public override void Update(float dt)        
         {
             UpdateKeyboard();
             UpdateGamePad();

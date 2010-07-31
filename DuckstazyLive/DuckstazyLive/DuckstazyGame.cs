@@ -34,7 +34,7 @@ namespace DuckstazyLive
         RenderContext renderContext;
         Engine engine;
         FPS fps;
-        TimerManager timerManager;
+        Application application;
         
         public DuckstazyGame()
         {
@@ -61,15 +61,15 @@ namespace DuckstazyLive
 #endif
             graphics.PreferredBackBufferWidth = bufferWidth;
             graphics.PreferredBackBufferHeight = bufferHeight;
-            graphics.ApplyChanges();                       
+            graphics.ApplyChanges();            
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);           
 
-            Application app = new Application(bufferWidth, bufferHeight);
-            app.Init();
-            app.GraphicsDevice = GraphicsDevice;
-            app.SpriteBatch = spriteBatch;
+            application = new Application(bufferWidth, bufferHeight);
+            application.Init();
+            application.GraphicsDevice = GraphicsDevice;
+            application.SpriteBatch = spriteBatch;
 
             Matrix worldMatrix;
             Matrix viewMatrix;
@@ -81,18 +81,14 @@ namespace DuckstazyLive
             renderContext = new RenderContext(spriteBatch, basicEffect);
 
             Camera camera = new Camera(worldMatrix, viewMatrix, projectionMatrix);
-            app.Camera = camera;
+            application.Camera = camera;
 
-            engine = new Engine(0, 0, app.Width, app.Height - Constants.GROUND_HEIGHT);
+            engine = new Engine(0, 0, application.Width, application.Height - Constants.GROUND_HEIGHT);
 
-            Console.WriteLine(app.Width + " " + app.Height);
+            Console.WriteLine(application.Width + " " + application.Height);
             GDebug.Init(GraphicsDevice, basicEffect);
-
-            fps = new FPS(0.2f, 20, 20);
-            timerManager = new TimerManager(20);
-            timerManager.AddTimer(app);
-            timerManager.AddTimer(fps);
-            timerManager.AddTimer(engine);
+            
+            fps = new FPS(0.2f, 20, 20);            
 
             base.Initialize();
         }
@@ -142,7 +138,7 @@ namespace DuckstazyLive
         protected override void Update(GameTime gameTime)
         {
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            timerManager.Update(dt);            
+            application.Update(dt);            
             
             base.Update(gameTime);
         }       

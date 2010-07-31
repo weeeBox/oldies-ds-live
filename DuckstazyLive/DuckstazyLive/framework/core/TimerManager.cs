@@ -13,7 +13,7 @@ namespace DuckstazyLive.framework.core
         
         public TimerManager(int maxTimersCount)
         {
-            timers = new Timer[maxTimersCount];
+            timers = new Timer[maxTimersCount];            
         }
 
         public void AddTimer(Timer timer)
@@ -35,7 +35,7 @@ namespace DuckstazyLive.framework.core
                     timer.Update(timer.ElapsedTime);
                     timer.ElapsedTime = 0;
 
-                    if (timer.Stopped)
+                    if (!timer.Running)
                     {                        
                         timers[timerIndex] = timers[timersCount - 1];
                         timersCount--;
