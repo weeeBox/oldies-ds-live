@@ -4,19 +4,35 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace DuckstazyLive.framework.graphics
 {
-    class GameGraphics
+    public enum GraphicsMode
+    {
+        UNDEFINED, // uninitialized graphics mode
+        SPRITE_BATCH, // begin drawing sprite batch
+        BASIC_EFFECT, // drawing using effect or basic effect
+        CUSTOM_EFFECT, // drawing using custom effect
+    }
+
+    public class GameGraphics
     {
         private Stack<Matrix> transformationStack;
         private Matrix currentTransform;
         private GraphicsDevice graphicsDevice;
+        private GraphicsMode graphicsMode;
+        private SpriteBatch spriteBatch;
+        private BasicEffect basicEffect;
+        private Effect customEffect;
 
         GameGraphics(GraphicsDevice graphicsDevice)
         {
             transformationStack = new Stack<Matrix>();
             this.graphicsDevice = graphicsDevice;
+            spriteBatch = new SpriteBatch(graphicsDevice);
+            basicEffect = new BasicEffect(graphicsDevice, null);
+            customEffect = null;
         }
 
         public void PopMatrix()
@@ -47,6 +63,41 @@ namespace DuckstazyLive.framework.graphics
         public void Scale(float scale)
         {
             Scale(scale, scale);
+        }        
+
+        public void Begin(GraphicsMode mode)
+        {
+            if (mode != graphicsMode)
+            {
+                End();
+                if (mode == GraphicsMode.SPRITE_BATCH)
+                {
+                    spriteBatch.Begin();
+                }
+                else if (mode == GraphicsMode.BASIC_EFFECT)
+                {
+                    customEffect = basicEffect;
+                    customEffect.Begin();
+                    customEffect.CurrentTechnique.Passes[0].Begin();
+                }
+                graphicsMode = mode;
+            }
+
+        }
+
+        public void End()
+        {
+            if (graphicsMode == GraphicsMode.SPRITE_BATCH)
+            {
+                spriteBatch.End();
+            }
+            else if (graphicsMode == GraphicsMode.BASIC_EFFECT || graphicsMode == GraphicsMode.CUSTOM_EFFECT)
+            {
+                Debug.Assert(customEffect != null);
+                customEffect.CurrentTechnique.Passes[0].End();
+                customEffect.End();
+                customEffect = null;
+            }
         }
     }
 }

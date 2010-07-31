@@ -19,6 +19,7 @@ using DuckstazyLiveXbox.pills;
 using DuckstazyLive.game;
 using DuckstazyLive.core.graphics;
 using DuckstazyLive.debug;
+using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive
 {
@@ -33,6 +34,7 @@ namespace DuckstazyLive
         RenderContext renderContext;
         Engine engine;
         FPS fps;
+        TimerManager timerManager;
         
         public DuckstazyGame()
         {
@@ -59,7 +61,7 @@ namespace DuckstazyLive
 #endif
             graphics.PreferredBackBufferWidth = bufferWidth;
             graphics.PreferredBackBufferHeight = bufferHeight;
-            graphics.ApplyChanges();
+            graphics.ApplyChanges();                       
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);           
@@ -86,7 +88,11 @@ namespace DuckstazyLive
             Console.WriteLine(app.Width + " " + app.Height);
             GDebug.Init(GraphicsDevice, basicEffect);
 
-            fps = new FPS(1.0f, 20, 20);
+            fps = new FPS(0.2f, 20, 20);
+            timerManager = new TimerManager(20);
+            timerManager.AddTimer(app);
+            timerManager.AddTimer(fps);
+            timerManager.AddTimer(engine);
 
             base.Initialize();
         }
@@ -135,16 +141,9 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
             float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            engine.Update(dt);            
-
-            Application.Instance.Update(dt);
-            fps.Update(dt);
-
+            timerManager.Update(dt);            
+            
             base.Update(gameTime);
         }       
 
