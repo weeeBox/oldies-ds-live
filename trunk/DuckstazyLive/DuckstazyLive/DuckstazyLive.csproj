@@ -107,6 +107,7 @@
     <Compile Include="env\sky\NormalSky.cs" />
     <Compile Include="env\sky\RadialSky.cs" />
     <Compile Include="core\collision\CollisionHelper.cs" />
+    <Compile Include="framework\graphics\GameGraphics.cs" />
     <Compile Include="game\Engine.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="graphics\Camera.cs" />
@@ -166,6 +167,9 @@
       <ProductName>Microsoft XNA Framework Redistributable 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="framework\core\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
