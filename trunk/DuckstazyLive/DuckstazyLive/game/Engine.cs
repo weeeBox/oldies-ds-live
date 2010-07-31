@@ -8,10 +8,11 @@ using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
 using DuckstazyLiveXbox.pills;
 using DuckstazyLive.pills.effects;
+using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive.game
 {
-    public class Engine
+    public class Engine : Timer
     {
         private Background background;
         private Hero hero;
@@ -72,7 +73,7 @@ namespace DuckstazyLive.game
             // wave.Draw();            
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             hero.Update(dt);
             background.Update(dt);

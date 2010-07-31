@@ -6,10 +6,11 @@ using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.graphics;
 using DuckstazyLive.env.particles;
 using DuckstazyLive.core.input;
+using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive
 {
-    class Application
+    class Application : Timer
     {
         private static Application instance;
 
@@ -37,7 +38,7 @@ namespace DuckstazyLive
             inputManager = new InputManager();
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             inputManager.Update();
             particles.Update(dt);
