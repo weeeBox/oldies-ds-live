@@ -10,7 +10,7 @@ namespace DuckstazyLive.framework.core
     {
         private float elapsedTime;
         private float delay;
-        private bool stopped;
+        private bool running;
 
         public Timer() : this(0)
         {            
@@ -25,18 +25,20 @@ namespace DuckstazyLive.framework.core
 
         public void StartTimer()
         {
-            stopped = false;
+            running = true;
             elapsedTime = 0;
+
+            Application.Instance.TimerManager.AddTimer(this);
         }       
 
         public void StopTimer()
         {
-            stopped = true;
+            running = false;
         }
 
-        public bool Stopped
+        public bool Running
         {
-            get { return stopped; }
+            get { return running; }
         }
 
         public float ElapsedTime

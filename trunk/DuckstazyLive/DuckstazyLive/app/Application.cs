@@ -10,7 +10,7 @@ using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive
 {
-    class Application : Timer
+    class Application
     {
         private static Application instance;
 
@@ -22,6 +22,7 @@ namespace DuckstazyLive
         private ParticlesManager particles;
         private Random random;
         private InputManager inputManager;
+        private TimerManager timerManager;
 
         public Application(int width, int height)
         {
@@ -33,15 +34,15 @@ namespace DuckstazyLive
 
         public void Init()
         {
+            timerManager = new TimerManager(20);
             particles = new ParticlesManager(100);
             random = new Random();
-            inputManager = new InputManager();
+            inputManager = new InputManager();                        
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
-            inputManager.Update();
-            particles.Update(dt);
+            timerManager.Update(dt);
         }
 
         public int Width
@@ -102,10 +103,15 @@ namespace DuckstazyLive
             get { return random; }
         }
 
+        public TimerManager TimerManager
+        {
+            get { return timerManager; }
+        }
+
         public InputManager InputManager
         {
             get { return inputManager; }
-        }
+        }        
 
         public static Application Instance
         {

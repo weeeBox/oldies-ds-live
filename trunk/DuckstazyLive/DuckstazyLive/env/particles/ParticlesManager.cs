@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using DuckstazyLive.app;
 using DuckstazyLive.core.graphics;
+using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive.env.particles
 {
@@ -16,7 +17,7 @@ namespace DuckstazyLive.env.particles
         BUBBLE, DROP, STAR
     }
 
-    public class ParticlesManager
+    public class ParticlesManager : Timer
     {        
         private const float LIFETIME_BUBBLE = 2.0f;        
         
@@ -43,9 +44,7 @@ namespace DuckstazyLive.env.particles
             alphaSpeeds = new float[maxParticlesCount];
             imageIds = new int[maxParticlesCount];
             lifeTimes = new float[maxParticlesCount];
-            colors = new Color[maxParticlesCount];
-
-            Console.WriteLine("Constructor");
+            colors = new Color[maxParticlesCount];            
         }
         
         public void Draw(RenderContext context)
@@ -95,8 +94,8 @@ namespace DuckstazyLive.env.particles
             
         }       
 
-        public void Update(float dt)
-        {            
+        public override void Update(float dt)
+        {
             int processedParticles = 0;
             int totalParticles = numParticles;            
 
@@ -165,6 +164,11 @@ namespace DuckstazyLive.env.particles
             int index = FindDead();
             if (index != -1)
             {
+                if (numParticles == 0)
+                {
+                    StartTimer();
+                }
+
                 types[index] = type;
                 imageIds[index] = imageId;
                 xs[index] = x;
@@ -182,6 +186,11 @@ namespace DuckstazyLive.env.particles
         {
             lifeTimes[index] = 0;
             numParticles--;
+
+            if (numParticles == 0)
+            {
+                StopTimer();
+            }
         }
 
         private int FindDead()
