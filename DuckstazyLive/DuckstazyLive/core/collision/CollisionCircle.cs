@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckstazyLive.core.collision
 {
-    public class CollisionCircle : ICollidable
+    public class CollisionCircle
     {
         private float cx;
         private float cy;
@@ -16,17 +16,7 @@ namespace DuckstazyLive.core.collision
             cx = centerX;
             cy = centerY;
             r = radius;
-        }
-
-        public bool Collides(CollisionRect other)
-        {
-            return CollisionHelper.CicleRectangleCollide(cx, cy, r, other.X, other.Y, other.Width, other.Height);
-        }
-
-        public bool Collides(CollisionCircle other)
-        {
-            return CollisionHelper.CirclesCollide(cx, cy, r, other.cx, other.cy, other.r);
-        }     
+        }        
 
         public float CenterX
         {

@@ -88,8 +88,6 @@
     <Compile Include="app\Constants.cs" />
     <Compile Include="core\collision\CollisionCircle.cs" />
     <Compile Include="core\collision\CollisionRect.cs" />
-    <Compile Include="core\collision\ComplexCollisionRect.cs" />
-    <Compile Include="core\collision\ICollidable.cs" />
     <Compile Include="core\collision\RectangleBounds.cs" />
     <Compile Include="core\GameObject.cs" />
     <Compile Include="core\graphics\GDebug.cs" />

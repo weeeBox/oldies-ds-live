@@ -36,6 +36,13 @@ namespace DuckstazyLive.pills
             {
                 Pill pill = pills[pillIndex];
                 UpdatePill(pill, dt);
+
+                if (hero.collidesWith(pill))
+                {
+                    FirePillRemoved(pill);
+                    RemovePill(pillIndex);
+                    pillIndex--;
+                }
             }
         }               
 
