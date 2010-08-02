@@ -8,7 +8,17 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.framework.graphics
 {
-    public enum GraphicsMode
+    public enum GraphicsAnchor
+    {
+        LEFT = 1,
+        RIGHT = 2,
+        TOP = 4,
+        BOTTOM = 8,
+        HCENTER = 16,
+        VCENTER = 32,
+    }
+
+    enum GraphicsMode
     {
         UNDEFINED, // uninitialized graphics mode
         SPRITE_BATCH, // begin drawing sprite batch
@@ -26,13 +36,22 @@ namespace DuckstazyLive.framework.graphics
         private BasicEffect basicEffect;
         private Effect customEffect;
 
-        GameGraphics(GraphicsDevice graphicsDevice)
+        public GameGraphics(GraphicsDevice graphicsDevice, float width, float height)
         {
             transformationStack = new Stack<Matrix>();
             this.graphicsDevice = graphicsDevice;
             spriteBatch = new SpriteBatch(graphicsDevice);
             basicEffect = new BasicEffect(graphicsDevice, null);
+            Matrix world = Matrix.Identity;
+            Matrix view = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+            Matrix projection = Matrix.CreateOrthographicOffCenter(0, width, height, 0, 1.0f, 1000.0f);
+            basicEffect.World = world;
+            basicEffect.View = view;
+            basicEffect.Projection = projection;
+            basicEffect.VertexColorEnabled = true;
+
             customEffect = null;
+            currentTransform = Matrix.Identity;
         }
 
         public void PopMatrix()
@@ -63,28 +82,43 @@ namespace DuckstazyLive.framework.graphics
         public void Scale(float scale)
         {
             Scale(scale, scale);
-        }        
+        }                
 
-        public void Begin(GraphicsMode mode)
+        public void Begin(Effect effect)
         {
-            if (mode != graphicsMode)
+            if (graphicsMode == GraphicsMode.SPRITE_BATCH || this.customEffect != effect)
             {
                 End();
-                if (mode == GraphicsMode.SPRITE_BATCH)
-                {
-                    spriteBatch.Begin();
-                }
-                else if (mode == GraphicsMode.BASIC_EFFECT)
-                {
-                    customEffect = basicEffect;
-                    customEffect.Begin();
-                    customEffect.CurrentTechnique.Passes[0].Begin();
-                }
-                graphicsMode = mode;
-            }
 
+                BeginEffect(effect);
+                graphicsMode = GraphicsMode.CUSTOM_EFFECT;
+            }
         }
 
+        public SpriteBatch GetSpriteBatch()
+        {
+            if (graphicsMode != GraphicsMode.SPRITE_BATCH)
+            {
+                End();
+                spriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, currentTransform);
+                graphicsMode = GraphicsMode.SPRITE_BATCH;
+            }
+
+            return spriteBatch;
+        }
+
+        public BasicEffect GetBasicEffect()
+        {
+            if (graphicsMode != GraphicsMode.BASIC_EFFECT)
+            {
+                End();
+                BeginEffect(basicEffect);
+                graphicsMode = GraphicsMode.BASIC_EFFECT;
+            }
+
+            return basicEffect;
+        }
+       
         public void End()
         {
             if (graphicsMode == GraphicsMode.SPRITE_BATCH)
@@ -98,6 +132,14 @@ namespace DuckstazyLive.framework.graphics
                 customEffect.End();
                 customEffect = null;
             }
+            graphicsMode = GraphicsMode.UNDEFINED;
+        }
+
+        private void BeginEffect(Effect effect)
+        {
+            customEffect = effect;
+            customEffect.Begin();
+            customEffect.CurrentTechnique.Passes[0].Begin();
         }
     }
 }

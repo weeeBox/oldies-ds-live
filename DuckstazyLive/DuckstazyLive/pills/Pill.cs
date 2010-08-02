@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
-using DuckstazyLive.core.graphics;
 using System.Diagnostics;
+using DuckstazyLive.framework.graphics;
+using DuckstazyLive.core.graphics;
 
 namespace DuckstazyLive.pills
 {

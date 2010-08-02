@@ -9,6 +9,7 @@ using System.Diagnostics;
 using DuckstazyLive.app;
 using DuckstazyLive.core.graphics;
 using DuckstazyLive.framework.core;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env.particles
 {

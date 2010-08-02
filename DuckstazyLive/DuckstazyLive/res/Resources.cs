@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using DuckstazyLive.core.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive
 {
@@ -39,12 +39,12 @@ namespace DuckstazyLive
             resources[Res.IMG_PILL_QUESTION] = new Image(content.Load<Texture2D>("pills\\pill_question"));
             resources[Res.IMG_PILL_STAR] = new Image(content.Load<Texture2D>("pills\\pill_star"));
             resources[Res.IMG_STAR] = new Image(content.Load<Texture2D>("star"));            
-            resources[Res.FONT_REGULAR] = content.Load<SpriteFont>("font_regular");            
+            resources[Res.FONT_REGULAR] = new Font(content.Load<SpriteFont>("font_regular"));            
         }       
 
-        public static SpriteFont GetSpriteFont(int id)
+        public static Font GetSpriteFont(int id)
         {
-            return (SpriteFont)instance.resources[id];
+            return (Font)instance.resources[id];
         }
 
         public static Texture2D GetTexture(int id)

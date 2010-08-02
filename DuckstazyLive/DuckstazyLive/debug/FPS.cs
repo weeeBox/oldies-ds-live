@@ -7,6 +7,7 @@ using DuckstazyLive.graphics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.framework.core;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.debug
 {
@@ -30,16 +31,12 @@ namespace DuckstazyLive.debug
             framesCount = 0;            
         }
 
-        public void Draw(RenderContext context)
+        public void Draw(GameGraphics g)
         {
             framesCount++;
 
-            SpriteFont font = Resources.GetSpriteFont(Res.FONT_REGULAR);
-
-            SpriteBatch batch = context.SpriteBatch;
-            batch.Begin();
-            batch.DrawString(font, "FPS: " + framesPerSecond, position, Color.White);
-            batch.End();
+            Font font = Resources.GetSpriteFont(Res.FONT_REGULAR);            
+            font.Draw(g, "FPS: " + framesPerSecond, position.X, position.Y);            
         }     
     }
 }
