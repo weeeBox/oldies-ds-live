@@ -5,25 +5,16 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.app;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env
 {
     public sealed class Grass
     {     
-        public void Draw()
+        public void Draw(GameGraphics g)
         {
-            Texture2D grass = Resources.GetTexture(Res.IMG_GRASS);
-            int width = grass.Width;
-            int height = grass.Height;
-
-            Rectangle source = new Rectangle(0, 0, App.Width, height);
-            Vector2 position = new Vector2(0, App.Height - (Constants.GROUND_HEIGHT + height));
-
-            SpriteBatch.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None);
-            GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
-            GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
-            SpriteBatch.Draw(grass, position, source, Color.White);
-            SpriteBatch.End();
+            Image grass = Resources.GetImage(Res.IMG_GRASS);
+            grass.DrawTiled(g, 0, App.Height - (Constants.GROUND_HEIGHT + grass.Height), App.Width, grass.Height);
         }
 
         private GraphicsDevice GraphicsDevice

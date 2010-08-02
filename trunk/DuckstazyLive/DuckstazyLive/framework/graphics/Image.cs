@@ -33,12 +33,12 @@ namespace DuckstazyLive.framework.graphics
         }
 #endregion
 #region Drawing
-        public void Draw(SpriteBatch batch, float x, float y)
+        public void Draw(GameGraphics g, float x, float y)
         {
-            Draw(batch, x, y, 0);
+            Draw(g, x, y, 0);
         }
 
-        public void Draw(SpriteBatch batch, float x, float y, GraphicsAnchor anchor)
+        public void Draw(GameGraphics g, float x, float y, GraphicsAnchor anchor)
         {
             if ((anchor & GraphicsAnchor.RIGHT) != 0)
             {
@@ -60,7 +60,19 @@ namespace DuckstazyLive.framework.graphics
 
             drawPosition.X = x;
             drawPosition.Y = y;
+            SpriteBatch batch = g.GetSpriteBatch();
             batch.Draw(texture, drawPosition, null, color, rotation, origin, scale, effects, 0);
+        }
+
+        public void DrawTiled(GameGraphics g, float x, float y, float width, float height)
+        {
+            Rectangle source = new Rectangle(0, 0, (int)width, (int)height);
+            Vector2 position = new Vector2(x, y);
+
+            SpriteBatch batch = g.GetSpriteBatch();
+            g.GraphicsDevice.SamplerStates[0].AddressU = TextureAddressMode.Wrap;
+            g.GraphicsDevice.SamplerStates[0].AddressV = TextureAddressMode.Wrap;
+            batch.Draw(texture, position, source, Color.White);
         }
 #endregion
 #region Methods

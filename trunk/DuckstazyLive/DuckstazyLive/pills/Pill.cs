@@ -61,7 +61,7 @@ namespace DuckstazyLive.pills
             }            
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(GameGraphics g)
         {
             Image baseImage = Resources.GetImage(Res.IMG_PILL_BASE);
             baseImage.SetOriginToCenter();
@@ -74,8 +74,8 @@ namespace DuckstazyLive.pills
 
             GDebug.DrawCircle(x, y, baseImage.Width / 2);
 
-            baseImage.Draw(batch, x, y);
-            pillImage.Draw(batch, x, y);
+            baseImage.Draw(g, x, y);
+            pillImage.Draw(g, x, y);
         }
 
         private Image GetPillImage(PillType type)

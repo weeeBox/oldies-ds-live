@@ -9,6 +9,7 @@ using DuckstazyLive.app;
 using DuckstazyLiveXbox.pills;
 using DuckstazyLive.pills.effects;
 using DuckstazyLive.framework.core;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.game
 {
@@ -55,25 +56,17 @@ namespace DuckstazyLive.game
             background = new Background(Constants.GROUND_HEIGHT);
         }
 
-        public void Draw(RenderContext renderContext)
+        public void Draw(GameGraphics g)
         {
-            background.DrawSky(renderContext);
+            background.DrawSky(g);
+            
+            pillsManager.Draw(g);
+            hero.Draw(g);                        
 
-            SpriteBatch spriteBatch = renderContext.SpriteBatch;
+            Application.Instance.Particles.Draw(g);            
 
-            spriteBatch.Begin();
-
-            pillsManager.Draw(spriteBatch);
-            hero.Draw(spriteBatch);
-            // pillsWave.Draw(spriteBatch);
-
-
-            spriteBatch.End();
-
-            Application.Instance.Particles.Draw(renderContext);
-
-            background.DrawGround(renderContext);
-            // wave.Draw();            
+            background.DrawGround(g);
+            // wave.Draw(g);            
         }
 
         public override void Update(float dt)

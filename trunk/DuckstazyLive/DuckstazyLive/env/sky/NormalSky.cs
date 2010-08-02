@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.graphics;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env.sky
 {
@@ -24,13 +25,10 @@ namespace DuckstazyLive.env.sky
             cloudsManager.Update(dt);            
         }
 
-        public override void Draw(RenderContext context)
+        public override void Draw(GameGraphics g)
         {
-            base.Draw(context);      
-            
-            context.SpriteBatch.Begin();            
-            cloudsManager.Draw(context.SpriteBatch);
-            context.SpriteBatch.End();
+            base.Draw(g);            
+            cloudsManager.Draw(g);            
         }        
     }
 }

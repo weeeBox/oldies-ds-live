@@ -84,7 +84,7 @@ namespace DuckstazyLive
             collision = new CollisionRect(0, 0, width, height);
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(GameGraphics g)
         {            
             float dx = App.Width / 2 + x;
             float dy = App.Height - Constants.GROUND_HEIGHT - y;                     
@@ -94,16 +94,16 @@ namespace DuckstazyLive
                 dy -= 2.0f;
             }
 
-            Draw(batch, dx, dy);
+            Draw(g, dx, dy);
             if (dx < - App.Width / 2)
             {
                 dx += App.Width;
-                Draw(batch, dx, dy);
+                Draw(g, dx, dy);
             }
             else if (dx > (App.Width - width) / 2)
             {
                 dx -= App.Width;
-                Draw(batch, dx, dy);
+                Draw(g, dx, dy);
             }
 
             // GDebug.DrawRect(x - 108 * 0.5f, App.Height - Constants.GROUND_HEIGHT - y - 84, 108, 84);
@@ -116,7 +116,7 @@ namespace DuckstazyLive
         }
 #endif
 
-        private void Draw(SpriteBatch batch, float x, float y)
+        private void Draw(GameGraphics g, float x, float y)
         {
             Image duck = Resources.GetImage(Res.IMG_DUCK);
 
@@ -125,7 +125,7 @@ namespace DuckstazyLive
             else
                 duck.ResetFlips();
 
-            duck.Draw(batch, x, y, GraphicsAnchor.HCENTER | GraphicsAnchor.VCENTER);
+            duck.Draw(g, x, y, GraphicsAnchor.HCENTER | GraphicsAnchor.VCENTER);
         }
 
         public void Update(float dt)

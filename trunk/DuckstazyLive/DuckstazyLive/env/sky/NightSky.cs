@@ -104,14 +104,10 @@ namespace DuckstazyLive.env.sky
             }
         }
 
-        public override void Draw(RenderContext context)
+        public override void Draw(GameGraphics g)
         {
-            base.Draw(context);
-
-            SpriteBatch batch = context.SpriteBatch;
-
-
-            batch.Begin();
+            base.Draw(g);
+            
             Image starImage = Resources.GetImage(Res.IMG_STAR);
             starImage.SetOriginToCenter();
 
@@ -122,9 +118,8 @@ namespace DuckstazyLive.env.sky
 
                 starImage.SetScale(starScale[starIndex]);
                 starImage.SetColor(starColor[starIndex]);
-                starImage.Draw(batch, drawX, drawY);
-            }
-            batch.End();
+                starImage.Draw(g, drawX, drawY);
+            }           
         }
     }
 }

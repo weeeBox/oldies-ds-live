@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env
 {
@@ -17,10 +18,10 @@ namespace DuckstazyLive.env
             grass = new Grass();
         }
 
-        public void Draw(RenderContext context)
+        public void Draw(GameGraphics g)
         {
-            ground.Draw(context);
-            grass.Draw();
+            ground.Draw(g);
+            grass.Draw(g);
         }
     }
 }

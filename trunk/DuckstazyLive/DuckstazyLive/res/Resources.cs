@@ -28,7 +28,7 @@ namespace DuckstazyLive
 
             resources = new object[Res.RESOURCES_COUNT];
             resources[Res.IMG_DUCK] = new Image(content.Load<Texture2D>("duck"));
-            resources[Res.IMG_GRASS] = content.Load<Texture2D>("grass");
+            resources[Res.IMG_GRASS] = new Image(content.Load<Texture2D>("grass"));
             resources[Res.EFFECT_WAVE] = content.Load<Effect>("shaders\\WaveEffect");
             resources[Res.EFFECT_RADIAL] = content.Load<Effect>("shaders\\RadialSkyShader");
             resources[Res.IMG_SKY_CLOUD_1] = new Image(content.Load<Texture2D>("cloud_1"));
