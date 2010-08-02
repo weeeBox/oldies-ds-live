@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env.sky
 {
@@ -25,9 +26,9 @@ namespace DuckstazyLive.env.sky
             backfill = new GradientRect(0.0f, 0.0f, width, height, upperColor, lowerColor);            
         }
 
-        public virtual void Draw(RenderContext context)
+        public virtual void Draw(GameGraphics g)
         {
-            backfill.Draw(context);
+            backfill.Draw(g);
         }
 
         public virtual void Update(float dt) {}

@@ -96,20 +96,20 @@ namespace DuckstazyLive.env.sky
             elapsedTimes[cloudIndex] += dt;
         }
 
-        public void Draw(SpriteBatch batch)
+        public void Draw(GameGraphics g)
         {
             for (int cloudIndex = 0; cloudIndex < velocity.Length; cloudIndex++)
             {
-                DrawCloud(cloudIndex, ref batch);
+                DrawCloud(g, cloudIndex);
             }
         }
 
-        private void DrawCloud(int cloudIndex, ref SpriteBatch batch)
+        private void DrawCloud(GameGraphics g, int cloudIndex)
         {
             Image img = Resources.GetImage(imageIds[cloudIndex]);            
             img.SetOriginToCenter();
             img.Scale(scaleX[cloudIndex], scaleY[cloudIndex]);
-            img.Draw(batch, x[cloudIndex], y[cloudIndex]);
+            img.Draw(g, x[cloudIndex], y[cloudIndex]);
         }
 
         private Image GetCloudImage(int cloudIndex)

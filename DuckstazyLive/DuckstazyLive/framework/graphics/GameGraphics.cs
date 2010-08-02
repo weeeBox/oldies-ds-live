@@ -35,16 +35,20 @@ namespace DuckstazyLive.framework.graphics
         private SpriteBatch spriteBatch;
         private BasicEffect basicEffect;
         private Effect customEffect;
+        private Matrix world;
+        private Matrix view;
+        private Matrix projection;
 
         public GameGraphics(GraphicsDevice graphicsDevice, float width, float height)
         {
             transformationStack = new Stack<Matrix>();
-            this.graphicsDevice = graphicsDevice;
+            this.graphicsDevice = graphicsDevice;            
+
             spriteBatch = new SpriteBatch(graphicsDevice);
             basicEffect = new BasicEffect(graphicsDevice, null);
-            Matrix world = Matrix.Identity;
-            Matrix view = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-            Matrix projection = Matrix.CreateOrthographicOffCenter(0, width, height, 0, 1.0f, 1000.0f);
+            world = Matrix.Identity;
+            view = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+            projection = Matrix.CreateOrthographicOffCenter(0, width, height, 0, 1.0f, 1000.0f);
             basicEffect.World = world;
             basicEffect.View = view;
             basicEffect.Projection = projection;
@@ -107,16 +111,24 @@ namespace DuckstazyLive.framework.graphics
             return spriteBatch;
         }
 
-        public BasicEffect GetBasicEffect()
+        public void BeginEffect(Effect effect)
+        {
+            if (graphicsMode != GraphicsMode.CUSTOM_EFFECT || customEffect != effect)
+            {
+                End();
+                BeginEffectHelper(effect);
+                graphicsMode = GraphicsMode.CUSTOM_EFFECT;
+            }
+        }
+
+        public void BeginBasicEffect()
         {
             if (graphicsMode != GraphicsMode.BASIC_EFFECT)
             {
                 End();
-                BeginEffect(basicEffect);
+                BeginEffectHelper(basicEffect);
                 graphicsMode = GraphicsMode.BASIC_EFFECT;
-            }
-
-            return basicEffect;
+            }            
         }
        
         public void End()
@@ -135,11 +147,31 @@ namespace DuckstazyLive.framework.graphics
             graphicsMode = GraphicsMode.UNDEFINED;
         }
 
-        private void BeginEffect(Effect effect)
+        private void BeginEffectHelper(Effect effect)
         {
             customEffect = effect;
             customEffect.Begin();
             customEffect.CurrentTechnique.Passes[0].Begin();
+        }
+
+        public GraphicsDevice GraphicsDevice
+        {
+            get { return graphicsDevice; }
+        }
+
+        public Matrix WorldMatrix
+        {
+            get { return world; }
+        }
+
+        public Matrix ViewMatrix
+        {
+            get { return view; }
+        }
+
+        public Matrix ProjectionMatrix
+        {
+            get { return projection; }
         }
     }
 }

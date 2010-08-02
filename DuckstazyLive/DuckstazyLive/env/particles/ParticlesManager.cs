@@ -48,11 +48,8 @@ namespace DuckstazyLive.env.particles
             colors = new Color[maxParticlesCount];            
         }
         
-        public void Draw(RenderContext context)
-        {
-            SpriteBatch b = context.SpriteBatch;
-            b.Begin();
-
+        public void Draw(GameGraphics g)
+        {            
             int processedParticles = 0;
             int totalParticles = numParticles;
             
@@ -60,15 +57,13 @@ namespace DuckstazyLive.env.particles
             {
                 if (!IsDead(particleIndex))                
                 {
-                    DrawParticle(b, particleIndex);
+                    DrawParticle(g, particleIndex);
                     processedParticles++;
                 }                
-            }           
-
-            b.End();
+            }         
         }
 
-        private void DrawParticle(SpriteBatch batch, int index)
+        private void DrawParticle(GameGraphics g, int index)
         {
             int imageId = imageIds[index];
             Image image = Resources.GetImage(imageId);
@@ -88,7 +83,7 @@ namespace DuckstazyLive.env.particles
                     image.SetScale(scale);
                     image.SetColor(color);
                     image.SetOriginToCenter();                        
-                    image.Draw(batch, x, y);
+                    image.Draw(g, x, y);
                 }
                     break;
             }

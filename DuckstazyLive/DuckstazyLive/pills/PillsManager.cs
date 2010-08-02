@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using DuckstazyLive.core.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.pills
 {
@@ -121,11 +122,11 @@ namespace DuckstazyLive.pills
 
         #region Drawing
 
-        public virtual void Draw(SpriteBatch batch)
+        public virtual void Draw(GameGraphics g)
         {
             for (int pillIndex = 0; pillIndex < pillsCount; pillIndex++)
             {
-                pills[pillIndex].Draw(batch);
+                pills[pillIndex].Draw(g);
             }
         }
 

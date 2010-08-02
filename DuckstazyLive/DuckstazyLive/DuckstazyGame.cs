@@ -20,6 +20,7 @@ using DuckstazyLive.game;
 using DuckstazyLive.core.graphics;
 using DuckstazyLive.debug;
 using DuckstazyLive.framework.core;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive
 {
@@ -31,7 +32,7 @@ namespace DuckstazyLive
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;       
 
-        RenderContext renderContext;
+        GameGraphics gameGraphics;
         Engine engine;
         FPS fps;
         Application application;
@@ -78,15 +79,11 @@ namespace DuckstazyLive
             InitializeMatrices(out worldMatrix, out viewMatrix, out projectionMatrix);
             BasicEffect basicEffect = InitializeEffect(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
 
-            renderContext = new RenderContext(spriteBatch, basicEffect);
-
-            Camera camera = new Camera(worldMatrix, viewMatrix, projectionMatrix);
-            application.Camera = camera;
-
+            gameGraphics = new GameGraphics(GraphicsDevice, bufferWidth, bufferHeight);
             engine = new Engine(0, 0, application.Width, application.Height - Constants.GROUND_HEIGHT);
 
             Console.WriteLine(application.Width + " " + application.Height);
-            GDebug.Init(GraphicsDevice, basicEffect);
+            GDebug.Init(GraphicsDevice);
             
             fps = new FPS(0.2f, 20, 20);            
 
@@ -149,16 +146,16 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            GraphicsDevice.RenderState.MultiSampleAntiAlias = true;
+            GraphicsDevice.Clear(Color.CornflowerBlue);            
 
-            engine.Draw(renderContext);            
+            engine.Draw(gameGraphics);            
 
 #if DEBUG
-            GDebug.Flush();
+            GDebug.Flush(gameGraphics);
 #endif
 
-            fps.Draw(renderContext);
+            fps.Draw(gameGraphics);
+            gameGraphics.End();
                 
             base.Draw(gameTime);
         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.core.graphics
 {
@@ -14,15 +15,11 @@ namespace DuckstazyLive.core.graphics
         private static VertexPositionColor[] vertices = new VertexPositionColor[100];        
         private static int verticesCount;
 
-        private static Color color = Color.White;
-        private static GraphicsDevice device;
-        private static VertexDeclaration vertexDeclaration;
-        private static BasicEffect effect;
+        private static Color color = Color.White;        
+        private static VertexDeclaration vertexDeclaration;        
         
-        public static void Init(GraphicsDevice device, BasicEffect effect)
-        {
-            GDebug.device = device;
-            GDebug.effect = effect;
+        public static void Init(GraphicsDevice device)
+        {            
             vertexDeclaration = new VertexDeclaration(device, VertexPositionColor.VertexElements);
         }
 
@@ -63,22 +60,13 @@ namespace DuckstazyLive.core.graphics
             }
         }
 
-        public static void Flush()
+        public static void Flush(GameGraphics g)
         {
             if (verticesCount > 0)
             {
-                device.VertexDeclaration = vertexDeclaration;
-                effect.VertexColorEnabled = true;
-
-                effect.Begin();
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    pass.Begin();
-                    device.DrawUserPrimitives(PrimitiveType.LineList, vertices, 0, verticesCount / 2);
-                    pass.End();
-                }
-                effect.End();
-
+                g.BeginBasicEffect();
+                g.GraphicsDevice.VertexDeclaration = vertexDeclaration;                
+                g.GraphicsDevice.DrawUserPrimitives(PrimitiveType.LineList, vertices, 0, verticesCount / 2);
                 verticesCount = 0;
             }
         }                

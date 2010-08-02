@@ -18,7 +18,7 @@ namespace DuckstazyLive
         private int height;
         private GraphicsDevice graphicsDevice;
         private SpriteBatch spriteBatch;
-        private Camera camera;
+        
         private ParticlesManager particles;
         private Random random;
         private InputManager inputManager;
@@ -65,13 +65,7 @@ namespace DuckstazyLive
         {
             get { return spriteBatch; }
             set { spriteBatch = value; }
-        }
-
-        public Camera Camera
-        {
-            get { return camera; }
-            set { camera = value; }
-        }
+        }        
 
         public ParticlesManager Particles
         {

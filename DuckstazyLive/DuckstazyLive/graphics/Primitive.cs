@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.graphics
 {
@@ -27,18 +28,19 @@ namespace DuckstazyLive.graphics
             this.primitivesCount = primitivesCount;
         }
 
-        public void Draw(Effect effect)
+        public void Draw(GameGraphics g)
+        {
+            g.BeginBasicEffect();
+            g.GraphicsDevice.VertexDeclaration = vertexDeclaration;
+            g.GraphicsDevice.DrawUserIndexedPrimitives(primitiveType, vertices, 0, vertices.Length, indices, 0, primitivesCount);
+        }              
+
+        public void Draw(GameGraphics g, Effect effect)
         {
             GraphicsDevice.VertexDeclaration = vertexDeclaration;
 
-            effect.Begin();
-            foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-            {
-                pass.Begin();
-                GraphicsDevice.DrawUserIndexedPrimitives(primitiveType, vertices, 0, vertices.Length, indices, 0, primitivesCount);
-                pass.End();
-            }
-            effect.End();
+            g.BeginEffect(effect);                        
+            GraphicsDevice.DrawUserIndexedPrimitives(primitiveType, vertices, 0, vertices.Length, indices, 0, primitivesCount);            
         }              
 
         protected VertexPositionColor[] Vertices

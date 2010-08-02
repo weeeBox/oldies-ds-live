@@ -46,8 +46,7 @@ namespace DuckstazyLive.framework.graphics
             drawPosition.Y = y;
 
             SpriteBatch batch = g.GetSpriteBatch();
-            batch.DrawString(font, str, drawPosition, Color.White);
-            g.End();
+            batch.DrawString(font, str, drawPosition, Color.White);            
         }
     }
 }

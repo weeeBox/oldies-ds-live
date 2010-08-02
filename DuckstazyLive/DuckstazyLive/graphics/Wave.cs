@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.graphics
 {
@@ -55,12 +56,12 @@ namespace DuckstazyLive.graphics
             elapsed += dt;        
         }             
 
-        public void Draw()
+        public void Draw(GameGraphics g)
         {
             Effect customEffect = Resources.GetEffect(Res.EFFECT_WAVE);
-            customEffect.Parameters["World"].SetValue(Camera.World);
-            customEffect.Parameters["View"].SetValue(Camera.View);
-            customEffect.Parameters["Projection"].SetValue(Camera.Projection);
+            customEffect.Parameters["World"].SetValue(g.WorldMatrix);
+            customEffect.Parameters["View"].SetValue(g.ViewMatrix);
+            customEffect.Parameters["Projection"].SetValue(g.ProjectionMatrix);
             customEffect.Parameters["Timer"].SetValue(elapsed);            
             customEffect.Parameters["Amplitude"].SetValue(20.0f);
             customEffect.Parameters["WaveLength"].SetValue(Application.Instance.Width);
@@ -68,12 +69,7 @@ namespace DuckstazyLive.graphics
             customEffect.Parameters["Top"].SetValue(0);
             customEffect.Parameters["Phase"].SetValue(0.3f);
             customEffect.Parameters["Color"].SetValue(new Color(93, 49, 12).ToVector4());
-            wave.Draw(customEffect);            
-        }
-
-        private Camera Camera
-        {
-            get { return Application.Instance.Camera; }
-        }
+            wave.Draw(g, customEffect);            
+        }        
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.env;
 using DuckstazyLive.graphics;
 using DuckstazyLive.env.sky;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive
 {
@@ -36,14 +37,14 @@ namespace DuckstazyLive
             sky.Update(dt);
         }
 
-        public void DrawSky(RenderContext context)
+        public void DrawSky(GameGraphics g)
         {
-            sky.Draw(context);
+            sky.Draw(g);
         }             
 
-        public void DrawGround(RenderContext context)
+        public void DrawGround(GameGraphics g)
         {
-            ground.Draw(context);
+            ground.Draw(g);
         }
 
         private Application App

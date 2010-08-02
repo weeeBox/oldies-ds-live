@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.core.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.pills.effects
 {
@@ -75,13 +76,13 @@ namespace DuckstazyLive.pills.effects
             pill.y = baseY + (float)(amplitude * Math.Sin(omega * (t - MathHelper.TwoPi / lambda * pill.x)));
         }
 
-        public override void Draw(SpriteBatch batch)
+        public override void Draw(GameGraphics g)
         {
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
             {
                 Pill pill = pills[pillIndex];
                 if (pill.delay <= 0.0f)
-                    pill.Draw(batch);
+                    pill.Draw(g);
             }
         }        
     }

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.graphics;
 using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env.sky
 {
@@ -79,23 +80,23 @@ namespace DuckstazyLive.env.sky
             Matrix.CreateRotationZ(rotation, out rotate);           
         }
 
-        public override void Draw(RenderContext context)
+        public override void Draw(GameGraphics g)
         {
-            base.Draw(context);
+            base.Draw(g);
 
-            Matrix transform = context.BasicEffect.World;
+            Matrix transform = g.WorldMatrix;
             transform = Matrix.Multiply(transform, rotate);
             transform = Matrix.Multiply(transform, translate);
 
             effect.Parameters["World"].SetValue(transform);
-            effect.Parameters["View"].SetValue(context.BasicEffect.View);
-            effect.Parameters["Projection"].SetValue(context.BasicEffect.Projection);
+            effect.Parameters["View"].SetValue(g.ViewMatrix);
+            effect.Parameters["Projection"].SetValue(g.ProjectionMatrix);
             effect.Parameters["UpperColor"].SetValue(upperColor);
             effect.Parameters["LowerColor"].SetValue(lowerColor);
             effect.Parameters["Height"].SetValue(height);
 
-            raysPrimitive.Draw(effect);
-            circle.Draw(effect);
+            raysPrimitive.Draw(g, effect);
+            circle.Draw(g, effect);
         }
     }
 }

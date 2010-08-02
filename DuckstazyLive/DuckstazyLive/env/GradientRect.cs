@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive
 {
@@ -49,9 +50,9 @@ namespace DuckstazyLive
             }
         }
 
-        public void Draw(RenderContext context)
+        public void Draw(GameGraphics g)
         {
-            primitive.Draw(context.BasicEffect);
+            primitive.Draw(g);
         }
 
         public float GetX()
