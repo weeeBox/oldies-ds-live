@@ -7,6 +7,7 @@ using DuckstazyLive.core.input;
 using DuckstazyLive.core.graphics;
 using DuckstazyLive.pills;
 using DuckstazyLive.core.collision;
+using DuckstazyLive.framework.graphics;
 namespace DuckstazyLive
 {
     public class Hero : InputAdapter
@@ -123,8 +124,8 @@ namespace DuckstazyLive
                 duck.FlipHorizontal();
             else
                 duck.ResetFlips();
-            
-            duck.Draw(batch, x, y, Image.HCENTER | Image.VCENTER);
+
+            duck.Draw(batch, x, y, GraphicsAnchor.HCENTER | GraphicsAnchor.VCENTER);
         }
 
         public void Update(float dt)

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using DuckstazyLive.core.graphics;
 using System.Diagnostics;
 using DuckstazyLive.graphics;
+using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.env.sky
 {

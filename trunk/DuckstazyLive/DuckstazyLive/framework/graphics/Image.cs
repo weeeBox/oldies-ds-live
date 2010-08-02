@@ -5,18 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace DuckstazyLive.core.graphics
+namespace DuckstazyLive.framework.graphics
 {
     public class Image : IDisposable
     {
-#region Constants
-        public static readonly int LEFT = 1;
-        public static readonly int RIGHT = 2;
-        public static readonly int TOP = 4;
-        public static readonly int BOTTOM = 8;
-        public static readonly int HCENTER = 16;
-        public static readonly int VCENTER = 32;
-#endregion
 #region Fields
 
         Texture2D texture;
@@ -46,22 +38,22 @@ namespace DuckstazyLive.core.graphics
             Draw(batch, x, y, 0);
         }
 
-        public void Draw(SpriteBatch batch, float x, float y, int anchor)
+        public void Draw(SpriteBatch batch, float x, float y, GraphicsAnchor anchor)
         {
-            if ((anchor & RIGHT) != 0)
+            if ((anchor & GraphicsAnchor.RIGHT) != 0)
             {
                 x -= Width;
             }
-            else if ((anchor & HCENTER) != 0)
+            else if ((anchor & GraphicsAnchor.HCENTER) != 0)
             {
                 x -= Width >> 1;
             }
 
-            if ((anchor & BOTTOM) != 0)
+            if ((anchor & GraphicsAnchor.BOTTOM) != 0)
             {
                 y -= Height;
             }
-            else if ((anchor & VCENTER) != 0)
+            else if ((anchor & GraphicsAnchor.VCENTER) != 0)
             {
                 y -= Height >> 1;
             }
