@@ -28,9 +28,8 @@ namespace DuckstazyLive
 
         private static readonly float ACC_X = 10; // ускорение по оси oX
         private static readonly float ACC_Y = -400; // ускорение по оси oY       
-
-        private static readonly float DUCK_Y_OFFSET = -7;
-        private static readonly float Y_MIN = 0.5f * height + DUCK_Y_OFFSET;
+        
+        private static readonly float Y_MIN = 0;
         
         // TODO: add y_max
 
@@ -83,14 +82,14 @@ namespace DuckstazyLive
             origin = new Vector2(width / 2.0f, 0);
 
             x = 0;
-            y = height / 2 + DUCK_Y_OFFSET;
+            y = 0;
 
             collision = new CollisionRect(0, 0, width, height);
         }
 
         public void Draw(GameGraphics g)
         {            
-            float dx = world.ToScreenX(world.Width / 2 + x);
+            float dx = world.ToScreenX(x);
             float dy = world.ToScreenY(y);                     
 
             if (steppingDistance > 2 && !flying)
@@ -99,12 +98,12 @@ namespace DuckstazyLive
             }
 
             Draw(g, dx, dy);
-            if (dx < - world.Width / 2)
+            if (dx < -0.5f * world.Width)
             {
                 dx += world.Width;
                 Draw(g, dx, dy);
             }
-            else if (dx > (world.Width - width) / 2)
+            else if (dx > 0.5f * world.Width)
             {
                 dx -= world.Width;
                 Draw(g, dx, dy);
@@ -122,7 +121,7 @@ namespace DuckstazyLive
             else
                 duck.ResetFlips();
 
-            duck.Draw(g, x, y, GraphicsAnchor.HCENTER | GraphicsAnchor.VCENTER);
+            duck.Draw(g, x, y, GraphicsAnchor.HCENTER | GraphicsAnchor.BOTTOM);
         }
 
         public void Update(float dt)
@@ -351,7 +350,7 @@ namespace DuckstazyLive
 
         private void doStepBubbles()
         {
-            float particleX = world.ToScreenX(world.Width / 2 + (flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X)));
+            float particleX = world.ToScreenX(flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X));
             float particleY = world.ToScreenY(STEP_BUBBLE_OFFSET_Y);
             Application.Instance.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
         }
@@ -361,7 +360,7 @@ namespace DuckstazyLive
             int particlesCount = Math.Abs((int)(vy / 20));
             for (int i = 0; i < particlesCount; i++)
             {
-                float particleX = world.ToScreenX(world.Width / 2 + (x + 0.5f * width * Application.Instance.GetRandomFloat()));
+                float particleX = world.ToScreenX(x + 0.5f * width * Application.Instance.GetRandomFloat());
                 float particleY = world.ToScreenY(STEP_BUBBLE_OFFSET_Y);
                 Application.Instance.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
             }

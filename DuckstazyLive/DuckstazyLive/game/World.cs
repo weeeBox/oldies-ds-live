@@ -22,12 +22,12 @@ namespace DuckstazyLive.game
 
         public float ToScreenX(float worldX)
         {
-            return worldX;
+            return 0.5f * width + worldX;
         }
 
         public float ToScreenY(float worldY)
         {
-            return -worldY;
+            return height - worldY;
         }
 
         public float X

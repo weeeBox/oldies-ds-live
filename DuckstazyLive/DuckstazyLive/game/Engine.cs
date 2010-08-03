@@ -52,16 +52,12 @@ namespace DuckstazyLive.game
 
         public void Draw(GameGraphics g)
         {
-            background.DrawSky(g);
-
-            g.PushMatrix();            
-            g.Translate(0, App.Height - Constants.GROUND_HEIGHT);           
+            background.DrawSky(g);            
 
             pillsManager.Draw(g);
             hero.Draw(g);
 
-            Application.Instance.Particles.Draw(g);
-            g.PopMatrix();
+            Application.Instance.Particles.Draw(g);           
 
             background.DrawGround(g);
             // wave.Draw(g);            
