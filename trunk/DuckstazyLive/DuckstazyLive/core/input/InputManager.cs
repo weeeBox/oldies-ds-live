@@ -10,8 +10,6 @@ namespace DuckstazyLive.core.input
 {
     public class InputManager : Timer
     {
-        private static readonly float REFRESH_RATE = 0.75f;
-
         private KeyboardState keyboardState;
         private GamePadState gamePadState;
         private List<InputListener> listeners;
@@ -35,7 +33,7 @@ namespace DuckstazyLive.core.input
             Buttons.DPadRight,
         };
 
-        public InputManager() : base(REFRESH_RATE)
+        public InputManager()
         {
             keyboardState = Keyboard.GetState();
             gamePadState = GamePad.GetState(PlayerIndex.One);
