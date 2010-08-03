@@ -60,6 +60,7 @@ namespace DuckstazyLive.framework.graphics
 
         public void PopMatrix()
         {
+            End();
             currentTransform = transformationStack.Pop();
         }
 
@@ -70,6 +71,7 @@ namespace DuckstazyLive.framework.graphics
 
         public void AddTransform(Matrix m)
         {
+            End();
             Matrix.Multiply(ref currentTransform, ref m, out currentTransform);
         }
 
@@ -87,6 +89,11 @@ namespace DuckstazyLive.framework.graphics
         {
             Scale(scale, scale);
         }                
+
+        public void Rotate(float radians)
+        {
+            AddTransform(Matrix.CreateRotationZ(radians));
+        }
 
         public void Begin(Effect effect)
         {

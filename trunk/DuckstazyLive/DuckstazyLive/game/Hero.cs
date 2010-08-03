@@ -87,7 +87,7 @@ namespace DuckstazyLive
         public void Draw(GameGraphics g)
         {            
             float dx = App.Width / 2 + x;
-            float dy = App.Height - Constants.GROUND_HEIGHT - y;                     
+            float dy = -y;                     
 
             if (steppingDistance > 2 && !flying)
             {
@@ -355,7 +355,7 @@ namespace DuckstazyLive
         private void doStepBubbles()
         {
             float particleX = App.Width / 2 + (flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X));
-            float particleY = STEP_BUBBLE_OFFSET_Y + (Application.Instance.Height - Constants.GROUND_HEIGHT);
+            float particleY = STEP_BUBBLE_OFFSET_Y;
             App.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
         }
 
@@ -365,7 +365,7 @@ namespace DuckstazyLive
             for (int i = 0; i < particlesCount; i++)
             {
                 float particleX = App.Width / 2 + (x + 0.5f * width * App.GetRandomFloat());
-                float particleY = STEP_BUBBLE_OFFSET_Y + (Application.Instance.Height - Constants.GROUND_HEIGHT);
+                float particleY = STEP_BUBBLE_OFFSET_Y;
                 App.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
             }
         }
