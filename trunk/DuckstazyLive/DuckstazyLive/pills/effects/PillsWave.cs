@@ -51,7 +51,7 @@ namespace DuckstazyLive.pills.effects
             float spawnTime = SPAWN_TIMEOUT;
 
             float pillX = x;
-            float pillY = -(y + height / 2f);
+            float pillY = y + 0.5f * height;
             for (int pillIndex = 0; pillIndex < pills.Length; pillIndex++)
             {
                 Pill pill = pills[pillIndex];
