@@ -10,6 +10,7 @@ using DuckstazyLiveXbox.pills;
 using DuckstazyLive.pills.effects;
 using DuckstazyLive.framework.core;
 using DuckstazyLive.framework.graphics;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
@@ -59,11 +60,15 @@ namespace DuckstazyLive.game
         public void Draw(GameGraphics g)
         {
             background.DrawSky(g);
-            
+
+            g.PushMatrix();            
+            g.Translate(0, App.Height - Constants.GROUND_HEIGHT);           
+
             pillsManager.Draw(g);
             hero.Draw(g);                        
 
-            Application.Instance.Particles.Draw(g);            
+            //Application.Instance.Particles.Draw(g);
+            g.PopMatrix();
 
             background.DrawGround(g);
             // wave.Draw(g);            
