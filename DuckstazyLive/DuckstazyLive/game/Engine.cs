@@ -21,18 +21,12 @@ namespace DuckstazyLive.game
         private Wave wave;
 
         private PillsManager pillsManager;
-        private float x;
-        private float y;
-        private float width;
-        private float height;
+        private World world;        
 
         public Engine(float x, float y, float width, float height)
-        {
-            hero = new Hero();
-            this.x = x;
-            this.y = y;
-            this.width = width;
-            this.height = height;
+        {            
+            world = new World(x, y, width, height);
+            hero = new Hero(world);
 
             float waveWidth = width;
             float waveHeight = 2 * 22.5f;
@@ -42,11 +36,10 @@ namespace DuckstazyLive.game
 
             App.InputManager.AddInputListener(hero);
 
-
-            float pillsOffsetX = Application.Instance.Width / 16f;
+            float pillsOffsetX = width / 16f;
             float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
 
-            pillsManager = new PillsWave(hero, pillsOffsetX, 400, Application.Instance.Width - 2 * pillsOffsetX, 15, 15);
+            pillsManager = new PillsWave(hero, pillsOffsetX, 400, width - 2 * pillsOffsetX, 15, 15);
             pillsManager.AddPillListener(new PillParticles());
 
             StartTimer();
@@ -65,9 +58,9 @@ namespace DuckstazyLive.game
             g.Translate(0, App.Height - Constants.GROUND_HEIGHT);           
 
             pillsManager.Draw(g);
-            hero.Draw(g);                        
+            hero.Draw(g);
 
-            //Application.Instance.Particles.Draw(g);
+            Application.Instance.Particles.Draw(g);
             g.PopMatrix();
 
             background.DrawGround(g);

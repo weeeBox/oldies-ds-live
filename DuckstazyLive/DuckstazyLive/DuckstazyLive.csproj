@@ -113,6 +113,7 @@
     <Compile Include="framework\resources\Resources.cs" />
     <Compile Include="game\Engine.cs" />
     <Compile Include="game\Hero.cs" />
+    <Compile Include="game\World.cs" />
     <Compile Include="graphics\Circle.cs" />
     <Compile Include="graphics\Primitive.cs" />
     <Compile Include="graphics\Wave.cs" />

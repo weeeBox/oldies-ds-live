@@ -8,6 +8,7 @@ using DuckstazyLive.core.graphics;
 using DuckstazyLive.pills;
 using DuckstazyLive.core.collision;
 using DuckstazyLive.framework.graphics;
+using DuckstazyLive.game;
 namespace DuckstazyLive
 {
     public class Hero : InputAdapter
@@ -71,11 +72,14 @@ namespace DuckstazyLive
 
         private bool steping;
         private bool flipped;
+        private World world;
         
         private float steppingDistance;
 
-        public Hero()
-        {            
+        public Hero(World world)
+        {
+            this.world = world;
+
             origin = new Vector2(width / 2.0f, 0);
 
             x = 0;
@@ -86,8 +90,8 @@ namespace DuckstazyLive
 
         public void Draw(GameGraphics g)
         {            
-            float dx = App.Width / 2 + x;
-            float dy = -y;                     
+            float dx = world.ToScreenX(world.Width / 2 + x);
+            float dy = world.ToScreenY(y);                     
 
             if (steppingDistance > 2 && !flying)
             {
@@ -95,26 +99,19 @@ namespace DuckstazyLive
             }
 
             Draw(g, dx, dy);
-            if (dx < - App.Width / 2)
+            if (dx < - world.Width / 2)
             {
-                dx += App.Width;
+                dx += world.Width;
                 Draw(g, dx, dy);
             }
-            else if (dx > (App.Width - width) / 2)
+            else if (dx > (world.Width - width) / 2)
             {
-                dx -= App.Width;
+                dx -= world.Width;
                 Draw(g, dx, dy);
             }
 
             // GDebug.DrawRect(x - 108 * 0.5f, App.Height - Constants.GROUND_HEIGHT - y - 84, 108, 84);
         }
-
-#if DEBUG
-        private void DrawDebug()
-        {
-            GDebug.DrawRect(collision.X, App.Height - Constants.GROUND_HEIGHT - collision.Y, collision.Width, collision.Height);
-        }
-#endif
 
         private void Draw(GameGraphics g, float x, float y)
         {
@@ -129,7 +126,7 @@ namespace DuckstazyLive
         }
 
         public void Update(float dt)
-        {
+        {            
             UpdateGamepadInput();
             UpdateHorizontalPosition(dt);
             UpdateVerticalPosition(dt);
@@ -227,9 +224,9 @@ namespace DuckstazyLive
             x += dx;
             
             if (x < -width)
-                x += App.Width;
-            if (x > (App.Width - width))
-                x -= App.Width;
+                x += world.Width;
+            if (x > (world.Width - width))
+                x -= world.Width;
         }
 
         private void UpdateVerticalPosition(float dt)
@@ -354,9 +351,9 @@ namespace DuckstazyLive
 
         private void doStepBubbles()
         {
-            float particleX = App.Width / 2 + (flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X));
-            float particleY = STEP_BUBBLE_OFFSET_Y;
-            App.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
+            float particleX = world.ToScreenX(world.Width / 2 + (flipped ? (x - STEP_BUBBLE_OFFSET_X): (x + STEP_BUBBLE_OFFSET_X)));
+            float particleY = world.ToScreenY(STEP_BUBBLE_OFFSET_Y);
+            Application.Instance.Particles.StartBubble(particleX, particleY, COLOR_STEP_BUBBLE);
         }
 
         private void doLandBubble(float vy)
@@ -364,25 +361,20 @@ namespace DuckstazyLive
             int particlesCount = Math.Abs((int)(vy / 20));
             for (int i = 0; i < particlesCount; i++)
             {
-                float particleX = App.Width / 2 + (x + 0.5f * width * App.GetRandomFloat());
-                float particleY = STEP_BUBBLE_OFFSET_Y;
-                App.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
+                float particleX = world.ToScreenX(world.Width / 2 + (x + 0.5f * width * Application.Instance.GetRandomFloat()));
+                float particleY = world.ToScreenY(STEP_BUBBLE_OFFSET_Y);
+                Application.Instance.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
             }
         }
 
         public bool collidesWith(Pill pill)
         {
             return false;
-        }
-
-        private Application App
-        {
-            get { return Application.Instance; }
-        }
+        }        
 
         private InputManager InputManager
         {
-            get { return App.InputManager; }
+            get { return Application.Instance.InputManager; }
         }
     }    
 }
