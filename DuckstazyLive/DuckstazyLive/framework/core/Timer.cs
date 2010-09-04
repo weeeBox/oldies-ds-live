@@ -85,6 +85,8 @@ namespace DuckstazyLive.framework.core
 
             TimerManager.getInstance().addTimer(this);
             timerState = TimerState.RUNNING;
+
+            fireTimerStarted();
         }
 
         public void pauseTimer()
@@ -92,18 +94,23 @@ namespace DuckstazyLive.framework.core
             Debug.Assert(isTimerPaused());
 
             timerState = TimerState.PAUSED;
+            fireTimerPaused();
         }
 
         public void resumeTimer()
         {
             Debug.Assert(isTimerPaused());
             timerState = TimerState.RUNNING;
+
+            fireTimerResumed();
         }
 
         public void stopTimer()
         {
             Debug.Assert(!isTimerStopped());
             timerState = TimerState.STOPPED;
+
+            fireTimerStopped();
         }
 
 	    public void restartTimer()
