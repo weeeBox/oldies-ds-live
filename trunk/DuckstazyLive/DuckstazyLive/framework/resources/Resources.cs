@@ -30,7 +30,7 @@ namespace DuckstazyLive.framework.resources
         public ResourceType type;
     }
 
-    public class ResourceManager : Timer
+    public class ResourceManager
     {
         private ContentManager contentManager;
         private object[] resources;
@@ -43,7 +43,7 @@ namespace DuckstazyLive.framework.resources
             loadingQueue = new List<ResourceLoadingInfo>(maxResourcesCount);
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             
         }

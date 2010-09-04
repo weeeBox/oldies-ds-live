@@ -1,4 +1,5 @@
 using System;
+using DuckstazyLive.foobar;
 
 namespace DuckstazyLive
 {
@@ -9,7 +10,8 @@ namespace DuckstazyLive
         /// </summary>
         static void Main(string[] args)
         {
-            using (DuckstazyGame game = new DuckstazyGame())
+            App app = new App(1280, 800);
+            using (DuckstazyGame game = new DuckstazyGame(app))
             {
                 game.Run();
             }

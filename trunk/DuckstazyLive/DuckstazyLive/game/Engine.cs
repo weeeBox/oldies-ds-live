@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public class Engine : Timer
+    public class Engine
     {
         private Background background;
         private Hero hero;
@@ -42,7 +42,7 @@ namespace DuckstazyLive.game
             pillsManager = new PillsWave(hero, pillsOffsetX, 400, width - 2 * pillsOffsetX, 15, 15);
             pillsManager.AddPillListener(new PillParticles());
 
-            StartTimer();
+            // StartTimer();
         }
 
         public void LoadContent()
@@ -63,7 +63,7 @@ namespace DuckstazyLive.game
             // wave.Draw(g);            
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             hero.Update(dt);
             background.Update(dt);

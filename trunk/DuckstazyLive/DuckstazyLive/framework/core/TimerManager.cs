@@ -7,42 +7,84 @@ using System.Diagnostics;
 namespace DuckstazyLive.framework.core
 {
     public class TimerManager
-    {        
+    {
+        private static TimerManager instance;
+
         private Timer[] timers;
         private int timersCount;
-        
+
         public TimerManager(int maxTimersCount)
         {
-            timers = new Timer[maxTimersCount];            
+            Debug.Assert(instance == null, "Instance already initialized");
+            instance = this;
+
+            timers = new Timer[maxTimersCount];
+            timersCount = 0;
         }
 
-        public void AddTimer(Timer timer)
+        public void addTimer(Timer timer)
         {
-            Debug.Assert(timersCount < timers.Length, "Out of timers: " + timersCount + "<" + timers.Length);
+            Debug.Assert(timersCount < timers.Length, "Max timers count reached");
             timers[timersCount] = timer;
             timersCount++;
+
+            Trace.WriteLine("TimerManager. Add timer. Total timers count: " + timersCount);
         }
 
-        public void Update(float dt)
+        public void update(float dt)
         {
-            for (int timerIndex = 0; timerIndex < timersCount; timerIndex++)
+            for (int timerIndex = 0; timerIndex < getTimersCount(); ++timerIndex)
             {
-                Timer timer = timers[timerIndex];
+                Timer timer = getTimer(timerIndex);
 
-                timer.ElapsedTime += dt;
-                if (timer.ElapsedTime >= timer.Delay)
-                {                    
-                    timer.Update(timer.ElapsedTime);
-                    timer.ElapsedTime = 0;
+                if (timer.isTimerPaused())
+                    continue;
 
-                    if (!timer.Running)
-                    {                        
-                        timers[timerIndex] = timers[timersCount - 1];
-                        timersCount--;
+                if (timer.isTimerStopped())
+                {
+                    removeTimer(timerIndex);
+                    timerIndex--;
+                    continue;
+                }
+
+                timer.addToTickTime(dt);
+
+                if (timer.getTimerTickTime() >= timer.getTimerDelay())
+                {
+                    timer.fireTimer();
+                    if (timer.isTimerStopped())
+                    {
+                        removeTimer(timerIndex);
                         timerIndex--;
                     }
                 }
             }
+        }
+
+        private Timer getTimer(int timerIndex)
+        {
+            Debug.Assert(timerIndex >= 0 && timerIndex < timersCount, timerIndex + "<" + timersCount);
+            return timers[timerIndex];
+        }
+
+        private void removeTimer(int timerIndex)
+        {
+            Debug.Assert(timerIndex >= 0 && timerIndex < timersCount, timerIndex + "<" + timersCount);        
+
+	        Timer timer = timers[timerIndex];
+	        timers[timerIndex] = timers[timersCount - 1];
+	        timersCount--;
+	        Trace.WriteLine("TimerManager. Remove timer. Total timers count: " + timersCount);
+        }
+
+        private int getTimersCount()
+        {
+            return timersCount;
+        }
+
+        public static TimerManager getInstance()
+        {
+            return instance;
         }
     }
 }

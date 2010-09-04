@@ -11,24 +11,23 @@ using DuckstazyLive.framework.graphics;
 
 namespace DuckstazyLive.debug
 {
-    class FPS : Timer
+    class FPS
     {        
         private float framesPerSecond;
         private int framesCount;
         
         private Vector2 position;
 
-        public FPS(float refreshDelay, float x, float y) : base(refreshDelay)
+        public FPS(float refreshDelay, float x, float y)
         {            
             position.X = x;
             position.Y = y;
-            StartTimer();
+
         }
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {            
-            framesPerSecond = framesCount / Delay;            
-            framesCount = 0;            
+            
         }
 
         public void Draw(GameGraphics g)
