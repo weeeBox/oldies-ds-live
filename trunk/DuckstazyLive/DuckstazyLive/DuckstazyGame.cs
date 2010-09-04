@@ -84,7 +84,7 @@ namespace DuckstazyLive
         {
             base.Update(gameTime);
 
-            float dt = gameTime.ElapsedGameTime.Milliseconds;            
+            float dt = (float)(gameTime.ElapsedGameTime.TotalSeconds);            
             app.tick(dt);
         }
 
