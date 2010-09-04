@@ -8,7 +8,7 @@ using DuckstazyLive.framework.core;
 
 namespace DuckstazyLive.core.input
 {
-    public class InputManager : Timer
+    public class InputManager
     {
         private KeyboardState keyboardState;
         private GamePadState gamePadState;
@@ -40,7 +40,7 @@ namespace DuckstazyLive.core.input
             listeners = new List<InputListener>();
         }
 
-        public override void Update(float dt)        
+        public void Update(float dt)        
         {
             UpdateKeyboard();
             UpdateGamePad();

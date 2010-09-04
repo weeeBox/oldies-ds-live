@@ -38,12 +38,12 @@ namespace DuckstazyLive
             particles = new ParticlesManager(100);
             random = new Random();
             inputManager = new InputManager();
-            inputManager.StartTimer();
+            // inputManager.StartTimer();
         }
 
         public void Update(float dt)
         {
-            timerManager.Update(dt);
+            // timerManager.Update(dt);
         }
 
         public int Width

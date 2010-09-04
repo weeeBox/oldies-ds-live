@@ -18,7 +18,7 @@ namespace DuckstazyLive.env.particles
         BUBBLE, DROP, STAR
     }
 
-    public class ParticlesManager : Timer
+    public class ParticlesManager
     {        
         private const float LIFETIME_BUBBLE = 2.0f;        
         
@@ -90,7 +90,7 @@ namespace DuckstazyLive.env.particles
             
         }       
 
-        public override void Update(float dt)
+        public void Update(float dt)
         {
             int processedParticles = 0;
             int totalParticles = numParticles;            
@@ -162,7 +162,7 @@ namespace DuckstazyLive.env.particles
             {
                 if (numParticles == 0)
                 {
-                    StartTimer();
+                    
                 }
 
                 types[index] = type;
@@ -185,7 +185,7 @@ namespace DuckstazyLive.env.particles
 
             if (numParticles == 0)
             {
-                StopTimer();
+                
             }
         }
 

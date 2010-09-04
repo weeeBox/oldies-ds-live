@@ -21,6 +21,7 @@ using DuckstazyLive.core.graphics;
 using DuckstazyLive.debug;
 using DuckstazyLive.framework.core;
 using DuckstazyLive.framework.graphics;
+using DuckstazyLive.foobar;
 
 namespace DuckstazyLive
 {
@@ -30,17 +31,15 @@ namespace DuckstazyLive
     public class DuckstazyGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;       
+        SpriteBatch spriteBatch;
+        App app;
 
-        GameGraphics gameGraphics;
-        Engine engine;
-        FPS fps;
-        Application application;
-        
-        public DuckstazyGame()
+        public DuckstazyGame(App app)
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            this.app = app;
         }
 
         /// <summary>
@@ -51,61 +50,8 @@ namespace DuckstazyLive
         /// </summary>
         protected override void Initialize()
         {
-            int bufferWidth;
-            int bufferHeight;
-#if XBOX
-            bufferWidth = 1920;
-            bufferHeight = 1080;            
-#else
-            bufferWidth = 1280;
-            bufferHeight = 720;            
-#endif
-            graphics.PreferredBackBufferWidth = bufferWidth;
-            graphics.PreferredBackBufferHeight = bufferHeight;
-            graphics.ApplyChanges();            
-
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);           
-
-            application = new Application(bufferWidth, bufferHeight);
-            application.Init();
-            application.GraphicsDevice = GraphicsDevice;
-            application.SpriteBatch = spriteBatch;
-
-            Matrix worldMatrix;
-            Matrix viewMatrix;
-            Matrix projectionMatrix;
-
-            InitializeMatrices(out worldMatrix, out viewMatrix, out projectionMatrix);
-            BasicEffect basicEffect = InitializeEffect(ref worldMatrix, ref viewMatrix, ref projectionMatrix);
-
-            gameGraphics = new GameGraphics(GraphicsDevice, bufferWidth, bufferHeight);
-            engine = new Engine(0, 0, application.Width, application.Height - Constants.GROUND_HEIGHT);
-
-            Console.WriteLine(application.Width + " " + application.Height);
-            GDebug.Init(GraphicsDevice);
-            
-            fps = new FPS(0.2f, 20, 20);            
-
             base.Initialize();
-        }
-
-        private void InitializeMatrices(out Matrix world, out Matrix view, out Matrix projection)
-        {
-            world = Matrix.Identity;
-            view = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-            projection = Matrix.CreateOrthographicOffCenter(0, Width, Height, 0, 1.0f, 1000.0f);            
-        }
-
-        private BasicEffect InitializeEffect(ref Matrix world, ref Matrix view, ref Matrix projection)
-        {
-            BasicEffect effect = new BasicEffect(GraphicsDevice, null);
-            effect.World = world;
-            effect.View = view;
-            effect.Projection = projection;
-            effect.VertexColorEnabled = true;
-
-            return effect;
+            app.onStart();
         }
 
         /// <summary>
@@ -114,8 +60,10 @@ namespace DuckstazyLive
         /// </summary>
         protected override void LoadContent()
         {
-            Resources.Instance.Init(Content);
-            engine.LoadContent();
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // TODO: use this.Content to load your game content here
         }
 
         /// <summary>
@@ -134,11 +82,11 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            float dt = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
-            application.Update(dt);            
-            
             base.Update(gameTime);
-        }       
+
+            float dt = gameTime.ElapsedGameTime.Milliseconds;            
+            app.tick(dt);
+        }
 
         /// <summary>
         /// This is called when the game should draw itself.
@@ -146,32 +94,11 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);            
+            GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            engine.Draw(gameGraphics);            
+            // TODO: Add your drawing code here
 
-#if DEBUG
-            GDebug.Flush(gameGraphics);
-#endif
-
-            fps.Draw(gameGraphics);
-            gameGraphics.End();
-                
             base.Draw(gameTime);
         }
-
-        #region Helpers
-
-        private int Width
-        {
-            get { return Application.Instance.Width; }
-        }
-
-        private int Height
-        {
-            get { return Application.Instance.Height; }
-        }
-
-        #endregion
     }
 }
