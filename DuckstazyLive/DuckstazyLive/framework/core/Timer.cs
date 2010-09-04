@@ -49,10 +49,10 @@ namespace DuckstazyLive.framework.core
 
 	    public void fireTimer()
         {
+            repeatCompleted++;
             tickTimer(tickTime);
 
-            tickTime = 0;
-            repeatCompleted++;
+            tickTime = 0;            
             if (repeatCount != 0 && repeatCompleted == repeatCount)
             {
                 stopTimer();
