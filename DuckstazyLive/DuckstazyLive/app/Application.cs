@@ -37,7 +37,7 @@ namespace DuckstazyLive
             timerManager = new TimerManager(20);
             particles = new ParticlesManager(100);
             random = new Random();
-            inputManager = new InputManager();
+            // inputManager = new InputManager();
             // inputManager.StartTimer();
         }
 

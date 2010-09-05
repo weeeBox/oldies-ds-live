@@ -94,7 +94,7 @@ namespace DuckstazyLive.core.input
                 {
                     if (state.IsButtonUp(button))
                     {
-                        FireButtonUp(button);
+                        FireButtonUp(button, ref state, ref player);
                     }
                 }
             } 
@@ -133,18 +133,19 @@ namespace DuckstazyLive.core.input
 
         private void FireButtonDown(Buttons button, ref GamePadState state, ref PlayerIndex player)
         {
-            InputEvent e = new InputEvent(player, state, button);            
+            InputEvent e = new InputEvent(button, player, state);            
             foreach (InputListener l in listeners)
             {
                 l.buttonPressed(e);
             }
         }
 
-        private void FireButtonUp(Buttons button)
+        private void FireButtonUp(Buttons button, ref GamePadState state, ref PlayerIndex player)
         {
+            InputEvent e = new InputEvent(button, player, state);            
             foreach (InputListener l in listeners)
             {
-                // l.ButtonUp(button);
+                l.buttonReleased(e);
             }
         }
 

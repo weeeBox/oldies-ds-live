@@ -9,7 +9,7 @@ namespace DuckstazyLive.core.input
         public GamePadState GamePadState;
         public Buttons Button;
 
-        public InputEvent(PlayerIndex player, GamePadState state, Buttons button)
+        public InputEvent(Buttons button, PlayerIndex player, GamePadState state)
         {
             PlayerIndex = player;
             GamePadState = state;
