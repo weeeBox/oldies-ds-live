@@ -11,7 +11,7 @@ using DuckstazyLive.framework.graphics;
 using DuckstazyLive.game;
 namespace DuckstazyLive
 {
-    public class Hero : InputAdapter
+    public class Hero
     {
         private static readonly Color COLOR_STEP_BUBBLE = new Color(127, 72, 0);
         private static readonly Color COLOR_LAND_BUBBLE = new Color(152, 152, 152);
@@ -133,7 +133,7 @@ namespace DuckstazyLive
 
         private void UpdateGamepadInput()
         {
-            float dx = InputManager.LeftThumbStickX;
+            float dx = 0; // InputManager.LeftThumbStickX;
             if (Math.Abs(dx) < 0.15f)
             {
                 if (!controlledByDPad)
@@ -269,84 +269,84 @@ namespace DuckstazyLive
 			return Utils.lerp(x, JUMP_START_VY_MIN, JUMP_START_VY_MAX);
 		}        
 
-        public override void ButtonUp(Buttons button)
-        {
-            switch (button)
-            {
-                case Buttons.A:
-                {
-                    if (key_up)
-                    {
-                        if (flying)
-                        {
-                            if (flyingOnWings)
-                            {
-                                flyingOnWings = false;
-                                if (vy < 0.0f)
-                                    vy = 0.0f;
-                            }
+        //public override void ButtonUp(Buttons button)
+        //{
+        //    switch (button)
+        //    {
+        //        case Buttons.A:
+        //        {
+        //            if (key_up)
+        //            {
+        //                if (flying)
+        //                {
+        //                    if (flyingOnWings)
+        //                    {
+        //                        flyingOnWings = false;
+        //                        if (vy < 0.0f)
+        //                            vy = 0.0f;
+        //                    }
 
-                            //if(jumpVel>0 && gravityK==1)
-                            //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
-                        }
-                    }
-                    key_up = false;
-                }
-                break;
+        //                    //if(jumpVel>0 && gravityK==1)
+        //                    //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
+        //                }
+        //            }
+        //            key_up = false;
+        //        }
+        //        break;
 
-                case Buttons.DPadRight:
-                    key_right = false;
-                break;
+        //        case Buttons.DPadRight:
+        //            key_right = false;
+        //        break;
 
-                case Buttons.DPadLeft:                
-                    key_left = false;                
-                break;
+        //        case Buttons.DPadLeft:                
+        //            key_left = false;                
+        //        break;
 
-                case Buttons.DPadDown:                
-                    key_down = false;                
-                break;
-            }
+        //        case Buttons.DPadDown:                
+        //            key_down = false;                
+        //        break;
+        //    }
             
-        }
+        //}
 
-        public override void ButtonDown(Buttons button)
-        {
-            switch (button)
-            {
-                case Buttons.A:
-                    {
-                        if (!key_up)
-                        {
-                            if (flying)
-                            {
-                                flyingOnWings = true;
-                            }
-                            else
-                            {                               
-                                flying = true;
-                                vy = GetJumpStartVy(power); ;
-                                doLandBubble(vy);
-                            }                            
-                        }
-                        key_up = true;
-                    }
-                    break;
+        //public override void ButtonDown(Buttons button)
+        //{
+        //    switch (button)
+        //    {
+        //        case Buttons.A:
+        //            {
+        //                if (!key_up)
+        //                {
+        //                    if (flying)
+        //                    {
+        //                        flyingOnWings = true;
+        //                    }
+        //                    else
+        //                    {                               
+        //                        flying = true;
+        //                        vy = GetJumpStartVy(power); ;
+        //                        doLandBubble(vy);
+        //                    }                            
+        //                }
+        //                key_up = true;
+        //            }
+        //            break;
 
-                case Buttons.DPadRight:
-                    key_right = true;
-                    controlledByDPad = true;
-                break;
+        //        case Buttons.DPadRight:
+        //            key_right = true;
+        //            controlledByDPad = true;
+        //        break;
 
-                case Buttons.DPadLeft:                
-                    key_left = true;
-                    controlledByDPad = true;
-                break;
+        //        case Buttons.DPadLeft:                
+        //            key_left = true;
+        //            controlledByDPad = true;
+        //        break;
 
-                case Buttons.DPadDown:                
-                    key_down = true;                    
-                break;
-            }
-        }              
+        //        case Buttons.DPadDown:                
+        //            key_down = true;                    
+        //        break;
+        //    }
+        //}              
 
         private void doStepBubbles()
         {

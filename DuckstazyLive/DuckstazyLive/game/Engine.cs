@@ -34,7 +34,7 @@ namespace DuckstazyLive.game
             float waveY = height - (Constants.GROUND_HEIGHT + waveHeight) / 2;
             wave = new Wave(waveX, waveY, waveWidth, waveHeight);
 
-            App.InputManager.AddInputListener(hero);
+            
 
             float pillsOffsetX = width / 16f;
             float pillsOffsetY = (Application.Instance.Height - Constants.GROUND_HEIGHT) / 16f;
