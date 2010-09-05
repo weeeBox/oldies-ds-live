@@ -10,7 +10,13 @@ namespace DuckstazyLive
         /// </summary>
         static void Main(string[] args)
         {
-            App app = new App(1280, 800);
+            ApplicationSettings settings;
+            settings.width = 1280;
+            settings.height = 800;
+            settings.maxPlayersCount = 1;
+            settings.maxTimersCount = 32;
+
+            App app = new App(settings);
             using (DuckstazyGame game = new DuckstazyGame(app))
             {
                 game.Run();

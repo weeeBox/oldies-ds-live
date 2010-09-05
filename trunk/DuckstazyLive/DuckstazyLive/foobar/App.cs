@@ -38,13 +38,13 @@ namespace DuckstazyLive.foobar
         private InputManager inputManager;
         private TimerManager timerManager;
 
-        public App(int width, int height)
+        public App(ApplicationSettings settings)
         {
-            this.width = width;
-            this.height = height;            
+            this.width = settings.width;
+            this.height = settings.height;            
             
-            timerManager = new TimerManager(16);
-            inputManager = new InputManager(2);
+            timerManager = new TimerManager(settings.maxTimersCount);
+            inputManager = new InputManager(settings.maxPlayersCount);
             inputManager.startTimer();
         }
 

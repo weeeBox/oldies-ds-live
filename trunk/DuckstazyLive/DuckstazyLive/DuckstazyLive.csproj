@@ -92,6 +92,7 @@
     <Compile Include="core\graphics\GDebug.cs" />
     <Compile Include="core\input\InputEvent.cs" />
     <Compile Include="foobar\App.cs" />
+    <Compile Include="foobar\ApplicationSettings.cs" />
     <Compile Include="framework\core\TimerListener.cs" />
     <Compile Include="framework\graphics\Font.cs" />
     <Compile Include="framework\graphics\Image.cs" />
