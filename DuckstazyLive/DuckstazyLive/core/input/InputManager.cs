@@ -68,7 +68,17 @@ namespace DuckstazyLive.core.input
         {
             Debug.Assert(instance != null, "Input manager not initialized");
             return instance;
-        }        
+        }
+
+        protected override void tickTimer(float dt)
+        {
+            for (int playerIndex = 0; playerIndex < getPlayersCount(); playerIndex++)
+            {
+                gamePadStates[playerIndex] = GamePad.GetState(players[playerIndex]);
+                Update(ref gamePadStates[playerIndex], ref oldGamePadStates[playerIndex], ref players[playerIndex]);
+                oldGamePadStates[playerIndex] = gamePadStates[playerIndex];
+            }
+        }
 
         private void Update(ref GamePadState state, ref GamePadState oldState, ref PlayerIndex player)
         {
@@ -120,6 +130,10 @@ namespace DuckstazyLive.core.input
         //    get { return gamePadState.ThumbSticks.Right.Y; }
         //}       
 
+        /************************************************************************/
+        /* Listeners stuff                                                      */
+        /************************************************************************/
+
         public void AddInputListener(InputListener l)
         {
             if (!listeners.Contains(l))
@@ -165,23 +179,13 @@ namespace DuckstazyLive.core.input
             }
         }        
 
+        /************************************************************************/
+        /* Helpers                                                              */
+        /************************************************************************/
+
         private int getPlayersCount()
         {
             return gamePadStates.Length;
-        }
-
-        /************************************************************************/
-        /* Timers stuff                                                         */
-        /************************************************************************/
-
-        protected override void tickTimer(float dt)
-        {
-            for (int playerIndex = 0; playerIndex < getPlayersCount(); playerIndex++)
-            {
-                gamePadStates[playerIndex] = GamePad.GetState(players[playerIndex]);
-                Update(ref gamePadStates[playerIndex], ref oldGamePadStates[playerIndex], ref players[playerIndex]);
-                oldGamePadStates[playerIndex] = gamePadStates[playerIndex];
-            }              
-        }
+        }                
     }
 }
