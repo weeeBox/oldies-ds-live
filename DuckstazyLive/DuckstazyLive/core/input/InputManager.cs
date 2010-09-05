@@ -108,27 +108,7 @@ namespace DuckstazyLive.core.input
                     }
                 }
             } 
-        }        
-
-        //public float LeftThumbStickX
-        //{
-        //    get { return gamePadState.ThumbSticks.Left.X; }
-        //}
-
-        //public float LeftThumbStickY
-        //{
-        //    get { return gamePadState.ThumbSticks.Left.Y; }
-        //}
-
-        //public float RightThumbStickX
-        //{
-        //    get { return gamePadState.ThumbSticks.Right.X; }
-        //}
-
-        //public float RightThumbStickY
-        //{
-        //    get { return gamePadState.ThumbSticks.Right.Y; }
-        //}       
+        }             
 
         /************************************************************************/
         /* Listeners stuff                                                      */
@@ -177,7 +157,46 @@ namespace DuckstazyLive.core.input
             {
                 l.playerDisconnected(player);
             }
-        }        
+        }
+        
+        /************************************************************************/
+        /* Analog stuff                                                         */
+        /************************************************************************/
+
+        public bool isPlayerConnected(int playerIndex)
+        {            
+            return getGamePadState(playerIndex).IsConnected;
+        }
+
+        public float getLeftThumbStickX(int playerIndex)
+        {
+            return getGamePadState(playerIndex).ThumbSticks.Left.X;
+        }
+
+        public float getLeftThumbStickY(int playerIndex)
+        {
+            return getGamePadState(playerIndex).ThumbSticks.Left.Y;
+        }
+
+        public float getRightThumbStickX(int playerIndex)
+        {
+            return getGamePadState(playerIndex).ThumbSticks.Right.X;
+        }
+
+        public float getRightThumbStickY(int playerIndex)
+        {
+            return getGamePadState(playerIndex).ThumbSticks.Right.Y;
+        }
+  
+        public float getLeftTriggerPressed(int playerIndex)
+        {
+            return getGamePadState(playerIndex).Triggers.Left;
+        }
+
+        public float getRightTriggerPressed(int playerIndex)
+        {
+            return getGamePadState(playerIndex).Triggers.Right;
+        }
 
         /************************************************************************/
         /* Helpers                                                              */
@@ -187,5 +206,11 @@ namespace DuckstazyLive.core.input
         {
             return gamePadStates.Length;
         }                
+
+        private GamePadState getGamePadState(int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount(), "Player index out of range: " + playerIndex);
+            return gamePadStates[playerIndex];
+        }
     }
 }
