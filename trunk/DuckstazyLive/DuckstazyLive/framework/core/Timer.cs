@@ -160,7 +160,9 @@ namespace DuckstazyLive.framework.core
 
         private void fireTimerStarted()
         {
-            Debug.Assert(listeners != null);
+            if (getListenersCount() == 0)
+                return;
+
             foreach (TimerListener listener in listeners)
             {
                 listener.timerStarted(this);
@@ -169,7 +171,9 @@ namespace DuckstazyLive.framework.core
 
         private void fireTimerPaused()
         {
-            Debug.Assert(listeners != null);
+            if (getListenersCount() == 0)
+                return;
+
             foreach (TimerListener listener in listeners)
             {
                 listener.timerPaused(this);
@@ -178,7 +182,9 @@ namespace DuckstazyLive.framework.core
 
         private void fireTimerResumed()
         {
-            Debug.Assert(listeners != null);
+            if (getListenersCount() == 0)
+                return;
+
             foreach (TimerListener listener in listeners)
             {
                 listener.timerResumed(this);
@@ -187,7 +193,9 @@ namespace DuckstazyLive.framework.core
 
         private void fireTimerStopped()
         {
-            Debug.Assert(listeners != null);
+            if (getListenersCount() == 0)
+                return;
+
             foreach (TimerListener listener in listeners)
             {
                 listener.timerStopped(this);

@@ -1,101 +1,124 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Input;
+﻿using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.framework.core;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace DuckstazyLive.core.input
 {
-    public class InputManager
+    public class InputManager : Timer
     {
-        private KeyboardState keyboardState;
-        private GamePadState gamePadState;
-        private List<InputListener> listeners;
-
-        private readonly Buttons[] gamePadButtons = new Buttons[]
+        private static Buttons[] supportedGamePadButtons = new Buttons[]
         {
-            Buttons.A,
-            Buttons.B,
-            Buttons.X,
-            Buttons.Y,
-            Buttons.Start,
-            Buttons.Back,
-            Buttons.LeftShoulder,
-            Buttons.RightShoulder,
-            Buttons.LeftStick,
-            Buttons.RightStick,
-            Buttons.BigButton,
             Buttons.DPadUp,
             Buttons.DPadDown,
             Buttons.DPadLeft,
             Buttons.DPadRight,
+            Buttons.Start,
+            Buttons.Back,
+            Buttons.LeftStick,
+            Buttons.RightStick,
+            Buttons.LeftShoulder,
+            Buttons.RightShoulder,
+            Buttons.BigButton,
+            Buttons.A,
+            Buttons.B,
+            Buttons.X,
+            Buttons.Y,
+            Buttons.LeftThumbstickLeft,
+            Buttons.RightTrigger,
+            Buttons.LeftTrigger,
+            Buttons.RightThumbstickUp,
+            Buttons.RightThumbstickDown,
+            Buttons.RightThumbstickRight,
+            Buttons.RightThumbstickLeft,
+            Buttons.LeftThumbstickUp,
+            Buttons.LeftThumbstickDown,
+            Buttons.LeftThumbstickRight,
         };
 
-        public InputManager()
-        {
-            keyboardState = Keyboard.GetState();
-            gamePadState = GamePad.GetState(PlayerIndex.One);
-            listeners = new List<InputListener>();
-        }
+        private GamePadState[] gamePadStates;
+        private GamePadState[] oldGamePadStates;
+        private static PlayerIndex[] players = new PlayerIndex[] 
+        { 
+            PlayerIndex.One, 
+            PlayerIndex.Two, 
+            PlayerIndex.Three, 
+            PlayerIndex.Four 
+        };
 
-        public void Update(float dt)        
-        {
-            UpdateKeyboard();
-            UpdateGamePad();
-        }
+        private List<InputListener> listeners;
+        private static InputManager instance;
 
-        public float LeftThumbStickX
+        public InputManager(int playersCount)
         {
-            get { return gamePadState.ThumbSticks.Left.X; }
-        }
+            Debug.Assert(instance == null, "InputManager already initialized");
+            instance = this;
 
-        public float LeftThumbStickY
-        {
-            get { return gamePadState.ThumbSticks.Left.Y; }
-        }
-
-        public float RightThumbStickX
-        {
-            get { return gamePadState.ThumbSticks.Right.X; }
-        }
-
-        public float RightThumbStickY
-        {
-            get { return gamePadState.ThumbSticks.Right.Y; }
-        }
-
-        private void UpdateKeyboard()
-        {
-            KeyboardState lastKeyboardState = keyboardState;
-            keyboardState = Keyboard.GetState();           
-        }
-
-        private void UpdateGamePad()
-        {
-            GamePadState lastGamePadState = gamePadState;
-            gamePadState = GamePad.GetState(PlayerIndex.One);
-
-            // update buttons
-            foreach (Buttons button in gamePadButtons)
+            gamePadStates = new GamePadState[playersCount];
+            oldGamePadStates = new GamePadState[playersCount];
+            for (int playerIndex = 0; playerIndex < getPlayersCount(); playerIndex++)
             {
-                if (lastGamePadState.IsButtonUp(button))
+                gamePadStates[playerIndex] = oldGamePadStates[playerIndex] = GamePad.GetState(players[playerIndex]);
+            }            
+            listeners = new List<InputListener>(16);
+        }        
+
+        public static InputManager getInstance()
+        {
+            Debug.Assert(instance != null, "Input manager not initialized");
+            return instance;
+        }        
+
+        private void Update(ref GamePadState state, ref GamePadState oldState, ref PlayerIndex player)
+        {
+            if (state.IsConnected && !oldState.IsConnected)
+            {
+                FirePlayerConnected(ref player);
+            }
+            else if (!state.IsConnected && oldState.IsConnected)
+            {
+                FirePlayerDisconnected(ref player);
+            }
+
+            foreach (Buttons button in supportedGamePadButtons)
+            {
+                if (oldState.IsButtonUp(button))
                 {
-                    if (gamePadState.IsButtonDown(button))
+                    if (state.IsButtonDown(button))
                     {
-                        FireButtonDown(button);
+                        FireButtonDown(button, ref state, ref player);
                     }
                 }
                 else
                 {
-                    if (gamePadState.IsButtonUp(button))
+                    if (state.IsButtonUp(button))
                     {
                         FireButtonUp(button);
                     }
                 }
-            }                       
+            } 
         }        
+
+        //public float LeftThumbStickX
+        //{
+        //    get { return gamePadState.ThumbSticks.Left.X; }
+        //}
+
+        //public float LeftThumbStickY
+        //{
+        //    get { return gamePadState.ThumbSticks.Left.Y; }
+        //}
+
+        //public float RightThumbStickX
+        //{
+        //    get { return gamePadState.ThumbSticks.Right.X; }
+        //}
+
+        //public float RightThumbStickY
+        //{
+        //    get { return gamePadState.ThumbSticks.Right.Y; }
+        //}       
 
         public void AddInputListener(InputListener l)
         {
@@ -108,11 +131,12 @@ namespace DuckstazyLive.core.input
             listeners.Remove(l);
         }
 
-        private void FireButtonDown(Buttons button)
+        private void FireButtonDown(Buttons button, ref GamePadState state, ref PlayerIndex player)
         {
+            InputEvent e = new InputEvent(player, state, button);            
             foreach (InputListener l in listeners)
             {
-                l.ButtonDown(button);
+                l.buttonPressed(e);
             }
         }
 
@@ -120,8 +144,43 @@ namespace DuckstazyLive.core.input
         {
             foreach (InputListener l in listeners)
             {
-                l.ButtonUp(button);
+                // l.ButtonUp(button);
             }
+        }
+
+        private void FirePlayerConnected(ref PlayerIndex player)
+        {
+            foreach (InputListener l in listeners)
+            {
+                l.playerConnected(player);
+            }
+        }
+
+        private void FirePlayerDisconnected(ref PlayerIndex player)
+        {
+            foreach (InputListener l in listeners)
+            {
+                l.playerDisconnected(player);
+            }
+        }        
+
+        private int getPlayersCount()
+        {
+            return gamePadStates.Length;
+        }
+
+        /************************************************************************/
+        /* Timers stuff                                                         */
+        /************************************************************************/
+
+        protected override void tickTimer(float dt)
+        {
+            for (int playerIndex = 0; playerIndex < getPlayersCount(); playerIndex++)
+            {
+                gamePadStates[playerIndex] = GamePad.GetState(players[playerIndex]);
+                Update(ref gamePadStates[playerIndex], ref oldGamePadStates[playerIndex], ref players[playerIndex]);
+                oldGamePadStates[playerIndex] = gamePadStates[playerIndex];
+            }              
         }
     }
 }

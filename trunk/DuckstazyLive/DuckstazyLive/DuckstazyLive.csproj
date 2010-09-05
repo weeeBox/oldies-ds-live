@@ -90,11 +90,11 @@
     <Compile Include="core\collision\CollisionRect.cs" />
     <Compile Include="core\collision\RectangleBounds.cs" />
     <Compile Include="core\graphics\GDebug.cs" />
+    <Compile Include="core\input\InputEvent.cs" />
     <Compile Include="foobar\App.cs" />
     <Compile Include="framework\core\TimerListener.cs" />
     <Compile Include="framework\graphics\Font.cs" />
     <Compile Include="framework\graphics\Image.cs" />
-    <Compile Include="core\input\InputAdapter.cs" />
     <Compile Include="core\input\InputListener.cs" />
     <Compile Include="core\input\InputManager.cs" />
     <Compile Include="debug\FPS.cs" />
