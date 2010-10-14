@@ -1,19 +1,17 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}</ProjectGuid>
+    <ProjectGuid>{B5DFF9BF-CEC2-43E2-982C-EA729A338BF4}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DuckstazyLive</RootNamespace>
-    <AssemblyName>DuckstazyLive</AssemblyName>
+    <RootNamespace>Framework</RootNamespace>
+    <AssemblyName>Framework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaCrossPlatformGroupID>d8a967b0-6ebb-479c-97ee-43c4d805a438</XnaCrossPlatformGroupID>
-    <ApplicationIcon>Game.ico</ApplicationIcon>
-    <Thumbnail>GameThumbnail.png</Thumbnail>
+    <XnaCrossPlatformGroupID>acd892b3-38c9-4b38-b53a-058c41cef6f9</XnaCrossPlatformGroupID>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -84,64 +82,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="app\Application.cs" />
-    <Compile Include="app\Constants.cs" />
-    <Compile Include="core\collision\CollisionCircle.cs" />
-    <Compile Include="core\collision\CollisionRect.cs" />
-    <Compile Include="core\collision\RectangleBounds.cs" />
-    <Compile Include="core\graphics\GDebug.cs" />
-    <Compile Include="core\input\InputEvent.cs" />
-    <Compile Include="foobar\App.cs" />
-    <Compile Include="framework\core\TimerListener.cs" />
-    <Compile Include="framework\graphics\Font.cs" />
-    <Compile Include="framework\graphics\Image.cs" />
-    <Compile Include="core\input\InputListener.cs" />
-    <Compile Include="core\input\InputManager.cs" />
-    <Compile Include="debug\FPS.cs" />
-    <Compile Include="env\Background.cs" />
-    <Compile Include="env\GradientRect.cs" />
-    <Compile Include="env\Grass.cs" />
-    <Compile Include="env\Ground.cs" />
-    <Compile Include="env\particles\ParticlesManager.cs" />
-    <Compile Include="env\sky\AbstractSky.cs" />
-    <Compile Include="env\sky\CloudsManager.cs" />
-    <Compile Include="env\sky\NightSky.cs" />
-    <Compile Include="env\sky\NormalSky.cs" />
-    <Compile Include="env\sky\RadialSky.cs" />
-    <Compile Include="core\collision\CollisionHelper.cs" />
-    <Compile Include="framework\core\Timer.cs" />
-    <Compile Include="framework\core\TimerManager.cs" />
-    <Compile Include="framework\graphics\GameGraphics.cs" />
-    <Compile Include="framework\resources\Resources.cs" />
-    <Compile Include="game\Engine.cs" />
-    <Compile Include="game\Hero.cs" />
-    <Compile Include="game\World.cs" />
-    <Compile Include="graphics\Circle.cs" />
-    <Compile Include="graphics\Primitive.cs" />
-    <Compile Include="graphics\Wave.cs" />
-    <Compile Include="pills\effects\PillsGrid.cs" />
-    <Compile Include="pills\effects\PillsWave.cs" />
-    <Compile Include="pills\Pill.cs" />
-    <Compile Include="pills\IPillListener.cs" />
-    <Compile Include="pills\PillParticles.cs" />
-    <Compile Include="pills\PillsManager.cs" />
-    <Compile Include="pills\PillType.cs" />
+    <Compile Include="core\ApplicationSettings.cs" />
+    <Compile Include="core\Application.cs" />
+    <Compile Include="core\BaseElement.cs" />
+    <Compile Include="core\Constants.cs" />
+    <Compile Include="core\DateTimeHelper.cs" />
+    <Compile Include="core\DynamicArray.cs" />
+    <Compile Include="core\Preferences.cs" />
+    <Compile Include="core\ResourceMgr.cs" />
+    <Compile Include="core\RootController.cs" />
+    <Compile Include="core\SoundMgr.cs" />
+    <Compile Include="core\Timer.cs" />
+    <Compile Include="core\View.cs" />
+    <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="DuckstazyGame.cs" />
-    <Compile Include="PSContent.cs" />
-    <Compile Include="PSReader.cs" />
-    <Compile Include="res\Res.cs" />
-    <Compile Include="res\Resources.cs" />
-    <Compile Include="Utils.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Game.ico" />
-    <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
-      <Project>cb26f6a8-928c-4fea-8de8-bfd0b316a916</Project>
+      <Project>394bcb2f-b4e3-4709-9300-ebc06490e8de</Project>
       <Visible>False</Visible>
     </NestedContentProject>
   </ItemGroup>
