@@ -42,8 +42,7 @@ namespace Framework.visual
             touchRightInc = 0;
             touchTopInc = 0;
             touchBottomInc = 0;
-
-            up.parentAnchor = down.parentAnchor = ANCHOR_TOP | ANCHOR_LEFT;
+            
             width = up.width;
             height = up.height;
             addChildWithId(up, BUTTON_UP);

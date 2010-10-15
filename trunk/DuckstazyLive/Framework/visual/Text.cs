@@ -22,7 +22,7 @@ namespace Framework.visual
             }
         }
 
-        public HAlign align;
+        public float align;
         public String text;
         public Font font;
         public int wrapWidth;
@@ -58,7 +58,7 @@ namespace Framework.visual
             return text;
         }
 
-        public void setAlignment(HAlign a)
+        public void setAlignment(float a)
         {            
             align = a;
         }
@@ -78,21 +78,22 @@ namespace Framework.visual
                 int len = str.text.Length;
                 String s = str.text;             
 
-                if (align != HAlign.ALIGN_LEFT)
-                {
-                    if (align == HAlign.ALIGN_CENTER)
-                    {
-                        dx = drawX + (wrapWidth - str.width) / 2;
-                    }
-                    else
-                    {                        
-                        dx = drawX + wrapWidth - str.width;
-                    }
-                }
-                else
-                {
-                    dx = drawX;
-                }
+                //if (align != HAlign.ALIGN_LEFT)
+                //{
+                //    if (align == HAlign.ALIGN_CENTER)
+                //    {
+                //        dx = drawX + (wrapWidth - str.width) / 2;
+                //    }
+                //    else
+                //    {                        
+                //        dx = drawX + wrapWidth - str.width;
+                //    }
+                //}
+                //else
+                //{
+                //    dx = drawX;
+                //}
+                if (true) throw new NotImplementedException();
 
                 for (int c = 0; c < len; c++)
                 {

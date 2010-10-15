@@ -43,6 +43,9 @@ namespace DuckstazyLive
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+#if WINDOWS
+            IsMouseVisible = true;
+#endif
 
             base.Initialize();
         }

@@ -37,6 +37,8 @@ namespace DuckstazyLive.app
         IMG_BUTTON_CLOUD_1,
         IMG_BUTTON_CLOUD_2,
         IMG_BUTTON_CLOUD_3,
+        IMG_MENU_TITLE,
+        IMG_MENU_TITLE_BACK,
         RESOURCES_COUNT,
     }
 
@@ -57,6 +59,8 @@ namespace DuckstazyLive.app
             // PACK_MENU
             new ResourceBaseInfo[]
             {
+                new ResourceBaseInfo(DuckstazyResource.IMG_MENU_TITLE, ResourceType.RESOURCE_TYPE_TEXTURE, "title"),
+                new ResourceBaseInfo(DuckstazyResource.IMG_MENU_TITLE_BACK, ResourceType.RESOURCE_TYPE_TEXTURE, "title_back"),
             },
             // PACK_GAME
             new ResourceBaseInfo[]
