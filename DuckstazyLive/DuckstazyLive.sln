@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckstazyLive", "DuckstazyLive\DuckstazyLive.csproj", "{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckstazyLiveXbox", "DuckstazyLive\DuckstazyLiveXbox.csproj", "{7BCBE435-D622-4013-A31B-26B8E2381AF7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{B5DFF9BF-CEC2-43E2-982C-EA729A338BF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuckstazyLive", "DuckstazyLive\DuckstazyLive.csproj", "{31273AAE-8387-47C3-BD7C-934F1053D5CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,42 +17,6 @@ Global
 		Release|Zune = Release|Zune
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Debug|x86.ActiveCfg = Debug|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Debug|x86.Build.0 = Debug|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Debug|Xbox 360.ActiveCfg = Debug|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Debug|Zune.ActiveCfg = Debug|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Release|Mixed Platforms.Build.0 = Release|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Release|x86.ActiveCfg = Release|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Release|x86.Build.0 = Release|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Release|Xbox 360.ActiveCfg = Release|x86
-		{A44C25FD-3511-4F0A-AD06-40AD7F5AB680}.Release|Zune.ActiveCfg = Release|x86
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Mixed Platforms.ActiveCfg = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Mixed Platforms.Build.0 = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Mixed Platforms.Deploy.0 = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|x86.ActiveCfg = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Xbox 360.ActiveCfg = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Xbox 360.Build.0 = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Xbox 360.Deploy.0 = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Debug|Zune.ActiveCfg = Debug|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Mixed Platforms.ActiveCfg = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Mixed Platforms.Build.0 = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Mixed Platforms.Deploy.0 = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|x86.ActiveCfg = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Xbox 360.Build.0 = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Xbox 360.Deploy.0 = Release|Xbox 360
-		{7BCBE435-D622-4013-A31B-26B8E2381AF7}.Release|Zune.ActiveCfg = Release|Xbox 360
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Debug|x86.ActiveCfg = Debug|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Debug|Xbox 360.ActiveCfg = Debug|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Debug|Zune.ActiveCfg = Debug|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Release|x86.ActiveCfg = Release|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Release|Xbox 360.ActiveCfg = Release|x86
-		{CB26F6A8-928C-4FEA-8DE8-BFD0B316A916}.Release|Zune.ActiveCfg = Release|x86
 		{B5DFF9BF-CEC2-43E2-982C-EA729A338BF4}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{B5DFF9BF-CEC2-43E2-982C-EA729A338BF4}.Debug|Mixed Platforms.Build.0 = Debug|x86
 		{B5DFF9BF-CEC2-43E2-982C-EA729A338BF4}.Debug|x86.ActiveCfg = Debug|x86
@@ -75,6 +37,26 @@ Global
 		{394BCB2F-B4E3-4709-9300-EBC06490E8DE}.Release|x86.ActiveCfg = Release|x86
 		{394BCB2F-B4E3-4709-9300-EBC06490E8DE}.Release|Xbox 360.ActiveCfg = Release|x86
 		{394BCB2F-B4E3-4709-9300-EBC06490E8DE}.Release|Zune.ActiveCfg = Release|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Debug|x86.ActiveCfg = Debug|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Debug|x86.Build.0 = Debug|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Debug|Zune.ActiveCfg = Debug|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Release|Mixed Platforms.Build.0 = Release|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Release|x86.ActiveCfg = Release|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Release|x86.Build.0 = Release|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Release|Xbox 360.ActiveCfg = Release|x86
+		{31273AAE-8387-47C3-BD7C-934F1053D5CF}.Release|Zune.ActiveCfg = Release|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Debug|x86.ActiveCfg = Debug|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Debug|Zune.ActiveCfg = Debug|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Release|x86.ActiveCfg = Release|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Release|Xbox 360.ActiveCfg = Release|x86
+		{12410FF2-5D33-4E92-9A64-5FEB8530085F}.Release|Zune.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
