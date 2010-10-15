@@ -7,11 +7,16 @@ namespace Framework.core
 {
     public class View : BaseElement
     {
-        public View()
+        public View() : this (0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
         {
-            // Always full screen ???
-            width = Constants.SCREEN_WIDTH;
-            height = Constants.SCREEN_HEIGHT;
+        }
+
+        public View(int x, int y, int width, int height)
+        {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
         }
 
         public virtual void show()

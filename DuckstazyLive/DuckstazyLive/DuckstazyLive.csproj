@@ -90,10 +90,13 @@
     <Compile Include="app\DuckstazyResources.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
+    <Compile Include="app\GameView.cs" />
     <Compile Include="app\MenuController.cs" />
     <Compile Include="app\MenuView.cs" />
     <Compile Include="app\StartupController.cs" />
     <Compile Include="app\StartupView.cs" />
+    <Compile Include="game\EnvironmentView.cs" />
+    <Compile Include="game\WorldView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DuckstazyGame.cs" />

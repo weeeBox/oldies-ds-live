@@ -16,6 +16,14 @@ namespace DuckstazyLive.app
         {
             MenuView view = new MenuView();
 
+            CustomGeomerty sky = GeometryFactory.createGradient(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT, new Color(63, 181, 242), new Color(217, 240, 254));
+            CustomGeomerty ground = GeometryFactory.createGradient(Constants.GROUND_X, Constants.GROUND_Y, Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT, new Color(55, 29, 0), new Color(92, 48, 11));
+            Image grass = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_GRASS));
+            grass.setAlign(BaseElement.ALIGN_MIN, BaseElement.ALIGN_MAX);            
+            view.addChild(sky);
+            view.addChild(ground);
+            ground.addChild(grass);
+
             Image titleBack = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_MENU_TITLE_BACK));            
             Image title = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_MENU_TITLE));
             titleBack.toParentCenter();
@@ -47,7 +55,7 @@ namespace DuckstazyLive.app
 
             // button stroke part            
             Image buttonImage = new Image(Application.sharedResourceMgr.getTexture((int)strokeId));
-            buttonImage.addChild(baseImage);           
+            buttonImage.addChild(baseImage);            
 
             return buttonImage;
         }
@@ -58,6 +66,8 @@ namespace DuckstazyLive.app
 
             MenuView view = (MenuView)getView(VIEW_MENU);
             showView(VIEW_MENU);
+
+            // deactivate();
         }
     }
 }
