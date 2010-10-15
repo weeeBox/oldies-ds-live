@@ -74,6 +74,12 @@ namespace Framework.visual
             focused.setEnabled(s == BUTTON_FOCUSED);
         }
 
+        public bool Focused
+        {
+            get { return state == BUTTON_FOCUSED; }
+        }
+
+
         //public override bool onTouchDown(float tx, float ty)
         //{
         //    base.onTouchDown(tx, ty);
