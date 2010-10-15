@@ -16,19 +16,6 @@ namespace Framework.core
 
     public class AppGraphics
     {
-        private const int RTexW = 128;
-        private const int RTexH = 128;
-        private const int TTexW = 64;
-        private const int TTexH = 64;
-        private const int STexW = 8;
-        private const int STexH = 8;
-
-        public enum Mode
-        {
-            GL_TRIANGLE_FAN,
-            GL_TRIANGLE_STRIP
-        }
-
         enum BatchMode
         {
             None,

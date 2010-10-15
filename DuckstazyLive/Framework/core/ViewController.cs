@@ -212,8 +212,8 @@ namespace Framework.core
         }
 
         public void calculateTimeDelta()
-        {            
-            float time = DateTimeHelper.getGameTime();
+        {
+            float time = GameClock.ElapsedTime;
 
             if (lastTime >= 0)
             {

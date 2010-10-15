@@ -87,12 +87,12 @@
     <Compile Include="core\Application.cs" />
     <Compile Include="core\BaseElement.cs" />
     <Compile Include="core\Constants.cs" />
-    <Compile Include="core\DateTimeHelper.cs" />
     <Compile Include="core\DynamicArray.cs" />
     <Compile Include="core\Preferences.cs" />
     <Compile Include="core\ResourceMgr.cs" />
     <Compile Include="core\RootController.cs" />
     <Compile Include="core\SoundMgr.cs" />
+    <Compile Include="core\GameClock.cs" />
     <Compile Include="core\Timer.cs" />
     <Compile Include="core\TimerManager.cs" />
     <Compile Include="core\View.cs" />

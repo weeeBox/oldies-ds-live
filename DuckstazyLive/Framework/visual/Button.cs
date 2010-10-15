@@ -67,7 +67,7 @@ namespace Framework.visual
             state = s;
             BaseElement up = getChild(BUTTON_UP);
             BaseElement down = getChild(BUTTON_DOWN);
-            BaseElement focused = getChild(BUTTON_DOWN);
+            BaseElement focused = getChild(BUTTON_FOCUSED);
 
             up.setEnabled(s == BUTTON_UP);
             down.setEnabled(s == BUTTON_DOWN);
@@ -79,6 +79,10 @@ namespace Framework.visual
             get { return state == BUTTON_FOCUSED; }
         }
 
+        public override void update(float dt)
+        {
+            base.update(dt);
+        }
 
         //public override bool onTouchDown(float tx, float ty)
         //{
