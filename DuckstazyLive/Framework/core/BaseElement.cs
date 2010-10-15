@@ -6,29 +6,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Framework.core
 {
-    public enum HAlign
-    {
-        ALIGN_LEFT,
-        ALIGN_CENTER,
-        ALIGN_RIGHT
-    }
-
-    public enum VAlign
-    {
-        ALIGN_TOP,
-        ALIGN_MIDDLE,
-        ALIGN_BOTTOM
-    }
-
     public abstract class BaseElement
     {
-        public static int ANCHOR_LEFT = 1;
-        public static int ANCHOR_HCENTER = 2;
-        public static int ANCHOR_RIGHT = 4;
-        public static int ANCHOR_TOP = 8;
-        public static int ANCHOR_VCENTER = 16;
-        public static int ANCHOR_BOTTOM = 32;
-        public static int ANCHOR_CENTER = 2 | 16;
+        public const float ALIGN_MIN = 0.0f;
+        public const float ALIGN_CENTER = 0.5f;
+        public const float ALIGN_MAX = 1.0f;        
 
         public enum Timeline
         {
@@ -88,8 +70,11 @@ namespace Framework.core
         public float translateX;
         public float translateY;
 
-        public int anchor;
-        public int parentAnchor;
+        public float alignX;
+        public float alignY;
+
+        public float parentAlignX;
+        public float parentAlignY;
 
         public bool passTransformationsToChilds;
         public bool passTouchEventsToAllChilds;
@@ -122,16 +107,14 @@ namespace Framework.core
             rotation = 0;
             rotationCenterX = 0;
             rotationCenterY = 0;
-            scaleX = 1;
-            scaleY = 1;
+            scaleX = 1.0f;
+            scaleY = 1.0f;
             color = Color.White; //solidOpaqueRGBA;
             translateX = 0;
             translateY = 0;
 
-            parentAnchor = Constants.UNDEFINED; //# UNDEFINED; // TODO: Really UNDEFINED ???	
+            parentAlignX = parentAlignY = alignX = alignY = ALIGN_MIN;            
             parent = null;
-
-            anchor = ANCHOR_TOP | ANCHOR_LEFT;
 
             childs = new DynamicArray<BaseElement>();
 
@@ -181,63 +164,13 @@ namespace Framework.core
         public virtual void preDraw()
         {
             // align to parent
-            if (parentAnchor != Constants.UNDEFINED)
-            {
-                if ((parentAnchor & ANCHOR_LEFT) != 0)
-                {
-                    drawX = parent.drawX + x;
-                }
-                else if ((parentAnchor & ANCHOR_HCENTER) != 0)
-                {
-                    drawX = parent.drawX + x + (parent.width >> 1);
-                }
-                else if ((parentAnchor & ANCHOR_RIGHT) != 0)
-                {
-                    drawX = parent.drawX + x + parent.width;
-                }
+            drawX = x - width * alignX;
+            drawY = y - height * alignY;            
 
-                if ((parentAnchor & ANCHOR_TOP) != 0)
-                {
-                    drawY = parent.drawY + y;
-                }
-                else if ((parentAnchor & ANCHOR_VCENTER) != 0)
-                {
-                    drawY = parent.drawY + y + (parent.height >> 1);
-                }
-                else if ((parentAnchor & ANCHOR_BOTTOM) != 0)
-                {
-                    drawY = parent.drawY + y + parent.height;
-                }
-            }
-            else
+            if (parent != null)
             {
-                drawX = x;
-                drawY = y;
-            }
-
-            // align self anchor
-            if ((anchor & ANCHOR_TOP) == 0)
-            {
-                if ((anchor & ANCHOR_VCENTER) != 0)
-                {
-                    drawY -= height >> 1;
-                }
-                else if ((anchor & ANCHOR_BOTTOM) != 0)
-                {
-                    drawY -= height;
-                }
-            }
-
-            if ((anchor & ANCHOR_LEFT) == 0)
-            {
-                if ((anchor & ANCHOR_HCENTER) != 0)
-                {
-                    drawX -= width >> 1;
-                }
-                else if ((anchor & ANCHOR_RIGHT) != 0)
-                {
-                    drawX -= width;
-                }
+                drawX += parent.drawX + parent.width * parentAlignX;
+                drawY += parent.drawY + parent.height * parentAlignY;
             }
 
             bool changeScale = (scaleX != 1.0 || scaleY != 1.0);
@@ -352,6 +285,11 @@ namespace Framework.core
         public DynamicArray<BaseElement> getChilds()
         {
             return childs;
+        }
+
+        public BaseElement Parent
+        {
+            get { return parent; }
         }
 
         public int childsCount()
@@ -516,6 +454,24 @@ namespace Framework.core
         public bool isEnabled()
         {
             return (visible && updateable);
+        }
+
+        public void toParentCenter()
+        {
+            setAlign(ALIGN_CENTER, ALIGN_CENTER);
+            setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
+        }
+
+        public void setAlign(float alignX, float alignY)
+        {
+            this.alignX = alignX;
+            this.alignY = alignY;
+        }
+
+        public void setParentAlign(float alignX, float alignY)
+        {
+            this.parentAlignX = alignX;
+            this.parentAlignY = alignY;
         }
     }
 }
