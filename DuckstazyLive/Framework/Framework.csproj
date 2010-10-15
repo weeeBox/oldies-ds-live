@@ -105,6 +105,7 @@
     <Compile Include="visual\GeometryFactory.cs" />
     <Compile Include="visual\Image.cs" />
     <Compile Include="visual\Text.cs" />
+    <Compile Include="visual\TiledImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
