@@ -20,11 +20,11 @@ namespace Framework.core
 
     public struct ResourceLoadInfo
     {        
-        public ResourceLoadInfo(String fileName, ResourceType resType, int resName, Object[] resParams)
+        public ResourceLoadInfo(String fileName, ResourceType resType, int resId, Object[] resParams)
         {
             this.fileName = fileName;
             this.resType = resType;
-            this.resName = resName;
+            this.resId = resId;
             this.resParams = resParams;
         }
 
@@ -37,7 +37,7 @@ namespace Framework.core
                 return fileName.Substring(0, idx);
         }
 
-        public int resName;
+        public int resId;
         public ResourceType resType;
         public String fileName;
         public Object[] resParams;
@@ -76,11 +76,11 @@ namespace Framework.core
             stopTimer();
         }
 
-        public void addResourceToLoadQueue(String fileName, ResourceType resType, int resName, Object[] p)
+        public void addResourceToLoadQueue(String fileName, ResourceType resType, int resId, Object[] p)
         {
-            Debug.Assert(resources[resName] == null, "Resource already loaded: " + resName);
+            Debug.Assert(resources[resId] == null, "Resource already loaded: " + resId);
 
-            ResourceLoadInfo r = new ResourceLoadInfo(fileName, resType, resName, p);
+            ResourceLoadInfo r = new ResourceLoadInfo(fileName, resType, resId, p);
             loadQueue.Add(r);            
         }
 
@@ -127,6 +127,11 @@ namespace Framework.core
             return resources[resName];
         }
 
+        public Texture2D getTexture(int resName)
+        {
+            return (Texture2D)resources[resName];
+        }
+
         public void freeResource(int resName)
         {            
             resources[resName] = null;            
@@ -157,8 +162,8 @@ namespace Framework.core
                     break;
             }
 
-            if (r.resName >= 0)
-                resources[r.resName] = res;
+            if (r.resId >= 0)
+                resources[r.resId] = res;
 
             return res;
         }

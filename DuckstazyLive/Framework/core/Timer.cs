@@ -8,7 +8,7 @@ namespace Framework.core
 {
     public class Timer
     {
-        public static TimerManager timerManager;
+        private static TimerManager timerManager;
 
         public delegate void TimerDelegate();
 
@@ -56,6 +56,15 @@ namespace Framework.core
                 update();
             else
                 targetSelector();
+        }
+
+        public static TimerManager TimerManager
+        {
+            set 
+            {
+                Debug.Assert(timerManager == null);
+                timerManager = value;
+            }
         }
     }
 }

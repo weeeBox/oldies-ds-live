@@ -84,14 +84,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="game\DuckstazyApp.cs" />
-    <Compile Include="game\DuckstazyRootController.cs" />
-    <Compile Include="game\GameController.cs" />
-    <Compile Include="game\MenuController.cs" />
-    <Compile Include="game\StartupController.cs" />
+    <Compile Include="app\DuckstazyApp.cs" />
+    <Compile Include="app\DuckstazyApplicationSettings.cs" />
+    <Compile Include="app\DuckstazyResourceMgr.cs" />
+    <Compile Include="app\DuckstazyResources.cs" />
+    <Compile Include="app\DuckstazyRootController.cs" />
+    <Compile Include="app\GameController.cs" />
+    <Compile Include="app\MenuController.cs" />
+    <Compile Include="app\MenuView.cs" />
+    <Compile Include="app\StartupController.cs" />
+    <Compile Include="app\StartupView.cs" />
+    <Compile Include="app\SystemTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Duckstazy.cs" />
+    <Compile Include="DuckstazyGame.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
