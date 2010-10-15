@@ -5,6 +5,7 @@ using System.Text;
 using Framework.core;
 using Framework.visual;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.app
 {
@@ -18,18 +19,22 @@ namespace DuckstazyLive.app
 
             CustomGeomerty sky = GeometryFactory.createGradient(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT, new Color(63, 181, 242), new Color(217, 240, 254));
             CustomGeomerty ground = GeometryFactory.createGradient(Constants.GROUND_X, Constants.GROUND_Y, Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT, new Color(55, 29, 0), new Color(92, 48, 11));
-            Image grass = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_GRASS));
-            grass.setAlign(BaseElement.ALIGN_MIN, BaseElement.ALIGN_MAX);            
+
+            Texture2D grassTex = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_GRASS);            
+            TiledImage grass = new TiledImage(grassTex, Constants.GROUND_WIDTH, grassTex.Height);
+            grass.x = Constants.GROUND_X;
+            grass.y = Constants.GROUND_Y;
+            grass.setAlign(BaseElement.ALIGN_MIN, BaseElement.ALIGN_MAX);
             view.addChild(sky);
             view.addChild(ground);
-            ground.addChild(grass);
+            view.addChild(grass);
 
             Image titleBack = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_MENU_TITLE_BACK));            
             Image title = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_MENU_TITLE));
             titleBack.toParentCenter();
             title.toParentCenter();
-            view.addChild(titleBack);
-            view.addChild(title);            
+            sky.addChild(titleBack);
+            sky.addChild(title);            
 
             Image buttonUpImage = createButtonImage(DuckstazyResource.IMG_BUTTON_STROKE_DEFAULT, 5.0f);            
             Image buttonDownImage = createButtonImage(DuckstazyResource.IMG_BUTTON_STROKE_FOCUSED, 2.5f);

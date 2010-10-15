@@ -228,6 +228,28 @@ namespace Framework.core
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), src, drawColor);
         }        
 
+        public static void DrawImageTiled(Texture2D tex, ref Rectangle src, ref Rectangle dest)
+        {
+            // TODO: implement with texture repeat
+            int destWidth = dest.Width;
+            int destHeight = dest.Height;
+            int srcWidth = src.Width;
+            int srcHeight = src.Height;
+            int numTilesX = destWidth / srcWidth + (destWidth % srcWidth != 0 ? 1 : 0);
+            int numTilesY = destHeight / srcHeight + (destHeight % srcHeight != 0 ? 1 : 0);
+            int x = dest.X;
+            int y = dest.Y;
+            for (int tileY = 0; tileY < numTilesY; ++tileY)
+            {
+                for (int tileX = 0; tileX < numTilesX; ++tileX)
+                {
+                    DrawImagePart(tex, src, x, y);
+                    x += srcWidth;                    
+                }
+                y += srcHeight;
+            }
+        }
+
         public static void DrawGeomerty(CustomGeomerty geometry)
         {
             GetSpriteBatch(BatchMode.Geometry);
