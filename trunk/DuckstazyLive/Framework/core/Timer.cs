@@ -6,221 +6,56 @@ using System.Diagnostics;
 
 namespace Framework.core
 {
-    enum TimerState
+    public class Timer
     {
-        CREATED,
-        RUNNING,
-        PAUSED,
-        STOPPED
-    }
+        public static TimerManager timerManager;
 
-    public interface TimerListener
-    {
-        void timerStarted(Timer t);
-        void timerPaused(Timer t);
-        void timerResumed(Timer t);
-        void timerStopped(Timer t);
-    }
+        public delegate void TimerDelegate();
 
-    public abstract class Timer
-    {
-        private const int INITIAL_LISTENERS_LIST_CAPACITY = 10;
+        public TimerDelegate targetSelector;
 
-        private float delay;
-        private float elapsedTime;
-        private float tickTime;
-        private int repeatCount;
-        private int repeatCompleted;
-        private TimerState timerState;
+        public float desiredInterval;
+        public float lastFired = 0;
 
-        private List<TimerListener> listeners;
-
-        public Timer(float delay, int repeatCount)
-        {
-            this.delay = delay;
-            this.repeatCount = repeatCount;
-            timerState = TimerState.CREATED;
-        }
-
-        public Timer(float delay)
-            : this(delay, 1)
-        {
-        }
+        private bool started;
 
         public Timer()
-            : this(0)
         {
         }
 
-        public abstract void tickTimer(float dt);
-
-        public void addToTickTime(float dt)
+        public bool isTimerStarted()
         {
-            tickTime += dt;
-            elapsedTime += dt;
-        }
-
-        public void fireTimer()
-        {
-            repeatCompleted++;
-            tickTimer(tickTime);
-
-            tickTime = 0;
-            if (repeatCount != 0 && repeatCompleted == repeatCount)
-            {
-                stopTimer();
-            }
-        }
-
-        public float getTimerTickTime()
-        {
-            return tickTime;
-        }
-
-        public float getTimerDelay()
-        {
-            return delay;
-        }
-
-        public float getTimerElapsedTime()
-        {
-            return elapsedTime;
-        }
-
-        public float getTimerNumRepeated()
-        {
-            return repeatCompleted;
+            return started;
         }
 
         public void startTimer()
         {
-            Debug.Assert(timerState == TimerState.CREATED, "Bad timer state: " + timerState);
-
-            TimerManager.getInstance().addTimer(this);
-            timerState = TimerState.RUNNING;
-
-            fireTimerStarted();
-        }
-
-        public void pauseTimer()
-        {
-            Debug.Assert(isTimerPaused());
-
-            timerState = TimerState.PAUSED;
-            fireTimerPaused();
-        }
-
-        public void resumeTimer()
-        {
-            Debug.Assert(isTimerPaused());
-            timerState = TimerState.RUNNING;
-
-            fireTimerResumed();
+            started = true;
+            timerManager.registerTimer(this);
         }
 
         public void stopTimer()
         {
-            Debug.Assert(!isTimerStopped());
-            timerState = TimerState.STOPPED;
-
-            fireTimerStopped();
+            started = false;
+            timerManager.deregisterTimer(this);
         }
 
-        public void restartTimer()
+        public virtual void update()
         {
-            repeatCompleted = 0;
-            tickTime = 0;
-            elapsedTime = 0;
-            if (isTimerStopped())
-            {
-                startTimer();
-            }
+            // Do nothing by default
+        }
+
+        public void setTimerInterval(float interval)
+        {
+            desiredInterval = interval;
+        }
+
+        public void internalUpdate()
+        {
+            if (targetSelector == null)
+                update();
             else
-            {
-                timerState = TimerState.RUNNING;
-            }
-        }
-
-        public bool isTimerPaused()
-        {
-            return timerState == TimerState.PAUSED;
-        }
-
-        public bool isTimerRunning()
-        {
-            return timerState == TimerState.RUNNING;
-        }
-
-        public bool isTimerStopped()
-        {
-            return timerState == TimerState.STOPPED;
-        }
-
-        public void addTimerListener(TimerListener listener)
-        {
-            if (listeners == null)
-                listeners = new List<TimerListener>(INITIAL_LISTENERS_LIST_CAPACITY);
-
-            if (!listeners.Contains(listener))
-                listeners.Add(listener);
-        }
-
-        public void removeTimerListener(TimerListener listener)
-        {
-            Debug.Assert(listeners != null);
-            listeners.Remove(listener);
-        }
-
-        private void fireTimerStarted()
-        {
-            if (getListenersCount() == 0)
-                return;
-
-            foreach (TimerListener listener in listeners)
-            {
-                listener.timerStarted(this);
-            }
-        }
-
-        private void fireTimerPaused()
-        {
-            if (getListenersCount() == 0)
-                return;
-
-            foreach (TimerListener listener in listeners)
-            {
-                listener.timerPaused(this);
-            }
-        }
-
-        private void fireTimerResumed()
-        {
-            if (getListenersCount() == 0)
-                return;
-
-            foreach (TimerListener listener in listeners)
-            {
-                listener.timerResumed(this);
-            }
-        }
-
-        private void fireTimerStopped()
-        {
-            if (getListenersCount() == 0)
-                return;
-
-            foreach (TimerListener listener in listeners)
-            {
-                listener.timerStopped(this);
-            }
-        }
-
-        private int getListenersCount()
-        {
-            if (listeners == null)
-                return 0;
-
-            return listeners.Count;
+                targetSelector();
         }
     }
 }

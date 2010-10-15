@@ -5,6 +5,8 @@ using System.Text;
 using System.Diagnostics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Framework.core
 {
@@ -58,12 +60,13 @@ namespace Framework.core
 
         private const float LOADING_TIME_INTERVAL = 1.0f / 20.0f;
 
-        public ResourceMgr(ContentManager cm) : base(LOADING_TIME_INTERVAL)
+        public ResourceMgr(ContentManager cm)
         {
             contentManager = cm;
 
             resources = new Object[getCapacity()];
             loadQueue = new List<ResourceLoadInfo>(getCapacity());            
+            setTimerInterval(LOADING_TIME_INTERVAL);
         }
 
         public void initLoading()
@@ -104,7 +107,7 @@ namespace Framework.core
 
         public bool isBusy()
         {
-            return isTimerRunning();
+            return isTimerStarted();
         }
 
         public int getPercentLoaded()
@@ -125,15 +128,8 @@ namespace Framework.core
         }
 
         public void freeResource(int resName)
-        {
-            if (resources[resName] != null && resources[resName] is Texture2D)
-            {
-                ((Texture2D)resources[resName]).setTexture(null);
-            }
-            else
-            {
-                resources[resName] = null;
-            }
+        {            
+            resources[resName] = null;            
         }
 
         public abstract int getCapacity();
@@ -177,7 +173,7 @@ namespace Framework.core
                 return textures[name];
             }
 
-            Texture2D texture = cm.Load<Texture2D>(name);
+            Texture2D texture = contentManager.Load<Texture2D>(name);
             textures.Add(name, texture);
             return texture;            
         }
@@ -204,7 +200,7 @@ namespace Framework.core
 
         public object loadFont(ResourceLoadInfo r)
         {
-            throw NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public object loadBinary(ResourceLoadInfo r)
@@ -212,7 +208,7 @@ namespace Framework.core
             return contentManager.Load<byte[]>(r.getResContentName());
         }
 
-        public override void tickTimer(float dt)
+        public override void update()
         {
             ResourceLoadInfo r = loadQueue[loaded];
             if (loadResource(r) != null)
