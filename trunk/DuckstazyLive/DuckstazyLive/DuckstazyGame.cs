@@ -10,20 +10,27 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
+using Framework.core;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive
 {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Duckstazy : Microsoft.Xna.Framework.Game
+    public class DuckstazyGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        public Duckstazy()
+        DuckstazyApp application;
+
+        public DuckstazyGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = Constants.SCREEN_WIDTH;
+            graphics.PreferredBackBufferHeight = Constants.SCREEN_HEIGHT;
+
             Content.RootDirectory = "Content";
         }
 
@@ -46,8 +53,11 @@ namespace DuckstazyLive
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            // Create a new SpriteBatch, which can be used to processDraw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
+
+            application = new DuckstazyApp(Content);
+            application.onApplicationStart();
 
             // TODO: use this.Content to load your game content here
         }
@@ -68,17 +78,14 @@ namespace DuckstazyLive
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            // TODO: Add your update logic here
+            float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;
+            application.update(dt);
 
             base.Update(gameTime);
         }
 
         /// <summary>
-        /// This is called when the game should draw itself.
+        /// This is called when the game should processDraw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
@@ -86,6 +93,9 @@ namespace DuckstazyLive
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            AppGraphics.Begin(GraphicsDevice);
+            application.processDraw();
+            AppGraphics.End();
 
             base.Draw(gameTime);
         }

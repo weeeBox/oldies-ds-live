@@ -9,7 +9,7 @@ namespace DuckstazyLive
         /// </summary>
         static void Main(string[] args)
         {
-            using (Duckstazy game = new Duckstazy())
+            using (DuckstazyGame game = new DuckstazyGame())
             {
                 game.Run();
             }

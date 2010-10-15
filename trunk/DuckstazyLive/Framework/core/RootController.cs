@@ -55,31 +55,22 @@ namespace Framework.core
         }
 
         public void processDraw()
-        {
-            try
+        {            
+            if (currentController.activeViewId != Constants.UNDEFINED)
             {
-                if (currentController.activeViewId != Constants.UNDEFINED)
+                if (transitionTime < 0)
                 {
-                    if (transitionTime < 0)
-                    {
-                        currentController.activeView().draw();
-                    }
-                    else
-                    {
-                        drawViewTransition();
+                    currentController.activeView().draw();
+                }
+                else
+                {
+                    drawViewTransition();
 
-                        if (currentController.lastTime > transitionTime)
-                        {
-                            transitionTime = -1;// DateTime.MinValue; //UNDEFINED;
-                        }
+                    if (currentController.lastTime > transitionTime)
+                    {
+                        transitionTime = -1;// DateTime.MinValue; //UNDEFINED;
                     }
                 }
-            }
-            catch (Exception e)
-            {
-                System.Console.WriteLine("Error on draw: " + e);
-                // TODO: show alert
-                throw e;
             }
         }
 
