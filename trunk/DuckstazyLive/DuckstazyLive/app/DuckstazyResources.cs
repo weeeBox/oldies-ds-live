@@ -39,6 +39,7 @@ namespace DuckstazyLive.app
         IMG_BUTTON_CLOUD_3,
         IMG_MENU_TITLE,
         IMG_MENU_TITLE_BACK,
+        IMG_GRASS,
         RESOURCES_COUNT,
     }
 
@@ -55,6 +56,7 @@ namespace DuckstazyLive.app
                 new ResourceBaseInfo(DuckstazyResource.IMG_BUTTON_CLOUD_1, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
                 new ResourceBaseInfo(DuckstazyResource.IMG_BUTTON_CLOUD_2, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_2"),
                 new ResourceBaseInfo(DuckstazyResource.IMG_BUTTON_CLOUD_3, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_3"),
+                new ResourceBaseInfo(DuckstazyResource.IMG_GRASS, ResourceType.RESOURCE_TYPE_TEXTURE, "grass"),
             },
             // PACK_MENU
             new ResourceBaseInfo[]

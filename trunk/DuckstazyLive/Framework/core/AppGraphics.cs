@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Framework.visual;
+using System.Diagnostics;
 
 namespace Framework.core
 {
@@ -20,10 +22,12 @@ namespace Framework.core
         {
             None,
             Sprite,
+            Geometry,
         }
 
         private static GraphicsDevice graphicsDevice;
         private static SpriteBatch spriteBatch;
+        private static BasicEffect basicEffect;
 
         private static BatchMode batchMode = BatchMode.None;
         private static Matrix matrix;
@@ -34,32 +38,46 @@ namespace Framework.core
 
         private static Color transpColor = new Color(0, 0, 0, 0);
         private static Vector2 zeroVector = new Vector2(0, 0);
+        private static Camera camera;
 
-        private static void BeginSpriteBatch(SpriteBatch sb, AppBlendMode blendMode, Matrix m)
+        private static void BeginSpriteBatch(SpriteBatch sb, AppBlendMode blendMode, Matrix m, BatchMode mode)
         {
-            SpriteBlendMode sbm = (blendMode == AppBlendMode.None) ? SpriteBlendMode.None : SpriteBlendMode.AlphaBlend;
-            sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.SaveState, m);
-            batchMode = BatchMode.Sprite;
+            Debug.Assert(mode != BatchMode.None);
+
+            if (mode == BatchMode.Sprite)
+            {
+                SpriteBlendMode sbm = (blendMode == AppBlendMode.None) ? SpriteBlendMode.None : SpriteBlendMode.AlphaBlend;
+                sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, m);
+            }
+            else if (mode == BatchMode.Geometry)
+            {
+                basicEffect.Begin();
+                basicEffect.CurrentTechnique.Passes[0].Begin();
+            }
+            batchMode = mode;
         }        
 
-        private static SpriteBatch GetSpriteBatch()
+        private static SpriteBatch GetSpriteBatch(BatchMode mode)
         {
-            if (batchMode != BatchMode.Sprite)
+            if (batchMode != mode)
             {
                 EndBatch();
-
-                BeginSpriteBatch(spriteBatch, blendMode, matrix);
-                batchMode = BatchMode.Sprite;
+                BeginSpriteBatch(spriteBatch, blendMode, matrix, mode);                
             }
             return spriteBatch;
         }
 
         private static void EndBatch()
         {
-            if (batchMode == BatchMode.Sprite)
+            if (batchMode == BatchMode.Geometry)
+            {           
+                basicEffect.CurrentTechnique.Passes[0].End();
+                basicEffect.End();                
+            }
+            else if (batchMode == BatchMode.Sprite)
             {
                 spriteBatch.End();
-            }
+            }            
 
             batchMode = BatchMode.None;
         }
@@ -96,8 +114,17 @@ namespace Framework.core
             {
                 graphicsDevice = gd;
                 spriteBatch = new SpriteBatch(graphicsDevice);
-                
-                BeginSpriteBatch(spriteBatch, AppBlendMode.None, Matrix.Identity);                
+                basicEffect = new BasicEffect(graphicsDevice, null);
+
+                Matrix worldMatrix = Matrix.Identity;
+                Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
+                Matrix projection = Matrix.CreateOrthographicOffCenter(0.0f, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, 0, 1.0f, 1000.0f);
+                camera = new Camera(worldMatrix, viewMatrix, projection);
+
+                basicEffect.World = worldMatrix;
+                basicEffect.View = viewMatrix;
+                basicEffect.Projection = projection;
+                basicEffect.VertexColorEnabled = true;
             }            
         }
 
@@ -163,7 +190,7 @@ namespace Framework.core
 
         public static void DrawString(SpriteFont font, double x, double y, String text)
         {
-            GetSpriteBatch().DrawString(font, text, new Vector2((float)x, (float)y), Color.Red);
+            GetSpriteBatch(BatchMode.Sprite).DrawString(font, text, new Vector2((float)x, (float)y), Color.Red);
         }
 
         public static void DrawImage(Texture2D tex, double x, double y)
@@ -177,28 +204,43 @@ namespace Framework.core
         }
 
         public static void DrawImage(Texture2D tex, float x, float y)
-        {            
-            GetSpriteBatch().Draw(tex, new Vector2(x, y), drawColor);
+        {
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), drawColor);
         }
 
         public static void DrawImage(Texture2D tex, float x, float y, float opacity)
-        {         
-            GetSpriteBatch().Draw(tex, new Vector2(x, y), new Color(1.0f, 1.0f, 1.0f, opacity));
+        {
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), new Color(1.0f, 1.0f, 1.0f, opacity));
         }
 
         public static void DrawImage(Texture2D tex, float x, float y, Color color)
-        {            
-            GetSpriteBatch().Draw(tex, new Vector2(x, y), color);
+        {
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), color);
         }
 
         public static void DrawImagePart(Texture2D tex, Rectangle src, float x, float y)
-        {            
-            GetSpriteBatch().Draw(tex, new Vector2(x, y), src, drawColor);
+        {
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), src, drawColor);
         }
 
         public static void DrawImagePart(Texture2D tex, Rectangle src, float x, float y, Color dc, float size)
-        {            
-            GetSpriteBatch().Draw(tex, new Vector2(x, y), src, drawColor);
+        {
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), src, drawColor);
+        }        
+
+        public static void DrawGeomerty(CustomGeomerty geometry)
+        {
+            GetSpriteBatch(BatchMode.Geometry);
+
+            graphicsDevice.VertexDeclaration = geometry.VertexDeclaration;
+            if (geometry.IndexData == null)
+            {
+                graphicsDevice.DrawUserPrimitives(geometry.PrimitiveType, geometry.VertexData, 0, geometry.PrimitiveCount);
+            }
+            else
+            {
+                graphicsDevice.DrawUserIndexedPrimitives(geometry.PrimitiveType, geometry.VertexData, 0, geometry.VertexData.Length, geometry.IndexData, 0, geometry.PrimitiveCount);
+            }
         }
 
         public static void Clear(Color color)
@@ -206,5 +248,10 @@ namespace Framework.core
             EndBatch();
             graphicsDevice.Clear(color);
         }        
+
+        public static GraphicsDevice GraphicsDevice
+        {
+            get { return graphicsDevice; }
+        }
     }
 }

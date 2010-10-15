@@ -99,7 +99,10 @@
     <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="visual\Button.cs" />
+    <Compile Include="visual\Camera.cs" />
     <Compile Include="visual\Font.cs" />
+    <Compile Include="visual\CustomGeomerty.cs" />
+    <Compile Include="visual\GeometryFactory.cs" />
     <Compile Include="visual\Image.cs" />
     <Compile Include="visual\Text.cs" />
   </ItemGroup>

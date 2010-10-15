@@ -92,8 +92,7 @@ namespace Framework.visual
                 //else
                 //{
                 //    dx = drawX;
-                //}
-                if (true) throw new NotImplementedException();
+                //}               
 
                 for (int c = 0; c < len; c++)
                 {
@@ -107,6 +106,8 @@ namespace Framework.visual
             }
 
             postDraw();
+
+            throw new NotImplementedException();
         }
 
         public void formatText()
