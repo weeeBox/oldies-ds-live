@@ -82,6 +82,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="core\AppGraphics.cs" />
     <Compile Include="core\ApplicationSettings.cs" />
     <Compile Include="core\Application.cs" />
     <Compile Include="core\BaseElement.cs" />
@@ -93,9 +94,13 @@
     <Compile Include="core\RootController.cs" />
     <Compile Include="core\SoundMgr.cs" />
     <Compile Include="core\Timer.cs" />
+    <Compile Include="core\TimerManager.cs" />
     <Compile Include="core\View.cs" />
     <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="visual\Font.cs" />
+    <Compile Include="visual\Image.cs" />
+    <Compile Include="visual\Text.cs" />
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Content\Content.contentproj">
