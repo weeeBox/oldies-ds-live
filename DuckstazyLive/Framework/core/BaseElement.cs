@@ -64,8 +64,7 @@ namespace Framework.core
             }
         }
 
-        public bool visible;
-        public bool touchable;
+        public bool visible;        
         public bool updateable;
 
         public float x;
@@ -111,8 +110,7 @@ namespace Framework.core
 
         public BaseElement()
         {
-            visible = true;
-            touchable = true;
+            visible = true;            
             updateable = true;
 
             x = 0;
@@ -511,14 +509,13 @@ namespace Framework.core
 
         public void setEnabled(bool e)
         {
-            visible = e;
-            touchable = e;
+            visible = e;            
             updateable = e;
         }
 
         public bool isEnabled()
         {
-            return (visible && touchable && updateable);
+            return (visible && updateable);
         }
     }
 }

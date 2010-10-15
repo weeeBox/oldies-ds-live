@@ -6,7 +6,11 @@ using Framework.core;
 
 namespace DuckstazyLive.game
 {
-    class MenuController : ViewController
+    public class MenuController : ViewController
     {
+        MenuController(ViewController p) : base(p)
+        {
+
+        }
     }
 }
