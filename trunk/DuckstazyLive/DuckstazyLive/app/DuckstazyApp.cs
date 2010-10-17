@@ -59,6 +59,7 @@ namespace DuckstazyLive.app
         {
             GameClock.update(dt);
             fireTimers();
+            Application.sharedInputMgr.update();
             Application.sharedRootController.processUpdate();
         }
 

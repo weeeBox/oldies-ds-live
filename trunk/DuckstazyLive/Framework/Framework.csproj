@@ -88,6 +88,7 @@
     <Compile Include="core\BaseElement.cs" />
     <Compile Include="core\Constants.cs" />
     <Compile Include="core\DynamicArray.cs" />
+    <Compile Include="core\InputManager.cs" />
     <Compile Include="core\Preferences.cs" />
     <Compile Include="core\ResourceMgr.cs" />
     <Compile Include="core\RootController.cs" />

@@ -19,7 +19,8 @@ namespace Framework.core
             sharedAppSettings = createAppSettings();
             sharedResourceMgr = createResourceMgr();            
             sharedSoundMgr = createSoundMgr();
-            sharedRootController = createRootController();            
+            sharedRootController = createRootController();
+            sharedInputMgr = createInputManager();
         }
 
         public virtual void onApplicationStop()
@@ -36,10 +37,16 @@ namespace Framework.core
             return new Preferences();
         }
 
+        public InputManager createInputManager()
+        {
+            return new InputManager();
+        }
+
         public static RootController sharedRootController;
         public static ApplicationSettings sharedAppSettings;
         public static ResourceMgr sharedResourceMgr;        
         public static SoundMgr sharedSoundMgr;        
-        public static Preferences sharedPreferences;        
+        public static Preferences sharedPreferences;
+        public static InputManager sharedInputMgr;
     }
 }
