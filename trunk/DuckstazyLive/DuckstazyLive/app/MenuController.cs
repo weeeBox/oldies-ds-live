@@ -72,7 +72,7 @@ namespace DuckstazyLive.app
             MenuView view = (MenuView)getView(VIEW_MENU);
             showView(VIEW_MENU);
 
-            // deactivate();
+            deactivate();
         }
     }
 }
