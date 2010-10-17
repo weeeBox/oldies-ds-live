@@ -22,10 +22,12 @@ namespace Framework.core
         }
     }
 
-    public interface InputDelegate
+    public interface InputListener
     {
         void buttonPressed(ButtonEvent e);
-        void buttonReleased(ButtonEvent e);
+        void buttonReleased(ButtonEvent e);    
+        void keyPressed(Keys key);
+        void keyReleased(Keys key);
     }
 
     public class InputManager
@@ -59,31 +61,71 @@ namespace Framework.core
             Buttons.LeftThumbstickRight,
         };
 
-        private GamePadState currentState;
-        private InputDelegate inputDelegate;       
+        private GamePadState currentGamepadState;
+        private KeyboardState currentKeyboardState;
+        private List<InputListener> inputListeners;
 
         public InputManager()
         {            
-            currentState = GamePad.GetState(PlayerIndex.One);
+            currentGamepadState = GamePad.GetState(PlayerIndex.One);
+            currentKeyboardState = Keyboard.GetState();
+            inputListeners = new List<InputListener>();
         }
 
         public void update()
         {
-            GamePadState oldState = currentState;
-            currentState = GamePad.GetState(PlayerIndex.One);
+            updateGamepad();
+#if WINDOWS
+            updateKeyboard();
+#endif
+        }
 
-            if (inputDelegate != null)
+        private void updateGamepad()
+        {
+            GamePadState oldState = currentGamepadState;
+            currentGamepadState = GamePad.GetState(PlayerIndex.One);
+
+            if (inputListeners.Count > 0)
             {
                 for (int buttonIndex = 0; buttonIndex < CHECK_BUTTONS.Length; ++buttonIndex)
                 {
                     Buttons button = CHECK_BUTTONS[buttonIndex];
-                    if (isButtonDown(button, ref oldState, ref currentState))
+                    if (isButtonDown(button, ref oldState, ref currentGamepadState))
                     {
-                        inputDelegate.buttonPressed(new ButtonEvent(button, currentState.ThumbSticks, currentState.Triggers));
+                        ButtonEvent e = new ButtonEvent(button, currentGamepadState.ThumbSticks, currentGamepadState.Triggers);
+                        fireButtonPressed(ref e);
                     }
-                    else if (isButtonUp(button, ref oldState, ref currentState))
+                    else if (isButtonUp(button, ref oldState, ref currentGamepadState))
                     {
-                        inputDelegate.buttonReleased(new ButtonEvent(button, currentState.ThumbSticks, currentState.Triggers));
+                        ButtonEvent e = new ButtonEvent(button, currentGamepadState.ThumbSticks, currentGamepadState.Triggers);
+                        fireButtonReleased(ref e);
+                    }
+                }
+            }
+        }
+
+        private void updateKeyboard()
+        {
+            KeyboardState oldState = currentKeyboardState;
+            currentKeyboardState = Keyboard.GetState();
+
+            if (inputListeners.Count > 0)
+            {
+                Keys[] oldKeys = oldState.GetPressedKeys();
+                Keys[] newKeys = currentKeyboardState.GetPressedKeys();
+
+                for (int i = 0; i < newKeys.Length; ++i)
+                {
+                    if (!oldKeys.Contains(newKeys[i]))
+                    {
+                        fireKeyPressed(newKeys[i]);
+                    }
+                }
+                for (int i = 0; i < oldKeys.Length; ++i)
+                {
+                    if (!newKeys.Contains(oldKeys[i]))
+                    {
+                        fireKeyReleased(oldKeys[i]);
                     }
                 }
             }
@@ -99,20 +141,61 @@ namespace Framework.core
             return newState.IsButtonUp(button) && oldState.IsButtonDown(button);
         }
 
-        public InputDelegate InputDelegate
+        public void addInputListener(InputListener listener)
         {
-            get { return inputDelegate; }
-            set { inputDelegate = value; }
+            inputListeners.Add(listener);
+        }
+
+        public void removeInputListener(InputListener listener)
+        {
+            inputListeners.Remove(listener);
+        }
+
+        private void fireKeyPressed(Keys key)
+        {
+            foreach (InputListener l in inputListeners)
+            {
+                l.keyPressed(key);
+            }
+        }
+
+        private void fireKeyReleased(Keys key)
+        {
+            foreach (InputListener l in inputListeners)
+            {
+                l.keyReleased(key);
+            }
+        }
+
+        private void fireButtonPressed(ref ButtonEvent e)
+        {
+            foreach (InputListener l in inputListeners)
+            {
+                l.buttonPressed(e);
+            }
+        }
+
+        private void fireButtonReleased(ref ButtonEvent e)
+        {
+            foreach (InputListener l in inputListeners)
+            {
+                l.buttonReleased(e);
+            }
         }
 
         public GamePadThumbSticks ThumbSticks
         {
-            get { return currentState.ThumbSticks; }
+            get { return currentGamepadState.ThumbSticks; }
         }
 
         public GamePadTriggers Triggers
         {
-            get { return currentState.Triggers; }
+            get { return currentGamepadState.Triggers; }
+        }
+
+        public bool isKeyPressed(Keys key)
+        {
+            return currentKeyboardState.IsKeyDown(key);
         }
     }
 }
