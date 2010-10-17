@@ -56,8 +56,6 @@ namespace DuckstazyLive.game
 
         private float gravityBoostCoeff;
 
-        private Vector2 origin;
-
         private bool steping;
         private bool flipped;
 
@@ -66,11 +64,8 @@ namespace DuckstazyLive.game
         private Rectangle bounds;
 
         public Hero()
-        {
-            origin = new Vector2(width / 2.0f, 0);            
-            velocity = Vector2.Zero;
-            alignX = ALIGN_CENTER;
-            alignY = ALIGN_MAX;
+        {            
+            velocity = Vector2.Zero;            
             Texture2D duck = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_DUCK_FAKE);
             width = duck.Width;
             height = duck.Height;
@@ -81,10 +76,8 @@ namespace DuckstazyLive.game
 
         public override void draw()
         {
-            base.preDraw();
-
-            float dx = drawX;
-            float dy = drawY;           
+            float dx = x;
+            float dy = y;           
 
             if (steppingDistance > 2 && !flying)
             {
@@ -92,18 +85,16 @@ namespace DuckstazyLive.game
             }
 
             Draw(dx, dy);
-            if (dx < -0.5f * bounds.Width)
+            if (dx < 0)
             {
                 dx += bounds.Width;
                 Draw(dx, dy);
             }
-            else if (dx > 0.5f * bounds.Width)
+            else if (dx > bounds.Width - width)
             {
                 dx -= bounds.Width;
                 Draw(dx, dy);
-            }
-
-            base.postDraw();
+            }            
         }
 
         private void Draw(float x, float y)
@@ -243,11 +234,12 @@ namespace DuckstazyLive.game
                     y += velocity.Y * dt;
                 }
 
-                if (y >= bounds.Height)
+                float minY = bounds.Height - height;
+                if (y >= minY)
                 {
                     flyingOnWings = false;
                     flying = false;
-                    y = bounds.Height;
+                    y = minY;
                     gravityBoostCoeff = 0.0f;
                     // doLandBubble(velocity.Y);
                 }
