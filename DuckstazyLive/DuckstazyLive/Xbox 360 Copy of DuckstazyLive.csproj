@@ -1,6 +1,6 @@
 ﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
-    <ProjectGuid>{7a897e10-5617-44a6-91ef-9d9e2b70f864}</ProjectGuid>
+    <ProjectGuid>{7A897E10-5617-44A6-91EF-9D9E2B70F864}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -62,13 +62,12 @@
     <Compile Include="app\DuckstazyResources.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
-    <Compile Include="app\GameView.cs" />
+    <Compile Include="app\IngameView.cs" />
     <Compile Include="app\MenuController.cs" />
     <Compile Include="app\MenuView.cs" />
     <Compile Include="app\StartupController.cs" />
     <Compile Include="app\StartupView.cs" />
-    <Compile Include="game\EnvironmentView.cs" />
-    <Compile Include="game\WorldView.cs" />
+    <Compile Include="game\GameWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DuckstazyGame.cs" />
@@ -127,7 +126,6 @@
       <Private>False</Private>
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="System.Data" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>

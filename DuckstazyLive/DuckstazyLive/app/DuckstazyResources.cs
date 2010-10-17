@@ -40,6 +40,7 @@ namespace DuckstazyLive.app
         IMG_MENU_TITLE,
         IMG_MENU_TITLE_BACK,
         IMG_GRASS,
+        IMG_DUCK_FAKE,
         RESOURCES_COUNT,
     }
 
@@ -67,6 +68,7 @@ namespace DuckstazyLive.app
             // PACK_GAME
             new ResourceBaseInfo[]
             {
+                new ResourceBaseInfo(DuckstazyResource.IMG_DUCK_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
             },
             // PACK_SOUNDS            
             new ResourceBaseInfo[]
