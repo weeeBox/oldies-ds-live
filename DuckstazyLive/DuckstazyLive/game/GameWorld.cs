@@ -17,8 +17,8 @@ namespace DuckstazyLive.game
             CustomGeomerty ground = GeometryFactory.createGradient(Constants.GROUND_X, Constants.GROUND_Y, Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT, new Color(55, 29, 0), new Color(92, 48, 11));
 
             Hero hero = new Hero();
-            hero.x = 0.5f * sky.width;
-            hero.y = sky.height;
+            hero.x = 0.5f * (sky.width - hero.width);
+            hero.y = sky.height - hero.height;
             sky.addChild(hero);
 
             Texture2D grassTex = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_GRASS);
