@@ -16,6 +16,7 @@ import org.dom4j.io.XMLWriter;
 public class ContentProjTask extends Task
 {
 	private File projFile;
+	private File codeFile;
 	private List<Package> packages = new ArrayList<Package>();
 	
 	@Override
@@ -23,11 +24,39 @@ public class ContentProjTask extends Task
 	{
 		if (projFile == null || projFile.isDirectory())
 			throw new BuildException("Bad 'projFile': " + projFile);
+		if (codeFile == null || codeFile.isDirectory())
+			throw new BuildException("Bad 'codeFile': " + codeFile);
 		
+		updateFiles(projFile.getParentFile());
+		processContentProj();
+		generateResourcesCode(codeFile);
+	}
+
+	private void updateFiles(File contentDir) 
+	{
+		FileUtils.deleteFiles(contentDir, new String[] {".png", ".mp3", ".wav"});
+		for (Package pack : packages) 
+		{
+			List<Resource> packResources = pack.getResources();
+			for (Resource res : packResources) 
+			{
+				System.out.println("Copy: " + res.getFile() + " to " + contentDir);
+				FileUtils.copy(res.getFile(), contentDir);
+			}
+		}
+	}
+
+	private void generateResourcesCode(File file) 
+	{
+		
+	}
+
+	private void processContentProj() 
+	{
 		try 
 		{
 			Document doc = new SAXReader().read(projFile);
-			process(doc);
+			processContentProj(doc);
 		} 
 		catch (DocumentException e) 
 		{
@@ -36,7 +65,7 @@ public class ContentProjTask extends Task
 		}
 	}
 	
-	private void process(Document doc)
+	private void processContentProj(Document doc)
 	{	
 		clearOldItems(doc);
 		addNewItems(doc);
@@ -81,9 +110,11 @@ public class ContentProjTask extends Task
 
 	private void addResource(Resource res, Element parent) 
 	{
+		File resFile = res.getFile();
+		
 		Element element = parent.addElement("Compile");
-		element.addAttribute("Include", res.getFile().getName());
-		element.addElement("Name").addText(res.getName());
+		element.addAttribute("Include", resFile.getName());
+		element.addElement("Name").addText(FileUtils.getFilenameNoExt(resFile));
 		element.addElement("Importer").addText(res.getImporter());
 		element.addElement("Processor").addText(res.getProcessor());
 	}
@@ -92,7 +123,7 @@ public class ContentProjTask extends Task
 	{
 		try 
 		{
-			FileOutputStream stream = new FileOutputStream("d:/temp.xml");
+			FileOutputStream stream = new FileOutputStream(file);
 			
 			OutputFormat format = OutputFormat.createPrettyPrint();
 			XMLWriter writer = new XMLWriter(stream, format);
@@ -111,6 +142,11 @@ public class ContentProjTask extends Task
 	public void addPackage(Package pack)
 	{
 		packages.add(pack);
+	}
+	
+	public void setCodeFile(File codeFile) 
+	{
+		this.codeFile = codeFile;
 	}
 	
 	public void setProjFile(File projFile) 
