@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="resources" default="run">
+	<property name="dir.lib" value="lib" />
+	<property name="dir.classes" value="tmp" />
+	<property name="dir.source" value="src" />
+	<property name="dir.res" value="../art" />
+	<property name="file.proj" value="../DuckstazyLive/Content/Content.contentproj" />
+	
+	<path id="libs">
+		<fileset dir="${dir.lib}">
+			<include name="**/*.jar" /> 
+		</fileset>
+	</path>
+
+	<target name="clean">
+		<delete dir="${dir.classes}" />
+	</target>
+	
+	<target name="build">
+		<mkdir dir="${dir.classes}"/>
+		<javac destdir="${dir.classes}" debug="true" encoding="UTF-8">
+		  	<src path="${dir.source}" /> 
+			<classpath refid="libs"/>
+		</javac>
+		<taskdef name="content" classname="ContentProjTask">
+			<classpath path="${dir.classes}"/>
+			<classpath refid="libs"/>
+		</taskdef>
+	</target>
+	
+	<target name="run" depends="build">
+		<content projFile="${file.proj}">
+			<package name="PACK_COMMON">
+				<image name="button" file="${dir.res}/button.png" />
+				<image name="button_black" file="${dir.res}/button_black.png" />
+				<image name="button_white" file="${dir.res}/button_white.png" />
+			</package>
+			
+			<package name="PACK_MENU">
+			</package>
+			
+			<package name="PACK_GAME">
+			</package>
+			
+			<package name="PACK_SOUND">
+			</package>
+		</content>
+	</target>
+</project>
