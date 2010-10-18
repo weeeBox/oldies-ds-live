@@ -59,12 +59,12 @@
     <Compile Include="app\DuckstazyApp.cs" />
     <Compile Include="app\DuckstazyApplicationSettings.cs" />
     <Compile Include="app\DuckstazyResourceMgr.cs" />
-    <Compile Include="app\DuckstazyResources.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
     <Compile Include="app\IngameView.cs" />
     <Compile Include="app\MenuController.cs" />
     <Compile Include="app\MenuView.cs" />
+    <Compile Include="app\Res.cs" />
     <Compile Include="app\StartupController.cs" />
     <Compile Include="app\StartupView.cs" />
     <Compile Include="game\GameWorld.cs" />

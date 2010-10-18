@@ -6,20 +6,6 @@ using Framework.core;
 
 namespace DuckstazyLive.app
 {
-    public struct ResourceBaseInfo
-    {
-        public DuckstazyResource resId;
-        public ResourceType resType;
-        public string filename;
-
-        public ResourceBaseInfo(DuckstazyResource resId, ResourceType resType, String filename)
-        {
-            this.resId = resId;
-            this.resType = resType;
-            this.filename = filename;
-        }
-    }
-
     public enum DuckstazyPack
     {
         PACK_COMMON,
