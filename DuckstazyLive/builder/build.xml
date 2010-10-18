@@ -32,15 +32,22 @@
 	<target name="run" depends="build">
 		<content projFile="${file.proj}">
 			<package name="PACK_COMMON">
-				<image name="button" file="${dir.res}/button.png" />
-				<image name="button_black" file="${dir.res}/button_black.png" />
-				<image name="button_white" file="${dir.res}/button_white.png" />
+				<image name="img_button_base" file="${dir.res}/button.png" />
+				<image name="img_button_stroke_default" file="${dir.res}/button_black.png" />
+				<image name="img_button_stroke_focused" file="${dir.res}/button_white.png" />
+                <image name="img_button_cloud_1" file="${dir.res}/cloud_1.png" />
+                <image name="img_button_cloud_2" file="${dir.res}/cloud_2.png" />
+                <image name="img_button_cloud_3" file="${dir.res}/cloud_3.png" />
+                <image name="img_grass" file="${dir.res}/grass.png" />
 			</package>
 			
 			<package name="PACK_MENU">
+				<image name="IMG_MENU_TITLE"  file="${dir.res}/title" />
+				<image name="IMG_MENU_TITLE_BACK" file="${dir.res}/title_back" />
 			</package>
 			
 			<package name="PACK_GAME">
+				<image name="IMG_DUCK_FAKE" file="${dir.res}/duck_fake" />
 			</package>
 			
 			<package name="PACK_SOUND">
