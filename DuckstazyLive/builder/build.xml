@@ -5,7 +5,9 @@
 	<property name="dir.classes" value="tmp" />
 	<property name="dir.source" value="src" />
 	<property name="dir.res" value="../art" />
-	<property name="file.proj" value="../DuckstazyLive/Content/Content.contentproj" />
+	<property name="dir.content" value="../DuckstazyLive/Content" />
+	<property name="file.proj" value="${dir.content}/Content.contentproj" />
+	<property name="file.code" value="../DuckstazyLive/app/Res.cs" />
 	
 	<path id="libs">
 		<fileset dir="${dir.lib}">
@@ -29,25 +31,25 @@
 		</taskdef>
 	</target>
 	
-	<target name="run" depends="build">
-		<content projFile="${file.proj}">
+	<target name="run" depends="build">		
+		<content projFile="${file.proj}" codeFile="${file.code}">
 			<package name="PACK_COMMON">
-				<image name="img_button_base" file="${dir.res}/button.png" />
-				<image name="img_button_stroke_default" file="${dir.res}/button_black.png" />
-				<image name="img_button_stroke_focused" file="${dir.res}/button_white.png" />
-                <image name="img_button_cloud_1" file="${dir.res}/cloud_1.png" />
-                <image name="img_button_cloud_2" file="${dir.res}/cloud_2.png" />
-                <image name="img_button_cloud_3" file="${dir.res}/cloud_3.png" />
-                <image name="img_grass" file="${dir.res}/grass.png" />
+				<image name="button_base" file="${dir.res}/button.png" />
+				<image name="button_stroke_default" file="${dir.res}/button_black.png" />
+				<image name="button_stroke_focused" file="${dir.res}/button_white.png" />
+                <image name="button_cloud_1" file="${dir.res}/cloud_1.png" />
+                <image name="button_cloud_2" file="${dir.res}/cloud_2.png" />
+                <image name="button_cloud_3" file="${dir.res}/cloud_3.png" />
+                <image name="grass" file="${dir.res}/grass.png" />
 			</package>
 			
 			<package name="PACK_MENU">
-				<image name="IMG_MENU_TITLE"  file="${dir.res}/title" />
-				<image name="IMG_MENU_TITLE_BACK" file="${dir.res}/title_back" />
+				<image name="menu_title"  file="${dir.res}/title.png" />
+				<image name="menu_title_back" file="${dir.res}/title_back.png" />
 			</package>
 			
 			<package name="PACK_GAME">
-				<image name="IMG_DUCK_FAKE" file="${dir.res}/duck_fake" />
+				<image name="duck_fake" file="${dir.res}/duck_fake.png" />
 			</package>
 			
 			<package name="PACK_SOUND">
