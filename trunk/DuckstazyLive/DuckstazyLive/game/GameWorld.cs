@@ -21,7 +21,7 @@ namespace DuckstazyLive.game
             hero.y = sky.height - hero.height;
             sky.addChild(hero);
 
-            Texture2D grassTex = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_GRASS);
+            Texture2D grassTex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS);
             TiledImage grass = new TiledImage(grassTex, Constants.GROUND_WIDTH, grassTex.Height);
             grass.x = Constants.GROUND_X;
             grass.y = Constants.GROUND_Y;

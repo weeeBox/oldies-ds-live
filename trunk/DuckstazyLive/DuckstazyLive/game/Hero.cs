@@ -66,7 +66,7 @@ namespace DuckstazyLive.game
         public Hero()
         {            
             velocity = Vector2.Zero;            
-            Texture2D duck = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_DUCK_FAKE);
+            Texture2D duck = Application.sharedResourceMgr.getTexture(Res.IMG_DUCK_FAKE);
             width = duck.Width;
             height = duck.Height;
             bounds = new Rectangle(0, 0, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
@@ -99,7 +99,7 @@ namespace DuckstazyLive.game
 
         private void Draw(float x, float y)
         {
-            Texture2D duck = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_DUCK_FAKE);
+            Texture2D duck = Application.sharedResourceMgr.getTexture(Res.IMG_DUCK_FAKE);
             AppGraphics.DrawImage(duck, x, y, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
         }
 

@@ -10,11 +10,11 @@ namespace DuckstazyLive.app
 {
     public struct ResourceBaseInfo
     {
-        public DuckstazyResource resId;
+        public int resId;
         public ResourceType resType;
         public string filename;
 
-        public ResourceBaseInfo(DuckstazyResource resId, ResourceType resType, String filename)
+        public ResourceBaseInfo(int resId, ResourceType resType, String filename)
         {
             this.resId = resId;
             this.resType = resType;
@@ -31,12 +31,12 @@ namespace DuckstazyLive.app
 
         public int getPacksCount()
         {
-            return (int)DuckstazyPack.PACKS_COUNT;
+            return Packs.PACKS_COUNT;
         }
 
         public override int getCapacity()
         {
-            return (int)DuckstazyResource.RESOURCES_COUNT;
+            return Res.RES_COUNT;
         }
 
         public void addPackToLoad(int n)
@@ -47,7 +47,7 @@ namespace DuckstazyLive.app
             for (int resIndex = 0; resIndex < pack.Length; ++resIndex)
             {
                 object[] resParams = null;
-                DuckstazyResource resId = pack[resIndex].resId;
+                int resId = pack[resIndex].resId;
                 ResourceType resType = pack[resIndex].resType;
                 string filename = pack[resIndex].filename;
                 addResourceToLoadQueue(filename, resType, (int)resId, resParams);
