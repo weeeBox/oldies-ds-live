@@ -7,12 +7,17 @@ public abstract class Resource
 	
 	public String getName() 
 	{
-		return name;
+		return (getResourceTypePrefix() + name).toUpperCase();
 	}
 	
 	public void setName(String name) 
 	{
 		this.name = name;
+	}
+	
+	public String getShortName()
+	{
+		return FileUtils.getFilenameNoExt(file);
 	}
 	
 	public File getFile() 
@@ -27,6 +32,8 @@ public abstract class Resource
 	
 	public abstract String getImporter();
 	public abstract String getProcessor();
+	public abstract String getResourceType();
+	public abstract String getResourceTypePrefix();
 	
 	@Override
 	public String toString() 

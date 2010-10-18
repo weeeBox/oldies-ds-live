@@ -48,7 +48,15 @@ public class ContentProjTask extends Task
 
 	private void generateResourcesCode(File file) 
 	{
-		
+		try 
+		{
+			new CodeFileGenerator().generate(file, packages);
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+			throw new BuildException(e.getMessage());
+		}
 	}
 
 	private void processContentProj() 
@@ -110,11 +118,9 @@ public class ContentProjTask extends Task
 
 	private void addResource(Resource res, Element parent) 
 	{
-		File resFile = res.getFile();
-		
 		Element element = parent.addElement("Compile");
-		element.addAttribute("Include", resFile.getName());
-		element.addElement("Name").addText(FileUtils.getFilenameNoExt(resFile));
+		element.addAttribute("Include", res.getFile().getName());
+		element.addElement("Name").addText(res.getShortName());
 		element.addElement("Importer").addText(res.getImporter());
 		element.addElement("Processor").addText(res.getProcessor());
 	}

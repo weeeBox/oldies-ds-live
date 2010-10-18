@@ -20,7 +20,7 @@ namespace DuckstazyLive.app
             CustomGeomerty sky = GeometryFactory.createGradient(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT, new Color(63, 181, 242), new Color(217, 240, 254));
             CustomGeomerty ground = GeometryFactory.createGradient(Constants.GROUND_X, Constants.GROUND_Y, Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT, new Color(55, 29, 0), new Color(92, 48, 11));
 
-            Texture2D grassTex = Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_GRASS);            
+            Texture2D grassTex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS);            
             TiledImage grass = new TiledImage(grassTex, Constants.GROUND_WIDTH, grassTex.Height);
             grass.x = Constants.GROUND_X;
             grass.y = Constants.GROUND_Y;
@@ -29,26 +29,26 @@ namespace DuckstazyLive.app
             view.addChild(ground);
             view.addChild(grass);
 
-            Image titleBack = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_MENU_TITLE_BACK));            
-            Image title = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_MENU_TITLE));
+            Image titleBack = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE_BACK));            
+            Image title = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE));
             titleBack.toParentCenter();
             title.toParentCenter();
             sky.addChild(titleBack);
             sky.addChild(title);            
 
-            Image buttonUpImage = createButtonImage(DuckstazyResource.IMG_BUTTON_STROKE_DEFAULT, 5.0f);            
-            Image buttonDownImage = createButtonImage(DuckstazyResource.IMG_BUTTON_STROKE_FOCUSED, 2.5f);
-            Image buttonFocusedImage = createButtonImage(DuckstazyResource.IMG_BUTTON_STROKE_FOCUSED, 2.5f);
+            Image buttonUpImage = createButtonImage(Res.IMG_BUTTON_STROKE_DEFAULT, 5.0f);            
+            Image buttonDownImage = createButtonImage(Res.IMG_BUTTON_STROKE_FOCUSED, 2.5f);
+            Image buttonFocusedImage = createButtonImage(Res.IMG_BUTTON_STROKE_FOCUSED, 2.5f);
             Button button = new Button(buttonUpImage, buttonDownImage, buttonFocusedImage, 0);
             
             view.addChild(button);
             addViewWithId(view, VIEW_MENU);
         }
 
-        private Image createButtonImage(DuckstazyResource strokeId, float rotationDelay)
+        private Image createButtonImage(int strokeId, float rotationDelay)
         {
             // button rotating part
-            Image baseImage = new Image(Application.sharedResourceMgr.getTexture((int)DuckstazyResource.IMG_BUTTON_BASE));
+            Image baseImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_BASE));
             baseImage.toParentCenter();
 
             // rotating animation

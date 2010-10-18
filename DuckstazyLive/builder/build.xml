@@ -52,7 +52,7 @@
 				<image name="duck_fake" file="${dir.res}/duck_fake.png" />
 			</package>
 			
-			<package name="PACK_SOUND">
+			<package name="PACK_SOUNDS">
 			</package>
 		</content>
 	</target>

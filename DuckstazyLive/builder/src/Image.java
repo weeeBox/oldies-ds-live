@@ -13,4 +13,15 @@ public class Image extends Resource
 		return "TextureProcessor";
 	}
 
+	@Override
+	public String getResourceType() 
+	{
+		return "RESOURCE_TYPE_TEXTURE";
+	}
+	
+	@Override
+	public String getResourceTypePrefix() 
+	{
+		return "IMG_";
+	}
 }

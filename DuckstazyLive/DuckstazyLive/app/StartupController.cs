@@ -26,10 +26,10 @@ namespace DuckstazyLive.app
             rm.initLoading();
             rm.resourcesDelegate = this;
             rm.initLoading();
-            rm.addPackToLoad((int)DuckstazyPack.PACK_COMMON);
-            rm.addPackToLoad((int)DuckstazyPack.PACK_MENU);
-            rm.addPackToLoad((int)DuckstazyPack.PACK_GAME);
-            rm.addPackToLoad((int)DuckstazyPack.PACK_SOUNDS);            
+            rm.addPackToLoad(Packs.PACK_COMMON);
+            rm.addPackToLoad(Packs.PACK_MENU);
+            rm.addPackToLoad(Packs.PACK_GAME);
+            rm.addPackToLoad(Packs.PACK_SOUNDS);            
             rm.startLoading();
         }
 
