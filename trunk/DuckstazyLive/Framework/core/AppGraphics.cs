@@ -255,6 +255,40 @@ namespace Framework.core
             }
         }
 
+        public static void DrawCircle(float x, float y, float r, Color color)
+        {
+            GetSpriteBatch(BatchMode.Geometry);
+            graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColor.VertexElements);
+
+            int numVertex = 10;
+            VertexPositionColor[] vertexData = new VertexPositionColor[numVertex];
+            float da = MathHelper.TwoPi / (numVertex - 1);
+            float angle = 0;
+            for (int i = 0; i < numVertex - 1; ++i)
+            {
+                float vx = (float)(x + r * Math.Cos(angle));
+                float vy = (float)(y + r * Math.Sin(angle));
+                vertexData[i] = new VertexPositionColor(new Vector3(vx, vy, 0), color);
+                angle += da;
+            }
+            vertexData[numVertex - 1] = vertexData[0];
+            graphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, vertexData, 0, numVertex - 1);
+        }
+
+        public static void DrawRect(float x, float y, float width, float height, Color color)
+        {
+            GetSpriteBatch(BatchMode.Geometry);
+            graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColor.VertexElements);
+            VertexPositionColor[] vertexData = new VertexPositionColor[4];
+            vertexData[0] = new VertexPositionColor(new Vector3(x, y, 0), color);
+            vertexData[1] = new VertexPositionColor(new Vector3(x + width, y, 0), color);
+            vertexData[2] = new VertexPositionColor(new Vector3(x + width, y + height, 0), color);
+            vertexData[3] = new VertexPositionColor(new Vector3(x, y + height, 0), color);
+            short[] indexData = new short[] {0, 1, 2, 3, 0};
+
+            graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, vertexData, 0, 4, indexData, 0, 4);
+        }
+
         public static void DrawGeomerty(CustomGeomerty geometry)
         {
             GetSpriteBatch(BatchMode.Geometry);
