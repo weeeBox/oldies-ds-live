@@ -12,7 +12,7 @@ namespace Framework.visual
     {
         public Texture2D texture;
         public Rectangle[] quads;
-        public int quadToDraw = Constants.UNDEFINED;
+        public int quadToDraw = FrameworkConstants.UNDEFINED;
 
         public void setDrawQuad(int n)
         {
@@ -21,7 +21,7 @@ namespace Framework.visual
 
         public void setDrawFullImage()
         {
-            quadToDraw = Constants.UNDEFINED;
+            quadToDraw = FrameworkConstants.UNDEFINED;
         }
 
         public Image(Texture2D texture)
@@ -113,7 +113,7 @@ namespace Framework.visual
         public override void draw()
         {
             preDraw();
-            if (quadToDraw == Constants.UNDEFINED)
+            if (quadToDraw == FrameworkConstants.UNDEFINED)
             {
                 AppGraphics.DrawImage(texture, drawX, drawY);
             }

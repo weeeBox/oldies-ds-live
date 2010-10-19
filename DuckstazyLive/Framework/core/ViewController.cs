@@ -40,11 +40,11 @@ namespace Framework.core
             controllerState = ControllerState.CONTROLLER_DEACTIVE;
             views = new View[DEFAULT_VIEWS_CAPACITY];
             childs = new ViewController[DEFAULT_CHILDS_CAPACITY];
-            activeViewId = Constants.UNDEFINED;
-            activeChildId = Constants.UNDEFINED;
-            pausedViewId = Constants.UNDEFINED;
+            activeViewId = FrameworkConstants.UNDEFINED;
+            activeChildId = FrameworkConstants.UNDEFINED;
+            pausedViewId = FrameworkConstants.UNDEFINED;
             parent = p;
-            lastTime = -1;// DateTime.MinValue;// Constants.UNDEFINED;
+            lastTime = -1;// DateTime.MinValue;// FrameworkConstants.UNDEFINED;
         }
 
         public virtual void activate()
@@ -59,7 +59,7 @@ namespace Framework.core
             Debug.Assert(controllerState == ControllerState.CONTROLLER_PAUSED || controllerState == ControllerState.CONTROLLER_ACTIVE);
             controllerState = ControllerState.CONTROLLER_DEACTIVE;
 
-            if (activeViewId != Constants.UNDEFINED)
+            if (activeViewId != FrameworkConstants.UNDEFINED)
             {
                 hideActiveView();
             }
@@ -76,7 +76,7 @@ namespace Framework.core
             controllerState = ControllerState.CONTROLLER_PAUSED;
             Application.sharedRootController.onControllerPaused(this);
 
-            if (activeViewId != Constants.UNDEFINED)
+            if (activeViewId != FrameworkConstants.UNDEFINED)
             {
                 pausedViewId = activeViewId;
                 hideActiveView();
@@ -88,14 +88,14 @@ namespace Framework.core
             Debug.Assert(controllerState == ControllerState.CONTROLLER_PAUSED);
             controllerState = ControllerState.CONTROLLER_ACTIVE;            
 
-            if (activeChildId != Constants.UNDEFINED)
+            if (activeChildId != FrameworkConstants.UNDEFINED)
             {
-                activeChildId = Constants.UNDEFINED;
+                activeChildId = FrameworkConstants.UNDEFINED;
             }
 
             Application.sharedRootController.onControllerUnpaused(this);
 
-            if (pausedViewId != Constants.UNDEFINED)
+            if (pausedViewId != FrameworkConstants.UNDEFINED)
             {
                 showView(pausedViewId);
             }
@@ -103,7 +103,7 @@ namespace Framework.core
 
         public virtual void update()
         {
-            if (activeViewId == Constants.UNDEFINED)
+            if (activeViewId == FrameworkConstants.UNDEFINED)
                 return;
 
             View v = activeView();
@@ -128,7 +128,7 @@ namespace Framework.core
             Debug.Assert(views[n] != null);
 
             // check that we don't activate already active view
-            if (activeViewId != Constants.UNDEFINED)
+            if (activeViewId != FrameworkConstants.UNDEFINED)
             {
                 Debug.Assert(views[n] != views[activeViewId]); 
                 hideActiveView();
@@ -142,7 +142,7 @@ namespace Framework.core
 
         public View activeView()
         {
-            Debug.Assert(activeViewId != Constants.UNDEFINED);
+            Debug.Assert(activeViewId != FrameworkConstants.UNDEFINED);
             Debug.Assert(views[activeViewId] != null);
             View v = views[activeViewId];
             Debug.Assert(v != null);
@@ -170,7 +170,7 @@ namespace Framework.core
         {
             ViewController prevC = childs[activeChildId];
             prevC.deactivate();
-            activeChildId = Constants.UNDEFINED;
+            activeChildId = FrameworkConstants.UNDEFINED;
         }
 
         public void activateChild(int n)
@@ -179,7 +179,7 @@ namespace Framework.core
             Debug.Assert(childs[n] != null);
 
             // check that we don't activate already active child
-            if (activeChildId != Constants.UNDEFINED)
+            if (activeChildId != FrameworkConstants.UNDEFINED)
             {
                 Debug.Assert(childs[n] != childs[activeChildId]); 
                 deactivateActiveChild();
@@ -194,7 +194,7 @@ namespace Framework.core
 
         public ViewController activeChild()
         {
-            Debug.Assert(activeChildId != Constants.UNDEFINED);
+            Debug.Assert(activeChildId != FrameworkConstants.UNDEFINED);
             Debug.Assert(childs[activeChildId] != null);
             ViewController c = childs[activeChildId];
             Debug.Assert(c != null);
@@ -246,7 +246,7 @@ namespace Framework.core
             Application.sharedRootController.onControllerViewHide(prevV);
             if (prevV != null)
                 prevV.hide();
-            activeViewId = Constants.UNDEFINED;
+            activeViewId = FrameworkConstants.UNDEFINED;
         }
     }
 }

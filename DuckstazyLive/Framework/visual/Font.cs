@@ -54,7 +54,7 @@ namespace Framework.visual
             if (charMap.ContainsKey(c))
                 return charMap[c];
             else
-                return Constants.UNDEFINED;
+                return FrameworkConstants.UNDEFINED;
         }
 
         public int stringWidth(String s)

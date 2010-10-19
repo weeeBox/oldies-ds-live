@@ -7,7 +7,7 @@ namespace Framework.core
 {
     public class View : BaseElement
     {
-        public View() : this (0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT)
+        public View() : this (0, 0, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT)
         {
         }
 

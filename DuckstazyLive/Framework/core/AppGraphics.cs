@@ -118,7 +118,7 @@ namespace Framework.core
 
                 Matrix worldMatrix = Matrix.Identity;
                 Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-                Matrix projection = Matrix.CreateOrthographicOffCenter(0.0f, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, 0, 1.0f, 1000.0f);
+                Matrix projection = Matrix.CreateOrthographicOffCenter(0.0f, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT, 0, 1.0f, 1000.0f);
                 camera = new Camera(worldMatrix, viewMatrix, projection);
 
                 basicEffect.World = worldMatrix;

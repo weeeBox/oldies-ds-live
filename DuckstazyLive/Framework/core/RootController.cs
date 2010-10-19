@@ -31,7 +31,7 @@ namespace Framework.core
         public RootController(ViewController p) : base(p)
         {
             viewTransition = Transition.TRANSITION_NONE;
-            transitionTime = Constants.UNDEFINED;
+            transitionTime = FrameworkConstants.UNDEFINED;
             previousView = null;
             transitionDelay = TRANSITION_DEFAULT_DELAY;            
         }
@@ -56,7 +56,7 @@ namespace Framework.core
 
         public void processDraw()
         {            
-            if (currentController.activeViewId != Constants.UNDEFINED)
+            if (currentController.activeViewId != FrameworkConstants.UNDEFINED)
             {
                 if (transitionTime < 0)
                 {

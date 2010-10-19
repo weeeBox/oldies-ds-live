@@ -106,7 +106,7 @@ namespace Framework.core
                 if (data[i] != null && data[i].GetHashCode() == obj.GetHashCode())
                     return i;
             }
-            return Constants.UNDEFINED;
+            return FrameworkConstants.UNDEFINED;
         }
 
         public int count()
