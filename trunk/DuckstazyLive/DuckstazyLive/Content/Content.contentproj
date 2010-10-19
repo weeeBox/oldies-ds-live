@@ -83,6 +83,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="pill_fake.png">
+      <Name>pill_fake</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="title.png">
       <Name>title</Name>
       <Importer>TextureImporter</Importer>

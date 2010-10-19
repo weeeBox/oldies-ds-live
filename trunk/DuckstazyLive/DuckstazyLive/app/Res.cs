@@ -21,13 +21,14 @@ namespace DuckstazyLive.app
 		public const int IMG_BUTTON_CLOUD_2 = 4;
 		public const int IMG_BUTTON_CLOUD_3 = 5;
 		public const int IMG_GRASS = 6;
+		public const int IMG_PILL_FAKE = 7;
 		// PACK_MENU
-		public const int IMG_MENU_TITLE = 7;
-		public const int IMG_MENU_TITLE_BACK = 8;
+		public const int IMG_MENU_TITLE = 8;
+		public const int IMG_MENU_TITLE_BACK = 9;
 		// PACK_GAME
-		public const int IMG_DUCK_FAKE = 9;
+		public const int IMG_DUCK_FAKE = 10;
 		// PACK_SOUNDS
-		public const int RES_COUNT = 10;
+		public const int RES_COUNT = 11;
 	}
 	public class DuckstazyResources
 	{
@@ -43,6 +44,7 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_BUTTON_CLOUD_2, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_2"),
 				new ResourceBaseInfo(Res.IMG_BUTTON_CLOUD_3, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_3"),
 				new ResourceBaseInfo(Res.IMG_GRASS, ResourceType.RESOURCE_TYPE_TEXTURE, "grass"),
+				new ResourceBaseInfo(Res.IMG_PILL_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_fake"),
 			},
 			// PACK_MENU
 			new ResourceBaseInfo[]
