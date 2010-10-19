@@ -32,8 +32,8 @@ namespace Framework.visual
         public Text(Font font)
         {
             this.font = font;
-            width = Constants.UNDEFINED;
-            height = Constants.UNDEFINED;
+            width = FrameworkConstants.UNDEFINED;
+            height = FrameworkConstants.UNDEFINED;
             formattedStrings = new DynamicArray<FormattedString>();
         }
 
@@ -128,7 +128,7 @@ namespace Framework.visual
 
             int spaceIndex = font.getCharQuad(' ');
             int spaceWidth = DEFAULT_SPACE_WIDTH;
-            if (spaceIndex != Constants.UNDEFINED)
+            if (spaceIndex != FrameworkConstants.UNDEFINED)
             {
                 spaceWidth = font.quads[spaceIndex].Width;
             }

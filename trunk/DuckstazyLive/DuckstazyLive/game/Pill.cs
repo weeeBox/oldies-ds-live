@@ -8,15 +8,17 @@ namespace DuckstazyLive.game
 {
     public class Pill
     {
-        public Vector2 r;
-        public Vector2 v;
-        public Vector2 a;
+        public float x, y, vx, vy;
 
-        public Pill(float x, float y)
+        private int poolIndex;
+        internal int PoolIndex
         {
-            r = new Vector2(x, y);
-            v = Vector2.Zero;
-            a = Vector2.Zero;
+            get { return poolIndex; }
+            set { poolIndex = value; }
+        }
+        internal void clear()
+        {            
+            x = y = vx = vy = 0.0f;
         }
     }
 }

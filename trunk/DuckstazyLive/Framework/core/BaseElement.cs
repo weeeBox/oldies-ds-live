@@ -118,7 +118,7 @@ namespace Framework.core
 
             childs = new DynamicArray<BaseElement>();
 
-            nextKeyFrame = Constants.UNDEFINED;
+            nextKeyFrame = FrameworkConstants.UNDEFINED;
             keyFrames = null;
             keyFramesCount = keyFramesCapacity = 0;
 
@@ -133,7 +133,7 @@ namespace Framework.core
 
         public virtual void update(float delta)
         {
-            if (nextKeyFrame != Constants.UNDEFINED)
+            if (nextKeyFrame != FrameworkConstants.UNDEFINED)
             {
                 updateTimeline(delta);
             }
@@ -314,7 +314,7 @@ namespace Framework.core
         public void resetTimeline()
         {
             keyFramesCount = 1;
-            nextKeyFrame = Constants.UNDEFINED;
+            nextKeyFrame = FrameworkConstants.UNDEFINED;
             timelineDirReverse = false;
         }
 
@@ -368,7 +368,7 @@ namespace Framework.core
 
         public void stopTimeline()
         {
-            nextKeyFrame = Constants.UNDEFINED;
+            nextKeyFrame = FrameworkConstants.UNDEFINED;
         }
 
         public void initKeyFrameStep(KeyFrame src, KeyFrame dst, float t)
