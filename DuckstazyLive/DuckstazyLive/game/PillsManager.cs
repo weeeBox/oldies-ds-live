@@ -21,7 +21,7 @@ namespace DuckstazyLive.game
         public PillsManager(Hero hero)
         {
             pills = new Pill[INITIAL_PILLS_COUNT];
-            this.hero = hero;
+            this.hero = hero;            
         }
 
         public override void update(float dt)
@@ -33,33 +33,44 @@ namespace DuckstazyLive.game
                 Pill pill = pills[pillIndex];
 
                 if (pill.v.Equals(Vector2.Zero))
-                    continue;
+                {
+                }
+                else
+                {
+                    float oldX = pill.r.X;
+                    float oldY = pill.r.Y;
 
-                float oldX = pill.r.X;
-                float oldY = pill.r.Y;
+                    Vector2 dr = Vector2.Multiply(pill.v, dt);
+                    pill.r.X += dr.X;
+                    pill.r.Y += dr.Y;
+                    if (pill.r.X < bounds.X)
+                    {
+                        pill.r.X = bounds.X;
+                        pill.v.X = -pill.v.X;
+                    }
+                    else if (pill.r.X > bounds.X + bounds.Width)
+                    {
+                        pill.r.X = bounds.X + bounds.Width;
+                        pill.v.X = -pill.v.X;
+                    }
+                    if (pill.r.Y < bounds.Y)
+                    {
+                        pill.r.Y = bounds.Y;
+                        pill.v.Y = -pill.v.Y;
+                    }
+                    else if (pill.r.Y > bounds.Y + bounds.Height)
+                    {
+                        pill.r.Y = bounds.Y + bounds.Height;
+                        pill.v.Y = -pill.v.Y;
+                    }
+                }
 
-                Vector2 dr = Vector2.Multiply(pill.v, dt);
-                pill.r.X += dr.X;
-                pill.r.Y += dr.Y;
-                if (pill.r.X < bounds.X)
+                if (collides(hero.x, hero.y, hero.width, hero.height, pill.r.X, pill.r.Y, Constants.PILL_RADIUS))
                 {
-                    pill.r.X = bounds.X;
-                    pill.v.X = -pill.v.X;
-                }
-                else if (pill.r.X > bounds.X + bounds.Width)
-                {
-                    pill.r.X = bounds.X + bounds.Width;
-                    pill.v.X = -pill.v.X;
-                }
-                if (pill.r.Y < bounds.Y)
-                {
-                    pill.r.Y = bounds.Y;
-                    pill.v.Y = -pill.v.Y;
-                }
-                else if (pill.r.Y > bounds.Y + bounds.Height)
-                {
-                    pill.r.Y = bounds.Y + bounds.Height;
-                    pill.v.Y = -pill.v.Y;
+                    pillsCount--;
+                    pills[pillIndex] = pills[pillsCount];
+                    pills[pillsCount] = pill;
+                    pillIndex--;
                 }
             }
         }
@@ -74,6 +85,28 @@ namespace DuckstazyLive.game
                 Pill pill = pills[pillIndex];
                 AppGraphics.DrawImage(text, pill.r.X - halfWidth, pill.r.Y - halfHeigth);
             }
+
+            for (int pillIndex = 0; pillIndex < pillsCount; ++pillIndex)
+            {
+                Pill pill = pills[pillIndex];
+                AppGraphics.DrawCircle(pill.r.X, pill.r.Y, Constants.PILL_RADIUS, Color.White);
+            }           
+            AppGraphics.DrawRect(hero.x, hero.y, hero.width, hero.height, Color.White);
+        }
+
+        private bool collides(float x, float y, float w, float h, float cx, float cy, float r)
+        {
+            // Find the closest point to the circle within the rectangle
+            float closestX = MathHelper.Clamp(cx, x, x + w);
+            float closestY = MathHelper.Clamp(cy, y, y + h);
+
+            // Calculate the distance between the circle's center and this closest point
+            float distanceX = cx - closestX;
+            float distanceY = cy - closestY;
+
+            // If the distance is less than the circle's radius, an intersection occurs
+            float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+            return distanceSquared < (r * r);
         }
 
         public void addPill(Pill pill)

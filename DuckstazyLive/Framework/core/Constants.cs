@@ -12,6 +12,8 @@ namespace Framework.core
         public const int SCREEN_WIDTH = 1280;
         public const int SCREEN_HEIGHT = 720;
 
+        public const int PILL_RADIUS = 15;
+
         public const float WORLD_VIEW_HEIGHT_RATIO = 0.83f;
 
         public const int WORLD_VIEW_X = 0;
