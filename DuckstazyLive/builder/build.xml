@@ -41,6 +41,7 @@
                 <image name="button_cloud_2" file="${dir.res}/cloud_2.png" />
                 <image name="button_cloud_3" file="${dir.res}/cloud_3.png" />
                 <image name="grass" file="${dir.res}/grass.png" />
+                <image name="pill_fake" file="${dir.res}/pill_fake.png" />
 			</package>
 			
 			<package name="PACK_MENU">
