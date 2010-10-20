@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using DuckstazyLive.app;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using DuckstazyLive.game.utils;
 
 namespace DuckstazyLive.game
 {
@@ -55,20 +56,19 @@ namespace DuckstazyLive.game
         private bool flyingOnWings;
 
         private float gravityBoostCoeff;
-
         private bool steping;
         private bool flipped;
-
         private float steppingDistance;
 
         private Rectangle bounds;
+        private Rectangle[] collisionRectsNorm; // collision rects for normal state
+        private Rectangle[] collisionRectsFlip; // collision rects for flipped state
+        private Rectangle[] collisionRects; // current collision rects
 
         public Hero()
-        {            
-            velocity = Vector2.Zero;            
-            Texture2D duck = Application.sharedResourceMgr.getTexture(Res.IMG_DUCK_FAKE);
-            width = duck.Width;
-            height = duck.Height;
+        {
+            initCollisionRects();
+            velocity = Vector2.Zero;                        
             bounds = new Rectangle(0, 0, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
 
             Application.sharedInputMgr.addInputListener(this);            
@@ -94,7 +94,12 @@ namespace DuckstazyLive.game
             {
                 dx -= bounds.Width;
                 Draw(dx, dy);
-            }            
+            }
+
+            //foreach (Rectangle r in collisionRects)
+            //{
+            //    AppGraphics.DrawRect(r.X + x, r.Y + y, r.Width, r.Height, Color.White);
+            //}
         }
 
         private void Draw(float x, float y)
@@ -149,7 +154,7 @@ namespace DuckstazyLive.game
             if (key_left)
             {
                 steping = true;
-                flipped = false;
+                setFlipped(false);
                 if (controlledByDPad)
                 {
                     velocity.X -= ACC_X * dt;
@@ -160,7 +165,7 @@ namespace DuckstazyLive.game
             if (key_right)
             {
                 steping = true;
-                flipped = true;
+                setFlipped(true);
                 if (controlledByDPad)
                 {
                     velocity.X += ACC_X * dt;
@@ -426,6 +431,57 @@ namespace DuckstazyLive.game
         //        Application.Instance.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
         //    }
         //}
+
+        public bool collides(Pill pill)
+        {
+            float pillX = pill.x;
+            float pillY = pill.y;
+            float pillR = Constants.PILL_RADIUS;
+            if (!CollisionHelper.collidesRectVsCircle(x, y, width, height, pillX, pillY, pillR))
+                return false;
+
+            for (int i = 0; i < collisionRects.Length; ++i)
+            {
+                float rx = collisionRects[i].X + x;
+                float ry = collisionRects[i].Y + y;
+                float rw = collisionRects[i].Width;
+                float rh = collisionRects[i].Height;
+                if (CollisionHelper.collidesRectVsCircle(rx, ry, rw, rh, pillX, pillY, pillR))
+                    return true;
+            }
+
+            return false;
+        }
+
+        private void setFlipped(bool flipped)
+        {
+            this.flipped = flipped;
+            collisionRects = flipped ? collisionRectsFlip : collisionRectsNorm;
+        }
+
+        private void initCollisionRects()
+        {
+            Texture2D duck = Application.sharedResourceMgr.getTexture(Res.IMG_DUCK_FAKE);
+            width = duck.Width;
+            height = duck.Height;
+            Console.WriteLine("w=" + width + ", h=" + height);
+
+            float[] cords = Constants.HERO_COLLISION_SUB_RECTS;
+            int rectsCount = cords.Length / 4;
+            collisionRectsNorm = new Rectangle[rectsCount];
+            collisionRectsFlip = new Rectangle[rectsCount];
+            for (int rectIndex = 0, cordIndex = 0; rectIndex < rectsCount; ++rectIndex, cordIndex += 4)
+            {
+                int rx = (int)(cords[cordIndex] * width);
+                int ry = (int)(cords[cordIndex + 1] * height);
+                int rw = (int)(cords[cordIndex + 2] * width);
+                int rh = (int)(cords[cordIndex + 3] * height);
+                Console.WriteLine(rx + ", " + ry + ", " + rw + ", " + rh);
+                collisionRectsNorm[rectIndex] = new Rectangle(rx, ry, rw, rh);
+                collisionRectsFlip[rectIndex] = new Rectangle(width - (rx + rw), ry, rw, rh);
+            }
+            setFlipped(false);
+        }
     }    
 
 }
