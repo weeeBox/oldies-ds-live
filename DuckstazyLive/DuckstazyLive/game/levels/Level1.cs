@@ -61,8 +61,11 @@ namespace DuckstazyLive.game.levels
                                 
                 pill.y = lineBaseY + amplitude * (float)(Math.Sin(omega * pill.lifeTime - k * pill.x));
 
-                if (CollisionHelper.collidesRectVsCircle(hero.x, hero.y, hero.width, hero.height, pill.x, pill.y, Constants.PILL_RADIUS))
+                if (hero.collides(pill))
+                {
                     pill.active = false;
+                    pill.lifeTime = 0.0f;
+                }
             }
         }
 

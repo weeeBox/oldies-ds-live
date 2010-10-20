@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game.utils
 {
-    public class CollisionHelper
+    public sealed class CollisionHelper
     {
         public static bool collidesRectVsCircle(float x, float y, float w, float h, float cx, float cy, float r)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Framework.core;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.app
 {
@@ -11,6 +12,14 @@ namespace DuckstazyLive.app
         public const int PILL_RADIUS = 15;
         public const int PILLS_POOL_SIZE = 50;
         public const float PILL_SPAWN_TIMEOUT = 1.0f;
+        public static readonly float[] HERO_COLLISION_SUB_RECTS = 
+        {
+            0.202381f, 0.000000f, 0.296296f, 0.428571f,
+            0.250000f, 0.297619f, 0.666667f, 0.619048f,
+            0.000000f, 0.297619f, 0.157407f, 0.130952f,
+            0.888889f, 0.654762f, 0.111111f, 0.142857f,
+            0.537037f, 0.880952f, 0.240741f, 0.119048f,
+        };
 
         public const float WORLD_VIEW_HEIGHT_RATIO = 0.83f;
 
