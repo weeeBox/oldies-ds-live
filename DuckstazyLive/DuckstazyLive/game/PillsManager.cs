@@ -7,13 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using Framework.utils;
 
 namespace DuckstazyLive.game
 {
     public abstract class PillsManager : BaseElement
     {        
         private static Hero hero;
-        private Rectangle bounds;
+        private Rect bounds;
         private static GlobalPillsPool pool;
 
         public PillsManager()
@@ -35,7 +36,7 @@ namespace DuckstazyLive.game
             drawPills();
         }
 
-        public Rectangle Bounds
+        public Rect Bounds
         {
             get { return bounds; }
             set { bounds = value; }

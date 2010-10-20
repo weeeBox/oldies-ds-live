@@ -12,6 +12,11 @@ using DuckstazyLive.game.utils;
 
 namespace DuckstazyLive.game
 {
+    public interface HeroListener
+    {
+        void powerChanged(float oldPower, float newPower);
+    }
+
     public class Hero : BaseElement, InputListener
     {
         private static readonly int STEP_BUBBLE_OFFSET_X = 20;
@@ -52,7 +57,7 @@ namespace DuckstazyLive.game
 
         private bool controlledByDPad;
 
-        private float power;
+        public float power = 1.0f;
         private bool flyingOnWings;
 
         private float gravityBoostCoeff;
@@ -65,11 +70,14 @@ namespace DuckstazyLive.game
         private Rectangle[] collisionRectsFlip; // collision rects for flipped state
         private Rectangle[] collisionRects; // current collision rects
 
+        private List<HeroListener> listeners;
+
         public Hero()
         {
             initCollisionRects();
             velocity = Vector2.Zero;                        
             bounds = new Rectangle(0, 0, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
+            listeners = new List<HeroListener>();
 
             Application.sharedInputMgr.addInputListener(this);            
         }
@@ -431,6 +439,13 @@ namespace DuckstazyLive.game
         //        Application.Instance.Particles.StartBubble(particleX, particleY, COLOR_LAND_BUBBLE);
         //    }
         //}
+
+        public void addPower(float pd)
+        {
+            power += pd;
+            if (power > 1.0f)
+                power = 1.0f;
+        }
 
         public bool collides(Pill pill)
         {

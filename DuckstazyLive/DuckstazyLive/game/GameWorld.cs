@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.game.levels;
+using Framework.utils;
 
 namespace DuckstazyLive.game
 {
@@ -18,20 +19,20 @@ namespace DuckstazyLive.game
             CustomGeomerty sky = GeometryFactory.createGradient(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT, new Color(63, 181, 242), new Color(217, 240, 254));
             CustomGeomerty ground = GeometryFactory.createGradient(Constants.GROUND_X, Constants.GROUND_Y, Constants.GROUND_WIDTH, Constants.GROUND_HEIGHT, new Color(55, 29, 0), new Color(92, 48, 11));
             
-            Hero hero = new Hero();
-            hero.x = 0.5f * (sky.width - hero.width);
-            hero.y = sky.height - hero.height;
+            Hero duck = new Hero();
+            duck.x = 0.5f * (sky.width - duck.width);
+            duck.y = sky.height - duck.height;
 
             GlobalPillsPool pool = new GlobalPillsPool(Constants.PILLS_POOL_SIZE);
             PillsManager.Pool = pool;
-            PillsManager.Hero = hero;
+            PillsManager.Hero = duck;
 
             PillsManager pills = new Level1();
-            pills.Bounds = new Rectangle(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
+            pills.Bounds = new Rect(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
             pills.init();
             
             sky.addChild(pills);
-            sky.addChild(hero);            
+            sky.addChild(duck);            
 
             Texture2D grassTex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS);
             TiledImage grass = new TiledImage(grassTex, Constants.GROUND_WIDTH, grassTex.Height);
