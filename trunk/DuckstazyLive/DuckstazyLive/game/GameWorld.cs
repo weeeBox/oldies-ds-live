@@ -24,8 +24,9 @@ namespace DuckstazyLive.game
 
             GlobalPillsPool pool = new GlobalPillsPool(Constants.PILLS_POOL_SIZE);
             PillsManager.Pool = pool;
+            PillsManager.Hero = hero;
 
-            PillsManager pills = new Level1(hero);
+            PillsManager pills = new Level1();
             pills.Bounds = new Rectangle(Constants.WORLD_VIEW_X, Constants.WORLD_VIEW_Y, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
             pills.init();
             

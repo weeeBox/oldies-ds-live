@@ -40,18 +40,9 @@ namespace Framework.core
         {
             if (suspended)
                 return;
-
-            try
-            {
-                currentController.calculateTimeDelta();
-                currentController.update();
-            }
-            catch (Exception e)
-            {
-                System.Console.WriteLine("Error on update: " + e);
-                // TODO: show alert
-                throw e;
-            }
+            
+            currentController.calculateTimeDelta();
+            currentController.update();            
         }
 
         public void processDraw()
