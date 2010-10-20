@@ -6,69 +6,120 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using Framework.core;
 using DuckstazyLive.app;
+using Microsoft.Xna.Framework;
+using DuckstazyLive.game.utils;
 
 namespace DuckstazyLive.game.levels
 {
+    public sealed class PillLine
+    {
+        private float elapsedTime;
+        private Rectangle bounds;       
+
+        private float lineBaseY; // y-координата центра колебаний
+
+        private float omega; // угловая скорость
+        private float k; // волновое число
+        private float amplitude; // амплитуда синусоидальных колебаний
+
+        public Pill[] pills;
+        public PillLine(Rectangle bounds, int pillsCount)
+        {
+            this.bounds = bounds;
+            float stepX = bounds.Width / (float)(pillsCount - 1);
+            float nextPillX = bounds.X;
+            lineBaseY = bounds.Y + 0.5f * bounds.Height;
+            pills = new Pill[pillsCount];
+            for (int pillIndex = 0; pillIndex < pillsCount; ++pillIndex)
+            {               
+                pills[pillIndex] = PillsManager.Pool.allocatePill(nextPillX, lineBaseY);
+                nextPillX += stepX;
+            }
+
+            k = (float)(MathHelper.TwoPi / bounds.Width);
+            amplitude = 0.5f * bounds.Height;
+            omega = (float)MathHelper.Pi;
+        }
+
+        public void update(float dt)
+        {
+            elapsedTime += dt;
+            Hero hero = PillsManager.Hero;
+            for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
+            {
+                Pill pill = pills[pillIndex];
+                pill.lifeTime += dt;
+
+                if (!pill.active)
+                {
+                    if (pill.lifeTime < Constants.PILL_SPAWN_TIMEOUT)                        
+                        continue;
+                    
+                    pill.active = true;
+                    pill.lifeTime = 0.0f;
+                }
+                                
+                pill.y = lineBaseY + amplitude * (float)(Math.Sin(omega * pill.lifeTime - k * pill.x));
+
+                if (CollisionHelper.collidesRectVsCircle(hero.x, hero.y, hero.width, hero.height, pill.x, pill.y, Constants.PILL_RADIUS))
+                    pill.active = false;
+            }
+        }
+
+        public void draw()
+        {
+            for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
+            {
+                Pill pill = pills[pillIndex];
+                if (pill.active)
+                {
+                    pill.draw();
+                }                
+            }
+        }
+    }
+
     public class Level1 : PillsManager
     {
         private const int LINES_COUNT = 3;
         private const int PILLS_IN_LINE_COUNT = 15;
 
-        private Pill[,] pills = new Pill[LINES_COUNT, PILLS_IN_LINE_COUNT];
-        private bool[,] pillsActive = new bool[LINES_COUNT, PILLS_IN_LINE_COUNT];
-        private float elapsedTime;
+        private PillLine[] pillsLines;
 
-        public Level1(Hero hero) : base(hero)
+        public Level1()
         {            
         }
 
         public override void init()
         {
-            float stepX = Bounds.Width / (PILLS_IN_LINE_COUNT + 2.0f);
-            for (int lineIndex = 0; lineIndex < LINES_COUNT; ++lineIndex)
+            int lineWidth = (int)(0.8f * Bounds.Width);
+            int lineHeight = Constants.PILL_RADIUS;
+            int lineX = (int)(0.5f * (Bounds.Width - lineWidth));
+            int lineY = (int)(0.8f * Bounds.Height);
+            Rectangle pillsBounds = new Rectangle(lineX, lineY, lineWidth, lineHeight);
+
+            pillsLines = new PillLine[LINES_COUNT];
+            for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
-                float y = 170 + lineIndex * 150;
-                for (int pillIndex = 0; pillIndex < PILLS_IN_LINE_COUNT; ++pillIndex)
-                {
-                    float x = stepX * (pillIndex + 1);
-                    pills[lineIndex, pillIndex] = PillsManager.Pool.allocatePill(x, y);
-                    pillsActive[lineIndex, pillIndex] = true;
-                }
+                pillsLines[lineIndex] = new PillLine(pillsBounds, PILLS_IN_LINE_COUNT);
+                pillsBounds.Y -= 100;
             }
         }
 
         protected override void updatePills(float dt)
-        {
-            elapsedTime += dt;
-            for (int lineIndex = 0; lineIndex < LINES_COUNT; ++lineIndex)
+        {            
+            float k = MathHelper.TwoPi / Bounds.Width;
+            for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
-                for (int pillIndex = 0; pillIndex < PILLS_IN_LINE_COUNT; ++pillIndex)
-                {
-                    if (!pillsActive[lineIndex, pillIndex])
-                        continue;
-
-                    Pill pill = pills[lineIndex, pillIndex];
-                    if (collides(Hero.x, Hero.y, Hero.width, Hero.height, pill.x, pill.y, Constants.PILL_RADIUS))
-                        pillsActive[lineIndex, pillIndex] = false;
-                }
+                pillsLines[lineIndex].update(dt);
             }            
         }
 
         protected override void drawPills()
-        {
-            Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_PILL_FAKE);
-            float halfWidth = 0.5f * tex.Width;
-            float halfHeight = 0.5f * tex.Height;
-            for (int lineIndex = 0; lineIndex < LINES_COUNT; ++lineIndex)
-            {                
-                for (int pillIndex = 0; pillIndex < PILLS_IN_LINE_COUNT; ++pillIndex)
-                {
-                    if (!pillsActive[lineIndex, pillIndex])
-                        continue;
-
-                    Pill pill = pills[lineIndex, pillIndex];
-                    AppGraphics.DrawImage(tex, pill.x - halfWidth, pill.y - halfHeight);
-                }
+        {           
+            for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
+            {
+                pillsLines[lineIndex].draw();
             }
         }
     }

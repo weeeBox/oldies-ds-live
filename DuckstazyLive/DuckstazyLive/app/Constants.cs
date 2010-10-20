@@ -10,6 +10,7 @@ namespace DuckstazyLive.app
     {
         public const int PILL_RADIUS = 15;
         public const int PILLS_POOL_SIZE = 50;
+        public const float PILL_SPAWN_TIMEOUT = 1.0f;
 
         public const float WORLD_VIEW_HEIGHT_RATIO = 0.83f;
 

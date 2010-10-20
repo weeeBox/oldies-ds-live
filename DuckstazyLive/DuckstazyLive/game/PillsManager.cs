@@ -12,13 +12,12 @@ namespace DuckstazyLive.game
 {
     public abstract class PillsManager : BaseElement
     {        
-        private Hero hero;
+        private static Hero hero;
         private Rectangle bounds;
         private static GlobalPillsPool pool;
 
-        public PillsManager(Hero hero)
-        {            
-            this.hero = hero;            
+        public PillsManager()
+        {                        
         }
 
         protected abstract void updatePills(float dt);
@@ -36,21 +35,6 @@ namespace DuckstazyLive.game
             drawPills();
         }
 
-        protected bool collides(float x, float y, float w, float h, float cx, float cy, float r)
-        {
-            // Find the closest point to the circle within the rectangle
-            float closestX = MathHelper.Clamp(cx, x, x + w);
-            float closestY = MathHelper.Clamp(cy, y, y + h);
-
-            // Calculate the distance between the circle's center and this closest point
-            float distanceX = cx - closestX;
-            float distanceY = cy - closestY;
-
-            // If the distance is less than the circle's radius, an intersection occurs
-            float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
-            return distanceSquared < (r * r);
-        }        
-
         public Rectangle Bounds
         {
             get { return bounds; }
@@ -63,9 +47,10 @@ namespace DuckstazyLive.game
             set { pool = value; }
         }
 
-        protected Hero Hero
+        public static Hero Hero
         {
             get { return hero; }
+            set { hero = value; }
         }
     }
 }
