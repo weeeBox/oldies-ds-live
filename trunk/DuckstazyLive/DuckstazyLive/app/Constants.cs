@@ -11,7 +11,7 @@ namespace DuckstazyLive.app
     {
         public const int PILL_RADIUS = 15;
         public const int PILLS_POOL_SIZE = 50;
-        public const float PILL_SPAWN_TIMEOUT = 1.0f;
+        public const float PILL_SPAWN_TIMEOUT = 0.25f;
         public static readonly float[] HERO_COLLISION_SUB_RECTS = 
         {
             0.202381f, 0.000000f, 0.296296f, 0.428571f,

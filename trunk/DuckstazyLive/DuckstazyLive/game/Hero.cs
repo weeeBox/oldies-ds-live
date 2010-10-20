@@ -14,7 +14,7 @@ namespace DuckstazyLive.game
 {
     public interface HeroListener
     {
-        void powerChanged(float oldPower, float newPower);
+        void heroPowerChanged(float oldPower, float newPower);
     }
 
     public class Hero : BaseElement, InputListener
@@ -57,7 +57,7 @@ namespace DuckstazyLive.game
 
         private bool controlledByDPad;
 
-        public float power = 1.0f;
+        public float power;
         private bool flyingOnWings;
 
         private float gravityBoostCoeff;
@@ -442,9 +442,26 @@ namespace DuckstazyLive.game
 
         public void addPower(float pd)
         {
+            float oldPower = power;
             power += pd;
             if (power > 1.0f)
                 power = 1.0f;
+
+            if (oldPower != power)
+                firePowerChanged(oldPower, power);
+        }
+
+        private void firePowerChanged(float oldPower, float newPower)
+        {
+            foreach (HeroListener l in listeners)
+            {
+                l.heroPowerChanged(oldPower, newPower);
+            }
+        }
+
+        public void addListener(HeroListener listener)
+        {
+            listeners.Add(listener);
         }
 
         public bool collides(Pill pill)

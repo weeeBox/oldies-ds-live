@@ -14,17 +14,21 @@ namespace DuckstazyLive.game.levels
 {
     public sealed class PillLine
     {
-        private const int PILLS_IN_LINE_COUNT = 15;
+        private const int PILLS_IN_LINE_COUNT = 15;        
 
         private float elapsedTime;        
 
-        public float baseY; // y-координата центра колебаний
-        public float baseYTop; // высшая точка (hero.power = 1.0f)
-        public float baseYBottom; // низшая точка (hero.power = 0);
+        private float baseY; // y-координата центра колебаний
+        private float baseYTop; // высшая точка (hero.power = 1.0f)
+        private float baseYBottom; // низшая точка (hero.power = 0);
+        private float baseYTarget; // y-координата центра колбеаний, к которой необходимо переместиться
+        private float floatSpeed; // скорость "всплытия" полосы по мере увеличения hero power
 
         private float omega; // угловая скорость
         private float k; // волновое число
         private float amplitude; // амплитуда синусоидальных колебаний
+
+        private int pillsCount; // количество активных pill'сов
 
         public Pill[] pills;
         public PillLine(ref Rect parentBounds, int lineIndex)
@@ -62,9 +66,11 @@ namespace DuckstazyLive.game.levels
                     Debug.Assert(false, "Line index to hi: " + lineIndex);
                     break;
             }
-            baseY = baseYBottom;
+            baseY = baseYTarget = baseYBottom;
+            floatSpeed = (baseYTop - baseYBottom) / 10.0f;
         
             // init pills
+            pillsCount = 0;
             float nextPillX = lineX;
             pills = new Pill[PILLS_IN_LINE_COUNT];
             float stepX = lineWidth / (float)(pills.Length - 1);
@@ -82,10 +88,16 @@ namespace DuckstazyLive.game.levels
 
         public void update(float dt)
         {
-            elapsedTime += dt;            
+            elapsedTime += dt;
+
+            baseY += floatSpeed * dt;
+            if (baseY < baseYTarget)
+                baseY = baseYTarget;
+
+            pillsCount = Math.Min((int)(elapsedTime / Constants.PILL_SPAWN_TIMEOUT), pills.Length);
 
             Hero hero = PillsManager.Hero;
-            for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
+            for (int pillIndex = 0; pillIndex < pillsCount; ++pillIndex)
             {
                 Pill pill = pills[pillIndex];
                 pill.lifeTime += dt;
@@ -105,14 +117,14 @@ namespace DuckstazyLive.game.levels
                 {
                     pill.active = false;
                     pill.lifeTime = 0.0f;
-                    // hero.addPower(0.1f);
+                    hero.addPower(0.01f);
                 }
             }
         }
 
         public void draw()
         {
-            for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
+            for (int pillIndex = 0; pillIndex < pillsCount; ++pillIndex)
             {
                 Pill pill = pills[pillIndex];
                 if (pill.active)
@@ -121,9 +133,14 @@ namespace DuckstazyLive.game.levels
                 }                
             }
         }
+
+        public void setPower(float power)
+        {
+            baseYTarget = baseYTop + (baseYBottom - baseYTop) *  (1 - power);
+        }
     }
 
-    public class Level1 : PillsManager
+    public class Level1 : PillsManager,  HeroListener
     {
         private const int LINES_COUNT = 3;        
 
@@ -141,7 +158,8 @@ namespace DuckstazyLive.game.levels
             for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {                
                 pillsLines[lineIndex] = new PillLine(ref bounds, lineIndex);                
-            }            
+            }
+            Hero.addListener(this);
         }
 
         protected override void updatePills(float dt)
@@ -149,9 +167,7 @@ namespace DuckstazyLive.game.levels
             activeLinesCount = getLinesCount(Hero.power);
             for (int lineIndex = 0; lineIndex < activeLinesCount; ++lineIndex)
             {
-                PillLine line = pillsLines[lineIndex];
-                line.baseY = MathHelper.Lerp(line.baseYBottom, line.baseYTop, Hero.power);
-                line.update(dt);
+                pillsLines[lineIndex].update(dt);
             }            
         }
 
@@ -171,6 +187,18 @@ namespace DuckstazyLive.game.levels
             {
                 pillsLines[lineIndex].draw();
             }
-        }        
+        }
+
+        #region HeroListener Members
+
+        public void heroPowerChanged(float oldPower, float newPower)
+        {
+            for (int lineIndex = 0; lineIndex < activeLinesCount; ++lineIndex)
+            {
+                pillsLines[lineIndex].setPower(newPower);
+            }            
+        }
+
+        #endregion
     }
 }
