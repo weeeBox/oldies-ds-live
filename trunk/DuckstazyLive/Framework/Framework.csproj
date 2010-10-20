@@ -99,6 +99,8 @@
     <Compile Include="core\View.cs" />
     <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utils\Dimension.cs" />
+    <Compile Include="utils\Rect.cs" />
     <Compile Include="visual\Button.cs" />
     <Compile Include="visual\Camera.cs" />
     <Compile Include="visual\Font.cs" />
