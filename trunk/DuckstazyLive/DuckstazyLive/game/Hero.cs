@@ -93,9 +93,9 @@ namespace DuckstazyLive.game
             velocity = Vector2.Zero;                        
             levelBounds = new Rect(0, 0, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
             listeners = new List<HeroListener>();
-
-            JUMP_HEIGHT_MIN = 0.3f * levelBounds.Height - height;
-            JUMP_HEIGHT_MAX = levelBounds.Height - height;
+                        
+            JUMP_HEIGHT_MIN = 0.28f * levelBounds.Height - height;
+            JUMP_HEIGHT_MAX = 0.9f * levelBounds.Height - height;
 
             JUMP_START_VY_MIN = -(float)Math.Sqrt(2 * ACC_Y * JUMP_HEIGHT_MIN);
             JUMP_START_VY_MAX = -(float)Math.Sqrt(2 * ACC_Y * JUMP_HEIGHT_MAX);
@@ -307,6 +307,10 @@ namespace DuckstazyLive.game
 
                 case Keys.Down:
                     downPressed();
+                    break;
+             
+                case Keys.OemPlus:
+                    addPower(0.01f);
                     break;
             }
         }
