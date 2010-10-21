@@ -30,7 +30,9 @@ namespace DuckstazyLive.game
 
         public void draw()
         {
-            draw(x, y);
+            float drawX = Level.toScreenX(x);
+            float drawY = Level.toScreenY(y);
+            draw(drawX, drawY);
         }
 
         public void draw(float x, float y)

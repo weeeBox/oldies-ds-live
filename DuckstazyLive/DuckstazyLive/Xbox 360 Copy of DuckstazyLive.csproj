@@ -71,9 +71,9 @@
     <Compile Include="game\GameWorld.cs" />
     <Compile Include="game\GlobalPillsPool.cs" />
     <Compile Include="game\Hero.cs" />
+    <Compile Include="game\Level.cs" />
     <Compile Include="game\levels\Level1.cs" />
     <Compile Include="game\Pill.cs" />
-    <Compile Include="game\PillsManager.cs" />
     <Compile Include="game\utils\CollisionHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
