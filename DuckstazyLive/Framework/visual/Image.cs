@@ -98,12 +98,7 @@ namespace Framework.visual
         public void drawQuad(int n, float x, float y)
         {
             AppGraphics.DrawImagePart(texture, quads[n], x, y);
-        }
-
-        public void drawQuad(int n, double x, double y)
-        {
-            AppGraphics.DrawImagePart(texture, quads[n], x, y);
-        }
+        }        
 
         public void drawQuad(int n)
         {

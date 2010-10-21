@@ -119,7 +119,9 @@ namespace DuckstazyLive.game
             //foreach (Rect r in collisionRects)
             //{
             //    AppGraphics.DrawRect(r.X + x, r.Y + y, r.Width, r.Height, Color.White);
-            //}            
+            //} 
+
+            AppGraphics.DrawString(0, 0, "Power: " + power);
         }
 
         private void Draw(float x, float y)

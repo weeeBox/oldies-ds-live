@@ -72,8 +72,8 @@ namespace DuckstazyLive.game.levels
 
                 case 2:
                     {                        
-                        baseYTop = baseYBottom = bounds.Y + bounds.Height - 0.5f * lineHeight;
-                        awakePower = 0.6f;
+                        baseYTop = baseYBottom = bounds.Y + bounds.Height - 0.25f * lineHeight;
+                        awakePower = 0.9f;
                     }
                     break;
 
@@ -227,7 +227,7 @@ namespace DuckstazyLive.game.levels
         {
             Rect lineBounds;
             lineBounds.Width = 0.8f * Bounds.Width;
-            lineBounds.Height = 0.8f * Bounds.Height;
+            lineBounds.Height = 0.6f * Bounds.Height;
             lineBounds.X = 0.5f * (Bounds.Width - lineBounds.Width);
             lineBounds.Y = 0.5f * (Bounds.Height - lineBounds.Height);
 

@@ -29,6 +29,8 @@ namespace Framework.core
         private static SpriteBatch spriteBatch;
         private static BasicEffect basicEffect;
 
+        private static SpriteFont infoFont;
+
         private static BatchMode batchMode = BatchMode.None;
         private static Matrix matrix;
         private static Color drawColor;
@@ -89,6 +91,11 @@ namespace Framework.core
                 EndBatch();
                 blendMode = bm;
             }
+        }
+
+        public static void SetInfoFont(SpriteFont font)
+        {
+            infoFont = font;
         }
 
         public static void SetColor(Color color)
@@ -156,11 +163,6 @@ namespace Framework.core
             matrix = Matrix.Multiply(t, matrix);
         }
 
-        public static void Translate(double tx, double ty, double tz)
-        {
-            Translate((float)tx, (float)ty, (float)tz);
-        }
-
         public static void Translate(float tx, float ty, float tz)
         {
             AddTransform(Matrix.CreateTranslation(tx, ty, tz));
@@ -188,21 +190,16 @@ namespace Framework.core
             AddTransform(r);
         }
 
-        public static void DrawString(SpriteFont font, double x, double y, String text)
+        public static void DrawString(float x, float y, String text)
+        {
+            GetSpriteBatch(BatchMode.Sprite).DrawString(infoFont, text, new Vector2((float)x, (float)y), Color.Red);
+        }
+
+        public static void DrawString(SpriteFont font, float x, float y, String text)
         {
             GetSpriteBatch(BatchMode.Sprite).DrawString(font, text, new Vector2((float)x, (float)y), Color.Red);
         }
-
-        public static void DrawImage(Texture2D tex, double x, double y)
-        {
-            DrawImage(tex, (float)x, (float)y);
-        }
-
-        public static void DrawImagePart(Texture2D tex, Rectangle src, double x, double y)
-        {
-            DrawImagePart(tex, src, (float)x, (float)y);
-        }
-
+      
         public static void DrawImage(Texture2D tex, float x, float y)
         {
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), drawColor);
