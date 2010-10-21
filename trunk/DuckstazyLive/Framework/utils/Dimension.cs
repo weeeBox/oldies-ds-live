@@ -10,6 +10,12 @@ namespace Framework.utils
         public float Height;
         public float Width;
 
+        public Dimension(float w, float h)
+        {
+            Width = w;
+            Height = h;
+        }
+
         #region IEquatable<Dimension> Members
 
         public bool Equals(Dimension other)

@@ -18,7 +18,7 @@ namespace DuckstazyLive.game
         void heroPowerChanged(float oldPower, float newPower);
     }
 
-    public class Hero : BaseElement, InputListener
+    public sealed class Hero : InputListener
     {
         private static readonly int STEP_BUBBLE_OFFSET_X = 20;
         private static readonly int STEP_BUBBLE_OFFSET_Y = -5;       
@@ -54,6 +54,10 @@ namespace DuckstazyLive.game
 
         // Vars        
         private Vector2 velocity;
+        private float x;
+        private float y;
+        private float width;
+        private float height;
 
         private bool flying;        
 
@@ -67,7 +71,7 @@ namespace DuckstazyLive.game
         private bool flipped;
         private float steppingDistance;
 
-        private Rect bounds;
+        private Rect levelBounds;
         private Rect[] collisionRectsNorm; // collision rects for normal state
         private Rect[] collisionRectsFlip; // collision rects for flipped state
         private Rect[] collisionRects; // current collision rects
@@ -76,17 +80,22 @@ namespace DuckstazyLive.game
 
         public Hero()
         {
+            levelBounds = Level.levelBounds;
+
             Texture2D duck = Application.sharedResourceMgr.getTexture(Res.IMG_DUCK_FAKE);
             width = duck.Width;
-            height = duck.Height;
+            height = duck.Height;           
+
+            x = 0.5f * (levelBounds.Width - width);
+            y = levelBounds.Height - height;            
 
             initCollisionRects();
             velocity = Vector2.Zero;                        
-            bounds = new Rect(0, 0, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
+            levelBounds = new Rect(0, 0, Constants.WORLD_VIEW_WIDTH, Constants.WORLD_VIEW_HEIGHT);
             listeners = new List<HeroListener>();
 
-            JUMP_HEIGHT_MIN = 0.25f * bounds.Height - height;
-            JUMP_HEIGHT_MAX = bounds.Height - height;
+            JUMP_HEIGHT_MIN = 0.3f * levelBounds.Height - height;
+            JUMP_HEIGHT_MAX = levelBounds.Height - height;
 
             JUMP_START_VY_MIN = -(float)Math.Sqrt(2 * ACC_Y * JUMP_HEIGHT_MIN);
             JUMP_START_VY_MAX = -(float)Math.Sqrt(2 * ACC_Y * JUMP_HEIGHT_MAX);
@@ -94,7 +103,7 @@ namespace DuckstazyLive.game
             Application.sharedInputMgr.addInputListener(this);            
         }
 
-        public override void draw()
+        public void draw()
         {
             float dx = x;
             float dy = y;           
@@ -107,12 +116,12 @@ namespace DuckstazyLive.game
             Draw(dx, dy);
             if (dx < 0)
             {
-                dx += bounds.Width;
+                dx += levelBounds.Width;
                 Draw(dx, dy);
             }
-            else if (dx > bounds.Width - width)
+            else if (dx > levelBounds.Width - width)
             {
-                dx -= bounds.Width;
+                dx -= levelBounds.Width;
                 Draw(dx, dy);
             }
 
@@ -127,13 +136,13 @@ namespace DuckstazyLive.game
         private void Draw(float x, float y)
         {
             Texture2D duck = Application.sharedResourceMgr.getTexture(Res.IMG_DUCK_FAKE);
-            AppGraphics.DrawImage(duck, x, y, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
+            float drawX = Level.toScreenX(x);
+            float drawY = Level.toScreenY(y);
+            AppGraphics.DrawImage(duck, drawX, drawY, flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None);
         }
 
-        public override void update(float dt)
+        public void update(float dt)
         {
-            base.update(dt);
-
             UpdateGamepadInput();
             UpdateHorizontalPosition(dt);
             UpdateVerticalPosition(dt);
@@ -233,9 +242,9 @@ namespace DuckstazyLive.game
             x += dx;
 
             if (x < -width)
-                x += bounds.Width;
-            if (x > (bounds.Width - width))
-                x -= bounds.Width;
+                x += levelBounds.Width;
+            if (x > (levelBounds.Width - width))
+                x -= levelBounds.Width;
         }
 
         private void UpdateVerticalPosition(float dt)
@@ -263,7 +272,7 @@ namespace DuckstazyLive.game
                     y += velocity.Y * dt;
                 }
 
-                float minY = bounds.Height - height;
+                float minY = levelBounds.Height - height;
                 if (y >= minY)
                 {
                     flyingOnWings = false;
