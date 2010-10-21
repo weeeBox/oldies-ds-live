@@ -242,16 +242,6 @@ namespace DuckstazyLive.game.levels
         protected override void updatePills(float dt)
         {
             elapsedTime += dt;
-            sharedHero.power += 0.001f;
-            if (sharedHero.power > 1)
-            {
-                sharedHero.power = 1;
-            }
-            else
-            {
-                heroPowerChanged(0, sharedHero.power);
-            }
-
             for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
                 pillsLines[lineIndex].update(dt);
