@@ -88,9 +88,19 @@ public class ContentProjTask extends Task
 			List<Element> children = e.elements();
 			for (Element child : children) 
 			{
-				if (!child.getName().equals("Reference"))
+				if (child.getName().equals("Compile"))
 				{
-					e.remove(child);
+					Element importer = child.element("Importer");
+					Element processor = child.element("Processor");
+					if (importer != null && processor != null)
+					{												
+						if (!("TextureImporter".equals(importer.getText())))
+							continue;
+						if (!("TextureProcessor".equals(processor.getText())))
+							continue;
+							
+						e.remove(child);
+					}					
 				}
 			}
 			if (e.elements().isEmpty())

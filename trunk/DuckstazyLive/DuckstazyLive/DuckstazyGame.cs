@@ -22,8 +22,9 @@ namespace DuckstazyLive
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteFont infoFont;
 
-        DuckstazyApp application;
+        DuckstazyApp application;        
 
         public DuckstazyGame()
         {
@@ -57,7 +58,10 @@ namespace DuckstazyLive
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to processDraw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);            
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            infoFont = Content.Load<SpriteFont>("InfoFont");
+            AppGraphics.SetInfoFont(infoFont);
 
             application = new DuckstazyApp(Content);
             application.onApplicationStart();
@@ -72,6 +76,7 @@ namespace DuckstazyLive
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            Content.Unload();
         }
 
         /// <summary>
