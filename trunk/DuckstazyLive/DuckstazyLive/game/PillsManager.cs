@@ -13,7 +13,7 @@ namespace DuckstazyLive.game
 {
     public abstract class PillsManager : BaseElement
     {        
-        private static Hero hero;
+        public static Hero sharedHero;
         private Rect bounds;
         private static GlobalPillsPool pool;
 
@@ -46,12 +46,6 @@ namespace DuckstazyLive.game
         {
             get { return pool; }
             set { pool = value; }
-        }
-
-        public static Hero Hero
-        {
-            get { return hero; }
-            set { hero = value; }
-        }
+        }        
     }
 }
