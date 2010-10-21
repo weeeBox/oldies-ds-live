@@ -14,51 +14,66 @@ namespace DuckstazyLive.game.levels
 {
     public sealed class PillLine
     {
+        enum State
+        {
+            SLEEPING,
+            APPEARING,
+            FLOATING,
+            DISSAPEARING,
+        }
+
         private const int PILLS_IN_LINE_COUNT = 15;        
 
-        private float elapsedTime;        
+        private float stateElapsedTime;        
 
         private float baseY; // y-координата центра колебаний
-        private float baseYTop; // высшая точка (hero.power = 1.0f)
-        private float baseYBottom; // низшая точка (hero.power = 0);
+        private float baseYTop; // высшая точка (hero.awakePower = 1.0f)
+        private float baseYBottom; // низшая точка (hero.awakePower = 0);
         private float baseYTarget; // y-координата центра колбеаний, к которой необходимо переместиться
-        private float floatSpeed; // скорость "всплытия" полосы по мере увеличения hero power
+        private float floatSpeed; // скорость "всплытия" полосы по мере увеличения hero awakePower
 
         private float omega; // угловая скорость
         private float k; // волновое число
         private float amplitude; // амплитуда синусоидальных колебаний
+        private double phase; // фаза колебаний
+        private float awakePower; // hero awakePower при которой начинают появляться pill'сы
 
         private int pillsCount; // количество активных pill'сов
+        private State state;
 
         public Pill[] pills;
-        public PillLine(ref Rect parentBounds, int lineIndex)
-        {        
-            float lineWidth = 0.8f * parentBounds.Width;
-            float lineHeight = 0.09f * parentBounds.Height;
-            float lineX = 0.5f * (parentBounds.Width - lineWidth);
-            float lineY = 0.8f * parentBounds.Height;
+        public PillLine(ref Rect bounds, int lineIndex)
+        {
+            float lineWidth = bounds.Width;
+            float lineHeight = 0.12f * bounds.Height;            
+            
+            state = State.SLEEPING;
 
             // init base cords
             switch (lineIndex)
             {
                 case 0:
                     {
-                        baseYTop = parentBounds.Y + 0.5f * lineHeight;
-                        baseYBottom = parentBounds.Y + lineY;
+                        baseYTop = bounds.Y + 0.5f * lineHeight;
+                        baseYBottom = bounds.Y + 0.9f * bounds.Height; ;
+                        awakePower = 0;
+                        state = State.APPEARING;
                     }
                     break;
 
                 case 1:
                     {
-                        baseYTop = parentBounds.Y + 0.5f * parentBounds.Height;
-                        baseYBottom = parentBounds.Y + lineY;
+                        baseYTop = bounds.Y + 0.5f * bounds.Height;
+                        baseYBottom = bounds.Y + 0.9f * bounds.Height; ;
+                        phase = MathHelper.Pi;
+                        awakePower = 0.3f;
                     }
                     break;
 
                 case 2:
-                    {
-                        Texture2D grass = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS);
-                        baseYTop = baseYBottom = parentBounds.Height - (0.5f * lineHeight + grass.Height);
+                    {                        
+                        baseYTop = baseYBottom = bounds.Y + bounds.Height - 0.5f * lineHeight;
+                        awakePower = 0.6f;
                     }
                     break;
 
@@ -67,11 +82,11 @@ namespace DuckstazyLive.game.levels
                     break;
             }
             baseY = baseYTarget = baseYBottom;
-            floatSpeed = (baseYTop - baseYBottom) / 10.0f;
+            floatSpeed = (baseYTop - baseYBottom) / 20.0f;
         
             // init pills
             pillsCount = 0;
-            float nextPillX = lineX;
+            float nextPillX = bounds.X;
             pills = new Pill[PILLS_IN_LINE_COUNT];
             float stepX = lineWidth / (float)(pills.Length - 1);
             for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
@@ -88,39 +103,70 @@ namespace DuckstazyLive.game.levels
 
         public void update(float dt)
         {
-            elapsedTime += dt;
+            stateElapsedTime += dt;
 
-            baseY += floatSpeed * dt;
-            if (baseY < baseYTarget)
-                baseY = baseYTarget;
+            switch (state)
+            {
+                case State.SLEEPING:
+                    break;
 
-            pillsCount = Math.Min((int)(elapsedTime / Constants.PILL_SPAWN_TIMEOUT), pills.Length);
+                case State.APPEARING:
+                case State.FLOATING:
+                    baseY += floatSpeed * dt;
+                    if (baseY < baseYTarget)
+                        baseY = baseYTarget;
 
-            Hero hero = PillsManager.Hero;
-            for (int pillIndex = 0; pillIndex < pillsCount; ++pillIndex)
+                    if (state == State.APPEARING)
+                    {
+                        pillsCount = (int)(stateElapsedTime / Constants.PILL_SPAWN_TIMEOUT);
+                        if (pillsCount > pills.Length)
+                        {
+                            pillsCount = pills.Length;
+                            setState(State.FLOATING);
+                        }
+                    }
+                    break;                    
+
+                case State.DISSAPEARING:
+                    throw new NotImplementedException(); // TODO: make'em dissapear                    
+
+                default:
+                    Debug.Assert(false, "Bad state: " + state);
+                    break;
+            }
+            
+            for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
             {
                 Pill pill = pills[pillIndex];
                 pill.lifeTime += dt;
 
+                if (pillIndex >= pillsCount)
+                {
+                    continue;
+                }
+
                 if (!pill.active)
                 {
                     if (pill.lifeTime < Constants.PILL_SPAWN_TIMEOUT)                        
-                        continue;
+                        continue; // wait a little before respawning
+
+                    if (state == State.DISSAPEARING)
+                        continue; // do not respawn on dissapear
                     
                     pill.active = true;
-                    pill.lifeTime = 0.0f;
+                    pill.lifeTime = 0.0f; // reset life time to break wave synchronization
                 }
                                 
-                pill.y = baseY + amplitude * (float)(Math.Sin(omega * pill.lifeTime - k * pill.x));
+                pill.y = baseY + amplitude * (float)(Math.Sin(omega * pill.lifeTime - k * pill.x + phase));
 
-                if (hero.collides(pill))
+                if (PillsManager.sharedHero.collides(pill))
                 {
+                    PillsManager.sharedHero.eatPill(pill);
                     pill.active = false;
-                    pill.lifeTime = 0.0f;
-                    hero.addPower(0.01f);
+                    pill.lifeTime = 0.0f;                    
                 }
             }
-        }
+        }        
 
         public void draw()
         {
@@ -132,11 +178,37 @@ namespace DuckstazyLive.game.levels
                     pill.draw();
                 }                
             }
-        }
+        }                
 
-        public void setPower(float power)
+        public void heroPowerUpdated(float power)
         {
-            baseYTarget = baseYTop + (baseYBottom - baseYTop) *  (1 - power);
+            switch (state)
+            {
+                case State.SLEEPING:
+                    if (power >= awakePower)
+                    {
+                        setState(State.APPEARING);
+                    }
+                    break;
+
+                case State.APPEARING:
+                case State.FLOATING:
+                    baseYTarget = baseYTop + (baseYBottom - baseYTop) * (1 - power);
+                    break;
+
+                case State.DISSAPEARING:
+                    break;
+
+                default:
+                    Debug.Assert(false, "Bad state: " + state);
+                    break;
+            }            
+        }       
+ 
+        private void setState(State state)
+        {
+            this.state = state;
+            stateElapsedTime = 0;
         }
     }
 
@@ -144,8 +216,8 @@ namespace DuckstazyLive.game.levels
     {
         private const int LINES_COUNT = 3;        
 
-        private PillLine[] pillsLines;
-        private int activeLinesCount;
+        private PillLine[] pillsLines;        
+        private float elapsedTime;
 
         public Level1()
         {            
@@ -153,37 +225,42 @@ namespace DuckstazyLive.game.levels
 
         public override void init()
         {
-            Rect bounds = Bounds;
+            Rect lineBounds;
+            lineBounds.Width = 0.8f * Bounds.Width;
+            lineBounds.Height = 0.8f * Bounds.Height;
+            lineBounds.X = 0.5f * (Bounds.Width - lineBounds.Width);
+            lineBounds.Y = 0.5f * (Bounds.Height - lineBounds.Height);
+
             pillsLines = new PillLine[LINES_COUNT];
             for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {                
-                pillsLines[lineIndex] = new PillLine(ref bounds, lineIndex);                
+                pillsLines[lineIndex] = new PillLine(ref lineBounds, lineIndex);                
             }
-            Hero.addListener(this);
+            sharedHero.addListener(this);            
         }
 
         protected override void updatePills(float dt)
         {
-            activeLinesCount = getLinesCount(Hero.power);
-            for (int lineIndex = 0; lineIndex < activeLinesCount; ++lineIndex)
+            elapsedTime += dt;
+            sharedHero.power += 0.001f;
+            if (sharedHero.power > 1)
+            {
+                sharedHero.power = 1;
+            }
+            else
+            {
+                heroPowerChanged(0, sharedHero.power);
+            }
+
+            for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
                 pillsLines[lineIndex].update(dt);
             }            
-        }
-
-        private int getLinesCount(float power)
-        {            
-            if (power < 0.3f)
-                return 1;
-            else if (power < 0.6f)
-                return 2;
-            else
-                return 3;
-        }
+        }       
 
         protected override void drawPills()
-        {           
-            for (int lineIndex = 0; lineIndex < activeLinesCount; ++lineIndex)
+        {
+            for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
                 pillsLines[lineIndex].draw();
             }
@@ -192,11 +269,11 @@ namespace DuckstazyLive.game.levels
         #region HeroListener Members
 
         public void heroPowerChanged(float oldPower, float newPower)
-        {
-            for (int lineIndex = 0; lineIndex < activeLinesCount; ++lineIndex)
+        {            
+            for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
-                pillsLines[lineIndex].setPower(newPower);
-            }            
+                pillsLines[lineIndex].heroPowerUpdated(newPower);
+            }
         }
 
         #endregion
