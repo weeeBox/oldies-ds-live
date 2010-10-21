@@ -22,7 +22,16 @@ namespace DuckstazyLive.game.levels
             DISSAPEARING,
         }
 
-        private const int PILLS_IN_LINE_COUNT = 15;        
+        private const int PILLS_IN_LINE_COUNT = 15;
+        private static byte[] JUMPER_PATTERNS =
+        {
+            0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0,
+            1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0,
+            1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1,
+            0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0,
+            0, 1, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1,
+            1, 0, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 0, 1, 0,            
+        };                
 
         private float stateElapsedTime;        
 
@@ -49,6 +58,7 @@ namespace DuckstazyLive.game.levels
             float lineHeight = 0.1f * bounds.Height;            
             
             state = State.SLEEPING;
+            int jumperPatternIndex = -1;
 
             // init base cords
             switch (lineIndex)
@@ -65,13 +75,15 @@ namespace DuckstazyLive.game.levels
                     {
                         baseYTop = bounds.Height - 0.5f * (Level.sharedHero.JUMP_HEIGHT_MAX + lineHeight);
                         baseYBottom = bounds.Height - Level.sharedHero.JUMP_HEIGHT_MIN;
-                        phase = MathHelper.Pi;                        
+                        phase = MathHelper.Pi;
+                        jumperPatternIndex = new Random().Next() % (JUMPER_PATTERNS.Length / PILLS_IN_LINE_COUNT);
                     }
                     break;
 
                 case 2:
                     {
-                        baseYTop = baseYBottom = bounds.Height - lineHeight;                        
+                        baseYTop = baseYBottom = bounds.Height - lineHeight;
+                        jumperPatternIndex = new Random().Next() % (JUMPER_PATTERNS.Length / PILLS_IN_LINE_COUNT);
                     }
                     break;
 
@@ -86,11 +98,19 @@ namespace DuckstazyLive.game.levels
             pillsCount = 0;
             float nextPillX = bounds.X + 0.5f * (bounds.Width - lineWidth);
             pills = new Pill[PILLS_IN_LINE_COUNT];
-            float stepX = lineWidth / (float)(pills.Length - 1);
+            float stepX = lineWidth / (float)(pills.Length - 1);            
             for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
             {
                 pills[pillIndex] = Level.Pool.allocatePill(nextPillX, 0);
                 nextPillX += stepX;
+            }
+
+            if (jumperPatternIndex != -1)
+            {
+                for (int pillIndex = 0; pillIndex < pills.Length; ++pillIndex)
+                {
+                    pills[pillIndex].jumper = JUMPER_PATTERNS[PILLS_IN_LINE_COUNT * jumperPatternIndex + pillIndex] != 0;
+                }
             }
 
             // initWavering
@@ -145,7 +165,7 @@ namespace DuckstazyLive.game.levels
 
                 if (!pill.active)
                 {
-                    if (pill.lifeTime < Constants.PILL_SPAWN_TIMEOUT)                        
+                    if (pill.lifeTime < getSpawnTimeout())                        
                         continue; // wait a little before respawning
 
                     if (Level.sharedHero.collides(pill))                    
@@ -162,7 +182,7 @@ namespace DuckstazyLive.game.levels
 
                 if (Level.sharedHero.collides(pill))
                 {
-                    Level.sharedHero.eatPill(pill);
+                    Level.sharedHero.onPillCollide(pill);
                     pill.active = false;
                     pill.lifeTime = 0.0f;                    
                 }
@@ -207,6 +227,11 @@ namespace DuckstazyLive.game.levels
             this.state = state;
             stateElapsedTime = 0;
         }
+
+        private float getSpawnTimeout()
+        {
+            return MathHelper.Lerp(Constants.PILL_RESPAWN_TIMEOUT_MAX, Constants.PILL_RESPAWN_TIMEOUT_MIN, Level.sharedHero.power);
+        }
     }
 
     public class Level1 : Level,  HeroListener
@@ -236,8 +261,7 @@ namespace DuckstazyLive.game.levels
             for (int lineIndex = 0; lineIndex < pillsLines.Length; ++lineIndex)
             {
                 pillsLines[lineIndex].update(dt);
-            }
-            
+            }            
 
             if (pillsLines[0].baseY < 0.6f * Level.levelBounds.Height && pillsLines[1].state == PillLine.State.SLEEPING)
             {

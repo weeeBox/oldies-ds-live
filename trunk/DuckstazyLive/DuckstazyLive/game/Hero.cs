@@ -56,6 +56,8 @@ namespace DuckstazyLive.game
         private Vector2 velocity;
         private float x;
         private float y;
+        private float oldX;
+        private float oldY;
         private float width;
         private float height;
 
@@ -76,6 +78,8 @@ namespace DuckstazyLive.game
         private Rect[] collisionRectsFlip; // collision rects for flipped state
         private Rect[] collisionRects; // current collision rects
 
+        private Pill lastCollisionPill;
+
         private List<HeroListener> listeners;
 
         public Hero()
@@ -95,10 +99,12 @@ namespace DuckstazyLive.game
             listeners = new List<HeroListener>();
                         
             JUMP_HEIGHT_MIN = 0.28f * levelBounds.Height - height;
-            JUMP_HEIGHT_MAX = 0.9f * levelBounds.Height - height;
+            JUMP_HEIGHT_MAX = 0.95f * levelBounds.Height - height;
 
             JUMP_START_VY_MIN = -(float)Math.Sqrt(2 * ACC_Y * JUMP_HEIGHT_MIN);
             JUMP_START_VY_MAX = -(float)Math.Sqrt(2 * ACC_Y * JUMP_HEIGHT_MAX);
+
+            lastCollisionPill = null;
 
             Application.sharedInputMgr.addInputListener(this);            
         }
@@ -183,6 +189,8 @@ namespace DuckstazyLive.game
 
         private void UpdateHorizontalPosition(float dt)
         {
+            oldX = x;
+
             steping = false;
             if (key_left)
             {
@@ -237,8 +245,8 @@ namespace DuckstazyLive.game
                     steppingDistance = 0.0f;
                 }
             }
-
-            float dx = velocity.X * MathHelper.Lerp(VX_MIN, VX_MAX, power) * dt;
+                        
+            float dx = velocity.X * MathHelper.Lerp(VX_MIN, VX_MAX, power) * dt;            
             x += dx;
 
             if (x < -width)
@@ -249,6 +257,8 @@ namespace DuckstazyLive.game
 
         private void UpdateVerticalPosition(float dt)
         {
+            oldY = y;
+
             if (flying)
             {
                 if (key_down)
@@ -469,9 +479,18 @@ namespace DuckstazyLive.game
         //    }
         //}
 
-        public void eatPill(Pill p)
+        public void onPillCollide(Pill pill)
         {
-            addPower(0.01f);
+            if (pill.jumper && oldY < y && y + 0.6f * height < pill.y && pill != lastCollisionPill)
+            {
+                y -= Constants.PILL_RADIUS - (pill.y - (y + height));
+                velocity.Y = JUMP_START_VY_MIN;                
+            }
+            else
+            {
+                addPower(0.01f);
+            }
+            lastCollisionPill = pill;
         }
 
         public void addPower(float pd)
