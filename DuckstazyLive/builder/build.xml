@@ -37,11 +37,12 @@
 				<image name="button_base" file="${dir.res}/button.png" />
 				<image name="button_stroke_default" file="${dir.res}/button_black.png" />
 				<image name="button_stroke_focused" file="${dir.res}/button_white.png" />
-                <image name="button_cloud_1" file="${dir.res}/cloud_1.png" />
-                <image name="button_cloud_2" file="${dir.res}/cloud_2.png" />
-                <image name="button_cloud_3" file="${dir.res}/cloud_3.png" />
-                <image name="grass" file="${dir.res}/grass.png" />
-                <image name="pill_fake" file="${dir.res}/pill_fake.png" />
+			        <image name="button_cloud_1" file="${dir.res}/cloud_1.png" />
+				<image name="button_cloud_2" file="${dir.res}/cloud_2.png" />
+				<image name="button_cloud_3" file="${dir.res}/cloud_3.png" />
+				<image name="grass" file="${dir.res}/grass.png" />
+				<image name="pill_fake" file="${dir.res}/pill_fake.png" />
+				<image name="pill_glow_fake" file="${dir.res}/pill_glow_fake.png" />
 			</package>
 			
 			<package name="PACK_MENU">

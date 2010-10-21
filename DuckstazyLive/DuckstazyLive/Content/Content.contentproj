@@ -95,6 +95,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="pill_glow_fake.png">
+      <Name>pill_glow_fake</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="title.png">
       <Name>title</Name>
       <Importer>TextureImporter</Importer>

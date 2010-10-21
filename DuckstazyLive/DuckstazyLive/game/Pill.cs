@@ -14,6 +14,7 @@ namespace DuckstazyLive.game
         public float x, y, vx, vy;
         public bool active;
         public float lifeTime;
+        public bool jumper;
 
         private int poolIndex;
         internal int PoolIndex
@@ -26,6 +27,7 @@ namespace DuckstazyLive.game
             x = y = vx = vy = 0.0f;
             active = true;
             lifeTime = 0.0f;
+            jumper = false;
         }
 
         public void draw()
@@ -37,10 +39,20 @@ namespace DuckstazyLive.game
 
         public void draw(float x, float y)
         {
-            Texture2D tex = Framework.core.Application.sharedResourceMgr.getTexture(Res.IMG_PILL_FAKE);
+            Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_PILL_FAKE);
             float halfWidth = 0.5f * tex.Width;
             float halfHeight = 0.5f * tex.Height;            
             AppGraphics.DrawImage(tex, x - halfWidth, y - halfHeight);            
+
+            if (jumper)
+            {
+                float opacity = (float)Math.Sin(10 * Math.PI * lifeTime);
+
+                Texture2D glow = Application.sharedResourceMgr.getTexture(Res.IMG_PILL_GLOW_FAKE);
+                halfWidth = 0.5f * glow.Width;
+                halfHeight = 0.5f * glow.Height;
+                AppGraphics.DrawImage(glow, x - halfWidth, y - halfHeight, opacity);
+            }
         }
     }
 }
