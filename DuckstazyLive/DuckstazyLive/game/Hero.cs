@@ -79,8 +79,10 @@ namespace DuckstazyLive.game
         private Rect[] collisionRects; // current collision rects
 
         private Pill lastCollisionPill;
-
         private List<HeroListener> listeners;
+
+        private static int[] STEP_SOUND_IDS = { Res.SND_HERO_STEP1, Res.SND_HERO_STEP2 };
+        private int currentStepSoundIndex;
 
         public Hero()
         {
@@ -225,6 +227,7 @@ namespace DuckstazyLive.game
                     steppingDistance -= STEP_DISTANCE_MAX;
                     if (!flying)
                     {
+                        playStepSound();
                         //media.playStep();
                         // doStepBubbles();
                     }
@@ -287,6 +290,7 @@ namespace DuckstazyLive.game
                     flying = false;
                     y = minY;
                     gravityBoostCoeff = 0.0f;
+                    Application.sharedSoundMgr.playSound(Res.SND_HERO_LAND);
                     // doLandBubble(velocity.Y);
                 }
             }
@@ -458,6 +462,13 @@ namespace DuckstazyLive.game
         private void rightReleased()
         {
             key_right = false;
+        }
+
+        private void playStepSound()
+        {
+            int soundId = STEP_SOUND_IDS[currentStepSoundIndex];
+            currentStepSoundIndex = (currentStepSoundIndex + 1) % STEP_SOUND_IDS.Length;
+            Application.sharedSoundMgr.playSound(soundId);
         }
 
         //private void doStepBubbles()
