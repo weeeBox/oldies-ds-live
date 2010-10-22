@@ -21,6 +21,16 @@ public class Package
 		resources.add(image);
 	}
 	
+	public void addSound(Sound sound)
+	{
+		resources.add(sound);
+	}
+	
+	public void addSong(Song song)
+	{
+		resources.add(song);
+	}
+	
 	public List<Resource> getResources()
 	{
 		return resources;

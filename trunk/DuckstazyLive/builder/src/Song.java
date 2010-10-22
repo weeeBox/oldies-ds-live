@@ -1,8 +1,8 @@
 
-public class Image extends Resource 
+public class Song extends Resource 
 {
-	private static final String IMPORTER = "TextureImporter";
-	private static final String PROCESSOR = "TextureProcessor";
+	private static final String IMPORTER = "Mp3Importer";
+	private static final String PROCESSOR = "SongProcessor";
 
 	static
 	{
@@ -24,12 +24,13 @@ public class Image extends Resource
 	@Override
 	public String getResourceType() 
 	{
-		return "RESOURCE_TYPE_TEXTURE";
+		return "RESOURCE_TYPE_SONG";
 	}
-	
+
 	@Override
 	public String getResourceTypePrefix() 
 	{
-		return "IMG_";
+		return "SONG_";
 	}
+
 }

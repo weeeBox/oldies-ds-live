@@ -4,7 +4,9 @@
 	<property name="dir.lib" value="lib" />
 	<property name="dir.classes" value="tmp" />
 	<property name="dir.source" value="src" />
-	<property name="dir.res" value="../art" />
+	<property name="dir.res" value="../res" />
+	<property name="dir.art" value="${dir.res}/art" />
+	<property name="dir.sound" value="${dir.res}/sound" />
 	<property name="dir.content" value="../DuckstazyLive/Content" />
 	<property name="file.proj" value="${dir.content}/Content.contentproj" />
 	<property name="file.code" value="../DuckstazyLive/app/Res.cs" />
@@ -34,27 +36,50 @@
 	<target name="run" depends="build">		
 		<content projFile="${file.proj}" codeFile="${file.code}">
 			<package name="PACK_COMMON">
-				<image name="button_base" file="${dir.res}/button.png" />
-				<image name="button_stroke_default" file="${dir.res}/button_black.png" />
-				<image name="button_stroke_focused" file="${dir.res}/button_white.png" />
-			        <image name="button_cloud_1" file="${dir.res}/cloud_1.png" />
-				<image name="button_cloud_2" file="${dir.res}/cloud_2.png" />
-				<image name="button_cloud_3" file="${dir.res}/cloud_3.png" />
-				<image name="grass" file="${dir.res}/grass.png" />
-				<image name="pill_fake" file="${dir.res}/pill_fake.png" />
-				<image name="pill_glow_fake" file="${dir.res}/pill_glow_fake.png" />
+				<image name="button_base" file="${dir.art}/button.png" />
+				<image name="button_stroke_default" file="${dir.art}/button_black.png" />
+				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />
+			        <image name="button_cloud_1" file="${dir.art}/cloud_1.png" />
+				<image name="button_cloud_2" file="${dir.art}/cloud_2.png" />
+				<image name="button_cloud_3" file="${dir.art}/cloud_3.png" />
+				<image name="grass" file="${dir.art}/grass.png" />
+				<image name="pill_fake" file="${dir.art}/pill_fake.png" />
+				<image name="pill_glow_fake" file="${dir.art}/pill_glow_fake.png" />
 			</package>
 			
 			<package name="PACK_MENU">
-				<image name="menu_title"  file="${dir.res}/title.png" />
-				<image name="menu_title_back" file="${dir.res}/title_back.png" />
+				<image name="menu_title"  file="${dir.art}/title.png" />
+				<image name="menu_title_back" file="${dir.art}/title_back.png" />
 			</package>
 			
 			<package name="PACK_GAME">
-				<image name="duck_fake" file="${dir.res}/duck_fake.png" />
+				<image name="duck_fake" file="${dir.art}/duck_fake.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">
+				<sound name="env_power" file="${dir.sound}/Env_rPowerSnd.wav" />
+				<song name="env_tex" file="${dir.sound}/Env_rTex2Snd.mp3" />
+				<sound name="hero_attack" file="${dir.sound}/HeroMedia_rAttackSnd.wav" />
+				<sound name="hero_awake" file="${dir.sound}/HeroMedia_rAwakeSnd.wav" />
+				<sound name="hero_jump" file="${dir.sound}/HeroMedia_rJumpSnd.wav" />
+				<sound name="hero_land" file="${dir.sound}/HeroMedia_rLandSnd.wav" />
+				<sound name="hero_sleep" file="${dir.sound}/HeroMedia_rSleepSnd.wav" />
+				<sound name="hero_step1" file="${dir.sound}/HeroMedia_rStepSnd1.wav" />
+				<sound name="hero_step2" file="${dir.sound}/HeroMedia_rStepSnd2.wav" />
+				<sound name="hero_toxic" file="${dir.sound}/HeroMedia_rToxicSnd.wav" />
+				<sound name="hero_wing1" file="${dir.sound}/HeroMedia_rWingSnd1.wav" />
+				<sound name="hero_wing2" file="${dir.sound}/HeroMedia_rWingSnd2.wav" />
+				<sound name="level_start" file="${dir.sound}/Level_rStartSnd.wav" />
+				<sound name="pill_generate" file="${dir.sound}/PillsMedia_rGenerateSnd.wav" />
+				<sound name="pill_high" file="${dir.sound}/PillsMedia_rHighSnd.wav" />
+				<sound name="pill_jumper" file="${dir.sound}/PillsMedia_rJumperSnd.wav" />
+				<sound name="pill_power1" file="${dir.sound}/PillsMedia_rPower1Snd.wav" />
+				<sound name="pill_power2" file="${dir.sound}/PillsMedia_rPower2Snd.wav" />
+				<sound name="pill_power3" file="${dir.sound}/PillsMedia_rPower3Snd.wav" />
+				<sound name="pill_toxic_born" file="${dir.sound}/PillsMedia_rToxicBornSnd.wav" />
+				<sound name="pill_warning" file="${dir.sound}/PillsMedia_rWarningSnd.wav" />
+				<sound name="ui_click" file="${dir.sound}/ui_sfxClick.wav" />
+				<sound name="ui_focus" file="${dir.sound}/ui_sfxOn.wav" />
 			</package>
 		</content>
 	</target>
