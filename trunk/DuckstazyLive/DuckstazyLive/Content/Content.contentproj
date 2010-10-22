@@ -115,5 +115,120 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Env_rPowerSnd.wav">
+      <Name>Env_rPowerSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Env_rTex2Snd.mp3">
+      <Name>Env_rTex2Snd</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rAttackSnd.wav">
+      <Name>HeroMedia_rAttackSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rAwakeSnd.wav">
+      <Name>HeroMedia_rAwakeSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rJumpSnd.wav">
+      <Name>HeroMedia_rJumpSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rLandSnd.wav">
+      <Name>HeroMedia_rLandSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rSleepSnd.wav">
+      <Name>HeroMedia_rSleepSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rStepSnd1.wav">
+      <Name>HeroMedia_rStepSnd1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rStepSnd2.wav">
+      <Name>HeroMedia_rStepSnd2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rToxicSnd.wav">
+      <Name>HeroMedia_rToxicSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rWingSnd1.wav">
+      <Name>HeroMedia_rWingSnd1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rWingSnd2.wav">
+      <Name>HeroMedia_rWingSnd2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Level_rStartSnd.wav">
+      <Name>Level_rStartSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rGenerateSnd.wav">
+      <Name>PillsMedia_rGenerateSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rHighSnd.wav">
+      <Name>PillsMedia_rHighSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rJumperSnd.wav">
+      <Name>PillsMedia_rJumperSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rPower1Snd.wav">
+      <Name>PillsMedia_rPower1Snd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rPower2Snd.wav">
+      <Name>PillsMedia_rPower2Snd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rPower3Snd.wav">
+      <Name>PillsMedia_rPower3Snd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rToxicBornSnd.wav">
+      <Name>PillsMedia_rToxicBornSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rWarningSnd.wav">
+      <Name>PillsMedia_rWarningSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="ui_sfxClick.wav">
+      <Name>ui_sfxClick</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="ui_sfxOn.wav">
+      <Name>ui_sfxOn</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
   </ItemGroup>
 </Project>

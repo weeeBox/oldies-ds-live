@@ -151,9 +151,7 @@ namespace DuckstazyLive.game
         {
             UpdateGamepadInput();
             UpdateHorizontalPosition(dt);
-            UpdateVerticalPosition(dt);
-
-            Console.WriteLine("vx=" + velocity.X + " vy=" + velocity.Y);
+            UpdateVerticalPosition(dt);            
         }
 
         private void UpdateGamepadInput()
@@ -402,7 +400,8 @@ namespace DuckstazyLive.game
                 else
                 {
                     flying = true;
-                    velocity.Y = GetJumpStartVy(power); ;
+                    velocity.Y = GetJumpStartVy(power);
+                    Application.sharedSoundMgr.playSound(Res.SND_HERO_JUMP);
                     //doLandBubble(velocity.Y);
                 }
             }
@@ -484,11 +483,13 @@ namespace DuckstazyLive.game
             if (pill.jumper && oldY < y && y + 0.6f * height < pill.y && pill != lastCollisionPill)
             {
                 y -= Constants.PILL_RADIUS - (pill.y - (y + height));
-                velocity.Y = JUMP_START_VY_MIN;                
+                velocity.Y = JUMP_START_VY_MIN;
+                Application.sharedSoundMgr.playSound(Res.SND_PILL_HIGH);
             }
             else
             {
                 addPower(0.01f);
+                Application.sharedSoundMgr.playSound(Res.SND_PILL_POWER1);
             }
             lastCollisionPill = pill;
         }

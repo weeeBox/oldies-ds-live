@@ -176,6 +176,7 @@ namespace DuckstazyLive.game.levels
                     
                     pill.active = true;
                     pill.lifeTime = 0.0f; // reset life time to break wave synchronization
+                    Application.sharedSoundMgr.playSound(Res.SND_PILL_GENERATE);
                 }
                                 
                 pill.y = baseY + amplitude * (float)(Math.Sin(omega * pill.lifeTime - k * pill.x + phase));
