@@ -82,6 +82,13 @@ public class ContentProjTask extends Task
 
 	private void clearOldItems(Document doc) 
 	{
+		List<ContentPair> contentPairs = Resource.getContentPairs();
+		System.out.println("Content pairs:");
+		for (ContentPair contentPair : contentPairs) 
+		{
+			System.out.println(contentPair);
+		}
+		
 		List<Element> itemGroups = doc.getRootElement().elements("ItemGroup");
 		for (Element e : itemGroups) 
 		{
@@ -90,16 +97,15 @@ public class ContentProjTask extends Task
 			{
 				if (child.getName().equals("Compile"))
 				{
-					Element importer = child.element("Importer");
-					Element processor = child.element("Processor");
-					if (importer != null && processor != null)
-					{												
-						if (!("TextureImporter".equals(importer.getText())))
-							continue;
-						if (!("TextureProcessor".equals(processor.getText())))
-							continue;
-							
-						e.remove(child);
+					Element importerElement = child.element("Importer");
+					Element processorElement = child.element("Processor");
+					if (importerElement != null && processorElement != null)
+					{	
+						String importer = importerElement.getText();
+						String processor = processorElement.getText();
+						ContentPair pair = new ContentPair(importer, processor);
+						if (contentPairs.contains(pair))							
+							e.remove(child);
 					}					
 				}
 			}
