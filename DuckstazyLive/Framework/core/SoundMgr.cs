@@ -10,9 +10,9 @@ namespace Framework.core
     public class SoundMgr
     {
         private Song song; // Channel 0
-        private SoundEffectInstance[] sounds = new SoundEffectInstance[4];
-        private int[] soundIds = new int[4];
-        private float[] volumes = { 1, 1, 1, 1 };
+        private SoundEffectInstance[] sounds = new SoundEffectInstance[16];
+        private int[] soundIds = new int[16];
+        private float[] volumes = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
         private bool isPlaying(int channel)
         {
@@ -32,6 +32,11 @@ namespace Framework.core
         public void playLowPrioritySound(int soundId, int channel, bool looped)
         {
             playSound(soundId, channel, looped);
+        }
+
+        public void playSound(int sid)
+        {
+            playSound(sid, false);
         }
 
         public void playSound(int sid, bool looped)

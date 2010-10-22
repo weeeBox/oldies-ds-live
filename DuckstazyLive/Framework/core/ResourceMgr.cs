@@ -13,7 +13,8 @@ namespace Framework.core
     public enum ResourceType
     {
         RESOURCE_TYPE_TEXTURE,        
-        RESOURCE_TYPE_SOUND,        
+        RESOURCE_TYPE_SOUND,
+        RESOURCE_TYPE_SONG,        
         RESOURCE_TYPE_FONT,        
         RESOURCE_TYPE_BINARY
     }        
@@ -153,6 +154,10 @@ namespace Framework.core
                     res = loadSound(r);
                     break;
 
+                case ResourceType.RESOURCE_TYPE_SONG:
+                    res = loadSong(r);
+                    break;
+
                 case ResourceType.RESOURCE_TYPE_FONT:
                     res = loadFont(r);
                     break;               
@@ -183,25 +188,15 @@ namespace Framework.core
             return texture;            
         }
 
-        public object loadSound(ResourceLoadInfo r)
-        {
-            String name = r.fileName;
-
-            if (name.EndsWith(".wav"))
-            {
-                name = name.Substring(0, name.Length - 4);
-                return contentManager.Load<SoundEffect>(name);                         
-            }
-            else if (name.EndsWith(".mp3"))
-            {
-                name = name.Substring(0, name.Length - 4);
-                object m = contentManager.Load<Song>(name);
-                System.Threading.Thread.Sleep(500);
-                return m;
-            }
-
-            return null;
+        public SoundEffect loadSound(ResourceLoadInfo r)
+        {         
+            return contentManager.Load<SoundEffect>(r.fileName);
         }
+
+        public Song loadSong(ResourceLoadInfo r)
+        {            
+            return contentManager.Load<Song>(r.fileName);            
+        }        
 
         public object loadFont(ResourceLoadInfo r)
         {
