@@ -15,8 +15,8 @@ namespace DuckstazyLive.game
 			bg = sky;
 			text = floatText;
 		}
-		
-		public void lerp(float x, E c1, E c2)
+
+        public void lerp(float x, EnvColor c1, EnvColor c2)
 		{
 			bg = utils.lerpColor(c1.bg, c2.bg, x);
 			text = utils.lerpColor(c1.text, c2.text, x);

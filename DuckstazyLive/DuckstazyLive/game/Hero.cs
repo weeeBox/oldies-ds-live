@@ -87,7 +87,7 @@ namespace DuckstazyLive.game
         public Particles particles;
         public Env env;
 
-        private float get_jump_start_vel(N x)
+        private float get_jump_start_vel(float x)
         {
             return utils.lerp(x, duck_jump_start_vel_min, duck_jump_start_vel_max);
         }
@@ -103,8 +103,8 @@ namespace DuckstazyLive.game
 
         public void init()
         {
-            move = 0.0;
-            step = 0.0;
+            move = 0.0f;
+            step = 0.0f;
 
             keysReset();
 
@@ -112,23 +112,23 @@ namespace DuckstazyLive.game
             sleep = false;
             started = false;
 
-            jumpVel = 0.0;
-            jumpStartVel = 0.0;
-            jumpWingVel = 0.0;
+            jumpVel = 0.0f;
+            jumpStartVel = 0.0f;
+            jumpWingVel = 0.0f;
             //gravityK = 1.0;
-            diveK = 0.0;
+            diveK = 0.0f;
 
-            wingMod = 0.0;
-            wingCounter = 0.0;
-            wingAngle = 0.0;
+            wingMod = 0.0f;
+            wingCounter = 0.0f;
+            wingAngle = 0.0f;
             wingYLocked = false;
 
-            blinkTime = 0.0;
+            blinkTime = 0.0f;
 
             y = 400 - duck_h2;
             x = 0;
 
-            power = 0.0;
+            power = 0.0f;
 
             sleep_collected = 0;
             toxic_collected = 0;
@@ -176,8 +176,8 @@ namespace DuckstazyLive.game
                 media.playAwake();
             }
 
-            if (blinkTime > 0.0)
-                blinkTime -= dt * 8.0;
+            if (blinkTime > 0.0f)
+                blinkTime -= dt * 8.0f;
 
             steping = false;
 
@@ -201,8 +201,8 @@ namespace DuckstazyLive.game
 
             if (steping)
             {
-                if (move >= 0.0) step += move * dt * 15.0;
-                else step -= move * dt * 15.0;
+                if (move >= 0.0f) step += move * dt * 15.0f;
+                else step -= move * dt * 15.0f;
 
                 if (step > 2)
                 {
@@ -223,12 +223,12 @@ namespace DuckstazyLive.game
                     slow = duck_move_slowing;
 
                 move -= move * slow * dt;
-                if (step > 1.0)
+                if (step > 1.0f)
                 {
                     if (!fly)
                         media.playStep();
 
-                    step = 0.0;
+                    step = 0.0f;
                 }
             }
 
@@ -236,23 +236,23 @@ namespace DuckstazyLive.game
 
 
             if (x < -duck_w)
-                x += 640.0;
-            if (x > (640.0 - duck_w))
-                x -= 640.0;
+                x += 640.0f;
+            if (x > (640.0f - duck_w))
+                x -= 640.0f;
 
             if (wingLock && !sleep)
             {
-                wingMod -= dt * 7.0;
-                if (wingMod <= 0.0)
+                wingMod -= dt * 7.0f;
+                if (wingMod <= 0.0f)
                 {
-                    wingMod += 1.0;
+                    wingMod += 1.0f;
                     wingBeat();
                 }
 
 
                 if (wingYLocked && y > wingY)
                 {
-                    jumpWingVel = 28.0;
+                    jumpWingVel = 28.0f;
                 }
             }
 
@@ -261,31 +261,31 @@ namespace DuckstazyLive.game
                 if (key_down)
                 {
                     diveK += dt * 6;
-                    if (diveK > 3.0) diveK = 3.0;
+                    if (diveK > 3.0f) diveK = 3.0f;
                 }
                 else
                 {
                     diveK -= dt * 6;
-                    if (diveK < 0.0) diveK = 0.0;
+                    if (diveK < 0.0f) diveK = 0.0f;
                 }
 
-                if (jumpVel > 0.0)
+                if (jumpVel > 0.0f)
                     wingYLocked = false;
 
                 if (wingLock && !sleep && wingYLocked)
                 {
-                    jumpWingVel -= 392.0 * dt;//(gravityK+diveK)*dt;
+                    jumpWingVel -= 392.0f * dt;//(gravityK+diveK)*dt;
                     y -= jumpWingVel * dt;
                 }
                 else
                 {
                     if (wingLock && !sleep)
                     {
-                        if (jumpVel >= 0.0)
+                        if (jumpVel >= 0.0f)
                         {
                             jumpVel -= duck_jump_gravity * (diveK + 1.0) * dt;
                             y -= jumpVel * dt;
-                            if (jumpVel <= 0.0)
+                            if (jumpVel <= 0.0f)
                             {
                                 wingYLocked = true;
                                 wingY = y;
@@ -293,13 +293,13 @@ namespace DuckstazyLive.game
                         }
                         else
                         {
-                            jumpVel += 5.0 * duck_jump_gravity * dt;
+                            jumpVel += 5.0f * duck_jump_gravity * dt;
                             y -= jumpVel * dt;
                         }
                     }
                     else
                     {
-                        jumpVel -= duck_jump_gravity * (diveK + 1.0) * dt;
+                        jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
                         y -= jumpVel * dt;
                     }
                 }
@@ -319,10 +319,10 @@ namespace DuckstazyLive.game
                     sleep_collected = 0;
                     toxic_collected = 0;
                     frags = 0;
-                    diveK = 0.0;
+                    diveK = 0.0f;
                 }
-                else if (y < -50.0)
-                    y = -50.0;
+                else if (y < -50.0f)
+                    y = -50.0f;
             }
 
             if (wingCounter > 0)
@@ -331,7 +331,7 @@ namespace DuckstazyLive.game
                 if (wingCounter < 0)
                     wingCounter = 0;
 
-                wingAngle = 0.5 * Math.sin(wingCounter * 4.71);
+                wingAngle = 0.5f * Math.Sin(wingCounter * 4.71f);
             }
         }
 
@@ -342,7 +342,7 @@ namespace DuckstazyLive.game
                 jumpVel+=duck_wings_bonus;
                 gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
             }*/
-            wingCounter = 1.0;
+            wingCounter = 1.0f;
 
             media.playWing();
         }
@@ -376,7 +376,7 @@ namespace DuckstazyLive.game
 
         private void drawHero(B dest, N _x, N _y)
 		{
-			bool vis = (blinkTime<=0.0 || int(blinkTime)&0x1!=0);
+			bool vis = (blinkTime<=0.0f || int(blinkTime)&0x1!=0);
 			
 			if(vis)
 			{
@@ -387,7 +387,7 @@ namespace DuckstazyLive.game
 			}
 		}
 
-        public void keyDown(u keyCode)
+        public void keyDown(Keys keyCode)
         {
             switch (keyCode)
             {
@@ -422,13 +422,13 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void keyUp(u keyCode)
+        public void keyUp(Keys keyCode)
         {
             switch (keyCode)
             {
-                case 40: key_down = false; break;
-                case 37: key_left = false; break;
-                case 38:
+                case Keys.Down: key_down = false; break;
+                case Keys.Left: key_left = false; break;
+                case Keys.Up:
                     if (key_up && started)
                     {
                         if (fly)
@@ -436,8 +436,8 @@ namespace DuckstazyLive.game
                             if (wingLock)
                             {
                                 wingLock = false;
-                                if (jumpVel < 0.0)
-                                    jumpVel = 0.0;
+                                if (jumpVel < 0.0f)
+                                    jumpVel = 0.0f;
                             }
 
                             //if(jumpVel>0 && gravityK==1)
@@ -445,7 +445,7 @@ namespace DuckstazyLive.game
                         }
                     }
                     key_up = false; break;
-                case 39: key_right = false; break;
+                case Keys.Right: key_right = false; break;
             }
         }
 
@@ -483,7 +483,7 @@ namespace DuckstazyLive.game
             float px = cx;
             float py = cy;
 
-            if (x < 0.0 && px > (630.0 - duck_w2))
+            if (x < 0.0f && px > (630.0 - duck_w2))
                 px -= 640.0;
 
             if (flip)
@@ -529,7 +529,7 @@ namespace DuckstazyLive.game
 			}
 			else if(dam>0)
 			{
-				if(blinkTime<=0.0)
+				if(blinkTime<=0.0f)
 				{
 					if(state.health>1)
 					{
@@ -596,7 +596,7 @@ namespace DuckstazyLive.game
         {
             bool over = false;
 
-            if (x < 0.0 && cx > (630.0 - duck_w2))
+            if (x < 0.0f && cx > (630.0 - duck_w2))
                 cx -= 640.0;
 
             if (flip)
@@ -619,8 +619,8 @@ namespace DuckstazyLive.game
         // Arvo's algorithm.
         private bool rectCircle(N x1, N y1, N x2, N y2, N cx, N cy, N r)
         {
-            float s = 0.0;
-            float d = 0.0;
+            float s = 0.0f;
+            float d = 0.0f;
 
             //find the square of the distance
             //from the sphere to the box

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -40,19 +41,18 @@ namespace DuckstazyLive.game
         //private Class rFXInImg;
 
         // Частицы FX
-        public Texture2D imgFXAcid;
-        public Texture2D imgFXBubble;
-        public Texture2D imgFXWarning;
-        public Texture2D imgFXStar;
-        public Texture2D imgFXStar2;
-        public Texture2D imgFXOut;
-        public Texture2D imgFXIn;
+        public int imgFXAcid;
+        public int imgFXBubble;
+        public int imgFXWarning;
+        public int imgFXStar;
+        public int imgFXStar2;
+        public int imgFXOut;
+        public int imgFXIn;
 
-
-        private Array pool;
+        private Particle[] pool;
         private int parts;
 
-        private const Matrix mat = new Matrix();
+        // private const Matrix mat = new Matrix();
 
         public Particles()
         {
@@ -69,13 +69,12 @@ namespace DuckstazyLive.game
             //imgFXStar2 = (new rFXStar2Img()).bitmapData;
             //imgFXOut = (new rFXOutImg()).bitmapData;
             //imgFXIn = (new rFXInImg()).bitmapData;
-
         }
 
         public void clear()
         {
             foreach (Particle p in pool)
-                p.t = 0.0;
+                p.t = 0.0f;
 
             parts = 0;
         }
@@ -90,27 +89,27 @@ namespace DuckstazyLive.game
                 if (i == parts_process)
                     break;
 
-                if (p.t > 0.0)
+                if (p.t > 0.0f)
                 {
                     switch (p.type)
                     {
                         case STAR:
                             p.a += 1.5708 * dt;
 
-                            p.vy += 200.0 * dt;
+                            p.vy += 200.0f * dt;
                             p.x += p.vx * dt;
                             p.y += p.vy * dt;
 
-                            if (p.y + 3.0 > 400.0)
+                            if (p.y + 3.0f > 400.0f)
                             {
-                                p.y = 397.0;
-                                p.vy = -0.5 * p.vy;
-                                p.vx = 0.7 * p.vx;
+                                p.y = 397.0f;
+                                p.vy = -0.5f * p.vy;
+                                p.vx = 0.7f * p.vx;
                             }
 
-                            if (p.t < 0.5)
+                            if (p.t < 0.5f)
                             {
-                                p.s = p.t * 2.0;
+                                p.s = p.t * 2.0f;
                                 p.col.alphaMultiplier = p.alpha * p.s;
                             }
 
@@ -118,61 +117,61 @@ namespace DuckstazyLive.game
                             break;
                         case ACID:
 
-                            p.vy += 200.0 * dt;
+                            p.vy += 200.0f * dt;
                             p.x += p.vx * dt;
                             p.y += p.vy * dt;
 
-                            if (p.y + 3.0 > 400.0)
+                            if (p.y + 3.0f > 400.0f)
                             {
-                                p.y = 397.0;
-                                p.vy = -0.5 * p.vy;
-                                p.vx = 0.7 * p.vx;
+                                p.y = 397.0f;
+                                p.vy = -0.5f * p.vy;
+                                p.vx = 0.7f * p.vx;
                             }
 
-                            if (p.t < 0.5)
+                            if (p.t < 0.5f)
                             {
-                                p.s = p.t * 2.0;
+                                p.s = p.t * 2.0f;
                                 p.col.alphaMultiplier = p.alpha * p.s;
                             }
 
-                            p.a = Math.atan2(p.vy, p.vx) - 1.57;
+                            p.a = (float)(Math.Atan2(p.vy, p.vx) - 1.57f);
 
                             break;
 
                         case BUBBLE:
-                            p.vy -= 100.0 * dt;
-                            p.vx += 200.0 * Math.sin((p.p1 + p.t) * 6.2831) * dt;
+                            p.vy -= 100.0f * dt;
+                            p.vx += (float)(200.0f * Math.Sin((p.p1 + p.t) * 6.2831f) * dt);
                             p.x += p.vx * dt;
                             p.y += p.vy * dt;
-                            if (p.x >= 644.0)
-                                p.x -= 643.0;
-                            if (p.y <= -4.0)
-                                p.y += 647.0;
+                            if (p.x >= 644.0f)
+                                p.x -= 643.0f;
+                            if (p.y <= -4.0f)
+                                p.y += 647.0f;
 
-                            if (p.t < 1.0)
+                            if (p.t < 1.0f)
                                 p.s = p.t;
 
                             break;
                         case WARNING:
-                            p.a = 8.0 * 3.14 * (p.p1 - p.t);
-                            p.s = Math.cos(3.14 * 0.5 * (1.0 - p.t / p.p1));
+                            p.a = 8.0f * 3.14f * (p.p1 - p.t);
+                            p.s = (float)(Math.Cos(3.14f * 0.5f * (1.0f - p.t / p.p1)));
                             p.col.alphaMultiplier = p.alpha * p.s;
 
                             break;
 
                         case RING:
-                            if (p.p2 > 0.0)
-                                p.s = p.p2 * (1.0 - p.t / p.p1);
+                            if (p.p2 > 0.0f)
+                                p.s = p.p2 * (1.0f - p.t / p.p1);
                             else
                                 p.s = -p.p2 * p.t / p.p1;
 
-                            p.col.alphaMultiplier = p.alpha * Math.sin(3.14 * p.t / p.p1);
+                            p.col.alphaMultiplier = (float)(p.alpha * Math.Sin(3.14 * p.t / p.p1));
 
                             break;
                     }
 
                     p.t -= dt;
-                    if (p.t <= 0.0)
+                    if (p.t <= 0.0f)
                         --parts;
 
                     ++i;
@@ -191,41 +190,41 @@ namespace DuckstazyLive.game
                 if (i == parts)
                     break;
 
-                if (p.t > 0.0)
-                {
-                    a = p.a;
-                    s = p.s;
+                //if (p.t > 0.0f)
+                //{
+                //    a = p.a;
+                //    s = p.s;
 
-                    mat.identity();
+                //    mat.identity();
 
-                    mat.tx = p.px;
-                    mat.ty = p.py;
-                    if (a != 0.0)
-                        mat.rotate(a);
+                //    mat.tx = p.px;
+                //    mat.ty = p.py;
+                //    if (a != 0.0f)
+                //        mat.rotate(a);
 
-                    mat.scale(s, s);
-                    mat.translate(p.x, p.y);
+                //    mat.scale(s, s);
+                //    mat.translate(p.x, p.y);
 
-                    canvas.draw(p.img, mat, p.col, null, null, true);
-                    //p.draw(canvas);
-                    ++i;
-                }
+                //    canvas.draw(p.img, mat, p.col, null, null, true);
+                //    //p.draw(canvas);
+                //    ++i;
+                //}
             }
         }
 
-        private void setCT(C color, int argb)
+        private void setCT(ColorTransform color, int argb)
         {
-            color.alphaMultiplier = 0.0039216 * ((argb >> 24) & 0xFF);
-            color.redMultiplier = 0.0039216 * ((argb >> 16) & 0xFF);
-            color.greenMultiplier = 0.0039216 * ((argb >> 8) & 0xFF);
-            color.blueMultiplier = 0.0039216 * (argb & 0xFF);
+            color.alphaMultiplier = 0.0039216f * ((argb >> 24) & 0xFF);
+            color.redMultiplier = 0.0039216f * ((argb >> 16) & 0xFF);
+            color.greenMultiplier = 0.0039216f * ((argb >> 8) & 0xFF);
+            color.blueMultiplier = 0.0039216f * (argb & 0xFF);
         }
 
         private Particle findDead()
         {
             foreach (Particle p in pool)
             {
-                if (p.t <= 0.0)
+                if (p.t <= 0.0f)
                     return p;
             }
 
@@ -235,7 +234,7 @@ namespace DuckstazyLive.game
         public void startAcid(float x, float y, int color)
         {
             int i = 5;
-            float a = Math.random() * 6.28; ;
+            float a = utils.rnd() * 6.28f;
             float speed;
             Particle p;
 
@@ -244,13 +243,13 @@ namespace DuckstazyLive.game
                 p = findDead();
                 if (p != null)
                 {
-                    speed = 10.0 + Math.random() * 190.0;
+                    speed = 10.0f + utils.rnd() * 190;
 
-                    p.t = 0.2 + Math.random() * 0.5;
-                    p.vx = Math.cos(a);
-                    p.vy = Math.sin(a);
-                    p.x = 9.0 * p.vx + x;
-                    p.y = 9.0 * p.vy + y;
+                    p.t = 0.2f + utils.rnd() * 0.5f;
+                    p.vx = Math.Cos(a);
+                    p.vy = Math.Sin(a);
+                    p.x = 9.0f * p.vx + x;
+                    p.y = 9.0f * p.vy + y;
                     /*if(p.y>=397)
                     {
                         p.y = 379;
@@ -261,13 +260,13 @@ namespace DuckstazyLive.game
                     p.type = ACID;
                     setCT(p.col, color);
                     p.alpha = p.col.alphaMultiplier;
-                    p.px = -3.0;
-                    p.py = -7.0;
-                    p.s = 1.0;
-                    p.a = Math.atan2(p.vy, p.vx) - 1.57;
+                    p.px = -3.0f;
+                    p.py = -7.0f;
+                    p.s = 1.0f;
+                    p.a = (float)(Math.Atan2(p.vy, p.vx) - 1.57f);
                     p.img = imgFXAcid;
 
-                    a += 1.0 + Math.random() * 0.5;
+                    a += 1.0f + utils.rnd() * 0.5f;
                     ++parts;
                 }
                 else break;
@@ -282,24 +281,24 @@ namespace DuckstazyLive.game
             p = findDead();
             if (p != null)
             {
-                p.p1 = Math.random();
-                p.p2 = 0.5 + Math.random();
-                p.t = 0.5 + Math.random();
-                p.vx = -10.0 + Math.random() * 20.0;
-                p.vy = -Math.random() * 100.0;
+                p.p1 = utils.rnd();
+                p.p2 = 0.5f + utils.rnd();
+                p.t = 0.5f + utils.rnd();
+                p.vx = -10.0f + utils.rnd() * 20.0f;
+                p.vy = -utils.rnd() * 100;
 
-                p.col.alphaMultiplier = 1.0;
-                p.col.redMultiplier = 0.5;
-                p.col.greenMultiplier = 0.2 + 0.1 * Math.random();
-                p.col.blueMultiplier = 0.0;
+                p.col.alphaMultiplier = 1.0f;
+                p.col.redMultiplier = 0.5f;
+                p.col.greenMultiplier = 0.2f + 0.1f * utils.rnd();
+                p.col.blueMultiplier = 0.0f;
                 p.alpha = p.col.alphaMultiplier;
 
                 p.x = x;
                 p.y = y;
-                p.px = -4.0;
-                p.py = -4.0;
-                p.s = 1.0;
-                p.a = 0.0;
+                p.px = -4.0f;
+                p.py = -4.0f;
+                p.s = 1.0f;
+                p.a = 0.0f;
                 p.img = imgFXBubble;
                 p.type = BUBBLE;
 
@@ -314,20 +313,20 @@ namespace DuckstazyLive.game
             p = findDead();
             if (p != null)
             {
-                p.p1 = Math.random();
-                p.p2 = 0.5 + Math.random();
-                p.t = 0.5 + Math.random();
-                p.vx = -10.0 + Math.random() * 20.0;
-                p.vy = -Math.random() * 100.0;
+                p.p1 = utils.rnd();
+                p.p2 = 0.5f + utils.rnd();
+                p.t = 0.5f + utils.rnd();
+                p.vx = -10.0f + utils.rnd() * 20.0f;
+                p.vy = -utils.rnd() * 100.0f;
                 //p.col = utils.ARGB2ColorTransform(color);
                 setCT(p.col, color);
                 p.alpha = p.col.alphaMultiplier;
                 p.x = x;
                 p.y = y;
-                p.px = -4.0;
-                p.py = -4.0;
-                p.s = 1.0;
-                p.a = 0.0;
+                p.px = -4.0f;
+                p.py = -4.0f;
+                p.s = 1.0f;
+                p.a = 0.0f;
                 p.img = imgFXBubble;
                 p.type = BUBBLE;
 
@@ -358,21 +357,21 @@ namespace DuckstazyLive.game
                         break;
                 }
 
-                p.t = 0.2 + Math.random() * 0.5;
+                p.t = 0.2f + utils.rnd() * 0.5f;
                 p.vx = vx;
                 p.vy = vy;
                 p.x = x;
                 p.y = y;
                 p.type = STAR;
-                if (Math.random() >= 0.5)
+                if (utils.rnd() >= 0.5f)
                     setCT(p.col, c1);
                 else
                     setCT(p.col, c2);
                 p.alpha = p.col.alphaMultiplier;
-                p.px = -7.0;
-                p.py = -7.0;
-                p.s = 1.0;
-                p.a = Math.random() * 3.14;
+                p.px = -7.0f;
+                p.py = -7.0f;
+                p.s = 1.0f;
+                p.a = utils.rnd() * 3.14f;
                 p.img = imgFXStar;
 
                 ++parts;
@@ -404,20 +403,20 @@ namespace DuckstazyLive.game
             p = findDead();
             if (p != null)
             {
-                p.t = 0.2 + Math.random() * 0.5;
+                p.t = 0.2 + utils.rnd() * 0.5f;
                 p.vx = vx;
                 p.vy = vy;
                 p.x = x;
                 p.y = y;
                 p.type = STAR;
 
-                setCT(p.col, utils.lerpColor(c1, c2, Math.random()));
+                setCT(p.col, utils.lerpColor(c1, c2, utils.rnd()));
                 p.alpha = p.col.alphaMultiplier;
 
-                p.px = -7.0;
-                p.py = -7.0;
-                p.s = 1.0;
-                p.a = Math.random() * 3.14;
+                p.px = -7.0f;
+                p.py = -7.0f;
+                p.s = 1.0f;
+                p.a = utils.rnd() * 3.14f;
                 p.img = imgFXStar;
 
                 ++parts;
@@ -432,22 +431,22 @@ namespace DuckstazyLive.game
             if (p != null)
             {
                 p.p1 = warning;
-                //p.p2 = utils.rnd_float(0.5, 1.5);
+                //p.p2 = utils.rnd_float(0.5f, 1.5);
                 p.t = warning;
-                //p.vx = 0.0;
-                //p.vy = 0.0;
-                p.col.alphaMultiplier = 1.0;
+                //p.vx = 0.0f;
+                //p.vy = 0.0f;
+                p.col.alphaMultiplier = 1.0f;
                 p.col.redMultiplier = r;
                 p.col.greenMultiplier = g;
                 p.col.blueMultiplier = b;
-                p.alpha = 1.0;
+                p.alpha = 1.0f;
 
                 p.x = x;
                 p.y = y;
-                p.px = -15.0;
-                p.py = -13.0;
-                p.s = 0.0;
-                p.a = 0.0;
+                p.px = -15.0f;
+                p.py = -13.0f;
+                p.s = 0.0f;
+                p.a = 0.0f;
                 p.img = imgFXWarning;
                 p.type = WARNING;
 
@@ -469,11 +468,11 @@ namespace DuckstazyLive.game
                 p.alpha = p.col.alphaMultiplier;
                 p.x = x;
                 p.y = y;
-                p.px = -32.0;
-                p.py = -32.0;
-                p.s = 0.0;
-                p.a = 0.0;
-                if (radius > 0.0)
+                p.px = -32.0f;
+                p.py = -32.0f;
+                p.s = 0.0f;
+                p.a = 0.0f;
+                if (radius > 0.0f)
                     p.img = imgFXOut;
                 else
                     p.img = imgFXIn;
@@ -486,7 +485,7 @@ namespace DuckstazyLive.game
         public void explStarsPower(float x, float y, int id)
         {
             int i = 10;
-            float a = Math.random() * 6.28;
+            float a = utils.rnd() * 6.28f;
             float speed;
             Particle p;
             uint c1;
@@ -512,25 +511,25 @@ namespace DuckstazyLive.game
                 p = findDead();
                 if (p != null)
                 {
-                    speed = 10.0 + Math.random() * 90.0;
+                    speed = 10.0 + utils.rnd() * 90.0f;
 
-                    p.t = 0.2 + Math.random() * 0.5;
-                    p.vx = Math.cos(a) * speed;
-                    p.vy = Math.sin(a) * speed;
+                    p.t = 0.2f + utils.rnd() * 0.5f;
+                    p.vx = Math.Cos(a) * speed;
+                    p.vy = Math.Sin(a) * speed;
                     p.x = x;
                     p.y = y;
                     p.type = STAR;
 
-                    setCT(p.col, utils.lerpColor(c1, c2, Math.random()));
+                    setCT(p.col, utils.lerpColor(c1, c2, utils.rnd()));
                     p.alpha = p.col.alphaMultiplier;
 
-                    p.px = -7.0;
-                    p.py = -7.0;
-                    p.s = 1.0;
-                    p.a = Math.random() * 3.14;
+                    p.px = -7.0f;
+                    p.py = -7.0f;
+                    p.s = 1.0f;
+                    p.a = utils.rnd() * 3.14f;
                     p.img = imgFXStar;
 
-                    a += 1.0 + Math.random() * 0.5;
+                    a += 1.0 + utils.rnd() * 0.5f;
                     ++parts;
                 }
                 else break;
@@ -541,7 +540,7 @@ namespace DuckstazyLive.game
         public void explStarsToxic(float x, float y, int id, bool damage)
         {
             int i = 10;
-            float a = Math.random() * 6.28;
+            float a = utils.rnd() * 6.28f;
             float speed;
             Particle p;
 
@@ -569,15 +568,15 @@ namespace DuckstazyLive.game
                 p = findDead();
                 if (p != null)
                 {
-                    speed = 10.0 + Math.random() * 90.0;
-                    p.t = 0.2 + Math.random() * 0.5;
+                    speed = 10.0f + utils.rnd() * 90.0f;
+                    p.t = 0.2f + utils.rnd() * 0.5f;
                     if (damage)
                     {
-                        speed *= 3.0;
+                        speed *= 3.0f;
                         //p.t*=1.5;
                     }
-                    p.vx = Math.cos(a) * speed;
-                    p.vy = Math.sin(a) * speed;
+                    p.vx = Math.Cos(a) * speed;
+                    p.vy = Math.Sin(a) * speed;
                     p.x = x;
                     p.y = y;
                     p.type = STAR;
@@ -586,14 +585,14 @@ namespace DuckstazyLive.game
                     else
                         setCT(p.col, c2);
                     p.alpha = p.col.alphaMultiplier;
-                    p.px = -7.0;
-                    p.py = -7.0;
-                    p.s = 1.0;
-                    p.a = Math.random() * 3.14;
+                    p.px = -7.0f;
+                    p.py = -7.0f;
+                    p.s = 1.0f;
+                    p.a = utils.rnd() * 3.14f;
                     p.img = imgFXStar;
 
                     c = !c;
-                    a += 1.0 + Math.random() * 0.5; ;
+                    a += 1.0 + utils.rnd() * 0.5f; ;
 
                     ++parts;
                 }
@@ -605,7 +604,7 @@ namespace DuckstazyLive.game
         public void explStarsSleep(float x, float y)
         {
             int i = 10;
-            float a = Math.random() * 6.28;
+            float a = utils.rnd() * 6.28f;
             float speed;
             Particle p;
 
@@ -618,26 +617,26 @@ namespace DuckstazyLive.game
                 p = findDead();
                 if (p != null)
                 {
-                    speed = 10.0 + Math.random() * 90.0;
+                    speed = 10.0f + utils.rnd() * 90.0f;
 
 
-                    p.t = 0.2 + Math.random() * 0.5;
-                    p.vx = Math.cos(a) * speed;
-                    p.vy = Math.sin(a) * speed;
+                    p.t = 0.2 + utils.rnd() * 0.5f;
+                    p.vx = Math.Cos(a) * speed;
+                    p.vy = Math.Sin(a) * speed;
                     p.x = x;
                     p.y = y;
                     p.type = STAR;
                     if (c) setCT(p.col, c1);
                     else setCT(p.col, c2);
                     p.alpha = p.col.alphaMultiplier;
-                    p.px = -7.0;
-                    p.py = -7.0;
-                    p.s = 1.0;
-                    p.a = Math.random() * 3.14;
+                    p.px = -7.0f;
+                    p.py = -7.0f;
+                    p.s = 1.0f;
+                    p.a = utils.rnd() * 3.14f;
                     p.img = imgFXStar;
 
                     c = !c;
-                    a += 1.0 + Math.random() * 0.5;
+                    a += 1.0f + utils.rnd() * 0.5f;
 
                     ++parts;
                 }
@@ -657,21 +656,21 @@ namespace DuckstazyLive.game
                 p = findDead();
                 if (p != null)
                 {
-                    p.p1 = Math.random();
-                    p.p2 = 0.5 + Math.random();
-                    p.t = 0.5 + Math.random();
-                    p.vx = -10.0 + Math.random() * 20.0;
-                    p.vy = -Math.random() * 100.0;
+                    p.p1 = utils.rnd();
+                    p.p2 = 0.5f + utils.rnd();
+                    p.t = 0.5f + utils.rnd();
+                    p.vx = -10.0f + utils.rnd() * 20.0f;
+                    p.vy = -utils.rnd() * 100.0f;
 
                     setCT(p.col, 0xffff0000);
                     p.alpha = p.col.alphaMultiplier;
 
-                    p.x = x + Math.random() * 54.0;
-                    p.y = y + Math.random() * 40.0;
-                    p.px = -4.0;
-                    p.py = -4.0;
-                    p.s = 1.0;
-                    p.a = 0.0;
+                    p.x = x + utils.rnd() * 54.0f;
+                    p.y = y + utils.rnd() * 40.0f;
+                    p.px = -4.0f;
+                    p.py = -4.0f;
+                    p.s = 1.0f;
+                    p.a = 0.0f;
                     p.img = imgFXBubble;
                     p.type = BUBBLE;
 

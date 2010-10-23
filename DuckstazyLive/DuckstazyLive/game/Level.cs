@@ -1,47 +1,48 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Input;
 
 namespace DuckstazyLive.game
 {
-    public class Level
+	public class Level
 	{
 		public static Level instance;
 		
-		private const String HARVEST_TEXTString = "HARVESTING";
+		private const String HARVEST_TEXT = "HARVESTING";
 		private const String NEXT_LEVEL_TEXT_BEGIN = "WARP IN ";
 		private const String NEXT_LEVEL_TEXT_END = " SEC...";
 		 
         //[Embed(source="gfx/hp1.png")]
-        //private var rHPImg1:Class;
+        //private Class rHPImg1;
         
         //[Embed(source="gfx/hp2.png")]
-        //private var rHPImg2:Class;
+        //private Class rHPImg2;
         
         //[Embed(source="gfx/hp3.png")]
-        //private var rHPImg3:Class;
+        //private Class rHPImg3;
         
         //[Embed(source="gfx/score.png")]
-        //private var rScoreImg:Class;
+        //private Class rScoreImg;
         
         //[Embed(source="sfx/start.mp3")]
-        //private var rStartSnd:Class;
+        //private Class rStartSnd;
            
-        //public var imgHP1:BitmapData;
-        //private var imgHP2:BitmapData;
-        //public var imgHP3:BitmapData;
-        //private var imgScore:BitmapData;
+        public int imgHP1;
+        private int imgHP2;
+        public int imgHP3;
+        private int imgScore;
         private float hpPulse;
         private float hpCounter;
-        //private var hpText:TextField;
-        //private var scoreText:TextField;
+        // private TextField hpText;
+        // private TextField scoreText;
 		private int scoreOld;
 		private float scoreCounter;
 		
-		//public var infoText:TextField;
+		// public TextField infoText;
 		
-		//public var sndStart:Sound;
+		public Sound sndStart;
         
 		public Game game;
 		public Hero hero;
@@ -53,45 +54,33 @@ namespace DuckstazyLive.game
 		
 		public float power;
 		private float powerUp;
-		
-		// Состояние уровня
+
+        // Состояние уровня
 		public GameState state;
-		
-		// Конец Уровня
+
+        // Конец Уровня
 		public bool finish;
 		private float finishCounter;
-		
-		
-		private Array stages; // Уровни
-		public LevelStage stage; // текущий уровень
+
+
+        private Array stages; // Уровни
+        public LevelStage stage; // текущий уровень
 		public StageMedia stageMedia;
 		public int stagesCount;
+
+        // инфа
+		public GameInfo info;		
 		
-		// магазин
-		//private var shop:Shop;
-		//public var upgradeMenu:UpgradeMenu;
-		
-		// инфа
-		public GameInfo info;
-		
-		// мен.
-		//public var gui:SUISystem;
-		//public var levelMenu:LevelMenu;
 		public bool pause;
-		//public var imgPause:BitmapData;
+		public int imgPause;
 		
 		private float nextLevelCounter;
 		private int harvestProcess;
 		private int nextLevelCountdown;
 		
-		public function Level(gameState:GameState)
-		{
-			//var tf:TextFormat = new TextFormat("_default", 28, 0xffffffff);
-			//var shadow:DropShadowFilter = new DropShadowFilter(0.0, 0.0, 0, 1, 4, 4, 4, 1);
-			
-			instance = this;
-			
-			//var o:*;
+		public Level(GameState gameState)
+		{			
+			instance = this;		
 			
 			state = gameState;
 			
@@ -110,35 +99,33 @@ namespace DuckstazyLive.game
 			hero.init();
 			
 			stageMedia = new StageMedia();
-            //stages = new Array();
-            //stages.push([Harvesting, null]);
-            //stages.push([PartyTime, [30, 0]]);
-            //stages.push([Bubbles, [0.05, 0]]);
-            //stages.push([DoubleFrog, null]);
-            //stages.push([PartyTime, [60, 1]]);
-            //stages.push([BetweenCatsStage, null]);
-            //stages.push([Bubbles, [0.04, 1]]);
-            //stages.push([AirAttack, null]);
-            //stages.push([PartyTime, [120, 2]]);
-            //stages.push([Trains, null]);
-            //stages.push([Bubbles, [0.03, 2]]);			
+			stages = new Array();
+			stages.push([Harvesting, null]);
+			stages.push([PartyTime, [30, 0]]);
+			stages.push([Bubbles, [0.05, 0]]);
+			stages.push([DoubleFrog, null]);
+			stages.push([PartyTime, [60, 1]]);
+			stages.push([BetweenCatsStage, null]);
+			stages.push([Bubbles, [0.04, 1]]);
+			stages.push([AirAttack, null]);
+			stages.push([PartyTime, [120, 2]]);
+			stages.push([Trains, null]);
+			stages.push([Bubbles, [0.03, 2]]);
+			
+			
+			//stages.push([TestGenerator, null]);
+			//stages.push([TestFrogStage, null]);
 			
 			stagesCount = stages.length;
 
 			stage = null;
 			
-			finish = false;
+			finish = false;			
 			
-            //imgHP1 = (new rHPImg1()).bitmapData;
-            //imgHP2 = (new rHPImg2()).bitmapData;
-            //imgHP3 = (new rHPImg3()).bitmapData;
+			sndStart = new rStartSnd();
 			
-            //imgScore = (new rScoreImg()).bitmapData;
-			
-            //sndStart = new rStartSnd();
-			
-			hpCounter = 0.0;
-			hpPulse = 0.0;
+			hpCounter = 0.0f;
+			hpPulse = 0.0f;
 			
             //hpText = new TextField();
             //hpText.defaultTextFormat = tf;
@@ -162,10 +149,10 @@ namespace DuckstazyLive.game
             //infoText.filters = [shadow];	
 			
 			scoreOld = 0;
-			scoreCounter = 0.0;
+			scoreCounter = 0.0f;
 			
 			game = Game.instance;
-			//imgPause = game.imgBG;
+			imgPause = game.imgBG;
 		}
 		
 		public void start()
@@ -173,17 +160,17 @@ namespace DuckstazyLive.game
 			Class stageClass = stages[state.level][0];
 			Array stageParams = stages[state.level][1];
 			
-			env.blanc = 1.0;
-			power = 0.0;
-			powerUp = 0.0;
+			env.blanc = 1.0f;
+			power = 0.0f;
+			powerUp = 0.0f;
 			
 			if(stageParams!=null)
 				stage = new stageClass(stageParams);
 			else
 				stage = new stageClass();
 			
-			//power = 0.0;
-			//powerUp = 0.0;
+			//power = 0.0f;
+			//powerUp = 0.0f;
 			ps.clear();
 			pills.clear();
 			info.reset();
@@ -200,40 +187,40 @@ namespace DuckstazyLive.game
 			enterLevel();
 		}
 		
-		public void drawUI(BitmapData canvas)
+		public void drawUI(bool canvas)
 		{
-            //var mat:Matrix = new Matrix(1.0, 0.0, 0.0, 1.0, -25.0, -23.0);
-            //var col:ColorTransform = new ColorTransform(1.0, 1.0, 1.0, power);
-            //var sc:float = 1.0 + 0.3*hpPulse;
-            //var str:String;
+			Matrix mat = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -25.0, -23.0);
+			ColorTransform col = new ColorTransform(1.0f, 1.0f, 1.0f, power);
+			float sc = 1.0f + 0.3*hpPulse;
+			String str;
 			
-            //mat.scale(sc, sc);
-            //mat.translate(22.0, 410+18);//463.0);
-            //canvas.draw(imgHP1, mat, null, null, null, true);
-            //canvas.draw(imgHP2, mat, col, null, null, true);
-            //canvas.draw(imgHP3, mat, null, null, null, true);
+			mat.scale(sc, sc);
+			mat.translate(22.0, 410+18);//463.0);
+			canvas.draw(imgHP1, mat, null, null, null, true);
+			canvas.draw(imgHP2, mat, col, null, null, true);
+			canvas.draw(imgHP3, mat, null, null, null, true);
 			
-            //mat.identity();
-            //mat.tx = -24.0;
-            //mat.ty = -24.0;
-            //sc = 1.0+0.3*scoreCounter;
-            //mat.scale(sc, sc);
-            //mat.translate(620.0, 410+18);//463.0);
-            //canvas.draw(imgScore, mat, null, null, null, true);
+			mat.identity();
+			mat.tx = -24.0;
+			mat.ty = -24.0;
+			sc = 1.0f+0.3*scoreCounter;
+			mat.scale(sc, sc);
+			mat.translate(620.0, 410+18);//463.0);
+			canvas.draw(imgScore, mat, null, null, null, true);
 			
-            //mat.identity();
+			mat.identity();
 			
-            //mat.tx = 40.0;
-            //mat.ty = 410;//445.0;
-            //str = state.health.toString()+"/"+state.maxHP.toString();
-            //if(hpText.text != str) hpText.text = str;
-            //canvas.draw(hpText, mat);
+			mat.tx = 40.0;
+			mat.ty = 410;//445.0;
+			str = state.health.toString()+"/"+state.maxHP.toString();
+			if(hpText.text != str) hpText.text = str;
+			canvas.draw(hpText, mat);
 			
-            //mat.tx = 600.0 - scoreText.textWidth;
-            //canvas.draw(scoreText, mat);
+			mat.tx = 600.0 - scoreText.textWidth;
+			canvas.draw(scoreText, mat);
 		}
 		
-		public void draw(BitmapData canvas)
+		public void draw(bool canvas)
 		{
 			if(pause)
 			{
@@ -264,7 +251,7 @@ namespace DuckstazyLive.game
 		{
 			gui.setCurrent(levelMenu);
 			levelMenu.setState(0);
-			env.blanc = 1.0;
+			env.blanc = 1.0f;
 
 			stage.start();
 			sndStart.play();
@@ -272,7 +259,7 @@ namespace DuckstazyLive.game
 		
 		public void update(float dt)
 		{
-			float power_drain = 0.0;
+			float power_drain = 0.0f;
 			int i;
 				
 			if(!pause)
@@ -292,7 +279,7 @@ namespace DuckstazyLive.game
 					{
 						finish = true;		
 						state.health = 0;
-						env.blanc = 1.0;
+						env.blanc = 1.0f;
 						progress.play = false;
 						
 						levelMenu.setState(2);
@@ -328,7 +315,7 @@ namespace DuckstazyLive.game
 				if(powerUp<power)
 				{
 					power-=dt*power_drain;
-					if(power<0.0) power = 0.0;
+					if(power<0.0f) power = 0.0f;
 				}
 				else
 				{
@@ -348,16 +335,16 @@ namespace DuckstazyLive.game
 	
 				ps.update(dt);
 				
-				if(hpPulse>0.0) { hpPulse-=4.0*dt; if(hpPulse<0.0) hpPulse = 0.0; }
+				if(hpPulse>0.0f) { hpPulse-=4.0*dt; if(hpPulse<0.0f) hpPulse = 0.0f; }
 				hpCounter+=4.0*dt;
 				if(power<0.33) {
-					if(hpCounter>4.0) { hpCounter-=4.0; hpPulse = 1.0; }
+					if(hpCounter>4.0) { hpCounter-=4.0; hpPulse = 1.0f; }
 				}
 				else if(power<0.66) {
-					if(hpCounter>2.0) { hpCounter-=2.0; hpPulse = 1.0; }
+					if(hpCounter>2.0) { hpCounter-=2.0; hpPulse = 1.0f; }
 				}
 				else {
-					if(hpCounter>1.0) {	hpCounter-=1.0; hpPulse = 1.0; }
+					if(hpCounter>1.0f) {	hpCounter-=1.0f; hpPulse = 1.0f; }
 				}
 	
 				if(power>=0.5) info.setRGB(env.colors.bg);
@@ -370,13 +357,13 @@ namespace DuckstazyLive.game
 				if(state.scores>scoreOld)
 				{
 					scoreCounter+=30.0*dt;
-					if(scoreCounter>1.0)
+					if(scoreCounter>1.0f)
 					{
 						i = (state.scores-scoreOld)/5;
 						if(i==0)
 						{
 							scoreOld = state.scores;
-							scoreCounter = 0.0;
+							scoreCounter = 0.0f;
 						}
 						else
 						{
@@ -386,38 +373,31 @@ namespace DuckstazyLive.game
 								
 						scoreText.text = scoreOld.toString();
 					}
-				}
-				// КОНЕЦ ОБНОВЛЕНИЯ УРОВНЯ
+				}				
 			}
 		}
 
 		public void gainPower(float gained)
 		{
 			powerUp+=gained;
-			if(powerUp>1.0)
-				powerUp = 1.0;
+			if(powerUp>1.0f)
+				powerUp = 1.0f;
 		}
 		
 		public void gainSleep()
 		{
-			powerUp = 0.0;
+			powerUp = 0.0f;
 		}
 		
-		public void keyDown(uint code)
+		public void keyDown(Keys key)
 		{
 			if(pause)
 			{
-				if(code ==0x1B)// ESC
+				if(key == Keys.Escape)// ESC
 				{
 					if(gui.current==game.mainMenu)
-						game.clickNewGame();
-					else if(gui.current==upgradeMenu)
-						closeUpgradeMenu();
-				}
-				else if(code==0x0D && gui.current==upgradeMenu && upgradeMenu.btnBuy.enabled)
-				{
-					upgradeMenu.buy();
-				}
+						game.clickNewGame();					
+				}				
 			}
 			else
 			{
@@ -428,26 +408,21 @@ namespace DuckstazyLive.game
 						//if(code==0x0D || code==0x1B) // ENTER or ESC
 							//nextLevel();
 						//else
-						hero.keyDown(code);
+						hero.keyDown(key);
 					}
 					else
 					{
-						if(code==0x0D) // ENTER
+						if(key==Keys.Enter) // ENTER
 							game.startLevel();
-						else if(code==0x1B)// ESC
-							game.goPause();
-						else if(code==0x20 && levelMenu.btnSubmit.enabled)// SPACE
-							levelMenu.submit();
-						
+						else if(key==Keys.Escape)// ESC
+							game.goPause();						
 					}
 				}
 				else
 				{
-					hero.keyDown(code);
-					if(code==0x1B)// ESC
-						game.goPause();
-					else if(code==0x0D)
-						goUpgradeMenu();
+					hero.keyDown(key);
+					if(key==Keys.Escape)// ESC
+						game.goPause();					
 					/*else if(code==0x57)
 						nextLevel();
 					else if(code==0x44)
@@ -464,8 +439,7 @@ namespace DuckstazyLive.game
 		{
 			if(state.level>=stagesCount-1)
 			{
-				game.goCredits();
-				game.submitHighScores();
+				game.goCredits();				
 			}
 			else
 			{
@@ -479,7 +453,7 @@ namespace DuckstazyLive.game
 			if(value)
 			{
 				draw(imgPause);
-				imgPause.applyFilter(imgPause, new Rect(0.0, 0.0, 640.0, 480.0), new Point(), new BlurFilter(16.0, 16.0, 2)); 
+				imgPause.applyFilter(imgPause, new Rect(0.0f, 0.0f, 640.0, 480.0), new Point(), new BlurFilter(16.0, 16.0, 2)); 
 				pause = true;
 				hero.keysReset();
 			}
@@ -487,57 +461,32 @@ namespace DuckstazyLive.game
 			{
 				pause = false;
 			}
-			env.blanc = 1.0;
+			env.blanc = 1.0f;
 		}
 		
 		public void switchEvnPower()
 		{
-			if(power>=0.5)
+			if(power>=0.5f)
 			{
-				powerUp = power = 0.49;
+				powerUp = power = 0.49f;
 			}
 			else
 			{
-				powerUp = power = 0.5;
+				powerUp = power = 0.5f;
 			}
 		}
 		
-		public void keyUp(uint code)
+		public void keyUp(Keys code)
 		{
 			if(!pause)
 				hero.keyUp(code);
 		}
 
-		public void initShopMenu(UpgradeMenu _shopMenu)
-		{
-			upgradeMenu = _shopMenu;
-			upgradeMenu.pillsMedia = pills.media;
-			upgradeMenu.gameInfo = info;
-		}
-		
-		public void goUpgradeMenu()
-		{
-			if(!pause)
-			{
-				upgradeMenu.go();
-				setPause(true);
-			}
-		}
-		
-		public void closeUpgradeMenu()
-		{
-			if(pause)
-			{
-				levelMenu.go(gui);
-				setPause(false);
-			}
-		}
-		
-		// Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.
+        // Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.
 		public void syncScores()
 		{
 			scoreOld = state.scores;
-			scoreText.text = scoreOld.toString();
+			scoreText.text = scoreOld.ToString;
 		}
 		
 		private void winLevel()
@@ -548,8 +497,7 @@ namespace DuckstazyLive.game
 			infoText.text = HARVEST_TEXT+"...";
 			nextLevelCounter = 0;
 			finish = true;
-			env.blanc = 1.0;
-			levelMenu.setState(1);
+			env.blanc = 1.0f;			
 		}
 
 		private void updateHarvesting(float dt)
@@ -580,7 +528,7 @@ namespace DuckstazyLive.game
 			{
 				nextLevelCounter = 0;
 				infoText.text = NEXT_LEVEL_TEXT_BEGIN+
-								nextLevelCountdown.toString()+
+								nextLevelCountdown.ToString()+
 								NEXT_LEVEL_TEXT_END;
 			}
 		}
@@ -590,4 +538,5 @@ namespace DuckstazyLive.game
 			power = powerUp = newPower;
 		}
 	}
+
 }

@@ -21,7 +21,7 @@ namespace DuckstazyLive.game
 
         public int scores;
 
-        public function GameState()
+        public GameState()
         {
             reset();
         }
