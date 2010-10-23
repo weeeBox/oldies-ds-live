@@ -7,6 +7,7 @@ namespace DuckstazyLive.app
 {
     public class utils
 	{
+        private static Random random = new Random();
 
 		public static float lerp(float x, float a, float b)
 		{
@@ -161,22 +162,26 @@ namespace DuckstazyLive.app
 			return (P*(x2*x)) + (Q*(x2)) + (R*x) + S; 
 		}
 
+        public static float rnd()
+        {
+            return (float)random.NextDouble();
+        }
 
 		public static bool rnd_bool()
 		{
-			return Math.random()>=0.5;
+			return random.NextDouble()>=0.5;
 		}
 		
 		// [x1, x2)
 		public static float rnd_float(float x1, float x2)
 		{
-			return Math.random()*(x2 - x1) + x1;
+			return (float)random.NextDouble()*(x2 - x1) + x1;
 		}
 		
 		//[x1, x2]
 		public static int rnd_int(int x1, int x2)
 		{
-			return int(rnd_float(x1, x2+1));
+			return (int) rnd_float(x1, x2+1);
 		}
 		
 		//[x1, x2]

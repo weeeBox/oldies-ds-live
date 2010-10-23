@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.core;
+using Microsoft.Xna.Framework.Input;
 
 namespace DuckstazyLive.game
 {
-    public class Game
+    public class Game : InputListener
     {
         public const int MENU = 0;
         public const int LEVEL = 1;
@@ -25,7 +27,7 @@ namespace DuckstazyLive.game
 
         //// Вывод
         //private BitmapData canvas;
-        ////private Boolean flipped;
+        ////private bool flipped;
 
         //public BitmapData back;
         //public Bitmap backBitmap;
@@ -46,14 +48,14 @@ namespace DuckstazyLive.game
         //public DescScreen descScreen;
         //private UpgradeMenu shopMenu;
         //public ScoresTable scoresTable;
-        public Boolean hires;
-        public Boolean mute;
-        public Boolean inGame;
+        public bool hires;
+        public bool mute;
+        public bool inGame;
 
         public int maxScores;
-        public Boolean maxScoresFinish;
+        public bool maxScoresFinish;
         public int lastScores;
-        public Boolean lastScoresFinish;
+        public bool lastScoresFinish;
 
         // public Stage stage;
 
@@ -209,55 +211,37 @@ namespace DuckstazyLive.game
             gameSave.assign(gameState);
         }
 
-        public void updateFPS(int fps)
+        void buttonPressed(ButtonEvent e)
         {
-            //if (debugInfoTgl)
-            //    debugInfoText.text = fps.toString();
+
         }
 
-        public void keyDown(KeyboardEvent e)
+        void buttonReleased(ButtonEvent e)
         {
-            uint code = e.keyCode;
 
-            if (code == 0x70)
-                debugInfoTgl = !debugInfoTgl;
-            else
-            {
-                if (state == LEVEL)
-                    level.keyDown(code);
-                if (gui.current == descScreen && (code == 0x1B || code == 0x0D))
-                    descScreen.back();
-            }
         }
 
-        public void keyUp(KeyboardEvent e)
-        {
-            uint code = e.keyCode;
-
+        void keyPressed(Keys key)
+        {           
             if (state == LEVEL)
-                level.keyUp(code);
+                level.keyDown(key);             
         }
 
-        public void changeRes()
+        void keyReleased(Keys key)
         {
-            hires = !hires;
-            if (hires)
-                device.quality = 0;
-            else
-                device.quality = 2;
-
-            mainMenu.refreshRes(this);
-            level.env.blanc = 1.0;
-        }
+            if (state == LEVEL)
+                level.keyUp(key);
+        }       
 
         public void changeMute()
         {
-            mute = !mute;
-            if (mute)
-                SoundMixer.soundTransform = new SoundTransform(0.0);
-            else
-                SoundMixer.soundTransform = new SoundTransform(1.0);
-            mainMenu.refreshVol(this);
+            //mute = !mute;
+            //if (mute)
+            //    SoundMixer.soundTransform = new SoundTransform(0.0);
+            //else
+            //    SoundMixer.soundTransform = new SoundTransform(1.0);
+            //mainMenu.refreshVol(this);
+            throw new NotImplementedException();
         }
 
         public void clickNewGame()
@@ -275,14 +259,7 @@ namespace DuckstazyLive.game
 
         public void goPause()
         {
-            level.setPause(true);
-            mainMenu.go();
-            mainMenu.refreshInGame(this);
-        }
-
-        public void goHelp()
-        {
-            descScreen.go(0);
+            level.setPause(true);            
         }
 
         public void goNextLevel()
@@ -292,36 +269,38 @@ namespace DuckstazyLive.game
 
         public void goCredits()
         {
-            if (inGame)
-            {
-                updateResults();
-                state = MENU;
-                inGame = false;
-                if (gui.current != mainMenu)
-                    gui.current = mainMenu;
-                mainMenu.refreshInGame(this);
-                level.env.blanc = 1.0;
-                level.progress.end();
-            }
-            else descScreen.go(1);
+            //if (inGame)
+            //{
+            //    updateResults();
+            //    state = MENU;
+            //    inGame = false;
+            //    if (gui.current != mainMenu)
+            //        gui.current = mainMenu;
+            //    mainMenu.refreshInGame(this);
+            //    level.env.blanc = 1.0;
+            //    level.progress.end();
+            //}
+            //else descScreen.go(1);
+            throw new NotImplementedException();
         }
 
         public void updateResults()
         {
-            Boolean finish = false;
-            if (level.stage != null)
-            {
-                finish = gameState.level >= level.stagesCount - 1 && level.stage.win;
-            }
-            if (gameState.scores >= maxScores)
-            {
-                if (gameState.scores == maxScores && finish)
-                    maxScoresFinish = true;
-                else
-                    maxScoresFinish = finish;
+            //bool finish = false;
+            //if (level.stage != null)
+            //{
+            //    finish = gameState.level >= level.stagesCount - 1 && level.stage.win;
+            //}
+            //if (gameState.scores >= maxScores)
+            //{
+            //    if (gameState.scores == maxScores && finish)
+            //        maxScoresFinish = true;
+            //    else
+            //        maxScoresFinish = finish;
 
-                maxScores = gameState.scores;
-            }            
+            //    maxScores = gameState.scores;
+            //}            
+            throw new NotImplementedException();
         }
     }
 }

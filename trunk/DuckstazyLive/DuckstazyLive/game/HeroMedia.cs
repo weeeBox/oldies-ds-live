@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.core;
+using DuckstazyLive.app;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
     public class HeroMedia
     {
-
         //// ГРАФИКА //
         //[Embed(source="gfx/duck.png")]
         //private var rDuckImg:Class;
@@ -27,15 +29,15 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/eye2.png")]
         //private var rEyeImg2:Class;
 
-        private Texture2D imgDuck;
+        private int imgDuck;
         //private var imgDuckFlip:Texture2D;
 
-        private Texture2D imgSleep;
+        private int imgSleep;
         // private var imgSleepFlip:Texture2D;
 
-        private Texture2D imgWing;
-        private Texture2D imgEye1;
-        private Texture2D imgEye2;
+        private int imgWing;
+        private int imgEye1;
+        private int imgEye2;
 
         //static private const rcHero:Rect = new Rect(0.0, 0.0, 54.0, 42.0);
 
@@ -72,28 +74,27 @@ namespace DuckstazyLive.game
         //[Embed(source = "sfx/toxic.mp3")]
         //private Class rToxicSnd;
 
-        private Sound sndStep1;
-        private Sound sndStep2;
-        private Sound sndWing1;
-        private Sound sndWing2;
-        private Sound sndJump;
-        private Sound sndLand;
-        private Sound sndAwake;
-        private Sound sndSleep;
-        public Sound sndAttack;
-        public Sound sndToxic;
+        private int sndStep1;
+        private int sndStep2;
+        private int sndWing1;
+        private int sndWing2;
+        private int sndJump;
+        private int sndLand;
+        private int sndAwake;
+        private int sndSleep;
+        public int sndAttack;
+        public int sndToxic;
 
         private SoundTransform transformPan;
         private SoundTransform transformPanVol;
         private bool trigStep;
         private bool trigWing;
 
-        public function HeroMedia()
+        public HeroMedia()
         {
             initGFX();
             initSFX();
         }
-
 
         private void initGFX()
         {
@@ -106,9 +107,9 @@ namespace DuckstazyLive.game
             //var rcFoots:Rect = new Rect(0.0, 0.0, 13.0, 3.0);
             //var rcBody:Rect = new Rect(0.0, 0.0, 54.0, 40.0);
 
-            imgEye1 = (new rEyeImg1()).bitmapData;
-            imgEye2 = (new rEyeImg2()).bitmapData;
-            imgWing = (new rWingImg()).bitmapData;
+            //imgEye1 = (new rEyeImg1()).bitmapData;
+            //imgEye2 = (new rEyeImg2()).bitmapData;
+            //imgWing = (new rWingImg()).bitmapData;
 
             /*imgDuck = new Texture2D(54, 42, true, 0x00000000);
             imgDuck.lock();
@@ -121,10 +122,10 @@ namespace DuckstazyLive.game
             imgSleep.copyPixels(sleepBitmap.bitmapData, rcBody, new Point());
             imgSleep.unlock();*/
 
-            imgDuck = (new rDuckImg()).bitmapData;
-            imgSleep = (new rSleepImg()).bitmapData;
+            //imgDuck = (new rDuckImg()).bitmapData;
+            //imgSleep = (new rSleepImg()).bitmapData;
 
-            /*mat.scale(-1.0, 1.0);
+            /*mat.scale(-1.0f, 1.0f);
             mat.translate(54.0, 0.0);
 			
             imgDuckFlip = new Texture2D(54, 42, true, 0x00000000);			
@@ -137,68 +138,74 @@ namespace DuckstazyLive.game
             imgSleepFlip.lock();
             imgSleepFlip.draw(sleepBitmap.bitmapData, mat);
             imgSleepFlip.unlock();*/
+
+            imgDuck = Res.IMG_DUCK_FAKE;
         }
 
         private void initSFX()
         {
-            sndStep1 = new rStepSnd1();
-            sndStep2 = new rStepSnd2();
-            sndWing1 = new rWingSnd1();
-            sndWing2 = new rWingSnd2();
-            sndJump = new rJumpSnd();
-            sndLand = new rLandSnd();
-            sndAwake = new rAwakeSnd();
-            sndSleep = new rSleepSnd();
-            sndAttack = new rAttackSnd();
-            sndToxic = new rToxicSnd();
+            sndStep1 = Res.SND_HERO_STEP1;
+            sndStep2 = Res.SND_HERO_STEP2;
+            sndWing1 = Res.SND_HERO_WING1;
+            sndWing2 = Res.SND_HERO_WING2;
+            sndJump = Res.SND_HERO_JUMP;
+            sndLand = Res.SND_HERO_LAND;
+            sndAwake = Res.SND_HERO_AWAKE;
+            sndSleep = Res.SND_HERO_SLEEP;
+            sndAttack = Res.SND_HERO_ATTACK;
+            sndToxic = Res.SND_HERO_TOXIC;
 
             transformPan = new SoundTransform();
             transformPanVol = new SoundTransform();
         }
 
-        public void drawDuck(B dest, N x, N y, N power, B flip, N wingsAngle)
+        public void drawDuck(bool dest, float x, float y, float power, bool flip, float wingsAngle)
         {
             Matrix mat = new Matrix(1, 0, 0, 1, x, y);
             /*Matrix eye_mat = new Matrix();
             Matrix wing_mat = new Matrix();*/
-            ColorTransform eye = new ColorTransform(1.0, 1.0, 1.0, 1.0 - power);
-            //var eye2_color:ColorTransform = new ColorTransform(1.0, 1.0, 1.0, power);
+            ColorTransform eye = new ColorTransform(1.0f, 1.0f, 1.0f, 1.0f - power);
+            //var eye2_color:ColorTransform = new ColorTransform(1.0f, 1.0f, 1.0f, power);
 
             if (flip)
             {
-                mat.a = -1;
-                mat.tx = x + 54.0;
-                //dest.copyPixels(imgDuckFlip, rcHero, new Point(x, y));
-                dest.draw(imgDuck, mat, null, null, null, true);
+                //mat.a = -1;
+                //mat.tx = x + 54.0;
+                ////dest.copyPixels(imgDuckFlip, rcHero, new Point(x, y));
+                //dest.draw(imgDuck, mat, null, null, null, true);
 
-                mat.tx = 44.0 + x;
-                mat.ty = 5.0 + y;
-                dest.draw(imgEye1, mat, eye, null, null, true);
-                eye.alphaMultiplier = power;
-                dest.draw(imgEye2, mat, eye, null, null, true);
+                //mat.tx = 44.0 + x;
+                //mat.ty = 5.0 + y;
+                //dest.draw(imgEye1, mat, eye, null, null, true);
+                //eye.alphaMultiplier = power;
+                //dest.draw(imgEye2, mat, eye, null, null, true);
 
-                mat.tx = 3.0;
-                mat.ty = -7.0;
-                mat.rotate(-wingsAngle);
-                mat.translate(21.0 + x, 26.0 + y);
-                dest.draw(imgWing, mat, null, null, null, true);
+                //mat.tx = 3.0;
+                //mat.ty = -7.0;
+                //mat.rotate(-wingsAngle);
+                //mat.translate(21.0 + x, 26.0 + y);
+                //dest.draw(imgWing, mat, null, null, null, true);
+                Texture2D texture = Application.sharedResourceMgr.getTexture(imgDuck);
+                AppGraphics.DrawImage(texture, x, y, SpriteEffects.FlipHorizontally);
             }
             else
             {
-                //dest.copyPixels(imgDuck, rcHero, new Point(x, y));
-                dest.draw(imgDuck, mat, null, null, null, true);
+                ////dest.copyPixels(imgDuck, rcHero, new Point(x, y));
+                //dest.draw(imgDuck, mat, null, null, null, true);
 
-                mat.tx = 10.0 + x;
-                mat.ty = 5.0 + y;
-                dest.draw(imgEye1, mat, eye, null, null, true);
-                eye.alphaMultiplier = power;
-                dest.draw(imgEye2, mat, eye, null, null, true);
+                //mat.tx = 10.0 + x;
+                //mat.ty = 5.0 + y;
+                //dest.draw(imgEye1, mat, eye, null, null, true);
+                //eye.alphaMultiplier = power;
+                //dest.draw(imgEye2, mat, eye, null, null, true);
 
-                mat.tx = -3.0;
-                mat.ty = -7.0;
-                mat.rotate(wingsAngle);
-                mat.translate(33.0 + x, 26.0 + y);
-                dest.draw(imgWing, mat, null, null, null, true);
+                //mat.tx = -3.0;
+                //mat.ty = -7.0;
+                //mat.rotate(wingsAngle);
+                //mat.translate(33.0 + x, 26.0 + y);
+                //dest.draw(imgWing, mat, null, null, null, true);
+                Texture2D texture = Application.sharedResourceMgr.getTexture(imgDuck);
+                AppGraphics.DrawImage(texture, x, y);
             }
 
             //dest.draw(imgEye1.bitmapData, eye_mat, eye1_color);
@@ -206,62 +213,67 @@ namespace DuckstazyLive.game
             //dest.draw(imgWing.bitmapData, wing_mat, null, null, null, wingsAngle!=0.0);
         }
 
-        public void drawSleep(B dest, N x, N y, B flip)
+        public void drawSleep(bool dest, float x, float y, bool flip)
         {
             /*if(flip)
                 dest.copyPixels(imgSleepFlip, rcHero, new Point(x, y));
             else
                 dest.copyPixels(imgSleep, rcHero, new Point(x, y));*/
 
-            Matrix mat = new Matrix(1, 0, 0, 1, x, y);
+            //Matrix mat = new Matrix(1, 0, 0, 1, x, y);
 
-            if (flip)
-            {
-                mat.a = -1;
-                mat.tx = x + 54.0;
-            }
+            //if (flip)
+            //{
+            //    mat.a = -1;
+            //    mat.tx = x + 54.0;
+            //}
 
-            dest.draw(imgSleep, mat, null, null, null, true);
+            //dest.draw(imgSleep, mat, null, null, null, true);
+            throw new NotImplementedException();
         }
 
-        public void updateSFX(N x)
+        public void updateSFX(float x)
         {
             float pan = utils.pos2pan(x);
 
-            if (pan > 1.0) pan = 1.0;
-            else if (pan < -1.0) pan = -1.0;
+            if (pan > 1.0f) pan = 1.0f;
+            else if (pan < -1.0f) pan = -1.0f;
 
             transformPan.pan = pan;
 
             transformPanVol.pan = pan;
-            transformPanVol.volume = 0.3 + Math.random() * 0.7;
+            transformPanVol.volume = 0.3 + utils.rnd() * 0.7;
         }
 
         public void playAwake()
         {
-            sndAwake.play(49.0, 0, transformPan);
+            // sndAwake.play(49.0, 0, transformPan);
+            Application.sharedSoundMgr.playSound(sndAwake);
         }
 
         public void playSleep()
         {
-            sndSleep.play(49.0, 0, transformPan);
+            // sndSleep.play(49.0, 0, transformPan);
+            Application.sharedSoundMgr.playSound(sndSleep);
         }
 
         public void playJump()
         {
-            sndJump.play(49.0, 0, transformPan);
+            // sndJump.play(49.0, 0, transformPan);
+            Application.sharedSoundMgr.playSound(sndJump);
         }
 
         public void playLand()
         {
-            sndLand.play(49.0, 0, transformPan);
+            // sndLand.play(49.0, 0, transformPan);
+            Application.sharedSoundMgr.playSound(sndLand);
+
             //utils.playSound(land_snd, (power+0.3)*Math.abs(jumpVel)/200.0, pos.x+27);
         }
 
         public void playStep()
         {
-            Sound snd;
-
+            int snd;
             if (trigStep)
                 snd = sndStep1;
             else
@@ -269,13 +281,14 @@ namespace DuckstazyLive.game
 
             trigStep = !trigStep;
 
-            snd.play(49.0, 0, transformPanVol);
-            //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.3, 1.0), utils.pos2pan(pos.x+duck_w));
+            // snd.play(49.0, 0, transformPanVol);
+            Application.sharedSoundMgr.playSound(snd);
+            //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.3, 1.0f), utils.pos2pan(pos.x+duck_w));
         }
 
         public void playWing()
         {
-            Sound snd;
+            int snd;
 
             if (trigWing)
                 snd = sndWing1;
@@ -284,9 +297,10 @@ namespace DuckstazyLive.game
 
             trigWing = !trigWing;
 
-            snd.play(49.0, 0, transformPanVol);
+            // snd.play(49.0, 0, transformPanVol);
+            Application.sharedSoundMgr.playSound(snd);
 
-            //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.5, 1.0)*(0.3 + power*0.7), utils.pos2pan(pos.x+duck_w));
+            //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.5, 1.0f)*(0.3 + power*0.7), utils.pos2pan(pos.x+duck_w));
         }
 
     }
