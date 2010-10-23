@@ -69,6 +69,7 @@
     <Compile Include="app\StartupController.cs" />
     <Compile Include="app\StartupView.cs" />
     <Compile Include="app\utils.cs" />
+    <Compile Include="game\ColorTransform.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
     <Compile Include="game\EnvColor.cs" />
@@ -95,6 +96,8 @@
     <Compile Include="game\Pill.cs" />
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
+    <Compile Include="game\SoundChannel.cs" />
+    <Compile Include="game\SoundTransform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DuckstazyGame.cs" />
