@@ -70,7 +70,7 @@ namespace DuckstazyLive.game
 			type = _type;
 		}
 		
-		public void start()
+		public virtual void start()
 		{
 			win = false;
 			startCounter = 0.0f;
@@ -94,16 +94,16 @@ namespace DuckstazyLive.game
 			end = false;
 		}
 		
-		public void onWin()
+		public virtual void onWin()
 		{
 		}
 		
-		public void draw1(bool canvas)
+		public virtual void draw1(bool canvas)
 		{
 			
 		}
 		
-		public void draw2(bool canvas)
+		public virtual void draw2(bool canvas)
 		{
             //ColorTransform color = new ColorTransform();
             //Matrix mat = new Matrix();
@@ -175,7 +175,7 @@ namespace DuckstazyLive.game
             throw new NotImplementedException();
 		}
 		
-		public void update(float dt)
+		public virtual void update(float dt)
 		{
 			float t;
 			int i;

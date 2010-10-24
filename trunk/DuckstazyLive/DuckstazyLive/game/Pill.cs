@@ -106,10 +106,10 @@ namespace DuckstazyLive.game
         private int imgNid;
 
         // используется для оповещения генератора-родителя
-        public PillListener2 parent;
+        public PillParentListener parent;
 
         // используется для оповещения пользовательских событий
-        public PillListener user;
+        public PillLogicListener user;
 
         // Инициализируемся в массиве
         public Pill(PillsMedia pillsMedia, Hero duckHero, Particles particles, Level _level)
@@ -173,19 +173,19 @@ namespace DuckstazyLive.game
                 case 0:
                     if (user != null)
                     {
-                        user.foo(this, "dead", 0.0f);
+                        user.pillLogic(this, "dead", 0.0f);
                         user = null;
                     }
                     if (parent != null)
                     {
-                        parent.foo(this);
+                        parent.parentCallback(this);
                         parent = null;
                     }
                     move = false;
                     break;
                 case 1:
                     if (user != null)
-                        user.foo(this, "born", 0.0f);
+                        user.pillLogic(this, "born", 0.0f);
                     appear = 0.0f;
                     r = 0.0f;
                     break;
@@ -284,7 +284,7 @@ namespace DuckstazyLive.game
 			}
 			
 			if(user!=null)
-				user.foo(this, null, dt);
+				user.pillLogic(this, null, dt);
 				
 			return state==0;
 		}
@@ -367,7 +367,7 @@ namespace DuckstazyLive.game
 						info.add(x, y, info.powers[i]);
 					}
 					if(user!=null)
-						user.foo(this, "attack", 0);
+						user.pillLogic(this, "attack", 0);
 				}
 				else info.add(x, y, info.damages[(int)(utils.rnd()*3.0)]);
 				break;
@@ -400,7 +400,7 @@ namespace DuckstazyLive.game
 					highCounter = 1.0f;
 					level.env.beat();
 					if(user!=null)
-						user.foo(this, "jump", 0.0f);
+						user.pillLogic(this, "jump", 0.0f);
 				}
 				return;
 			}

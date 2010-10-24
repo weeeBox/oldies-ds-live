@@ -28,7 +28,7 @@ public class Pills
 			instance = this;
 			
 			// Временные переменные
-			int i = poolSize;
+			int i = poolSize - 1;
 			
 			media = new PillsMedia();
 			ps = particles;
@@ -36,7 +36,7 @@ public class Pills
 			
 			// Инициализируем массив(пул) для таблеток
 			pool = new Pill[poolSize];
-			while(i>0)
+			while(i>=0)
 			{
 				pool[i] = new Pill(media, gameHero, particles, level);
 				--i;

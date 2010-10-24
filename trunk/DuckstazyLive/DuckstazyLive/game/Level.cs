@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using DuckstazyLive.app;
+using DuckstazyLive.game.levels;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -64,7 +66,7 @@ namespace DuckstazyLive.game
 		private float finishCounter;
 
 
-        private List<Object> stages; // Уровни
+        private List<LevelStage> stages; // Уровни
         public LevelStage stage; // текущий уровень
 		public StageMedia stageMedia;
 		public int stagesCount;
@@ -100,8 +102,8 @@ namespace DuckstazyLive.game
 			hero.init();
 			
 			stageMedia = new StageMedia();
-			stages = new List<Object>();
-            //stages.push([Harvesting, null]);
+			stages = new List<LevelStage>();
+            stages.Add(new Harvesting());
             //stages.push([PartyTime, [30, 0]]);
             //stages.push([Bubbles, [0.05f, 0]]);
             //stages.push([DoubleFrog, null]);
@@ -112,8 +114,7 @@ namespace DuckstazyLive.game
             //stages.push([PartyTime, [120, 2]]);
             //stages.push([Trains, null]);
             //stages.push([Bubbles, [0.03, 2]]);
-            if (true) throw new NotImplementedException();
-			
+            Debug.WriteLine("Implement me: Level.Leve()");
 			
 			//stages.push([TestGenerator, null]);
 			//stages.push([TestFrogStage, null]);
@@ -155,7 +156,7 @@ namespace DuckstazyLive.game
 			
 			game = Game.instance;
 			// imgPause = game.imgBG;
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: Level.Leve()");
 		}
 		
 		public void start()

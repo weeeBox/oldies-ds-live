@@ -5,8 +5,8 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public interface PillListener
+    public interface PillLogicListener
     {
-        void foo(Pill pill, String str, float f);
+        void pillLogic(Pill pill, String msg, float dt);
     }
 }
