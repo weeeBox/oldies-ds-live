@@ -14,9 +14,16 @@ namespace DuckstazyLive.game
 {
     public class GameWorld : BaseElement
     {
+        Game game;
         public GameWorld()            
         {
-            Game game = new Game();
+            game = new Game();
+            game.clickNewGame();
+        }
+
+        public override void update(float dt)
+        {
+            game.update(dt);
         }
 
         public override void draw()

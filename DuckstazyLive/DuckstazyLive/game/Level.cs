@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using DuckstazyLive.app;
 using DuckstazyLive.game.levels;
 using System.Diagnostics;
+using Framework.core;
 
 namespace DuckstazyLive.game
 {
@@ -66,7 +67,7 @@ namespace DuckstazyLive.game
 		private float finishCounter;
 
 
-        private List<LevelStage> stages; // Уровни
+        private List<LevelStages> stages; // Уровни
         public LevelStage stage; // текущий уровень
 		public StageMedia stageMedia;
 		public int stagesCount;
@@ -102,8 +103,18 @@ namespace DuckstazyLive.game
 			hero.init();
 			
 			stageMedia = new StageMedia();
-			stages = new List<LevelStage>();
-            stages.Add(new Harvesting());
+			stages = new List<LevelStages>();
+            stages.Add(LevelStages.Harvesting);
+            stages.Add(LevelStages.PartyTime);
+            stages.Add(LevelStages.Bubbles);
+            stages.Add(LevelStages.DoubleFrog);
+            stages.Add(LevelStages.PartyTime2);
+            stages.Add(LevelStages.BetweenCatsStage);
+            stages.Add(LevelStages.Bubbles2);
+            stages.Add(LevelStages.AirAttack);
+            stages.Add(LevelStages.PartyTime3);
+            stages.Add(LevelStages.Trains);
+            stages.Add(LevelStages.Bubbles3);
             //stages.push([PartyTime, [30, 0]]);
             //stages.push([Bubbles, [0.05f, 0]]);
             //stages.push([DoubleFrog, null]);
@@ -130,21 +141,21 @@ namespace DuckstazyLive.game
 			hpCounter = 0.0f;
 			hpPulse = 0.0f;
 			
-            //hpText = new TextField();
+            hpText = new TextField();
             //hpText.defaultTextFormat = tf;
             //hpText.embedFonts = true;
             //hpText.cacheAsBitmap = true;
             //hpText.autoSize = TextFieldAutoSize.LEFT;
             //hpText.filters = [shadow];
 		
-            //scoreText = new TextField();
+            scoreText = new TextField();
             //scoreText.defaultTextFormat = tf;
             //scoreText.embedFonts = true;
             //scoreText.cacheAsBitmap = true;
             //scoreText.autoSize = TextFieldAutoSize.LEFT;
             //scoreText.filters = [shadow];
 			
-            //infoText = new TextField();
+            infoText = new TextField();
             //infoText.defaultTextFormat = tf;
             //infoText.embedFonts = true;
             //infoText.cacheAsBitmap = true;
@@ -163,16 +174,16 @@ namespace DuckstazyLive.game
 		{
             //Class stageClass = stages[state.level][0];
             //Array stageParams = stages[state.level][1];
-			
-            //env.blanc = 1.0f;
-            //power = 0.0f;
-            //powerUp = 0.0f;
-			
-            //if(stageParams!=null)
+
+            env.blanc = 1.0f;
+            power = 0.0f;
+            powerUp = 0.0f;
+
+            //if (stageParams != null)
             //    stage = new stageClass(stageParams);
             //else
-            //    stage = new stageClass();
-            if (true) throw new NotImplementedException();
+            //    stage = new stageClass();            
+            stage = LevelStageFactory.createStage(stages[state.level]);
 			
 			//power = 0.0f;
 			//powerUp = 0.0f;
@@ -228,41 +239,40 @@ namespace DuckstazyLive.game
 		
 		public void draw(Canvas canvas)
 		{
-            //if(pause)
-            //{
-            //    canvas.draw(imgPause);
-            //}
-            //else
-            //{
-            //    env.draw1(canvas);
-				
-            //    //if(!room)
-            //    stage.draw1(canvas);
-				
-            //    info.drawFT(canvas);
-            //    pills.draw(canvas);
-				
-            //    if(state.health>0)
-            //        hero.draw(canvas);
-				
-            //    ps.draw(canvas);
-            //    env.draw2(canvas);
-            //    progress.draw(canvas);
-            //    drawUI(canvas);
-            //    stage.draw2(canvas);
-            //}
-            throw new NotImplementedException();
+            if (pause)
+            {
+                canvas.draw(imgPause);                
+            }
+            else
+            {
+                env.draw1(canvas);
+
+                //if(!room)
+                stage.draw1(canvas);
+
+                info.drawFT(canvas);
+                pills.draw(canvas);
+
+                if (state.health > 0)
+                    hero.draw(canvas);
+
+                ps.draw(canvas);
+                env.draw2(canvas);
+                progress.draw(canvas);
+                // drawUI(canvas);
+                stage.draw2(canvas);
+            }            
 		}
 		
 		public void enterLevel()
 		{
-            //gui.setCurrent(levelMenu);
-            //levelMenu.setState(0);
-            //env.blanc = 1.0f;
+            // gui.setCurrent(levelMenu);
+            // levelMenu.setState(0);
+            env.blanc = 1.0f;
 
-            //stage.start();
-            //sndStart.play();
-            throw new NotImplementedException();
+            stage.start();
+            // sndStart.play();            
+            Application.sharedSoundMgr.playSound(sndStart);
 		}
 		
 		public void update(float dt)

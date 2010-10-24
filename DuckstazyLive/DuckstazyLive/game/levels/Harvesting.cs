@@ -75,7 +75,7 @@ namespace DuckstazyLive.game.levels
 				
 		}
 
-        public override void draw1(bool canvas)
+        public override void draw1(Canvas canvas)
 		{
 	
 		}
