@@ -11,7 +11,7 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/progress.png")]
         //private var rPointImg:Class;
         
-        public Texture2D imgPoint;
+        public int imgPoint;
         
 		// Координаты извивающейся полоски
 		private float[] line1;
@@ -38,20 +38,18 @@ namespace DuckstazyLive.game
 		
 		public LevelProgress()
 		{
-            //// Инициализируем полоску
-            //ld1 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
-            //ld2 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
-            //line1 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
-            //line2 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
-            //line_c = 0.0f;
+            // Инициализируем полоску
+            ld1 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+            ld2 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+            line1 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+            line2 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+            line_c = 0.0f;
 			
 			
-            //shape = new Shape();
+            // shape = new Shape();			
+            // imgPoint = (new rPointImg()).bitmapData;
 			
-            //imgPoint = (new rPointImg()).bitmapData;
-			
-            //end();
-            throw new NotImplementedException();
+            end();            
 		}
 		
 		public void start(float progressTime)

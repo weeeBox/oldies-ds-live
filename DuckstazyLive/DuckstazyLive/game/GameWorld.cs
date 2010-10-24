@@ -16,7 +16,7 @@ namespace DuckstazyLive.game
     {
         public GameWorld()            
         {
-                      
+            Game game = new Game();
         }
 
         public override void draw()

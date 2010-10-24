@@ -5,8 +5,8 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public interface PillListener2
+    public interface PillParentListener
     {
-        void foo(Pill pill);
+        void parentCallback(Pill pill);        
     }
 }

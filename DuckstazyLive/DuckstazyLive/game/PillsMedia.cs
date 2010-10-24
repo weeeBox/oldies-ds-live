@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -180,7 +181,7 @@ namespace DuckstazyLive.game
             //sndToxicBorn = new rToxicBornSnd();
 			
 			power = 0.0f;
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: PillsMedia.PillsMedia()");
 		}
     }
 }

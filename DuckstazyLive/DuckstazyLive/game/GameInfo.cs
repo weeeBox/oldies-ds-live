@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -127,7 +128,7 @@ namespace DuckstazyLive.game
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //damages.push(bm);
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: GameInfo.GameInfo()");
  		}
 		
 		public void reset()
