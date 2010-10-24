@@ -39,10 +39,10 @@ namespace DuckstazyLive.game
 		public LevelProgress()
 		{
             // Инициализируем полоску
-            ld1 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-            ld2 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-            line1 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-            line2 = new float[] { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+            ld1 = new float[100]; // HACK: 21
+            ld2 = new float[100]; // HACK: 21
+            line1 = new float[8]; // HACK: 7
+            line2 = new float[8]; // HACK: 7
             line_c = 0.0f;
 			
 			

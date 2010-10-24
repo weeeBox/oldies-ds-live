@@ -17,42 +17,44 @@ namespace DuckstazyLive.app
 		public const int IMG_BUTTON_BASE = 0;
 		public const int IMG_BUTTON_STROKE_DEFAULT = 1;
 		public const int IMG_BUTTON_STROKE_FOCUSED = 2;
-		public const int IMG_BUTTON_CLOUD_1 = 3;
-		public const int IMG_BUTTON_CLOUD_2 = 4;
-		public const int IMG_BUTTON_CLOUD_3 = 5;
-		public const int IMG_GRASS = 6;
-		public const int IMG_PILL_FAKE = 7;
-		public const int IMG_PILL_GLOW_FAKE = 8;
+		public const int IMG_GRASS1 = 3;
+		public const int IMG_GRASS2 = 4;
+		public const int IMG_PILL_FAKE = 5;
+		public const int IMG_PILL_GLOW_FAKE = 6;
+		public const int IMG_CLOUD_1 = 7;
+		public const int IMG_CLOUD_2 = 8;
+		public const int IMG_CLOUD_3 = 9;
 		// PACK_MENU
-		public const int IMG_MENU_TITLE = 9;
-		public const int IMG_MENU_TITLE_BACK = 10;
+		public const int IMG_MENU_TITLE = 10;
+		public const int IMG_MENU_TITLE_BACK = 11;
 		// PACK_GAME
-		public const int IMG_DUCK_FAKE = 11;
+		public const int IMG_DUCK_FAKE = 12;
+		public const int IMG_STAR = 13;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 12;
-		public const int SONG_ENV_TEX = 13;
-		public const int SND_HERO_ATTACK = 14;
-		public const int SND_HERO_AWAKE = 15;
-		public const int SND_HERO_JUMP = 16;
-		public const int SND_HERO_LAND = 17;
-		public const int SND_HERO_SLEEP = 18;
-		public const int SND_HERO_STEP1 = 19;
-		public const int SND_HERO_STEP2 = 20;
-		public const int SND_HERO_TOXIC = 21;
-		public const int SND_HERO_WING1 = 22;
-		public const int SND_HERO_WING2 = 23;
-		public const int SND_LEVEL_START = 24;
-		public const int SND_PILL_GENERATE = 25;
-		public const int SND_PILL_HIGH = 26;
-		public const int SND_PILL_JUMPER = 27;
-		public const int SND_PILL_POWER1 = 28;
-		public const int SND_PILL_POWER2 = 29;
-		public const int SND_PILL_POWER3 = 30;
-		public const int SND_PILL_TOXIC_BORN = 31;
-		public const int SND_PILL_WARNING = 32;
-		public const int SND_UI_CLICK = 33;
-		public const int SND_UI_FOCUS = 34;
-		public const int RES_COUNT = 35;
+		public const int SND_ENV_POWER = 14;
+		public const int SONG_ENV_TEX = 15;
+		public const int SND_HERO_ATTACK = 16;
+		public const int SND_HERO_AWAKE = 17;
+		public const int SND_HERO_JUMP = 18;
+		public const int SND_HERO_LAND = 19;
+		public const int SND_HERO_SLEEP = 20;
+		public const int SND_HERO_STEP1 = 21;
+		public const int SND_HERO_STEP2 = 22;
+		public const int SND_HERO_TOXIC = 23;
+		public const int SND_HERO_WING1 = 24;
+		public const int SND_HERO_WING2 = 25;
+		public const int SND_LEVEL_START = 26;
+		public const int SND_PILL_GENERATE = 27;
+		public const int SND_PILL_HIGH = 28;
+		public const int SND_PILL_JUMPER = 29;
+		public const int SND_PILL_POWER1 = 30;
+		public const int SND_PILL_POWER2 = 31;
+		public const int SND_PILL_POWER3 = 32;
+		public const int SND_PILL_TOXIC_BORN = 33;
+		public const int SND_PILL_WARNING = 34;
+		public const int SND_UI_CLICK = 35;
+		public const int SND_UI_FOCUS = 36;
+		public const int RES_COUNT = 37;
 	}
 	public class DuckstazyResources
 	{
@@ -64,12 +66,13 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_BUTTON_BASE, ResourceType.RESOURCE_TYPE_TEXTURE, "button"),
 				new ResourceBaseInfo(Res.IMG_BUTTON_STROKE_DEFAULT, ResourceType.RESOURCE_TYPE_TEXTURE, "button_black"),
 				new ResourceBaseInfo(Res.IMG_BUTTON_STROKE_FOCUSED, ResourceType.RESOURCE_TYPE_TEXTURE, "button_white"),
-				new ResourceBaseInfo(Res.IMG_BUTTON_CLOUD_1, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
-				new ResourceBaseInfo(Res.IMG_BUTTON_CLOUD_2, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_2"),
-				new ResourceBaseInfo(Res.IMG_BUTTON_CLOUD_3, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_3"),
-				new ResourceBaseInfo(Res.IMG_GRASS, ResourceType.RESOURCE_TYPE_TEXTURE, "grass"),
+				new ResourceBaseInfo(Res.IMG_GRASS1, ResourceType.RESOURCE_TYPE_TEXTURE, "grass1"),
+				new ResourceBaseInfo(Res.IMG_GRASS2, ResourceType.RESOURCE_TYPE_TEXTURE, "grass2"),
 				new ResourceBaseInfo(Res.IMG_PILL_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_fake"),
 				new ResourceBaseInfo(Res.IMG_PILL_GLOW_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_glow_fake"),
+				new ResourceBaseInfo(Res.IMG_CLOUD_1, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
+				new ResourceBaseInfo(Res.IMG_CLOUD_2, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
+				new ResourceBaseInfo(Res.IMG_CLOUD_3, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
 			},
 			// PACK_MENU
 			new ResourceBaseInfo[]
@@ -81,6 +84,7 @@ namespace DuckstazyLive.app
 			new ResourceBaseInfo[]
 			{
 				new ResourceBaseInfo(Res.IMG_DUCK_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
+				new ResourceBaseInfo(Res.IMG_STAR, ResourceType.RESOURCE_TYPE_TEXTURE, "star"),
 			},
 			// PACK_SOUNDS
 			new ResourceBaseInfo[]

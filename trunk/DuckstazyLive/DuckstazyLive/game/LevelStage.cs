@@ -98,12 +98,12 @@ namespace DuckstazyLive.game
 		{
 		}
 		
-		public virtual void draw1(bool canvas)
+		public virtual void draw1(Canvas canvas)
 		{
 			
 		}
 		
-		public virtual void draw2(bool canvas)
+		public virtual void draw2(Canvas canvas)
 		{
             //ColorTransform color = new ColorTransform();
             //Matrix mat = new Matrix();

@@ -38,13 +38,14 @@
 			<package name="PACK_COMMON">
 				<image name="button_base" file="${dir.art}/button.png" />
 				<image name="button_stroke_default" file="${dir.art}/button_black.png" />
-				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />
-			        <image name="button_cloud_1" file="${dir.art}/cloud_1.png" />
-				<image name="button_cloud_2" file="${dir.art}/cloud_2.png" />
-				<image name="button_cloud_3" file="${dir.art}/cloud_3.png" />
-				<image name="grass" file="${dir.art}/grass.png" />
+				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />			    
+				<image name="grass1" file="${dir.art}/grass1.png" />
+				<image name="grass2" file="${dir.art}/grass2.png" />
 				<image name="pill_fake" file="${dir.art}/pill_fake.png" />
 				<image name="pill_glow_fake" file="${dir.art}/pill_glow_fake.png" />
+				<image name="cloud_1" file="${dir.art}/cloud_1.png" />
+				<image name="cloud_2" file="${dir.art}/cloud_1.png" />
+				<image name="cloud_3" file="${dir.art}/cloud_1.png" />
 			</package>
 			
 			<package name="PACK_MENU">
@@ -54,6 +55,7 @@
 			
 			<package name="PACK_GAME">
 				<image name="duck_fake" file="${dir.art}/duck_fake.png" />
+				<image name="star" file="${dir.art}/star.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">

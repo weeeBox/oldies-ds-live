@@ -347,7 +347,7 @@ namespace DuckstazyLive.game
             media.playWing();
         }
 
-        public void draw()
+        public void draw(Canvas canvas)
         {
             if (started)
             {

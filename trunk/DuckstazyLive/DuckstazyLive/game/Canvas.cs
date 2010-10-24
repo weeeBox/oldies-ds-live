@@ -7,5 +7,9 @@ namespace DuckstazyLive.game
 {
     public class Canvas
     {
+        public void draw(int img)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -141,7 +141,7 @@ namespace DuckstazyLive.game
 			ftCount = 0;
 		}
 		
-		public void drawFT(bool canvas)
+		public void drawFT(Canvas canvas)
 		{
             //int i = 0;
             //Matrix mat = new Matrix();

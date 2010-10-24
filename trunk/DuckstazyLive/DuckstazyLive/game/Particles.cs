@@ -179,7 +179,7 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void draw(bool canvas)
+        public void draw(Canvas canvas)
         {
             int i = 0;
             float a;

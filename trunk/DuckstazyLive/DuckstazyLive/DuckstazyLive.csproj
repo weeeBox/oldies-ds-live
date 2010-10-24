@@ -124,6 +124,7 @@
     <Compile Include="game\levels\generator\PowerSetuper.cs" />
     <Compile Include="game\levels\generator\Setuper.cs" />
     <Compile Include="game\levels\Harvesting.cs" />
+    <Compile Include="game\levels\LevelStageFactory.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />

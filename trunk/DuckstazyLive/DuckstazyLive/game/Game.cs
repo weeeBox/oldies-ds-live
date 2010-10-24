@@ -131,12 +131,10 @@ namespace DuckstazyLive.game
 
             //mainMenu.go();
 
-            level.env.blanc = 1;
-            // level.sndStart.play();
-            Application.sharedSoundMgr.playSound(level.sndStart);
+            level.env.blanc = 1;            
         }
 
-        public void frame(float dt)
+        public void update(float dt)
         {
         	//Number dt = device.update();
         	Env env = level.env;

@@ -5,6 +5,10 @@ using System.Text;
 using DuckstazyLive.game.env;
 using DuckstazyLive.app;
 using System.Diagnostics;
+using Framework.core;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using Framework.visual;
 
 namespace DuckstazyLive.game
 {
@@ -44,6 +48,7 @@ public class Env
 		private int imgGround;
 		private int imgStar;
 		private int imgSky;
+        private CustomGeomerty geomSky;
 		
 		private int sndPower;
 		//private var sndTex1:Sound;
@@ -65,9 +70,7 @@ public class Env
 		// Время для нормального состояния. Циклит для смены ДЕНЬ/НОЧЬ
 		public bool day;
 		// Время для глюков. Циклит палитру.
-		private float time;
-		
-		
+		private float time;		
 		
 		// Счётчик для эффекта с травой
 		private float grassCounter;		
@@ -132,9 +135,7 @@ public class Env
 			power = 0.0f;
 			day = true;
 			updateNorm();
-			time = 0.0f;
-						
-			
+			time = 0.0f;			
 			
 			// Инициализируем
 			initGrass();
@@ -195,6 +196,7 @@ public class Env
             //shape.graphics.drawRect(0.0f, 0.0f, 640.0, 80.0);
             //shape.graphics.endFill();
             //imgGround.draw(shape);
+            Debug.WriteLine("Implement me: Env.initGrass");
 		}
 			
 		private void initDay()
@@ -210,32 +212,32 @@ public class Env
 			
             //imgSky = new Texture2D(640, 400, false);
             //imgSky.draw(shape);
+            geomSky = GeometryFactory.createGradient(0, 0, 640, 480, utils.makeColor(0x3FB5F2), utils.makeColor(0xDDF2FF));
 			
-            //imgClouds = [(new rCloudImg1()).bitmapData, (new rCloudImg2()).bitmapData, (new rCloudImg3()).bitmapData];
+            imgClouds = new int[] { Res.IMG_CLOUD_1, Res.IMG_CLOUD_2, Res.IMG_CLOUD_3 };
 			
-            //clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };
-			
-            //foreach (EnvCloud it in clouds)
-            //{
-            //    it.init(x);
-            //    x+=128.0 + Math.random()*22.0;
-            //}			
+            clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };			
+            foreach (EnvCloud it in clouds)
+            {
+                it.init(x);
+                x+=128.0f + utils.rnd()*22.0f;
+            }			
 		}
 		
 		private void initNight()
-		{			
-            //int i = 30;
-			
-            //// imgStar = (new rStarImg()).bitmapData;
-            //throw new NotImplementedException();
+		{
+            int starsCount = 30;
+            int i = starsCount - 1;
 
-            ////nightSky = new EnvStar[30];
+            imgStar = Res.IMG_STAR;
+            nightSky = new EnvStar[starsCount];
 
-            ////while(i>0)
-            ////{
-            ////    nightSky[i] = new EnvStar();
-            ////    --i;
-            ////}
+            while (i >= 0)
+            {
+                nightSky[i] = new EnvStar();
+                --i;
+            }
+            
 		}
 		
 		public void updateNorm()
@@ -471,18 +473,26 @@ public class Env
 			
 			
             ///**** ТРАВА ****/
-			
-            //if(power<0.5f)
-            //{
-            //    // TODO Optimize
-            //    canvas.draw(imgGround, new Matrix(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 400.0));
-            //    canvas.draw(imgGrass, mat, ctGrass);
-            //}
-            //else
-            //{
-            //    canvas.fillRect(rc, colGround);
-            //    canvas.draw(imgGrass2, mat, ctGrass);
-            //}	
+
+            if (power < 0.5f)
+            {
+                // TODO Optimize
+                // canvas.draw(imgGround, new Matrix(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 400.0));
+                // canvas.draw(imgGrass, mat, ctGrass);
+                Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
+                Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
+                Rectangle dst = new Rectangle(0, 400, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
+                AppGraphics.DrawImageTiled(tex, ref src, ref dst);
+            }
+            else
+            {
+                //canvas.fillRect(rc, colGround);
+                //canvas.draw(imgGrass2, mat, ctGrass);
+                Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
+                Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
+                Rectangle dst = new Rectangle(0, 400, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
+                AppGraphics.DrawImageTiled(tex, ref src, ref dst);
+            }	
 		}
 
 		public void beat()

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.game;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.app
 {
@@ -198,5 +199,14 @@ namespace DuckstazyLive.app
 			// snd.play(49, 0, tr);
             throw new NotImplementedException();
 		}
+
+        public static Color makeColor(uint color)
+        {            
+            byte a = (byte)((color >> 24) & 0xff);
+            byte r = (byte)((color >> 16) & 0xff);
+            byte g = (byte)((color >> 8) & 0xff);
+            byte b = (byte)((color >> 0) & 0xff);
+            return new Color(r, g, b, a);
+        }
 	}
 }
