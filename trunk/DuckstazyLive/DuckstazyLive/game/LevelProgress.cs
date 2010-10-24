@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
@@ -13,17 +14,17 @@ namespace DuckstazyLive.game
         public Texture2D imgPoint;
         
 		// Координаты извивающейся полоски
-		private Array line1;
-		private Array line2;
-		private Array ld1;
-		private Array ld2;
+		private float[] line1;
+		private float[] line2;
+		private float[] ld1;
+		private float[] ld2;
 		
 		// Счётчик для извивающейся полоски
 		private float line_c;
 				
 		private float power;
 		
-		private Shape shape;
+		// private Shape shape;
 		
 		private float progress;
 		private float progressMax;
@@ -37,24 +38,25 @@ namespace DuckstazyLive.game
 		
 		public LevelProgress()
 		{
-			// Инициализируем полоску
-			ld1 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-			ld2 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-			line1 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-			line2 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-			line_c = 0.0;
+            //// Инициализируем полоску
+            //ld1 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
+            //ld2 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
+            //line1 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
+            //line2 = [0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f];
+            //line_c = 0.0f;
 			
 			
-			shape = new Shape();
+            //shape = new Shape();
 			
-			imgPoint = (new rPointImg()).bitmapData;
+            //imgPoint = (new rPointImg()).bitmapData;
 			
-			end();
+            //end();
+            throw new NotImplementedException();
 		}
 		
 		public void start(float progressTime)
 		{
-			progress = 0.0;
+			progress = 0.0f;
 			progressMax = progressTime;
 			play = true;
 			full = false;
@@ -62,9 +64,9 @@ namespace DuckstazyLive.game
 		
 		public void end()
 		{
-			perc = 0.0;
-			progress = 0.0;
-			progressMax = 0.0;
+			perc = 0.0f;
+			progress = 0.0f;
+			progressMax = 0.0f;
 			play = false;
 			full = false;
 		}
@@ -75,9 +77,7 @@ namespace DuckstazyLive.game
 			float c;
 			float w;
 			int i;
-			float t;
-			
-			* o;
+			float t;			
 			
 			// Обновляем состояние
 			power = newPower;
@@ -91,7 +91,7 @@ namespace DuckstazyLive.game
 					if(progress>=progressMax)
 					{
 						progress = progressMax;
-						perc = 1.0;
+						perc = 1.0f;
 						full = true;
 					}
 					
@@ -99,15 +99,15 @@ namespace DuckstazyLive.game
 			}*/
 		
 			// Обновляем счётчик полоски.
-			line_c+=dt*1.57*power*power;
-			if(line_c>1.0) line_c-=int(line_c);
+			line_c+=dt*1.57f*power*power;
+			if(line_c>1.0f) line_c-=(int)(line_c);
 		
 			// Ообновляем опорные точки полоски.
 			for(i=0; i<7; ++i)
 			{
-				t = line_c*6.2832;
-				c = 40.0 + 17.0 * Math.Sin(t + 1.5708*(i-2));
-				w = 12.5 + 2.5 * Math.Sin(t + 3.1416*(i-2));
+				t = line_c*6.2832f;
+				c = (float)(40.0f + 17.0f * Math.Sin(t + 1.5708f*(i-2)));
+				w = (float)(12.5f + 2.5f * Math.Sin(t + 3.1416f*(i-2)));
 				line1[i] = c - w;
 				line2[i] = c + w;
 			}
@@ -126,7 +126,7 @@ namespace DuckstazyLive.game
 					if(progress>=progressMax)
 					{
 						progress = progressMax;
-						perc = 1.0;
+						perc = 1.0f;
 						full = true;
 					}
 				}
@@ -169,8 +169,8 @@ namespace DuckstazyLive.game
 
 				ld1[j] = y21; ld2[j] = y22;	++j;
 				
-				t = 0.2;
-				while(t<1.0)
+				t = 0.2f;
+				while(t<1.0f)
 				{
 					t2 = t*t;
 					
@@ -192,7 +192,7 @@ namespace DuckstazyLive.game
 					//ld2[j] = spline(y12, y22, y32, y42, t);
 					
 					++j;
-					t+=0.2;
+					t+=0.2f;
 				}
 				
 				++i;
@@ -202,74 +202,75 @@ namespace DuckstazyLive.game
 			ld2[20] = line2[5];
 		}
 			
-		public void draw(bool canvas)
+		public void draw(Canvas canvas)
 		{
-			// Временные переменные.
-			float x;
-			int i;
-			float v;
-			Matrix mat = new Matrix();
-			float pointY;
-			ColorTransform pointEmpty = env.ctProgress;
-			ColorTransform pointFilled = new ColorTransform();
-			ColorTransform pointColor = new ColorTransform();
-			float prog = progress/progressMax;
-			float y;
+            //// Временные переменные.
+            //float x;
+            //int i;
+            //float v;
+            //Matrix mat = new Matrix();
+            //float pointY;
+            //ColorTransform pointEmpty = env.ctProgress;
+            //ColorTransform pointFilled = new ColorTransform();
+            //ColorTransform pointColor = new ColorTransform();
+            //float prog = progress/progressMax;
+            //float y;
 			
-			mat.identity();
-			mat.translate(0, 400);
+            //mat.identity();
+            //mat.translate(0, 400);
 				
-			shape.graphics.clear();
-			shape.graphics.beginFill(env.colProgress, 1.0);
-			shape.graphics.moveTo(0, ld1[0]);
+            //shape.graphics.clear();
+            //shape.graphics.beginFill(env.colProgress, 1.0f);
+            //shape.graphics.moveTo(0, ld1[0]);
 			
-			x = 32.0;
-			for(i=1; i<21; ++i)
-			{
-				shape.graphics.lineTo(x, ld1[i]);
-				x+=32.0;
-			}
+            //x = 32.0f;
+            //for(i=1; i<21; ++i)
+            //{
+            //    shape.graphics.lineTo(x, ld1[i]);
+            //    x+=32.0f;
+            //}
 			
-			x = 640.0;
-			for(i=20; i>=0; --i)
-			{
-				shape.graphics.lineTo(x, ld2[i]);
-				x-=32.0;
-			}
+            //x = 640.0f;
+            //for(i=20; i>=0; --i)
+            //{
+            //    shape.graphics.lineTo(x, ld2[i]);
+            //    x-=32.0f;
+            //}
 						
-			shape.graphics.endFill();
-			canvas.draw(shape, mat);
+            //shape.graphics.endFill();
+            //canvas.draw(shape, mat);
 			
-			if(play)
-			{
-				x = 22.0;
-				for(i=1; i<20; ++i)
-				{
-					y = ld1[i];
-					pointY = 390.0 + y + 0.5*(ld2[i] - y);
+            //if(play)
+            //{
+            //    x = 22.0f;
+            //    for(i=1; i<20; ++i)
+            //    {
+            //        y = ld1[i];
+            //        pointY = 390.0f + y + 0.5*(ld2[i] - y);
 					
-					mat.identity();
-					mat.translate(x, pointY);
+            //        mat.identity();
+            //        mat.translate(x, pointY);
 				
-					if(prog>0.05263)
-						pointColor = pointFilled;
-					else if(prog<=0.0)
-						pointColor = pointEmpty;
-					else
-					{
-						v = prog*19.0;
-						pointColor.redMultiplier = pointEmpty.redMultiplier*(1.0 - v) + v;
-						pointColor.greenMultiplier = pointEmpty.greenMultiplier*(1.0 - v) + v;
-						pointColor.blueMultiplier = pointEmpty.blueMultiplier*(1.0 - v) + v;
-					}
+            //        if(prog>0.05263)
+            //            pointColor = pointFilled;
+            //        else if(prog<=0.0f)
+            //            pointColor = pointEmpty;
+            //        else
+            //        {
+            //            v = prog*19.0f;
+            //            pointColor.redMultiplier = pointEmpty.redMultiplier*(1.0f - v) + v;
+            //            pointColor.greenMultiplier = pointEmpty.greenMultiplier*(1.0f - v) + v;
+            //            pointColor.blueMultiplier = pointEmpty.blueMultiplier*(1.0f - v) + v;
+            //        }
 					
-					canvas.draw(imgPoint, mat, pointColor, null, null, true);
+            //        canvas.draw(imgPoint, mat, pointColor, null, null, true);
 					
-					x+=32.0;
+            //        x+=32.0f;
 					
-					prog-=0.05263;
-				}
-			}
+            //        prog-=0.05263;
+            //    }
+            //}
+            throw new NotImplementedException();
 		}
 		
 	}

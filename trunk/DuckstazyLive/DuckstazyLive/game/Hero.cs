@@ -92,7 +92,7 @@ namespace DuckstazyLive.game
             return utils.lerp(x, duck_jump_start_vel_min, duck_jump_start_vel_max);
         }
 
-        public function Hero()
+        public Hero()
         {
             media = new HeroMedia();
 
@@ -115,7 +115,7 @@ namespace DuckstazyLive.game
             jumpVel = 0.0f;
             jumpStartVel = 0.0f;
             jumpWingVel = 0.0f;
-            //gravityK = 1.0;
+            //gravityK = 1.0f;
             diveK = 0.0f;
 
             wingMod = 0.0f;
@@ -137,25 +137,25 @@ namespace DuckstazyLive.game
 
         private void doStepBubble()
         {
-            float px = x + 4.0;
-            if (!flip) px = x + 50.0;
-            particles.startStepBubble(px, y + 39.0);
+            float px = x + 4;
+            if (!flip) px = x + 50;
+            particles.startStepBubble(px, y + 39);
         }
 
         private void doLandBubbles()
         {
             float px;
-            int i = Math.abs(jumpVel * 0.05);
+            int i = (int)Math.Abs(jumpVel * 0.05f);
 
             while (i > 0)
             {
-                px = x + 17.0 + Math.random() * 20.0;
+                px = x + 17 + utils.rnd() * 20;
                 particles.startBubble(px, y + duck_h2, 0xff999999);
                 --i;
             }
         }
 
-        public void update(N dt, N newPower)
+        public void update(float dt, float newPower)
         {
             if (!started) return;
 
@@ -283,7 +283,7 @@ namespace DuckstazyLive.game
                     {
                         if (jumpVel >= 0.0f)
                         {
-                            jumpVel -= duck_jump_gravity * (diveK + 1.0) * dt;
+                            jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
                             y -= jumpVel * dt;
                             if (jumpVel <= 0.0f)
                             {
@@ -331,7 +331,7 @@ namespace DuckstazyLive.game
                 if (wingCounter < 0)
                     wingCounter = 0;
 
-                wingAngle = 0.5f * Math.Sin(wingCounter * 4.71f);
+                wingAngle = 0.5f * ((float)Math.Sin(wingCounter * 4.71f));
             }
         }
 
@@ -347,7 +347,7 @@ namespace DuckstazyLive.game
             media.playWing();
         }
 
-        public void draw(B canvas)
+        public void draw()
         {
             if (started)
             {
@@ -358,32 +358,32 @@ namespace DuckstazyLive.game
 
 
                 if (step > 1 && !fly)
-                    dy -= 1.0;
+                    dy -= 1.0f;
 
-                drawHero(canvas, dx, dy);
+                drawHero(dx, dy);
                 if (dx < 0)
                 {
                     dx += 640;
-                    drawHero(canvas, dx, dy);
+                    drawHero(dx, dy);
                 }
-                else if (dx > 640.0 - duck_w2)
+                else if (dx > 640 - duck_w2)
                 {
                     dx -= 640;
-                    drawHero(canvas, dx, dy);
+                    drawHero(dx, dy);
                 }
             }
         }
 
-        private void drawHero(B dest, N _x, N _y)
+        private void drawHero(float _x, float _y)
 		{
-			bool vis = (blinkTime<=0.0f || int(blinkTime)&0x1!=0);
+			bool vis = (blinkTime<=0.0f || (((int)blinkTime)&0x1)!=0);
 			
 			if(vis)
 			{
 				if(sleep)
-					media.drawSleep(dest, _x, _y, flip);
+					media.drawSleep(_x, _y, flip);
 				else
-					media.drawDuck(dest, _x, _y, power, flip, wingAngle);
+					media.drawDuck(_x, _y, power, flip, wingAngle);
 			}
 		}
 
@@ -391,9 +391,9 @@ namespace DuckstazyLive.game
         {
             switch (keyCode)
             {
-                case 40: key_down = true; break;
-                case 37: key_left = true; break;
-                case 38:
+                case Keys.Down: key_down = true; break;
+                case Keys.Left: key_left = true; break;
+                case Keys.Up:
                     if (!key_up && started)
                     {
                         if (!fly)
@@ -411,14 +411,14 @@ namespace DuckstazyLive.game
                         else if (!wingLock && !sleep)
                         {
                             wingLock = true;
-                            wingMod = 1.0;
+                            wingMod = 1.0f;
                             wingYLocked = false;
 
                             wingBeat();
                         }
                     }
                     key_up = true; break;
-                case 39: key_right = true; break;
+                case Keys.Right: key_right = true; break;
             }
         }
 
@@ -470,55 +470,56 @@ namespace DuckstazyLive.game
 
             while (i > 0)
             {
-                px = x + Math.random() * duck_w2;
-                py = y + Math.random() * duck_h2;
+                px = x + utils.rnd() * duck_w2;
+                py = y + utils.rnd() * duck_h2;
                 particles.startBubble(px, py, 0xff690c7a);
                 --i;
             }
         }
 
-        public bool checkDive(N cx, N cy)
+        public bool checkDive(float cx, float cy)
         {
             bool check;
             float px = cx;
             float py = cy;
 
-            if (x < 0.0f && px > (630.0 - duck_w2))
-                px -= 640.0;
+            if (x < 0.0f && px > (630 - duck_w2))
+                px -= 640;
 
             if (flip)
-                px = 2.0 * (x + duck_w) - px;
+                px = 2 * (x + duck_w) - px;
 
-            check = fly && (yLast + duck_h2) <= py && (y + duck_h2) >= (py - 10.0);
+            check = fly && (yLast + duck_h2) <= py && (y + duck_h2) >= (py - 10);
 
             if (sleep)
             {
                 check = check &&
-                    px >= x + 1.0 - 9.0 &&
-                    px <= x + 43.0 + 9.0;
+                    px >= x + 1 - 9 &&
+                    px <= x + 43 + 9;
             }
             else
             {
                 check = check &&
-                    px >= x + 14.0 - 9.0 &&
-                    px <= x + 50.0 + 9.0;
+                    px >= x + 14 - 9 &&
+                    px <= x + 50 + 9;
             }
 
             return check;
         }
 
-        public int doToxicDamage(N cx, N cy, i dmg, i id)
+        public int doToxicDamage(float cx, float cy, int dmg, int id)
 		{
-			int dam = dmg - int(dmg*state.def/100);
+			int dam = dmg - (int)(dmg*state.def/100);
 			int ret = -1;
 				
 			if(checkDive(cx, cy))
 			{
 				//jumpVel = duck_jump_toxic;
-				jump(40.0);
+				jump(40);
 				//mBoard->KillToxic(world_draw_pos(ToxicPosition), mKills);
-				media.sndAttack.play(49.0);
-				particles.explStarsToxic(cx, cy-10.0, id, false);
+				// media.sndAttack.play(49);
+                Application.sharedSoundMgr.playSound(media.sndAttack);
+				particles.explStarsToxic(cx, cy-10, id, false);
 				if(frags<3) ret = 0;
 				else
 				{
@@ -540,10 +541,11 @@ namespace DuckstazyLive.game
 					else
 						state.health = 0;
 
-					blinkTime = 12.0;
+					blinkTime = 12;
 					particles.explStarsToxic(cx, cy, id, true);
-					env.blanc = 1.0;
-					media.sndToxic.play();
+					env.blanc = 1.0f;
+					// media.sndToxic.play();
+                    Application.sharedSoundMgr.playSound(media.sndToxic);
 				}
 				else
 				{
@@ -557,20 +559,20 @@ namespace DuckstazyLive.game
 			return ret;
 		}
 
-        public bool doHigh(N cx, N cy)
+        public bool doHigh(float cx, float cy)
         {
             bool succ = false;
             if (checkDive(cx, cy))
             {
                 //jumpVel = duck_jump_toxic;
-                jump(40.0);
+                jump(40);
                 //media.playJump();
                 succ = true;
             }
             return succ;
         }
 
-        public void doHeal(i health)
+        public void doHeal(int health)
         {
             state.health += health;
 
@@ -580,44 +582,44 @@ namespace DuckstazyLive.game
             particles.explHeal(x, y);
         }
 
-        public void jump(N h)
+        public void jump(float h)
         {
-            float new_vy = Math.sqrt(2.0 * duck_jump_gravity * h);
+            float new_vy = (float)Math.Sqrt(2 * duck_jump_gravity * h);
             if (jumpVel < new_vy)
                 jumpVel = new_vy;
         }
 
         public float getJumpHeight()
         {
-            return jumpStartVel * jumpStartVel * 0.5 / duck_jump_gravity;
+            return jumpStartVel * jumpStartVel * 0.5f / duck_jump_gravity;
         }
 
-        public bool overlapsCircle(N cx, N cy, N r)
+        public bool overlapsCircle(float cx, float cy, float r)
         {
             bool over = false;
 
-            if (x < 0.0f && cx > (630.0 - duck_w2))
-                cx -= 640.0;
+            if (x < 0.0f && cx > (630 - duck_w2))
+                cx -= 640;
 
             if (flip)
-                cx = 2.0 * (x + duck_w) - cx;
+                cx = 2 * (x + duck_w) - cx;
 
             if (sleep)
             {
-                over = rectCircle(x + 1.0, y + 11.0, x + 41.0, y + 39.0, cx, cy, r);
+                over = rectCircle(x + 1, y + 11, x + 41, y + 39, cx, cy, r);
             }
             else
             {
-                over = rectCircle(x + 14.0, y + 13.0, x + 49.0, y + 38.0, cx, cy, r) ||
-                    rectCircle(x + 9.0, y + 1.0, x + 24.0, y + 17.0, cx, cy, r) ||
-                    rectCircle(x + 1.0, y + 13.0, x + 8.0, y + 17.0, cx, cy, r);
+                over = rectCircle(x + 14, y + 13, x + 49, y + 38, cx, cy, r) ||
+                    rectCircle(x + 9, y + 1.0f, x + 24, y + 17, cx, cy, r) ||
+                    rectCircle(x + 1.0f, y + 13, x + 8, y + 17, cx, cy, r);
             }
 
             return over;
         }
 
         // Arvo's algorithm.
-        private bool rectCircle(N x1, N y1, N x2, N y2, N cx, N cy, N r)
+        private bool rectCircle(float x1, float y1, float x2, float y2, float cx, float cy, float r)
         {
             float s = 0.0f;
             float d = 0.0f;
@@ -649,11 +651,11 @@ namespace DuckstazyLive.game
             return d <= r * r;
         }
 
-        public void start(N _x)
+        public void start(float _x)
         {
             started = true;
             x = _x;
-            flip = Math.random() < 0.5;
+            flip = utils.rnd() < 0.5;
             startSleepParticles();
             media.playAwake();
         }

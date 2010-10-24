@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
@@ -9,15 +10,15 @@ namespace DuckstazyLive.game
 	{
 		
 		private const int ftSize = 50;
-		private Array ftPool;
+		private FloatText[] ftPool;
 		private int ftCount;
 
-		private TextField text;
+		// private TextField text;
 		public Texture2D one;
-		public Array powers;
-		public Array toxics;
-		public Array sleeps;
-		public Array damages;
+		public Texture2D[] powers;
+		public Texture2D[] toxics;
+		public Texture2D[] sleeps;
+		public Texture2D[] damages;
 		
 		
 		public float r;
@@ -28,111 +29,112 @@ namespace DuckstazyLive.game
 		 
 		public GameInfo()
 		{
-			int i;
+			int i = 0;
 			Texture2D bm;
 			
-			ftPool = new Array(ftSize);
+			ftPool = new FloatText[ftSize];
 			for( ; i<ftSize; ++i)
 				ftPool[i] = new FloatText();
 				
 			ftCount = 0;
 			
-			text = new TextField();
- 			text.defaultTextFormat = new TextFormat("_mini", 15, 0xffffffff);
- 			text.embedFonts = true;
- 			text.cacheAsBitmap = true;
- 			text.autoSize = TextFieldAutoSize.LEFT;
+            //text = new TextField();
+            //text.defaultTextFormat = new TextFormat("_mini", 15, 0xffffffff);
+            //text.embedFonts = true;
+            //text.cacheAsBitmap = true;
+            //text.autoSize = TextFieldAutoSize.LEFT;
  			
- 			powers = new Array();
- 			toxics = new Array();
- 			sleeps = new Array();
- 			damages = new Array();
+            //powers = new Array();
+            //toxics = new Array();
+            //sleeps = new Array();
+            //damages = new Array();
  			
- 			text.text = "+1";
- 			one = new Texture2D(text.width, text.height, true, 0x00000000);
- 			one.draw(text);
+            //text.text = "+1";
+            //one = new Texture2D(text.width, text.height, true, 0x00000000);
+            //one.draw(text);
  			
- 			text.text = "+5";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			powers.push(bm);
+            //text.text = "+5";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //powers.push(bm);
  			
- 			text.text = "+10";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			powers.push(bm);
+            //text.text = "+10";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //powers.push(bm);
  			
- 			text.text = "+25";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			powers.push(bm);
+            //text.text = "+25";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //powers.push(bm);
  			
- 			text.text = "+50";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			powers.push(bm);
+            //text.text = "+50";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //powers.push(bm);
  			
- 			text.text = "+100";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			powers.push(bm);
+            //text.text = "+100";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //powers.push(bm);
  			
- 			text.text = "+150";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			powers.push(bm);
+            //text.text = "+150";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //powers.push(bm);
  			
- 			text.text = "FIRST BLOOD! +100";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			toxics.push(bm);
+            //text.text = "FIRST BLOOD! +100";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //toxics.push(bm);
  			
- 			text.text = "MANIACALISTIC! +150";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			toxics.push(bm);
+            //text.text = "MANIACALISTIC! +150";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //toxics.push(bm);
  			
- 			text.text = "SUPER RESISTANCE! +200";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			toxics.push(bm);
+            //text.text = "SUPER RESISTANCE! +200";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //toxics.push(bm);
  			
- 			text.text = "WAKE UP!";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			sleeps.push(bm);
+            //text.text = "WAKE UP!";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //sleeps.push(bm);
  			
- 			text.text = "LULLABY...";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			sleeps.push(bm);
+            //text.text = "LULLABY...";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //sleeps.push(bm);
  			
- 			text.text = "FALLING ASLEEP..";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			sleeps.push(bm);
+            //text.text = "FALLING ASLEEP..";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //sleeps.push(bm);
  			
- 			text.text = "OOPS!";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			damages.push(bm);
+            //text.text = "OOPS!";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //damages.push(bm);
  			
- 			text.text = "REALLY HARD...";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			damages.push(bm);
+            //text.text = "REALLY HARD...";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //damages.push(bm);
  			
- 			text.text = "BE CAREFUL!";
- 			bm = new Texture2D(text.width, text.height, true, 0x00000000);
- 			bm.draw(text);
- 			damages.push(bm);
+            //text.text = "BE CAREFUL!";
+            //bm = new Texture2D(text.width, text.height, true, 0x00000000);
+            //bm.draw(text);
+            //damages.push(bm);
+            throw new NotImplementedException();
  		}
 		
 		public void reset()
 		{
 			foreach (FloatText it in ftPool)
 			{
-				it.t = 0.0;
+				it.t = 0.0f;
 				it.img = null;
 			}
 			ftCount = 0;
@@ -140,34 +142,35 @@ namespace DuckstazyLive.game
 		
 		public void drawFT(bool canvas)
 		{
-			int i = 0;
-			Matrix mat = new Matrix();
+            //int i = 0;
+            //Matrix mat = new Matrix();
 			
-			foreach (FloatText ft in ftPool)
-			{
-				if(i==ftCount)
-					break;
+            //foreach (FloatText ft in ftPool)
+            //{
+            //    if(i==ftCount)
+            //        break;
 					
-				if(ft.t>0.0)
-				{
-					mat.tx = ft.x;
-					mat.ty = int(ft.y);
+            //    if(ft.t>0.0f)
+            //    {
+            //        mat.tx = ft.x;
+            //        mat.ty = ft.y;
 
-					canvas.draw(ft.img, mat, ft.color, null, null, false);
-					++i;
-				}
-			}
+            //        canvas.draw(ft.img, mat, ft.color, null, null, false);
+            //        ++i;
+            //    }
+            //}
+            throw new NotImplementedException();
 		}
 		
-		public void add(float x, float y, bool bm)
+		public void add(float x, float y, Texture2D bm)
 		{
 			foreach (FloatText ft in ftPool)
 			{
-				if(ft.t<=0.0)
+				if(ft.t<=0.0f)
 				{
-					ft.t = 1.0;
-					ft.x = x - (bm.width>>1);
-					ft.y = y - (bm.height>>1);
+					ft.t = 1.0f;
+					ft.x = x - (bm.Width>>1);
+					ft.y = y - (bm.Height>>1);
 					ft.img = bm;
 					
 					++ftCount; 
@@ -177,16 +180,16 @@ namespace DuckstazyLive.game
 			}
 		}
 		
-		public void setRGB(int color)
+		public void setRGB(uint color)
 		{
-			r = ((color >> 16) & 0xFF)*0.003921569;
-			g = ((color >>  8) & 0xFF)*0.003921569;
-			b =  (color        & 0xFF)*0.003921569;
+			r = (uint)(((color >> 16) & 0xFF)*0.003921569f);
+			g = (uint)(((color >>  8) & 0xFF)*0.003921569f);
+			b = (uint)((color & 0xFF)*0.003921569f);
 		}
 			
-		private void ctCalc(C color, float t)
+		private void ctCalc(ColorTransform color, float t)
 		{
-			float x = 0.5*(1.0 + Math.Sin(t*6.28*4.0));
+			float x = (int)(0.5f*(1.0f + Math.Sin(t*6.28f*4.0f)));
 			color.redMultiplier = r*x;
 			color.greenMultiplier = g*x;
 			color.blueMultiplier = b*x;
@@ -203,19 +206,19 @@ namespace DuckstazyLive.game
 				if(i==ft_proc)
 					break;
 					
-				if(ft.t>0.0)
+				if(ft.t>0.0f)
 				{
 					ft.t -= dt;
 					 
-					if(ft.t<=0.0)
+					if(ft.t<=0.0f)
 						--ftCount;
 					else
 					{
-						ft.y -= 50.0*dt;
-						a = 0.25;
-						if(ft.t>0.75) a = 1.0 - ft.t;
-						else if(ft.t<0.25) a = ft.t;
-						a*=4.0;
+						ft.y -= 50.0f*dt;
+						a = 0.25f;
+						if(ft.t>0.75) a = 1.0f - ft.t;
+						else if(ft.t<0.25f) a = ft.t;
+						a*=4.0f;
 						ctCalc(ft.color, ft.t);
 						ft.color.alphaMultiplier = a;
 

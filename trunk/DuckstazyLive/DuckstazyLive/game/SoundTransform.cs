@@ -7,7 +7,22 @@ namespace DuckstazyLive.game
 {
     public class SoundTransform
     {
-        float pan;
-        float volume;
+        public float pan;
+        public float volume;
+
+        public SoundTransform() : this(1.0f, 0.0f)
+        {
+
+        }
+
+        public SoundTransform(float volume) : this(volume, 0.0f)
+        {            
+        }
+
+        public SoundTransform(float volume, float pan)
+        {
+            this.pan = pan;
+            this.volume = volume;
+        }
     }
 }

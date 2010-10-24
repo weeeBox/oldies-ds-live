@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.core;
 
 namespace DuckstazyLive.game
 {
@@ -30,7 +31,7 @@ namespace DuckstazyLive.game
 		{
 			last = getTimer();
 			ms = 1;
-			s = 0.001;
+			s = 0.001f;
 	
 			fps = 0;
 			frames = 0;
@@ -46,15 +47,15 @@ namespace DuckstazyLive.game
 			if(ms>300)
 			{
 				ms = 300;
-				s = 0.3;
+				s = 0.3f;
 			}
 			else if(ms<=0)
 			{
 				ms = 1;
-				s = 0.001;
+				s = 0.001f;
 			}
 			else
-				s = ms*0.001;
+				s = ms*0.001f;
 						
 			last = now;
 
@@ -69,6 +70,9 @@ namespace DuckstazyLive.game
 			}
 		}
 
+        private int getTimer()
+        {
+            return GameClock.ElapsedTimeMs;
+        }
 	}
-
 }

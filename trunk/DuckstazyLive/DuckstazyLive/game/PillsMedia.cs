@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
@@ -101,84 +102,85 @@ namespace DuckstazyLive.game
         // [Embed(source="sfx/high.mp3")]
         // private var rHighSnd:Class;
 
-        public Array sndPowers;
-        public Sound sndHeal;
-        public Sound sndJumper;
-        public Sound sndHigh;
-        public Sound sndWarning;
-        public Sound sndToxicBorn;
-        public Sound sndGenerate;
+        public int[] sndPowers;
+        public int sndHeal;
+        public int sndJumper;
+        public int sndHigh;
+        public int sndWarning;
+        public int sndToxicBorn;
+        public int sndGenerate;
 
         // Основы таблеток
-        public Texture2D imgPower1;
-        public Texture2D imgPower2;
-        public Texture2D imgPower3;
+        public int imgPower1;
+        public int imgPower2;
+        public int imgPower3;
 
-        public Texture2D imgPPower1;
-        public Texture2D imgPPower2;
-        public Texture2D imgPPower3;
+        public int imgPPower1;
+        public int imgPPower2;
+        public int imgPPower3;
 
-        public Array imgNids;
+        public int[] imgNids;
 
-        public Texture2D imgHigh;
+        public int imgHigh;
 
-        public Texture2D imgToxic;
-        public Texture2D imgToxic2;
+        public int imgToxic;
+        public int imgToxic2;
 
-        public Texture2D imgCure;
-        public Texture2D imgHole;
-        public Texture2D imgSleep;
+        public int imgCure;
+        public int imgHole;
+        public int imgSleep;
 
         // Эмоции таблеток
         //public var imgEmo:Texture2D;
-        public Texture2D imgSmile1;
-        public Texture2D imgSmile2;
-        public Texture2D imgSmile3;
-        public Texture2D imgEyes1;
-        public Texture2D imgEyes2;
+        public int imgSmile1;
+        public int imgSmile2;
+        public int imgSmile3;
+        public int imgEyes1;
+        public int imgEyes2;
 
         public float power;
 
         public PillsMedia()
 		{
-			imgPower1 = (new rPowerImg1()).bitmapData;
-			imgPower2 = (new rPowerImg2()).bitmapData;
-			imgPower3 = (new rPowerImg3()).bitmapData;
-			imgPPower1 = (new rSuperPowerImg1()).bitmapData;
-			imgPPower2 = (new rSuperPowerImg2()).bitmapData;
-			imgPPower3 = (new rSuperPowerImg3()).bitmapData;
+            //imgPower1 = (new rPowerImg1()).bitmapData;
+            //imgPower2 = (new rPowerImg2()).bitmapData;
+            //imgPower3 = (new rPowerImg3()).bitmapData;
+            //imgPPower1 = (new rSuperPowerImg1()).bitmapData;
+            //imgPPower2 = (new rSuperPowerImg2()).bitmapData;
+            //imgPPower3 = (new rSuperPowerImg3()).bitmapData;
 			
-			imgNids = [ (new rNidImg1()).bitmapData, 
-						(new rNidImg2()).bitmapData, 
-						(new rNidImg3()).bitmapData,
-						(new rNidImg4()).bitmapData];
+            //imgNids = [ (new rNidImg1()).bitmapData, 
+            //            (new rNidImg2()).bitmapData, 
+            //            (new rNidImg3()).bitmapData,
+            //            (new rNidImg4()).bitmapData];
 						
-			//imgEmo = (new rEmoImg()).bitmapData; 
+            ////imgEmo = (new rEmoImg()).bitmapData; 
 
-			imgHigh = (new rHighImg()).bitmapData;
+            //imgHigh = (new rHighImg()).bitmapData;
 
-			imgToxic = (new rToxicImg()).bitmapData;
-			imgToxic2 = (new rToxic2Img()).bitmapData;
-			imgCure = (new rCureImg()).bitmapData;
-			imgSleep = (new rSleepImg()).bitmapData;
-			imgHole = (new gfxHole()).bitmapData;
+            //imgToxic = (new rToxicImg()).bitmapData;
+            //imgToxic2 = (new rToxic2Img()).bitmapData;
+            //imgCure = (new rCureImg()).bitmapData;
+            //imgSleep = (new rSleepImg()).bitmapData;
+            //imgHole = (new gfxHole()).bitmapData;
 			
-			imgSmile1 = (new rSmileImg1()).bitmapData;
-			imgSmile2 = (new rSmileImg2()).bitmapData;
-			imgSmile3 = (new rSmileImg3()).bitmapData;
-			imgEyes1 = (new rEyesImg1()).bitmapData;
-			imgEyes2 = (new rEyesImg2()).bitmapData;
+            //imgSmile1 = (new rSmileImg1()).bitmapData;
+            //imgSmile2 = (new rSmileImg2()).bitmapData;
+            //imgSmile3 = (new rSmileImg3()).bitmapData;
+            //imgEyes1 = (new rEyesImg1()).bitmapData;
+            //imgEyes2 = (new rEyesImg2()).bitmapData;
 			
-			sndPowers = [new rPower1Snd(), new rPower2Snd(), new rPower3Snd()];
-			//sndHeal = new rHealSnd();
-			sndWarning = new rWarningSnd();
-			sndGenerate = new rGenerateSnd();
+            //sndPowers = [new rPower1Snd(), new rPower2Snd(), new rPower3Snd()];
+            ////sndHeal = new rHealSnd();
+            //sndWarning = new rWarningSnd();
+            //sndGenerate = new rGenerateSnd();
 			
-			sndJumper = new rJumperSnd();
-			sndHigh = new rHighSnd();
-			sndToxicBorn = new rToxicBornSnd();
+            //sndJumper = new rJumperSnd();
+            //sndHigh = new rHighSnd();
+            //sndToxicBorn = new rToxicBornSnd();
 			
-			power = 0.0;
+			power = 0.0f;
+            throw new NotImplementedException();
 		}
     }
 }

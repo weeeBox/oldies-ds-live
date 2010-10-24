@@ -159,9 +159,9 @@ namespace DuckstazyLive.game
             transformPanVol = new SoundTransform();
         }
 
-        public void drawDuck(bool dest, float x, float y, float power, bool flip, float wingsAngle)
+        public void drawDuck(float x, float y, float power, bool flip, float wingsAngle)
         {
-            Matrix mat = new Matrix(1, 0, 0, 1, x, y);
+            // Matrix mat = new Matrix(1, 0, 0, 1, x, y);
             /*Matrix eye_mat = new Matrix();
             Matrix wing_mat = new Matrix();*/
             ColorTransform eye = new ColorTransform(1.0f, 1.0f, 1.0f, 1.0f - power);
@@ -213,7 +213,7 @@ namespace DuckstazyLive.game
             //dest.draw(imgWing.bitmapData, wing_mat, null, null, null, wingsAngle!=0.0);
         }
 
-        public void drawSleep(bool dest, float x, float y, bool flip)
+        public void drawSleep(float x, float y, bool flip)
         {
             /*if(flip)
                 dest.copyPixels(imgSleepFlip, rcHero, new Point(x, y));
@@ -242,7 +242,7 @@ namespace DuckstazyLive.game
             transformPan.pan = pan;
 
             transformPanVol.pan = pan;
-            transformPanVol.volume = 0.3 + utils.rnd() * 0.7;
+            transformPanVol.volume = 0.3f + utils.rnd() * 0.7f;
         }
 
         public void playAwake()

@@ -132,26 +132,28 @@ namespace DuckstazyLive.game
             //mainMenu.go();
 
             level.env.blanc = 1;
-            level.sndStart.play();
+            // level.sndStart.play();
+            Application.sharedSoundMgr.playSound(level.sndStart);
         }
 
-        public void frame(Number dt)
+        public void frame(float dt)
         {
         	//Number dt = device.update();
         	Env env = level.env;
+            Canvas canvas = null;
 						
 			switch(state)
 			{
 			case MENU:
-				env.update(dt, 0.0);
-				level.progress.update(dt, 0.0);
+				env.update(dt, 0.0f);
+				level.progress.update(dt, 0.0f);
 				break;
 			case LEVEL:
 				level.update(dt);
 				break;
 			}
 			
-			gui.update(dt);
+			// gui.update(dt);
 			env.updateBlanc(dt);
 			
 			
@@ -159,8 +161,8 @@ namespace DuckstazyLive.game
 			//backBitmap.visible = false;
 			//canvas.lock();
 			
-			if(gui.current!=scoresTable)
-			{
+            //if(gui.current!=scoresTable)
+            //{
 				switch(state)
 				{
 				case MENU:
@@ -172,11 +174,11 @@ namespace DuckstazyLive.game
 					level.draw(canvas);
 					break;
 				}
-			}
+			//}
 			
 			// gui.draw(canvas);
 			
-			if(env.blanc>0.0)
+			if(env.blanc>0.0f)
 				env.drawBlanc(canvas);
 			
             //if(debugInfoTgl)
@@ -211,23 +213,23 @@ namespace DuckstazyLive.game
             gameSave.assign(gameState);
         }
 
-        void buttonPressed(ButtonEvent e)
+        public void buttonPressed(ButtonEvent e)
         {
 
         }
 
-        void buttonReleased(ButtonEvent e)
+        public void buttonReleased(ButtonEvent e)
         {
 
         }
 
-        void keyPressed(Keys key)
+        public void keyPressed(Keys key)
         {           
             if (state == LEVEL)
                 level.keyDown(key);             
         }
 
-        void keyReleased(Keys key)
+        public void keyReleased(Keys key)
         {
             if (state == LEVEL)
                 level.keyUp(key);
@@ -237,9 +239,9 @@ namespace DuckstazyLive.game
         {
             //mute = !mute;
             //if (mute)
-            //    SoundMixer.soundTransform = new SoundTransform(0.0);
+            //    SoundMixer.soundTransform = new SoundTransform(0.0f);
             //else
-            //    SoundMixer.soundTransform = new SoundTransform(1.0);
+            //    SoundMixer.soundTransform = new SoundTransform(1.0f);
             //mainMenu.refreshVol(this);
             throw new NotImplementedException();
         }
@@ -249,7 +251,7 @@ namespace DuckstazyLive.game
             if (inGame)
             {
                 level.setPause(false);
-                levelMenu.go(gui);
+                // levelMenu.go(gui);
             }
             else
             {
@@ -277,7 +279,7 @@ namespace DuckstazyLive.game
             //    if (gui.current != mainMenu)
             //        gui.current = mainMenu;
             //    mainMenu.refreshInGame(this);
-            //    level.env.blanc = 1.0;
+            //    level.env.blanc = 1.0f;
             //    level.progress.end();
             //}
             //else descScreen.go(1);
