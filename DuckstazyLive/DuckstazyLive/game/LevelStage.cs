@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -172,7 +173,7 @@ namespace DuckstazyLive.game
 				
             //    canvas.draw(endImg, mat, color);
             //}
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: LevelStage.draw2");
 		}
 		
 		public virtual void update(float dt)
