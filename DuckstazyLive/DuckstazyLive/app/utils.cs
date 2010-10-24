@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
+using DuckstazyLive.game;
 
 namespace DuckstazyLive.app
 {
@@ -14,21 +16,21 @@ namespace DuckstazyLive.app
 			return a + x*(b - a);
 		}
 	
-		public static float vec2angle(P v1, P v2)
+		public static float vec2angle(Vector2 v1, Vector2 v2)
 		{
-			return Math.atan2(v1.y, v1.x) - Math.atan2(v2.y, v2.x);
+			return (float)(Math.Atan2(v1.Y, v1.X) - Math.Atan2(v2.Y, v2.X));
 		}
 		
-		public static Point vec2norm(P vec)
+		public static Vector2 vec2norm(Vector2 vec)
 		{
-			float inv_len = 1.0 / Math.Sqrt(vec.x*vec.x + vec.y*vec.y);
+			float inv_len = (float)(1.0 / Math.Sqrt(vec.X*vec.X + vec.Y*vec.Y));
 			
-			return new Point(vec.x*inv_len, vec.y*inv_len);
+			return new Vector2(vec.X*inv_len, vec.Y*inv_len);
 		}
 		
-		public static float vec2lenSqr(P vec)
+		public static float vec2lenSqr(Vector2 vec)
 		{
-			return vec.x*vec.x + vec.y*vec.y;
+			return vec.X*vec.X + vec.Y*vec.Y;
 		}
 		
 		public static float vec2distSqr(float x1, float y1, float x2, float y2)
@@ -39,27 +41,27 @@ namespace DuckstazyLive.app
 			return dx*dx + dy*dy;
 		}
 		
-		public static Point vec2norm2(P vec1, P vec2)
+		public static Vector2 vec2norm2(Vector2 vec1, Vector2 vec2)
 		{
-			float dx = vec1.x - vec2.x;
-			float dy = vec1.y - vec2.y;
-			float inv_len = 1.0 / Math.Sqrt(dx*dx + dy*dy);
+			float dx = vec1.X - vec2.X;
+			float dy = vec1.Y - vec2.Y;
+			float inv_len = (float)(1.0 / Math.Sqrt(dx*dx + dy*dy));
 			
-			return new Point(dx*inv_len, dy*inv_len);
+			return new Vector2(dx*inv_len, dy*inv_len);
 		}
 		
-		public static Point vec2multScalar(P vec, float a)
+		public static Vector2 vec2multScalar(Vector2 vec, float a)
 		{
-			float dx = a*vec.x;
-			float dy = a*vec.y;
+			float dx = a*vec.X;
+			float dy = a*vec.Y;
 	
-			return new Point(dx, dy);
+			return new Vector2(dx, dy);
 		}
 
 	
 		public static float pos2pan(float x)
 		{
-			float p = (x-320.0)/320.0;
+			float p = (x-320.0f)/320.0f;
 			
 			if(p>1) p=1;
 			else if(p<-1) p=-1;
@@ -67,7 +69,7 @@ namespace DuckstazyLive.app
 			return p;
 		}
 
-		public static uint lerpColor(int fromColor, int toColor, float progress)
+		public static uint lerpColor(uint fromColor, uint toColor, float progress)
 		{
 			float q = 1 - progress;
 			uint fromA = (fromColor >> 24) & 0xFF;
@@ -80,70 +82,70 @@ namespace DuckstazyLive.app
 			uint toG = (toColor >>  8) & 0xFF;
 			uint toB =  toColor        & 0xFF;
 			
-			uint resultA = fromA*q + toA*progress;
-			uint resultR = fromR*q + toR*progress;
-			uint resultG = fromG*q + toG*progress;
-			uint resultB = fromB*q + toB*progress;
+			uint resultA = (uint)(fromA*q + toA*progress);
+			uint resultR = (uint)(fromR*q + toR*progress);
+			uint resultG = (uint)(fromG*q + toG*progress);
+			uint resultB = (uint)(fromB*q + toB*progress);
 			uint resultColor = resultA << 24 | resultR << 16 | resultG << 8 | resultB;
 			
 			return resultColor;		
 		}
 		
-		public static uint mixAlpha(int color, float alpha)
+		public static uint mixAlpha(uint color, float alpha)
 		{
 			uint a = (color >> 24) & 0xFF;
 			uint rgb = color & 0xFFFFFF;
 			
-			uint resultA = a*alpha;
+			uint resultA = (uint)(a*alpha);
 			
 			uint resultColor = resultA << 24 | rgb;
 			
 			return resultColor;		
 		}
 		
-		public static uint multColorScalar(int color, float value)
+		public static uint multColorScalar(uint color, float value)
 		{
 			uint a = (color >> 24) & 0xFF;
 			uint r = (color >> 16) & 0xFF;
 			uint g = (color >>  8) & 0xFF;
 			uint b =  color        & 0xFF;
 				
-			uint resultA = a*value;
-			uint resultR = r*value;
-			uint resultG = g*value;
-			uint resultB = b*value;
+			uint resultA = (uint)(a*value);
+			uint resultR = (uint)(r*value);
+			uint resultG = (uint)(g*value);
+			uint resultB = (uint)(b*value);
 			
 			uint resultColor = resultA << 24 | resultR << 16 | resultG << 8 | resultB;
 			
 			return resultColor;
 		}
 		
-		public static void ctSetRGB(C ct, int rgb)
+		public static void ctSetRGB(ColorTransform ct, uint rgb)
 		{
-			ct.redMultiplier = ((rgb >> 16) & 0xFF)/255.0;
-			ct.greenMultiplier = ((rgb >> 8) & 0xFF)/255.0;
-			ct.blueMultiplier = (rgb & 0xFF)/255.0;
+			ct.redMultiplier = ((rgb >> 16) & 0xFF)/255.0f;
+			ct.greenMultiplier = ((rgb >> 8) & 0xFF)/255.0f;
+			ct.blueMultiplier = (rgb & 0xFF)/255.0f;
 		}
 		
-		public static void ARGB2ColorTransform(int argb, C ct)
+		public static void ARGB2ColorTransform(uint argb, ColorTransform ct)
 		{
 			uint a = (argb >> 24) & 0xFF;
 			uint r = (argb >> 16) & 0xFF;
 			uint g = (argb >>  8) & 0xFF;
 			uint b =  argb        & 0xFF;
 			
-			ct.redMultiplier = r*0.0039216;
-			ct.greenMultiplier = g*0.0039216;
-			ct.blueMultiplier = b*0.0039216;
-			ct.alphaMultiplier = a*0.0039216;
+			ct.redMultiplier = r*0.0039216f;
+			ct.greenMultiplier = g*0.0039216f;
+			ct.blueMultiplier = b*0.0039216f;
+			ct.alphaMultiplier = a*0.0039216f;
 		}
 		
 		public static uint calcARGB(float r, float g, float b, float a)
 		{
-			uint resultA = a*255.0;
-			uint resultR = r*255.0;
-			uint resultG = g*255.0;
-			uint resultB = b*255.0;
+			uint resultA = (uint)(a*255);
+			uint resultR = (uint)(r*255);
+			uint resultG = (uint)(g*255);
+			uint resultB = (uint)(b*255);
 			
 			uint resultColor = resultA << 24 | resultR << 16 | resultG << 8 | resultB;
 			
@@ -152,14 +154,14 @@ namespace DuckstazyLive.app
 		
 		public static float splineInter(float v0, float v1, float v2, float v3, float x)
 		{ 
-			float P = (v3 - v2) - (v0 - v1); 
-			float Q = (v0 - v1) - P; 
+			float Vector2 = (v3 - v2) - (v0 - v1); 
+			float Q = (v0 - v1) - Vector2; 
 			float R = v2 - v0; 
-			float S = v1; 
+			float Sound = v1; 
 		
 			float x2 = x*x;
 			
-			return (P*(x2*x)) + (Q*(x2)) + (R*x) + S; 
+			return (Vector2*(x2*x)) + (Q*(x2)) + (R*x) + Sound; 
 		}
 
         public static float rnd()
@@ -185,15 +187,16 @@ namespace DuckstazyLive.app
 		}
 		
 		//[x1, x2]
-		public static void playSound(S snd, float vol, float x)
+		public static void playSound(int snd, float vol, float x)
 		{
-			float p = (x-320.0)/320.0;
+			float p = (x-320)/320;
 			
 			if(p>1) p=1;
 			else if(p<-1) p=-1;
 			
 			SoundTransform tr = new SoundTransform(vol, p);
-			snd.play(49, 0, tr);
+			// snd.play(49, 0, tr);
+            throw new NotImplementedException();
 		}
 	}
 }

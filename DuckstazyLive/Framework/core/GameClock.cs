@@ -18,5 +18,10 @@ namespace Framework.core
         {
             get { return elapsedTime; }
         }
+
+        public static int ElapsedTimeMs
+        {
+            get { return (int)(elapsedTime * 1000); }
+        }
     }
 }

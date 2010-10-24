@@ -2,6 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.utils;
+using Microsoft.Xna.Framework;
+using DuckstazyLive.app;
+using Framework.core;
 
 namespace DuckstazyLive.game
 {
@@ -23,11 +27,11 @@ namespace DuckstazyLive.game
         public const int SHAKE = 1;
         public const int SMILE = 2;*/
 
-        private const Rect RC = new Rect(0, 0, 20, 20);
-        private const Point POINT = new Point(0, 0);
-        private const ColorTransform COLOR = new ColorTransform();
-        private const ColorTransform BLACK = new ColorTransform(0, 0, 0);
-        private const Matrix MAT = new Matrix();
+        private Rect RC = new Rect(0, 0, 20, 20);
+        private Point POINT = new Point(0, 0);
+        private ColorTransform COLOR = new ColorTransform();
+        private ColorTransform BLACK = new ColorTransform(0, 0, 0);
+        private Matrix MAT = new Matrix();
 
 
         // временный идентификатор
@@ -97,18 +101,18 @@ namespace DuckstazyLive.game
         private Hero hero;
         private Level level;
 
-        private Texture2D imgMain;
-        private Texture2D imgEmo;
-        private Texture2D imgNid;
+        private int imgMain;
+        private int imgEmo;
+        private int imgNid;
 
         // используется для оповещения генератора-родителя
-        public Function parent;
+        public PillListener2 parent;
 
         // используется для оповещения пользовательских событий
-        public Function user;
+        public PillListener user;
 
         // Инициализируемся в массиве
-        public Pill(P pillsMedia, H duckHero, P particles, L _level)
+        public Pill(PillsMedia pillsMedia, Hero duckHero, Particles particles, Level _level)
         {
             media = pillsMedia;
             hero = duckHero;
@@ -122,22 +126,22 @@ namespace DuckstazyLive.game
         {
             state = 0;
             move = false;
-            highCounter = 0.0;
+            highCounter = 0.0f;
 
-            parent = null;
-            user = null;
+            // parent = null;
+            // user = null;
 
-            /*emoCounter = 0.0;
-            emoPause = 0.0;
+            /*emoCounter = 0.0f;
+            emoPause = 0.0f;
             hook = false;
 			
             emo = false;
 						
-            vx = 0.0;
-            vy = 0.0;
+            vx = 0.0f;
+            vy = 0.0f;
 			
-            hx = 0.0;
-            hy = 0.0;*/
+            hx = 0.0f;
+            hy = 0.0f;*/
         }
 
         // Стартуем анимацию эмоции
@@ -145,14 +149,18 @@ namespace DuckstazyLive.game
 		{
 			switch(emotionType)
 			{
-			case 0:
-				emoParam = 1 + (int)(Math.random()*3.0);
-				if(Math.random()<0.5)
-					emoParam = -emoParam;
-			case 1:
-			case 2:
-				emoCounter = 3.0;
-				break;
+                case 0:
+                    {
+                        emoParam = 1 + (int)(utils.rnd() * 3.0);
+                        if (utils.rnd() < 0.5f)
+                            emoParam = -emoParam;
+                        emoCounter = 3.0f;
+                    }
+                    break;
+			    case 1:
+			    case 2:
+				    emoCounter = 3.0f;
+				    break;
 			}
 			emoType = emotionType;
 		}
@@ -165,24 +173,24 @@ namespace DuckstazyLive.game
                 case 0:
                     if (user != null)
                     {
-                        user(this, "dead", 0.0);
+                        user.foo(this, "dead", 0.0f);
                         user = null;
                     }
                     if (parent != null)
                     {
-                        parent(this);
+                        parent.foo(this);
                         parent = null;
                     }
                     move = false;
                     break;
                 case 1:
                     if (user != null)
-                        user(this, "born", 0.0);
-                    appear = 0.0;
-                    r = 0.0;
+                        user.foo(this, "born", 0.0f);
+                    appear = 0.0f;
+                    r = 0.0f;
                     break;
                 case 2:
-                    appear = 1.0;
+                    appear = 1.0f;
                     r = rMax;
                     break;
             }
@@ -195,8 +203,8 @@ namespace DuckstazyLive.game
 		{
 			if(state!=3 && enabled && hero.state.health>0)
 			{
-				if(y+r > hero.y || y-r < hero.y + 40.0)
-					if(x+r > hero.x || x-r < hero.x + 54.0)
+				if(y+r > hero.y || y-r < hero.y + 40)
+					if(x+r > hero.x || x-r < hero.x + 54)
 						if(hero.overlapsCircle(x, y, r))
 							heroTouch();
 			}
@@ -207,19 +215,19 @@ namespace DuckstazyLive.game
 				if(!enabled)
 				{
 					warning-=dt;
-					if(warning<=0.0)
+					if(warning<=0.0f)
 					{
 						enabled = true;
 						ps.startAcid(x, y);
 						if(type==TOXIC)
-							utils.playSound(media.sndToxicBorn, 1.0, x);
+							utils.playSound(media.sndToxicBorn, 1.0f, x);
 					}
 				}
 				else
 				{
-					appear+=10.0*dt;
+					appear+=10*dt;
 					r = rMax*appear;
-					if(appear>=1.0)
+					if(appear>=1.0f)
 						setState(2);	
 				}
 				break;
@@ -232,60 +240,60 @@ namespace DuckstazyLive.game
 					
 				if(move) { x += vx*dt; y += vy*dt; }
 				
-				if(emo && media.power>0.5)
+				if(emo && media.power>0.5f)
 				{
-					if(emoCounter>0.0)
+					if(emoCounter>0.0f)
 					{
 						emoCounter -= dt;
-						if(emoCounter<0.0)
+						if(emoCounter<0.0f)
 						{
-							emoCounter = 0.0;
-							emoPause = Math.random()*3.0+2.0;
+							emoCounter = 0.0f;
+							emoPause = utils.rnd()*3.0f+2.0f;
 						}
 					}
 					else
 					{
 						emoPause-=dt;
-						if(emoPause<=0.0)
-							startEmo((int)(Math.random()*3.0));
+						if(emoPause<=0.0f)
+							startEmo((int)(utils.rnd()*3.0));
 					}
 				}
 					
 				if(high)
 				{
 					if(level.power>=0.5)
-						highCounter+=dt;//*(1.0 + 3.0*level.power);
+						highCounter+=dt;//*(1.0f + 3.0*level.power);
 					else
-						highCounter+=dt*(1.0 + 7.0*level.power);
-					if(highCounter>=1.0)
+						highCounter+=dt*(1.0f + 7.0f*level.power);
+					if(highCounter>=1.0f)
 						highCounter-=(int)(highCounter);
 				}
 				
-				if(type==JUMP && highCounter>0.0)
+				if(type==JUMP && highCounter>0.0f)
 				{
 					highCounter-=dt;
-					if(highCounter<0.0) highCounter = 0.0;
+					if(highCounter<0.0f) highCounter = 0.0f;
 				}
 				
 				break;
 			case 3:
-				appear-=10.0*dt;
-				if(appear<=0.0)
+				appear-=10*dt;
+				if(appear<=0.0f)
 					setState(0);
 				break;
 			}
 			
 			if(user!=null)
-				user(this, null, dt);
+				user.foo(this, null, dt);
 				
 			return state==0;
 		}
 
         public void updateSpy()
         {
-            float dx = hero.x - x + 27.0;
-            float dy = hero.y - y + 20.0;
-            float i = 1.0 / Math.sqrt(dx * dx + dy * dy);
+            float dx = hero.x - x + 27.0f;
+            float dy = hero.y - y + 20.0f;
+            float i = (float)(1.0 / Math.Sqrt(dx * dx + dy * dy));
 
             hx = dx * i;
             hy = dy * i;
@@ -324,13 +332,14 @@ namespace DuckstazyLive.game
 						level.state.scores+=level.state.calcHellScores(i-1);
 					}
 				}
-				utils.playSound(media.sndPowers[id], 1.0, x);
+				utils.playSound(media.sndPowers[id], 1.0f, x);
 				
 				
 				if(high && hero.doHigh(x, y))
 				{
-					media.sndHigh.play();
+					// media.sndHigh.play();                    
 					ps.explStarsPower(x, y-r, id);
+                    throw new NotImplementedException();
 				}
 				else
 					ps.explStarsPower(x, y, id);
@@ -358,9 +367,9 @@ namespace DuckstazyLive.game
 						info.add(x, y, info.powers[i]);
 					}
 					if(user!=null)
-						user(this, "attack", 0);
+						user.foo(this, "attack", 0);
 				}
-				else info.add(x, y, info.damages[(int)(Math.random()*3.0)]);
+				else info.add(x, y, info.damages[(int)(utils.rnd()*3.0)]);
 				break;
 			case SLEEP:
 				//--delay_count;
@@ -371,10 +380,11 @@ namespace DuckstazyLive.game
 					level.env.beat();
 				}
 				ps.explStarsSleep(x, y);
-				info.add(x, y, info.sleeps[(int)(Math.random()*3.0)]);
+				info.add(x, y, info.sleeps[(int)(utils.rnd()*3.0)]);
 				break;
 			case HEALTH:
-				media.sndHeal.play();
+				// media.sndHeal.play();
+                Application.sharedSoundMgr.playSound(media.sndHeal);
 				hero.doHeal(5);
 				level.env.beat();
 				break;
@@ -383,13 +393,14 @@ namespace DuckstazyLive.game
 				level.env.beat();
 				break;
 			case JUMP:
-				if(highCounter<=0.0 && hero.doHigh(x, y))
+				if(highCounter<=0.0f && hero.doHigh(x, y))
 				{
-					media.sndJumper.play();
-					highCounter = 1.0;
+					// media.sndJumper.play();
+                    Application.sharedSoundMgr.playSound(media.sndJumper);
+					highCounter = 1.0f;
 					level.env.beat();
 					if(user!=null)
-						user(this, "jump", 0.0);
+						user.foo(this, "jump", 0.0f);
 				}
 				return;
 			}
@@ -408,37 +419,37 @@ namespace DuckstazyLive.game
 			{
 			case 0:
 				scores = 5;
-				power = 0.01;
+				power = 0.01f;
 				imgMain = media.imgPower1;
 				imgEmo = media.imgPPower1;
 				break;
 			case 1:
 				scores = 25;
-				power = 0.025;
+				power = 0.025f;
 				imgMain = media.imgPower2;
 				imgEmo = media.imgPPower2;
 				break;
 			case 2:
 				scores = 50;
-				power = 0.05;
+				power = 0.05f;
 				imgMain = media.imgPower3;
 				imgEmo = media.imgPPower3;
 				break;
 			}
 			
-			rMax = 10.0;
+			rMax = 10.0f;
 			
 			damage = 0;
 			
 			id = ID;
 			
 			emo = true;
-			emoPause = Math.random()*3.0+2.0;
-			emoCounter = 0.0;
-			hx = 0.0;
-			hy = 0.0;
+			emoPause = utils.rnd()*3.0f+2.0f;
+			emoCounter = 0.0f;
+			hx = 0.0f;
+			hy = 0.0f;
 			
-			imgNid = Texture2D(media.imgNids[(int)(Math.random()*4)]);
+			imgNid = media.imgNids[(int)(utils.rnd()*4)];
 			
 			spy = true;
 			
@@ -451,7 +462,7 @@ namespace DuckstazyLive.game
 			setState(1);
 			
 			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0, x);
+			utils.playSound(media.sndGenerate, 1.0f, x);
 		}
 
         public void startJump(float px, float py)
@@ -462,7 +473,7 @@ namespace DuckstazyLive.game
 			
 			imgMain = media.imgHigh;
 			
-			rMax = 10.0;
+			rMax = 10.0f;
 			
 			damage = 0;
 
@@ -473,10 +484,10 @@ namespace DuckstazyLive.game
 			
 			setState(1);
 			
-			highCounter = 0.0;
+			highCounter = 0.0f;
 			
 			ps.startAcid(x, y, 0xffffffff);
-			utils.playSound(media.sndGenerate, 1.0, x);
+			utils.playSound(media.sndGenerate, 1.0f, x);
 		}
 
         public void startMatrix(float px, float py)
@@ -488,7 +499,7 @@ namespace DuckstazyLive.game
 			imgMain = media.imgHole;
 			//imgNid = null;
 		
-			rMax = 10.0;
+			rMax = 10.0f;
 			
 			
 			spy = false;
@@ -500,7 +511,7 @@ namespace DuckstazyLive.game
 			setState(1);
 			
 			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0, x);
+			utils.playSound(media.sndGenerate, 1.0f, x);
 		}
 
         public void startToxic(float px, float py, int ID)
@@ -515,8 +526,8 @@ namespace DuckstazyLive.game
 				damage = 20;
 				imgMain = media.imgToxic;
 				hook = true;
-				hookTime = 3.0;
-				hookCounter = 0.0;
+				hookTime = 3.0f;
+				hookCounter = 0.0f;
 				break;
 			case 1:
 				damage = 20;
@@ -527,25 +538,26 @@ namespace DuckstazyLive.game
 			
 			id = ID;
 			
-			warning = 3.0;
+			warning = 3.0f;
 			enabled = false;
 						
 			spy = false;
 			
-			rMax = 10.0;
+			rMax = 10.0f;
 			
-			v = 20.0;
+			v = 20.0f;
 			
 			emo = false;
 			
 			high = false;
 			
 			setState(1);
-			if(level.power<0.5 && !level.env.day)
-				ps.startWarning(x, y, 3.0, 1.0, 1.0, 1.0);
+			if(level.power<0.5f && !level.env.day)
+				ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
 			else
-				ps.startWarning(x, y, 3.0, 0.0, 0.0, 0.0);
-			media.sndWarning.play();
+				ps.startWarning(x, y, 3.0f, 0.0f, 0.0f, 0.0f);
+			// media.sndWarning.play();
+            Application.sharedSoundMgr.playSound(media.sndWarning);
 		}
 
         public void startMissle(float px, float py, int ID)
@@ -574,9 +586,9 @@ namespace DuckstazyLive.game
 						
 			spy = false;
 			
-			rMax = 10.0;
+			rMax = 10.0f;
 			
-			v = 20.0;
+			v = 20.0f;
 			
 			emo = false;
 			
@@ -597,14 +609,14 @@ namespace DuckstazyLive.game
 			high = false;
 			enabled = true;
 						
-			rMax = 10.0;
+			rMax = 10.0f;
 						
 			imgMain = media.imgSleep;
 
 			setState(1);
 			
 			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0, x);
+			utils.playSound(media.sndGenerate, 1.0f, x);
 		}
 
         public void startCure(float px, float py)
@@ -621,20 +633,20 @@ namespace DuckstazyLive.game
 			high = false;
 			enabled = true;
 						
-			rMax = 10.0;
+			rMax = 10.0f;
 						
 			imgMain = media.imgCure;
 
 			setState(1);
 			
 			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0, x);
+			utils.playSound(media.sndGenerate, 1.0f, x);
 		}
 
         public void kill()
         {
             setState(3);
-            appear = 0.5;
+            appear = 0.5f;
         }
 
         public void die()
@@ -644,10 +656,10 @@ namespace DuckstazyLive.game
 
         public void updateHook(float dt)
         {
-            if (hookCounter > 0.0)
+            if (hookCounter > 0.0f)
             {
                 hookCounter -= dt;
-                if (hookCounter > 0.0)
+                if (hookCounter > 0.0f)
                 {
                     updateSpy();
                     vx = hx * v;
@@ -659,13 +671,13 @@ namespace DuckstazyLive.game
                     move = false;
 
                     // въебать эффект
-                    ps.startRing(x, y, -1.0, 0.25, 0.25, 0xff000000);
+                    ps.startRing(x, y, -1.0f, 0.25f, 0.25f, 0xff000000);
                     //mWaves->Start(world_draw_pos(p->GetPos()), 0xff000000, 30.0f, 5.0f);
                 }
             }
             else
             {
-                if (utils.vec2distSqr(x, y, hero.x + 27.0, hero.y + 20.0) < 10000.0)
+                if (utils.vec2distSqr(x, y, hero.x + 27, hero.y + 20) < 10000)
                 {
                     hookCounter = hookTime;
                     move = true;
@@ -675,268 +687,279 @@ namespace DuckstazyLive.game
 
                     // въебать эффект
                     //mWaves->Start(worl_draw_pos(p->GetPos()), 0xff000000, 30.0f, 5.0f);
-                    ps.startRing(x, y, 1.0, 0.25, 0.125, 0xff000000);
+                    ps.startRing(x, y, 1.0f, 0.25f, 0.125f, 0xff000000);
                 }
             }
         }
 
-        public void drawEmo(bool canvas)
+        public void drawEmo(Canvas canvas)
         {
-            if (media.power < 0.5)
-            {
-                if (state != 2)
-                {
-                    MAT.identity();
-                    MAT.tx = MAT.ty = -10;
-                    MAT.scale(appear, appear);
-                    MAT.translate(dx, dy);
-                    canvas.draw(imgMain, MAT, null, null, null, true);
-                    canvas.draw(imgNid, MAT, null, null, null, true);
-                }
-                else
-                {
-                    POINT.x = dx - 10;
-                    POINT.y = dy - 10;
-                    canvas.copyPixels(imgMain, RC, POINT);
-                    canvas.copyPixels(imgNid, RC, POINT);
-                }
-            }
-            else
-            {
-                if (state != 2)
-                {
-                    MAT.identity();
-                    MAT.tx = MAT.ty = -10;
-                    MAT.scale(appear, appear);
-                    MAT.translate(dx, dy);
-                    canvas.draw(imgEmo, MAT, null, null, null, true);
-                }
-                else
-                {
-                    POINT.x = dx - 10;
-                    POINT.y = dy - 10;
-                    canvas.copyPixels(imgEmo, RC, POINT);
-                }
+            //if (media.power < 0.5)
+            //{
+            //    if (state != 2)
+            //    {
+            //        MAT.identity();
+            //        MAT.tx = MAT.ty = -10;
+            //        MAT.scale(appear, appear);
+            //        MAT.translate(dx, dy);
+            //        canvas.draw(imgMain, MAT, null, null, null, true);
+            //        canvas.draw(imgNid, MAT, null, null, null, true);
+            //    }
+            //    else
+            //    {
+            //        POINT.x = dx - 10;
+            //        POINT.y = dy - 10;
+            //        canvas.copyPixels(imgMain, RC, POINT);
+            //        canvas.copyPixels(imgNid, RC, POINT);
+            //    }
+            //}
+            //else
+            //{
+            //    if (state != 2)
+            //    {
+            //        MAT.identity();
+            //        MAT.tx = MAT.ty = -10;
+            //        MAT.scale(appear, appear);
+            //        MAT.translate(dx, dy);
+            //        canvas.draw(imgEmo, MAT, null, null, null, true);
+            //    }
+            //    else
+            //    {
+            //        POINT.x = dx - 10;
+            //        POINT.y = dy - 10;
+            //        canvas.copyPixels(imgEmo, RC, POINT);
+            //    }
 
-                if (emoCounter > 0.0)
-                {
-                    switch (emoType)
-                    {
-                        case 0:
-                            drawEmoHappy(canvas);
-                            break;
-                        case 1:
-                            drawEmoShake(canvas);
-                            break;
-                        case 2:
-                            drawEmoSmile(canvas);
-                            break;
-                    }
-                }
-                else
-                    drawNid(canvas);
-            }
+            //    if (emoCounter > 0.0f)
+            //    {
+            //        switch (emoType)
+            //        {
+            //            case 0:
+            //                drawEmoHappy(canvas);
+            //                break;
+            //            case 1:
+            //                drawEmoShake(canvas);
+            //                break;
+            //            case 2:
+            //                drawEmoSmile(canvas);
+            //                break;
+            //        }
+            //    }
+            //    else
+            //        drawNid(canvas);
+            //}
 
-            if (high && highCounter > 0.5 && state == 2)
-            {
-                MAT.identity();
-                MAT.tx = dx - 12;
-                MAT.ty = dy - 12;
-                COLOR.alphaMultiplier = 2.0 - highCounter * 2.0;
-                canvas.draw(media.imgHigh, MAT, COLOR, null, null, false);
-            }
+            //if (high && highCounter > 0.5 && state == 2)
+            //{
+            //    MAT.identity();
+            //    MAT.tx = dx - 12;
+            //    MAT.ty = dy - 12;
+            //    COLOR.alphaMultiplier = 2.0 - highCounter * 2.0;
+            //    canvas.draw(media.imgHigh, MAT, COLOR, null, null, false);
+            //}
+            throw new NotImplementedException();
         }
 
-        public void draw(bool canvas)
+        public void draw(Canvas canvas)
         {
-            if (state != 2)
-            {
-                MAT.identity();
-                MAT.tx = MAT.ty = -10;
-                MAT.scale(appear, appear);
-                MAT.translate(dx, dy);
-                canvas.draw(imgMain, MAT, null, null, null, true);
-            }
-            else
-            {
-                POINT.x = dx - 10;
-                POINT.y = dy - 10;
-                canvas.copyPixels(imgMain, RC, POINT);
-            }
+            //if (state != 2)
+            //{
+            //    MAT.identity();
+            //    MAT.tx = MAT.ty = -10;
+            //    MAT.scale(appear, appear);
+            //    MAT.translate(dx, dy);
+            //    canvas.draw(imgMain, MAT, null, null, null, true);
+            //}
+            //else
+            //{
+            //    POINT.x = dx - 10;
+            //    POINT.y = dy - 10;
+            //    canvas.copyPixels(imgMain, RC, POINT);
+            //}
+            throw new NotImplementedException();
         }
 
-        public void drawJump(bool canvas)
+        public void drawJump(Canvas canvas)
         {
-            float s = 0.8 + 0.4 * Math.sin(highCounter * 1.57);
+            //float s = 0.8 + 0.4 * Math.sin(highCounter * 1.57);
 
-            if (state != 2)
-                s *= appear;
+            //if (state != 2)
+            //    s *= appear;
 
-            MAT.identity();
-            MAT.tx = MAT.ty = -12;
-            MAT.scale(s, s);
-            MAT.translate(x, y);
+            //MAT.identity();
+            //MAT.tx = MAT.ty = -12;
+            //MAT.scale(s, s);
+            //MAT.translate(x, y);
 
-            if (level.power >= 0.5)
-            {
-                canvas.draw(imgMain, MAT, null, BlendMode.INVERT, null, true);
-            }
-            else
-            {
-                if (level.env.day)
-                    canvas.draw(imgMain, MAT, BLACK, null, null, true);
-                else
-                    canvas.draw(imgMain, MAT, null, null, null, true);
-            }
-
+            //if (level.power >= 0.5)
+            //{
+            //    canvas.draw(imgMain, MAT, null, BlendMode.INVERT, null, true);
+            //}
+            //else
+            //{
+            //    if (level.env.day)
+            //        canvas.draw(imgMain, MAT, BLACK, null, null, true);
+            //    else
+            //        canvas.draw(imgMain, MAT, null, null, null, true);
+            //}
+            throw new NotImplementedException();
         }
 
-        private void drawNid(bool canvas)
+        private void drawNid(Canvas canvas)
         {
-            MAT.identity();
-            MAT.tx = -4;
-            MAT.ty = 2;
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -4;
+            //MAT.ty = 2;
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
-            canvas.draw(media.imgSmile1, MAT, null, null, null, true);
+            //canvas.draw(media.imgSmile1, MAT, null, null, null, true);
 
-            MAT.identity();
-            MAT.tx = -5;
-            MAT.ty = -3;
-            MAT.scale(appear, appear);
-            MAT.translate(dx + hx, dy + hy);
+            //MAT.identity();
+            //MAT.tx = -5;
+            //MAT.ty = -3;
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx + hx, dy + hy);
 
-            canvas.draw(media.imgEyes1, MAT, null, null, null, true);
+            //canvas.draw(media.imgEyes1, MAT, null, null, null, true);
+            throw new NotImplementedException();
         }
 
-        private void drawEmoDefault(bool canvas, float alpha, float angle)
+        private void drawEmoDefault(Canvas canvas, float alpha, float angle)
         {
-            COLOR.alphaMultiplier = alpha;
+            //COLOR.alphaMultiplier = alpha;
 
-            MAT.identity();
-            MAT.tx = -4;
-            MAT.ty = 2;
-            MAT.rotate(angle);
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -4;
+            //MAT.ty = 2;
+            //MAT.rotate(angle);
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
-            canvas.draw(media.imgSmile1, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgSmile1, MAT, COLOR, null, null, true);
 
-            MAT.identity();
-            MAT.tx = -5;
-            MAT.ty = -3;
-            MAT.rotate(angle);
-            MAT.scale(appear, appear);
-            MAT.translate(dx + hx, dy + hy);
+            //MAT.identity();
+            //MAT.tx = -5;
+            //MAT.ty = -3;
+            //MAT.rotate(angle);
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx + hx, dy + hy);
 
-            canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
+            throw new NotImplementedException();
         }
 
-        private void drawEmoHappy(bool canvas)
+        private void drawEmoHappy(Canvas canvas)
         {
-            //var mat:Matrix = new Matrix(1.0, 0.0, 0.0, 1.0, -6.0, 1.0);
-            ColorTransform col;
-            float a = 0.5;
-            float ang = emoCounter / 3.0;
+            ////var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
+            //ColorTransform col;
+            //float a = 0.5;
+            //float ang = emoCounter / 3.0;
 
-            if (emoCounter > 2.5) a = 3.0 - emoCounter;
-            else if (emoCounter < 0.5) a = emoCounter;
-            a *= 2.0;
+            //if (emoCounter > 2.5) a = 3.0 - emoCounter;
+            //else if (emoCounter < 0.5) a = emoCounter;
+            //a *= 2.0;
 
-            if (emoParam > 0.0)
-                ang = 1.0 - ang;
+            //if (emoParam > 0.0f)
+            //    ang = 1.0f - ang;
 
-            ang *= Math.abs(emoParam) * 6.28;
+            //ang *= Math.abs(emoParam) * 6.28;
 
-            if (a < 1.0) drawEmoDefault(canvas, 1.0 - a, ang);
-            COLOR.alphaMultiplier = a;
+            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, ang);
+            //COLOR.alphaMultiplier = a;
 
-            MAT.identity();
-            MAT.tx = -6;
-            MAT.ty = 1;
-            MAT.rotate(ang);
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -6;
+            //MAT.ty = 1;
+            //MAT.rotate(ang);
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
-            canvas.draw(media.imgSmile3, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgSmile3, MAT, COLOR, null, null, true);
 
-            MAT.identity();
-            MAT.tx = -7;
-            MAT.ty = -5;
-            MAT.rotate(ang);
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -7;
+            //MAT.ty = -5;
+            //MAT.rotate(ang);
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
-            canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
+            throw new NotImplementedException();
         }
 
-        private void drawEmoShake(bool canvas)
+        private void drawEmoShake(Canvas canvas)
         {
-            //var mat:Matrix = new Matrix(1.0, 0.0, 0.0, 1.0, -6.0, 1.0);
-            //var col:ColorTransform;
-            float a = 0.5;
-            float off = Math.sin(emoCounter * 6.28);
+            ////var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
+            ////var col:ColorTransform;
+            //float a = 0.5;
+            //float off = Math.sin(emoCounter * 6.28);
 
-            if (emoCounter > 2.5) a = 3.0 - emoCounter;
-            else if (emoCounter < 0.5) a = emoCounter;
-            a *= 2.0;
+            //if (emoCounter > 2.5) a = 3.0 - emoCounter;
+            //else if (emoCounter < 0.5) a = emoCounter;
+            //a *= 2.0;
 
-            if (a < 1.0) drawEmoDefault(canvas, 1.0 - a, 0.0);
-            COLOR.alphaMultiplier = a;
+            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
+            //COLOR.alphaMultiplier = a;
 
-            if (off < 0.0)
-                off = 0.0;
-            else if (off >= 0.0)
-                off = 0.5;
+            //if (off < 0.0f)
+            //    off = 0.0f;
+            //else if (off >= 0.0f)
+            //    off = 0.5;
 
-            MAT.identity();
-            MAT.tx = -6;
-            MAT.ty = 1;
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -6;
+            //MAT.ty = 1;
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
 
 
-            canvas.draw(media.imgSmile3, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgSmile3, MAT, COLOR, null, null, true);
 
-            MAT.identity();
-            MAT.tx = -7;
-            MAT.ty = -5;
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy + off);
+            //MAT.identity();
+            //MAT.tx = -7;
+            //MAT.ty = -5;
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy + off);
 
-            canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
+            throw new NotImplementedException();
         }
 
-        private void drawEmoSmile(bool canvas)
+        private void drawEmoSmile(Canvas canvas)
         {
-            float a = 0.5;
+            //float a = 0.5;
 
-            if (emoCounter > 2.5) a = 3.0 - emoCounter;
-            else if (emoCounter < 0.5) a = emoCounter;
-            a *= 2.0;
+            //if (emoCounter > 2.5) a = 3.0 - emoCounter;
+            //else if (emoCounter < 0.5) a = emoCounter;
+            //a *= 2.0;
 
-            if (a < 1.0) drawEmoDefault(canvas, 1.0 - a, 0.0);
-            COLOR.alphaMultiplier = a;
+            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
+            //COLOR.alphaMultiplier = a;
 
-            MAT.identity();
-            MAT.tx = -8;
-            MAT.ty = 1;
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -8;
+            //MAT.ty = 1;
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
-            canvas.draw(media.imgSmile2, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgSmile2, MAT, COLOR, null, null, true);
 
-            MAT.identity();
-            MAT.tx = -5;
-            MAT.ty = -3;
-            MAT.scale(appear, appear);
-            MAT.translate(dx, dy);
+            //MAT.identity();
+            //MAT.tx = -5;
+            //MAT.ty = -3;
+            //MAT.scale(appear, appear);
+            //MAT.translate(dx, dy);
 
-            canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
+            //canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
+            throw new NotImplementedException();
+        }
+
+        public bool isActive()
+        {
+            return state != 0;
         }
 
     }
-
 }

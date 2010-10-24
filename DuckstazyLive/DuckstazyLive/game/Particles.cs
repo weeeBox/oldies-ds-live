@@ -56,9 +56,9 @@ namespace DuckstazyLive.game
 
         public Particles()
         {
-            int i;
+            int i = 0;
 
-            pool = new Array(poolSize);
+            pool = new Particle[poolSize];
             for (; i < poolSize; ++i)
                 pool[i] = new Particle();
 
@@ -94,7 +94,7 @@ namespace DuckstazyLive.game
                     switch (p.type)
                     {
                         case STAR:
-                            p.a += 1.5708 * dt;
+                            p.a += 1.5708f * dt;
 
                             p.vy += 200.0f * dt;
                             p.x += p.vx * dt;
@@ -212,7 +212,7 @@ namespace DuckstazyLive.game
             }
         }
 
-        private void setCT(ColorTransform color, int argb)
+        private void setCT(ColorTransform color, uint argb)
         {
             color.alphaMultiplier = 0.0039216f * ((argb >> 24) & 0xFF);
             color.redMultiplier = 0.0039216f * ((argb >> 16) & 0xFF);
@@ -231,7 +231,12 @@ namespace DuckstazyLive.game
             return null;
         }
 
-        public void startAcid(float x, float y, int color)
+        public void startAcid(float x, float y)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void startAcid(float x, float y, uint color)
         {
             int i = 5;
             float a = utils.rnd() * 6.28f;
@@ -246,8 +251,8 @@ namespace DuckstazyLive.game
                     speed = 10.0f + utils.rnd() * 190;
 
                     p.t = 0.2f + utils.rnd() * 0.5f;
-                    p.vx = Math.Cos(a);
-                    p.vy = Math.Sin(a);
+                    p.vx = (float)Math.Cos(a);
+                    p.vy = (float)Math.Sin(a);
                     p.x = 9.0f * p.vx + x;
                     p.y = 9.0f * p.vy + y;
                     /*if(p.y>=397)
@@ -306,7 +311,7 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void startBubble(float x, float y, int color)
+        public void startBubble(float x, float y, uint color)
         {
             Particle p;
 
@@ -338,8 +343,8 @@ namespace DuckstazyLive.game
         {
             Particle p;
 
-            uint c1;
-            uint c2;
+            uint c1 = 0;
+            uint c2 = 0;
 
             p = findDead();
             if (p != null)
@@ -381,8 +386,8 @@ namespace DuckstazyLive.game
         public void startStarPower(float x, float y, float vx, float vy, int id)
         {
             Particle p;
-            uint c1;
-            uint c2;
+            uint c1 = 0;
+            uint c2 = 0;
 
             switch (id)
             {
@@ -403,7 +408,7 @@ namespace DuckstazyLive.game
             p = findDead();
             if (p != null)
             {
-                p.t = 0.2 + utils.rnd() * 0.5f;
+                p.t = 0.2f + utils.rnd() * 0.5f;
                 p.vx = vx;
                 p.vy = vy;
                 p.x = x;
@@ -454,7 +459,7 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void startRing(float x, float y, float radius, float speed, float start, int color)
+        public void startRing(float x, float y, float radius, float speed, float start, uint color)
         {
             Particle p;
 
@@ -488,8 +493,8 @@ namespace DuckstazyLive.game
             float a = utils.rnd() * 6.28f;
             float speed;
             Particle p;
-            uint c1;
-            uint c2;
+            uint c1 = 0;
+            uint c2 = 0;
 
             switch (id)
             {
@@ -511,11 +516,11 @@ namespace DuckstazyLive.game
                 p = findDead();
                 if (p != null)
                 {
-                    speed = 10.0 + utils.rnd() * 90.0f;
+                    speed = 10.0f + utils.rnd() * 90.0f;
 
                     p.t = 0.2f + utils.rnd() * 0.5f;
-                    p.vx = Math.Cos(a) * speed;
-                    p.vy = Math.Sin(a) * speed;
+                    p.vx = (float) Math.Cos(a) * speed;
+                    p.vy = (float) Math.Sin(a) * speed;
                     p.x = x;
                     p.y = y;
                     p.type = STAR;
@@ -529,7 +534,7 @@ namespace DuckstazyLive.game
                     p.a = utils.rnd() * 3.14f;
                     p.img = imgFXStar;
 
-                    a += 1.0 + utils.rnd() * 0.5f;
+                    a += 1.0f + utils.rnd() * 0.5f;
                     ++parts;
                 }
                 else break;
@@ -544,9 +549,9 @@ namespace DuckstazyLive.game
             float speed;
             Particle p;
 
-            uint c1;
-            uint c2;
-            bool c;
+            uint c1 = 0;
+            uint c2= 0;
+            bool c = false;
 
 
             if (damage) i = 30;
@@ -575,8 +580,8 @@ namespace DuckstazyLive.game
                         speed *= 3.0f;
                         //p.t*=1.5;
                     }
-                    p.vx = Math.Cos(a) * speed;
-                    p.vy = Math.Sin(a) * speed;
+                    p.vx = (float) Math.Cos(a) * speed;
+                    p.vy = (float) Math.Sin(a) * speed;
                     p.x = x;
                     p.y = y;
                     p.type = STAR;
@@ -592,7 +597,7 @@ namespace DuckstazyLive.game
                     p.img = imgFXStar;
 
                     c = !c;
-                    a += 1.0 + utils.rnd() * 0.5f; ;
+                    a += 1.0f + utils.rnd() * 0.5f; ;
 
                     ++parts;
                 }
@@ -610,7 +615,7 @@ namespace DuckstazyLive.game
 
             uint c1 = 0xff2e0678;
             uint c2 = 0xffb066cf;
-            bool c;
+            bool c = false;
 
             while (i > 0)
             {
@@ -620,9 +625,9 @@ namespace DuckstazyLive.game
                     speed = 10.0f + utils.rnd() * 90.0f;
 
 
-                    p.t = 0.2 + utils.rnd() * 0.5f;
-                    p.vx = Math.Cos(a) * speed;
-                    p.vy = Math.Sin(a) * speed;
+                    p.t = 0.2f + utils.rnd() * 0.5f;
+                    p.vx = (float) Math.Cos(a) * speed;
+                    p.vy = (float) Math.Sin(a) * speed;
                     p.x = x;
                     p.y = y;
                     p.type = STAR;

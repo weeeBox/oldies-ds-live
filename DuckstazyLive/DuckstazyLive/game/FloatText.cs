@@ -2,12 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
-public class FloatText
+    public class FloatText
 	{
-
 		public Texture2D img;
 		public float x;
 		public float y;
@@ -16,7 +16,7 @@ public class FloatText
 		
 		public FloatText()
 		{
-			t = 0.0;
+			t = 0.0f;
 			color = new ColorTransform();
 		}
 

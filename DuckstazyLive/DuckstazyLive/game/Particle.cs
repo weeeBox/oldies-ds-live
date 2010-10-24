@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
@@ -21,7 +22,7 @@ namespace DuckstazyLive.game
 		public float p1;
 		public float p2;
 		
-		public Texture2D img;
+		public int img;
 		public float px;
 		public float py;
 		public float s;
@@ -32,15 +33,15 @@ namespace DuckstazyLive.game
 
 		public Particle()
 		{
-			t = 0.0;
+			t = 0.0f;
 			col = new ColorTransform();
 		}
 
 		/*public void draw(bool canvas)
 		{
-			Matrix mat = new Matrix(1.0, 0.0, 0.0, 1.0, px, py);
+			Matrix mat = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, px, py);
 			
-			if(a!=0.0)
+			if(a!=0.0f)
 				mat.rotate(a);
 				
 			mat.scale(s, s);

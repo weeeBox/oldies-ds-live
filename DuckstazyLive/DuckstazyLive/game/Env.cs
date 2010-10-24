@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using DuckstazyLive.game.env;
 using DuckstazyLive.app;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -77,7 +78,7 @@ public class Env
 		
 		private EnvColor norm;
 
-        private const EnvColor[] hell = 
+        private static EnvColor[] hell = 
         {
 			new EnvColor(0xFF0000, 0xFFFF00), 
 			new EnvColor(0xFFFF00, 0xFF0000), 
@@ -101,7 +102,7 @@ public class Env
 		public ColorTransform ctProgress;
 				
 		// Темп-переменная для рисования
-		private Shape shape;
+		// private Shape shape;
 		
 		// эффекты
 		private EnvEffect[] effects;
@@ -305,7 +306,7 @@ public class Env
 					colProgress = 0xff5d310c;
 					utils.ARGB2ColorTransform(colGrass, ctGrass);
 					utils.ARGB2ColorTransform(colProgress, ctProgress);
-					curEffect = effects[(int)(utils.rnd()*effects.length)];
+					curEffect = effects[(int)(utils.rnd()*effects.Length)];
 					
 					/*x = channel.position;
 					channel.stop();
@@ -372,14 +373,14 @@ public class Env
 					if(musicAttack<0.0f)
 						musicAttack = 0.0f;
 				}*/
-				musicAttack = musicAttack*0.7 + x*0.7;
+				musicAttack = musicAttack*0.7f + x*0.7f;
 				
 				curEffect.peak = musicAttack;
 			}
 
 		}
 
-		public void draw1(bool canvas)
+		public void draw1(Canvas canvas)
 		{
             //// Временные переменные.
             //Rect rc = new Rect(0.0f, 0.0f, 640.0, 400.0);
@@ -413,7 +414,7 @@ public class Env
             //}			
 		}
 		
-		public void drawNight(bool canvas)
+		public void drawNight(Canvas canvas)
 		{
             //// Временные переменные.
             //float x;
@@ -437,7 +438,7 @@ public class Env
             //}
 		}
 		
-		public void drawSky(bool canvas)
+		public void drawSky(Canvas canvas)
 		{
             //// Временные переменные.
             //float x;
@@ -459,7 +460,7 @@ public class Env
             //}
 		}
 	
-		public void draw2(bool canvas)
+		public void draw2(Canvas canvas)
 		{
             //// Временные переменные.
             //Matrix mat = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 392.0);
@@ -495,7 +496,7 @@ public class Env
 				blanc-=0.5f*dt;
 		}
 		
-		public void drawBlanc(bool canvas)
+		public void drawBlanc(Canvas canvas)
 		{
             //shBlanc.graphics.clear();
             //shBlanc.graphics.beginFill(0xffffff, blanc);

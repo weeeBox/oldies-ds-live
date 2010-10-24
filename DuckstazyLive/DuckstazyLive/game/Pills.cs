@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
 public class Pills
 	{
-		public static const int poolSize = 120;
+		public const int poolSize = 120;
 		
 		public static Pills instance;
 		
-		public Array pool;
+		public Pill[] pool;
 	
 		public Particles ps;
 		public PillsMedia media;
@@ -34,7 +35,7 @@ public class Pills
 			hero = gameHero;
 			
 			// Инициализируем массив(пул) для таблеток
-			pool = new Array(poolSize);
+			pool = new Pill[poolSize];
 			while(i>0)
 			{
 				pool[i] = new Pill(media, gameHero, particles, level);
@@ -43,7 +44,7 @@ public class Pills
 			
 			clear();
 			
-			harvesting = 0.0;
+			harvesting = 0.0f;
 		}
 		
 		public void clear()
@@ -56,7 +57,7 @@ public class Pills
 		
 		public void finish()
 		{
-			int i;
+			int i = 0;
 			int process;
 						
 			process = actives;
@@ -89,10 +90,10 @@ public class Pills
 			int i = 0;
 			bool to_touch = true;
 			
-			harvesting+=dt*8.0;
-			if(harvesting>=1.0)
+			harvesting+=dt*8.0f;
+			if(harvesting>=1.0f)
 			{
-				harvesting-=1.0;
+				harvesting-=1.0f;
 				harvestCount = 0;
 				if(actives>0)
 				{
@@ -121,7 +122,7 @@ public class Pills
 		
 		public void update(float dt, float power)
 		{
-			int i;
+			int i = 0;
 			int process;
 			
 			media.power = power;
@@ -132,7 +133,7 @@ public class Pills
 				if(i==process)
 					break;
 					
-				if(p.state)
+				if(p.state!=0)
 				{
 					if(p.update(dt))
 						actives--;
@@ -141,16 +142,16 @@ public class Pills
 			}
 		}
 		
-		public void draw(B canvas)
+		public void draw(Canvas canvas)
 		{
-			int i;
+			int i=0;
 			
 			foreach (Pill p in pool)
 			{
 				if(i==actives)
 					break;
 				
-				if(p.state)
+				if(p.state!=0)
 				{
 					p.dx = (int)(p.x);
 					p.dy = (int)(p.y);
@@ -167,12 +168,10 @@ public class Pills
 		}
 
 		public Pill findDead()
-		{
-			* o;
-			
+		{			
 			foreach (Pill p in pool)
 			{
-				if(!p.state)
+				if(!p.isActive())
 					return p;
 			}
 			
@@ -182,18 +181,18 @@ public class Pills
 		public bool isBusy(float x, float y)
 		{
 			bool busy = false;
-			int i;
+			int i = 0;
 			
-			if(utils.vec2distSqr(hero.x+27.0, hero.y+20.0, x, y) >= 3600.0)
+			if(utils.vec2distSqr(hero.x+27.0f, hero.y+20.0f, x, y) >= 3600.0f)
 			{
 				foreach (Pill p in pool)
 				{
 					if(i==actives)
 						break;
 						
-					if(p.state)
+					if(p.isActive())
 					{
-						if(utils.vec2distSqr(p.x, p.y, x, y) < 900.0)
+						if(utils.vec2distSqr(p.x, p.y, x, y) < 900.0f)
 						{
 							busy = true;
 							break;
@@ -236,7 +235,7 @@ public class Pills
 							//mBoard->AddPowerScores(pill_pos, p->GetPowerID());
 							break;
 						case Pill.PILL_TOXIC:
-							if(p.toxic_warning>0.0)
+							if(p.toxic_warning>0.0f)
 								pick = false;
 							else
 							{
@@ -244,7 +243,7 @@ public class Pills
 								{
 									pick = false;
 									p.kill();
-									utils.playSound(attack_snd, 1.0, p.x);
+									utils.playSound(attack_snd, 1.0f, p.x);
 								}
 								--toxic_count;
 							}

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -10,7 +11,7 @@ namespace DuckstazyLive.game
 		public uint bg;
 		public uint text;
 
-		public EnvColor(int sky, int floatText)
+		public EnvColor(uint sky, uint floatText)
 		{
 			bg = sky;
 			text = floatText;

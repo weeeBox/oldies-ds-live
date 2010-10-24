@@ -14,10 +14,10 @@ namespace DuckstazyLive.game.env
 		
 		public EnvEffect()
 		{
-			power = 0.0;
+			power = 0.0f;
 			c1 = 0x000000;
 			c2 = 0x000000;
-			peak = 0.0;
+			peak = 0.0f;
 		}
 		
 		public virtual void update(float dt)
