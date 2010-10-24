@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -268,7 +269,7 @@ namespace DuckstazyLive.game
             //        prog-=0.05263;
             //    }
             //}
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: LevelProgress.draw");
 		}
 		
 	}

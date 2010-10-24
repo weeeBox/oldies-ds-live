@@ -145,13 +145,13 @@ namespace DuckstazyLive.game
 		{
             //int i = 0;
             //Matrix mat = new Matrix();
-			
+
             //foreach (FloatText ft in ftPool)
             //{
-            //    if(i==ftCount)
+            //    if (i == ftCount)
             //        break;
-					
-            //    if(ft.t>0.0f)
+
+            //    if (ft.t > 0.0f)
             //    {
             //        mat.tx = ft.x;
             //        mat.ty = ft.y;
@@ -159,8 +159,8 @@ namespace DuckstazyLive.game
             //        canvas.draw(ft.img, mat, ft.color, null, null, false);
             //        ++i;
             //    }
-            //}
-            throw new NotImplementedException();
+            //}            
+            Debug.WriteLine("Implement me: GameInfo.drawFT");
 		}
 		
 		public void add(float x, float y, Texture2D bm)
