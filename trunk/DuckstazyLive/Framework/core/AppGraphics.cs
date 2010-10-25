@@ -110,10 +110,12 @@ namespace Framework.core
         }
 
         public static void Begin(GraphicsDevice gd)
-        {
+        {            
+            Debug.Assert(batchMode == BatchMode.None, "Bad batch mode: " + batchMode);
+
             matrixStack.Clear();
             matrix = Matrix.Identity;
-            batchMode = BatchMode.None;
+            
             drawColor = Color.White;
             blendMode = AppBlendMode.AlphaBlend;
 
@@ -228,6 +230,12 @@ namespace Framework.core
         public static void DrawImage(Texture2D tex, float x, float y, SpriteEffects flip)
         {
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, Vector2.Zero, 1.0f, flip, 0.0f);
+        }
+
+        public static void DrawScaledImage(Texture2D tex, float x, float y, float scale)
+        {
+            Vector2 origin = new Vector2(0.5f * tex.Width, 0.5f * tex.Height);
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
         }
 
         public static void DrawImageTiled(Texture2D tex, ref Rectangle src, ref Rectangle dest)

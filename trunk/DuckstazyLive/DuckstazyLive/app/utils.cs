@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.game;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
+using Framework.core;
 
 namespace DuckstazyLive.app
 {
@@ -197,7 +199,8 @@ namespace DuckstazyLive.app
 			
 			SoundTransform tr = new SoundTransform(vol, p);
 			// snd.play(49, 0, tr);
-            throw new NotImplementedException();
+            Application.sharedSoundMgr.playSound(snd);
+            Debug.WriteLine("Implement me: utils.playSound");
 		}
 
         public static Color makeColor(uint color)

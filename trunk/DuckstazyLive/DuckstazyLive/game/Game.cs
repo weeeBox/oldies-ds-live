@@ -137,8 +137,7 @@ namespace DuckstazyLive.game
         public void update(float dt)
         {
         	//Number dt = device.update();
-        	Env env = level.env;
-            Canvas canvas = null;
+        	Env env = level.env;            
 						
 			switch(state)
 			{
@@ -152,38 +151,43 @@ namespace DuckstazyLive.game
 			}
 			
 			// gui.update(dt);
-			env.updateBlanc(dt);
-			
-			
-			//**RENDER**//
-			//backBitmap.visible = false;
-			//canvas.lock();
-			
+			env.updateBlanc(dt);			
+        }
+
+        public void draw()
+        {
+            Canvas canvas = null;
+            Env env = level.env;
+
+            //**RENDER**//
+            //backBitmap.visible = false;
+            //canvas.lock();
+
             //if(gui.current!=scoresTable)
             //{
-				switch(state)
-				{
-				case MENU:
-					env.draw1(canvas);
-					env.draw2(canvas);
-					level.progress.draw(canvas);
-					break;
-				case LEVEL:
-					level.draw(canvas);
-					break;
-				}
-			//}
-			
-			// gui.draw(canvas);
-			
-			if(env.blanc>0.0f)
-				env.drawBlanc(canvas);
-			
+            switch (state)
+            {
+                case MENU:
+                    env.draw1(canvas);
+                    env.draw2(canvas);
+                    level.progress.draw(canvas);
+                    break;
+                case LEVEL:
+                    level.draw(canvas);
+                    break;
+            }
+            //}
+
+            // gui.draw(canvas);
+
+            if (env.blanc > 0.0f)
+                env.drawBlanc(canvas);
+
             //if(debugInfoTgl)
             //    canvas.draw(debugInfoText);
-				
+
             //canvas.unlock();
-			//backBitmap.visible = true;
+            //backBitmap.visible = true;
         }
 
         private void setState(int newState)

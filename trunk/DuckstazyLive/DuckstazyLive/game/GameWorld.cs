@@ -19,6 +19,8 @@ namespace DuckstazyLive.game
         {
             game = new Game();
             game.clickNewGame();
+
+            Application.sharedInputMgr.addInputListener(game);
         }
 
         public override void update(float dt)
@@ -29,6 +31,7 @@ namespace DuckstazyLive.game
         public override void draw()
         {
             base.draw();
+            game.draw();
         }        
     }
 }

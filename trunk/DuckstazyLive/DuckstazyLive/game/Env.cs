@@ -161,6 +161,7 @@ public class Env
 			music = sndTex2;
 			// channel = music.play(0.0f, 0, musicTrans);
 			// channel.addEventListener(Event.SOUND_COMPLETE, loopMusic);
+            channel = new SoundChannel(musicTrans, 0.0f, 0.0f);
 			musicAttack = 0.0f;
 		}
 	
