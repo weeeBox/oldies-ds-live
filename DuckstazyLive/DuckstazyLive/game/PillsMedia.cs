@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -143,42 +144,39 @@ namespace DuckstazyLive.game
 
         public PillsMedia()
 		{
-            //imgPower1 = (new rPowerImg1()).bitmapData;
-            //imgPower2 = (new rPowerImg2()).bitmapData;
-            //imgPower3 = (new rPowerImg3()).bitmapData;
+            imgPower1 = Res.IMG_POWER_1;
+            imgPower2 = Res.IMG_POWER_2;
+            imgPower3 = Res.IMG_POWER_3;
             //imgPPower1 = (new rSuperPowerImg1()).bitmapData;
             //imgPPower2 = (new rSuperPowerImg2()).bitmapData;
             //imgPPower3 = (new rSuperPowerImg3()).bitmapData;
 			
-            //imgNids = [ (new rNidImg1()).bitmapData, 
-            //            (new rNidImg2()).bitmapData, 
-            //            (new rNidImg3()).bitmapData,
-            //            (new rNidImg4()).bitmapData];
+            imgNids = new int[]  { Res.IMG_PILL_1, Res.IMG_PILL_1, Res.IMG_PILL_1, Res.IMG_PILL_1 };
 						
             ////imgEmo = (new rEmoImg()).bitmapData; 
 
-            //imgHigh = (new rHighImg()).bitmapData;
+            imgHigh = Res.IMG_PILL_HIGH;
 
-            //imgToxic = (new rToxicImg()).bitmapData;
-            //imgToxic2 = (new rToxic2Img()).bitmapData;
+            imgToxic = Res.IMG_PILL_TOXIC_1;
+            imgToxic2 = Res.IMG_PILL_TOXIC_2;
             //imgCure = (new rCureImg()).bitmapData;
-            //imgSleep = (new rSleepImg()).bitmapData;
+            imgSleep = Res.IMG_PILL_SLEEP;
             //imgHole = (new gfxHole()).bitmapData;
 			
-            //imgSmile1 = (new rSmileImg1()).bitmapData;
-            //imgSmile2 = (new rSmileImg2()).bitmapData;
-            //imgSmile3 = (new rSmileImg3()).bitmapData;
-            //imgEyes1 = (new rEyesImg1()).bitmapData;
-            //imgEyes2 = (new rEyesImg2()).bitmapData;
+            imgSmile1 = Res.IMG_SMILE_1;
+            imgSmile2 = Res.IMG_SMILE_2;
+            imgSmile3 = Res.IMG_SMILE_3;
+            imgEyes1 = Res.IMG_EYES_1;
+            imgEyes2 = Res.IMG_EYES_2;
 			
-            //sndPowers = [new rPower1Snd(), new rPower2Snd(), new rPower3Snd()];
+            sndPowers = new int[] { Res.SND_PILL_POWER1, Res.SND_PILL_POWER2, Res.SND_PILL_POWER3 };
             ////sndHeal = new rHealSnd();
-            //sndWarning = new rWarningSnd();
-            //sndGenerate = new rGenerateSnd();
+            sndWarning = Res.SND_PILL_WARNING;
+            sndGenerate = Res.SND_PILL_GENERATE;
 			
-            //sndJumper = new rJumperSnd();
-            //sndHigh = new rHighSnd();
-            //sndToxicBorn = new rToxicBornSnd();
+            sndJumper = Res.SND_PILL_JUMPER;
+            sndHigh = Res.SND_PILL_HIGH;
+            sndToxicBorn = Res.SND_PILL_TOXIC_BORN;
 			
 			power = 0.0f;
             Debug.WriteLine("Implement me: PillsMedia.PillsMedia()");

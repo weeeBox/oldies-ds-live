@@ -6,6 +6,8 @@ using Framework.utils;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.app;
 using Framework.core;
+using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -338,8 +340,8 @@ namespace DuckstazyLive.game
 				if(high && hero.doHigh(x, y))
 				{
 					// media.sndHigh.play();                    
-					ps.explStarsPower(x, y-r, id);
-                    throw new NotImplementedException();
+                    Application.sharedSoundMgr.playSound(media.sndHigh);
+					ps.explStarsPower(x, y-r, id);                    
 				}
 				else
 					ps.explStarsPower(x, y, id);
@@ -694,89 +696,109 @@ namespace DuckstazyLive.game
 
         public void drawEmo(Canvas canvas)
         {
-            //if (media.power < 0.5)
-            //{
-            //    if (state != 2)
-            //    {
-            //        MAT.identity();
-            //        MAT.tx = MAT.ty = -10;
-            //        MAT.scale(appear, appear);
-            //        MAT.translate(dx, dy);
-            //        canvas.draw(imgMain, MAT, null, null, null, true);
-            //        canvas.draw(imgNid, MAT, null, null, null, true);
-            //    }
-            //    else
-            //    {
-            //        POINT.x = dx - 10;
-            //        POINT.y = dy - 10;
-            //        canvas.copyPixels(imgMain, RC, POINT);
-            //        canvas.copyPixels(imgNid, RC, POINT);
-            //    }
-            //}
-            //else
-            //{
-            //    if (state != 2)
-            //    {
-            //        MAT.identity();
-            //        MAT.tx = MAT.ty = -10;
-            //        MAT.scale(appear, appear);
-            //        MAT.translate(dx, dy);
-            //        canvas.draw(imgEmo, MAT, null, null, null, true);
-            //    }
-            //    else
-            //    {
-            //        POINT.x = dx - 10;
-            //        POINT.y = dy - 10;
-            //        canvas.copyPixels(imgEmo, RC, POINT);
-            //    }
+            if (media.power < 0.5f)
+            {
+                if (state != 2)
+                {
+                    //MAT.identity();
+                    //MAT.tx = MAT.ty = -10;
+                    //MAT.scale(appear, appear);
+                    //MAT.translate(dx, dy);
+                    //canvas.draw(imgMain, MAT, null, null, null, true);
+                    //canvas.draw(imgNid, MAT, null, null, null, true);
+                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
+                    AppGraphics.DrawScaledImage(tex, dx - 10, dy - 10, appear);
+                    tex = Application.sharedResourceMgr.getTexture(imgNid);
+                    AppGraphics.DrawScaledImage(tex, dx - 10, dy - 10, appear);
+                }
+                else
+                {
+                    //POINT.x = dx - 10;
+                    //POINT.y = dy - 10;
+                    //canvas.copyPixels(imgMain, RC, POINT);
+                    //canvas.copyPixels(imgNid, RC, POINT);
+                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
+                    AppGraphics.DrawImage(tex, dx - 10, dy - 10);
+                    tex = Application.sharedResourceMgr.getTexture(imgNid);
+                    AppGraphics.DrawImage(tex, dx - 10, dy - 10);
+                }
+            }
+            else
+            {
+                if (state != 2)
+                {
+                    //MAT.identity();
+                    //MAT.tx = MAT.ty = -10;
+                    //MAT.scale(appear, appear);
+                    //MAT.translate(dx, dy);
+                    //canvas.draw(imgEmo, MAT, null, null, null, true);
+                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgEmo);
+                    AppGraphics.DrawScaledImage(tex, dx - 10, dy - 10, appear);
+                }
+                else
+                {
+                    //POINT.x = dx - 10;
+                    //POINT.y = dy - 10;
+                    //canvas.copyPixels(imgEmo, RC, POINT);
+                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgEmo);
+                    AppGraphics.DrawImage(tex, dx - 10, dy - 10);
+                }
 
-            //    if (emoCounter > 0.0f)
-            //    {
-            //        switch (emoType)
-            //        {
-            //            case 0:
-            //                drawEmoHappy(canvas);
-            //                break;
-            //            case 1:
-            //                drawEmoShake(canvas);
-            //                break;
-            //            case 2:
-            //                drawEmoSmile(canvas);
-            //                break;
-            //        }
-            //    }
-            //    else
-            //        drawNid(canvas);
-            //}
+                if (emoCounter > 0.0f)
+                {
+                    switch (emoType)
+                    {
+                        case 0:
+                            drawEmoHappy(canvas);
+                            break;
+                        case 1:
+                            drawEmoShake(canvas);
+                            break;
+                        case 2:
+                            drawEmoSmile(canvas);
+                            break;
+                    }
+                }
+                else
+                    drawNid(canvas);
+            }
 
-            //if (high && highCounter > 0.5 && state == 2)
-            //{
-            //    MAT.identity();
-            //    MAT.tx = dx - 12;
-            //    MAT.ty = dy - 12;
-            //    COLOR.alphaMultiplier = 2.0 - highCounter * 2.0;
-            //    canvas.draw(media.imgHigh, MAT, COLOR, null, null, false);
-            //}
-            throw new NotImplementedException();
+            if (high && highCounter > 0.5 && state == 2)
+            {
+                //MAT.identity();
+                //MAT.tx = dx - 12;
+                //MAT.ty = dy - 12;
+                //COLOR.alphaMultiplier = 2.0 - highCounter * 2.0;
+                //canvas.draw(media.imgHigh, MAT, COLOR, null, null, false);
+                Color color = Color.White;
+                color.A *= (byte)(255 * (2.0f - highCounter * 2.0f));
+                Texture2D tex = Application.sharedResourceMgr.getTexture(media.imgHigh);
+                AppGraphics.DrawImage(tex, dx - 12, dy - 12, color);
+            }            
         }
 
         public void draw(Canvas canvas)
         {
-            //if (state != 2)
-            //{
-            //    MAT.identity();
-            //    MAT.tx = MAT.ty = -10;
-            //    MAT.scale(appear, appear);
-            //    MAT.translate(dx, dy);
-            //    canvas.draw(imgMain, MAT, null, null, null, true);
-            //}
-            //else
-            //{
-            //    POINT.x = dx - 10;
-            //    POINT.y = dy - 10;
-            //    canvas.copyPixels(imgMain, RC, POINT);
-            //}
-            throw new NotImplementedException();
+            if (state != 2)
+            {
+                //MAT.identity();
+                //MAT.tx = MAT.ty = -10;
+                //MAT.scale(appear, appear);
+                //MAT.translate(dx, dy);
+                //canvas.draw(imgMain, MAT, null, null, null, true);
+
+                Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
+                AppGraphics.DrawScaledImage(tex, dx-10, dy-10, appear);
+            }
+            else
+            {
+                //POINT.x = dx - 10;
+                //POINT.y = dy - 10;
+                //canvas.copyPixels(imgMain, RC, POINT);
+
+                Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
+                AppGraphics.DrawImage(tex, dx-10, dy-10);                
+            }            
         }
 
         public void drawJump(Canvas canvas)
@@ -814,6 +836,8 @@ namespace DuckstazyLive.game
             //MAT.translate(dx, dy);
 
             //canvas.draw(media.imgSmile1, MAT, null, null, null, true);
+            Texture2D tex = Application.sharedResourceMgr.getTexture(media.imgSmile1);
+            AppGraphics.DrawScaledImage(tex, dx - 4, dy + 2, appear);
 
             //MAT.identity();
             //MAT.tx = -5;
@@ -821,8 +845,9 @@ namespace DuckstazyLive.game
             //MAT.scale(appear, appear);
             //MAT.translate(dx + hx, dy + hy);
 
-            //canvas.draw(media.imgEyes1, MAT, null, null, null, true);
-            throw new NotImplementedException();
+            //canvas.draw(media.imgEyes1, MAT, null, null, null, true);            
+            tex = Application.sharedResourceMgr.getTexture(media.imgEyes1);
+            AppGraphics.DrawScaledImage(tex, dx - 5, dy - 3, appear);
         }
 
         private void drawEmoDefault(Canvas canvas, float alpha, float angle)
@@ -885,7 +910,7 @@ namespace DuckstazyLive.game
             //MAT.translate(dx, dy);
 
             //canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: drawEmoHappy");
         }
 
         private void drawEmoShake(Canvas canvas)
@@ -924,7 +949,7 @@ namespace DuckstazyLive.game
             //MAT.translate(dx, dy + off);
 
             //canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: drawEmoShake");
         }
 
         private void drawEmoSmile(Canvas canvas)
@@ -953,7 +978,7 @@ namespace DuckstazyLive.game
             //MAT.translate(dx, dy);
 
             //canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
-            throw new NotImplementedException();
+            Debug.WriteLine("Implement me: drawEmoSmile");
         }
 
         public bool isActive()

@@ -10,5 +10,12 @@ namespace DuckstazyLive.game
         public SoundTransform soundTransform;
         public float leftPeak;
         public float rightPeak;
+
+        public SoundChannel(SoundTransform trans, float lp, float rp)
+        {
+            this.soundTransform = trans;
+            leftPeak = lp;
+            rightPeak = rp;
+        }
     }
 }

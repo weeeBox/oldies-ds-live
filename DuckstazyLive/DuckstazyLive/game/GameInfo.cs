@@ -165,20 +165,21 @@ namespace DuckstazyLive.game
 		
 		public void add(float x, float y, Texture2D bm)
 		{
-			foreach (FloatText ft in ftPool)
-			{
-				if(ft.t<=0.0f)
-				{
-					ft.t = 1.0f;
-					ft.x = x - (bm.Width>>1);
-					ft.y = y - (bm.Height>>1);
-					ft.img = bm;
+            //foreach (FloatText ft in ftPool)
+            //{
+            //    if(ft.t<=0.0f)
+            //    {
+            //        ft.t = 1.0f;
+            //        ft.x = x - (bm.Width>>1);
+            //        ft.y = y - (bm.Height>>1);
+            //        ft.img = bm;
 					
-					++ftCount; 
+            //        ++ftCount; 
 					 
-					break;
-				}
-			}
+            //        break;
+            //    }
+            //}
+            Debug.WriteLine("Implement me: GameInfo.add()");
 		}
 		
 		public void setRGB(uint color)

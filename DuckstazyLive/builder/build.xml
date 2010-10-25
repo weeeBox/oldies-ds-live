@@ -40,9 +40,7 @@
 				<image name="button_stroke_default" file="${dir.art}/button_black.png" />
 				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />			    
 				<image name="grass1" file="${dir.art}/grass1.png" />
-				<image name="grass2" file="${dir.art}/grass2.png" />
-				<image name="pill_fake" file="${dir.art}/pill_fake.png" />
-				<image name="pill_glow_fake" file="${dir.art}/pill_glow_fake.png" />
+				<image name="grass2" file="${dir.art}/grass2.png" />				
 				<image name="cloud_1" file="${dir.art}/cloud_1.png" />
 				<image name="cloud_2" file="${dir.art}/cloud_1.png" />
 				<image name="cloud_3" file="${dir.art}/cloud_1.png" />
@@ -56,6 +54,20 @@
 			<package name="PACK_GAME">
 				<image name="duck_fake" file="${dir.art}/duck_fake.png" />
 				<image name="star" file="${dir.art}/star.png" />
+				<image name="pill_1" file="${dir.art}/pill_1.png" />
+				<image name="pill_toxic_1" file="${dir.art}/toxic1.png" />
+				<image name="pill_toxic_2" file="${dir.art}/toxic2.png" />
+				<image name="pill_sleep" file="${dir.art}/pill_sleep.png" />
+				<image name="pill_high" file="${dir.art}/pill_high.png" />
+				<image name="smile_1" file="${dir.art}/smile1.png" />
+				<image name="smile_2" file="${dir.art}/smile2.png" />
+				<image name="smile_3" file="${dir.art}/smile3.png" />
+				<image name="eyes_1" file="${dir.art}/eyes1.png" />
+				<image name="eyes_2" file="${dir.art}/eyes2.png" />
+				<image name="power_1" file="${dir.art}/power1.png" />
+				<image name="power_2" file="${dir.art}/power2.png" />
+				<image name="power_3" file="${dir.art}/power3.png" />
+				<image name="power_4" file="${dir.art}/power4.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">

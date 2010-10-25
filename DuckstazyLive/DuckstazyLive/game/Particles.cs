@@ -233,7 +233,7 @@ namespace DuckstazyLive.game
 
         public void startAcid(float x, float y)
         {
-            throw new NotImplementedException();
+            startAcid(x, y, 0xff000000);
         }
 
         public void startAcid(float x, float y, uint color)
