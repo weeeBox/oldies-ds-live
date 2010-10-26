@@ -5,6 +5,7 @@ using System.Text;
 using Framework.core;
 using DuckstazyLive.app;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
@@ -23,7 +24,7 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/wing.png")]
         //private var rWingImg:Class;
 
-        //[Embed(source="gfx/eye1.png")]
+        //[Embed(source="gfx/eyeTex.png")]
         //private var rEyeImg1:Class;
 
         //[Embed(source="gfx/eye2.png")]
@@ -107,9 +108,9 @@ namespace DuckstazyLive.game
             //var rcFoots:Rect = new Rect(0.0, 0.0, 13.0, 3.0);
             //var rcBody:Rect = new Rect(0.0, 0.0, 54.0, 40.0);
 
-            //imgEye1 = (new rEyeImg1()).bitmapData;
-            //imgEye2 = (new rEyeImg2()).bitmapData;
-            //imgWing = (new rWingImg()).bitmapData;
+            imgEye1 = Res.IMG_EYE1;
+            imgEye2 = Res.IMG_EYE2;
+            imgWing = Res.IMG_WING;
 
             /*imgDuck = new Texture2D(54, 42, true, 0x00000000);
             imgDuck.lock();
@@ -174,24 +175,34 @@ namespace DuckstazyLive.game
                 ////dest.copyPixels(imgDuckFlip, rcHero, new Point(x, y));
                 //dest.draw(imgDuck, mat, null, null, null, true);
 
+                Texture2D duckTex = Application.sharedResourceMgr.getTexture(imgDuck);
+                AppGraphics.DrawImage(duckTex, x, y, SpriteEffects.FlipHorizontally);
+                                
                 //mat.tx = 44.0 + x;
                 //mat.ty = 5.0 + y;
                 //dest.draw(imgEye1, mat, eye, null, null, true);
                 //eye.alphaMultiplier = power;
                 //dest.draw(imgEye2, mat, eye, null, null, true);
+                Texture2D eyeTex = Application.sharedResourceMgr.getTexture(imgEye1);
+                AppGraphics.DrawImage(eyeTex, 44 + x, 5 + y);
+                eyeTex = Application.sharedResourceMgr.getTexture(imgEye2);
+                AppGraphics.DrawImage(eyeTex, 44 + x, 5 + y, new Color(Color.White, (byte)(255 * power)));
 
                 //mat.tx = 3.0;
                 //mat.ty = -7.0;
                 //mat.rotate(-wingsAngle);
                 //mat.translate(21.0 + x, 26.0 + y);
-                //dest.draw(imgWing, mat, null, null, null, true);
-                Texture2D texture = Application.sharedResourceMgr.getTexture(imgDuck);
-                AppGraphics.DrawImage(texture, x, y, SpriteEffects.FlipHorizontally);
+                //dest.draw(imgWing, mat, null, null, null, true);                
+                Texture2D wingTex = Application.sharedResourceMgr.getTexture(imgWing);
+                AppGraphics.DrawImageRotated(wingTex, 21 + x, 26 + y, new Vector2(3, -7), -wingsAngle);
             }
             else
             {
                 ////dest.copyPixels(imgDuck, rcHero, new Point(x, y));
                 //dest.draw(imgDuck, mat, null, null, null, true);
+
+                Texture2D texture = Application.sharedResourceMgr.getTexture(imgDuck);
+                AppGraphics.DrawImage(texture, x, y);
 
                 //mat.tx = 10.0 + x;
                 //mat.ty = 5.0 + y;
@@ -203,9 +214,7 @@ namespace DuckstazyLive.game
                 //mat.ty = -7.0;
                 //mat.rotate(wingsAngle);
                 //mat.translate(33.0 + x, 26.0 + y);
-                //dest.draw(imgWing, mat, null, null, null, true);
-                Texture2D texture = Application.sharedResourceMgr.getTexture(imgDuck);
-                AppGraphics.DrawImage(texture, x, y);
+                //dest.draw(imgWing, mat, null, null, null, true);                
             }
 
             //dest.draw(imgEye1.bitmapData, eye_mat, eye1_color);
@@ -282,7 +291,7 @@ namespace DuckstazyLive.game
             trigStep = !trigStep;
 
             // snd.play(49.0, 0, transformPanVol);
-            Application.sharedSoundMgr.playSound(snd);
+            Application.sharedSoundMgr.playSound(snd, transformPanVol);
             //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.3, 1.0f), utils.pos2pan(pos.x+duck_w));
         }
 
@@ -298,7 +307,7 @@ namespace DuckstazyLive.game
             trigWing = !trigWing;
 
             // snd.play(49.0, 0, transformPanVol);
-            Application.sharedSoundMgr.playSound(snd);
+            Application.sharedSoundMgr.playSound(snd, transformPanVol);
 
             //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.5, 1.0f)*(0.3 + power*0.7), utils.pos2pan(pos.x+duck_w));
         }
