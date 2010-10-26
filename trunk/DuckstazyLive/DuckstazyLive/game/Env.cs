@@ -115,8 +115,7 @@ public class Env
 		public Env()
 		{
 			// Временные переменные.
-			float x = 0;
-			int i;
+			
 			
 			// shape = new Shape();
 			norm = new EnvColor(0x3FB5F2, 0x000000);
@@ -238,7 +237,7 @@ public class Env
 
             while (i >= 0)
             {
-                nightSky[i] = new EnvStar();
+                nightSky[i] = new EnvStar();                
                 --i;
             }
             
@@ -372,8 +371,7 @@ public class Env
                 else
                 {
                     AppGraphics.DrawGeomerty(geomSkyNight);
-                    //drawNight(canvas);
-                    Debug.WriteLine("Implement me: Evn.draw1");
+                    drawNight(canvas);                    
                 }
             }
             else
@@ -392,26 +390,22 @@ public class Env
 		
 		public void drawNight(Canvas canvas)
 		{
-            //// Временные переменные.
-            //float x;
-            //Matrix mat = new Matrix();
-            //* o;
-            //EnvStar c;
-			
-            //// Рисуем ОБЛАКА
-            //foreach (o in nightSky)
-            //{
-            //    c = EnvStar(o);
-            //    x = c.t;
-								
-            //    mat.identity();
-            //    mat.translate(-7.0, -7.0);
-            //    mat.rotate(c.a);
-            //    mat.scale(0.75 + 0.25*Math.sin(x*6.28), 0.75 + 0.25*Math.sin(x*6.28));
-            //    mat.translate(c.x, c.y);
+            // Временные переменные.
+            float x;
+            // Matrix mat = new Matrix();            
+
+            // Рисуем ОБЛАКА
+            foreach (EnvStar c in nightSky)
+            {
+                x = c.t;
+                //mat.identity();
+                //mat.translate(-7.0, -7.0);
+                //mat.rotate(c.a);
+                //mat.scale(0.75 + 0.25*Math.sin(x*6.28), 0.75 + 0.25*Math.sin(x*6.28));
+                //mat.translate(c.x, c.y);
 				
-            //    canvas.draw(imgStar, mat, c.color, null, null, true);
-            //}
+                //canvas.draw(imgStar, mat, c.color, null, null, true);
+            }
 		}
 		
 		public void drawSky(Canvas canvas)

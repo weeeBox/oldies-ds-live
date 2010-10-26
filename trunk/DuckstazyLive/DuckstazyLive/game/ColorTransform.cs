@@ -7,14 +7,15 @@ namespace DuckstazyLive.game
 {
     public class ColorTransform
     {
+        public static ColorTransform NONE = new ColorTransform();
+
         public float alphaMultiplier;
         public float redMultiplier;
         public float greenMultiplier;
         public float blueMultiplier;
 
-        public ColorTransform()
-        {
-            alphaMultiplier = 1.0f;
+        public ColorTransform() : this (1.0f, 1.0f, 1.0f, 1.0f)
+        {            
         }
 
         public ColorTransform(float redMultiplier, float greenMultiplier, float blueMultiplier) : this(redMultiplier, greenMultiplier, blueMultiplier, 1.0f)
