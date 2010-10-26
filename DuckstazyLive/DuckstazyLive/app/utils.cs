@@ -204,8 +204,13 @@ namespace DuckstazyLive.app
 		}
 
         public static Color makeColor(uint color)
+        {
+            return makeColor(color, false);
+        }
+
+        public static Color makeColor(uint color, bool processAlpha)
         {            
-            byte a = (byte)((color >> 24) & 0xff);
+            byte a = processAlpha ? (byte)((color >> 24) & 0xff) : (byte)255;
             byte r = (byte)((color >> 16) & 0xff);
             byte g = (byte)((color >> 8) & 0xff);
             byte b = (byte)((color >> 0) & 0xff);

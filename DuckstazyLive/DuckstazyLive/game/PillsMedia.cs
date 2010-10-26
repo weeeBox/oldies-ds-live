@@ -144,14 +144,14 @@ namespace DuckstazyLive.game
 
         public PillsMedia()
 		{
-            imgPower1 = Res.IMG_POWER_1;
-            imgPower2 = Res.IMG_POWER_2;
-            imgPower3 = Res.IMG_POWER_3;
-            //imgPPower1 = (new rSuperPowerImg1()).bitmapData;
-            //imgPPower2 = (new rSuperPowerImg2()).bitmapData;
-            //imgPPower3 = (new rSuperPowerImg3()).bitmapData;
-			
-            imgNids = new int[]  { Res.IMG_PILL_1, Res.IMG_PILL_1, Res.IMG_PILL_1, Res.IMG_PILL_1 };
+            imgPower1 = Res.IMG_PILL_1;
+            imgPower2 = Res.IMG_PILL_2;
+            imgPower3 = Res.IMG_PILL_3;
+            imgPPower1 = Res.IMG_PILL_1P;
+            imgPPower2 = Res.IMG_PILL_2P;
+            imgPPower3 = Res.IMG_PILL_3P;
+
+            imgNids = new int[] { Res.IMG_POWER_1, Res.IMG_POWER_2, Res.IMG_POWER_3, Res.IMG_POWER_4 };
 						
             ////imgEmo = (new rEmoImg()).bitmapData; 
 

@@ -29,44 +29,49 @@ namespace DuckstazyLive.app
 		public const int IMG_DUCK_FAKE = 10;
 		public const int IMG_STAR = 11;
 		public const int IMG_PILL_1 = 12;
-		public const int IMG_PILL_TOXIC_1 = 13;
-		public const int IMG_PILL_TOXIC_2 = 14;
-		public const int IMG_PILL_SLEEP = 15;
-		public const int IMG_PILL_HIGH = 16;
-		public const int IMG_SMILE_1 = 17;
-		public const int IMG_SMILE_2 = 18;
-		public const int IMG_SMILE_3 = 19;
-		public const int IMG_EYES_1 = 20;
-		public const int IMG_EYES_2 = 21;
-		public const int IMG_POWER_1 = 22;
-		public const int IMG_POWER_2 = 23;
-		public const int IMG_POWER_3 = 24;
-		public const int IMG_POWER_4 = 25;
+		public const int IMG_PILL_2 = 13;
+		public const int IMG_PILL_3 = 14;
+		public const int IMG_PILL_1P = 15;
+		public const int IMG_PILL_2P = 16;
+		public const int IMG_PILL_3P = 17;
+		public const int IMG_PILL_TOXIC_1 = 18;
+		public const int IMG_PILL_TOXIC_2 = 19;
+		public const int IMG_PILL_SLEEP = 20;
+		public const int IMG_PILL_HIGH = 21;
+		public const int IMG_SMILE_1 = 22;
+		public const int IMG_SMILE_2 = 23;
+		public const int IMG_SMILE_3 = 24;
+		public const int IMG_EYES_1 = 25;
+		public const int IMG_EYES_2 = 26;
+		public const int IMG_POWER_1 = 27;
+		public const int IMG_POWER_2 = 28;
+		public const int IMG_POWER_3 = 29;
+		public const int IMG_POWER_4 = 30;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 26;
-		public const int SONG_ENV_TEX = 27;
-		public const int SND_HERO_ATTACK = 28;
-		public const int SND_HERO_AWAKE = 29;
-		public const int SND_HERO_JUMP = 30;
-		public const int SND_HERO_LAND = 31;
-		public const int SND_HERO_SLEEP = 32;
-		public const int SND_HERO_STEP1 = 33;
-		public const int SND_HERO_STEP2 = 34;
-		public const int SND_HERO_TOXIC = 35;
-		public const int SND_HERO_WING1 = 36;
-		public const int SND_HERO_WING2 = 37;
-		public const int SND_LEVEL_START = 38;
-		public const int SND_PILL_GENERATE = 39;
-		public const int SND_PILL_HIGH = 40;
-		public const int SND_PILL_JUMPER = 41;
-		public const int SND_PILL_POWER1 = 42;
-		public const int SND_PILL_POWER2 = 43;
-		public const int SND_PILL_POWER3 = 44;
-		public const int SND_PILL_TOXIC_BORN = 45;
-		public const int SND_PILL_WARNING = 46;
-		public const int SND_UI_CLICK = 47;
-		public const int SND_UI_FOCUS = 48;
-		public const int RES_COUNT = 49;
+		public const int SND_ENV_POWER = 31;
+		public const int SONG_ENV_TEX = 32;
+		public const int SND_HERO_ATTACK = 33;
+		public const int SND_HERO_AWAKE = 34;
+		public const int SND_HERO_JUMP = 35;
+		public const int SND_HERO_LAND = 36;
+		public const int SND_HERO_SLEEP = 37;
+		public const int SND_HERO_STEP1 = 38;
+		public const int SND_HERO_STEP2 = 39;
+		public const int SND_HERO_TOXIC = 40;
+		public const int SND_HERO_WING1 = 41;
+		public const int SND_HERO_WING2 = 42;
+		public const int SND_LEVEL_START = 43;
+		public const int SND_PILL_GENERATE = 44;
+		public const int SND_PILL_HIGH = 45;
+		public const int SND_PILL_JUMPER = 46;
+		public const int SND_PILL_POWER1 = 47;
+		public const int SND_PILL_POWER2 = 48;
+		public const int SND_PILL_POWER3 = 49;
+		public const int SND_PILL_TOXIC_BORN = 50;
+		public const int SND_PILL_WARNING = 51;
+		public const int SND_UI_CLICK = 52;
+		public const int SND_UI_FOCUS = 53;
+		public const int RES_COUNT = 54;
 	}
 	public class DuckstazyResources
 	{
@@ -96,6 +101,11 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_DUCK_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
 				new ResourceBaseInfo(Res.IMG_STAR, ResourceType.RESOURCE_TYPE_TEXTURE, "star"),
 				new ResourceBaseInfo(Res.IMG_PILL_1, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_1"),
+				new ResourceBaseInfo(Res.IMG_PILL_2, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_2"),
+				new ResourceBaseInfo(Res.IMG_PILL_3, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_3"),
+				new ResourceBaseInfo(Res.IMG_PILL_1P, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_1p"),
+				new ResourceBaseInfo(Res.IMG_PILL_2P, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_2p"),
+				new ResourceBaseInfo(Res.IMG_PILL_3P, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_3p"),
 				new ResourceBaseInfo(Res.IMG_PILL_TOXIC_1, ResourceType.RESOURCE_TYPE_TEXTURE, "toxic1"),
 				new ResourceBaseInfo(Res.IMG_PILL_TOXIC_2, ResourceType.RESOURCE_TYPE_TEXTURE, "toxic2"),
 				new ResourceBaseInfo(Res.IMG_PILL_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_sleep"),
