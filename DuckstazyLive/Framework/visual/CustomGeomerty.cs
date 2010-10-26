@@ -62,6 +62,14 @@ namespace Framework.visual
             postDraw();
         }
 
+        public void colorize(Color color)
+        {
+            for (int i = 0; i < vertexData.Length; ++i)
+            {
+                vertexData[i].Color = color;
+            }
+        }
+
         public VertexDeclaration VertexDeclaration
         {
             get { return vertexDeclaration; }

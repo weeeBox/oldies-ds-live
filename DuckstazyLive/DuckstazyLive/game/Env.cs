@@ -41,7 +41,9 @@ public class Env
         
         //[Embed(source="sfx/power.mp3")]
         //private Class rPowerSnd;
-                
+
+        private DrawMatrix MAT = new DrawMatrix();            
+
 		private int[] imgClouds;
 		private int imgGrass;
 		private int imgGrass2;
@@ -50,6 +52,8 @@ public class Env
 		
         private CustomGeomerty geomSkyDay;
         private CustomGeomerty geomSkyNight;
+        private CustomGeomerty geomGround;
+        private CustomGeomerty geomGroundEffect;
 		
 		private int sndPower;
 		//private var sndTex1:Sound;
@@ -172,8 +176,8 @@ public class Env
             //Texture2D data2 = (new rGrass2Img()).bitmapData;
             //Point dest = new Point();
             //int i = 5;
-            //Matrix mat = new Matrix();
-            //mat.createGradientBox(640, 80, 1.57, 0, 0);
+            //Matrix MAT = new Matrix();
+            //MAT.createGradientBox(640, 80, 1.57, 0, 0);
 			
             //imgGrass = new Texture2D(640, 8, true, 0x00000000);
             //imgGrass2 = new Texture2D(640, 8, true, 0x00000000);
@@ -193,21 +197,23 @@ public class Env
             //imgGrass2.unlock();
 			
             //shape.graphics.clear();
-            //shape.graphics.beginGradientFill(GradientType.LINEAR, [0x371d06, 0x5d310c], [1.0f, 1.0f], [0x00, 0xFF], mat);
+            //shape.graphics.beginGradientFill(GradientType.LINEAR, [0x371d06, 0x5d310c], [1.0f, 1.0f], [0x00, 0xFF], MAT);
             //shape.graphics.drawRect(0.0f, 0.0f, 640.0, 80.0);
             //shape.graphics.endFill();
             //imgGround.draw(shape);
-            Debug.WriteLine("Implement me: Env.initGrass");
+
+            geomGround = GeometryFactory.createGradient(0, 400, 640, 80, utils.makeColor(0x371d06), utils.makeColor(0x5d310c));
+            geomGroundEffect = GeometryFactory.createSolidRect(0, 400, 640, 80, Color.White);
 		}
 			
 		private void initDay()
 		{
             //float x = 0.0f;
-            //Matrix mat = new Matrix();
-            //mat.createGradientBox(640, 400, 1.57, 0, 0);
+            //Matrix MAT = new Matrix();
+            //MAT.createGradientBox(640, 400, 1.57, 0, 0);
 		
             //shape.graphics.clear();
-            //shape.graphics.beginGradientFill(GradientType.LINEAR, [0x3FB5F2, 0xDDF2FF], [1.0f, 1.0f], [0x00, 0xFF], mat);
+            //shape.graphics.beginGradientFill(GradientType.LINEAR, [0x3FB5F2, 0xDDF2FF], [1.0f, 1.0f], [0x00, 0xFF], MAT);
             //shape.graphics.drawRect(0.0f, 0.0f, 640.0, 480.0);
             //shape.graphics.endFill();
 			
@@ -391,20 +397,19 @@ public class Env
 		public void drawNight(Canvas canvas)
 		{
             // Временные переменные.
-            float x;
-            // Matrix mat = new Matrix();            
+            float x;            
 
             // Рисуем ОБЛАКА
             foreach (EnvStar c in nightSky)
             {
                 x = c.t;
-                //mat.identity();
-                //mat.translate(-7.0, -7.0);
-                //mat.rotate(c.a);
-                //mat.scale(0.75 + 0.25*Math.sin(x*6.28), 0.75 + 0.25*Math.sin(x*6.28));
-                //mat.translate(c.x, c.y);
-				
-                //canvas.draw(imgStar, mat, c.color, null, null, true);
+                MAT.identity();
+                MAT.translate(-7.0f, -7.0f);
+                MAT.rotate(c.a);
+                MAT.scale(0.75f + 0.25f * (float) Math.Sin(x * 6.28), 0.75f + 0.25f * (float) Math.Sin(x * 6.28));
+                MAT.translate(c.x, c.y);
+
+                canvas.draw(imgStar, MAT, c.color);
             }
 		}
 		
@@ -412,31 +417,30 @@ public class Env
 		{
             // Временные переменные.
             float x;
-            // Matrix mat = new Matrix();
+            // Matrix MAT = new Matrix();
             Texture2D img;
+            int imageId;
 
             // Рисуем ОБЛАКА
             foreach (EnvCloud c in clouds)
             {
-                x = c.counter;
-                img = Application.sharedResourceMgr.getTexture(imgClouds[c.id]);
+                x = c.counter;   
+                imageId = imgClouds[c.id];
+                img = Application.sharedResourceMgr.getTexture(imageId);
 
-                //mat.identity();
-                //mat.translate(-img.width * 0.5f, -img.height * 0.5f);
-                //mat.scale(0.9 + 0.1 * Math.sin(x * 6.28), 0.95 + 0.05 * Math.sin(x * 6.28 + 3.14));
-                //mat.translate(c.x, c.y);
+                MAT.identity();
+                MAT.translate(-img.Width * 0.5f, -img.Height * 0.5f);
+                MAT.scale(0.9f + 0.1f * (float) Math.Sin(x * 6.28), 0.95f + 0.05f * (float) Math.Sin(x * 6.28 + 3.14));
+                MAT.translate(c.x, c.y);
 
-                //canvas.draw(img, mat, null, null, null, true);
-                float scaleX = 0.9f + 0.1f * (float)Math.Sin(x * 6.28f);
-                float scaleY = 0.95f + 0.05f * (float)Math.Sin(x * 6.28f + Math.PI);
-                AppGraphics.DrawScaledImage(img, c.x, c.y, scaleX, scaleY);
+                canvas.draw(imageId, MAT);                
             }
 		}
 	
 		public void draw2(Canvas canvas)
 		{
             //// Временные переменные.
-            //Matrix mat = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 392.0);
+            //Matrix MAT = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 392.0);
             //Rect rc = new Rect(0.0f, 400.0, 640.0, 80.0);
 			
             ///**** ОСНОВА ДЛЯ ЗЕМЛИ ****/
@@ -444,25 +448,40 @@ public class Env
 			
 			
             ///**** ТРАВА ****/
+            Color color = Color.White;
+            color.R = (byte)(color.R * ctGrass.redMultiplier);
+            color.G = (byte)(color.G * ctGrass.redMultiplier);
+            color.B = (byte)(color.B * ctGrass.redMultiplier);            
 
             if (power < 0.5f)
             {
                 // TODO Optimize
                 // canvas.draw(imgGround, new Matrix(1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 400.0));
-                // canvas.draw(imgGrass, mat, ctGrass);
+                // canvas.draw(imgGrass, MAT, ctGrass);
+                AppGraphics.DrawGeomerty(geomGround);
+
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, 400, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
+                Rectangle dst = new Rectangle(0, 400 - tex.Height, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);                
+
+                AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
+                AppGraphics.SetColor(Color.White);
             }
             else
             {
+                geomGroundEffect.colorize(utils.makeColor(colGround));
+                AppGraphics.DrawGeomerty(geomGroundEffect);
+
                 //canvas.fillRect(rc, colGround);
-                //canvas.draw(imgGrass2, mat, ctGrass);
+                //canvas.draw(imgGrass2, MAT, ctGrass);
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, 400, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
+                Rectangle dst = new Rectangle(0, 400 - tex.Height, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);                
+
+                AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
+                AppGraphics.SetColor(Color.White);
             }	
 		}
 
@@ -484,21 +503,7 @@ public class Env
             //shBlanc.graphics.drawRect(0.0f, 0.0f, 640.0, 480.0);
             //shBlanc.graphics.endFill();
             //canvas.draw(shBlanc);
-		}
-
-		public void loopMusic()
-		{
-            //if(power<0.5f)
-            //    musicTrans.volume = power*0.3f;
-				
-            //if(channel!=null)
-            //{
-            //    channel.stop();
-            //    channel.removeEventListener(Event.SOUND_COMPLETE, loopMusic);
-            //    channel = music.play(0.0f, 0, musicTrans);
-            //    channel.addEventListener(Event.SOUND_COMPLETE, loopMusic);
-            //}
-		}
+		}		
 	}
 
 }
