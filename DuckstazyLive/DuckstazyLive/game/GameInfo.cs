@@ -14,13 +14,12 @@ namespace DuckstazyLive.game
 		private FloatText[] ftPool;
 		private int ftCount;
 
-		// private TextField text;
-		public Texture2D one;
-		public Texture2D[] powers;
-		public Texture2D[] toxics;
-		public Texture2D[] sleeps;
-		public Texture2D[] damages;
-		
+		private TextField text;
+		public string one;
+		public string[] powers;
+		public string[] toxics;
+		public string[] sleeps;
+		public string[] damages;		
 		
 		public float r;
 		public float g;
@@ -38,97 +37,117 @@ namespace DuckstazyLive.game
 				ftPool[i] = new FloatText();
 				
 			ftCount = 0;
-			
-            //text = new TextField();
+
+            text = new TextField();
             //text.defaultTextFormat = new TextFormat("_mini", 15, 0xffffffff);
             //text.embedFonts = true;
             //text.cacheAsBitmap = true;
             //text.autoSize = TextFieldAutoSize.LEFT;
- 			
+
             //powers = new Array();
             //toxics = new Array();
             //sleeps = new Array();
             //damages = new Array();
- 			
+
             //text.text = "+1";
             //one = new Texture2D(text.width, text.height, true, 0x00000000);
             //one.draw(text);
- 			
+
             //text.text = "+5";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //powers.push(bm);
- 			
+
             //text.text = "+10";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //powers.push(bm);
- 			
+
             //text.text = "+25";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //powers.push(bm);
- 			
+
             //text.text = "+50";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //powers.push(bm);
- 			
+
             //text.text = "+100";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //powers.push(bm);
- 			
+
             //text.text = "+150";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //powers.push(bm);
- 			
+
             //text.text = "FIRST BLOOD! +100";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //toxics.push(bm);
- 			
+
             //text.text = "MANIACALISTIC! +150";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //toxics.push(bm);
- 			
+
             //text.text = "SUPER RESISTANCE! +200";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //toxics.push(bm);
- 			
+
             //text.text = "WAKE UP!";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //sleeps.push(bm);
- 			
+
             //text.text = "LULLABY...";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //sleeps.push(bm);
- 			
+
             //text.text = "FALLING ASLEEP..";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //sleeps.push(bm);
- 			
+
             //text.text = "OOPS!";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //damages.push(bm);
- 			
+
             //text.text = "REALLY HARD...";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
             //damages.push(bm);
- 			
+
             //text.text = "BE CAREFUL!";
             //bm = new Texture2D(text.width, text.height, true, 0x00000000);
             //bm.draw(text);
-            //damages.push(bm);
-            Debug.WriteLine("Implement me: GameInfo.GameInfo()");
+            //damages.push(bm);            
+
+            powers = new String[] { "+1", "+5", "+10", "+25", "+50", "+100", "+150"};
+            toxics = new String[] 
+            { 
+                "FIRST BLOOD! +100", 
+                "MANIACALISTIC! +150",
+                "SUPER RESISTANCE! +200",
+            };
+            sleeps = new String[] 
+            { 
+                "WAKE UP!",
+                "LULLABY...",
+                "FALLING ASLEEP..",
+
+            };
+            damages = new String[] 
+            { 
+                "OOPS!", 
+                "REALLY HARD...", 
+                "BE CAREFUL!",
+            };
  		}
 		
 		public void reset()
@@ -163,7 +182,7 @@ namespace DuckstazyLive.game
             Debug.WriteLine("Implement me: GameInfo.drawFT");
 		}
 		
-		public void add(float x, float y, Texture2D bm)
+		public void add(float x, float y, String text)
 		{
             //foreach (FloatText ft in ftPool)
             //{
