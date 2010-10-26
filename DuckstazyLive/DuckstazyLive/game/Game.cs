@@ -23,6 +23,8 @@ namespace DuckstazyLive.game
         // Уровень.
         public Level level;
 
+        private Canvas canvas = new Canvas();
+
         //private Menu menu;
 
         //// Вывод
@@ -155,8 +157,7 @@ namespace DuckstazyLive.game
         }
 
         public void draw()
-        {
-            Canvas canvas = null;
+        {            
             Env env = level.env;
 
             //**RENDER**//

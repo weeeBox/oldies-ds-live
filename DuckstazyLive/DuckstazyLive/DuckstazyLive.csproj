@@ -99,6 +99,7 @@
     <Compile Include="app\utils.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
+    <Compile Include="game\DrawMatrix.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
     <Compile Include="game\EnvColor.cs" />

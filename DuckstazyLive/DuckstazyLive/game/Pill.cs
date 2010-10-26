@@ -30,11 +30,10 @@ namespace DuckstazyLive.game
         public const int SMILE = 2;*/
 
         private Rect RC = new Rect(0, 0, 20, 20);
-        private Point POINT = new Point(0, 0);
+        private Vector2 POINT = Vector2.Zero;
         private ColorTransform COLOR = new ColorTransform();
         private ColorTransform BLACK = new ColorTransform(0, 0, 0);
-        private Matrix MAT = new Matrix();
-
+        private DrawMatrix MAT = new DrawMatrix();
 
         // временный идентификатор
         public int id;
@@ -700,48 +699,36 @@ namespace DuckstazyLive.game
             {
                 if (state != 2)
                 {
-                    //MAT.identity();
-                    //MAT.tx = MAT.ty = -10;
-                    //MAT.scale(appear, appear);
-                    //MAT.translate(dx, dy);
-                    //canvas.draw(imgMain, MAT, null, null, null, true);
-                    //canvas.draw(imgNid, MAT, null, null, null, true);
-                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
-                    AppGraphics.DrawScaledImage(tex, dx - 10, dy - 10, appear);
-                    tex = Application.sharedResourceMgr.getTexture(imgNid);
-                    AppGraphics.DrawScaledImage(tex, dx - 10, dy - 10, appear);
+                    MAT.identity();
+                    MAT.tx = MAT.ty = -10;
+                    MAT.scale(appear, appear);
+                    MAT.translate(dx, dy);
+                    canvas.draw(imgMain, MAT);
+                    canvas.draw(imgNid, MAT);                    
                 }
                 else
                 {
-                    //POINT.x = dx - 10;
-                    //POINT.y = dy - 10;
-                    //canvas.copyPixels(imgMain, RC, POINT);
-                    //canvas.copyPixels(imgNid, RC, POINT);
-                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
-                    AppGraphics.DrawImage(tex, dx - 10, dy - 10);
-                    tex = Application.sharedResourceMgr.getTexture(imgNid);
-                    AppGraphics.DrawImage(tex, dx - 10, dy - 10);
+                    POINT.X = dx - 10;
+                    POINT.Y = dy - 10;
+                    canvas.copyPixels(imgMain, RC, POINT);
+                    canvas.copyPixels(imgNid, RC, POINT);                    
                 }
             }
             else
             {
                 if (state != 2)
                 {
-                    //MAT.identity();
-                    //MAT.tx = MAT.ty = -10;
-                    //MAT.scale(appear, appear);
-                    //MAT.translate(dx, dy);
-                    //canvas.draw(imgEmo, MAT, null, null, null, true);
-                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgEmo);
-                    AppGraphics.DrawScaledImage(tex, dx - 10, dy - 10, appear);
+                    MAT.identity();
+                    MAT.tx = MAT.ty = -10;
+                    MAT.scale(appear, appear);
+                    MAT.translate(dx, dy);
+                    canvas.draw(imgEmo, MAT);                    
                 }
                 else
                 {
-                    //POINT.x = dx - 10;
-                    //POINT.y = dy - 10;
-                    //canvas.copyPixels(imgEmo, RC, POINT);
-                    Texture2D tex = Application.sharedResourceMgr.getTexture(imgEmo);
-                    AppGraphics.DrawImage(tex, dx - 10, dy - 10);
+                    POINT.X = dx - 10;
+                    POINT.Y = dy - 10;
+                    canvas.copyPixels(imgEmo, RC, POINT);                    
                 }
 
                 if (emoCounter > 0.0f)
@@ -765,15 +752,11 @@ namespace DuckstazyLive.game
 
             if (high && highCounter > 0.5 && state == 2)
             {
-                //MAT.identity();
-                //MAT.tx = dx - 12;
-                //MAT.ty = dy - 12;
-                //COLOR.alphaMultiplier = 2.0 - highCounter * 2.0;
-                //canvas.draw(media.imgHigh, MAT, COLOR, null, null, false);
-                Color color = Color.White;
-                color.A *= (byte)(255 * (2.0f - highCounter * 2.0f));
-                Texture2D tex = Application.sharedResourceMgr.getTexture(media.imgHigh);
-                AppGraphics.DrawImage(tex, dx - 12, dy - 12, color);
+                MAT.identity();
+                MAT.tx = dx - 12;
+                MAT.ty = dy - 12;
+                COLOR.alphaMultiplier = 2.0f - highCounter * 2.0f;
+                canvas.draw(media.imgHigh, MAT, COLOR);                
             }            
         }
 
@@ -781,204 +764,187 @@ namespace DuckstazyLive.game
         {
             if (state != 2)
             {
-                //MAT.identity();
-                //MAT.tx = MAT.ty = -10;
-                //MAT.scale(appear, appear);
-                //MAT.translate(dx, dy);
-                //canvas.draw(imgMain, MAT, null, null, null, true);
-
-                Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
-                AppGraphics.DrawScaledImage(tex, dx-10, dy-10, appear);
+                MAT.identity();
+                MAT.tx = MAT.ty = -10;
+                MAT.scale(appear, appear);
+                MAT.translate(dx, dy);
+                canvas.draw(imgMain, MAT);                
             }
             else
             {
-                //POINT.x = dx - 10;
-                //POINT.y = dy - 10;
-                //canvas.copyPixels(imgMain, RC, POINT);
-
-                Texture2D tex = Application.sharedResourceMgr.getTexture(imgMain);
-                AppGraphics.DrawImage(tex, dx-10, dy-10);                
+                POINT.X = dx - 10;
+                POINT.Y = dy - 10;
+                canvas.copyPixels(imgMain, RC, POINT);                
             }            
         }
 
         public void drawJump(Canvas canvas)
         {
-            //float s = 0.8 + 0.4 * Math.sin(highCounter * 1.57);
+            float s = 0.8f + 0.4f * (float) Math.Sin(highCounter * 1.57);
 
-            //if (state != 2)
-            //    s *= appear;
+            if (state != 2)
+                s *= appear;
 
-            //MAT.identity();
-            //MAT.tx = MAT.ty = -12;
-            //MAT.scale(s, s);
-            //MAT.translate(x, y);
+            MAT.identity();
+            MAT.tx = MAT.ty = -12;
+            MAT.scale(s, s);
+            MAT.translate(x, y);
 
-            //if (level.power >= 0.5)
-            //{
-            //    canvas.draw(imgMain, MAT, null, BlendMode.INVERT, null, true);
-            //}
-            //else
-            //{
-            //    if (level.env.day)
-            //        canvas.draw(imgMain, MAT, BLACK, null, null, true);
-            //    else
-            //        canvas.draw(imgMain, MAT, null, null, null, true);
-            //}
-            throw new NotImplementedException();
+            if (level.power >= 0.5f)
+            {
+                canvas.draw(imgMain, MAT); // TODO: add blend mode invert
+            }
+            else
+            {
+                if (level.env.day)
+                    canvas.draw(imgMain, MAT, BLACK);
+                else
+                    canvas.draw(imgMain, MAT);
+            }            
         }
 
         private void drawNid(Canvas canvas)
         {
-            //MAT.identity();
-            //MAT.tx = -4;
-            //MAT.ty = 2;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -4;
+            MAT.ty = 2;
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
-            //canvas.draw(media.imgSmile1, MAT, null, null, null, true);
-            Texture2D tex = Application.sharedResourceMgr.getTexture(media.imgSmile1);
-            AppGraphics.DrawScaledImage(tex, dx - 4, dy + 2, appear);
+            canvas.draw(media.imgSmile1, MAT);
 
-            //MAT.identity();
-            //MAT.tx = -5;
-            //MAT.ty = -3;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx + hx, dy + hy);
+            MAT.identity();
+            MAT.tx = -5;
+            MAT.ty = -3;
+            MAT.scale(appear, appear);
+            MAT.translate(dx + hx, dy + hy);
 
-            //canvas.draw(media.imgEyes1, MAT, null, null, null, true);            
-            tex = Application.sharedResourceMgr.getTexture(media.imgEyes1);
-            AppGraphics.DrawScaledImage(tex, dx - 5, dy - 3, appear);
+            canvas.draw(media.imgEyes1, MAT);            
         }
 
         private void drawEmoDefault(Canvas canvas, float alpha, float angle)
         {
-            //COLOR.alphaMultiplier = alpha;
+            COLOR.alphaMultiplier = alpha;
 
-            //MAT.identity();
-            //MAT.tx = -4;
-            //MAT.ty = 2;
-            //MAT.rotate(angle);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -4;
+            MAT.ty = 2;
+            MAT.rotate(angle);
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
-            //canvas.draw(media.imgSmile1, MAT, COLOR, null, null, true);
+            canvas.draw(media.imgSmile1, MAT, COLOR);
 
-            //MAT.identity();
-            //MAT.tx = -5;
-            //MAT.ty = -3;
-            //MAT.rotate(angle);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx + hx, dy + hy);
+            MAT.identity();
+            MAT.tx = -5;
+            MAT.ty = -3;
+            MAT.rotate(angle);
+            MAT.scale(appear, appear);
+            MAT.translate(dx + hx, dy + hy);
 
-            //canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
-            throw new NotImplementedException();
+            canvas.draw(media.imgEyes1, MAT, COLOR);            
         }
 
         private void drawEmoHappy(Canvas canvas)
         {
-            ////var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
-            //ColorTransform col;
-            //float a = 0.5;
-            //float ang = emoCounter / 3.0;
+            //var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
+            
+            float a = 0.5f;
+            float ang = emoCounter / 3.0f;
 
-            //if (emoCounter > 2.5) a = 3.0 - emoCounter;
-            //else if (emoCounter < 0.5) a = emoCounter;
-            //a *= 2.0;
+            if (emoCounter > 2.5f) a = 3.0f - emoCounter;
+            else if (emoCounter < 0.5f) a = emoCounter;
+            a *= 2.0f;
 
-            //if (emoParam > 0.0f)
-            //    ang = 1.0f - ang;
+            if (emoParam > 0.0f)
+                ang = 1.0f - ang;
 
-            //ang *= Math.abs(emoParam) * 6.28;
+            ang *= Math.Abs(emoParam) * 6.28f;
 
-            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, ang);
-            //COLOR.alphaMultiplier = a;
+            if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, ang);
+            COLOR.alphaMultiplier = a;
 
-            //MAT.identity();
-            //MAT.tx = -6;
-            //MAT.ty = 1;
-            //MAT.rotate(ang);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -6;
+            MAT.ty = 1;
+            MAT.rotate(ang);
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
-            //canvas.draw(media.imgSmile3, MAT, COLOR, null, null, true);
+            canvas.draw(media.imgSmile3, MAT, COLOR);
 
-            //MAT.identity();
-            //MAT.tx = -7;
-            //MAT.ty = -5;
-            //MAT.rotate(ang);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -7;
+            MAT.ty = -5;
+            MAT.rotate(ang);
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
-            //canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
-            Debug.WriteLine("Implement me: drawEmoHappy");
+            canvas.draw(media.imgEyes2, MAT, COLOR);            
         }
 
         private void drawEmoShake(Canvas canvas)
         {
-            ////var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
-            ////var col:ColorTransform;
-            //float a = 0.5;
-            //float off = Math.sin(emoCounter * 6.28);
+            //var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
+            //var col:ColorTransform;
+            float a = 0.5f;
+            float off = (float) (Math.Sin(emoCounter * 6.28));
 
-            //if (emoCounter > 2.5) a = 3.0 - emoCounter;
-            //else if (emoCounter < 0.5) a = emoCounter;
-            //a *= 2.0;
+            if (emoCounter > 2.5f) a = 3.0f - emoCounter;
+            else if (emoCounter < 0.5f) a = emoCounter;
+            a *= 2.0f;
 
-            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
-            //COLOR.alphaMultiplier = a;
+            if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
+            COLOR.alphaMultiplier = a;
 
-            //if (off < 0.0f)
-            //    off = 0.0f;
-            //else if (off >= 0.0f)
-            //    off = 0.5;
+            if (off < 0.0f)
+                off = 0.0f;
+            else if (off >= 0.0f)
+                off = 0.5f;
 
-            //MAT.identity();
-            //MAT.tx = -6;
-            //MAT.ty = 1;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -6;
+            MAT.ty = 1;
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
+            canvas.draw(media.imgSmile3, MAT, COLOR);
 
+            MAT.identity();
+            MAT.tx = -7;
+            MAT.ty = -5;
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy + off);
 
-            //canvas.draw(media.imgSmile3, MAT, COLOR, null, null, true);
-
-            //MAT.identity();
-            //MAT.tx = -7;
-            //MAT.ty = -5;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy + off);
-
-            //canvas.draw(media.imgEyes2, MAT, COLOR, null, null, true);
-            Debug.WriteLine("Implement me: drawEmoShake");
+            canvas.draw(media.imgEyes2, MAT, COLOR);            
         }
 
         private void drawEmoSmile(Canvas canvas)
         {
-            //float a = 0.5;
+            float a = 0.5f;
 
-            //if (emoCounter > 2.5) a = 3.0 - emoCounter;
-            //else if (emoCounter < 0.5) a = emoCounter;
-            //a *= 2.0;
+            if (emoCounter > 2.5f) a = 3.0f - emoCounter;
+            else if (emoCounter < 0.5f) a = emoCounter;
+            a *= 2.0f;
 
-            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
-            //COLOR.alphaMultiplier = a;
+            if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
+            COLOR.alphaMultiplier = a;
 
-            //MAT.identity();
-            //MAT.tx = -8;
-            //MAT.ty = 1;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -8;
+            MAT.ty = 1;
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
-            //canvas.draw(media.imgSmile2, MAT, COLOR, null, null, true);
+            canvas.draw(media.imgSmile2, MAT, COLOR);
 
-            //MAT.identity();
-            //MAT.tx = -5;
-            //MAT.ty = -3;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
+            MAT.identity();
+            MAT.tx = -5;
+            MAT.ty = -3;
+            MAT.scale(appear, appear);
+            MAT.translate(dx, dy);
 
-            //canvas.draw(media.imgEyes1, MAT, COLOR, null, null, true);
-            Debug.WriteLine("Implement me: drawEmoSmile");
+            canvas.draw(media.imgEyes1, MAT, COLOR);            
         }
 
         public bool isActive()
