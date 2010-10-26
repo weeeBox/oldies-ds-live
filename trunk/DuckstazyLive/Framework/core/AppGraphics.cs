@@ -245,6 +245,11 @@ namespace Framework.core
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
         }
 
+        public static void DrawImageRotated(Texture2D tex, float x, float y, Vector2 origin, float rotation)
+        {            
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, rotation, origin, 1.0f, SpriteEffects.None, 0.0f);
+        }
+
         public static void DrawImageTiled(Texture2D tex, ref Rectangle src, ref Rectangle dest)
         {
             // TODO: implement with texture repeat
