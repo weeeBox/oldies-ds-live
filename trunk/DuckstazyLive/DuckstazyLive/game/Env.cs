@@ -47,8 +47,9 @@ public class Env
 		private int imgGrass2;
 		private int imgGround;
 		private int imgStar;
-		private int imgSky;
-        private CustomGeomerty geomSky;
+		
+        private CustomGeomerty geomSkyDay;
+        private CustomGeomerty geomSkyNight;
 		
 		private int sndPower;
 		//private var sndTex1:Sound;
@@ -213,7 +214,7 @@ public class Env
 			
             //imgSky = new Texture2D(640, 400, false);
             //imgSky.draw(shape);
-            geomSky = GeometryFactory.createGradient(0, 0, 640, 480, utils.makeColor(0x3FB5F2), utils.makeColor(0xDDF2FF));
+            geomSkyDay = GeometryFactory.createGradient(0, 0, 640, 480, utils.makeColor(0x3FB5F2), utils.makeColor(0xDDF2FF));
 			
             imgClouds = new int[] { Res.IMG_CLOUD_1, Res.IMG_CLOUD_2, Res.IMG_CLOUD_3 };
 			
@@ -227,6 +228,8 @@ public class Env
 		
 		private void initNight()
 		{
+            geomSkyNight = GeometryFactory.createSolidRect(0, 0, 640, 480, utils.makeColor(0x111133));
+
             int starsCount = 30;
             int i = starsCount - 1;
 
@@ -343,16 +346,8 @@ public class Env
 				
 				x = (channel.LeftPeak + channel.RightPeak)*0.5f;
 				// Обновляем текущие цвета
-				updateColors();
-								
-				/*if(musicAttack<x)
-					musicAttack = x;
-				else if(musicAttack>0.0f)
-				{
-					musicAttack-=dt*10.0;
-					if(musicAttack<0.0f)
-						musicAttack = 0.0f;
-				}*/
+				updateColors();								
+				
 				musicAttack = musicAttack*0.7f + x*0.7f;
 				
 				curEffect.peak = musicAttack;
@@ -363,35 +358,36 @@ public class Env
 		public void draw1(Canvas canvas)
 		{
             //// Временные переменные.
-            //Rect rc = new Rect(0.0f, 0.0f, 640.0, 400.0);
-            ////Graphics gr = shape.graphics;			
-			
-            //if(power<0.5f)
-            //{
-            //    if(day)
-            //    {
-            //        canvas.copyPixels(imgSky, rc, new Point(0.0f, 0.0f));
-					 
-            //        drawSky(canvas);
-            //    }
-            //    else
-            //    {
-            //        canvas.fillRect(rc, 0x111133);
-            //        drawNight(canvas);
-            //    }
-            //}
-            //else
-            //{
-            //    curEffect.draw(canvas);
-            //    gr.clear();
-            //    gr.beginFill(colors.bg, 0.4*musicAttack);
-            //    gr.drawCircle(613.0 - x, 380.0 - y, musicAttack*30.0);
-            //    gr.drawCircle(320.0 - (x - 293.0)*0.97, 200.0 - (y - 180.0)*0.97, musicAttack*25.0);
-            //    gr.drawCircle(320.0 + (x - 293.0)*0.7, 200.0 + (y - 180.0)*0.7, musicAttack*10.0);
-            //    gr.endFill();
-            //    canvas.draw(shape);
-            //    //canvas.applyFilter(canvas, new Rect(0, 0, 640, 400), new Point(), new ConvolutionFilter(3,3,null, 9));
-            //}			
+            // Rect rc = new Rect(0.0f, 0.0f, 640.0, 400.0);
+            //Graphics gr = shape.graphics;			
+
+            if (power < 0.5f)
+            {
+                if (day)
+                {
+                    // canvas.copyPixels(imgSky, rc, new Point(0.0f, 0.0f));
+                    AppGraphics.DrawGeomerty(geomSkyDay);
+                    drawSky(canvas);
+                }
+                else
+                {
+                    AppGraphics.DrawGeomerty(geomSkyNight);
+                    //drawNight(canvas);
+                    Debug.WriteLine("Implement me: Evn.draw1");
+                }
+            }
+            else
+            {
+                //curEffect.draw(canvas);
+                //gr.clear();
+                //gr.beginFill(colors.bg, 0.4 * musicAttack);
+                //gr.drawCircle(613.0 - x, 380.0 - y, musicAttack * 30.0);
+                //gr.drawCircle(320.0 - (x - 293.0) * 0.97, 200.0 - (y - 180.0) * 0.97, musicAttack * 25.0);
+                //gr.drawCircle(320.0 + (x - 293.0) * 0.7, 200.0 + (y - 180.0) * 0.7, musicAttack * 10.0);
+                //gr.endFill();
+                //canvas.draw(shape);
+                //canvas.applyFilter(canvas, new Rect(0, 0, 640, 400), new Point(), new ConvolutionFilter(3,3,null, 9));
+            }			
 		}
 		
 		public void drawNight(Canvas canvas)
@@ -420,24 +416,27 @@ public class Env
 		
 		public void drawSky(Canvas canvas)
 		{
-            //// Временные переменные.
-            //float x;
-            //Matrix mat = new Matrix();
-            //Texture2D img;
-			
-            //// Рисуем ОБЛАКА
-            //foreach (EnvCloud c in clouds)
-            //{
-            //    x = c.counter;
-            //    img = Texture2D(imgClouds[c.id]); 
-				
-            //    mat.identity();
-            //    mat.translate(-img.width*0.5f, -img.height*0.5f);
-            //    mat.scale(0.9 + 0.1*Math.sin(x*6.28), 0.95 + 0.05*Math.sin(x*6.28 + 3.14));
-            //    mat.translate(c.x, c.y);
-				
-            //    canvas.draw(img, mat, null, null, null, true);
-            //}
+            // Временные переменные.
+            float x;
+            // Matrix mat = new Matrix();
+            Texture2D img;
+
+            // Рисуем ОБЛАКА
+            foreach (EnvCloud c in clouds)
+            {
+                x = c.counter;
+                img = Application.sharedResourceMgr.getTexture(imgClouds[c.id]);
+
+                //mat.identity();
+                //mat.translate(-img.width * 0.5f, -img.height * 0.5f);
+                //mat.scale(0.9 + 0.1 * Math.sin(x * 6.28), 0.95 + 0.05 * Math.sin(x * 6.28 + 3.14));
+                //mat.translate(c.x, c.y);
+
+                //canvas.draw(img, mat, null, null, null, true);
+                float scaleX = 0.9f + 0.1f * (float)Math.Sin(x * 6.28f);
+                float scaleY = 0.95f + 0.05f * (float)Math.Sin(x * 6.28f + Math.PI);
+                AppGraphics.DrawScaledImage(img, c.x, c.y, scaleX, scaleY);
+            }
 		}
 	
 		public void draw2(Canvas canvas)

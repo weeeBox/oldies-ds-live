@@ -55,7 +55,24 @@ public abstract class Resource
 	public String toString() 
 	{
 		return String.format("name='%s' path='%s'", name, file);
-	}
+	}	
+
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Resource other = (Resource) obj;
+		if (!file.equals(other.file))
+			return false;
+		if (!name.equals(other.name))
+			return false;
+		return true;
+	}	
 }
 
 class ContentPair
@@ -107,7 +124,7 @@ class ContentPair
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() 
 	{

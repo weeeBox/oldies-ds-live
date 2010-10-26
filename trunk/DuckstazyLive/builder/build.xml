@@ -55,6 +55,11 @@
 				<image name="duck_fake" file="${dir.art}/duck_fake.png" />
 				<image name="star" file="${dir.art}/star.png" />
 				<image name="pill_1" file="${dir.art}/pill_1.png" />
+				<image name="pill_2" file="${dir.art}/pill_2.png" />
+				<image name="pill_3" file="${dir.art}/pill_3.png" />
+				<image name="pill_1p" file="${dir.art}/pill_1p.png" />
+				<image name="pill_2p" file="${dir.art}/pill_2p.png" />
+				<image name="pill_3p" file="${dir.art}/pill_3p.png" />
 				<image name="pill_toxic_1" file="${dir.art}/toxic1.png" />
 				<image name="pill_toxic_2" file="${dir.art}/toxic2.png" />
 				<image name="pill_sleep" file="${dir.art}/pill_sleep.png" />

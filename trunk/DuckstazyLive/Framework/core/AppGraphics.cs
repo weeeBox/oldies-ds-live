@@ -232,6 +232,13 @@ namespace Framework.core
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, Vector2.Zero, 1.0f, flip, 0.0f);
         }
 
+        public static void DrawScaledImage(Texture2D tex, float x, float y, float scaleX, float scaleY)
+        {
+            Vector2 origin = new Vector2(0.5f * tex.Width, 0.5f * tex.Height);
+            Vector2 scale = new Vector2(scaleX, scaleY);
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, origin, scale, SpriteEffects.None, 0.0f);
+        }
+
         public static void DrawScaledImage(Texture2D tex, float x, float y, float scale)
         {
             Vector2 origin = new Vector2(0.5f * tex.Width, 0.5f * tex.Height);
@@ -300,7 +307,7 @@ namespace Framework.core
 
             graphicsDevice.VertexDeclaration = geometry.VertexDeclaration;
             if (geometry.IndexData == null)
-            {
+            {                
                 graphicsDevice.DrawUserPrimitives(geometry.PrimitiveType, geometry.VertexData, 0, geometry.PrimitiveCount);
             }
             else

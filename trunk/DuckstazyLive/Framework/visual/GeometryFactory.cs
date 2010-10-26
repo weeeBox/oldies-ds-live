@@ -23,5 +23,10 @@ namespace Framework.visual
             geomerty.height = (int)(h);
             return geomerty;
         }
+
+        public static CustomGeomerty createSolidRect(float x, float y, float w, float h, Color fillColor)
+        {            
+            return createGradient(x, y, w, h, fillColor, fillColor);
+        }
     }
 }
