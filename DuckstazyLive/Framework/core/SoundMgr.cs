@@ -11,8 +11,7 @@ namespace Framework.core
     {
         private Song song; // Channel 0
         private SoundEffectInstance[] sounds = new SoundEffectInstance[16];
-        private int[] soundIds = new int[16];
-        private float[] volumes = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+        private int[] soundIds = new int[16];        
 
         private bool isPlaying(int channel)
         {
@@ -27,24 +26,24 @@ namespace Framework.core
                 else
                     return sounds[channel].State == SoundState.Playing;
             }
-        }
+        }        
 
-        public void playLowPrioritySound(int soundId, int channel, bool looped)
+        public SoundChannel playSound(int sid)
         {
-            playSound(soundId, channel, looped);
+            return playSound(sid, SoundTransform.NONE);
         }
 
-        public void playSound(int sid)
+        public SoundChannel playSound(int sid, SoundTransform soundTransform)
         {
-            playSound(sid, false);
+            return playSound(sid, false, soundTransform);
         }
 
-        public void playSound(int sid, bool looped)
+        public SoundChannel playSound(int sid, bool looped, SoundTransform soundTransform)
         {
             object audio = Application.sharedResourceMgr.getResource(sid);
             if (audio is Song)
             {
-                playSound(sid, 0, looped);
+                return playSound(sid, 0, looped, soundTransform);
             }
             else
             {
@@ -52,14 +51,14 @@ namespace Framework.core
                 {
                     if (!isPlaying(i))
                     {
-                        playSound(sid, i, looped);
-                        break;
+                        return playSound(sid, i, looped, soundTransform);                        
                     }
                 }
             }
+            return null;
         }
 
-        public void playSound(int sid, int channel, bool looped)
+        private SoundChannel playSound(int sid, int channel, bool looped, SoundTransform soundTransform)
         {
             object audio = Application.sharedResourceMgr.getResource(sid);
             if (audio is Song)
@@ -67,33 +66,40 @@ namespace Framework.core
                 Song s = (Song)audio;
 
                 if (MediaPlayer.IsRepeating && looped && song == s)
-                    return;
+                    return null;
 
                 stopChannel(0);
 
                 song = s;
-                MediaPlayer.IsRepeating = looped;
-                //MediaPlayer.Volume = volumes[0];
-                MediaPlayer.Play(s);
-                if (volumes[0] < 0.5f)
-                    MediaPlayer.Pause();
+
+                SoundChannel soundChannel = new SongSoundChannel();
+                soundChannel.SoundTransform = soundTransform;
+
+                MediaPlayer.IsRepeating = looped;                
+                MediaPlayer.Play(s);                
 
                 soundIds[0] = sid;
+                return soundChannel;
             }
             else
             {
                 if (soundIds[channel] == sid && sounds[channel] != null && sounds[channel].IsLooped && looped)
-                    return;
+                    return null;
 
                 stopChannel(channel);
 
                 SoundEffect se = (SoundEffect)audio;
-                SoundEffectInstance si = se.CreateInstance();
-                si.Volume = volumes[channel];
-                si.IsLooped = looped;
+                SoundEffectInstance si = se.CreateInstance();                
                 sounds[channel] = si;
                 soundIds[channel] = sid;
+
+                SoundChannel soundChannel = new EffectSoundChannel(si);
+                soundChannel.SoundTransform = soundTransform;
+
+                si.IsLooped = looped;
                 si.Play();
+
+                return soundChannel;
             }
         }
 
@@ -130,31 +136,6 @@ namespace Framework.core
             {
                 stopChannel(i);
             }
-        }
-
-        public void setVolume(float v, int channel)
-        {
-            volumes[channel] = v;
-            if (channel == 0)
-            {
-                if (v > 0.5f)
-                {
-                    if (MediaPlayer.State == MediaState.Paused)
-                        MediaPlayer.Resume();
-                }
-                else
-                {
-                    if (MediaPlayer.State == MediaState.Playing)
-                        MediaPlayer.Pause();
-                }
-            }
-            else
-            {
-                if (sounds[channel] != null)
-                {
-                    sounds[channel].Volume = v;
-                }
-            }
-        }
+        }        
     }
 }

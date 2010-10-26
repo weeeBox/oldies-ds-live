@@ -161,7 +161,7 @@ public class Env
 			music = sndTex2;
 			// channel = music.play(0.0f, 0, musicTrans);
 			// channel.addEventListener(Event.SOUND_COMPLETE, loopMusic);
-            channel = new SoundChannel(musicTrans, 0.0f, 0.0f);
+            channel = Application.sharedSoundMgr.playSound(music, true, musicTrans);
 			musicAttack = 0.0f;
 		}
 	
@@ -288,18 +288,10 @@ public class Env
 				{
 					day = !day;
 					updateNorm();
-					blanc = 1.0f;
-					
-					/*x = channel.position;
-					channel.stop();
-					channel.removeEventListener(Event.SOUND_COMPLETE, loopMusic);
-					music = sndTex2;
-					channel = music.play(x);
-					channel.addEventListener(Event.SOUND_COMPLETE, loopMusic);*/
+					blanc = 1.0f;					
 					musicTrans.volume = 1;
-					// channel.soundTransform = musicTrans;					
-					// sndPower.play();
-                    Debug.WriteLine("Implement me. Env.update(float dt, float newPower)");
+					channel.SoundTransform = musicTrans;					
+					Application.sharedSoundMgr.playSound(sndPower);
 				}
 				else if(power>=0.5f && newPower<0.5f)
 				{
@@ -309,14 +301,7 @@ public class Env
 					colProgress = 0xff5d310c;
 					utils.ARGB2ColorTransform(colGrass, ctGrass);
 					utils.ARGB2ColorTransform(colProgress, ctProgress);
-					curEffect = effects[(int)(utils.rnd()*effects.Length)];
-					
-					/*x = channel.position;
-					channel.stop();
-					channel.removeEventListener(Event.SOUND_COMPLETE, loopMusic);
-					music = sndTex2;
-					channel = music.play(x);
-					channel.addEventListener(Event.SOUND_COMPLETE, loopMusic);*/
+					curEffect = effects[(int)(utils.rnd()*effects.Length)];					
 				}
 				
 				power = newPower;
@@ -324,17 +309,9 @@ public class Env
 				if(power<0.5f)
 				{
 					musicTrans.volume = power*0.3f;
-					channel.soundTransform = musicTrans;
+					channel.SoundTransform = musicTrans;
 				}
-			}
-			
-			/*if(channel.position >= 63900.0)
-			{
-				st = channel.soundTransform;
-				
-				channel.stop();
-				channel = music.play(0.0f, 0, st);
-			}*/
+			}			
 
 			// Обноляем счётчик с травой
 			if(grassCounter>0)
@@ -364,7 +341,7 @@ public class Env
 				while(time>hellCount-1)
 				time-=hellCount-1;
 				
-				x = (channel.leftPeak + channel.rightPeak)*0.5f;
+				x = (channel.LeftPeak + channel.RightPeak)*0.5f;
 				// Обновляем текущие цвета
 				updateColors();
 								
