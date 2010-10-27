@@ -1,0 +1,332 @@
+Index: src/ContentElement.java
+===================================================================
+--- src/ContentElement.java	(revision 0)
++++ src/ContentElement.java	(revision 0)
+@@ -0,0 +1,94 @@
++import org.dom4j.Element;
++
++
++public class ContentElement 
++{
++	public static ContentElement create(Element e)
++	{
++		String include = e.attributeValue("Include");
++		String name = e.elementText("Name");
++		String importer = e.elementText("Importer");
++		String processor = e.elementText("Processor");		
++		
++		return new ContentElement(include, name, importer, processor);		
++	}
++	
++	public static ContentElement create(Resource res)
++	{		
++		String include = res.getFile().getName();
++		String name = res.getShortName();
++		String importer = res.getImporter();
++		String processor = res.getProcessor();
++		
++		return new ContentElement(include, name, importer, processor);		
++	}
++
++	private String include;
++	private String name;
++	private String importer;
++	private String processor;
++	
++	private ContentElement(String include, String name, String importer, String processor)
++	{
++		this.include = include;
++		this.name = name;
++		this.importer = importer;
++		this.processor = processor;
++	}
++	
++	public void addElement(Element parent)
++	{
++		Element element = parent.addElement("Compile");
++		element.addAttribute("Include", include);
++		element.addElement("Name").addText(name);
++		element.addElement("Importer").addText(importer);
++		element.addElement("Processor").addText(processor);
++	}
++	
++	public ContentPair contentPair()
++	{
++		return new ContentPair(importer, processor);
++	}
++
++	@Override
++	public boolean equals(Object obj) 
++	{
++		if (this == obj)
++			return true;
++		if (obj == null)
++			return false;
++		if (getClass() != obj.getClass())
++			return false;
++		ContentElement other = (ContentElement) obj;
++		if (!importer.equals(other.importer))
++			return false;
++		if (!include.equals(other.include))
++			return false;
++		if (!name.equals(other.name))
++			return false;
++		if (!processor.equals(other.processor))
++			return false;
++		return true;
++	}
++	
++	public static boolean equals(Resource res, Element e)
++	{
++		if (!res.getFile().getName().equals(e.elementText("Include"))
++				return false;
++		
++		String name = res.getShortName();
++		String importer = res.getImporter();
++		String processor = res.getProcessor();
++		
++		String include = e.attributeValue("Include");
++		String name = ;
++		String importer = e.elementText("Importer");
++		String processor = e.elementText("Processor");
++	}
++	
++	@Override
++	public String toString() 
++	{
++		return String.format("<Compile Include=\"%s\">\n\t<Name>%s</Name>\n\t<Importer>%s</Importer>\n\t<Processor>%s</Processor>\n</Compile>", include, name, importer, processor);
++	}
++}
+Index: src/ContentProjTask.java
+===================================================================
+--- src/ContentProjTask.java	(revision 117)
++++ src/ContentProjTask.java	(working copy)
+@@ -2,6 +2,7 @@
+ import java.io.FileOutputStream;
+ import java.io.IOException;
+ import java.util.ArrayList;
++import java.util.LinkedList;
+ import java.util.List;
+ 
+ import org.apache.tools.ant.BuildException;
+@@ -13,9 +14,12 @@
+ import org.dom4j.io.SAXReader;
+ import org.dom4j.io.XMLWriter;
+ 
++import sun.reflect.generics.reflectiveObjects.NotImplementedException;
++
+ public class ContentProjTask extends Task
+ {
+ 	private File projFile;
++	private File cacheFile;
+ 	private File codeFile;
+ 	private List<Package> packages = new ArrayList<Package>();
+ 	
+@@ -27,25 +31,10 @@
+ 		if (codeFile == null || codeFile.isDirectory())
+ 			throw new BuildException("Bad 'codeFile': " + codeFile);
+ 		
+-		updateFiles(projFile.getParentFile());
+ 		processContentProj();
+ 		generateResourcesCode(codeFile);
+ 	}
+ 
+-	private void updateFiles(File contentDir) 
+-	{
+-		FileUtils.deleteFiles(contentDir, new String[] {".png", ".mp3", ".wav"});
+-		for (Package pack : packages) 
+-		{
+-			List<Resource> packResources = pack.getResources();
+-			for (Resource res : packResources) 
+-			{
+-				System.out.println("Copy: " + res.getFile() + " to " + contentDir);
+-				FileUtils.copy(res.getFile(), contentDir);
+-			}
+-		}
+-	}
+-
+ 	private void generateResourcesCode(File file) 
+ 	{
+ 		try 
+@@ -75,20 +64,123 @@
+ 	
+ 	private void processContentProj(Document doc)
+ 	{	
+-		clearOldItems(doc);
+-		addNewItems(doc);
+-		writeDocument(doc, projFile);
++		List<Resource> resources = getResources();
++		List<Resource> cachedResources = getContentCachedElements(cacheFile);
++
++		List<Resource> addElements = getResourcesToAdd(resources, cachedResources);
++		List<Resource> removeElements = getResourcesToRemove(resources, cachedResources);
++		
++		List<Element> projElements = getContentElementsFromProj(doc);
++		for (Element element : projElements) 
++		{
++			if (tryRemove(removeElements, element))
++				continue;
++			
++			tryAdd(addElements, element);
++		}
++		
++		// addNewItems(doc);
++		// writeDocument(doc, projFile);		
+ 	}
+ 
+-	private void clearOldItems(Document doc) 
++	private boolean tryAdd(List<Resource> addElements, Element element) 
+ 	{
+-		List<ContentPair> contentPairs = Resource.getContentPairs();
+-		System.out.println("Content pairs:");
+-		for (ContentPair contentPair : contentPairs) 
++		ContentElement contentElement = ContentElement.create(element);
++		for (Resource resource : addElements) 
+ 		{
+-			System.out.println(contentPair);
++			ContentElement e;
++			if (contentElement.equals(e = ContentElement.create(resource)))
++			{
++				System.out.println(element);
++			}
+ 		}
++		return false;
++	}
++
++	private boolean tryRemove(List<Resource> removeElements, Element element) 
++	{
++		ContentElement contentElement = ContentElement.create(element);
++		Element parentElement = element.getParent();
++		for (Resource resource : removeElements) 
++		{
++			if (contentElement.equals(ContentElement.create(resource)))
++			{
++				parentElement.remove(element);
++				if (parentElement.elements().isEmpty())
++					parentElement.getParent().remove(parentElement);
++				return true;
++			}
++		}
+ 		
++		return false;
++	}
++
++	private List<Resource> getResourcesToAdd(List<Resource> resources, List<Resource> cachedResources) 
++	{
++		List<Resource> addElements = new LinkedList<Resource>();
++		for (Resource res : resources) 
++		{
++			int cachedIndex;
++			if ((cachedIndex = cachedResources.indexOf(res)) != -1)
++			{
++				Resource cachedRes = cachedResources.get(cachedIndex);
++				File oldFile = cachedRes.getFile();
++				File currentFile = res.getFile();
++				
++				if (!oldFile.exists() || 
++					currentFile.compareTo(oldFile) != 0 ||
++					currentFile.lastModified() != oldFile.lastModified() ||
++					currentFile.length() != oldFile.length())
++				{
++					addElements.add(res);
++				}
++			}
++			else
++			{
++				addElements.add(res);
++			}
++		}
++		return addElements;
++	}
++
++	private List<Resource> getResourcesToRemove(List<Resource> resources, List<Resource> cachedResources) 
++	{
++		List<Resource> removeElements = new LinkedList<Resource>();		
++		for (Resource res : cachedResources) 
++		{
++			if (!resources.contains(res))
++				removeElements.add(res);
++		}
++		return removeElements;
++	}
++	
++	private List<Resource> getResources()
++	{
++		List<Resource> elements = new LinkedList<Resource>();		
++		for (Package pack : packages) 
++		{
++			for (Resource res : pack.getResources()) 
++			{
++				elements.add(res);
++			}
++		}		
++		return elements;
++	}
++	
++	private List<Resource> getContentCachedElements(File cacheFile)
++	{
++		List<Resource> elements = new ArrayList<Resource>();
++		if (cacheFile.exists())
++			throw new BuildException("Implement me");
++		
++		return elements;
++	}
++
++	private List<Element> getContentElementsFromProj(Document doc) 
++	{
++		List<ContentPair> contentPairs = Resource.getContentPairs();		
++		List<Element> contentElements = new ArrayList<Element>();
++		
+ 		List<Element> itemGroups = doc.getRootElement().elements("ItemGroup");
+ 		for (Element e : itemGroups) 
+ 		{
+@@ -97,22 +189,19 @@
+ 			{
+ 				if (child.getName().equals("Compile"))
+ 				{
+-					Element importerElement = child.element("Importer");
+-					Element processorElement = child.element("Processor");
+-					if (importerElement != null && processorElement != null)
+-					{	
+-						String importer = importerElement.getText();
+-						String processor = processorElement.getText();
+-						ContentPair pair = new ContentPair(importer, processor);
+-						if (contentPairs.contains(pair))							
+-							e.remove(child);
+-					}					
++					ContentElement contentElement = ContentElement.create(child);
++					ContentPair contentPair = contentElement.contentPair();
++						
++					if (contentPairs.contains(contentPair))
++					{
++						contentElements.add(child);
++					}
+ 				}
+-			}
+-			if (e.elements().isEmpty())
+-				e.getParent().remove(e);
++			}			
+ 		}
+-	}
++		
++		return contentElements;
++	}	
+ 	
+ 	private void addNewItems(Document doc) 
+ 	{
+@@ -133,7 +222,7 @@
+ 	}
+ 
+ 	private void addResource(Resource res, Element parent) 
+-	{
++	{		
+ 		Element element = parent.addElement("Compile");
+ 		element.addAttribute("Include", res.getFile().getName());
+ 		element.addElement("Name").addText(res.getShortName());
+@@ -174,5 +263,6 @@
+ 	public void setProjFile(File projFile) 
+ 	{
+ 		this.projFile = projFile;
++		cacheFile = new File(projFile.getParentFile(), "resources-cache.xml");
+ 	}
+ }
