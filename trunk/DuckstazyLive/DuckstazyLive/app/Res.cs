@@ -26,55 +26,56 @@ namespace DuckstazyLive.app
 		public const int IMG_MENU_TITLE = 8;
 		public const int IMG_MENU_TITLE_BACK = 9;
 		// PACK_GAME
-		public const int IMG_DUCK_FAKE = 10;
-		public const int IMG_EYE1 = 11;
-		public const int IMG_EYE2 = 12;
-		public const int IMG_WING = 13;
-		public const int IMG_STAR = 14;
-		public const int IMG_PILL_1 = 15;
-		public const int IMG_PILL_2 = 16;
-		public const int IMG_PILL_3 = 17;
-		public const int IMG_PILL_1P = 18;
-		public const int IMG_PILL_2P = 19;
-		public const int IMG_PILL_3P = 20;
-		public const int IMG_PILL_TOXIC_1 = 21;
-		public const int IMG_PILL_TOXIC_2 = 22;
-		public const int IMG_PILL_SLEEP = 23;
-		public const int IMG_PILL_HIGH = 24;
-		public const int IMG_SMILE_1 = 25;
-		public const int IMG_SMILE_2 = 26;
-		public const int IMG_SMILE_3 = 27;
-		public const int IMG_EYES_1 = 28;
-		public const int IMG_EYES_2 = 29;
-		public const int IMG_POWER_1 = 30;
-		public const int IMG_POWER_2 = 31;
-		public const int IMG_POWER_3 = 32;
-		public const int IMG_POWER_4 = 33;
+		public const int IMG_DUCK = 10;
+		public const int IMG_DUCK_SLEEP = 11;
+		public const int IMG_EYE1 = 12;
+		public const int IMG_EYE2 = 13;
+		public const int IMG_WING = 14;
+		public const int IMG_STAR = 15;
+		public const int IMG_PILL_1 = 16;
+		public const int IMG_PILL_2 = 17;
+		public const int IMG_PILL_3 = 18;
+		public const int IMG_PILL_1P = 19;
+		public const int IMG_PILL_2P = 20;
+		public const int IMG_PILL_3P = 21;
+		public const int IMG_PILL_TOXIC_1 = 22;
+		public const int IMG_PILL_TOXIC_2 = 23;
+		public const int IMG_PILL_SLEEP = 24;
+		public const int IMG_PILL_HIGH = 25;
+		public const int IMG_SMILE_1 = 26;
+		public const int IMG_SMILE_2 = 27;
+		public const int IMG_SMILE_3 = 28;
+		public const int IMG_EYES_1 = 29;
+		public const int IMG_EYES_2 = 30;
+		public const int IMG_POWER_1 = 31;
+		public const int IMG_POWER_2 = 32;
+		public const int IMG_POWER_3 = 33;
+		public const int IMG_POWER_4 = 34;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 34;
-		public const int SONG_ENV_TEX = 35;
-		public const int SND_HERO_ATTACK = 36;
-		public const int SND_HERO_AWAKE = 37;
-		public const int SND_HERO_JUMP = 38;
-		public const int SND_HERO_LAND = 39;
-		public const int SND_HERO_SLEEP = 40;
-		public const int SND_HERO_STEP1 = 41;
-		public const int SND_HERO_STEP2 = 42;
-		public const int SND_HERO_TOXIC = 43;
-		public const int SND_HERO_WING1 = 44;
-		public const int SND_HERO_WING2 = 45;
-		public const int SND_LEVEL_START = 46;
-		public const int SND_PILL_GENERATE = 47;
-		public const int SND_PILL_HIGH = 48;
-		public const int SND_PILL_JUMPER = 49;
-		public const int SND_PILL_POWER1 = 50;
-		public const int SND_PILL_POWER2 = 51;
-		public const int SND_PILL_POWER3 = 52;
-		public const int SND_PILL_TOXIC_BORN = 53;
-		public const int SND_PILL_WARNING = 54;
-		public const int SND_UI_CLICK = 55;
-		public const int SND_UI_FOCUS = 56;
-		public const int RES_COUNT = 57;
+		public const int SND_ENV_POWER = 35;
+		public const int SONG_ENV_TEX = 36;
+		public const int SND_HERO_ATTACK = 37;
+		public const int SND_HERO_AWAKE = 38;
+		public const int SND_HERO_JUMP = 39;
+		public const int SND_HERO_LAND = 40;
+		public const int SND_HERO_SLEEP = 41;
+		public const int SND_HERO_STEP1 = 42;
+		public const int SND_HERO_STEP2 = 43;
+		public const int SND_HERO_TOXIC = 44;
+		public const int SND_HERO_WING1 = 45;
+		public const int SND_HERO_WING2 = 46;
+		public const int SND_LEVEL_START = 47;
+		public const int SND_PILL_GENERATE = 48;
+		public const int SND_PILL_HIGH = 49;
+		public const int SND_PILL_JUMPER = 50;
+		public const int SND_PILL_POWER1 = 51;
+		public const int SND_PILL_POWER2 = 52;
+		public const int SND_PILL_POWER3 = 53;
+		public const int SND_PILL_TOXIC_BORN = 54;
+		public const int SND_PILL_WARNING = 55;
+		public const int SND_UI_CLICK = 56;
+		public const int SND_UI_FOCUS = 57;
+		public const int RES_COUNT = 58;
 	}
 	public class DuckstazyResources
 	{
@@ -101,7 +102,8 @@ namespace DuckstazyLive.app
 			// PACK_GAME
 			new ResourceBaseInfo[]
 			{
-				new ResourceBaseInfo(Res.IMG_DUCK_FAKE, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
+				new ResourceBaseInfo(Res.IMG_DUCK, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
+				new ResourceBaseInfo(Res.IMG_DUCK_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
 				new ResourceBaseInfo(Res.IMG_EYE1, ResourceType.RESOURCE_TYPE_TEXTURE, "eye1"),
 				new ResourceBaseInfo(Res.IMG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "eye2"),
 				new ResourceBaseInfo(Res.IMG_WING, ResourceType.RESOURCE_TYPE_TEXTURE, "wing"),

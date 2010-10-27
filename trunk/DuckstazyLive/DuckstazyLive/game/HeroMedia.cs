@@ -140,7 +140,7 @@ namespace DuckstazyLive.game
             imgSleepFlip.draw(sleepBitmap.bitmapData, mat);
             imgSleepFlip.unlock();*/
 
-            imgDuck = Res.IMG_DUCK_FAKE;
+            imgDuck = Res.IMG_DUCK;
         }
 
         private void initSFX()
@@ -160,11 +160,9 @@ namespace DuckstazyLive.game
             transformPanVol = new SoundTransform();
         }
 
-        public void drawDuck(float x, float y, float power, bool flip, float wingsAngle)
+        public void drawDuck(Canvas dest, float x, float y, float power, bool flip, float wingsAngle)
         {
-            DrawMatrix mat = new DrawMatrix();
-            Canvas dest = new Canvas();
-            
+            DrawMatrix mat = new DrawMatrix();            
             ColorTransform eye = new ColorTransform(1.0f, 1.0f, 1.0f, 1.0f - power);
 
             if (flip)
@@ -209,23 +207,17 @@ namespace DuckstazyLive.game
             //dest.draw(imgWing.bitmapData, wing_mat, null, null, null, wingsAngle!=0.0);
         }
 
-        public void drawSleep(float x, float y, bool flip)
+        public void drawSleep(Canvas dest, float x, float y, bool flip)
         {
-            /*if(flip)
-                dest.copyPixels(imgSleepFlip, rcHero, new Point(x, y));
-            else
-                dest.copyPixels(imgSleep, rcHero, new Point(x, y));*/
+            DrawMatrix mat = new DrawMatrix();
+            mat.translate(x, y);
 
-            //Matrix mat = new Matrix(1, 0, 0, 1, x, y);
+            if (flip)
+            {
+                mat.flip(true, false);
+            }
 
-            //if (flip)
-            //{
-            //    mat.a = -1;
-            //    mat.tx = x + 54.0;
-            //}
-
-            //dest.draw(imgSleep, mat, null, null, null, true);
-            throw new NotImplementedException();
+            dest.draw(imgSleep, mat);            
         }
 
         public void updateSFX(float x)
