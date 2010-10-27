@@ -11,6 +11,9 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
+    public delegate void UserCallback(Pill pill, String msg, float dt);
+    public delegate void ParentCallback(Pill pill);
+
     public class Pill
     {
         public const int POWER = 0;
@@ -104,13 +107,13 @@ namespace DuckstazyLive.game
 
         private int imgMain;
         private int imgEmo;
-        private int imgNid;
+        private int imgNid;        
 
         // используется для оповещения генератора-родителя
-        public PillParentListener parent;
+        public ParentCallback parent;
 
         // используется для оповещения пользовательских событий
-        public PillLogicListener user;
+        public UserCallback user;
 
         // Инициализируемся в массиве
         public Pill(PillsMedia pillsMedia, Hero duckHero, Particles particles, Level _level)
@@ -174,19 +177,19 @@ namespace DuckstazyLive.game
                 case 0:
                     if (user != null)
                     {
-                        user.pillLogic(this, "dead", 0.0f);
+                        user(this, "dead", 0.0f);
                         user = null;
                     }
                     if (parent != null)
                     {
-                        parent.parentCallback(this);
+                        parent(this);
                         parent = null;
                     }
                     move = false;
                     break;
                 case 1:
                     if (user != null)
-                        user.pillLogic(this, "born", 0.0f);
+                        user(this, "born", 0.0f);
                     appear = 0.0f;
                     r = 0.0f;
                     break;
@@ -285,7 +288,7 @@ namespace DuckstazyLive.game
 			}
 			
 			if(user!=null)
-				user.pillLogic(this, null, dt);
+				user(this, null, dt);
 				
 			return state==0;
 		}
@@ -368,7 +371,7 @@ namespace DuckstazyLive.game
 						info.add(x, y, info.powers[i]);
 					}
 					if(user!=null)
-						user.pillLogic(this, "attack", 0);
+						user(this, "attack", 0);
 				}
 				else info.add(x, y, info.damages[(int)(utils.rnd()*3.0)]);
 				break;
@@ -401,7 +404,7 @@ namespace DuckstazyLive.game
 					highCounter = 1.0f;
 					level.env.beat();
 					if(user!=null)
-						user.pillLogic(this, "jump", 0.0f);
+						user(this, "jump", 0.0f);
 				}
 				return;
 			}

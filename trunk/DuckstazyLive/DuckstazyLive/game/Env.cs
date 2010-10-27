@@ -287,8 +287,8 @@ public class Env
 		{
 			// Временные переменные.
 			float x;
-			int i;
-			SoundTransform st;
+			// int i;
+			// SoundTransform st;
 			
 			if(newPower!=power)
 			{

@@ -29,9 +29,10 @@ namespace DuckstazyLive.game.levels
             {
                 case LevelStages.Harvesting:
                     return new Harvesting();
-
                 case LevelStages.PartyTime:
+                    return new PartyTime(30, 0);
                 case LevelStages.Bubbles:
+                    return new Bubbles(0.05f, 0);
                 case LevelStages.DoubleFrog:
                 case LevelStages.PartyTime2:
                 case LevelStages.BetweenCatsStage:

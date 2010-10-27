@@ -94,17 +94,20 @@
     </Compile>
     <Compile Include="game\LevelProgress.cs" />
     <Compile Include="game\LevelStage.cs" />
+    <Compile Include="game\levels\Bubbles.cs" />
+    <Compile Include="game\levels\fx\HintArrow.cs" />
     <Compile Include="game\levels\generator\Generator.cs" />
+    <Compile Include="game\levels\generator\JumpStarter.cs" />
+    <Compile Include="game\levels\generator\PartySetuper.cs" />
     <Compile Include="game\levels\generator\Placer.cs" />
     <Compile Include="game\levels\generator\PowerSetuper.cs" />
     <Compile Include="game\levels\generator\Setuper.cs" />
     <Compile Include="game\levels\Harvesting.cs" />
     <Compile Include="game\levels\LevelStageFactory.cs" />
+    <Compile Include="game\levels\PartyTime.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />
-    <Compile Include="game\PillListener.cs" />
-    <Compile Include="game\PillParentListener.cs" />
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
     <Compile Include="game\StageMedia.cs" />

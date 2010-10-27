@@ -30,7 +30,7 @@ namespace DuckstazyLive.game
 		public GameInfo()
 		{
 			int i = 0;
-			Texture2D bm;
+			// Texture2D bm;
 			
 			ftPool = new FloatText[ftSize];
 			for( ; i<ftSize; ++i)
