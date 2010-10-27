@@ -162,59 +162,46 @@ namespace DuckstazyLive.game
 
         public void drawDuck(float x, float y, float power, bool flip, float wingsAngle)
         {
-            // Matrix mat = new Matrix(1, 0, 0, 1, x, y);
-            /*Matrix eye_mat = new Matrix();
-            Matrix wing_mat = new Matrix();*/
+            DrawMatrix mat = new DrawMatrix();
+            Canvas dest = new Canvas();
+            
             ColorTransform eye = new ColorTransform(1.0f, 1.0f, 1.0f, 1.0f - power);
-            //var eye2_color:ColorTransform = new ColorTransform(1.0f, 1.0f, 1.0f, power);
 
             if (flip)
             {
-                //mat.a = -1;
-                //mat.tx = x + 54.0;
-                ////dest.copyPixels(imgDuckFlip, rcHero, new Point(x, y));
-                //dest.draw(imgDuck, mat, null, null, null, true);
+                mat.flip(true, false);
+                
+                mat.translate(x, y);
+                mat.flip(true, false);
+                dest.draw(imgDuck, mat);
 
-                Texture2D duckTex = Application.sharedResourceMgr.getTexture(imgDuck);
-                AppGraphics.DrawImage(duckTex, x, y, SpriteEffects.FlipHorizontally);
-                                
-                //mat.tx = 44.0 + x;
-                //mat.ty = 5.0 + y;
-                //dest.draw(imgEye1, mat, eye, null, null, true);
-                //eye.alphaMultiplier = power;
-                //dest.draw(imgEye2, mat, eye, null, null, true);
-                Texture2D eyeTex = Application.sharedResourceMgr.getTexture(imgEye1);
-                AppGraphics.DrawImage(eyeTex, 44 + x, 5 + y);
-                eyeTex = Application.sharedResourceMgr.getTexture(imgEye2);
-                AppGraphics.DrawImage(eyeTex, 44 + x, 5 + y, new Color(Color.White, (byte)(255 * power)));
+                mat.translate(38.0f + x, 5.0f + y);
+                dest.draw(imgEye1, mat, eye);
+                eye.alphaMultiplier = power;
+                dest.draw(imgEye2, mat, eye);
 
-                //mat.tx = 3.0;
-                //mat.ty = -7.0;
-                //mat.rotate(-wingsAngle);
-                //mat.translate(21.0 + x, 26.0 + y);
-                //dest.draw(imgWing, mat, null, null, null, true);                
-                Texture2D wingTex = Application.sharedResourceMgr.getTexture(imgWing);
-                AppGraphics.DrawImageRotated(wingTex, 21 + x, 26 + y, new Vector2(3, -7), -wingsAngle);
+                mat.tx = -12.0f;
+                mat.ty = -7.0f;
+                mat.rotate(-wingsAngle);
+                mat.translate(21.0f + x, 26.0f + y);
+                dest.draw(imgWing, mat);
             }
             else
             {
-                ////dest.copyPixels(imgDuck, rcHero, new Point(x, y));
-                //dest.draw(imgDuck, mat, null, null, null, true);
+                //dest.copyPixels(imgDuck, rcHero, new Point(x, y));
+                mat.translate(x, y);
+                dest.draw(imgDuck, mat);
 
-                Texture2D texture = Application.sharedResourceMgr.getTexture(imgDuck);
-                AppGraphics.DrawImage(texture, x, y);
+                mat.translate(10.0f + x, 5.0f + y);
+                dest.draw(imgEye1, mat, eye);
+                eye.alphaMultiplier = power;
+                dest.draw(imgEye2, mat, eye);
 
-                //mat.tx = 10.0 + x;
-                //mat.ty = 5.0 + y;
-                //dest.draw(imgEye1, mat, eye, null, null, true);
-                //eye.alphaMultiplier = power;
-                //dest.draw(imgEye2, mat, eye, null, null, true);
-
-                //mat.tx = -3.0;
-                //mat.ty = -7.0;
-                //mat.rotate(wingsAngle);
-                //mat.translate(33.0 + x, 26.0 + y);
-                //dest.draw(imgWing, mat, null, null, null, true);                
+                mat.tx = -3.0f;
+                mat.ty = -7.0f;
+                mat.rotate(wingsAngle);
+                mat.translate(33.0f + x, 26.0f + y);
+                dest.draw(imgWing, mat);
             }
 
             //dest.draw(imgEye1.bitmapData, eye_mat, eye1_color);

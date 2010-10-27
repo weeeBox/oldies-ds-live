@@ -31,7 +31,7 @@ namespace DuckstazyLive.game
                 color.B = (byte)(color.B * transform.blueMultiplier);
                 color.A = (byte)(color.A * transform.alphaMultiplier);
             }
-            AppGraphics.DrawImage(getTexture(imageId), ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE);
+            AppGraphics.DrawImage(getTexture(imageId), ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
         }        
 
         public void copyPixels(int imageId, Rect dest, Vector2 pos)
