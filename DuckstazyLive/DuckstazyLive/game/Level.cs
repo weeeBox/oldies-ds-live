@@ -114,21 +114,7 @@ namespace DuckstazyLive.game
             stages.Add(LevelStages.AirAttack);
             stages.Add(LevelStages.PartyTime3);
             stages.Add(LevelStages.Trains);
-            stages.Add(LevelStages.Bubbles3);
-            //stages.push([PartyTime, [30, 0]]);
-            //stages.push([Bubbles, [0.05f, 0]]);
-            //stages.push([DoubleFrog, null]);
-            //stages.push([PartyTime, [60, 1]]);
-            //stages.push([BetweenCatsStage, null]);
-            //stages.push([Bubbles, [0.04, 1]]);
-            //stages.push([AirAttack, null]);
-            //stages.push([PartyTime, [120, 2]]);
-            //stages.push([Trains, null]);
-            //stages.push([Bubbles, [0.03, 2]]);
-            Debug.WriteLine("Implement me: Level.Leve()");
-			
-			//stages.push([TestGenerator, null]);
-			//stages.push([TestFrogStage, null]);
+            stages.Add(LevelStages.Bubbles3);           
 			
 			stagesCount = stages.Count;
 

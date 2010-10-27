@@ -179,7 +179,7 @@ namespace DuckstazyLive.game
             //        ++i;
             //    }
             //}            
-            Debug.WriteLine("Implement me: GameInfo.drawFT");
+            // Implement me
 		}
 		
 		public void add(float x, float y, String text)

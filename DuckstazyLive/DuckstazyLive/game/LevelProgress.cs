@@ -269,7 +269,7 @@ namespace DuckstazyLive.game
             //        prog-=0.05263;
             //    }
             //}
-            Debug.WriteLine("Implement me: LevelProgress.draw");
+           // Implement me
 		}
 		
 	}

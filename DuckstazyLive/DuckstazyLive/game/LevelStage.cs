@@ -38,11 +38,11 @@ namespace DuckstazyLive.game
 		
 		public StageMedia media;
 		
-		protected Texture2D startTitle;
+		protected int startTitle = Constants.UNDEFINED;
 		protected float startCounter;
 		
 		protected bool end;
-		protected Texture2D endImg;
+		protected int endImg;
 		protected float endCounter;
 				
 		public LevelStage(int _type)
@@ -173,7 +173,7 @@ namespace DuckstazyLive.game
 				
             //    canvas.draw(endImg, mat, color);
             //}
-            Debug.WriteLine("Implement me: LevelStage.draw2");
+            // Implement me
 		}
 		
 		public virtual void update(float dt)
@@ -253,13 +253,13 @@ namespace DuckstazyLive.game
 			if(end)
 				endCounter+=dt;
 			
-			if(startTitle!=null && startCounter<5.0f)
+			if(startTitle!=Constants.UNDEFINED && startCounter<5.0f)
 			{
 				startCounter+=dt;
 				if(startCounter>=5.0f)
 				{
 					startCounter = 5.0f;
-					startTitle = null;
+					startTitle = Constants.UNDEFINED;
 				}
 			}
 		}		
