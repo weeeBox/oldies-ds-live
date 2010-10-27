@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -104,7 +105,7 @@ namespace DuckstazyLive.game
             //imgCatSmile = (new gfxCatSmile()).bitmapData;
             //imgCatHum = (new gfxCatHum()).bitmapData;
 			
-            //imgHintArrow = (new gfxHintArrow()).bitmapData;
+            imgHintArrow = Res.IMG_FX_HINT_ARROW;
 			
             //imgFrogBody = (new gfxFrogBody()).bitmapData;
             //imgFrogEmo1 = (new gfxFrogEmo1()).bitmapData;

@@ -250,6 +250,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="fx_hint_arrow.png">
+      <Name>fx_hint_arrow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Env_rPowerSnd.wav">
       <Name>Env_rPowerSnd</Name>
       <Importer>WavImporter</Importer>

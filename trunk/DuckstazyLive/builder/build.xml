@@ -81,6 +81,7 @@
 				<image name="fx_bubble" file="${dir.art}/fx_bubble.png" />
 				<image name="fx_star" file="${dir.art}/fx_star.png" />
 				<image name="fx_warning" file="${dir.art}/fx_warning.png" />
+				<image name="fx_hint_arrow" file="${dir.art}/fx_hint_arrow.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">
