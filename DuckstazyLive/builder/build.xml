@@ -77,6 +77,10 @@
 				<image name="power_2" file="${dir.art}/power2.png" />
 				<image name="power_3" file="${dir.art}/power3.png" />
 				<image name="power_4" file="${dir.art}/power4.png" />
+				<image name="fx_acid" file="${dir.art}/fx_acid.png" />
+				<image name="fx_bubble" file="${dir.art}/fx_bubble.png" />
+				<image name="fx_star" file="${dir.art}/fx_star.png" />
+				<image name="fx_warning" file="${dir.art}/fx_warning.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">

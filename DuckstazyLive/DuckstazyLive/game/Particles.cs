@@ -52,7 +52,7 @@ namespace DuckstazyLive.game
         private Particle[] pool;
         private int parts;
 
-        // private const Matrix mat = new Matrix();
+        private DrawMatrix mat = new DrawMatrix();
 
         public Particles()
         {
@@ -62,10 +62,10 @@ namespace DuckstazyLive.game
             for (; i < poolSize; ++i)
                 pool[i] = new Particle();
 
-            //imgFXAcid = (new rFXAcidImg()).bitmapData;
-            //imgFXBubble = (new rFXBubbleImg()).bitmapData;
-            //imgFXWarning = (new rFXWarningImg()).bitmapData;
-            //imgFXStar = (new rFXStarImg()).bitmapData;
+            imgFXAcid = Res.IMG_FX_ACID;
+            imgFXBubble = Res.IMG_FX_BUBBLE;
+            imgFXWarning = Res.IMG_FX_WARNING;
+            imgFXStar = Res.IMG_FX_STAR;
             //imgFXStar2 = (new rFXStar2Img()).bitmapData;
             //imgFXOut = (new rFXOutImg()).bitmapData;
             //imgFXIn = (new rFXInImg()).bitmapData;
@@ -190,25 +190,24 @@ namespace DuckstazyLive.game
                 if (i == parts)
                     break;
 
-                //if (p.t > 0.0f)
-                //{
-                //    a = p.a;
-                //    s = p.s;
+                if (p.t > 0.0f)
+                {
+                    a = p.a;
+                    s = p.s;
 
-                //    mat.identity();
+                    mat.identity();
 
-                //    mat.tx = p.px;
-                //    mat.ty = p.py;
-                //    if (a != 0.0f)
-                //        mat.rotate(a);
+                    mat.tx = p.px;
+                    mat.ty = p.py;
+                    if (a != 0.0f)
+                        mat.rotate(a);
 
-                //    mat.scale(s, s);
-                //    mat.translate(p.x, p.y);
+                    mat.scale(s, s);
+                    mat.translate(p.x, p.y);
 
-                //    canvas.draw(p.img, mat, p.col, null, null, true);
-                //    //p.draw(canvas);
-                //    ++i;
-                //}
+                    canvas.draw(p.img, mat, p.col);                    
+                    ++i;
+                }
             }
         }
 
