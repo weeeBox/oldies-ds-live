@@ -6,8 +6,8 @@ using System.Text;
 namespace DuckstazyLive.game.levels.generator
 {
     public class Setuper
-	{
-		public PillLogicListener userCallback;
+	{        
+        public UserCallback userCallback;
 		
 		public Setuper()
 		{

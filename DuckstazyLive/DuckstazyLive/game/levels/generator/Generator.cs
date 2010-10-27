@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckstazyLive.game.levels.generator
 {
-    public class Generator : PillParentListener
+    public class Generator
 	{
 		public List<Placer> map; // карта генератора
 		public List<Pill> pills; // массив таблов
@@ -98,7 +98,7 @@ namespace DuckstazyLive.game.levels.generator
 					{
 						map[mapPointer].place(p);
 						pills.Add(p);
-						p.parent = this;
+						p.parent = parentCallback;
 						++news;
 						++mapPointer;
 					}
@@ -120,7 +120,7 @@ namespace DuckstazyLive.game.levels.generator
                                 {
                                     if (map[i].placeAvoidHero(it, heroSqrDist) != null)
                                     {
-                                        it.parent = this;
+                                        it.parent = parentCallback;
                                         pills[i] = it;
                                         ++news;
                                         break;

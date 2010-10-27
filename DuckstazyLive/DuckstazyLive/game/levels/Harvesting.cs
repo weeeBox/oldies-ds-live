@@ -6,7 +6,7 @@ using DuckstazyLive.game.levels.generator;
 
 namespace DuckstazyLive.game.levels
 {
-    public class Harvesting : LevelStage, PillLogicListener
+    public class Harvesting : LevelStage
 	{
 		public Generator gen;
 		public PowerSetuper powers1;
@@ -30,9 +30,9 @@ namespace DuckstazyLive.game.levels
 			powers1 = new PowerSetuper(0.0f, PowerSetuper.POWER1);
 			powers2 = new PowerSetuper(0.3f, PowerSetuper.POWER2);
 			powers3 = new PowerSetuper(1.0f, PowerSetuper.POWER3);
-			powers1.userCallback = this;
-			powers2.userCallback = this;
-			powers3.userCallback = this;
+			powers1.userCallback = pillLogic;
+            powers2.userCallback = pillLogic;
+            powers3.userCallback = pillLogic;
 			gen.regen = true;
 			gen.addLine(powers1, 40, 340, 40, 0, 15);
 			

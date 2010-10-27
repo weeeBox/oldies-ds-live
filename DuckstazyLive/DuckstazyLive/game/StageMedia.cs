@@ -37,7 +37,7 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/hint_arrow.png")]
         //private Class gfxHintArrow;
 
-        public Texture2D imgHintArrow;
+        public int imgHintArrow;
         
         //[Embed(source="gfx/frog_body.png")]
         //private Class gfxFrogBody;
