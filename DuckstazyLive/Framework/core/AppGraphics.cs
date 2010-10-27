@@ -232,9 +232,12 @@ namespace Framework.core
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), null, drawColor, 0.0f, Vector2.Zero, 1.0f, flip, 0.0f);
         }
 
-        public static void DrawImage(Texture2D tex, ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale)
+        public static void DrawImage(Texture2D tex, ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale, ref Vector2 flip)
         {
-            GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, null, color, rotation, origin, scale, SpriteEffects.None, 0.0f);
+            SpriteEffects flipEffects = flip.X == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            if (flip.Y == 1)
+                flipEffects |= SpriteEffects.FlipVertically;
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, null, color, rotation, origin, scale, flipEffects, 0.0f);
         }
 
         public static void DrawScaledImage(Texture2D tex, float x, float y, float scaleX, float scaleY)

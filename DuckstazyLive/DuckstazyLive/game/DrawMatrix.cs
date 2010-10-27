@@ -13,7 +13,8 @@ namespace DuckstazyLive.game
         public Vector2 POSITION;
         public Vector2 ORIGIN;
         public Vector2 SCALE;
-        public float ROTATION;        
+        public float ROTATION;
+        public Vector2 FLIP;
 
         public DrawMatrix()
         {
@@ -25,7 +26,8 @@ namespace DuckstazyLive.game
             POSITION.X = POSITION.Y = 0.0f;
             ORIGIN.X = ORIGIN.Y = 0.0f;
             SCALE.X = SCALE.Y = 1.0f;
-            ROTATION = 0;            
+            ROTATION = 0;
+            FLIP.X = FLIP.Y = 0.0f;            
         }
 
         public float tx
@@ -53,6 +55,12 @@ namespace DuckstazyLive.game
         public void rotate(float angle)
         {
             ROTATION = angle;
+        }
+
+        public void flip(bool x, bool y)
+        {
+            FLIP.X = x ? 1 : 0;
+            FLIP.Y = y ? 1 : 0;
         }
     }
 }
