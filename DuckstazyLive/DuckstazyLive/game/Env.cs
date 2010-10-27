@@ -429,7 +429,8 @@ public class Env
                 img = Application.sharedResourceMgr.getTexture(imageId);
 
                 MAT.identity();
-                MAT.translate(-img.Width * 0.5f, -img.Height * 0.5f);
+                MAT.tx = -img.Width * 0.5f;
+                MAT.ty = -img.Height * 0.5f;
                 MAT.scale(0.9f + 0.1f * (float) Math.Sin(x * 6.28), 0.95f + 0.05f * (float) Math.Sin(x * 6.28 + 3.14));
                 MAT.translate(c.x, c.y);
 

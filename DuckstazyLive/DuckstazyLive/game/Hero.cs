@@ -360,30 +360,30 @@ namespace DuckstazyLive.game
                 if (step > 1 && !fly)
                     dy -= 1.0f;
 
-                drawHero(dx, dy);
+                drawHero(canvas, dx, dy);
                 if (dx < 0)
                 {
                     dx += 640;
-                    drawHero(dx, dy);
+                    drawHero(canvas, dx, dy);
                 }
                 else if (dx > 640 - duck_w2)
                 {
                     dx -= 640;
-                    drawHero(dx, dy);
+                    drawHero(canvas, dx, dy);
                 }
             }
         }
 
-        private void drawHero(float _x, float _y)
+        private void drawHero(Canvas dest, float _x, float _y)
 		{
 			bool vis = (blinkTime<=0.0f || (((int)blinkTime)&0x1)!=0);
 			
 			if(vis)
 			{
 				if(sleep)
-					media.drawSleep(_x, _y, flip);
+					media.drawSleep(dest, _x, _y, flip);
 				else
-					media.drawDuck(_x, _y, power, flip, wingAngle);
+					media.drawDuck(dest, _x, _y, power, flip, wingAngle);
 			}
 		}
 
