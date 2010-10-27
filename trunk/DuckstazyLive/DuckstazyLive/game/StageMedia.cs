@@ -15,8 +15,8 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/pedestal_r.png")]
         //private Class gfxPedestalR;
                
-        public Texture2D imgPedestalL;
-        public Texture2D imgPedestalR;
+        public int imgPedestalL;
+        public int imgPedestalR;
         
         //[Embed(source="gfx/cat_r.png")]
         //private Class gfxCatR;
@@ -30,10 +30,10 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/cat_hum.png")]
         //private Class gfxCatHum;
 
-        public Texture2D imgCatR;
-        public Texture2D imgCatL;
-        public Texture2D imgCatSmile;
-        public Texture2D imgCatHum;
+        public int imgCatR;
+        public int imgCatL;
+        public int imgCatSmile;
+        public int imgCatHum;
         
         //[Embed(source="gfx/hint_arrow.png")]
         //private Class gfxHintArrow;
@@ -64,14 +64,14 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/frog_head.png")]
         //private Class gfxFrogHead;
 
-		public Texture2D imgFrogBody;
-		public Texture2D imgFrogEmo1;
-		public Texture2D imgFrogEmo2;
-		public Texture2D imgFrogEye1;
-		public Texture2D imgFrogEye2;
-		public Texture2D imgFrogHand1;
-		public Texture2D imgFrogHand2;
-		public Texture2D imgFrogHead;
+		public int imgFrogBody;
+		public int imgFrogEmo1;
+		public int imgFrogEmo2;
+		public int imgFrogEye1;
+		public int imgFrogEye2;
+		public int imgFrogHand1;
+		public int imgFrogHand2;
+		public int imgFrogHead;
 		
         //[Embed(source="gfx/pump.png")]
         //private Class gfxPump;
@@ -82,9 +82,9 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/trip.png")]
         //private Class gfxTrip;
 
-		public Texture2D imgPump;
-		public Texture2D imgParty;
-		public Texture2D imgTrip;
+		public int imgPump;
+		public int imgParty;
+		public int imgTrip;
 
         //[Embed(source="gfx/theend.png")]
         //private Class gfxTheEnd;
@@ -92,8 +92,8 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/stageend.png")]
         //private Class gfxStageEnd;
         
-		public Texture2D imgTheEnd;
-		public Texture2D imgStageEnd;
+		public int imgTheEnd;
+		public int imgStageEnd;
 		
 		public StageMedia()
 		{

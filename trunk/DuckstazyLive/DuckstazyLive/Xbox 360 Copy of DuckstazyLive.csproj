@@ -94,7 +94,11 @@
     </Compile>
     <Compile Include="game\LevelProgress.cs" />
     <Compile Include="game\LevelStage.cs" />
+    <Compile Include="game\levels\AirAttack.cs" />
+    <Compile Include="game\levels\BetweenCatsStage.cs" />
     <Compile Include="game\levels\Bubbles.cs" />
+    <Compile Include="game\levels\DoubleFrog.cs" />
+    <Compile Include="game\levels\fx\FrogActor.cs" />
     <Compile Include="game\levels\fx\HintArrow.cs" />
     <Compile Include="game\levels\generator\Generator.cs" />
     <Compile Include="game\levels\generator\JumpStarter.cs" />
@@ -105,6 +109,7 @@
     <Compile Include="game\levels\Harvesting.cs" />
     <Compile Include="game\levels\LevelStageFactory.cs" />
     <Compile Include="game\levels\PartyTime.cs" />
+    <Compile Include="game\levels\Trains.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />

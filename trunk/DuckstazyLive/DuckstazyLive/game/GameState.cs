@@ -26,7 +26,6 @@ namespace DuckstazyLive.game
             reset();
         }
 
-
         // Все вернуть как сначала.
         public void reset()
         {

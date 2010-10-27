@@ -199,8 +199,7 @@ namespace DuckstazyLive.app
 			
 			SoundTransform tr = new SoundTransform(vol, p);
 			// snd.play(49, 0, tr);
-            Application.sharedSoundMgr.playSound(snd);
-            Debug.WriteLine("Implement me: utils.playSound");
+            Application.sharedSoundMgr.playSound(snd, tr);            
 		}
 
         public static Color makeColor(uint color)
@@ -216,5 +215,10 @@ namespace DuckstazyLive.app
             byte b = (byte)((color >> 0) & 0xff);
             return new Color(r, g, b, a);
         }
-	}
+
+        public static Texture2D getImage(int imageId)
+        {
+            return Application.sharedResourceMgr.getTexture(imageId);
+        }
+    }
 }
