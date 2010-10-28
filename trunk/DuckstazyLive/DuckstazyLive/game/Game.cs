@@ -258,6 +258,10 @@ namespace DuckstazyLive.game
                     return Keys.Down;
                 case Buttons.A:
                     return Keys.Up;
+                case Buttons.LeftShoulder:
+                    return Keys.PageUp;
+                case Buttons.RightShoulder:
+                    return Keys.PageDown;
             }
             return Keys.None;
         }

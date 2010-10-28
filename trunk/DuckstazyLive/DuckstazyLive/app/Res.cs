@@ -124,7 +124,7 @@ namespace DuckstazyLive.app
 			new ResourceBaseInfo[]
 			{
 				new ResourceBaseInfo(Res.IMG_DUCK, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
-				new ResourceBaseInfo(Res.IMG_DUCK_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
+				new ResourceBaseInfo(Res.IMG_DUCK_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_sleep"),
 				new ResourceBaseInfo(Res.IMG_EYE1, ResourceType.RESOURCE_TYPE_TEXTURE, "eye1"),
 				new ResourceBaseInfo(Res.IMG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "eye2"),
 				new ResourceBaseInfo(Res.IMG_WING, ResourceType.RESOURCE_TYPE_TEXTURE, "wing"),
