@@ -9,6 +9,9 @@ namespace DuckstazyLive.app
 {
     public class Constants : FrameworkConstants
     {
+        public const float SCALE = 1.5f;
+        public const float SCALE_INV = 1.0f / SCALE;
+
         public const int PILL_RADIUS = 15;
         public const int PILLS_POOL_SIZE = 50;
 

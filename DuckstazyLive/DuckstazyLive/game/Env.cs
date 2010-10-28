@@ -429,8 +429,8 @@ public class Env
                 img = Application.sharedResourceMgr.getTexture(imageId);
 
                 MAT.identity();
-                MAT.tx = -img.Width * 0.5f;
-                MAT.ty = -img.Height * 0.5f;
+                MAT.tx = utils.unscale(-img.Width * 0.5f);
+                MAT.ty = utils.unscale(-img.Height * 0.5f);
                 MAT.scale(0.9f + 0.1f * (float) Math.Sin(x * 6.28), 0.95f + 0.05f * (float) Math.Sin(x * 6.28 + 3.14));
                 MAT.translate(c.x, c.y);
 
@@ -451,8 +451,8 @@ public class Env
             ///**** ÒÐÀÂÀ ****/
             Color color = Color.White;
             color.R = (byte)(color.R * ctGrass.redMultiplier);
-            color.G = (byte)(color.G * ctGrass.redMultiplier);
-            color.B = (byte)(color.B * ctGrass.redMultiplier);            
+            color.G = (byte)(color.G * ctGrass.greenMultiplier);
+            color.B = (byte)(color.B * ctGrass.blueMultiplier);            
 
             if (power < 0.5f)
             {
@@ -463,7 +463,7 @@ public class Env
 
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, 400 - tex.Height, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);                
+                Rectangle dst = new Rectangle(0, utils.scale(400) - tex.Height, utils.scale(640), tex.Height);
 
                 AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
@@ -476,9 +476,9 @@ public class Env
 
                 //canvas.fillRect(rc, colGround);
                 //canvas.draw(imgGrass2, MAT, ctGrass);
-                Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
+                Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS2);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, 400 - tex.Height, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);                
+                Rectangle dst = new Rectangle(0, utils.scale(400)- tex.Height, utils.scale(640), tex.Height);
 
                 AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
