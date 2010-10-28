@@ -158,7 +158,7 @@ public class Env
 			
 			sndPower = Res.SND_ENV_POWER;
 			//sndTex1 = new rTex1Snd();
-            sndTex2 = Res.SONG_ENV_TEX;
+			sndTex2 = Res.SONG_ENV_TEX;
 			
 			musicTrans = new SoundTransform(0);
 			
@@ -297,7 +297,7 @@ public class Env
 					day = !day;
 					updateNorm();
 					blanc = 1.0f;					
-					musicTrans.volume = 1;
+					musicTrans.Volume = 1;
 					channel.SoundTransform = musicTrans;					
 					Application.sharedSoundMgr.playSound(sndPower);
 				}
@@ -316,7 +316,7 @@ public class Env
 				
 				if(power<0.5f)
 				{
-					musicTrans.volume = power*0.3f;
+					musicTrans.Volume = power*0.3f;
 					channel.SoundTransform = musicTrans;
 				}
 			}			
