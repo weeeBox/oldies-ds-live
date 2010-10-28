@@ -110,8 +110,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="duck_fake.png">
-      <Name>duck_fake</Name>
+    <Compile Include="duck_sleep.png">
+      <Name>duck_sleep</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
