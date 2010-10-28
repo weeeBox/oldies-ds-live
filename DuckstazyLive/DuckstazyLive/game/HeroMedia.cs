@@ -227,10 +227,10 @@ namespace DuckstazyLive.game
             if (pan > 1.0f) pan = 1.0f;
             else if (pan < -1.0f) pan = -1.0f;
 
-            transformPan.pan = pan;
+            transformPan.Pan = pan;
 
-            transformPanVol.pan = pan;
-            transformPanVol.volume = 0.3f + utils.rnd() * 0.7f;
+            transformPanVol.Pan = pan;
+            transformPanVol.Volume = 0.3f + utils.rnd() * 0.7f;
         }
 
         public void playAwake()

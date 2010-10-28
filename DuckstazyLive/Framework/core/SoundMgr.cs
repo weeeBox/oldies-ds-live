@@ -115,6 +115,7 @@ namespace Framework.core
                 if (sounds[channel] != null)
                 {
                     sounds[channel].Stop();
+                    sounds[channel].Dispose();
                     sounds[channel] = null;
                     soundIds[channel] = -1;
                 }

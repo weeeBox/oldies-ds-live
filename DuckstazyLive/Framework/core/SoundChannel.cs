@@ -45,8 +45,8 @@ namespace Framework.core
                 Debug.Assert(value != null);
 
                 soundTransform = value;
-                instance.Volume = soundTransform.volume;
-                instance.Pan = soundTransform.pan;
+                instance.Volume = soundTransform.Volume;
+                instance.Pan = soundTransform.Pan;
             }
         }
     }
@@ -61,7 +61,7 @@ namespace Framework.core
                 Debug.Assert(value != null);
 
                 soundTransform = value;
-                MediaPlayer.Volume = soundTransform.volume;
+                MediaPlayer.Volume = soundTransform.Volume;
             }
         }
     }
