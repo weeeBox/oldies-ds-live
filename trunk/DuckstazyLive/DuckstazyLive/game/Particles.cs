@@ -44,8 +44,7 @@ namespace DuckstazyLive.game
         public int imgFXAcid;
         public int imgFXBubble;
         public int imgFXWarning;
-        public int imgFXStar;
-        public int imgFXStar2;
+        public int imgFXStar;        
         public int imgFXOut;
         public int imgFXIn;
 
@@ -66,9 +65,9 @@ namespace DuckstazyLive.game
             imgFXBubble = Res.IMG_FX_BUBBLE;
             imgFXWarning = Res.IMG_FX_WARNING;
             imgFXStar = Res.IMG_FX_STAR;
-            //imgFXStar2 = (new rFXStar2Img()).bitmapData;
-            //imgFXOut = (new rFXOutImg()).bitmapData;
-            //imgFXIn = (new rFXInImg()).bitmapData;
+            
+            imgFXOut = Res.IMG_FX_OUT;
+            imgFXIn = Res.IMG_FX_IN;
         }
 
         public void clear()

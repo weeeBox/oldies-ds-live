@@ -11,5 +11,8 @@ namespace Framework.core
 
         public const int SCREEN_WIDTH = 640;
         public const int SCREEN_HEIGHT = 480;
+
+        public const int SCREEN_WIDTH_REAL = 1280;
+        public const int SCREEN_HEIGHT_REAL = 720;
     }
 }

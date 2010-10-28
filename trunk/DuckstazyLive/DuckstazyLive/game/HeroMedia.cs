@@ -124,7 +124,7 @@ namespace DuckstazyLive.game
             imgSleep.unlock();*/
 
             //imgDuck = (new rDuckImg()).bitmapData;
-            //imgSleep = (new rSleepImg()).bitmapData;
+            imgSleep = Res.IMG_DUCK_SLEEP;
 
             /*mat.scale(-1.0f, 1.0f);
             mat.translate(54.0, 0.0);

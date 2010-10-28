@@ -97,24 +97,24 @@ namespace DuckstazyLive.game
 		
 		public StageMedia()
 		{
-            //imgPedestalL = (new gfxPedestalL()).bitmapData;
-            //imgPedestalR = (new gfxPedestalR()).bitmapData;
+            imgPedestalL = Res.IMG_GFX_PEDESTAL_L;
+            imgPedestalR = Res.IMG_GFX_PEDESTAL_R;
 			
-            //imgCatR = (new gfxCatR()).bitmapData;
-            //imgCatL = (new gfxCatL()).bitmapData;
-            //imgCatSmile = (new gfxCatSmile()).bitmapData;
-            //imgCatHum = (new gfxCatHum()).bitmapData;
+            imgCatR = Res.IMG_GFX_CAT_R;
+            imgCatL = Res.IMG_GFX_CAT_L;
+            imgCatSmile = Res.IMG_GFX_CAT_SMILE;
+            imgCatHum = Res.IMG_GFX_CAT_HUM;
 			
             imgHintArrow = Res.IMG_FX_HINT_ARROW;
 			
-            //imgFrogBody = (new gfxFrogBody()).bitmapData;
-            //imgFrogEmo1 = (new gfxFrogEmo1()).bitmapData;
-            //imgFrogEmo2 = (new gfxFrogEmo2()).bitmapData;
-            //imgFrogEye1 = (new gfxFrogEye1()).bitmapData;
-            //imgFrogEye2 = (new gfxFrogEye2()).bitmapData;
-            //imgFrogHand1 = (new gfxFrogHand1()).bitmapData;
-            //imgFrogHand2 = (new gfxFrogHand2()).bitmapData;
-            //imgFrogHead = (new gfxFrogHead()).bitmapData;
+            imgFrogBody = Res.IMG_GFX_FROG_BODY;
+            imgFrogEmo1 = Res.IMG_GFX_FROG_EMO1;
+            imgFrogEmo2 = Res.IMG_GFX_FROG_EMO2;
+            imgFrogEye1 = Res.IMG_GFX_FROG_EYE1;
+            imgFrogEye2 = Res.IMG_GFX_FROG_EYE2;
+            imgFrogHand1 = Res.IMG_GFX_FROG_HAND1;
+            imgFrogHand2 = Res.IMG_GFX_FROG_HAND2;
+            imgFrogHead = Res.IMG_GFX_FROG_HEAD;
 			
             //imgPump = (new gfxPump()).bitmapData;
             //imgParty = (new gfxParty()).bitmapData;

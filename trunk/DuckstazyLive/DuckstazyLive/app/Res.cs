@@ -55,32 +55,48 @@ namespace DuckstazyLive.app
 		public const int IMG_FX_BUBBLE = 36;
 		public const int IMG_FX_STAR = 37;
 		public const int IMG_FX_WARNING = 38;
-		public const int IMG_FX_HINT_ARROW = 39;
+		public const int IMG_FX_IN = 39;
+		public const int IMG_FX_OUT = 40;
+		public const int IMG_FX_HINT_ARROW = 41;
+		public const int IMG_GFX_PEDESTAL_L = 42;
+		public const int IMG_GFX_PEDESTAL_R = 43;
+		public const int IMG_GFX_CAT_L = 44;
+		public const int IMG_GFX_CAT_R = 45;
+		public const int IMG_GFX_CAT_SMILE = 46;
+		public const int IMG_GFX_CAT_HUM = 47;
+		public const int IMG_GFX_FROG_HEAD = 48;
+		public const int IMG_GFX_FROG_BODY = 49;
+		public const int IMG_GFX_FROG_HAND1 = 50;
+		public const int IMG_GFX_FROG_HAND2 = 51;
+		public const int IMG_GFX_FROG_EYE1 = 52;
+		public const int IMG_GFX_FROG_EYE2 = 53;
+		public const int IMG_GFX_FROG_EMO1 = 54;
+		public const int IMG_GFX_FROG_EMO2 = 55;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 40;
-		public const int SONG_ENV_TEX = 41;
-		public const int SND_HERO_ATTACK = 42;
-		public const int SND_HERO_AWAKE = 43;
-		public const int SND_HERO_JUMP = 44;
-		public const int SND_HERO_LAND = 45;
-		public const int SND_HERO_SLEEP = 46;
-		public const int SND_HERO_STEP1 = 47;
-		public const int SND_HERO_STEP2 = 48;
-		public const int SND_HERO_TOXIC = 49;
-		public const int SND_HERO_WING1 = 50;
-		public const int SND_HERO_WING2 = 51;
-		public const int SND_LEVEL_START = 52;
-		public const int SND_PILL_GENERATE = 53;
-		public const int SND_PILL_HIGH = 54;
-		public const int SND_PILL_JUMPER = 55;
-		public const int SND_PILL_POWER1 = 56;
-		public const int SND_PILL_POWER2 = 57;
-		public const int SND_PILL_POWER3 = 58;
-		public const int SND_PILL_TOXIC_BORN = 59;
-		public const int SND_PILL_WARNING = 60;
-		public const int SND_UI_CLICK = 61;
-		public const int SND_UI_FOCUS = 62;
-		public const int RES_COUNT = 63;
+		public const int SND_ENV_POWER = 56;
+		public const int SONG_ENV_TEX = 57;
+		public const int SND_HERO_ATTACK = 58;
+		public const int SND_HERO_AWAKE = 59;
+		public const int SND_HERO_JUMP = 60;
+		public const int SND_HERO_LAND = 61;
+		public const int SND_HERO_SLEEP = 62;
+		public const int SND_HERO_STEP1 = 63;
+		public const int SND_HERO_STEP2 = 64;
+		public const int SND_HERO_TOXIC = 65;
+		public const int SND_HERO_WING1 = 66;
+		public const int SND_HERO_WING2 = 67;
+		public const int SND_LEVEL_START = 68;
+		public const int SND_PILL_GENERATE = 69;
+		public const int SND_PILL_HIGH = 70;
+		public const int SND_PILL_JUMPER = 71;
+		public const int SND_PILL_POWER1 = 72;
+		public const int SND_PILL_POWER2 = 73;
+		public const int SND_PILL_POWER3 = 74;
+		public const int SND_PILL_TOXIC_BORN = 75;
+		public const int SND_PILL_WARNING = 76;
+		public const int SND_UI_CLICK = 77;
+		public const int SND_UI_FOCUS = 78;
+		public const int RES_COUNT = 79;
 	}
 	public class DuckstazyResources
 	{
@@ -136,7 +152,23 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_FX_BUBBLE, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_bubble"),
 				new ResourceBaseInfo(Res.IMG_FX_STAR, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_star"),
 				new ResourceBaseInfo(Res.IMG_FX_WARNING, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_warning"),
+				new ResourceBaseInfo(Res.IMG_FX_IN, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_in"),
+				new ResourceBaseInfo(Res.IMG_FX_OUT, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_out"),
 				new ResourceBaseInfo(Res.IMG_FX_HINT_ARROW, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_hint_arrow"),
+				new ResourceBaseInfo(Res.IMG_GFX_PEDESTAL_L, ResourceType.RESOURCE_TYPE_TEXTURE, "pedestal_l"),
+				new ResourceBaseInfo(Res.IMG_GFX_PEDESTAL_R, ResourceType.RESOURCE_TYPE_TEXTURE, "pedestal_r"),
+				new ResourceBaseInfo(Res.IMG_GFX_CAT_L, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_l"),
+				new ResourceBaseInfo(Res.IMG_GFX_CAT_R, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_r"),
+				new ResourceBaseInfo(Res.IMG_GFX_CAT_SMILE, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_smile"),
+				new ResourceBaseInfo(Res.IMG_GFX_CAT_HUM, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_hum"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_HEAD, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_head"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_BODY, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_body"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_HAND1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_hand1"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_HAND2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_hand2"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_EYE1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_eye1"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_eye2"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_EMO1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_emo1"),
+				new ResourceBaseInfo(Res.IMG_GFX_FROG_EMO2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_emo2"),
 			},
 			// PACK_SOUNDS
 			new ResourceBaseInfo[]

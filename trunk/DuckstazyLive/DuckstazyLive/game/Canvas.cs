@@ -6,6 +6,7 @@ using Framework.core;
 using Microsoft.Xna.Framework.Graphics;
 using Framework.utils;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -31,12 +32,16 @@ namespace DuckstazyLive.game
                 color.B = (byte)(color.B * transform.blueMultiplier);
                 color.A = (byte)(color.A * transform.alphaMultiplier);
             }
-            AppGraphics.DrawImage(getTexture(imageId), ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
+            Vector2 scaledPosition;
+            Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);
+            Vector2 scaledOrigin;
+            Vector2.Multiply(ref mat.ORIGIN, Constants.SCALE, out scaledOrigin);
+            AppGraphics.DrawImage(getTexture(imageId), ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
         }        
 
         public void copyPixels(int imageId, Rect dest, Vector2 pos)
         {
-            AppGraphics.DrawImage(getTexture(imageId), pos.X, pos.Y);
+            AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y));
         }
 
         private Texture2D getTexture(int imageId)

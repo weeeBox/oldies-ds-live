@@ -220,5 +220,20 @@ namespace DuckstazyLive.app
         {
             return Application.sharedResourceMgr.getTexture(imageId);
         }
+
+        public static int scale(int val)
+        {
+            return (int)(Constants.SCALE * val);
+        }
+
+        public static float scale(float val)
+        {
+            return Constants.SCALE * val;
+        }
+
+        public static float unscale(float val)
+        {
+            return Constants.SCALE_INV * val;
+        }
     }
 }

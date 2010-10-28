@@ -81,7 +81,23 @@
 				<image name="fx_bubble" file="${dir.art}/fx_bubble.png" />
 				<image name="fx_star" file="${dir.art}/fx_star.png" />
 				<image name="fx_warning" file="${dir.art}/fx_warning.png" />
+				<image name="fx_in" file="${dir.art}/fx_in.png" />
+				<image name="fx_out" file="${dir.art}/fx_out.png" />
 				<image name="fx_hint_arrow" file="${dir.art}/fx_hint_arrow.png" />
+				<image name="gfx_pedestal_l" file="${dir.art}/pedestal_l.png" />
+				<image name="gfx_pedestal_r" file="${dir.art}/pedestal_r.png" />
+				<image name="gfx_cat_l" file="${dir.art}/cat_l.png" />
+				<image name="gfx_cat_r" file="${dir.art}/cat_r.png" />
+				<image name="gfx_cat_smile" file="${dir.art}/cat_smile.png" />
+				<image name="gfx_cat_hum" file="${dir.art}/cat_hum.png" />
+				<image name="gfx_frog_head" file="${dir.art}/frog_head.png" />
+				<image name="gfx_frog_body" file="${dir.art}/frog_body.png" />
+				<image name="gfx_frog_hand1" file="${dir.art}/frog_hand1.png" />
+				<image name="gfx_frog_hand2" file="${dir.art}/frog_hand2.png" />
+				<image name="gfx_frog_eye1" file="${dir.art}/frog_eye1.png" />
+				<image name="gfx_frog_eye2" file="${dir.art}/frog_eye2.png" />
+				<image name="gfx_frog_emo1" file="${dir.art}/frog_emo1.png" />
+				<image name="gfx_frog_emo2" file="${dir.art}/frog_emo2.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">

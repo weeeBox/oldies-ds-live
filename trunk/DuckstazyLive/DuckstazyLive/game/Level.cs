@@ -429,9 +429,9 @@ namespace DuckstazyLive.game
 					hero.keyDown(key);
 					if(key==Keys.Escape)// ESC
 						game.goPause();					
-					/*else if(code==0x57)
+					else if(key==Keys.PageDown)
 						nextLevel();
-					else if(code==0x44)
+					/*else if(code==0x44)
 						hero.doToxicDamage(320, 200, 20, 0);
 					else if(code==0x50)
 						powerUp = power = 1;*/
