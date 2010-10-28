@@ -175,7 +175,11 @@ namespace DuckstazyLive.game
                     level.progress.draw(canvas);
                     break;
                 case LEVEL:
+                    float tx = 0.5f * (Constants.SCREEN_WIDTH_REAL - utils.scale(Constants.SCREEN_WIDTH));
+                    float ty = 0;
+                    AppGraphics.Translate(tx, ty, 0);
                     level.draw(canvas);
+                    AppGraphics.Translate(-tx, -ty, 0);
                     break;
             }
             //}
