@@ -208,7 +208,7 @@ namespace DuckstazyLive.game
 				else if(type==1)
 				{
 					level.progress.updateProgress(pumpProg);
-					if(startTitle==null && pumpProg<goalTime)
+					if(startTitle==Constants.UNDEFINED && pumpProg<goalTime)
 					{
 						pumpProg+=dt;
 						if(pumpProg>goalTime)
