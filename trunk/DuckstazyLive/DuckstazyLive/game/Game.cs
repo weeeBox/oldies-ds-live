@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Framework.core;
 using Microsoft.Xna.Framework.Input;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -218,12 +219,12 @@ namespace DuckstazyLive.game
 
         public void buttonPressed(ButtonEvent e)
         {
-
+            keyPressed(getKey(e.button));
         }
 
         public void buttonReleased(ButtonEvent e)
         {
-
+            keyReleased(getKey(e.button));
         }
 
         public void keyPressed(Keys key)
@@ -236,7 +237,26 @@ namespace DuckstazyLive.game
         {
             if (state == LEVEL)
                 level.keyUp(key);
-        }       
+        }
+       
+        private Keys getKey(Buttons button)
+        {
+            switch (button)
+            {
+                case Buttons.DPadLeft:
+                case Buttons.LeftThumbstickLeft:
+                    return Keys.Left;
+                case Buttons.DPadRight:
+                case Buttons.LeftThumbstickRight:
+                    return Keys.Right;
+                case Buttons.DPadDown:
+                case Buttons.LeftThumbstickDown:
+                    return Keys.Down;
+                case Buttons.A:
+                    return Keys.Up;
+            }
+            return Keys.None;
+        }
 
         public void changeMute()
         {
