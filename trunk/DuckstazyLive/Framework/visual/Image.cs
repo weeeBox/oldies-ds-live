@@ -95,7 +95,7 @@ namespace Framework.visual
             AppGraphics.DrawImagePart(texture, quads[n], x, y);
         }
 
-        public void drawQuad(int n, float x, float y)
+        public virtual void drawQuad(int n, float x, float y)
         {
             AppGraphics.DrawImagePart(texture, quads[n], x, y);
         }        

@@ -44,6 +44,7 @@
 				<image name="cloud_1" file="${dir.art}/cloud_1.png" />
 				<image name="cloud_2" file="${dir.art}/cloud_1.png" />
 				<image name="cloud_3" file="${dir.art}/cloud_1.png" />
+				<font  name="big" file="${dir.art}/font_big.png" />
 			</package>
 			
 			<package name="PACK_MENU">

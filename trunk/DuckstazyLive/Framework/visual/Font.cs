@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Framework.core;
+using Microsoft.Xna.Framework;
 
 namespace Framework.visual
 {
@@ -13,10 +14,15 @@ namespace Framework.visual
         public int lineOffset;
         String chars;
         Dictionary<char, int> charMap;
+        int[] quadOffsetX;
+        int[] quadOffsetY;
 
         public Font(String chars, Texture2D texture)
             : base(texture, chars.Length)
         {
+            quadOffsetX = new int[chars.Length];
+            quadOffsetY = new int[chars.Length];
+
             this.chars = chars;
             charOffset = 0;
             lineOffset = 0;
@@ -57,6 +63,13 @@ namespace Framework.visual
                 return FrameworkConstants.UNDEFINED;
         }
 
+        public override void drawQuad(int n, float x, float y)
+        {
+            int offX = quadOffsetX[n];
+            int offY = quadOffsetY[n];
+            base.drawQuad(n, x + offX, y + offY);
+        }
+
         public int stringWidth(String s)
         {
             int strWidth = 0;
@@ -81,6 +94,14 @@ namespace Framework.visual
         public int fontHeight()
         {
             return quads[0].Height;
+        }
+
+        public void setCharInfo(FontCharInfo info, int pos)
+        {
+            Rectangle rect = new Rectangle(info.packedX, info.packedY, info.width, info.height);
+            setQuad(rect, pos);
+            quadOffsetX[pos] = info.offsetX;
+            quadOffsetY[pos] = info.offsetY;
         }
     }
 }

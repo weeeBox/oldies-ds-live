@@ -35,7 +35,7 @@ namespace Framework.core
             get { return volume; }
             set 
             {
-                Debug.Assert(volume >= 0 && volume < 1.0f);
+                Debug.Assert(volume >= 0 && volume <= 1.0f);
                 volume = value;
             }
         }

@@ -12,7 +12,7 @@ using Framework.visual;
 
 namespace DuckstazyLive.game
 {
-public class Env
+    public class Env
 	{
         //// Импорт графических ресурсов
         //[Embed(source="gfx/cloud1.png")]
@@ -35,7 +35,7 @@ public class Env
         
         ////[Embed(source="sfx/tex2.mp3")]
         ////private var rTex1Snd:Class;
-        
+            
         //[Embed(source="sfx/tex3.mp3")]
         //private Class rTex2Snd;
         
