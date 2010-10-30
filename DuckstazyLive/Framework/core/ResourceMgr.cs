@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework;
+using Framework.visual;
 
 namespace Framework.core
 {
@@ -17,7 +19,33 @@ namespace Framework.core
         RESOURCE_TYPE_SONG,        
         RESOURCE_TYPE_FONT,        
         RESOURCE_TYPE_BINARY
-    }        
+    }
+
+    public struct FontCharInfo
+    {
+        public int packedX;
+        public int packedY;
+        public int offsetX;
+        public int offsetY;
+        public int width;
+        public int height;
+
+        public FontCharInfo(int px, int py, int ox, int oy, int w, int h)
+        {
+            packedX = px;
+            packedY = py;
+            offsetX = ox;
+            offsetY = oy;
+            width = w;
+            height = h;
+        }
+    }
+
+    public enum FontVariableParams
+    {
+        FONT_VARIABLE_PARAM_CHARS, FONT_VARIABLE_PARAM_DATA, FONT_VARIABLE_PARAM_CHAR_OFFSET, FONT_VARIABLE_PARAM_LINE_OFFSET,
+        COUNT
+    }
 
     public struct ResourceLoadInfo
     {        
@@ -133,6 +161,11 @@ namespace Framework.core
             return (Texture2D)resources[resName];
         }
 
+        public Font getFont(int resName)
+        {
+            return (Font)resources[resName];
+        }
+
         public void freeResource(int resName)
         {            
             resources[resName] = null;            
@@ -198,9 +231,25 @@ namespace Framework.core
             return contentManager.Load<Song>(r.fileName);            
         }        
 
-        public object loadFont(ResourceLoadInfo r)
+        public Font loadFont(ResourceLoadInfo r)
         {
-            throw new NotImplementedException();
+            // TODO: add code
+            String chars = (String)r.resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHARS];
+            FontCharInfo[] data = (FontCharInfo[])r.resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_DATA];
+            int co = (int)r.resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHAR_OFFSET];
+            int lo = (int)r.resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_LINE_OFFSET];
+
+            ResourceLoadInfo ri = new ResourceLoadInfo(r.fileName, ResourceType.RESOURCE_TYPE_TEXTURE, -1, null);
+            Texture2D texture = (Texture2D)loadResource(ri);
+            Font font = new Font(chars, texture);
+            font.setOffsets(co, lo);
+
+            for (int i = 0; i < data.Length; i++)
+            {                
+                font.setCharInfo(data[i], i);
+            }
+
+            return font;
         }
 
         public object loadBinary(ResourceLoadInfo r)
@@ -231,6 +280,6 @@ namespace Framework.core
             {
                 throw new NotImplementedException();
             }
-        }
+        }       
     }
 }

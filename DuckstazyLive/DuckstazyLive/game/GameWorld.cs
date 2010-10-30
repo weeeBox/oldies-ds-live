@@ -21,6 +21,14 @@ namespace DuckstazyLive.game
             game.clickNewGame();
 
             Application.sharedInputMgr.addInputListener(game);
+
+            Font fnt = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Text t = new Text(fnt);
+            t.setString("THIS IS TEST");
+            t.x = 100;
+            t.y = 200;
+
+            addChild(t);
         }
 
         public override void update(float dt)
@@ -30,8 +38,9 @@ namespace DuckstazyLive.game
 
         public override void draw()
         {
-            base.draw();
+            preDraw();
             game.draw();
+            postDraw();
         }        
     }
 }

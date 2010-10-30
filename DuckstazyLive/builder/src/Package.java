@@ -21,6 +21,11 @@ public class Package
 		resources.add(image);
 	}
 	
+	public void addFont(Font font)
+	{
+		resources.add(font);
+	}
+	
 	public void addSound(Sound sound)
 	{
 		resources.add(sound);

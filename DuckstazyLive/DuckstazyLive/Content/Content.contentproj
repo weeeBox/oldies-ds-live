@@ -95,6 +95,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="font_big.png">
+      <Name>font_big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="title.png">
       <Name>title</Name>
       <Importer>TextureImporter</Importer>
