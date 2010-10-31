@@ -25,8 +25,7 @@ namespace DuckstazyLive.app
     public class DuckstazyResourceMgr : ResourceMgr
     {
         private static FontCharInfo[] FONT_BIG_INFO = 
-        {
-	        new FontCharInfo(0,0,0,0,1,1),
+        {	        
             new FontCharInfo(1,0,20,12,18,45),
             new FontCharInfo(19,0,26,14,22,24),
             new FontCharInfo(41,0,19,15,30,42),
@@ -95,6 +94,7 @@ namespace DuckstazyLive.app
             new FontCharInfo(113,342,29,11,12,52),
             new FontCharInfo(125,342,19,8,25,48),
             new FontCharInfo(150,342,24,34,25,13),            
+            new FontCharInfo(175,342,0,0,20,1),
         };
 
         public DuckstazyResourceMgr(ContentManager cm)
@@ -125,7 +125,7 @@ namespace DuckstazyLive.app
                 if (resId == Res.FNT_BIG)
                 {
                     resParams = new Object[(int)FontVariableParams.COUNT];
-                    String chars = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~";
+                    String chars = "!\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~ ";
                     int len = chars.Length;
                     FontCharInfo[] data = new FontCharInfo[len];
                     for (int j = 0; j < len; j++)
@@ -134,7 +134,7 @@ namespace DuckstazyLive.app
                     }
                     resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHARS] = chars;
                     resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_DATA] = data;
-                    resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHAR_OFFSET] = 1;
+                    resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHAR_OFFSET] = -2;
                     resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_LINE_OFFSET] = 0; 
                 }
                 
