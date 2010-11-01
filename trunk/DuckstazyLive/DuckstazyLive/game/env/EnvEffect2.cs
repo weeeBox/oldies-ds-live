@@ -7,7 +7,7 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.env
 {
-    	public class EnvEffect2 : EnvEffect
+   	public class EnvEffect2 : EnvEffect
 	{
 		private float t;
 		// private Shape shape;
@@ -27,6 +27,8 @@ namespace DuckstazyLive.game.env
 
 		public override void draw(Canvas canvas)
 		{
+            base.draw(canvas);
+
             // Временные переменные.
             float x;
             float y;
@@ -39,7 +41,7 @@ namespace DuckstazyLive.game.env
             //gr.drawRect(0.0, 0.0, 640.0, 400.0);
             //gr.endFill();
 
-            ColorTransform colorTransform = new ColorTransform(c2);
+            ColorTransform colorTransform = new ColorTransform(c1);
 
             Texture2D circleTex = utils.getImage(Res.IMG_EFFECT_CIRCLE);
             DrawMatrix m = new DrawMatrix();

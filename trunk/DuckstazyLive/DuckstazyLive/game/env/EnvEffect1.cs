@@ -27,6 +27,8 @@ namespace DuckstazyLive.game.env
 
 		public override void draw(Canvas canvas)
 		{
+            base.draw(canvas);
+
             //// Временные переменные.
             //float x;
             //bool c = false;

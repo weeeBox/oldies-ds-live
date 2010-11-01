@@ -53,8 +53,7 @@ namespace DuckstazyLive.game
         private CustomGeomerty geomSkyDay;
         private CustomGeomerty geomSkyNight;
         private CustomGeomerty geomGround;
-        private CustomGeomerty geomGroundEffect;
-        private CustomGeomerty geomEffect;
+        private CustomGeomerty geomGroundEffect;        
 		
 		private int sndPower;
 		//private var sndTex1:Sound;
@@ -146,7 +145,6 @@ namespace DuckstazyLive.game
 			initGrass();
 			initDay();
 			initNight();
-            initEffect();
 			
 			curEffect = effects[3];//effects[int(Math.random()*effects.length)];
 			
@@ -250,11 +248,6 @@ namespace DuckstazyLive.game
             }
             
 		}
-
-        private void initEffect()
-        {
-            geomEffect = GeometryFactory.createSolidRect(0, 0, 640, 480, utils.makeColor(0));
-        }
 		
 		public void updateNorm()
 		{
@@ -389,9 +382,6 @@ namespace DuckstazyLive.game
             }
             else
             {
-                geomEffect.colorize(utils.makeColor(colors.bg));
-                AppGraphics.DrawGeomerty(geomEffect);
-
                 curEffect.draw(canvas);
                 //gr.clear();
                 //gr.beginFill(colors.bg, 0.4 * musicAttack);
