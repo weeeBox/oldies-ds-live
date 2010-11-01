@@ -350,8 +350,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="effect1_circle.png">
-      <Name>effect1_circle</Name>
+    <Compile Include="effect_circle.png">
+      <Name>effect_circle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

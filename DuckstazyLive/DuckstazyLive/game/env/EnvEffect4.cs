@@ -90,7 +90,7 @@ namespace DuckstazyLive.game.env
                 c += 0.628f;
             }
 
-            int circleImage = Res.IMG_EFFECT1_CIRCLE;
+            int circleImage = Res.IMG_EFFECT_CIRCLE;
             Texture2D circleTex = utils.getImage(circleImage);
             m.identity();
             m.translate(320, 200);

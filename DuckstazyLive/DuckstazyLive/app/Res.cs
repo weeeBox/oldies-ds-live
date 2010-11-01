@@ -75,7 +75,7 @@ namespace DuckstazyLive.app
 		public const int IMG_GFX_FROG_EYE2 = 56;
 		public const int IMG_GFX_FROG_EMO1 = 57;
 		public const int IMG_GFX_FROG_EMO2 = 58;
-		public const int IMG_EFFECT1_CIRCLE = 59;
+		public const int IMG_EFFECT_CIRCLE = 59;
 		public const int IMG_EFFECT1_RAY = 60;
 		// PACK_SOUNDS
 		public const int SND_ENV_POWER = 61;
@@ -177,7 +177,7 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_GFX_FROG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_eye2"),
 				new ResourceBaseInfo(Res.IMG_GFX_FROG_EMO1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_emo1"),
 				new ResourceBaseInfo(Res.IMG_GFX_FROG_EMO2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_emo2"),
-				new ResourceBaseInfo(Res.IMG_EFFECT1_CIRCLE, ResourceType.RESOURCE_TYPE_TEXTURE, "effect1_circle"),
+				new ResourceBaseInfo(Res.IMG_EFFECT_CIRCLE, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_circle"),
 				new ResourceBaseInfo(Res.IMG_EFFECT1_RAY, ResourceType.RESOURCE_TYPE_TEXTURE, "effect1_ray"),
 			},
 			// PACK_SOUNDS
