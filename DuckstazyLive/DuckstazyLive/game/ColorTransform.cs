@@ -18,6 +18,11 @@ namespace DuckstazyLive.game
         {            
         }
 
+        public ColorTransform(uint color) : this (((color >> 16) & 0xff) / 255.0f, ((color >> 8) & 0xff) / 255.0f, (color & 0xff) / 255.0f, 1.0f)
+        {
+
+        }
+
         public ColorTransform(float redMultiplier, float greenMultiplier, float blueMultiplier) : this(redMultiplier, greenMultiplier, blueMultiplier, 1.0f)
         {            
         }

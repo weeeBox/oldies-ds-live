@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.env
 {
@@ -23,7 +25,7 @@ namespace DuckstazyLive.game.env
 				t-=6.28f;
 		}
 
-		public override void draw(bool canvas)
+		public override void draw(Canvas canvas)
 		{
             //// Временные переменные.
             //float c = 0.0f;
@@ -55,7 +57,46 @@ namespace DuckstazyLive.game.env
             //gr.endFill();
 			
             //canvas.draw(shape);
-            throw new NotImplementedException();
+
+            // Временные переменные.
+            float c = 0.0f;
+            float a = t;
+            float a2 = t + 0.314f;
+            
+            int rayImg = Res.IMG_EFFECT1_RAY;
+            Texture2D rayTex = utils.getImage(rayImg);
+
+            DrawMatrix m = new DrawMatrix();
+            m.tx = utils.unscale(-rayTex.Width);
+            m.ty = utils.unscale(-0.5f * rayTex.Height);
+            m.translate(320, 200);
+
+            ColorTransform trans1 = new ColorTransform(c1);
+            ColorTransform trans2 = new ColorTransform(c2);
+
+            while (c < 6.28f)
+            {
+                //gr.beginFill(c1);
+                //gr.moveTo(320.0 + 512.0 * Math.Cos(a), 200.0 + 512.0 * Math.Sin(a));
+                //gr.lineTo(320.0, 200.0);
+                //gr.lineTo(320.0 + 512.0 * Math.Cos(a2), 200.0 + 512.0 * Math.Sin(a2));
+                //gr.endFill();
+
+                m.rotate(a);
+                canvas.draw(rayImg, m, trans2);
+
+                a += 0.628f;
+                a2 += 0.628f;
+                c += 0.628f;
+            }
+
+            int circleImage = Res.IMG_EFFECT1_CIRCLE;
+            Texture2D circleTex = utils.getImage(circleImage);
+            m.identity();
+            m.translate(320, 200);
+            m.tx = utils.unscale(-0.5f * circleTex.Width);
+            m.ty = utils.unscale(-0.5f * circleTex.Height);
+            canvas.draw(circleImage, m, trans2);
 		}
 		
 	}

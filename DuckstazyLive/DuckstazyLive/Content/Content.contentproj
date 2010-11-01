@@ -350,6 +350,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="effect1_circle.png">
+      <Name>effect1_circle</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="effect1_ray.png">
+      <Name>effect1_ray</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Env_rPowerSnd.wav">
       <Name>Env_rPowerSnd</Name>
       <Importer>WavImporter</Importer>

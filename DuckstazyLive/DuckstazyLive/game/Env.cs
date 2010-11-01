@@ -54,6 +54,7 @@ namespace DuckstazyLive.game
         private CustomGeomerty geomSkyNight;
         private CustomGeomerty geomGround;
         private CustomGeomerty geomGroundEffect;
+        private CustomGeomerty geomEffect;
 		
 		private int sndPower;
 		//private var sndTex1:Sound;
@@ -145,6 +146,7 @@ namespace DuckstazyLive.game
 			initGrass();
 			initDay();
 			initNight();
+            initEffect();
 			
 			curEffect = effects[3];//effects[int(Math.random()*effects.length)];
 			
@@ -248,6 +250,11 @@ namespace DuckstazyLive.game
             }
             
 		}
+
+        private void initEffect()
+        {
+            geomEffect = GeometryFactory.createSolidRect(0, 0, 640, 480, utils.makeColor(0));
+        }
 		
 		public void updateNorm()
 		{
@@ -382,15 +389,18 @@ namespace DuckstazyLive.game
             }
             else
             {
-                //curEffect.draw(canvas);
+                geomEffect.colorize(utils.makeColor(colors.bg));
+                AppGraphics.DrawGeomerty(geomEffect);
+
+                curEffect.draw(canvas);
                 //gr.clear();
                 //gr.beginFill(colors.bg, 0.4 * musicAttack);
                 //gr.drawCircle(613.0 - x, 380.0 - y, musicAttack * 30.0);
                 //gr.drawCircle(320.0 - (x - 293.0) * 0.97, 200.0 - (y - 180.0) * 0.97, musicAttack * 25.0);
                 //gr.drawCircle(320.0 + (x - 293.0) * 0.7, 200.0 + (y - 180.0) * 0.7, musicAttack * 10.0);
-                //gr.endFill();
-                //canvas.draw(shape);
-                //canvas.applyFilter(canvas, new Rect(0, 0, 640, 400), new Point(), new ConvolutionFilter(3,3,null, 9));
+                //gr.endFill();                
+                // canvas.draw(shape);
+                // canvas.applyFilter(canvas, new Rect(0, 0, 640, 400), new Point(), new ConvolutionFilter(3, 3, null, 9));
             }			
 		}
 		
