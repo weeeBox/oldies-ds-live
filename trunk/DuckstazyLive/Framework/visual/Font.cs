@@ -63,6 +63,20 @@ namespace Framework.visual
                 return FrameworkConstants.UNDEFINED;
         }
 
+        public void draw(String str, float x, float y)
+        {
+            float dx = x;
+            float dy = y;
+            for (int c = 0; c < str.Length; c++)
+            {
+                int quadIndex = getCharQuad(str[c]);
+                int itemWidth = quads[quadIndex].Width;
+
+                drawQuad(quadIndex, dx, dy);
+                dx += itemWidth + charOffset;
+            }
+        }
+
         public override void drawQuad(int n, float x, float y)
         {
             int offX = quadOffsetX[n];

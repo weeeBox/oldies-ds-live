@@ -7,6 +7,7 @@ using DuckstazyLive.app;
 using DuckstazyLive.game.levels;
 using System.Diagnostics;
 using Framework.core;
+using Framework.visual;
 
 namespace DuckstazyLive.game
 {
@@ -34,14 +35,14 @@ namespace DuckstazyLive.game
         //private Class rStartSnd;
            
         public int imgHP1;
-        private int imgHP2;
-        public int imgHP3;
+        // private int imgHP2;
+        // public int imgHP3;
         private int imgScore;
         private float hpPulse;
         private float hpCounter;
-        private TextField hpText;
-        private TextField scoreText;
+        
 		private int scoreOld;
+        private string scoreText;
 		private float scoreCounter;
 		
 		public TextField infoText;
@@ -120,26 +121,14 @@ namespace DuckstazyLive.game
 
 			stage = null;
 			
-			finish = false;			
-			
+			finish = false;
+
+            imgHP1 = Res.IMG_UI_HP;
+            imgScore = Res.IMG_UI_SCORE;
 			sndStart = Res.SND_LEVEL_START;
 			
 			hpCounter = 0.0f;
-			hpPulse = 0.0f;
-			
-            hpText = new TextField();
-            //hpText.defaultTextFormat = tf;
-            //hpText.embedFonts = true;
-            //hpText.cacheAsBitmap = true;
-            //hpText.autoSize = TextFieldAutoSize.LEFT;
-            //hpText.filters = [shadow];
-		
-            scoreText = new TextField();
-            //scoreText.defaultTextFormat = tf;
-            //scoreText.embedFonts = true;
-            //scoreText.cacheAsBitmap = true;
-            //scoreText.autoSize = TextFieldAutoSize.LEFT;
-            //scoreText.filters = [shadow];
+			hpPulse = 0.0f;            
 			
             infoText = new TextField();
             //infoText.defaultTextFormat = tf;
@@ -189,38 +178,38 @@ namespace DuckstazyLive.game
 			enterLevel();
 		}
 		
-		public void drawUI(bool canvas)
+		public void drawUI(Canvas canvas)
 		{
-            //Matrix mat = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -25.0f, -23.0f);
-            //ColorTransform col = new ColorTransform(1.0f, 1.0f, 1.0f, power);
-            //float sc = 1.0f + 0.3f*hpPulse;
-            //String str;
-			
-            //mat.scale(sc, sc);
-            //mat.translate(22.0f, 410+18);//463.0f);
-            //canvas.draw(imgHP1, mat, null, null, null, true);
-            //canvas.draw(imgHP2, mat, col, null, null, true);
-            //canvas.draw(imgHP3, mat, null, null, null, true);
-			
-            //mat.identity();
-            //mat.tx = -24.0f;
-            //mat.ty = -24.0f;
-            //sc = 1.0f+0.3f*scoreCounter;
-            //mat.scale(sc, sc);
-            //mat.translate(620.0f, 410+18);//463.0f);
-            //canvas.draw(imgScore, mat, null, null, null, true);
-			
-            //mat.identity();
-			
-            //mat.tx = 40.0f;
-            //mat.ty = 410;//445.0f;
-            //str = state.health.toString()+"/"+state.maxHP.toString();
-            //if(hpText.text != str) hpText.text = str;
-            //canvas.draw(hpText, mat);
-			
-            //mat.tx = 600.0f - scoreText.textWidth;
-            //canvas.draw(scoreText, mat);
-            throw new NotImplementedException();
+            DrawMatrix mat = new DrawMatrix();
+            // ColorTransform col = new ColorTransform(1.0f, 1.0f, 1.0f, power);
+            float sc = 1.0f + 0.3f * hpPulse;            
+
+            mat.tx = -25.0f;
+            mat.ty = -23.0f;
+            mat.scale(sc, sc);
+            mat.translate(22.0f, 410 + 18);//463.0f);
+            canvas.draw(imgHP1, mat);
+            //// canvas.draw(imgHP2, mat, col);
+            //// canvas.draw(imgHP3, mat);
+
+            mat.identity();
+            mat.tx = -24.0f;
+            mat.ty = -24.0f;
+            sc = 1.0f + 0.3f * scoreCounter;
+            mat.scale(sc, sc);
+            mat.translate(620.0f, 410 + 18);//463.0f);
+            canvas.draw(imgScore, mat);
+
+            mat.identity();
+
+            mat.tx = 40.0f;
+            mat.ty = 410;//445.0f;
+            String str = state.health.ToString() + "/" + state.maxHP.ToString();            
+            canvas.draw(Res.FNT_BIG, str, mat);
+
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            mat.tx = 600.0f - font.stringWidth(scoreText);
+            canvas.draw(Res.FNT_BIG, scoreText, mat);
 		}
 		
 		public void draw(Canvas canvas)
@@ -245,7 +234,7 @@ namespace DuckstazyLive.game
                 ps.draw(canvas);
                 env.draw2(canvas);
                 progress.draw(canvas);
-                // drawUI(canvas);
+                drawUI(canvas);
                 stage.draw2(canvas);
             }            
 		}
@@ -376,7 +365,7 @@ namespace DuckstazyLive.game
 							scoreCounter -= (int)scoreCounter;
 						}
 								
-						scoreText.text = scoreOld.ToString();
+						scoreText = scoreOld.ToString();
 					}
 				}				
 			}
@@ -493,7 +482,7 @@ namespace DuckstazyLive.game
 		public void syncScores()
 		{
 			scoreOld = state.scores;
-			scoreText.text = scoreOld.ToString();
+			scoreText = scoreOld.ToString();
 		}
 		
 		private void winLevel()
