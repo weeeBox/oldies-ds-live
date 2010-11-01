@@ -64,7 +64,7 @@ namespace DuckstazyLive.game.env
             float a = t;
             float a2 = t + 0.314f;
             
-            int rayImg = Res.IMG_EFFECT1_RAY;
+            int rayImg = Res.IMG_EFFECT_RAY;
             Texture2D rayTex = utils.getImage(rayImg);
 
             DrawMatrix m = new DrawMatrix();

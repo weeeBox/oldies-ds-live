@@ -355,8 +355,13 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="effect1_ray.png">
-      <Name>effect1_ray</Name>
+    <Compile Include="effect_ray.png">
+      <Name>effect_ray</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="effect_line.png">
+      <Name>effect_line</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
