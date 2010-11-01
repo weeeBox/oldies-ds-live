@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.env
 {
@@ -25,76 +27,67 @@ namespace DuckstazyLive.game.env
 
 		public override void draw(Canvas canvas)
 		{
-            //// Временные переменные.
-            //float x;
-            //float y;
-            //float r;
+            // Временные переменные.
+            float x;
+            float y;
+            float s;
             //Graphics gr = shape.graphics;
-			
+
             //gr.clear();
             //gr.lineStyle();
             //gr.beginFill(c2);
             //gr.drawRect(0.0, 0.0, 640.0, 400.0);
             //gr.endFill();
-			
-            //x = 40.0;
-            //y = 40.0;
-            //r = 22.5+12.5*Math.Sin(t);
-            //while(x<640.0)
-            //{
-            //    while(y<400.0)
-            //    {
-            //        gr.beginFill(c1);
-            //        gr.drawCircle(x, y, r);
-            //        gr.endFill();
-            //        y+=80.0;
-            //    }
-            //    y = 40.0;
-            //    x+=80.0;
-            //}
-			
-            //x = 80.0;
-            //y = 80.0;
-            //r = 22.5-12.5*Math.Sin(t);
-            //while(x<640.0)
-            //{
-            //    while(y<400.0)
-            //    {
-            //        gr.beginFill(c1);
-            //        gr.drawCircle(x, y, r);
-            //        gr.endFill();
-            //        y+=80.0;
-            //    }
-            //    y = 80.0;
-            //    x+=80.0;
-            //}
+
+            ColorTransform colorTransform = new ColorTransform(c2);
+
+            Texture2D circleTex = utils.getImage(Res.IMG_EFFECT_CIRCLE);
+            DrawMatrix m = new DrawMatrix();
+            m.tx = utils.unscale(-0.5f * circleTex.Width);
+            m.ty = utils.unscale(-0.5f * circleTex.Height);
+
+            x = 40.0f;
+            y = 40.0f;
+            // r = 22.5f + 12.5f * Math.Sin(t);
+            s = (float)(0.642857 + 0.3571428 * Math.Sin(t));
+            m.scale(s, s);
+            while (x < 640.0f)
+            {
+                while (y < 400.0f)
+                {
+                    //gr.beginFill(c1);
+                    //gr.drawCircle(x, y, r);
+                    //gr.endFill();
+                    m.translate(x, y);
+                    canvas.draw(Res.IMG_EFFECT_CIRCLE, m, colorTransform);
+                    y += 80.0f;
+                }
+                y = 40.0f;
+                x += 80.0f;
+            }
+
+            x = 80.0f;
+            y = 80.0f;
+            // r = 22.5 - 12.5 * Math.Sin(t);
+            s = (float)(0.642857 - 0.3571428 * Math.Sin(t));
+            m.scale(s, s);
+            while (x < 640.0f)
+            {
+                while (y < 400.0f)
+                {
+                    //gr.beginFill(c1);
+                    //gr.drawCircle(x, y, r);
+                    //gr.endFill();
+                    m.translate(x, y);
+                    canvas.draw(Res.IMG_EFFECT_CIRCLE, m, colorTransform);
+                    y += 80.0f;
+                }
+                y = 80.0f;
+                x += 80.0f;
+            }
 			
             //canvas.draw(shape);            
-		}
-		
-		// Р‘Р›Р®Р 
-		/*private Shape shape;
-		
-		public EnvEffect2()
-		{
-			super();
-			
-			shape = new Shape();
-		}
-		
-		public override void draw(bool canvas)
-		{
-			// Р’СЂРµРјРµРЅРЅС‹Рµ РїРµСЂРµРјРµРЅРЅС‹Рµ.
-			Graphics gr = shape.graphics;
-
-			gr.clear();
-			gr.beginFill(c1, 1.8*(1.0-power)+0.1);
-			gr.drawRect(0.0, 0.0, 640.0, 400.0);
-			gr.endFill();
-
-			canvas.draw(shape);
-		}*/
-		
+		}		
 	}
 
 }
