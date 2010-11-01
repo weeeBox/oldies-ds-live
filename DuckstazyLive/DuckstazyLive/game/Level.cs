@@ -416,17 +416,17 @@ namespace DuckstazyLive.game
 				else
 				{
 					hero.keyDown(key);
-					if(key==Keys.Escape)// ESC
-						game.goPause();					
-					else if(key==Keys.PageDown)
-						nextLevel();
+                    if (key == Keys.Escape)// ESC
+                        game.goPause();
+                    else if (key == Keys.PageDown)
+                        nextLevel();
+                    else if (key == Keys.End)
+                        powerUp = power = 1.0f;
 					/*else if(code==0x44)
 						hero.doToxicDamage(320, 200, 20, 0);
 					else if(code==0x50)
 						powerUp = power = 1;*/
-				}
-			
-				
+				}				
 			}
 		}
 		
