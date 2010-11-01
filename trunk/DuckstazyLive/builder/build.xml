@@ -102,7 +102,8 @@
 				<image name="gfx_frog_emo1" file="${dir.art}/frog_emo1.png" />
 				<image name="gfx_frog_emo2" file="${dir.art}/frog_emo2.png" />
 				<image name="effect_circle" file="${dir.art}/effect_circle.png" />
-				<image name="effect1_ray" file="${dir.art}/effect1_ray.png" />
+				<image name="effect_ray" file="${dir.art}/effect_ray.png" />
+				<image name="effect_line" file="${dir.art}/effect_line.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">
