@@ -27,6 +27,7 @@ namespace DuckstazyLive.game.env
 
 		public override void draw(Canvas canvas)
 		{
+            base.draw(canvas);
             //// Временные переменные.
             //float c = 0.0f;
             //float a = t;
@@ -71,8 +72,7 @@ namespace DuckstazyLive.game.env
             m.ty = utils.unscale(-0.5f * rayTex.Height);
             m.translate(320, 200);
 
-            ColorTransform trans1 = new ColorTransform(c1);
-            ColorTransform trans2 = new ColorTransform(c2);
+            ColorTransform colorTransform = new ColorTransform(c1);
 
             while (c < 6.28f)
             {
@@ -83,7 +83,7 @@ namespace DuckstazyLive.game.env
                 //gr.endFill();
 
                 m.rotate(a);
-                canvas.draw(rayImg, m, trans2);
+                canvas.draw(rayImg, m, colorTransform);
 
                 a += 0.628f;
                 a2 += 0.628f;
@@ -96,7 +96,7 @@ namespace DuckstazyLive.game.env
             m.translate(320, 200);
             m.tx = utils.unscale(-0.5f * circleTex.Width);
             m.ty = utils.unscale(-0.5f * circleTex.Height);
-            canvas.draw(circleImage, m, trans2);
+            canvas.draw(circleImage, m, colorTransform);
 		}
 		
 	}
