@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Framework.utils;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.app;
+using Framework.visual;
 
 namespace DuckstazyLive.game
 {
@@ -42,6 +43,14 @@ namespace DuckstazyLive.game
         public void copyPixels(int imageId, Rect dest, Vector2 pos)
         {
             AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y));
+        }
+
+        public void draw(int fontId, String text, DrawMatrix mat)
+        {
+            Font fnt = Application.sharedResourceMgr.getFont(fontId);
+            float x = utils.scale(mat.POSITION.X - mat.ORIGIN.X);
+            float y = utils.scale(mat.POSITION.Y - mat.ORIGIN.Y);
+            fnt.draw(text, x, y);
         }
 
         private Texture2D getTexture(int imageId)
