@@ -24,7 +24,7 @@ namespace DuckstazyLive.game.env
 		{
 		}
 
-		public virtual void draw(bool canvas)
+		public virtual void draw(Canvas canvas)
 		{
 		}
 

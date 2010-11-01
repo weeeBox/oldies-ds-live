@@ -23,7 +23,7 @@ namespace DuckstazyLive.game.env
 				t-=6.28f;
 		}
 
-		public override void draw(bool canvas)
+		public override void draw(Canvas canvas)
 		{
             //// Временные переменные.
             //float x;
@@ -69,8 +69,7 @@ namespace DuckstazyLive.game.env
             //    x+=80.0;
             //}
 			
-            //canvas.draw(shape);
-            throw new NotImplementedException();
+            //canvas.draw(shape);            
 		}
 		
 		// Р‘Р›Р®Р 
