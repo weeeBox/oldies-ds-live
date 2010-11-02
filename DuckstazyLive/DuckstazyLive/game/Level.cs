@@ -45,7 +45,7 @@ namespace DuckstazyLive.game
         private string scoreText;
 		private float scoreCounter;
 		
-		public TextField infoText;
+		public string infoText;
 		
 		public int sndStart;
         
@@ -128,14 +128,7 @@ namespace DuckstazyLive.game
 			sndStart = Res.SND_LEVEL_START;
 			
 			hpCounter = 0.0f;
-			hpPulse = 0.0f;            
-			
-            infoText = new TextField();
-            //infoText.defaultTextFormat = tf;
-            //infoText.embedFonts = true;
-            //infoText.cacheAsBitmap = true;
-            //infoText.autoSize = TextFieldAutoSize.LEFT;
-            //infoText.filters = [shadow];	
+			hpPulse = 0.0f;
 			
 			scoreOld = 0;
 			scoreCounter = 0.0f;
@@ -294,7 +287,7 @@ namespace DuckstazyLive.game
 								{
 									nextLevelCounter--;
 									nextLevelCountdown--;
-									infoText.text = NEXT_LEVEL_TEXT_BEGIN+
+									infoText = NEXT_LEVEL_TEXT_BEGIN+
 													nextLevelCountdown.ToString()+
 													NEXT_LEVEL_TEXT_END;
 								}
@@ -490,7 +483,7 @@ namespace DuckstazyLive.game
 			pills.finish();
 			nextLevelCountdown = 3;
 			harvestProcess = 2;
-			infoText.text = HARVEST_TEXT+"...";
+			infoText = HARVEST_TEXT+"...";
 			nextLevelCounter = 0;
 			finish = true;
 			env.blanc = 1.0f;			
@@ -517,13 +510,13 @@ namespace DuckstazyLive.game
 						str+=".";
 						--i;
 					}
-					infoText.text = HARVEST_TEXT+str;
+					infoText = HARVEST_TEXT+str;
 				}
 			}
 			else
 			{
 				nextLevelCounter = 0;
-				infoText.text = NEXT_LEVEL_TEXT_BEGIN+
+				infoText = NEXT_LEVEL_TEXT_BEGIN+
 								nextLevelCountdown.ToString()+
 								NEXT_LEVEL_TEXT_END;
 			}

@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
 using System.Diagnostics;
+using Framework.visual;
+using Framework.core;
 
 namespace DuckstazyLive.game
 {
@@ -106,74 +108,81 @@ namespace DuckstazyLive.game
 		
 		public virtual void draw2(Canvas canvas)
 		{
-            //ColorTransform color = new ColorTransform();
-            //Matrix mat = new Matrix();
-            //float a = startCounter;
-            //float b = startCounter;
-            //TextField text = level.infoText;
-			
-            //if(startTitle!=null && a<5.0f)
-            //{
-            //    if(b>4.0f) b = 5.0f - b;
-            //    else if(b>2.0f) b = 1.0f;
-            //    else b*=0.5;
-            //    color.alphaMultiplier = b;
-            //    mat.tx = 320 - startTitle.width*0.5;
-            //    mat.ty = 180;
-            //    canvas.draw(startTitle, mat, color);
-				
-            //    if(text.text.length!=0)
-            //    {
-            //        mat.tx = -text.textWidth*0.5;
-            //        mat.ty = -text.textHeight*0.5;
-					
-            //        if(a<2)
-            //            b = Math.Sin(2.355*a/2)*1.4148;
-            //        else if(a<4)
-            //            b = 1.0f;
-            //        else
-            //            b = 5.0f-a;
-						
-            //        mat.scale(b, b);
-            //        mat.translate(320, 230);
-										
-            //        canvas.draw(text, mat);
-					
-            //        if(a>4)
-            //        {
-            //            b = a-4;
-            //            mat.identity();
-            //            mat.tx = -text.textWidth*0.5;
-            //            mat.ty = -text.textHeight*0.5;
-            //            mat.scale(b, b);
-            //            mat.translate(320, 410+text.textHeight*0.5);
-            //            canvas.draw(text, mat);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if(text.text.length!=0)
-            //    {
-            //        mat.tx = 320 - text.textWidth*0.5;
-            //        mat.ty = 410;
-            //        canvas.draw(text, mat);
-            //    }
-            //}
-			
-            //if(end && endCounter<2)
-            //{
-            //    mat.identity();
-            //    mat.tx = 320 - endImg.width*0.5;
-            //    mat.ty = 180;
-            //    a = endCounter;
+            ColorTransform color = new ColorTransform();
+            DrawMatrix mat = new DrawMatrix();
+            float a = startCounter;
+            float b = startCounter;
+            string text = level.infoText;
 
-            //    if(a>1) color.alphaMultiplier = Math.Cos(3.14*(a-1))*0.5+0.5;
-            //    else color.alphaMultiplier = 1;
-				
-            //    canvas.draw(endImg, mat, color);
-            //}
-            // Implement me
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            float textWidth = font.stringWidth(text);
+            float textHeight = font.fontHeight();
+
+            if (startTitle != Constants.UNDEFINED && a < 5.0f)
+            {
+                Texture2D startTitleTex = Application.sharedResourceMgr.getTexture(startTitle);
+
+                if (b > 4.0f) b = 5.0f - b;
+                else if (b > 2.0f) b = 1.0f;
+                else b *= 0.5f;
+                color.alphaMultiplier = b;
+                mat.tx = 320 - utils.unscale(startTitleTex.Width * 0.5f);
+                mat.ty = 180;
+                canvas.draw(startTitle, mat, color);
+
+                if (text.Length != 0)
+                {
+                    mat.tx = utils.unscale(-textWidth * 0.5f);
+                    mat.ty = utils.unscale(-textHeight * 0.5f);
+
+                    if (a < 2)
+                        b = (float)(Math.Sin(2.355 * a / 2) * 1.4148);
+                    else if (a < 4)
+                        b = 1.0f;
+                    else
+                        b = 5.0f - a;
+
+                    mat.scale(b, b);
+                    mat.translate(320, 230);
+
+                    canvas.draw(Res.FNT_BIG, text, mat);
+
+                    if (a > 4)
+                    {
+                        b = a - 4;
+                        mat.identity();
+                        mat.tx = utils.unscale(-textWidth * 0.5f);
+                        mat.ty = utils.unscale(-textHeight * 0.5f);
+                        mat.scale(b, b);
+                        mat.translate(320, 410 + utils.unscale(textHeight * 0.5f));
+                        canvas.draw(Res.FNT_BIG, text, mat);
+                    }
+                }
+            }
+            else
+            {
+                if (text.Length != 0)
+                {
+                    mat.tx = 320 - utils.unscale(textWidth * 0.5f);
+                    mat.ty = 410;
+                    canvas.draw(Res.FNT_BIG, text, mat);
+                }
+            }
+
+            if (end && endCounter < 2)
+            {
+                Texture2D endImgTex = Application.sharedResourceMgr.getTexture(endImg);
+
+                mat.identity();
+                mat.tx = 320 - utils.unscale(endImgTex.Width * 0.5f);
+                mat.ty = 180;
+                a = endCounter;
+
+                if (a > 1) color.alphaMultiplier = (float)(Math.Cos(3.14 * (a - 1)) * 0.5 + 0.5);
+                else color.alphaMultiplier = 1;
+
+                canvas.draw(endImg, mat, color);
+            }            
 		}
 		
 		public virtual void update(float dt)
@@ -203,7 +212,7 @@ namespace DuckstazyLive.game
 					}
 					
 					str = ((int)level.progress.perc*100).ToString() + "%";
-					if(level.infoText.text!= str) level.infoText.text = str;
+					if(level.infoText!= str) level.infoText = str;
 				}
 				else if(type==1)
 				{
@@ -223,19 +232,19 @@ namespace DuckstazyLive.game
 					if(i<10) str+="0"+ i.ToString();
 					else str+=i.ToString();
 					
-					if(level.infoText.text!= str) level.infoText.text = str;
+					if(level.infoText!= str) level.infoText = str;
 				}
 				else if(type==2)
 				{
 					level.progress.updateProgress(collected);
 					str = collected.ToString() + " OF " + ((int)goalTime).ToString();
-					if(level.infoText.text!= str) level.infoText.text = str;
+					if(level.infoText!= str) level.infoText = str;
 				}
 				
 				if(level.progress.full)
 				{
 					win = true;
-					level.infoText.text = "";
+					level.infoText = "";
 					this.onWin();
 					end = true;
 					endImg = media.imgStageEnd;
@@ -243,7 +252,7 @@ namespace DuckstazyLive.game
 				}
 				else if(!end && hero.state.health<=0)
 				{
-					level.infoText.text = "";
+					level.infoText = "";
 					end = true;
 					endImg = media.imgTheEnd;
 					endCounter = 0.0f;

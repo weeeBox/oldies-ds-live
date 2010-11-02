@@ -61,6 +61,10 @@
 				<image name="ui_hp" file="${dir.art}/hp.png" />
 				<image name="ui_score" file="${dir.art}/score.png" />
 				<image name="ui_score_point" file="${dir.art}/score_point.png" />
+				<image name="level_ducktrip" file="${dir.art}/ducktrip.png" />
+				<image name="level_party" file="${dir.art}/party.png" />
+				<image name="level_pump" file="${dir.art}/pump.png" />
+				<image name="level_stage_complete" file="${dir.art}/stage_complete.png" />
 				<image name="star" file="${dir.art}/star.png" />
 				<image name="pill_1" file="${dir.art}/pill_1.png" />
 				<image name="pill_2" file="${dir.art}/pill_2.png" />
