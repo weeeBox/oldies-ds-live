@@ -116,12 +116,12 @@ namespace DuckstazyLive.game
             imgFrogHand2 = Res.IMG_GFX_FROG_HAND2;
             imgFrogHead = Res.IMG_GFX_FROG_HEAD;
 			
-            //imgPump = (new gfxPump()).bitmapData;
-            //imgParty = (new gfxParty()).bitmapData;
-            //imgTrip = (new gfxTrip()).bitmapData;
+            imgPump = Res.IMG_LEVEL_PUMP;
+            imgParty = Res.IMG_LEVEL_PARTY;
+            imgTrip = Res.IMG_LEVEL_DUCKTRIP;
 			
-            //imgTheEnd = (new gfxTheEnd()).bitmapData;
-            //imgStageEnd = (new gfxStageEnd()).bitmapData;
+            imgTheEnd = Constants.UNDEFINED;
+            imgStageEnd = Res.IMG_LEVEL_STAGE_COMPLETE;
 		}
 	}
 
