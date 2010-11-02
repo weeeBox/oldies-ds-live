@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
@@ -48,7 +49,7 @@ namespace DuckstazyLive.game
 			
 			
             // shape = new Shape();			
-            // imgPoint = (new rPointImg()).bitmapData;
+            imgPoint = Res.IMG_UI_SCORE_POINT;
 			
             end();            
 		}
@@ -203,17 +204,17 @@ namespace DuckstazyLive.game
 			
 		public void draw(Canvas canvas)
 		{
-            //// Временные переменные.
-            //float x;
-            //int i;
-            //float v;
-            //Matrix mat = new Matrix();
-            //float pointY;
-            //ColorTransform pointEmpty = env.ctProgress;
-            //ColorTransform pointFilled = new ColorTransform();
-            //ColorTransform pointColor = new ColorTransform();
-            //float prog = progress/progressMax;
-            //float y;
+            // Временные переменные.
+            float x;
+            int i;
+            float v;
+            DrawMatrix mat = new DrawMatrix();
+            float pointY;
+            ColorTransform pointEmpty = env.ctProgress;
+            ColorTransform pointFilled = new ColorTransform();
+            ColorTransform pointColor = new ColorTransform();
+            float prog = progress / progressMax;
+            float y;
 			
             //mat.identity();
             //mat.translate(0, 400);
@@ -238,38 +239,37 @@ namespace DuckstazyLive.game
 						
             //shape.graphics.endFill();
             //canvas.draw(shape, mat);
-			
-            //if(play)
-            //{
-            //    x = 22.0f;
-            //    for(i=1; i<20; ++i)
-            //    {
-            //        y = ld1[i];
-            //        pointY = 390.0f + y + 0.5*(ld2[i] - y);
-					
-            //        mat.identity();
-            //        mat.translate(x, pointY);
-				
-            //        if(prog>0.05263)
-            //            pointColor = pointFilled;
-            //        else if(prog<=0.0f)
-            //            pointColor = pointEmpty;
-            //        else
-            //        {
-            //            v = prog*19.0f;
-            //            pointColor.redMultiplier = pointEmpty.redMultiplier*(1.0f - v) + v;
-            //            pointColor.greenMultiplier = pointEmpty.greenMultiplier*(1.0f - v) + v;
-            //            pointColor.blueMultiplier = pointEmpty.blueMultiplier*(1.0f - v) + v;
-            //        }
-					
-            //        canvas.draw(imgPoint, mat, pointColor, null, null, true);
-					
-            //        x+=32.0f;
-					
-            //        prog-=0.05263;
-            //    }
-            //}
-           // Implement me
+
+            if (play)
+            {
+                x = 22.0f;
+                for (i = 1; i < 20; ++i)
+                {
+                    y = ld1[i];
+                    pointY = 390.0f + y + 0.5f * (ld2[i] - y);
+
+                    mat.identity();
+                    mat.translate(x, pointY);
+
+                    if (prog > 0.05263)
+                        pointColor = pointFilled;
+                    else if (prog <= 0.0f)
+                        pointColor = pointEmpty;
+                    else
+                    {
+                        v = prog * 19.0f;
+                        pointColor.redMultiplier = pointEmpty.redMultiplier * (1.0f - v) + v;
+                        pointColor.greenMultiplier = pointEmpty.greenMultiplier * (1.0f - v) + v;
+                        pointColor.blueMultiplier = pointEmpty.blueMultiplier * (1.0f - v) + v;
+                    }
+
+                    canvas.draw(imgPoint, mat, pointColor);
+
+                    x += 32.0f;
+
+                    prog -= 0.05263f;
+                }
+            }           
 		}
 		
 	}
