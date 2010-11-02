@@ -145,6 +145,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="score_point.png">
+      <Name>score_point</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="star.png">
       <Name>star</Name>
       <Importer>TextureImporter</Importer>
