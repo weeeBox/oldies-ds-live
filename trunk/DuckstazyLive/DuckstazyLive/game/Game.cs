@@ -248,14 +248,11 @@ namespace DuckstazyLive.game
         {
             switch (button)
             {
-                case Buttons.DPadLeft:
-                case Buttons.LeftThumbstickLeft:
+                case Buttons.DPadLeft:                
                     return Keys.Left;
-                case Buttons.DPadRight:
-                case Buttons.LeftThumbstickRight:
+                case Buttons.DPadRight:                
                     return Keys.Right;
-                case Buttons.DPadDown:
-                case Buttons.LeftThumbstickDown:
+                case Buttons.DPadDown:                
                     return Keys.Down;
                 case Buttons.A:
                     return Keys.Up;
