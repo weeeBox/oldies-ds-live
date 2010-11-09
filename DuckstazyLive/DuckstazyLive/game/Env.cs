@@ -223,7 +223,7 @@ namespace DuckstazyLive.game
 			
             imgClouds = new int[] { Res.IMG_CLOUD_1, Res.IMG_CLOUD_2, Res.IMG_CLOUD_3 };
 			
-            clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };			
+            clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };			
             foreach (EnvCloud it in clouds)
             {
                 it.init(x);
@@ -463,7 +463,7 @@ namespace DuckstazyLive.game
 
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, utils.scale(400) - tex.Height, utils.scale(640), tex.Height);
+                Rectangle dst = new Rectangle(-(Constants.SCREEN_WIDTH_REAL - utils.scale(640)) / 2, utils.scale(400) - tex.Height, Constants.SCREEN_WIDTH_REAL, tex.Height);
 
                 AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
@@ -478,7 +478,7 @@ namespace DuckstazyLive.game
                 //canvas.draw(imgGrass2, MAT, ctGrass);
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS2);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, utils.scale(400)- tex.Height, utils.scale(640), tex.Height);
+                Rectangle dst = new Rectangle(-(Constants.SCREEN_WIDTH_REAL - utils.scale(640)) / 2, utils.scale(400) - tex.Height, Constants.SCREEN_WIDTH_REAL, tex.Height);
 
                 AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);

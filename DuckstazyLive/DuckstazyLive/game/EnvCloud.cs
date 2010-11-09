@@ -19,10 +19,10 @@ namespace DuckstazyLive.game
 			//color = new ColorTransform();
 		}
 		
-		public void init(float _x)
+		public void init(float x)
 		{
-			x = _x;
-			y = utils.rnd_float(40, 90);
+			this.x = x;
+			this.y = utils.rnd_float(40, 90);
 			id = utils.rnd_int(0, 2);
 			counter = utils.rnd();
 		}
@@ -30,9 +30,10 @@ namespace DuckstazyLive.game
 		public void update(float dt, float power)
 		{
 			x -= (float)((0.75 + 0.25*Math.Sin(counter*6.2832))*(30.0f+power*200.0f)*dt);
-			if(x<=-50.0f)
+            float border = 50.0f + 0.5f * (utils.unscale(Constants.SCREEN_WIDTH_REAL) - 640.0f);
+			if(x<=-border)
 			{
-				x += 740;
+				x += 640 + 2 * border;
 				y = 40.0f + utils.rnd()*90.0f;
 				id = (int)(utils.rnd()*3.0f);
 			}
