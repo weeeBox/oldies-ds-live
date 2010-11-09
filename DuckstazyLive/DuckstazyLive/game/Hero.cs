@@ -44,6 +44,7 @@ namespace DuckstazyLive.game
         private bool key_right;
         private bool key_left;
         private bool key_down;
+        private bool controlledByStick;
 
         public float x;
         public float y;
@@ -158,6 +159,8 @@ namespace DuckstazyLive.game
         public void update(float dt, float newPower)
         {
             if (!started) return;
+
+            updateGamepadInput();
 
             xLast = x;
             yLast = y;
@@ -332,6 +335,32 @@ namespace DuckstazyLive.game
                     wingCounter = 0;
 
                 wingAngle = 0.5f * ((float)Math.Sin(wingCounter * 4.71f));
+            }
+        }
+
+        private void updateGamepadInput()
+        {
+            Vector2 leftStick = Application.sharedInputMgr.ThumbSticks.Left;            
+
+            if (controlledByStick)
+            {
+                key_left = key_right = key_down = false;
+                controlledByStick = false;
+            }
+            if (leftStick.X > 0.7f)
+            {
+                controlledByStick = true;
+                key_right = true;
+            }
+            else if (leftStick.X < -0.7f)
+            {
+                controlledByStick = true;
+                key_left = true;
+            }
+            else if (leftStick.Y < -0.7f)
+            {
+                controlledByStick = true;
+                key_down = true;
             }
         }
 
@@ -667,6 +696,7 @@ namespace DuckstazyLive.game
             key_left = false;
             key_down = false;
             wingLock = false;
+            controlledByStick = false;
         }
     }
 }
