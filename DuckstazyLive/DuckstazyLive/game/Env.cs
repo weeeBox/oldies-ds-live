@@ -223,11 +223,11 @@ namespace DuckstazyLive.game
 			
             imgClouds = new int[] { Res.IMG_CLOUD_1, Res.IMG_CLOUD_2, Res.IMG_CLOUD_3 };
 			
-            clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };			
+            clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };			
             foreach (EnvCloud it in clouds)
             {
                 it.init(x);
-                x+=128.0f + utils.rnd()*22.0f;
+                x+=utils.scale(128.0f + utils.rnd()*22.0f);
             }			
 		}
 		

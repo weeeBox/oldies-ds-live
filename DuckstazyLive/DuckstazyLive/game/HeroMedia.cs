@@ -160,10 +160,11 @@ namespace DuckstazyLive.game
             transformPanVol = new SoundTransform();
         }
 
-        public void drawDuck(Canvas dest, float x, float y, float power, bool flip, float wingsAngle)
+        public void drawDuck(Canvas dest, float x, float y, float power, bool flip, float wingsAngle, float trans)
         {
             DrawMatrix mat = new DrawMatrix();            
-            ColorTransform eye = new ColorTransform(1.0f, 1.0f, 1.0f, 1.0f - power);
+            ColorTransform eyeColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans * (1.0f - power));
+            ColorTransform duckColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans);            
 
             if (flip)
             {
@@ -171,35 +172,35 @@ namespace DuckstazyLive.game
                 
                 mat.translate(x, y);
                 mat.flip(true, false);
-                dest.draw(imgDuck, mat);
+                dest.draw(imgDuck, mat, duckColor);
 
                 mat.translate(38.0f + x, 5.0f + y);
-                dest.draw(imgEye1, mat, eye);
-                eye.alphaMultiplier = power;
-                dest.draw(imgEye2, mat, eye);
+                dest.draw(imgEye1, mat, eyeColor);
+                eyeColor.alphaMultiplier = power;
+                dest.draw(imgEye2, mat, eyeColor);
 
                 mat.tx = -12.0f;
                 mat.ty = -7.0f;
                 mat.rotate(-wingsAngle);
                 mat.translate(21.0f + x, 26.0f + y);
-                dest.draw(imgWing, mat);
+                dest.draw(imgWing, mat, duckColor);
             }
             else
             {
                 //dest.copyPixels(imgDuck, rcHero, new Point(x, y));
                 mat.translate(x, y);
-                dest.draw(imgDuck, mat);
+                dest.draw(imgDuck, mat, duckColor);
 
                 mat.translate(10.0f + x, 5.0f + y);
-                dest.draw(imgEye1, mat, eye);
-                eye.alphaMultiplier = power;
-                dest.draw(imgEye2, mat, eye);
+                dest.draw(imgEye1, mat, eyeColor);
+                eyeColor.alphaMultiplier = power;
+                dest.draw(imgEye2, mat, eyeColor);
 
                 mat.tx = -3.0f;
                 mat.ty = -7.0f;
                 mat.rotate(wingsAngle);
                 mat.translate(33.0f + x, 26.0f + y);
-                dest.draw(imgWing, mat);
+                dest.draw(imgWing, mat, duckColor);
             }
 
             //dest.draw(imgEye1.bitmapData, eye_mat, eye1_color);
@@ -207,9 +208,11 @@ namespace DuckstazyLive.game
             //dest.draw(imgWing.bitmapData, wing_mat, null, null, null, wingsAngle!=0.0);
         }
 
-        public void drawSleep(Canvas dest, float x, float y, bool flip)
+        public void drawSleep(Canvas dest, float x, float y, bool flip, float trans)
         {
             DrawMatrix mat = new DrawMatrix();
+            ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
+            
             mat.translate(x, y);
 
             if (flip)
@@ -217,7 +220,7 @@ namespace DuckstazyLive.game
                 mat.flip(true, false);
             }
 
-            dest.draw(imgSleep, mat);            
+            dest.draw(imgSleep, mat, color);
         }
 
         public void updateSFX(float x)

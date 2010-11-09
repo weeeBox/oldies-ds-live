@@ -389,31 +389,32 @@ namespace DuckstazyLive.game
 
                 if (step > 1 && !fly)
                     dy -= 1.0f;
-
-                drawHero(canvas, dx, dy);
+                
+                float alpha = 1.0f;
                 if (dx < 0)
                 {
-                    dx += 640;
-                    drawHero(canvas, dx, dy);
+                    alpha = 1.0f - Math.Abs(dx) / duck_w2;                    
+                    drawHero(canvas, dx + 640, dy, 1.0f - alpha);
                 }
                 else if (dx > 640 - duck_w2)
                 {
-                    dx -= 640;
-                    drawHero(canvas, dx, dy);
+                    alpha = 1.0f - (dx - 640 + duck_w2) / duck_w2;                    
+                    drawHero(canvas, dx - 640, dy, 1.0f - alpha);
                 }
+                drawHero(canvas, dx, dy, alpha);                
             }
         }
 
-        private void drawHero(Canvas dest, float _x, float _y)
+        private void drawHero(Canvas dest, float x, float y, float trans)
 		{
 			bool vis = (blinkTime<=0.0f || (((int)blinkTime)&0x1)!=0);
 			
 			if(vis)
 			{
 				if(sleep)
-					media.drawSleep(dest, _x, _y, flip);
+					media.drawSleep(dest, x, y, flip, trans);
 				else
-					media.drawDuck(dest, _x, _y, power, flip, wingAngle);
+					media.drawDuck(dest, x, y, power, flip, wingAngle, trans);
 			}
 		}
 
