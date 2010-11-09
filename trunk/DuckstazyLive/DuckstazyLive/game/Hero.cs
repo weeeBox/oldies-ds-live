@@ -46,6 +46,9 @@ namespace DuckstazyLive.game
         private bool key_down;
         private bool controlledByStick;
 
+        private const float STICK_HOR_THRESHOLD = 0.4f;
+        private const float STICK_VER_THRESHOLD = 0.7f;
+
         public float x;
         public float y;
         public float xLast;
@@ -347,17 +350,17 @@ namespace DuckstazyLive.game
                 key_left = key_right = key_down = false;
                 controlledByStick = false;
             }
-            if (leftStick.X > 0.7f)
+            if (leftStick.X > STICK_HOR_THRESHOLD)
             {
                 controlledByStick = true;
                 key_right = true;
             }
-            else if (leftStick.X < -0.7f)
+            else if (leftStick.X < -STICK_HOR_THRESHOLD)
             {
                 controlledByStick = true;
                 key_left = true;
             }
-            else if (leftStick.Y < -0.7f)
+            else if (leftStick.Y < -STICK_VER_THRESHOLD)
             {
                 controlledByStick = true;
                 key_down = true;

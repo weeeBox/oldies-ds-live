@@ -67,7 +67,7 @@ namespace Framework.core
 
         public InputManager()
         {            
-            currentGamepadState = GamePad.GetState(PlayerIndex.One);
+            currentGamepadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
             currentKeyboardState = Keyboard.GetState();
             inputListeners = new List<InputListener>();
         }
@@ -83,7 +83,7 @@ namespace Framework.core
         private void updateGamepad()
         {
             GamePadState oldState = currentGamepadState;
-            currentGamepadState = GamePad.GetState(PlayerIndex.One);
+            currentGamepadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
 
             if (inputListeners.Count > 0)
             {
