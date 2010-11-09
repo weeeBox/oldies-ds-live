@@ -125,15 +125,14 @@ namespace DuckstazyLive.game
                 if (b > 4.0f) b = 5.0f - b;
                 else if (b > 2.0f) b = 1.0f;
                 else b *= 0.5f;
-                color.alphaMultiplier = b;
-                mat.tx = 320 - utils.unscale(startTitleTex.Width * 0.5f);
-                mat.ty = 180;
+                color.alphaMultiplier = b;                
+                mat.translate(320 - utils.unscale(startTitleTex.Width * 0.5f), 180);
                 canvas.draw(startTitle, mat, color);
 
                 if (text.Length != 0)
                 {
-                    mat.tx = utils.unscale(-textWidth * 0.5f);
-                    mat.ty = utils.unscale(-textHeight * 0.5f);
+                    mat.tx = utils.unscale(textWidth * 0.5f);
+                    mat.ty = utils.unscale(textHeight * 0.5f);
 
                     if (a < 2)
                         b = (float)(Math.Sin(2.355 * a / 2) * 1.4148);
@@ -151,10 +150,10 @@ namespace DuckstazyLive.game
                     {
                         b = a - 4;
                         mat.identity();
-                        mat.tx = utils.unscale(-textWidth * 0.5f);
-                        mat.ty = utils.unscale(-textHeight * 0.5f);
+                        mat.tx = utils.unscale(textWidth * 0.5f);
+                        mat.ty = utils.unscale(textHeight * 0.5f);
                         mat.scale(b, b);
-                        mat.translate(320, 410 + utils.unscale(textHeight * 0.5f));
+                        mat.translate(320, 410);
                         canvas.draw(Res.FNT_BIG, text, mat);
                     }
                 }
@@ -163,8 +162,9 @@ namespace DuckstazyLive.game
             {
                 if (text.Length != 0)
                 {
-                    mat.tx = 320 - utils.unscale(textWidth * 0.5f);
-                    mat.ty = 410;
+                    mat.tx = utils.unscale(textWidth * 0.5f);
+                    mat.ty = utils.unscale(textHeight * 0.5f);
+                    mat.translate(320, 410);
                     canvas.draw(Res.FNT_BIG, text, mat);
                 }
             }

@@ -24,7 +24,7 @@ namespace DuckstazyLive.game
         // Уровень.
         public Level level;
 
-        private Canvas canvas = new Canvas();
+        private Canvas canvas;
 
         //private Menu menu;
 
@@ -51,7 +51,7 @@ namespace DuckstazyLive.game
         //public DescScreen descScreen;
         //private UpgradeMenu shopMenu;
         //public ScoresTable scoresTable;
-        public bool hires;
+        
         public bool mute;
         public bool inGame;
 
@@ -92,7 +92,9 @@ namespace DuckstazyLive.game
             //canvas = back;
             //imgBG = new BitmapData(640, 480, false);
 
-            // Уровень
+            canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH_REAL, FrameworkConstants.SCREEN_HEIGHT_REAL);
+
+            // Уровень            
             level = new Level(gameState);
 
             // debugInfoTgl = true;
@@ -100,7 +102,6 @@ namespace DuckstazyLive.game
             state = MENU;
             inGame = false;
             mute = false;
-            hires = true;
 
             maxScores = 0;
             maxScoresFinish = false;
