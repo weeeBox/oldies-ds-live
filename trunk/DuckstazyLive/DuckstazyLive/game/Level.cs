@@ -8,6 +8,7 @@ using DuckstazyLive.game.levels;
 using System.Diagnostics;
 using Framework.core;
 using Framework.visual;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
@@ -195,18 +196,19 @@ namespace DuckstazyLive.game
 
             mat.identity();
 
-            mat.tx = 40.0f;
-            mat.ty = 410;//445.0f;
+            mat.translate(40.0f, 410.0f);//445.0f;
             String str = state.health.ToString() + "/" + state.maxHP.ToString();            
             canvas.draw(Res.FNT_BIG, str, mat);
 
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            mat.tx = 600.0f - font.stringWidth(scoreText);
+            mat.translate(600.0f - font.stringWidth(scoreText), 410.0f);
             canvas.draw(Res.FNT_BIG, scoreText, mat);
 		}
-		
+
 		public void draw(Canvas canvas)
 		{
+            
+
             if (pause)
             {
                 canvas.draw(imgPause);                

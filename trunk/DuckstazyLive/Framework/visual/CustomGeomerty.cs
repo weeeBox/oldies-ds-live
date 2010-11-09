@@ -35,7 +35,7 @@ namespace Framework.visual
         {
             this.vertexData = vertexData;
             this.indexData = indexData;            
-            this.vertexDeclaration = new VertexDeclaration(AppGraphics.GraphicsDevice, VertexPositionColor.VertexElements);            
+            this.vertexDeclaration = VertexPositionColor.VertexDeclaration;
             this.primitiveType = primitiveType;
             primitiveCount = getPrimitiveCount(primitiveType, indexData == null ? vertexData.Length : indexData.Length);
         }

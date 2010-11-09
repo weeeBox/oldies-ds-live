@@ -48,13 +48,12 @@ namespace Framework.core
 
             if (mode == BatchMode.Sprite)
             {
-                SpriteBlendMode sbm = (blendMode == AppBlendMode.None) ? SpriteBlendMode.None : SpriteBlendMode.AlphaBlend;
-                sb.Begin(SpriteBlendMode.AlphaBlend, SpriteSortMode.Immediate, SaveStateMode.None, m);
+                BlendState blendState = (blendMode == AppBlendMode.None) ? BlendState.Opaque : BlendState.AlphaBlend;
+                sb.Begin(SpriteSortMode.Immediate, blendState, null, null, null, null, m);
             }
             else if (mode == BatchMode.Geometry)
-            {
-                basicEffect.Begin();
-                basicEffect.CurrentTechnique.Passes[0].Begin();
+            {                
+                basicEffect.CurrentTechnique.Passes[0].Apply();
             }
             batchMode = mode;
         }        
@@ -73,8 +72,7 @@ namespace Framework.core
         {
             if (batchMode == BatchMode.Geometry)
             {           
-                basicEffect.CurrentTechnique.Passes[0].End();
-                basicEffect.End();                
+                
             }
             else if (batchMode == BatchMode.Sprite)
             {
@@ -123,7 +121,7 @@ namespace Framework.core
             {
                 graphicsDevice = gd;
                 spriteBatch = new SpriteBatch(graphicsDevice);
-                basicEffect = new BasicEffect(graphicsDevice, null);
+                basicEffect = new BasicEffect(graphicsDevice);
 
                 Matrix worldMatrix = Matrix.Identity;
                 Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
@@ -282,8 +280,7 @@ namespace Framework.core
 
         public static void DrawCircle(float x, float y, float r, Color color)
         {
-            GetSpriteBatch(BatchMode.Geometry);
-            graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColor.VertexElements);
+            GetSpriteBatch(BatchMode.Geometry);            
 
             int numVertex = 10;
             VertexPositionColor[] vertexData = new VertexPositionColor[numVertex];
@@ -303,7 +300,7 @@ namespace Framework.core
         public static void DrawRect(float x, float y, float width, float height, Color color)
         {
             GetSpriteBatch(BatchMode.Geometry);
-            graphicsDevice.VertexDeclaration = new VertexDeclaration(graphicsDevice, VertexPositionColor.VertexElements);
+            
             VertexPositionColor[] vertexData = new VertexPositionColor[4];
             vertexData[0] = new VertexPositionColor(new Vector3(x, y, 0), color);
             vertexData[1] = new VertexPositionColor(new Vector3(x + width, y, 0), color);
@@ -318,7 +315,6 @@ namespace Framework.core
         {
             GetSpriteBatch(BatchMode.Geometry);
 
-            graphicsDevice.VertexDeclaration = geometry.VertexDeclaration;
             if (geometry.IndexData == null)
             {                
                 graphicsDevice.DrawUserPrimitives(geometry.PrimitiveType, geometry.VertexData, 0, geometry.PrimitiveCount);
