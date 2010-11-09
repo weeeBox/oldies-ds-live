@@ -135,8 +135,7 @@ namespace DuckstazyLive.game
 			scoreCounter = 0.0f;
 			
 			game = Game.instance;
-			// imgPause = game.imgBG;
-            Debug.WriteLine("Implement me: Level.Leve()");
+			// imgPause = game.imgBG;            
 		}
 		
 		public void start()
@@ -207,8 +206,6 @@ namespace DuckstazyLive.game
 
 		public void draw(Canvas canvas)
 		{
-            
-
             if (pause)
             {
                 canvas.draw(imgPause);                

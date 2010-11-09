@@ -198,7 +198,7 @@ namespace DuckstazyLive.game
             //        break;
             //    }
             //}
-            Debug.WriteLine("Implement me: GameInfo.add()");
+            // Debug.WriteLine("Implement me: GameInfo.add()");
 		}
 		
 		public void setRGB(uint color)

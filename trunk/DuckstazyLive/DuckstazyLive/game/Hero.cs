@@ -379,9 +379,7 @@ namespace DuckstazyLive.game
         public void draw(Canvas canvas)
         {
             if (started)
-            {
-                //dx = int(x);
-                //dy = int(y);
+            {                
                 dx = x;
                 dy = y;
 
@@ -430,8 +428,7 @@ namespace DuckstazyLive.game
                             if (!sleep)
                             {
                                 fly = true;
-                                jumpVel = jumpStartVel;
-                                //gravityK = 1;
+                                jumpVel = jumpStartVel;                                
 
                                 media.playJump();
                                 doLandBubbles();

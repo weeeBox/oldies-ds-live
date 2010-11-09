@@ -8,7 +8,7 @@
 	<property name="dir.art" value="${dir.res}/art" />
 	<property name="dir.sound" value="${dir.res}/sound" />
 	<property name="dir.content" value="../DuckstazyLive/Content" />
-	<property name="file.proj" value="${dir.content}/Content.contentproj" />
+	<property name="file.proj" value="${dir.content}/DuckstazyLiveContent.contentproj" />
 	<property name="file.code" value="../DuckstazyLive/app/Res.cs" />
 	
 	<path id="libs">

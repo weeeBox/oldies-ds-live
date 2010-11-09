@@ -178,8 +178,7 @@ namespace DuckstazyLive.game
             sndHigh = Res.SND_PILL_HIGH;
             sndToxicBorn = Res.SND_PILL_TOXIC_BORN;
 			
-			power = 0.0f;
-            Debug.WriteLine("Implement me: PillsMedia.PillsMedia()");
+			power = 0.0f;            
 		}
     }
 }
