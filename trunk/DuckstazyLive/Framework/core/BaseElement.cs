@@ -65,8 +65,7 @@ namespace Framework.core
         public float scaleX;
         public float scaleY;
 
-        public Color color;
-        public bool isAdditive;
+        public Color color;        
 
         public float translateX;
         public float translateY;
@@ -211,10 +210,7 @@ namespace Framework.core
             if (color != Color.White)
             {
                 AppGraphics.SetColor(color);
-            }
-
-            if (isAdditive)
-                AppGraphics.SetBlendMode(AppBlendMode.Additive);
+            }            
         }
 
         public virtual void postDraw()
@@ -235,10 +231,7 @@ namespace Framework.core
             if (passTransformationsToChilds)
             {
                 restoreTransformations();
-            }
-
-            if (isAdditive)
-                AppGraphics.SetBlendMode(AppBlendMode.AlphaBlend);
+            }            
         }
 
         public virtual void draw()

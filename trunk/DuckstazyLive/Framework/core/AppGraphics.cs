@@ -10,10 +10,9 @@ using System.Diagnostics;
 namespace Framework.core
 {
     public enum AppBlendMode
-    {
-        None,
+    {        
         AlphaBlend,
-        Additive,
+        NonPremultiplied,
     }
 
     public class AppGraphics
@@ -48,7 +47,7 @@ namespace Framework.core
 
             if (mode == BatchMode.Sprite)
             {
-                BlendState blendState = (blendMode == AppBlendMode.None) ? BlendState.Opaque : BlendState.AlphaBlend;
+                BlendState blendState = toBlendState(blendMode);
                 sb.Begin(SpriteSortMode.Immediate, blendState, null, null, null, null, m);
             }
             else if (mode == BatchMode.Geometry)
@@ -56,7 +55,20 @@ namespace Framework.core
                 basicEffect.CurrentTechnique.Passes[0].Apply();
             }
             batchMode = mode;
-        }        
+        }
+        
+        private static BlendState toBlendState(AppBlendMode mode)
+        {
+            switch (mode)
+            {
+                case AppBlendMode.AlphaBlend:
+                    return BlendState.AlphaBlend;
+                case AppBlendMode.NonPremultiplied:
+                    return BlendState.NonPremultiplied;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
         private static SpriteBatch GetSpriteBatch(BatchMode mode)
         {
@@ -82,12 +94,16 @@ namespace Framework.core
             batchMode = BatchMode.None;
         }
 
-        public static void SetBlendMode(AppBlendMode bm)
+        public static AppBlendMode BlendMode
         {
-            if (blendMode != bm)
+            get { return blendMode; }
+            set 
             {
-                EndBatch();
-                blendMode = bm;
+                if (blendMode != value)
+                {
+                    EndBatch();
+                    blendMode = value;
+                }
             }
         }
 
@@ -98,7 +114,7 @@ namespace Framework.core
 
         public static void SetColor(Color color)
         {
-            drawColor = color;
+            drawColor = color;         
         }
 
         public static void SetMatrix(Matrix _matrix)
@@ -206,12 +222,12 @@ namespace Framework.core
         }
 
         public static void DrawImage(Texture2D tex, float x, float y, float opacity)
-        {
+        {            
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), new Color(1.0f, 1.0f, 1.0f, opacity));
         }
 
         public static void DrawImage(Texture2D tex, float x, float y, Color color)
-        {
+        {         
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, new Vector2(x, y), color);
         }
 
@@ -235,6 +251,7 @@ namespace Framework.core
             SpriteEffects flipEffects = flip.X == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
             if (flip.Y == 1)
                 flipEffects |= SpriteEffects.FlipVertically;
+            
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, null, color, rotation, origin, scale, flipEffects, 0.0f);
         }
 

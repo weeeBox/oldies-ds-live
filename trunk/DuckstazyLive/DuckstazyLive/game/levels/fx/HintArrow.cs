@@ -39,14 +39,14 @@ namespace DuckstazyLive.game.levels.fx
 
 		public void draw(Canvas canvas)
 		{
-			float f = (float)(Math.Sin(t*6.28));
-			float r;
-			float sy;
-			float sx;
-			DrawMatrix mat;
-		
-			if(visibleCounter>0.0f)
-			{
+            if (visibleCounter > 0.0f)
+            {
+			    float f = (float)(Math.Sin(t*6.28));
+			    float r;
+			    float sy;
+			    float sx;
+			    DrawMatrix mat;		
+			
 				if(f<0)
 				{
 					r = 0.0f;
