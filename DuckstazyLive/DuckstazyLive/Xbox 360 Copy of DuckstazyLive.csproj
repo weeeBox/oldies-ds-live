@@ -74,7 +74,7 @@
     <Compile Include="app\DuckstazyResourceMgr.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
-    <Compile Include="app\IngameView.cs" />
+    <Compile Include="app\GameView.cs" />
     <Compile Include="app\MenuController.cs" />
     <Compile Include="app\MenuView.cs" />
     <Compile Include="app\Res.cs" />

@@ -37,7 +37,6 @@ namespace DuckstazyLive.game
             health = maxHP;
 
             level = 0;
-
             scores = 0;
         }
 
