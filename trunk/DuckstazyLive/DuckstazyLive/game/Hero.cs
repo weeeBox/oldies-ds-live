@@ -24,6 +24,7 @@ namespace DuckstazyLive.game
         // duck logic consts
         private const float duck_jump_start_vel_min = 127;
         private const float duck_jump_start_vel_max = 379;
+        private const float duck_rapid_jump_delay = 0.1f;
         //private const duck_jump_start_vel_min:float = 480;
         //private const duck_jump_start_vel_max:float = 480;
         private const float duck_jump_gravity = 200;
@@ -45,6 +46,9 @@ namespace DuckstazyLive.game
         private bool key_left;
         private bool key_down;
         private bool controlledByStick;
+
+        private bool rapidJump;
+        private float jumpButtonPressedStartTime;
 
         private const float STICK_HOR_THRESHOLD = 0.4f;
         private const float STICK_VER_THRESHOLD = 0.7f;
@@ -267,12 +271,19 @@ namespace DuckstazyLive.game
                 if (key_down)
                 {
                     diveK += dt * 6;
-                    if (diveK > 3.0f) diveK = 3.0f;
+                    if (diveK > 4.0f) diveK = 4.0f;
                 }
                 else
                 {
                     diveK -= dt * 6;
                     if (diveK < 0.0f) diveK = 0.0f;
+                }
+
+                if (rapidJump)
+                {
+                    if (jumpVel > 0.0f)
+                        jumpVel = 0.7f * jumpVel;
+                    rapidJump = false;
                 }
 
                 if (jumpVel > 0.0f)
@@ -432,7 +443,8 @@ namespace DuckstazyLive.game
                             if (!sleep)
                             {
                                 fly = true;
-                                jumpVel = jumpStartVel;                                
+                                jumpVel = jumpStartVel;
+                                jumpButtonPressedStartTime = GameClock.ElapsedTime;
 
                                 media.playJump();
                                 doLandBubbles();
@@ -463,12 +475,14 @@ namespace DuckstazyLive.game
                     {
                         if (fly)
                         {
+                            rapidJump = GameClock.ElapsedTime - jumpButtonPressedStartTime < duck_rapid_jump_delay;
+
                             if (wingLock)
                             {
                                 wingLock = false;
                                 if (jumpVel < 0.0f)
                                     jumpVel = 0.0f;
-                            }
+                            }                            
 
                             //if(jumpVel>0 && gravityK==1)
                             //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
@@ -698,6 +712,8 @@ namespace DuckstazyLive.game
             key_down = false;
             wingLock = false;
             controlledByStick = false;
+            jumpButtonPressedStartTime = 0.0f;
+            rapidJump = false;
         }
     }
 }
