@@ -8,7 +8,7 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
-    public class Game : InputListener
+    public class Game : BaseElement
     {
         public const int MENU = 0;
         public const int LEVEL = 1;
@@ -138,27 +138,27 @@ namespace DuckstazyLive.game
             level.env.blanc = 1;            
         }
 
-        public void update(float dt)
+        public override void update(float dt)
         {
         	//Number dt = device.update();
         	Env env = level.env;            
 						
 			switch(state)
 			{
-			case MENU:
-				env.update(dt, 0.0f);
-				level.progress.update(dt, 0.0f);
-				break;
-			case LEVEL:
-				level.update(dt);
-				break;
+			    case MENU:
+				    env.update(dt, 0.0f);
+				    level.progress.update(dt, 0.0f);
+				    break;
+			    case LEVEL:
+				    level.update(dt);
+				    break;                
 			}
 			
 			// gui.update(dt);
 			env.updateBlanc(dt);			
         }
 
-        public void draw()
+        public override void draw()
         {            
             Env env = level.env;
 
@@ -222,14 +222,14 @@ namespace DuckstazyLive.game
             gameSave.assign(gameState);
         }
 
-        public void buttonPressed(ButtonEvent e)
+        public void buttonPressed(ref ButtonEvent e)
         {
-            keyPressed(getKey(e.button));
+            keyPressed(InputManager.getKey(e.button));
         }
 
-        public void buttonReleased(ButtonEvent e)
+        public void buttonReleased(ref ButtonEvent e)
         {
-            keyReleased(getKey(e.button));
+            keyReleased(InputManager.getKey(e.button));
         }
 
         public void keyPressed(Keys key)
@@ -242,27 +242,7 @@ namespace DuckstazyLive.game
         {
             if (state == LEVEL)
                 level.keyUp(key);
-        }
-       
-        private Keys getKey(Buttons button)
-        {
-            switch (button)
-            {
-                case Buttons.DPadLeft:                
-                    return Keys.Left;
-                case Buttons.DPadRight:                
-                    return Keys.Right;
-                case Buttons.DPadDown:                
-                    return Keys.Down;
-                case Buttons.A:
-                    return Keys.Up;
-                case Buttons.LeftShoulder:
-                    return Keys.PageUp;
-                case Buttons.RightShoulder:
-                    return Keys.PageDown;
-            }
-            return Keys.None;
-        }
+        }        
 
         public void changeMute()
         {
@@ -283,7 +263,7 @@ namespace DuckstazyLive.game
                 // levelMenu.go(gui);
             }
             else
-            {
+            {                
                 newGame();
             }
         }

@@ -13,8 +13,7 @@ namespace DuckstazyLive.game.levels
 {
 	public class Trains : LevelStage
 	{
-		private FrogActor frog;
-		private FrogActor cat;
+		private FrogActor frog;		
 				
 		private Generator jumpGen;
 		private float catGen;

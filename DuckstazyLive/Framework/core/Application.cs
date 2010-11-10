@@ -21,6 +21,8 @@ namespace Framework.core
             sharedSoundMgr = createSoundMgr();
             sharedRootController = createRootController();
             sharedInputMgr = createInputManager();
+
+            sharedInputMgr.addInputListener(sharedRootController);
         }
 
         public virtual void onApplicationStop()

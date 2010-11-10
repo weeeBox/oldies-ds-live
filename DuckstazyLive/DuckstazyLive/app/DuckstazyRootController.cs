@@ -21,15 +21,14 @@ namespace DuckstazyLive.app
             StartupController startupController = new StartupController(this);
             addChildWithId(startupController, (int)Childs.CHILD_START);
 
-            viewTransition = Transition.TRANSITION_NONE;            
+            viewTransition = Transition.TRANSITION_NONE;             
         }
 
         public override void activate()
         {
             base.activate();
-
             activateChild((int)Childs.CHILD_START);
-        }
+        }        
 
         public override void onChildDeactivated(int n)
         {

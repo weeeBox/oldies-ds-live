@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Framework.core
 {
@@ -17,7 +18,7 @@ namespace Framework.core
         TRANSITIONS_COUNT
     }
 
-    public class RootController : ViewController
+    public class RootController : ViewController, InputListener
     {
         public const float TRANSITION_DEFAULT_DELAY = 0.4f;
 
@@ -134,6 +135,38 @@ namespace Framework.core
         {
             Debug.Assert(suspended);
             suspended = false;
+        }
+
+        public override void buttonPressed(ref ButtonEvent e)
+        {
+            if (currentController != null)
+            {
+                currentController.buttonPressed(ref e);
+            }
+        }
+
+        public override void buttonReleased(ref ButtonEvent e)
+        {
+            if (currentController != null)
+            {
+                currentController.buttonReleased(ref e);
+            }
+        }
+
+        public override void keyPressed(Keys key)
+        {
+            if (currentController != null)
+            {
+                currentController.keyPressed(key);
+            }
+        }
+
+        public override void keyReleased(Keys key)
+        {
+            if (currentController != null)
+            {
+                currentController.keyReleased(key);
+            }
         }
     }
 }

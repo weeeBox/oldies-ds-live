@@ -45,9 +45,9 @@ namespace DuckstazyLive.game
         private DrawMatrix MAT = new DrawMatrix();            
 
 		private int[] imgClouds;
-		private int imgGrass;
-		private int imgGrass2;
-		private int imgGround;
+		// private int imgGrass;
+		// private int imgGrass2;
+		// private int imgGround;
 		private int imgStar;
 		
         private CustomGeomerty geomSkyDay;
@@ -59,7 +59,7 @@ namespace DuckstazyLive.game
 		//private var sndTex1:Sound;
 		private int sndTex2;
 		private int music;
-		private float musicLenght;
+		// private float musicLenght;
 		private SoundChannel channel;
 		private SoundTransform musicTrans;
 		private float musicAttack;

@@ -47,7 +47,7 @@ namespace Framework.core
 
             if (mode == BatchMode.Sprite)
             {
-                BlendState blendState = toBlendState(blendMode);
+                BlendState blendState = BlendState.NonPremultiplied; //toBlendState(blendMode);
                 sb.Begin(SpriteSortMode.Immediate, blendState, null, null, null, null, m);
             }
             else if (mode == BatchMode.Geometry)
