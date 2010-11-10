@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DuckstazyLive.game
 {
-    public class DeathView : View
+    public class DeathView
     {
         private const int SCULLS_COUNT = 20;
 
@@ -25,17 +25,16 @@ namespace DuckstazyLive.game
             public double omega;
         }
 
+        private int width;
+        private int height;
+
         private CustomGeomerty backgroud;
-        private Scull[] sculls;
+        private Scull[] sculls;        
 
-        private GameController gameController;
-
-        public DeathView(GameController gameController)
+        public DeathView()
         {
             width = Constants.SCREEN_WIDTH_REAL;
-            height = Constants.SCREEN_HEIGHT_REAL;
-
-            this.gameController = gameController;
+            height = Constants.SCREEN_HEIGHT_REAL;            
 
             backgroud = GeometryFactory.createSolidRect(0, 0, width, height, Color.White);
             sculls = new Scull[SCULLS_COUNT];            
@@ -62,7 +61,7 @@ namespace DuckstazyLive.game
             scull.omega = Math.PI + Math.PI * utils.rnd_float(-1.0f, 1.0f);
         }
 
-        public override void update(float delta)
+        public void update(float delta)
         {
             for (int i = 0; i < SCULLS_COUNT; ++i)
             {
@@ -85,10 +84,8 @@ namespace DuckstazyLive.game
             }            
         }
 
-        public override void draw()
+        public void draw(Canvas canvas)
         {
-            preDraw();
-
             AppGraphics.DrawGeomerty(backgroud);
 
             Texture2D tex = getScullTex();
@@ -97,8 +94,6 @@ namespace DuckstazyLive.game
                 float opacity = 1.0f -sculls[i].lifeTime / sculls[i].deathTime;
                 AppGraphics.DrawImage(tex, sculls[i].x - 0.5f * tex.Width, sculls[i].y - 0.5f * tex.Height, opacity);
             }            
-
-            postDraw();
         }
 
         private Texture2D getScullTex()

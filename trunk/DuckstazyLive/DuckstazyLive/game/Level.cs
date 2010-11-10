@@ -266,9 +266,8 @@ namespace DuckstazyLive.game
 						state.health = 0;
 						env.blanc = 1.0f;
 						progress.play = false;
-                        
-						// levelMenu.setState(2);
-                        throw new NotImplementedException();
+
+						game.loose();
 					}
 				}
 				else
