@@ -266,7 +266,7 @@ namespace DuckstazyLive.game
 						state.health = 0;
 						env.blanc = 1.0f;
 						progress.play = false;
-						
+                        
 						// levelMenu.setState(2);
                         throw new NotImplementedException();
 					}
@@ -414,6 +414,8 @@ namespace DuckstazyLive.game
                         nextLevel();
                     else if (key == Keys.End)
                         powerUp = power = 1.0f;
+                    else if (key == Keys.Delete)
+                        state.health = 0;
 					/*else if(code==0x44)
 						hero.doToxicDamage(320, 200, 20, 0);
 					else if(code==0x50)

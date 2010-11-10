@@ -14,16 +14,20 @@ namespace DuckstazyLive.app
             VIEW_GAME
         }
 
+        GameView gameView;
+
         public GameController(ViewController p) : base(p)
         {
-            IngameView view = new IngameView();
-            addViewWithId(view, (int)Views.VIEW_GAME);
+            gameView = new GameView();
+            addViewWithId(gameView, (int)Views.VIEW_GAME);
         }
 
         public override void activate()
         {
             base.activate();
             showView((int)Views.VIEW_GAME);
+
+            gameView.newGame();
         }
     }
 }

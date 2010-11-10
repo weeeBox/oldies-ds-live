@@ -24,8 +24,8 @@ namespace Framework.core
 
     public interface InputListener
     {
-        void buttonPressed(ButtonEvent e);
-        void buttonReleased(ButtonEvent e);    
+        void buttonPressed(ref ButtonEvent e);
+        void buttonReleased(ref ButtonEvent e);    
         void keyPressed(Keys key);
         void keyReleased(Keys key);
     }
@@ -171,7 +171,7 @@ namespace Framework.core
         {
             foreach (InputListener l in inputListeners)
             {
-                l.buttonPressed(e);
+                l.buttonPressed(ref e);
             }
         }
 
@@ -179,7 +179,7 @@ namespace Framework.core
         {
             foreach (InputListener l in inputListeners)
             {
-                l.buttonReleased(e);
+                l.buttonReleased(ref e);
             }
         }
 
@@ -196,6 +196,26 @@ namespace Framework.core
         public bool isKeyPressed(Keys key)
         {
             return currentKeyboardState.IsKeyDown(key);
+        }
+
+        public static Keys getKey(Buttons button)
+        {
+            switch (button)
+            {
+                case Buttons.DPadLeft:
+                    return Keys.Left;
+                case Buttons.DPadRight:
+                    return Keys.Right;
+                case Buttons.DPadDown:
+                    return Keys.Down;
+                case Buttons.A:
+                    return Keys.Up;
+                case Buttons.LeftShoulder:
+                    return Keys.PageUp;
+                case Buttons.RightShoulder:
+                    return Keys.PageDown;
+            }
+            return Keys.None;
         }
     }
 }

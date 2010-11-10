@@ -83,9 +83,7 @@ namespace DuckstazyLive.game.levels
 		}
 		
 		override public void update(float dt)
-		{		
-			int i = 0;
-			
+		{			
 			base.update(dt);
 		
 			if(gen.speed>2.0f)

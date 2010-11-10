@@ -122,7 +122,7 @@
     <Compile Include="app\DuckstazyResourceMgr.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
-    <Compile Include="app\IngameView.cs" />
+    <Compile Include="app\GameView.cs" />
     <Compile Include="app\MenuController.cs" />
     <Compile Include="app\MenuView.cs" />
     <Compile Include="app\Res.cs" />
@@ -131,6 +131,7 @@
     <Compile Include="app\utils.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
+    <Compile Include="game\DeathView.cs" />
     <Compile Include="game\DrawMatrix.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="game\GameInfo.cs" />
     <Compile Include="game\GameState.cs" />
     <Compile Include="game\GameTimer.cs" />
-    <Compile Include="game\GameWorld.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="game\HeroMedia.cs" />
     <Compile Include="game\Level.cs" />

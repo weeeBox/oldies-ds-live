@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Diagnostics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Framework.core
 {
@@ -247,6 +248,38 @@ namespace Framework.core
             if (prevV != null)
                 prevV.hide();
             activeViewId = FrameworkConstants.UNDEFINED;
+        }
+
+        public virtual void buttonPressed(ref ButtonEvent e)
+        {
+            if (activeViewId != FrameworkConstants.UNDEFINED)
+            {
+                activeView().buttonPressed(ref e);
+            }
+        }
+
+        public virtual void buttonReleased(ref ButtonEvent e)
+        {
+            if (activeViewId != FrameworkConstants.UNDEFINED)
+            {
+                activeView().buttonReleased(ref e);
+            }
+        }
+
+        public virtual void keyPressed(Keys key)
+        {
+            if (activeViewId != FrameworkConstants.UNDEFINED)
+            {
+                activeView().keyPressed(key);
+            }
+        }
+
+        public virtual void keyReleased(Keys key)
+        {
+            if (activeViewId != FrameworkConstants.UNDEFINED)
+            {
+                activeView().keyReleased(key);
+            }
         }
     }
 }

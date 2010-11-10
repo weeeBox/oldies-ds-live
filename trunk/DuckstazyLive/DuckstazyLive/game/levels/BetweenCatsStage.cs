@@ -33,10 +33,7 @@ namespace DuckstazyLive.game.levels
 		
 		public BetweenCatsStage() : base(2)
 		{			
-			int i;
-			
-			catArrow = new HintArrow(media);
-			
+			catArrow = new HintArrow(media);			
 			goalTime = 100.0f;
 		}
 				

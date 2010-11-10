@@ -38,10 +38,10 @@ namespace DuckstazyLive.game.levels
 		
 		public override void start()
 		{
-			float y = 350.0f;
-			float x0 = 40.0f;
-			float dx = 110.0f;
-            float dy = 30.0f;			
+            //float y = 350.0f;
+            //float x0 = 40.0f;
+            //float dx = 110.0f;
+            //float dy = 30.0f;			
 			
 			base.start();
 			
