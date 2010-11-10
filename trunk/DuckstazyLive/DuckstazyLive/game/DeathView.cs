@@ -53,7 +53,7 @@ namespace DuckstazyLive.game
             else
                 scull.y -= scull.y + getScullTex().Height;
             
-            scull.vy = 10.0f + 5.0f * utils.rnd_float(-1.0f, 1.0f);
+            scull.vy = 100.0f + 50.0f * utils.rnd_float(-1.0f, 1.0f);
 
             scull.lifeTime = 0;
             scull.deathTime = (height - scull.y) / scull.vy * (0.8f + 0.2f * utils.rnd());

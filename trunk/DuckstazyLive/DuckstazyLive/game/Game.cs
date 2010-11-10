@@ -254,7 +254,11 @@ namespace DuckstazyLive.game
             else if (state == LOOSE)
             {
                 if (key == Keys.Enter)
-                    clickNewGame();
+                {
+                    deathView = null;
+                    GC.Collect();
+                    newGame();
+                }
             }
         }
 
