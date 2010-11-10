@@ -12,6 +12,7 @@ namespace DuckstazyLive.game
     {
         public const int MENU = 0;
         public const int LEVEL = 1;
+        public const int LOOSE = 2;
 
         public static Game instance;
 
@@ -25,6 +26,8 @@ namespace DuckstazyLive.game
         public Level level;
 
         private Canvas canvas;
+
+        private DeathView deathView;
 
         //private Menu menu;
 
@@ -139,7 +142,7 @@ namespace DuckstazyLive.game
         }
 
         public override void update(float dt)
-        {
+        {            
         	//Number dt = device.update();
         	Env env = level.env;            
 						
@@ -152,10 +155,13 @@ namespace DuckstazyLive.game
 			    case LEVEL:
 				    level.update(dt);
 				    break;                
+                case LOOSE:
+                    deathView.update(dt);
+                    break;
 			}
 			
 			// gui.update(dt);
-			env.updateBlanc(dt);			
+			env.updateBlanc(dt);            
         }
 
         public override void draw()
@@ -182,6 +188,9 @@ namespace DuckstazyLive.game
                     level.draw(canvas);
                     AppGraphics.Translate(-tx, -ty, 0);
                     break;
+                case LOOSE:
+                    deathView.draw(canvas);
+                    break;
             }
             //}
 
@@ -206,6 +215,12 @@ namespace DuckstazyLive.game
         {
             gameSave.reset();
             startLevel();
+        }
+
+        public void loose()
+        {
+            setState(LOOSE);
+            deathView = new DeathView();
         }
 
         public void startLevel()
@@ -235,7 +250,12 @@ namespace DuckstazyLive.game
         public void keyPressed(Keys key)
         {           
             if (state == LEVEL)
-                level.keyDown(key);             
+                level.keyDown(key); 
+            else if (state == LOOSE)
+            {
+                if (key == Keys.Enter)
+                    clickNewGame();
+            }
         }
 
         public void keyReleased(Keys key)

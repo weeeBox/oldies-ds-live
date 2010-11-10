@@ -53,7 +53,8 @@ namespace DuckstazyLive.game
         private CustomGeomerty geomSkyDay;
         private CustomGeomerty geomSkyNight;
         private CustomGeomerty geomGround;
-        private CustomGeomerty geomGroundEffect;        
+        private CustomGeomerty geomGroundEffect;
+        private CustomGeomerty geomBlanc;
 		
 		private int sndPower;
 		//private var sndTex1:Sound;
@@ -132,6 +133,7 @@ namespace DuckstazyLive.game
 			// shBlanc = new Shape();
 			
 			blanc = 0.0f;
+			geomBlanc = GeometryFactory.createSolidRect(0, 0, 640, 480, Color.White);
 			// Инициализируем траву
 			grassCounter = 0.0f;
 			
@@ -493,8 +495,13 @@ namespace DuckstazyLive.game
 		
 		public void updateBlanc(float dt)
 		{
-			if(blanc>0.0f)
-				blanc-=0.5f*dt;
+            if (blanc > 0.0f)
+            {
+                blanc -= 0.5f * dt;
+                Color blancColor = Color.White;
+                blancColor.A = (byte) (255 * blanc);
+                geomBlanc.colorize(blancColor);
+            }
 		}
 		
 		public void drawBlanc(Canvas canvas)
@@ -504,6 +511,11 @@ namespace DuckstazyLive.game
             //shBlanc.graphics.drawRect(0.0f, 0.0f, 640.0, 480.0);
             //shBlanc.graphics.endFill();
             //canvas.draw(shBlanc);
+
+            if (blanc > 0.0f)
+            {                
+                AppGraphics.DrawGeomerty(geomBlanc);
+            }
 		}		
 	}
 
