@@ -33,8 +33,8 @@ namespace DuckstazyLive.game
 
         public DeathView()
         {
-            width = Constants.SCREEN_WIDTH_REAL;
-            height = Constants.SCREEN_HEIGHT_REAL;            
+            width = Constants.SCREEN_WIDTH;
+            height = Constants.SCREEN_HEIGHT;            
 
             backgroud = utils.createSolidRect(0, 0, width, height, Color.White);
             sculls = new Scull[SCULLS_COUNT];            

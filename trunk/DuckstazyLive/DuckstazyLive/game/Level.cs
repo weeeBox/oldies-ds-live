@@ -215,6 +215,7 @@ namespace DuckstazyLive.game
                 env.draw1(canvas);
 
                 //if(!room)
+                levelPreDraw();
                 stage.draw1(canvas);
 
                 info.drawFT(canvas);
@@ -224,12 +225,30 @@ namespace DuckstazyLive.game
                     hero.draw(canvas);
 
                 ps.draw(canvas);
+                levelPostDraw();
+
                 env.draw2(canvas);
+
+                levelPreDraw();
                 progress.draw(canvas);
                 drawUI(canvas);
                 stage.draw2(canvas);
+                levelPostDraw();
             }            
 		}
+
+        private void levelPreDraw()
+        {
+            float tx = Constants.SAFE_OFFSET_X;
+            float ty = Constants.SAFE_OFFSET_Y;
+            AppGraphics.PushMatrix();
+            AppGraphics.Translate(tx, ty, 0);
+        }
+
+        private void levelPostDraw()
+        {
+            AppGraphics.PopMatrix();
+        }
 		
 		public void enterLevel()
 		{

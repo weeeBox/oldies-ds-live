@@ -12,7 +12,7 @@ namespace DuckstazyLive.game.env
 		private float t;
 		// private Shape shape;
 
-        public EnvEffect4(float x, float y, float w, float h) : base(x, y, w, h)
+		public EnvEffect4()
 		{			
 			// shape = new Shape();
 			t = 0.0f;
@@ -64,13 +64,16 @@ namespace DuckstazyLive.game.env
             float a = t;
             float a2 = t + 0.314f;
             
+            float transX = 0.5f * Constants.ENV_WIDTH_UNSCALE;
+            float transY = 0.5f * Constants.ENV_HEIGHT_UNSCALE;
+
             int rayImg = Res.IMG_EFFECT_RAY;
             Texture2D rayTex = utils.getImage(rayImg);
 
             DrawMatrix m = new DrawMatrix();
             m.tx = utils.unscale(-rayTex.Width);
             m.ty = utils.unscale(-0.5f * rayTex.Height);
-            m.translate(320, 200);
+            m.translate(transX, transY);
 
             ColorTransform colorTransform = new ColorTransform(c1);
 
@@ -93,7 +96,7 @@ namespace DuckstazyLive.game.env
             int circleImage = Res.IMG_EFFECT_CIRCLE;
             Texture2D circleTex = utils.getImage(circleImage);
             m.identity();
-            m.translate(320, 200);
+            m.translate(transX, transY);
             m.tx = utils.unscale(-0.5f * circleTex.Width);
             m.ty = utils.unscale(-0.5f * circleTex.Height);
             canvas.draw(circleImage, m, colorTransform);

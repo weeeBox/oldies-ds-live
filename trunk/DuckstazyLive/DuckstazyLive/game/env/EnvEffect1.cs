@@ -11,8 +11,7 @@ namespace DuckstazyLive.game.env
 		private float t;
 		// private Shape shape;
 
-        public EnvEffect1(float x, float y, float w, float h)
-            : base(x, y, w, h)
+		public EnvEffect1()
 		{
 			// super();
 			
@@ -31,8 +30,7 @@ namespace DuckstazyLive.game.env
 		{
             base.draw(canvas);
 
-            // Временные переменные.
-            float x;
+            // Временные переменные.            
             bool c = false;
             //Graphics gr = shape.graphics;
 
@@ -46,8 +44,9 @@ namespace DuckstazyLive.game.env
             trans.alphaMultiplier = 0.7f;
             DrawMatrix m = new DrawMatrix();
 
-            x = -160.0f + t;
-            while (x < 400.0f)
+            float x = Constants.SAFE_OFFSET_X_UNSCALE;
+            float y = -160.0f + t;
+            while (y < 400.0f)
             {
                 //gr.beginFill(c2);
                 //gr.moveTo(0.0, x);
@@ -56,11 +55,11 @@ namespace DuckstazyLive.game.env
                 //gr.lineTo(0.0, x + 40.0);
                 //gr.endFill();
 
-                m.translate(0, x);
+                m.translate(x, y);
                 canvas.draw(Res.IMG_EFFECT_LINE, m, trans);
 
                 c = !c;
-                x += 80.0f;
+                y += 80.0f;
             }
 			
             //canvas.draw(shape);            

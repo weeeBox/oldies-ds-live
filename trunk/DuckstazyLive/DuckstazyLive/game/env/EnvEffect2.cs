@@ -12,8 +12,7 @@ namespace DuckstazyLive.game.env
 		private float t;
 		// private Shape shape;
 
-        public EnvEffect2(float x, float y, float w, float h)
-            : base(x, y, w, h)
+		public EnvEffect2()            
 		{			
 			// shape = new Shape();
 			t = 0.0f;
@@ -47,10 +46,13 @@ namespace DuckstazyLive.game.env
             Texture2D circleTex = utils.getImage(Res.IMG_EFFECT_CIRCLE);
             DrawMatrix m = new DrawMatrix();
             m.tx = utils.unscale(-0.5f * circleTex.Width);
-            m.ty = utils.unscale(-0.5f * circleTex.Height);
+            m.ty = utils.unscale(-0.5f * circleTex.Height);            
 
-            x = 40.0f;
-            y = 40.0f;
+            float offsetX = Constants.SAFE_OFFSET_X_UNSCALE;
+            float offsetY = Constants.SAFE_OFFSET_Y_UNSCALE;
+
+            x = offsetX + 40.0f;
+            y = offsetY + 40.0f;
             // r = 22.5f + 12.5f * Math.Sin(t);
             s = (float)(0.642857 + 0.3571428 * Math.Sin(t));
             m.scale(s, s);
@@ -65,12 +67,12 @@ namespace DuckstazyLive.game.env
                     canvas.draw(Res.IMG_EFFECT_CIRCLE, m, colorTransform);
                     y += 80.0f;
                 }
-                y = 40.0f;
+                y = offsetY + 40.0f;
                 x += 80.0f;
             }
 
-            x = 80.0f;
-            y = 80.0f;
+            x = offsetX + 80.0f;
+            y = offsetY + 80.0f;
             // r = 22.5 - 12.5 * Math.Sin(t);
             s = (float)(0.642857 - 0.3571428 * Math.Sin(t));
             m.scale(s, s);
@@ -85,7 +87,7 @@ namespace DuckstazyLive.game.env
                     canvas.draw(Res.IMG_EFFECT_CIRCLE, m, colorTransform);
                     y += 80.0f;
                 }
-                y = 80.0f;
+                y = offsetY + 80.0f;
                 x += 80.0f;
             }
 			

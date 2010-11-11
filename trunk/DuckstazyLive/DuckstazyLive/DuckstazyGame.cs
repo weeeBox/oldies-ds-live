@@ -29,8 +29,8 @@ namespace DuckstazyLive
         public DuckstazyGame()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = Constants.SCREEN_WIDTH_REAL;
-            graphics.PreferredBackBufferHeight = Constants.SCREEN_HEIGHT_REAL;
+            graphics.PreferredBackBufferWidth = Constants.SCREEN_WIDTH;
+            graphics.PreferredBackBufferHeight = Constants.SCREEN_HEIGHT;
 
             Content.RootDirectory = "Content";
         }
