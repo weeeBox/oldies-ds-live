@@ -176,13 +176,14 @@ namespace DuckstazyLive.game
 
                 mat.translate(38.0f + x, 5.0f + y);
                 dest.draw(imgEye1, mat, eyeColor);
-                eyeColor.alphaMultiplier = power;
+                eyeColor.alphaMultiplier = power * trans;
                 dest.draw(imgEye2, mat, eyeColor);
 
                 mat.tx = -12.0f;
                 mat.ty = -7.0f;
                 mat.rotate(-wingsAngle);
                 mat.translate(21.0f + x, 26.0f + y);
+                duckColor.alphaMultiplier *= trans;
                 dest.draw(imgWing, mat, duckColor);
             }
             else
@@ -193,13 +194,14 @@ namespace DuckstazyLive.game
 
                 mat.translate(10.0f + x, 5.0f + y);
                 dest.draw(imgEye1, mat, eyeColor);
-                eyeColor.alphaMultiplier = power;
+                eyeColor.alphaMultiplier = power * trans;
                 dest.draw(imgEye2, mat, eyeColor);
 
                 mat.tx = -3.0f;
                 mat.ty = -7.0f;
                 mat.rotate(wingsAngle);
                 mat.translate(33.0f + x, 26.0f + y);
+                duckColor.alphaMultiplier *= trans;
                 dest.draw(imgWing, mat, duckColor);
             }
 
