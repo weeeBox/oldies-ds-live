@@ -52,6 +52,7 @@ namespace Framework.core
             }
             else if (mode == BatchMode.Geometry)
             {                
+                basicEffect.World = Matrix.Multiply(camera.WorldMatrix, m);
                 basicEffect.CurrentTechnique.Passes[0].Apply();
             }
             batchMode = mode;
@@ -83,8 +84,9 @@ namespace Framework.core
         private static void EndBatch()
         {
             if (batchMode == BatchMode.Geometry)
-            {           
-                
+            {
+                basicEffect.World = Matrix.Identity;
+                basicEffect.CurrentTechnique.Passes[0].Apply();
             }
             else if (batchMode == BatchMode.Sprite)
             {
@@ -123,7 +125,7 @@ namespace Framework.core
             EndBatch();
         }
 
-        public static void Begin(GraphicsDevice gd)
+        public static void Begin(GraphicsDevice gd, float width, float height)
         {            
             Debug.Assert(batchMode == BatchMode.None, "Bad batch mode: " + batchMode);
 
@@ -141,7 +143,7 @@ namespace Framework.core
 
                 Matrix worldMatrix = Matrix.Identity;
                 Matrix viewMatrix = Matrix.CreateLookAt(new Vector3(0.0f, 0.0f, 1.0f), Vector3.Zero, Vector3.Up);
-                Matrix projection = Matrix.CreateOrthographicOffCenter(0.0f, FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT, 0, 1.0f, 1000.0f);
+                Matrix projection = Matrix.CreateOrthographicOffCenter(0.0f, width, height, 0, 1.0f, 1000.0f);
                 camera = new Camera(worldMatrix, viewMatrix, projection);
 
                 basicEffect.World = worldMatrix;
@@ -330,8 +332,7 @@ namespace Framework.core
 
         public static void DrawGeomerty(CustomGeomerty geometry)
         {
-            GetSpriteBatch(BatchMode.Geometry);
-
+            GetSpriteBatch(BatchMode.Geometry);            
             if (geometry.IndexData == null)
             {                
                 graphicsDevice.DrawUserPrimitives(geometry.PrimitiveType, geometry.VertexData, 0, geometry.PrimitiveCount);
@@ -339,7 +340,7 @@ namespace Framework.core
             else
             {
                 graphicsDevice.DrawUserIndexedPrimitives(geometry.PrimitiveType, geometry.VertexData, 0, geometry.VertexData.Length, geometry.IndexData, 0, geometry.PrimitiveCount);
-            }
+            }            
         }
 
         public static void Clear(Color color)

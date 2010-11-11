@@ -28,5 +28,21 @@ namespace Framework.visual
         {            
             return createGradient(x, y, w, h, fillColor, fillColor);
         }
+
+        public static CustomGeomerty createRect(float x, float y, float w, float h, Color borderColor)
+        {
+            VertexPositionColor[] vertexData = new VertexPositionColor[4];
+            vertexData[0] = new VertexPositionColor(new Vector3(x, y, 0), borderColor);
+            vertexData[1] = new VertexPositionColor(new Vector3(x + w, y, 0), borderColor);
+            vertexData[2] = new VertexPositionColor(new Vector3(x + w, y + h, 0), borderColor);
+            vertexData[3] = new VertexPositionColor(new Vector3(x, y + h, 0), borderColor);
+            short[] indexData = new short[] { 0, 1, 2, 3, 0 };
+            CustomGeomerty geomerty = new CustomGeomerty(vertexData, indexData, PrimitiveType.LineStrip);
+            geomerty.x = x;
+            geomerty.y = y;
+            geomerty.width = (int)(w);
+            geomerty.height = (int)(h);
+            return geomerty;
+        }
     }
 }

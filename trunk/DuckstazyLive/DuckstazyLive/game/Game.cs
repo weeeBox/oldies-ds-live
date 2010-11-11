@@ -5,6 +5,8 @@ using System.Text;
 using Framework.core;
 using Microsoft.Xna.Framework.Input;
 using DuckstazyLive.app;
+using Framework.visual;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
@@ -182,11 +184,7 @@ namespace DuckstazyLive.game
                     level.progress.draw(canvas);
                     break;
                 case LEVEL:
-                    float tx = 0.5f * (Constants.SCREEN_WIDTH_REAL - utils.scale(Constants.SCREEN_WIDTH));
-                    float ty = 0;
-                    AppGraphics.Translate(tx, ty, 0);
-                    level.draw(canvas);
-                    AppGraphics.Translate(-tx, -ty, 0);
+                    drawLevel();                    
                     break;
                 case LOOSE:
                     deathView.draw(canvas);
@@ -204,6 +202,54 @@ namespace DuckstazyLive.game
 
             //canvas.unlock();
             //backBitmap.visible = true;
+
+            // drawTitleSafe();
+        }
+
+        private void drawLevel()
+        {
+            levelPreDraw();
+            level.draw(canvas);
+            levelPostDraw();
+        }
+
+        private void levelPreDraw()
+        {
+            float tx = getDrawOffsetX();
+            float ty = getDrawOffsetY();
+            AppGraphics.PushMatrix();
+            AppGraphics.Translate(tx, ty, 0);
+        }
+
+        private void levelPostDraw()
+        {
+            AppGraphics.PopMatrix();
+        }
+
+        public float getDrawOffsetX()
+        {
+            return 0.5f * (Constants.SCREEN_WIDTH_REAL - utils.scale(Constants.SCREEN_WIDTH));
+        }
+
+        public float getDrawOffsetY()
+        {
+            return 0.5f * (1 - Constants.TITLE_SAFE_Y) * utils.scale(Constants.SCREEN_HEIGHT);
+        }
+
+        private CustomGeomerty geomTitleSafe;
+
+        private void drawTitleSafe()
+        {
+            if (geomTitleSafe == null)
+            {
+                float w = Constants.TITLE_SAFE_X * Constants.SCREEN_WIDTH_REAL;
+                float h = Constants.TITLE_SAFE_Y * Constants.SCREEN_HEIGHT_REAL;
+                float x = 0.5f * (Constants.SCREEN_WIDTH_REAL - w);
+                float y = 0.5f * (Constants.SCREEN_HEIGHT_REAL - h);
+
+                geomTitleSafe = utils.createRect(x, y, w, h, Color.Red, false);
+            }
+            canvas.drawGeometry(geomTitleSafe);
         }
 
         private void setState(int newState)

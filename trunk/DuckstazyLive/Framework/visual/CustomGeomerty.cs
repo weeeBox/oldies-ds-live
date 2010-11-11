@@ -35,7 +35,6 @@ namespace Framework.visual
         {
             this.vertexData = vertexData;
             this.indexData = indexData;            
-            this.vertexDeclaration = VertexPositionColor.VertexDeclaration;
             this.primitiveType = primitiveType;
             primitiveCount = getPrimitiveCount(primitiveType, indexData == null ? vertexData.Length : indexData.Length);
         }
@@ -45,9 +44,13 @@ namespace Framework.visual
             switch (type)
             {
                 case PrimitiveType.TriangleStrip:
-                    {
-                        return indicesCount - 2;
-                    }
+                {
+                    return indicesCount - 2;
+                }
+                case PrimitiveType.LineStrip:                    
+                {
+                    return indicesCount - 1;
+                }
                 default:
                     throw new NotImplementedException();                    
             }            
@@ -56,9 +59,7 @@ namespace Framework.visual
         public override void draw()
         {
             preDraw();
-
             AppGraphics.DrawGeomerty(this);
-
             postDraw();
         }
 

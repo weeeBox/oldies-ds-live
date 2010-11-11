@@ -86,13 +86,14 @@ namespace DuckstazyLive.game
 		
 		public Level(GameState gameState)
 		{			
-			instance = this;		
+			instance = this;
+            game = Game.instance;
 			
 			state = gameState;
 			
 			info = new GameInfo();
 			ps = new Particles();
-			env = new Env();
+			env = new Env(game);
 			hero = new Hero();
 			pills = new Pills(hero, ps, this);
 			progress = new LevelProgress();
@@ -132,9 +133,8 @@ namespace DuckstazyLive.game
 			hpPulse = 0.0f;
 			
 			scoreOld = 0;
-			scoreCounter = 0.0f;
+			scoreCounter = 0.0f;		
 			
-			game = Game.instance;
 			// imgPause = game.imgBG;            
 		}
 		

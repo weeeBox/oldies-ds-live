@@ -17,14 +17,14 @@ namespace DuckstazyLive.game.env
 
         private CustomGeomerty geomEffect;
 		
-		public EnvEffect()
+		public EnvEffect(float x, float y, float w, float h)
 		{
 			power = 0.0f;
 			c1 = 0x000000;
 			c2 = 0x000000;
 			peak = 0.0f;
 
-            geomEffect = GeometryFactory.createSolidRect(0, 0, 640, 480, utils.makeColor(0));
+            geomEffect = utils.createSolidRect(x, y, w, h, utils.makeColor(0), false);
 		}
 		
 		public virtual void update(float dt)
@@ -34,7 +34,7 @@ namespace DuckstazyLive.game.env
 		public virtual void draw(Canvas canvas)
 		{
             geomEffect.colorize(utils.makeColor(c2));
-            AppGraphics.DrawGeomerty(geomEffect);
+            canvas.drawGeometry(geomEffect);
 		}
 
 	}

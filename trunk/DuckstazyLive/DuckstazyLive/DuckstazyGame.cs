@@ -99,9 +99,11 @@ namespace DuckstazyLive
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            float width = GraphicsDevice.Viewport.Width;
+            float height = GraphicsDevice.Viewport.Height;
 
             // TODO: Add your drawing code here
-            AppGraphics.Begin(GraphicsDevice);
+            AppGraphics.Begin(GraphicsDevice, width, height);
             application.processDraw();
             AppGraphics.End();
 

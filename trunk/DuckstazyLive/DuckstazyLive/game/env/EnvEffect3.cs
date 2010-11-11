@@ -9,8 +9,9 @@ namespace DuckstazyLive.game.env
 	{
 		private float t;
 		// private Shape shape;
-		
-		public EnvEffect3()
+
+        public EnvEffect3(float x, float y, float w, float h)
+            : base(x, y, w, h)
 		{			
 			// shape = new Shape();
 			t = 0.0f;
