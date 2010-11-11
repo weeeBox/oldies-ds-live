@@ -36,7 +36,7 @@ namespace DuckstazyLive.game
             width = Constants.SCREEN_WIDTH_REAL;
             height = Constants.SCREEN_HEIGHT_REAL;            
 
-            backgroud = GeometryFactory.createSolidRect(0, 0, width, height, Color.White);
+            backgroud = utils.createSolidRect(0, 0, width, height, Color.White);
             sculls = new Scull[SCULLS_COUNT];            
             for(int i = 0; i < SCULLS_COUNT; ++i)
             {
@@ -86,7 +86,7 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {
-            AppGraphics.DrawGeomerty(backgroud);
+            canvas.drawGeometry(backgroud);
 
             Texture2D tex = getScullTex();
             for (int i = 0; i < SCULLS_COUNT; ++i)

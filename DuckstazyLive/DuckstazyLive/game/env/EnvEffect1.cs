@@ -10,8 +10,9 @@ namespace DuckstazyLive.game.env
 	{
 		private float t;
 		// private Shape shape;
-		
-		public EnvEffect1()
+
+        public EnvEffect1(float x, float y, float w, float h)
+            : base(x, y, w, h)
 		{
 			// super();
 			
@@ -42,6 +43,7 @@ namespace DuckstazyLive.game.env
             //gr.endFill();
 
             ColorTransform trans = new ColorTransform(c1);
+            trans.alphaMultiplier = 0.7f;
             DrawMatrix m = new DrawMatrix();
 
             x = -160.0f + t;

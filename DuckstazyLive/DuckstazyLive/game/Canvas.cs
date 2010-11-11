@@ -81,9 +81,19 @@ namespace DuckstazyLive.game
             }
         }
 
+        public void drawGeometry(CustomGeomerty geom)
+        {
+            drawGeometry(geom, null);
+        }
+
+        public void drawGeometry(CustomGeomerty geom, DrawMatrix m)
+        {
+            AppGraphics.DrawGeomerty(geom);
+        }        
+
         private Texture2D getTexture(int imageId)
         {
             return Application.sharedResourceMgr.getTexture(imageId);
-        }
+        }        
     }
 }

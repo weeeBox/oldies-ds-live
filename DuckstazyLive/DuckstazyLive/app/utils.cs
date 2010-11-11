@@ -7,6 +7,7 @@ using DuckstazyLive.game;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 using Framework.core;
+using Framework.visual;
 
 namespace DuckstazyLive.app
 {
@@ -219,6 +220,57 @@ namespace DuckstazyLive.app
         public static Texture2D getImage(int imageId)
         {
             return Application.sharedResourceMgr.getTexture(imageId);
+        }
+
+        public static CustomGeomerty createRect(float x, float y, float w, float h, Color borderColor)
+        {
+            return createRect(x, y, w, h, borderColor, true);
+        }
+
+        public static CustomGeomerty createRect(float x, float y, float w, float h, Color borderColor, bool applyScale)
+        {
+            if (applyScale)
+            {
+                return GeometryFactory.createRect(scale(x), scale(y), scale(w), scale(h), borderColor);
+            }
+            else
+            {
+                return GeometryFactory.createRect(x, y, w, h, borderColor);
+            }
+        }
+
+        public static CustomGeomerty createGradient(float x, float y, float w, float h, Color upperColor, Color lowerColor)
+        {
+            return createGradient(x, y, w, h, upperColor, lowerColor, true);
+        }
+
+        public static CustomGeomerty createGradient(float x, float y, float w, float h, Color upperColor, Color lowerColor, bool applyScale)
+        {
+            if (applyScale)
+            {
+                return GeometryFactory.createGradient(scale(x), scale(y), scale(w), scale(h), upperColor, lowerColor);
+            }
+            else
+            {
+                return GeometryFactory.createGradient(x, y, w, h, upperColor, lowerColor);
+            }
+        }
+
+        public static CustomGeomerty createSolidRect(float x, float y, float w, float h, Color fillColor)
+        {
+            return createSolidRect(x, y, w, h, fillColor, true);
+        }
+
+        public static CustomGeomerty createSolidRect(float x, float y, float w, float h, Color fillColor, bool applyScale)
+        {
+            if (applyScale)
+            {
+                return GeometryFactory.createSolidRect(scale(x), scale(y), scale(w), scale(h), fillColor);
+            }
+            else
+            {
+                return GeometryFactory.createSolidRect(x, y, w, h, fillColor);
+            }
         }
 
         public static int scale(int val)
