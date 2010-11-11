@@ -46,12 +46,14 @@ namespace DuckstazyLive.game
         private bool key_left;
         private bool key_down;
         private bool controlledByStick;
+        private float stickMoveCoeff;
 
         private bool rapidJump;
         private float jumpButtonPressedStartTime;
 
-        private const float STICK_HOR_THRESHOLD = 0.4f;
+        private const float STICK_HOR_THRESHOLD = 0.1f;
         private const float STICK_VER_THRESHOLD = 0.7f;
+        private const float STICK_VER_THRESHOLD_DIVE = 0.9f;
 
         public float x;
         public float y;
@@ -211,6 +213,9 @@ namespace DuckstazyLive.game
 
             if (steping)
             {
+                if (controlledByStick)
+                    move *= stickMoveCoeff;
+
                 if (move >= 0.0f) step += move * dt * 15.0f;
                 else step -= move * dt * 15.0f;
 
@@ -365,16 +370,31 @@ namespace DuckstazyLive.game
             {
                 controlledByStick = true;
                 key_right = true;
+                stickMoveCoeff = getStickMoveCoeff(ref leftStick);
             }
             else if (leftStick.X < -STICK_HOR_THRESHOLD)
             {
                 controlledByStick = true;
                 key_left = true;
-            }
-            else if (leftStick.Y < -STICK_VER_THRESHOLD)
+                stickMoveCoeff = getStickMoveCoeff(ref leftStick);
+            }            
+            if (leftStick.Y < -STICK_VER_THRESHOLD)
             {
                 controlledByStick = true;
                 key_down = true;
+            }
+        }
+
+        private float getStickMoveCoeff(ref Vector2 stickPos)
+        {
+            if (stickPos.Y < -STICK_VER_THRESHOLD)
+            {
+                return (float) Math.Sqrt(Math.Abs(stickPos.X));
+            }
+            else
+            {            
+                float len = stickPos.Length();
+                return len;
             }
         }
 
@@ -714,6 +734,7 @@ namespace DuckstazyLive.game
             controlledByStick = false;
             jumpButtonPressedStartTime = 0.0f;
             rapidJump = false;
+            stickMoveCoeff = 0.0f;
         }
     }
 }
