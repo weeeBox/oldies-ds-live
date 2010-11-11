@@ -30,10 +30,10 @@ namespace DuckstazyLive.game
 		public void update(float dt, float power)
 		{
 			x -= (float)((0.75 + 0.25*Math.Sin(counter*6.2832))*(30.0f+power*200.0f)*dt);
-            float border = 50.0f + 0.5f * (utils.unscale(Constants.SCREEN_WIDTH_REAL) - 640.0f);
+			float border = 50.0f;
 			if(x<=-border)
 			{
-				x += 640 + 2 * border;
+				x += Constants.ENV_WIDTH_UNSCALE + 2 * border;
 				y = 40.0f + utils.rnd()*90.0f;
 				id = (int)(utils.rnd()*3.0f);
 			}

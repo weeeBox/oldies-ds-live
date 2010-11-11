@@ -123,24 +123,19 @@ namespace DuckstazyLive.game
 			norm = new EnvColor(0x3FB5F2, 0x000000);
 			
 			// Текущие цвета
-			colors = new EnvColor(0,0);
-            float offsetX = -game.getDrawOffsetX();
-            float offsetY = -game.getDrawOffsetY();
-            float width = utils.scale(Constants.SCREEN_WIDTH) - 2 * offsetX;
-            float height = utils.scale(Constants.SCREEN_HEIGHT) - 2 * offsetY;
-			
+			colors = new EnvColor(0,0);			
 			effects = new EnvEffect[] 
-            { 
-                new EnvEffect1(offsetX, offsetY, width, height), 
-                new EnvEffect2(offsetX, offsetY, width, height), 
-                new EnvEffect3(offsetX, offsetY, width, height), 
-                new EnvEffect4(offsetX, offsetY, width, height) 
-            };
+			{ 
+			new EnvEffect1(), 
+			new EnvEffect2(), 
+			new EnvEffect3(), 
+			new EnvEffect4() 
+			};
 			
 			// shBlanc = new Shape();           
 
 			blanc = 0.0f;
-			geomBlanc = utils.createSolidRect(0, 0, Constants.SCREEN_WIDTH_REAL, Constants.SCREEN_HEIGHT_REAL, Color.White, false);
+			geomBlanc = utils.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White, false);
 			// Инициализируем траву
 			grassCounter = 0.0f;
 			
@@ -151,9 +146,9 @@ namespace DuckstazyLive.game
 			time = 0.0f;			
 			
 			// Инициализируем
-            initGrass(offsetX, offsetY, width, height);
-            initDay(offsetX, offsetY, width, height);
-            initNight(offsetX, offsetY, width, height);
+			initGrass();
+			initDay();
+			initNight();
 			
 			curEffect = effects[3];//effects[int(Math.random()*effects.length)];
 			
@@ -178,7 +173,7 @@ namespace DuckstazyLive.game
 			musicAttack = 0.0f;
 		}
 	
-		private void initGrass(float x, float y, float w, float h)
+		private void initGrass()
 		{
             //Rect rc = new Rect(0, 0, 128, 16);
             //Texture2D data = (new rGrassImg()).bitmapData;
@@ -210,12 +205,18 @@ namespace DuckstazyLive.game
             //shape.graphics.drawRect(0.0f, 0.0f, 640.0, 80.0);
             //shape.graphics.endFill();
             //imgGround.draw(shape);
+            Game game = Game.instance;
 
-            geomGround = utils.createGradient(x, utils.scale(400.0f), w, utils.scale(80.0f), utils.makeColor(0x371d06), utils.makeColor(0x5d310c), false);
-            geomGroundEffect = utils.createSolidRect(x, utils.scale(400.0f), w, utils.scale(80.0f), Color.White, false);
+            float groundX = 0;
+            float groundY = Constants.ENV_HEIGHT;
+            float groundWidth = Constants.GROUND_WIDTH;
+            float groundHeight = Constants.GROUND_HEIGHT;
+
+            geomGround = utils.createGradient(groundX, groundY, groundWidth, groundHeight, utils.makeColor(0x371d06), utils.makeColor(0x5d310c), false);
+            geomGroundEffect = utils.createSolidRect(groundX, groundY, groundWidth, groundHeight, Color.White, false);
 		}
 
-        private void initDay(float x, float y, float w, float h)
+        private void initDay()
 		{
             //float x = 0.0f;
             //Matrix MAT = new Matrix();
@@ -228,7 +229,7 @@ namespace DuckstazyLive.game
 			
             //imgSky = new Texture2D(640, 400, false);
             //imgSky.draw(shape);
-            geomSkyDay = utils.createGradient(x, y, w, h, utils.makeColor(0x3FB5F2), utils.makeColor(0xDDF2FF), false);
+            geomSkyDay = utils.createGradient(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, utils.makeColor(0x3FB5F2), utils.makeColor(0xDDF2FF), false);
 			
             imgClouds = new int[] { Res.IMG_CLOUD_1, Res.IMG_CLOUD_2, Res.IMG_CLOUD_3 };
 			
@@ -240,9 +241,9 @@ namespace DuckstazyLive.game
             }			
 		}
 
-        private void initNight(float x, float y, float w, float h)
+        private void initNight()
 		{
-            geomSkyNight = utils.createSolidRect(x, y, w, h, utils.makeColor(0x111133), false);
+            geomSkyNight = utils.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, utils.makeColor(0x111133), false);
 
             int starsCount = 30;
             int i = starsCount - 1;
@@ -472,7 +473,7 @@ namespace DuckstazyLive.game
 
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(-(Constants.SCREEN_WIDTH_REAL - utils.scale(640)) / 2, utils.scale(400) - tex.Height, Constants.SCREEN_WIDTH_REAL, tex.Height);
+                Rectangle dst = new Rectangle(0, (int)(geomGround.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
 
                 AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
@@ -487,7 +488,7 @@ namespace DuckstazyLive.game
                 //canvas.draw(imgGrass2, MAT, ctGrass);
                 Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS2);
                 Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(-(Constants.SCREEN_WIDTH_REAL - utils.scale(640)) / 2, utils.scale(400) - tex.Height, Constants.SCREEN_WIDTH_REAL, tex.Height);
+                Rectangle dst = new Rectangle(0, (int)(geomGroundEffect.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
 
                 AppGraphics.SetColor(color);
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);

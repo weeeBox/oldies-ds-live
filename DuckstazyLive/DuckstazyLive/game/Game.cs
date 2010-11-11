@@ -97,7 +97,7 @@ namespace DuckstazyLive.game
             //canvas = back;
             //imgBG = new BitmapData(640, 480, false);
 
-            canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH_REAL, FrameworkConstants.SCREEN_HEIGHT_REAL);
+            canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
 
             // Уровень            
             level = new Level(gameState);
@@ -207,34 +207,9 @@ namespace DuckstazyLive.game
         }
 
         private void drawLevel()
-        {
-            levelPreDraw();
-            level.draw(canvas);
-            levelPostDraw();
-        }
-
-        private void levelPreDraw()
-        {
-            float tx = getDrawOffsetX();
-            float ty = getDrawOffsetY();
-            AppGraphics.PushMatrix();
-            AppGraphics.Translate(tx, ty, 0);
-        }
-
-        private void levelPostDraw()
-        {
-            AppGraphics.PopMatrix();
-        }
-
-        public float getDrawOffsetX()
-        {
-            return 0.5f * (Constants.SCREEN_WIDTH_REAL - utils.scale(Constants.SCREEN_WIDTH));
-        }
-
-        public float getDrawOffsetY()
-        {
-            return 0.5f * (1 - Constants.TITLE_SAFE_Y) * utils.scale(Constants.SCREEN_HEIGHT);
-        }
+        {            
+            level.draw(canvas);            
+        }        
 
         private CustomGeomerty geomTitleSafe;
 
@@ -242,10 +217,10 @@ namespace DuckstazyLive.game
         {
             if (geomTitleSafe == null)
             {
-                float w = Constants.TITLE_SAFE_X * Constants.SCREEN_WIDTH_REAL;
-                float h = Constants.TITLE_SAFE_Y * Constants.SCREEN_HEIGHT_REAL;
-                float x = 0.5f * (Constants.SCREEN_WIDTH_REAL - w);
-                float y = 0.5f * (Constants.SCREEN_HEIGHT_REAL - h);
+                float w = Constants.TITLE_SAFE_X * Constants.SCREEN_WIDTH;
+                float h = Constants.TITLE_SAFE_Y * Constants.SCREEN_HEIGHT;
+                float x = 0.5f * (Constants.SCREEN_WIDTH - w);
+                float y = 0.5f * (Constants.SCREEN_HEIGHT - h);
 
                 geomTitleSafe = utils.createRect(x, y, w, h, Color.Red, false);
             }

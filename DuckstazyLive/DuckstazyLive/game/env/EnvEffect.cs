@@ -15,16 +15,16 @@ namespace DuckstazyLive.game.env
 		public uint c2;
 		public float peak;
 
-        private CustomGeomerty geomEffect;
+		private CustomGeomerty geomEffect;
 		
-		public EnvEffect(float x, float y, float w, float h)
+		public EnvEffect()
 		{
 			power = 0.0f;
 			c1 = 0x000000;
 			c2 = 0x000000;
 			peak = 0.0f;
 
-            geomEffect = utils.createSolidRect(x, y, w, h, utils.makeColor(0), false);
+			geomEffect = utils.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, utils.makeColor(0), false);
 		}
 		
 		public virtual void update(float dt)
@@ -33,8 +33,8 @@ namespace DuckstazyLive.game.env
 
 		public virtual void draw(Canvas canvas)
 		{
-            geomEffect.colorize(utils.makeColor(c2));
-            canvas.drawGeometry(geomEffect);
+			geomEffect.colorize(utils.makeColor(c2));
+			canvas.drawGeometry(geomEffect);
 		}
 
 	}

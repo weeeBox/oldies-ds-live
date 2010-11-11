@@ -15,15 +15,20 @@ namespace DuckstazyLive.game
 		public float t;
 		public float a;
 		public ColorTransform color;
+
+        private const float MIN_X = -7.0f;
+        private const float MIN_Y = -7.0f;
+        private const float MAX_X = Constants.ENV_WIDTH_UNSCALE + 7.0f;
+        private const float MAX_Y = Constants.ENV_HEIGHT_UNSCALE + 7.0f;
 		
 		public EnvStar()
 		{
 			color = new ColorTransform();
-			x = 640.0f*utils.rnd();
-			y = 400.0f*utils.rnd();
+			x = Constants.ENV_WIDTH_UNSCALE*utils.rnd();
+			y = Constants.ENV_HEIGHT_UNSCALE*utils.rnd();
 			a = utils.rnd()*6.28f;
-			vx = (float)(400.0f*Math.Cos(a));
-			vy = (float)(400.0f*Math.Sin(a));
+			vx = 0.5f * (float)(Constants.ENV_WIDTH_UNSCALE*Math.Cos(a));
+			vy = 0.5f * (float)(Constants.ENV_HEIGHT_UNSCALE*Math.Sin(a));
 			t = utils.rnd();
 		}
 		
@@ -34,16 +39,16 @@ namespace DuckstazyLive.game
 			x += vx*delta;
 			y += vy*delta;
 
-			if(x<-7.0f) x += 654.0f;
-			else if(x>647.0f) x-=654.0f;
+			if(x < MIN_X) x += MAX_X;
+			else if(x>MAX_X) x-=MAX_X;
 
-			if(y<-7.0f) y += 414.0f;
-			else if(y>407.0f) y-=414.0f;
+			if(y<-MIN_Y) y += MAX_Y;
+			else if(y>MAX_Y) y-=MAX_Y;
 
 			t += 5.0f*power*dt;
 			if(t>=1.0f) t -= (int)t;
 			
-			delta = 1.0f-y/400.0f;
+			delta = 1.0f-y/Constants.ENV_HEIGHT_UNSCALE;
 			color.alphaMultiplier = (float)Math.Sqrt(delta);//*(0.5-power)*2.0f;
 		}
 	};

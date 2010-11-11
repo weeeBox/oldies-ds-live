@@ -10,6 +10,27 @@ namespace DuckstazyLive.app
     public class Constants : FrameworkConstants
     {
         public const float SCALE = 1.5f;
-        public const float SCALE_INV = 1.0f / SCALE;        
+        public const float SCALE_INV = 1.0f / SCALE;
+
+        public const float SCREEN_WIDTH_UNSCALE = SCREEN_WIDTH * SCALE_INV;
+        public const float SCREEN_HEIGHT_UNSCALE = SCREEN_HEIGHT * SCALE_INV;
+
+        public const float SAFE_OFFSET_X = 0.5f * (SCREEN_WIDTH - 640.0f * SCALE);
+        public const float SAFE_OFFSET_Y = 0.5f * (1 - TITLE_SAFE_Y) * 480.0f * SCALE;
+
+        public const float SAFE_OFFSET_X_UNSCALE = SAFE_OFFSET_X * SCALE_INV;
+        public const float SAFE_OFFSET_Y_UNSCALE = SAFE_OFFSET_Y * SCALE_INV;
+
+        public const float ENV_WIDTH = SCREEN_WIDTH;
+        public const float ENV_HEIGHT = SAFE_OFFSET_Y + 400.0f * SCALE;
+
+        public const float ENV_WIDTH_UNSCALE = ENV_WIDTH * SCALE_INV;
+        public const float ENV_HEIGHT_UNSCALE = ENV_HEIGHT * SCALE_INV;
+
+        public const float GROUND_WIDTH = SCREEN_WIDTH;
+        public const float GROUND_HEIGHT = SCREEN_HEIGHT - ENV_HEIGHT;
+
+        public const float GROUND_WIDTH_UNSCALE = GROUND_WIDTH * SCALE_INV;
+        public const float GROUND_HEIGHT_UNSCALE = GROUND_HEIGHT * SCALE_INV;
     }
 }
