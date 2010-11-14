@@ -122,6 +122,7 @@
     <Compile Include="game\levels\LevelStageFactory.cs" />
     <Compile Include="game\levels\PartyTime.cs" />
     <Compile Include="game\levels\Trains.cs" />
+    <Compile Include="game\MultiplayerLevel.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />
