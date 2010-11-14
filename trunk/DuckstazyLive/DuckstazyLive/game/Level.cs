@@ -51,7 +51,6 @@ namespace DuckstazyLive.game
 		public bool finish;
 		private float finishCounter;
 
-
         protected List<LevelStages> stages; // Уровни
         public LevelStage stage; // текущий уровень
 		public StageMedia stageMedia;
@@ -70,23 +69,17 @@ namespace DuckstazyLive.game
 		public Level(GameState gameState)
 		{			
 			instance = this;
-            game = Game.instance;
-			
+			game = Game.instance;			
 			state = gameState;
 			
 			info = new GameInfo();
 			ps = new Particles();
 			env = new Env(game);
-			hero = new Hero();
-			pills = new Pills(hero, ps, this);
+
+			initHero();
+
 			progress = new LevelProgress();
-			
-			hero.particles = ps;
-			hero.state = state;
-			hero.env = env;		
 			progress.env = env;
-					
-			hero.init();
 			
 			stageMedia = new StageMedia();
 			stages = new List<LevelStages>();            
@@ -94,8 +87,8 @@ namespace DuckstazyLive.game
 			stage = null;			
 			finish = false;
 
-            imgHP1 = Res.IMG_UI_HP;
-            imgScore = Res.IMG_UI_SCORE;
+			imgHP1 = Res.IMG_UI_HP;
+			imgScore = Res.IMG_UI_SCORE;
 			sndStart = Res.SND_LEVEL_START;
 			
 			hpCounter = 0.0f;
@@ -104,14 +97,24 @@ namespace DuckstazyLive.game
 			scoreOld = 0;
 			scoreCounter = 0.0f;			
 		}
+
+		protected virtual void initHero()
+		{
+			hero = new Hero();
+			pills = new Pills(hero, ps, this);
+			hero.particles = ps;
+			hero.state = state;
+			hero.env = env;
+			hero.init();
+		}
 		
 		public void start()
 		{
-            env.blanc = 1.0f;
-            power = 0.0f;
-            powerUp = 0.0f;
+			env.blanc = 1.0f;
+			power = 0.0f;
+			powerUp = 0.0f;
             
-            stage = LevelStageFactory.createStage(stages[state.level]);			
+			stage = LevelStageFactory.createStage(stages[state.level]);			
 			
 			ps.clear();
 			pills.clear();
