@@ -18,26 +18,9 @@ namespace DuckstazyLive.game
 		
 		private const String HARVEST_TEXT = "HARVESTING";
 		private const String NEXT_LEVEL_TEXT_BEGIN = "WARP IN ";
-		private const String NEXT_LEVEL_TEXT_END = " SEC...";
-		 
-        //[Embed(source="gfx/hp1.png")]
-        //private Class rHPImg1;
-        
-        //[Embed(source="gfx/hp2.png")]
-        //private Class rHPImg2;
-        
-        //[Embed(source="gfx/hp3.png")]
-        //private Class rHPImg3;
-        
-        //[Embed(source="gfx/score.png")]
-        //private Class rScoreImg;
-        
-        //[Embed(source="sfx/start.mp3")]
-        //private Class rStartSnd;
+		private const String NEXT_LEVEL_TEXT_END = " SEC...";		 
            
-        public int imgHP1;
-        // private int imgHP2;
-        // public int imgHP3;
+        public int imgHP1;        
         private int imgScore;
         private float hpPulse;
         private float hpCounter;
@@ -54,12 +37,12 @@ namespace DuckstazyLive.game
 		public Hero hero;
 		public Pills pills;
 		public Env env;
-		private Particles ps;
+		protected Particles ps;
 		
 		public LevelProgress progress;
 		
 		public float power;
-		private float powerUp;
+		protected float powerUp;
 
         // Состояние уровня
 		public GameState state;
@@ -69,7 +52,7 @@ namespace DuckstazyLive.game
 		private float finishCounter;
 
 
-        private List<LevelStages> stages; // Уровни
+        protected List<LevelStages> stages; // Уровни
         public LevelStage stage; // текущий уровень
 		public StageMedia stageMedia;
 		public int stagesCount;
@@ -80,9 +63,9 @@ namespace DuckstazyLive.game
 		public bool pause;
 		public int imgPause;
 		
-		private float nextLevelCounter;
-		private int harvestProcess;
-		private int nextLevelCountdown;
+		protected float nextLevelCounter;
+		protected int harvestProcess;
+		protected int nextLevelCountdown;
 		
 		public Level(GameState gameState)
 		{			
@@ -106,23 +89,9 @@ namespace DuckstazyLive.game
 			hero.init();
 			
 			stageMedia = new StageMedia();
-			stages = new List<LevelStages>();
-            stages.Add(LevelStages.Harvesting);
-            stages.Add(LevelStages.PartyTime);
-            stages.Add(LevelStages.Bubbles);
-            stages.Add(LevelStages.DoubleFrog);
-            stages.Add(LevelStages.PartyTime2);
-            stages.Add(LevelStages.BetweenCatsStage);
-            stages.Add(LevelStages.Bubbles2);
-            stages.Add(LevelStages.AirAttack);
-            stages.Add(LevelStages.PartyTime3);
-            stages.Add(LevelStages.Trains);
-            stages.Add(LevelStages.Bubbles3);           
-			
-			stagesCount = stages.Count;
+			stages = new List<LevelStages>();            
 
-			stage = null;
-			
+			stage = null;			
 			finish = false;
 
             imgHP1 = Res.IMG_UI_HP;
@@ -133,28 +102,17 @@ namespace DuckstazyLive.game
 			hpPulse = 0.0f;
 			
 			scoreOld = 0;
-			scoreCounter = 0.0f;		
-			
-			// imgPause = game.imgBG;            
+			scoreCounter = 0.0f;			
 		}
 		
 		public void start()
 		{
-            //Class stageClass = stages[state.level][0];
-            //Array stageParams = stages[state.level][1];
-
             env.blanc = 1.0f;
             power = 0.0f;
             powerUp = 0.0f;
-
-            //if (stageParams != null)
-            //    stage = new stageClass(stageParams);
-            //else
-            //    stage = new stageClass();            
-            stage = LevelStageFactory.createStage(stages[state.level]);
+            
+            stage = LevelStageFactory.createStage(stages[state.level]);			
 			
-			//power = 0.0f;
-			//powerUp = 0.0f;
 			ps.clear();
 			pills.clear();
 			info.reset();
@@ -173,17 +131,14 @@ namespace DuckstazyLive.game
 		
 		public void drawUI(Canvas canvas)
 		{
-            DrawMatrix mat = new DrawMatrix();
-            // ColorTransform col = new ColorTransform(1.0f, 1.0f, 1.0f, power);
+            DrawMatrix mat = new DrawMatrix();            
             float sc = 1.0f + 0.3f * hpPulse;            
 
             mat.tx = -25.0f;
             mat.ty = -23.0f;
             mat.scale(sc, sc);
             mat.translate(22.0f, 410 + 18);//463.0f);
-            canvas.draw(imgHP1, mat);
-            //// canvas.draw(imgHP2, mat, col);
-            //// canvas.draw(imgHP3, mat);
+            canvas.draw(imgHP1, mat);            
 
             mat.identity();
             mat.tx = -24.0f;
@@ -251,13 +206,10 @@ namespace DuckstazyLive.game
         }
 		
 		public void enterLevel()
-		{
-            // gui.setCurrent(levelMenu);
-            // levelMenu.setState(0);
+		{            
             env.blanc = 1.0f;
 
-            stage.start();
-            // sndStart.play();            
+            stage.start();         
             Application.sharedSoundMgr.playSound(sndStart);
 		}
 		
@@ -546,5 +498,4 @@ namespace DuckstazyLive.game
 			power = powerUp = newPower;
 		}
 	}
-
 }

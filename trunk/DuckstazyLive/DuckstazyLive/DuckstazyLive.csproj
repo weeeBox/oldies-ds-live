@@ -175,6 +175,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="game\PillsMedia.cs" />
+    <Compile Include="game\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

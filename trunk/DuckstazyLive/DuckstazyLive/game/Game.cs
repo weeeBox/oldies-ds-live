@@ -30,32 +30,6 @@ namespace DuckstazyLive.game
         private Canvas canvas;
 
         private DeathView deathView;
-
-        //private Menu menu;
-
-        //// Вывод
-        //private BitmapData canvas;
-        ////private bool flipped;
-
-        //public BitmapData back;
-        //public Bitmap backBitmap;
-
-        //public BitmapData imgBG;
-
-        //private BitmapData front;
-        //public Bitmap frontBitmap;
-
-        // Ресурсы
-        // private Resources resourceManager;
-
-        // ГУИ
-        //public SUISystem gui;
-        //public UIMedia uiMedia;
-        //public GameMenu mainMenu;
-        //public LevelMenu levelMenu;
-        //public DescScreen descScreen;
-        //private UpgradeMenu shopMenu;
-        //public ScoresTable scoresTable;
         
         public bool mute;
         public bool inGame;
@@ -65,44 +39,17 @@ namespace DuckstazyLive.game
         public int lastScores;
         public bool lastScoresFinish;
 
-        // public Stage stage;
-
-        // private ekDevice device;
-
         public Game()
         {
             instance = this;
-            // device = ekDevice.instance;
-            // device.callbackFPS = updateFPS;
-            // device.listener = this;
-
-            // stage = device.stage;
-            // stage.frameRate = 75;
-            //device.quality = 0;
-
-            // Таймер всему голова, вначале его создаем
-            //timer = new GameTimer();
-
             // Игровые состояния
             gameState = new GameState();
             gameSave = new GameState();
 
-            // Грузим и кешируем ресурсы
-            // resourceManager = new Resources();
-
-
-            // Поверхности для вывода
-            //back = new BitmapData(640, 480, false, 0);
-            //backBitmap = new Bitmap(back);//, PixelSnapping.NEVER, false);
-            //canvas = back;
-            //imgBG = new BitmapData(640, 480, false);
-
             canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
 
             // Уровень            
-            level = new Level(gameState);
-
-            // debugInfoTgl = true;
+            level = new SingleLevel(gameState);            
 
             state = MENU;
             inGame = false;
@@ -112,33 +59,6 @@ namespace DuckstazyLive.game
             maxScoresFinish = false;
             lastScores = 0;
             lastScoresFinish = false;
-
-            // stage.addChildAt(backBitmap as DisplayObject, 0);
-
-            //debugInfoText = new TextField();
-            //debugInfoText.defaultTextFormat = new TextFormat("_mini", 15, 0xffffff);
-            //debugInfoText.embedFonts = true;
-            //debugInfoText.cacheAsBitmap = true;
-
-            // ГУИ
-            //gui = new SUISystem();
-            //level.gui = gui;
-            //gui.listen(stage);
-
-            //uiMedia = new UIMedia();
-
-            //mainMenu = new GameMenu(this, gui);
-            //levelMenu = new LevelMenu(this);
-            //descScreen = new DescScreen(gui);
-            //shopMenu = new UpgradeMenu(gui, level);
-            //mainMenu.shop = shopMenu;
-
-            //level.initShopMenu(shopMenu);
-            //level.levelMenu = levelMenu;
-
-            //scoresTable = new ScoresTable();
-
-            //mainMenu.go();
 
             level.env.blanc = 1;            
         }
@@ -168,14 +88,7 @@ namespace DuckstazyLive.game
 
         public override void draw()
         {            
-            Env env = level.env;
-
-            //**RENDER**//
-            //backBitmap.visible = false;
-            //canvas.lock();
-
-            //if(gui.current!=scoresTable)
-            //{
+            Env env = level.env;            
             switch (state)
             {
                 case MENU:
@@ -189,21 +102,10 @@ namespace DuckstazyLive.game
                 case LOOSE:
                     deathView.draw(canvas);
                     break;
-            }
-            //}
-
-            // gui.draw(canvas);
+            }            
 
             if (env.blanc > 0.0f)
-                env.drawBlanc(canvas);
-
-            //if(debugInfoTgl)
-            //    canvas.draw(debugInfoText);
-
-            //canvas.unlock();
-            //backBitmap.visible = true;
-
-            // drawTitleSafe();
+                env.drawBlanc(canvas);            
         }
 
         private void drawLevel()
