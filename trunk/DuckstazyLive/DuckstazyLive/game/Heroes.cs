@@ -82,25 +82,29 @@ namespace DuckstazyLive.game
                     hero.draw(canvas);
                 }
             }
-        }        
-
-        public void keyDown(Keys keyCode)
-        {
-            foreach (Hero hero in heroes)
-            {
-                if (hero.keyDown(keyCode))
-                    break;
-            }
         }
 
-        public void keyUp(Keys keyCode)
+        public void buttonPressed(ref ButtonEvent e)
         {
-            foreach (Hero hero in heroes)
-            {
-                if (hero.keyUp(keyCode))
-                    break;
-            }
-        }        
+            buttonPressed(ref e, e.playerIndex);
+        }
+
+        public void buttonReleased(ref ButtonEvent e)
+        {
+            buttonReleased(ref e, e.playerIndex);
+        }
+
+        private void buttonPressed(ref ButtonEvent e, int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < heroes.Count);
+            heroes[playerIndex].buttonPressed(ref e);
+        }
+
+        private void buttonReleased(ref ButtonEvent e, int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < heroes.Count);
+            heroes[playerIndex].buttonReleased(ref e);
+        }                
 
         public void start(float _x)
         {
