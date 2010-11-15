@@ -28,8 +28,7 @@ namespace DuckstazyLive.game
         {
             hero = new Hero();
             pills = new Pills(hero, ps, this);
-            hero.particles = ps;
-            hero.state = state;
+            hero.particles = ps;            
             hero.env = env;
             hero.init();
         }

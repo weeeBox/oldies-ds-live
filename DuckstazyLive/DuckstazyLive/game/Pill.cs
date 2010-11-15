@@ -102,7 +102,7 @@ namespace DuckstazyLive.game
 
         private PillsMedia media;
         private Particles ps;
-        private Hero hero;
+        private HeroInstance hero;
         private Level level;
 
         private int imgMain;
@@ -119,7 +119,7 @@ namespace DuckstazyLive.game
         public Pill(PillsMedia pillsMedia, Hero duckHero, Particles particles, Level _level)
         {
             media = pillsMedia;
-            hero = duckHero;
+            hero = duckHero[0];
             ps = particles;
             level = _level;
             init();

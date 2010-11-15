@@ -22,9 +22,9 @@ namespace DuckstazyLive.game
 		protected Level level;
 		protected Pills pills;
 		protected Particles particles;
-		protected Hero hero;
-		protected Env env;
-		
+		protected HeroInstance hero;
+        protected Hero heroes;
+		protected Env env;		
 		
 		// 0 - накачай утку
 		// 1 - бонус уровень (собирай данное время)
@@ -53,7 +53,8 @@ namespace DuckstazyLive.game
 			media = level.stageMedia;
 			pills = level.pills;
 			particles = level.pills.ps;
-			hero = level.hero;
+            heroes = level.hero;
+			hero = level.hero[0];
 			env = level.env;
 			
 			if(_type==0)
@@ -71,7 +72,7 @@ namespace DuckstazyLive.game
 			}
 			
 			type = _type;
-		}
+		}        
 		
 		public virtual void start()
 		{
@@ -189,13 +190,12 @@ namespace DuckstazyLive.game
 		{
 			float t;
 			int i;
-			String str;
-			
+			String str;			
 			
 			if(!heroStarted)
 			{
 				heroStarted = true;
-				hero.start(startX);
+				heroes.start(startX);
 			}
 			
 			if(!win)
