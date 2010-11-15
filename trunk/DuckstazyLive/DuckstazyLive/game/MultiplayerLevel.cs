@@ -26,11 +26,19 @@ namespace DuckstazyLive.game
 
         protected override void initHero()
         {
-            hero = new Hero();
-            pills = new Pills(hero, ps, this);
-            hero.particles = ps;            
-            hero.env = env;
-            hero.init();
+            heroes = new Heroes();
+            Hero heroInstance = new Hero(heroes, 0);
+            heroInstance.state = state;
+            heroes.addHero(heroInstance);
+
+            heroInstance = new Hero(heroes, 1);
+            heroInstance.state = state;
+            heroes.addHero(heroInstance);
+
+            pills = new Pills(heroes, ps, this);
+            heroes.particles = ps;
+            heroes.env = env;
+            heroes.init();
         }
     }
 }

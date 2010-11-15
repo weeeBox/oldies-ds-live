@@ -13,6 +13,8 @@ namespace Framework.core
         public const float TITLE_SAFE_Y = 0.85f;        
 
         public const int SCREEN_WIDTH = 1280;
-        public const int SCREEN_HEIGHT = 720;        
+        public const int SCREEN_HEIGHT = 720;
+
+        public const int PLAYERS_COUNT = 2;
     }
 }

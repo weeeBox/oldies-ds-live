@@ -22,8 +22,8 @@ namespace DuckstazyLive.game
 		protected Level level;
 		protected Pills pills;
 		protected Particles particles;
-		protected HeroInstance hero;
-        protected Hero heroes;
+		protected Hero hero;
+        protected Heroes heroes;
 		protected Env env;		
 		
 		// 0 - накачай утку
@@ -53,8 +53,8 @@ namespace DuckstazyLive.game
 			media = level.stageMedia;
 			pills = level.pills;
 			particles = level.pills.ps;
-            heroes = level.hero;
-			hero = level.hero[0];
+            heroes = level.heroes;
+			hero = level.heroes[0];
 			env = level.env;
 			
 			if(_type==0)

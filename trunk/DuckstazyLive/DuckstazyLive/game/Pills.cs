@@ -23,7 +23,7 @@ public class Pills
 		public float harvesting;
 		public int harvestCount;
 
-		public Pills(Hero gameHero, Particles particles, Level level)
+		public Pills(Heroes gameHero, Particles particles, Level level)
 		{
 			instance = this;
 			

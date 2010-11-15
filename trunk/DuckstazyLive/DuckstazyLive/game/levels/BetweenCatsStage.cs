@@ -130,7 +130,7 @@ namespace DuckstazyLive.game.levels
 		{
 			pill.startMissle(xo, yo, 0);
 
-            HeroInstance hero = level.hero[0];
+            Hero hero = level.heroes[0];
 			
 			if(catStage==0)
 			{
@@ -266,7 +266,7 @@ namespace DuckstazyLive.game.levels
 				catArrow.update(dt);
 			}
 
-            HeroInstance hero = level.hero[0];
+            Hero hero = level.heroes[0];
 
 			switch(catStage)
 			{
