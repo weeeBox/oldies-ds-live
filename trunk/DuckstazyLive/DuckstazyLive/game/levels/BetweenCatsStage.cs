@@ -128,29 +128,31 @@ namespace DuckstazyLive.game.levels
 		
 		private void launchMissle(Pill pill, float xo, float yo)
 		{
-			pill.startMissle(xo, yo, 0);			
+			pill.startMissle(xo, yo, 0);
+
+            HeroInstance hero = level.hero[0];
 			
 			if(catStage==0)
 			{
 				pill.t1 = 5.0f;
-				pill.vx = (27.0f+level.hero.x - xo)/1.2f;
-				pill.vy = (20.0f+level.hero.y - yo)/1.2f - 450.0f*1.2f;
+				pill.vx = (27.0f+hero.x - xo)/1.2f;
+				pill.vy = (20.0f+hero.y - yo)/1.2f - 450.0f*1.2f;
 				if(pill.vy>100.0f) pill.vy = 100.0f;
 				else if(pill.vy<-100.0f) pill.vy = -100.0f;
 			}
 			else if(catStage==1)
 			{
 				pill.t1 = 5.0f;
-				pill.vx = (27.0f+level.hero.x - xo)/1.2f;
-				pill.vy = (20.0f+level.hero.y - yo)/1.2f - 450.0f*1.2f;
+				pill.vx = (27.0f+hero.x - xo)/1.2f;
+				pill.vy = (20.0f+hero.y - yo)/1.2f - 450.0f*1.2f;
 				if(pill.vy>100.0f) pill.vy = 100.0f;
 				else if(pill.vy<-100.0f) pill.vy = -100.0f;
 			}
 			else if(catStage==2)
 			{
 				pill.t1 = 5.0f;
-				pill.vx = (27.0f+level.hero.x - xo)/1.2f;
-				pill.vy = (20.0f+level.hero.y - yo)/1.2f - 450.0f*1.2f;
+				pill.vx = (27.0f+hero.x - xo)/1.2f;
+				pill.vy = (20.0f+hero.y - yo)/1.2f - 450.0f*1.2f;
 				if(pill.vy>100.0f) pill.vy = 100.0f;
 				else if(pill.vy<-100.0f) pill.vy = -100.0f;
 			}
@@ -263,7 +265,9 @@ namespace DuckstazyLive.game.levels
 				
 				catArrow.update(dt);
 			}
-			
+
+            HeroInstance hero = level.hero[0];
+
 			switch(catStage)
 			{
 			case 0:
@@ -274,10 +278,10 @@ namespace DuckstazyLive.game.levels
 				}
 				break;
 			case 1:
-				if(level.hero.x>=76-54 && level.hero.x<=140 &&
-					level.hero.yLast<178-40 && level.hero.y >=178-40)
+				if(hero.x>=76-54 && hero.x<=140 &&
+					hero.yLast<178-40 && hero.y >=178-40)
 				{
-					level.hero.jump(120);
+					hero.jump(120);
 					level.env.blanc = 1.0f;
 					catAliveL = false;
 					catStage = 2;
@@ -297,10 +301,10 @@ namespace DuckstazyLive.game.levels
 				else if(catFinalAttack<5.0f)
 				{
 					catAttack = 5.0f;
-					if(level.hero.x>=500-54 && level.hero.x<=566 &&
-						level.hero.yLast<178-40 && level.hero.y >=178-40)
+					if(hero.x>=500-54 && hero.x<=566 &&
+						hero.yLast<178-40 && hero.y >=178-40)
 					{
-						level.hero.jump(120);
+						hero.jump(120);
 						level.env.blanc = 1.0f;
 						catAliveR = false;
 						catStage = 3;

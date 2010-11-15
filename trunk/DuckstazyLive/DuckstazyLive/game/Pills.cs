@@ -16,7 +16,7 @@ public class Pills
 	
 		public Particles ps;
 		public PillsMedia media;
-		public Hero hero;
+		public HeroInstance hero;
 		
 		public int actives;
 		
@@ -32,7 +32,7 @@ public class Pills
 			
 			media = new PillsMedia();
 			ps = particles;
-			hero = gameHero;
+			hero = gameHero[0];
 			
 			// Инициализируем массив(пул) для таблеток
 			pool = new Pill[poolSize];
@@ -181,8 +181,8 @@ public class Pills
 		public bool isBusy(float x, float y)
 		{
 			bool busy = false;
-			int i = 0;
-			
+			int i = 0;			
+            
 			if(utils.vec2distSqr(hero.x+27.0f, hero.y+20.0f, x, y) >= 3600.0f)
 			{
 				foreach (Pill p in pool)

@@ -69,17 +69,18 @@ namespace DuckstazyLive.game
 		public Level(GameState gameState)
 		{			
 			instance = this;
-			game = Game.instance;			
-			state = gameState;
+            state = gameState;
+
+            game = Game.instance;			
 			
 			info = new GameInfo();
 			ps = new Particles();
 			env = new Env(game);
 
-			initHero();
+            initHero();
 
-			progress = new LevelProgress();
-			progress.env = env;
+            progress = new LevelProgress();
+            progress.env = env;
 			
 			stageMedia = new StageMedia();
 			stages = new List<LevelStages>();            
@@ -87,8 +88,8 @@ namespace DuckstazyLive.game
 			stage = null;			
 			finish = false;
 
-			imgHP1 = Res.IMG_UI_HP;
-			imgScore = Res.IMG_UI_SCORE;
+            imgHP1 = Res.IMG_UI_HP;
+            imgScore = Res.IMG_UI_SCORE;
 			sndStart = Res.SND_LEVEL_START;
 			
 			hpCounter = 0.0f;
@@ -98,23 +99,26 @@ namespace DuckstazyLive.game
 			scoreCounter = 0.0f;			
 		}
 
-		protected virtual void initHero()
-		{
-			hero = new Hero();
-			pills = new Pills(hero, ps, this);
-			hero.particles = ps;
-			hero.state = state;
-			hero.env = env;
-			hero.init();
-		}
+        protected virtual void initHero()
+        {
+            hero = new Hero();
+            HeroInstance heroInstance = new HeroInstance(hero);
+            heroInstance.state = state;
+            hero.addHero(heroInstance);
+
+            pills = new Pills(hero, ps, this);
+            hero.particles = ps;            
+            hero.env = env;
+            hero.init();
+        }
 		
 		public void start()
 		{
-			env.blanc = 1.0f;
-			power = 0.0f;
-			powerUp = 0.0f;
+            env.blanc = 1.0f;
+            power = 0.0f;
+            powerUp = 0.0f;
             
-			stage = LevelStageFactory.createStage(stages[state.level]);			
+            stage = LevelStageFactory.createStage(stages[state.level]);			
 			
 			ps.clear();
 			pills.clear();
@@ -270,7 +274,7 @@ namespace DuckstazyLive.game
 					}
 				}
 	
-				if(hero.sleep) power_drain = 0.3f;
+				if(hero[0].sleep) power_drain = 0.3f;
 				if(powerUp<power)
 				{
 					power-=dt*power_drain;
@@ -286,8 +290,8 @@ namespace DuckstazyLive.game
 				
 				pills.update(dt, power);
 				
-				env.x = hero.x;
-				env.y = hero.y;
+				env.x = hero[0].x;
+				env.y = hero[0].y;
 				env.update(dt, power);
 				
 				progress.update(dt, power);
