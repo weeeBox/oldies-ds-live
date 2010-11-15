@@ -16,7 +16,7 @@ public class Pills
 	
 		public Particles ps;
 		public PillsMedia media;
-		public HeroInstance hero;
+		public Hero hero;
 		
 		public int actives;
 		
