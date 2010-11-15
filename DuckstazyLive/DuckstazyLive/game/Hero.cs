@@ -433,7 +433,7 @@ namespace DuckstazyLive.game
 				if(sleep)
 					heroes.media.drawSleep(dest, x, y, flip, trans);
 				else
-					heroes.media.drawDuck(dest, x, y, power, flip, wingAngle, trans);
+					heroes.media.drawDuck(playerIndex, dest, x, y, power, flip, wingAngle, trans);
 			}
 		}
 

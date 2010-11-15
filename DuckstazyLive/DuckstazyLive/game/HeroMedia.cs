@@ -160,7 +160,7 @@ namespace DuckstazyLive.game
             transformPanVol = new SoundTransform();
         }
 
-        public void drawDuck(Canvas dest, float x, float y, float power, bool flip, float wingsAngle, float trans)
+        public void drawDuck(int playerIndex, Canvas dest, float x, float y, float power, bool flip, float wingsAngle, float trans)
         {
             DrawMatrix mat = new DrawMatrix();            
             ColorTransform eyeColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans * (1.0f - power));
@@ -172,7 +172,7 @@ namespace DuckstazyLive.game
                 
                 mat.translate(x, y);
                 mat.flip(true, false);
-                dest.draw(imgDuck, mat, duckColor);
+                dest.draw(imgDuck + playerIndex, mat, duckColor);
 
                 mat.translate(38.0f + x, 5.0f + y);
                 dest.draw(imgEye1, mat, eyeColor);
@@ -184,13 +184,13 @@ namespace DuckstazyLive.game
                 mat.rotate(-wingsAngle);
                 mat.translate(21.0f + x, 26.0f + y);
                 duckColor.alphaMultiplier *= trans;
-                dest.draw(imgWing, mat, duckColor);
+                dest.draw(imgWing + playerIndex, mat, duckColor);
             }
             else
             {
                 //dest.copyPixels(imgDuck, rcHero, new Point(x, y));
                 mat.translate(x, y);
-                dest.draw(imgDuck, mat, duckColor);
+                dest.draw(imgDuck + playerIndex, mat, duckColor);
 
                 mat.translate(10.0f + x, 5.0f + y);
                 dest.draw(imgEye1, mat, eyeColor);
@@ -202,7 +202,7 @@ namespace DuckstazyLive.game
                 mat.rotate(wingsAngle);
                 mat.translate(33.0f + x, 26.0f + y);
                 duckColor.alphaMultiplier *= trans;
-                dest.draw(imgWing, mat, duckColor);
+                dest.draw(imgWing + playerIndex, mat, duckColor);
             }
 
             //dest.draw(imgEye1.bitmapData, eye_mat, eye1_color);
