@@ -13,9 +13,11 @@ namespace Framework.core
         public Buttons button;
         public GamePadThumbSticks thumbSticks;
         public GamePadTriggers triggers;
+        public int playerIndex;
 
-        public ButtonEvent(Buttons button, GamePadThumbSticks thumbSticks, GamePadTriggers triggers)
+        public ButtonEvent(int playerIndex, Buttons button, GamePadThumbSticks thumbSticks, GamePadTriggers triggers)
         {
+            this.playerIndex = playerIndex;
             this.button = button;
             this.thumbSticks = thumbSticks;
             this.triggers = triggers;
@@ -61,13 +63,23 @@ namespace Framework.core
             Buttons.LeftThumbstickRight,
         };
 
-        private GamePadState currentGamepadState;
+        private GamePadState[] currentGamepadStates;
         private KeyboardState currentKeyboardState;
         private List<InputListener> inputListeners;
 
-        public InputManager()
-        {            
-            currentGamepadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
+        private GamePadDeadZone deadZone;
+
+        public InputManager(int playersCount)
+        {
+            currentGamepadStates = new GamePadState[playersCount];
+            deadZone = GamePadDeadZone.Circular;
+
+            for (int i = 0; i < playersCount; ++i)
+            {
+                PlayerIndex player = getPlayer(i);
+                currentGamepadStates[i] = GamePad.GetState(player, deadZone);
+            }
+             
             currentKeyboardState = Keyboard.GetState();
             inputListeners = new List<InputListener>();
         }
@@ -82,22 +94,30 @@ namespace Framework.core
 
         private void updateGamepad()
         {
-            GamePadState oldState = currentGamepadState;
-            currentGamepadState = GamePad.GetState(PlayerIndex.One, GamePadDeadZone.Circular);
+            for (int playerIndex = 0; playerIndex < getPlayersCount(); ++playerIndex)
+            {
+                updateGamepad(playerIndex);
+            }
+        }
+
+        private void updateGamepad(int playerIndex)
+        {
+            GamePadState oldState = currentGamepadStates[playerIndex];
+            currentGamepadStates[playerIndex] = GamePad.GetState(getPlayer(playerIndex), deadZone);
 
             if (inputListeners.Count > 0)
             {
                 for (int buttonIndex = 0; buttonIndex < CHECK_BUTTONS.Length; ++buttonIndex)
                 {
                     Buttons button = CHECK_BUTTONS[buttonIndex];
-                    if (isButtonDown(button, ref oldState, ref currentGamepadState))
+                    if (isButtonDown(button, ref oldState, ref currentGamepadStates[playerIndex]))
                     {
-                        ButtonEvent e = new ButtonEvent(button, currentGamepadState.ThumbSticks, currentGamepadState.Triggers);
+                        ButtonEvent e = new ButtonEvent(playerIndex, button, currentGamepadStates[playerIndex].ThumbSticks, currentGamepadStates[playerIndex].Triggers);
                         fireButtonPressed(ref e);
                     }
-                    else if (isButtonUp(button, ref oldState, ref currentGamepadState))
+                    else if (isButtonUp(button, ref oldState, ref currentGamepadStates[playerIndex]))
                     {
-                        ButtonEvent e = new ButtonEvent(button, currentGamepadState.ThumbSticks, currentGamepadState.Triggers);
+                        ButtonEvent e = new ButtonEvent(playerIndex, button, currentGamepadStates[playerIndex].ThumbSticks, currentGamepadStates[playerIndex].Triggers);
                         fireButtonReleased(ref e);
                     }
                 }
@@ -183,14 +203,26 @@ namespace Framework.core
             }
         }
 
-        public GamePadThumbSticks ThumbSticks
+        public GamePadThumbSticks ThumbSticks()
         {
-            get { return currentGamepadState.ThumbSticks; }
+            return ThumbSticks(0);
         }
 
-        public GamePadTriggers Triggers
+        public GamePadThumbSticks ThumbSticks(int playerIndex)
         {
-            get { return currentGamepadState.Triggers; }
+            Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
+            return currentGamepadStates[playerIndex].ThumbSticks;
+        }
+
+        public GamePadTriggers Triggers()
+        {
+            return Triggers(0);
+        }
+
+        public GamePadTriggers Triggers(int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
+            return currentGamepadStates[playerIndex].Triggers; 
         }
 
         public bool isKeyPressed(Keys key)
@@ -216,6 +248,28 @@ namespace Framework.core
                     return Keys.PageDown;
             }
             return Keys.None;
+        }
+
+        public int getPlayersCount()
+        {
+            return currentGamepadStates.Length;
+        }
+
+        public bool isPlayerActive(int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
+            return currentGamepadStates[playerIndex].IsConnected;
+        }
+
+        private int getPlayerIndex(PlayerIndex player)
+        {
+            return (int) player;
+        }
+
+        private PlayerIndex getPlayer(int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
+            return (PlayerIndex) playerIndex;
         }
     }
 }

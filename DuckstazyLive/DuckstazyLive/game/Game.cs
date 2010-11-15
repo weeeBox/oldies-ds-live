@@ -49,7 +49,8 @@ namespace DuckstazyLive.game
             canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
 
             // Уровень            
-            level = new SingleLevel(gameState);            
+            // level = new SingleLevel(gameState);            
+            level = new MultiplayerLevel(gameState);
 
             state = MENU;
             inGame = false;

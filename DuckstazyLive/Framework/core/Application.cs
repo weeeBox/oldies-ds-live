@@ -41,7 +41,7 @@ namespace Framework.core
 
         public InputManager createInputManager()
         {
-            return new InputManager();
+            return new InputManager(2);
         }
 
         public static RootController sharedRootController;

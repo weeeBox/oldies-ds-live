@@ -34,7 +34,7 @@ namespace DuckstazyLive.game
 		public int sndStart;
         
 		public Game game;
-		public Hero hero;
+		public Heroes heroes;
 		public Pills pills;
 		public Env env;
 		protected Particles ps;
@@ -101,15 +101,15 @@ namespace DuckstazyLive.game
 
         protected virtual void initHero()
         {
-            hero = new Hero();
-            HeroInstance heroInstance = new HeroInstance(hero);
+            heroes = new Heroes();
+            Hero heroInstance = new Hero(heroes, 0);
             heroInstance.state = state;
-            hero.addHero(heroInstance);
+            heroes.addHero(heroInstance);
 
-            pills = new Pills(hero, ps, this);
-            hero.particles = ps;            
-            hero.env = env;
-            hero.init();
+            pills = new Pills(heroes, ps, this);
+            heroes.particles = ps;            
+            heroes.env = env;
+            heroes.init();
         }
 		
 		public void start()
@@ -125,7 +125,7 @@ namespace DuckstazyLive.game
 			info.reset();
 
 			progress.start(stage.goalTime);
-			hero.init();
+			heroes.init();
 			game.save();
 			
 			finish = false;
@@ -184,7 +184,7 @@ namespace DuckstazyLive.game
                 pills.draw(canvas);
 
                 if (state.health > 0)
-                    hero.draw(canvas);
+                    heroes.draw(canvas);
 
                 ps.draw(canvas);
                 levelPostDraw();
@@ -274,7 +274,7 @@ namespace DuckstazyLive.game
 					}
 				}
 	
-				if(hero[0].sleep) power_drain = 0.3f;
+				if(heroes[0].sleep) power_drain = 0.3f;
 				if(powerUp<power)
 				{
 					power-=dt*power_drain;
@@ -286,12 +286,12 @@ namespace DuckstazyLive.game
 					if(power>powerUp) power = powerUp;
 				}
 				
-				if(state.health>0) hero.update(dt, power);
+				if(state.health>0) heroes.update(dt, power);
 				
 				pills.update(dt, power);
 				
-				env.x = hero[0].x;
-				env.y = hero[0].y;
+				env.x = heroes[0].x;
+				env.y = heroes[0].y;
 				env.update(dt, power);
 				
 				progress.update(dt, power);
@@ -372,7 +372,7 @@ namespace DuckstazyLive.game
 						//if(code==0x0D || code==0x1B) // ENTER or ESC
 							//nextLevel();
 						//else
-						hero.keyDown(key);
+						heroes.keyDown(key);
 					}
 					else
 					{
@@ -384,7 +384,7 @@ namespace DuckstazyLive.game
 				}
 				else
 				{
-					hero.keyDown(key);
+					heroes.keyDown(key);
                     if (key == Keys.Escape)// ESC
                         game.goPause();
                     else if (key == Keys.PageDown)
@@ -446,7 +446,7 @@ namespace DuckstazyLive.game
 		public void keyUp(Keys code)
 		{
 			if(!pause)
-				hero.keyUp(code);
+				heroes.keyUp(code);
 		}
 
         // Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.

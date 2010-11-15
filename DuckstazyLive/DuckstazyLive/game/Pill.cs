@@ -116,7 +116,7 @@ namespace DuckstazyLive.game
         public UserCallback user;
 
         // Инициализируемся в массиве
-        public Pill(PillsMedia pillsMedia, Hero duckHero, Particles particles, Level _level)
+        public Pill(PillsMedia pillsMedia, Heroes duckHero, Particles particles, Level _level)
         {
             media = pillsMedia;
             hero = duckHero[0];

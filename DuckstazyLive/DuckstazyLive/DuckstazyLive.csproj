@@ -147,6 +147,7 @@
     <Compile Include="game\GameInfo.cs" />
     <Compile Include="game\GameState.cs" />
     <Compile Include="game\GameTimer.cs" />
+    <Compile Include="game\Heroes.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="game\HeroInstance.cs" />
     <Compile Include="game\HeroMedia.cs" />
