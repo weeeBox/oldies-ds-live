@@ -163,21 +163,13 @@ namespace DuckstazyLive.game
 
         public void buttonPressed(ref ButtonEvent e)
         {
-            keyPressed(InputManager.getKey(e.button));
-        }
-
-        public void buttonReleased(ref ButtonEvent e)
-        {
-            keyReleased(InputManager.getKey(e.button));
-        }
-
-        public void keyPressed(Keys key)
-        {           
             if (state == LEVEL)
-                level.keyDown(key); 
+            {
+                level.buttonPressed(ref e);
+            }
             else if (state == LOOSE)
             {
-                if (key == Keys.Enter)
+                if (e.button == Buttons.A || e.button == Buttons.Start)
                 {
                     deathView = null;
                     GC.Collect();
@@ -186,10 +178,46 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void keyReleased(Keys key)
+        public void buttonReleased(ref ButtonEvent e)
         {
             if (state == LEVEL)
-                level.keyUp(key);
+                level.buttonReleased(ref e);
+        }
+
+        public void keyPressed(Keys key)
+        {
+            InputManager im = Application.sharedInputMgr;
+
+            for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+            {
+                if (!im.isPlayerActive(playerIndex))
+                    continue;
+
+                if (!im.hasMappedButton(key, playerIndex))
+                    continue;
+
+                Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
+                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);                
+                buttonPressed(ref buttonEvent);
+            }
+        }
+
+        public void keyReleased(Keys key)
+        {
+            InputManager im = Application.sharedInputMgr;
+
+            for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+            {
+                if (!im.isPlayerActive(playerIndex))
+                    continue;
+
+                if (!im.hasMappedButton(key, playerIndex))
+                    continue;
+
+                Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
+                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);                
+                buttonReleased(ref buttonEvent);
+            }
         }        
 
         public void changeMute()

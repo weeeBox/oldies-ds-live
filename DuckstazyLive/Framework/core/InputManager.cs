@@ -67,10 +67,14 @@ namespace Framework.core
         private KeyboardState currentKeyboardState;
         private List<InputListener> inputListeners;
 
+        private Dictionary<Keys, Buttons>[] buttonsMappings;
+
         private GamePadDeadZone deadZone;
 
         public InputManager(int playersCount)
         {
+            initButtonsMapping(playersCount);
+
             currentGamepadStates = new GamePadState[playersCount];
             deadZone = GamePadDeadZone.Circular;
 
@@ -112,16 +116,22 @@ namespace Framework.core
                     Buttons button = CHECK_BUTTONS[buttonIndex];
                     if (isButtonDown(button, ref oldState, ref currentGamepadStates[playerIndex]))
                     {
-                        ButtonEvent e = new ButtonEvent(playerIndex, button, currentGamepadStates[playerIndex].ThumbSticks, currentGamepadStates[playerIndex].Triggers);
+                        ButtonEvent e = makeButtonEvent(playerIndex, button);
                         fireButtonPressed(ref e);
                     }
                     else if (isButtonUp(button, ref oldState, ref currentGamepadStates[playerIndex]))
                     {
-                        ButtonEvent e = new ButtonEvent(playerIndex, button, currentGamepadStates[playerIndex].ThumbSticks, currentGamepadStates[playerIndex].Triggers);
+                        ButtonEvent e = makeButtonEvent(playerIndex, button);
                         fireButtonReleased(ref e);
                     }
                 }
             }
+        }
+
+        public ButtonEvent makeButtonEvent(int playerIndex, Buttons button)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
+            return new ButtonEvent(playerIndex, button, currentGamepadStates[playerIndex].ThumbSticks, currentGamepadStates[playerIndex].Triggers);
         }
 
         private void updateKeyboard()
@@ -230,24 +240,18 @@ namespace Framework.core
             return currentKeyboardState.IsKeyDown(key);
         }
 
-        public static Keys getKey(Buttons button)
+        
+
+        public bool hasMappedButton(Keys key, int playerIndex)
         {
-            switch (button)
-            {
-                case Buttons.DPadLeft:
-                    return Keys.Left;
-                case Buttons.DPadRight:
-                    return Keys.Right;
-                case Buttons.DPadDown:
-                    return Keys.Down;
-                case Buttons.A:
-                    return Keys.Up;
-                case Buttons.LeftShoulder:
-                    return Keys.PageUp;
-                case Buttons.RightShoulder:
-                    return Keys.PageDown;
-            }
-            return Keys.None;
+            Dictionary<Keys, Buttons> mapping = getButtonsMapping(playerIndex);
+            return mapping.ContainsKey(key);
+        }
+
+        public Buttons getMappedButton(Keys key, int playerIndex)
+        {
+            Dictionary<Keys, Buttons> mapping = getButtonsMapping(playerIndex); 
+            return mapping[key];
         }
 
         public int getPlayersCount()
@@ -257,8 +261,12 @@ namespace Framework.core
 
         public bool isPlayerActive(int playerIndex)
         {
+#if WINDOWS
+            return true;
+#else
             Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
             return currentGamepadStates[playerIndex].IsConnected;
+#endif
         }
 
         private int getPlayerIndex(PlayerIndex player)
@@ -270,6 +278,32 @@ namespace Framework.core
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
             return (PlayerIndex) playerIndex;
+        }
+
+        private void initButtonsMapping(int playersCount)
+        {
+            Debug.Assert(playersCount > 0 && playersCount <= 2);
+            buttonsMappings = new Dictionary<Keys, Buttons>[2];
+
+            Dictionary<Keys, Buttons> dic = new Dictionary<Keys, Buttons>();
+            dic.Add(Keys.Up, Buttons.A);
+            dic.Add(Keys.Down, Buttons.DPadDown);
+            dic.Add(Keys.Left, Buttons.DPadLeft);
+            dic.Add(Keys.Right, Buttons.DPadRight);
+            buttonsMappings[0] = dic;
+
+            dic = new Dictionary<Keys, Buttons>();
+            dic.Add(Keys.W, Buttons.A);
+            dic.Add(Keys.S, Buttons.DPadDown);
+            dic.Add(Keys.A, Buttons.DPadLeft);
+            dic.Add(Keys.D, Buttons.DPadRight);
+            buttonsMappings[1] = dic;
+        }
+
+        private Dictionary<Keys, Buttons> getButtonsMapping(int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < buttonsMappings.Length);
+            return buttonsMappings[playerIndex];
         }
     }
 }

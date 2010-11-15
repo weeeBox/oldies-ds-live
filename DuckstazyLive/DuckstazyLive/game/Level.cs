@@ -351,55 +351,56 @@ namespace DuckstazyLive.game
 		{
 			powerUp = 0.0f;
 		}
-		
-		public void keyDown(Keys key)
-		{
-			if(pause)
-			{
-				if(key == Keys.Escape)// ESC
-				{
-                    //if(gui.current==game.mainMenu)
-                    //    game.clickNewGame();					
-                    throw new NotImplementedException();
-				}				
-			}
-			else
-			{
-				if(finish)
-				{
-					if(state.health>0)
-					{
-						//if(code==0x0D || code==0x1B) // ENTER or ESC
-							//nextLevel();
-						//else
-						heroes.keyDown(key);
-					}
-					else
-					{
-						if(key==Keys.Enter) // ENTER
-							game.startLevel();
-						else if(key==Keys.Escape)// ESC
-							game.goPause();						
-					}
-				}
-				else
-				{
-					heroes.keyDown(key);
-                    if (key == Keys.Escape)// ESC
+
+        public void buttonPressed(ref ButtonEvent e)
+        {
+            if (pause)
+            {               
+                throw new NotImplementedException();                
+            }
+            else
+            {
+                if (finish)
+                {
+                    if (state.health > 0)
+                    {
+                        //if(code==0x0D || code==0x1B) // ENTER or ESC
+                        //nextLevel();
+                        //else
+                        heroes.buttonPressed(ref e);
+                    }
+                    else
+                    {
+                        if (e.button == Buttons.A || e.button == Buttons.Start) // ENTER
+                            game.startLevel();
+                        else if (e.button == Buttons.Back)// ESC
+                            game.goPause();
+                    }
+                }
+                else
+                {
+                    heroes.buttonPressed(ref e);
+                    if (e.button == Buttons.Back)// ESC
                         game.goPause();
-                    else if (key == Keys.PageDown)
+                    else if (e.button == Buttons.LeftShoulder)
                         nextLevel();
-                    else if (key == Keys.End)
-                        powerUp = power = 1.0f;
-                    else if (key == Keys.Delete)
-                        state.health = 0;
-					/*else if(code==0x44)
-						hero.doToxicDamage(320, 200, 20, 0);
-					else if(code==0x50)
-						powerUp = power = 1;*/
-				}				
-			}
-		}
+                    //else if (key == Keys.End)
+                    //    powerUp = power = 1.0f;
+                    //else if (key == Keys.Delete)
+                    //    state.health = 0;
+                    /*else if(code==0x44)
+                        hero.doToxicDamage(320, 200, 20, 0);
+                    else if(code==0x50)
+                        powerUp = power = 1;*/
+                }
+            }
+        }
+
+        public void buttonReleased(ref ButtonEvent e)
+        {
+            if (!pause)
+                heroes.buttonReleased(ref e);
+        }        
 		
 		public void nextLevel()
 		{
@@ -441,13 +442,7 @@ namespace DuckstazyLive.game
 			{
 				powerUp = power = 0.5f;
 			}
-		}
-		
-		public void keyUp(Keys code)
-		{
-			if(!pause)
-				heroes.keyUp(code);
-		}
+		}		
 
         // Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.
 		public void syncScores()

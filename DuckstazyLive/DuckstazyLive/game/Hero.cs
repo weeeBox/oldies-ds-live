@@ -437,19 +437,19 @@ namespace DuckstazyLive.game
 			}
 		}
 
-        public bool keyDown(Keys keyCode)
+        public void buttonPressed(ref ButtonEvent e)
         {
-            switch (keyCode)
+            switch (e.button)
             {
-                case Keys.Down: 
+                case Buttons.DPadDown:
                     key_down = true;
-                    return true;
+                    break;
 
-                case Keys.Left: 
+                case Buttons.DPadLeft:
                     key_left = true;
-                    return true;
+                    break;;
 
-                case Keys.Up:
+                case Buttons.A:
                     if (!key_up && started)
                     {
                         if (!fly)
@@ -474,29 +474,27 @@ namespace DuckstazyLive.game
                         }
                     }
                     key_up = true;
-                    return true;
+                    break;
 
-                case Keys.Right: 
-                    key_right = true; 
-                    return true;
+                case Buttons.DPadRight:
+                    key_right = true;
+                    break;;
             }
-
-            return false;
         }
 
-        public bool keyUp(Keys keyCode)
-        {
-            switch (keyCode)
+        public void buttonReleased(ref ButtonEvent e)
+        {       
+            switch (e.button)
             {
-                case Keys.Down: 
+                case Buttons.DPadDown: 
                     key_down = false;
-                    return true;
+                    break;
 
-                case Keys.Left: 
+                case Buttons.DPadLeft: 
                     key_left = false;
-                    return true;
+                    break;
 
-                case Keys.Up:
+                case Buttons.A:
                     if (key_up && started)
                     {
                         if (fly)
@@ -515,13 +513,12 @@ namespace DuckstazyLive.game
                         }
                     }
                     key_up = false;
-                    return true;
+                    break;;
 
-                case Keys.Right: 
+                case Buttons.DPadRight: 
                     key_right = false;
-                    return true;
-            }
-            return false;
+                    break;;
+            }            
         }
 
         public void doSleep()
