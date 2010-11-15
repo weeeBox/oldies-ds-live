@@ -102,7 +102,7 @@ namespace DuckstazyLive.game
 
         private PillsMedia media;
         private Particles ps;
-        private HeroInstance hero;
+        private Hero hero;
         private Level level;
 
         private int imgMain;
