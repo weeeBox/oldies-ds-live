@@ -155,6 +155,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="duck_fake2.png">
+      <Name>duck_fake2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="duck_sleep.png">
       <Name>duck_sleep</Name>
       <Importer>TextureImporter</Importer>
@@ -172,6 +177,11 @@
     </Compile>
     <Compile Include="wing.png">
       <Name>wing</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="wing2.png">
+      <Name>wing2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

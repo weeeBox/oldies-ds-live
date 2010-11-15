@@ -28,86 +28,88 @@ namespace DuckstazyLive.app
 		public const int IMG_MENU_TITLE_BACK = 10;
 		// PACK_GAME
 		public const int IMG_DUCK = 11;
-		public const int IMG_DUCK_SLEEP = 12;
-		public const int IMG_EYE1 = 13;
-		public const int IMG_EYE2 = 14;
-		public const int IMG_WING = 15;
-		public const int IMG_UI_HP = 16;
-		public const int IMG_UI_SCORE = 17;
-		public const int IMG_UI_SCORE_POINT = 18;
-		public const int IMG_LEVEL_DUCKTRIP = 19;
-		public const int IMG_LEVEL_PARTY = 20;
-		public const int IMG_LEVEL_PUMP = 21;
-		public const int IMG_LEVEL_STAGE_COMPLETE = 22;
-		public const int IMG_STAR = 23;
-		public const int IMG_PILL_1 = 24;
-		public const int IMG_PILL_2 = 25;
-		public const int IMG_PILL_3 = 26;
-		public const int IMG_PILL_1P = 27;
-		public const int IMG_PILL_2P = 28;
-		public const int IMG_PILL_3P = 29;
-		public const int IMG_PILL_TOXIC_1 = 30;
-		public const int IMG_PILL_TOXIC_2 = 31;
-		public const int IMG_PILL_SLEEP = 32;
-		public const int IMG_PILL_HIGH = 33;
-		public const int IMG_SMILE_1 = 34;
-		public const int IMG_SMILE_2 = 35;
-		public const int IMG_SMILE_3 = 36;
-		public const int IMG_EYES_1 = 37;
-		public const int IMG_EYES_2 = 38;
-		public const int IMG_POWER_1 = 39;
-		public const int IMG_POWER_2 = 40;
-		public const int IMG_POWER_3 = 41;
-		public const int IMG_POWER_4 = 42;
-		public const int IMG_FX_ACID = 43;
-		public const int IMG_FX_BUBBLE = 44;
-		public const int IMG_FX_STAR = 45;
-		public const int IMG_FX_WARNING = 46;
-		public const int IMG_FX_IN = 47;
-		public const int IMG_FX_OUT = 48;
-		public const int IMG_FX_HINT_ARROW = 49;
-		public const int IMG_GFX_PEDESTAL_L = 50;
-		public const int IMG_GFX_PEDESTAL_R = 51;
-		public const int IMG_GFX_CAT_L = 52;
-		public const int IMG_GFX_CAT_R = 53;
-		public const int IMG_GFX_CAT_SMILE = 54;
-		public const int IMG_GFX_CAT_HUM = 55;
-		public const int IMG_GFX_FROG_HEAD = 56;
-		public const int IMG_GFX_FROG_BODY = 57;
-		public const int IMG_GFX_FROG_HAND1 = 58;
-		public const int IMG_GFX_FROG_HAND2 = 59;
-		public const int IMG_GFX_FROG_EYE1 = 60;
-		public const int IMG_GFX_FROG_EYE2 = 61;
-		public const int IMG_GFX_FROG_EMO1 = 62;
-		public const int IMG_GFX_FROG_EMO2 = 63;
-		public const int IMG_EFFECT_CIRCLE = 64;
-		public const int IMG_EFFECT_RAY = 65;
-		public const int IMG_EFFECT_LINE = 66;
+		public const int IMG_DUCK2 = 12;
+		public const int IMG_DUCK_SLEEP = 13;
+		public const int IMG_EYE1 = 14;
+		public const int IMG_EYE2 = 15;
+		public const int IMG_WING = 16;
+		public const int IMG_WING2 = 17;
+		public const int IMG_UI_HP = 18;
+		public const int IMG_UI_SCORE = 19;
+		public const int IMG_UI_SCORE_POINT = 20;
+		public const int IMG_LEVEL_DUCKTRIP = 21;
+		public const int IMG_LEVEL_PARTY = 22;
+		public const int IMG_LEVEL_PUMP = 23;
+		public const int IMG_LEVEL_STAGE_COMPLETE = 24;
+		public const int IMG_STAR = 25;
+		public const int IMG_PILL_1 = 26;
+		public const int IMG_PILL_2 = 27;
+		public const int IMG_PILL_3 = 28;
+		public const int IMG_PILL_1P = 29;
+		public const int IMG_PILL_2P = 30;
+		public const int IMG_PILL_3P = 31;
+		public const int IMG_PILL_TOXIC_1 = 32;
+		public const int IMG_PILL_TOXIC_2 = 33;
+		public const int IMG_PILL_SLEEP = 34;
+		public const int IMG_PILL_HIGH = 35;
+		public const int IMG_SMILE_1 = 36;
+		public const int IMG_SMILE_2 = 37;
+		public const int IMG_SMILE_3 = 38;
+		public const int IMG_EYES_1 = 39;
+		public const int IMG_EYES_2 = 40;
+		public const int IMG_POWER_1 = 41;
+		public const int IMG_POWER_2 = 42;
+		public const int IMG_POWER_3 = 43;
+		public const int IMG_POWER_4 = 44;
+		public const int IMG_FX_ACID = 45;
+		public const int IMG_FX_BUBBLE = 46;
+		public const int IMG_FX_STAR = 47;
+		public const int IMG_FX_WARNING = 48;
+		public const int IMG_FX_IN = 49;
+		public const int IMG_FX_OUT = 50;
+		public const int IMG_FX_HINT_ARROW = 51;
+		public const int IMG_GFX_PEDESTAL_L = 52;
+		public const int IMG_GFX_PEDESTAL_R = 53;
+		public const int IMG_GFX_CAT_L = 54;
+		public const int IMG_GFX_CAT_R = 55;
+		public const int IMG_GFX_CAT_SMILE = 56;
+		public const int IMG_GFX_CAT_HUM = 57;
+		public const int IMG_GFX_FROG_HEAD = 58;
+		public const int IMG_GFX_FROG_BODY = 59;
+		public const int IMG_GFX_FROG_HAND1 = 60;
+		public const int IMG_GFX_FROG_HAND2 = 61;
+		public const int IMG_GFX_FROG_EYE1 = 62;
+		public const int IMG_GFX_FROG_EYE2 = 63;
+		public const int IMG_GFX_FROG_EMO1 = 64;
+		public const int IMG_GFX_FROG_EMO2 = 65;
+		public const int IMG_EFFECT_CIRCLE = 66;
+		public const int IMG_EFFECT_RAY = 67;
+		public const int IMG_EFFECT_LINE = 68;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 67;
-		public const int SONG_ENV_TEX = 68;
-		public const int SND_HERO_ATTACK = 69;
-		public const int SND_HERO_AWAKE = 70;
-		public const int SND_HERO_JUMP = 71;
-		public const int SND_HERO_LAND = 72;
-		public const int SND_HERO_SLEEP = 73;
-		public const int SND_HERO_STEP1 = 74;
-		public const int SND_HERO_STEP2 = 75;
-		public const int SND_HERO_TOXIC = 76;
-		public const int SND_HERO_WING1 = 77;
-		public const int SND_HERO_WING2 = 78;
-		public const int SND_LEVEL_START = 79;
-		public const int SND_PILL_GENERATE = 80;
-		public const int SND_PILL_HIGH = 81;
-		public const int SND_PILL_JUMPER = 82;
-		public const int SND_PILL_POWER1 = 83;
-		public const int SND_PILL_POWER2 = 84;
-		public const int SND_PILL_POWER3 = 85;
-		public const int SND_PILL_TOXIC_BORN = 86;
-		public const int SND_PILL_WARNING = 87;
-		public const int SND_UI_CLICK = 88;
-		public const int SND_UI_FOCUS = 89;
-		public const int RES_COUNT = 90;
+		public const int SND_ENV_POWER = 69;
+		public const int SONG_ENV_TEX = 70;
+		public const int SND_HERO_ATTACK = 71;
+		public const int SND_HERO_AWAKE = 72;
+		public const int SND_HERO_JUMP = 73;
+		public const int SND_HERO_LAND = 74;
+		public const int SND_HERO_SLEEP = 75;
+		public const int SND_HERO_STEP1 = 76;
+		public const int SND_HERO_STEP2 = 77;
+		public const int SND_HERO_TOXIC = 78;
+		public const int SND_HERO_WING1 = 79;
+		public const int SND_HERO_WING2 = 80;
+		public const int SND_LEVEL_START = 81;
+		public const int SND_PILL_GENERATE = 82;
+		public const int SND_PILL_HIGH = 83;
+		public const int SND_PILL_JUMPER = 84;
+		public const int SND_PILL_POWER1 = 85;
+		public const int SND_PILL_POWER2 = 86;
+		public const int SND_PILL_POWER3 = 87;
+		public const int SND_PILL_TOXIC_BORN = 88;
+		public const int SND_PILL_WARNING = 89;
+		public const int SND_UI_CLICK = 90;
+		public const int SND_UI_FOCUS = 91;
+		public const int RES_COUNT = 92;
 	}
 	public class DuckstazyResources
 	{
@@ -136,10 +138,12 @@ namespace DuckstazyLive.app
 			new ResourceBaseInfo[]
 			{
 				new ResourceBaseInfo(Res.IMG_DUCK, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
+				new ResourceBaseInfo(Res.IMG_DUCK2, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake2"),
 				new ResourceBaseInfo(Res.IMG_DUCK_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_sleep"),
 				new ResourceBaseInfo(Res.IMG_EYE1, ResourceType.RESOURCE_TYPE_TEXTURE, "eye1"),
 				new ResourceBaseInfo(Res.IMG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "eye2"),
 				new ResourceBaseInfo(Res.IMG_WING, ResourceType.RESOURCE_TYPE_TEXTURE, "wing"),
+				new ResourceBaseInfo(Res.IMG_WING2, ResourceType.RESOURCE_TYPE_TEXTURE, "wing2"),
 				new ResourceBaseInfo(Res.IMG_UI_HP, ResourceType.RESOURCE_TYPE_TEXTURE, "hp"),
 				new ResourceBaseInfo(Res.IMG_UI_SCORE, ResourceType.RESOURCE_TYPE_TEXTURE, "score"),
 				new ResourceBaseInfo(Res.IMG_UI_SCORE_POINT, ResourceType.RESOURCE_TYPE_TEXTURE, "score_point"),
