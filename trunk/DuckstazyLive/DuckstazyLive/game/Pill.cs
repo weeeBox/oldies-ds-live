@@ -54,8 +54,8 @@ namespace DuckstazyLive.game
         public float warning;
         public bool enabled;
 
-        // захват героя
-        public bool hook;
+        // захват героя        
+        public int hookedHero;
         private float hookTime;
         private float hookCounter;
 
@@ -102,12 +102,12 @@ namespace DuckstazyLive.game
 
         private PillsMedia media;
         private Particles ps;
-        private Hero hero;
+        private Heroes heroes;
         private Level level;
 
         private int imgMain;
         private int imgEmo;
-        private int imgNid;        
+        private int imgNid;
 
         // используется для оповещения генератора-родителя
         public ParentCallback parent;
@@ -116,10 +116,11 @@ namespace DuckstazyLive.game
         public UserCallback user;
 
         // Инициализируемся в массиве
-        public Pill(PillsMedia pillsMedia, Heroes duckHero, Particles particles, Level _level)
+        public Pill(PillsMedia pillsMedia, Heroes heroes, Particles particles, Level _level)
         {
+            this.heroes = heroes;
+
             media = pillsMedia;
-            hero = duckHero[0];
             ps = particles;
             level = _level;
             init();
@@ -150,9 +151,9 @@ namespace DuckstazyLive.game
 
         // Стартуем анимацию эмоции
         private void startEmo(int emotionType)
-		{
-			switch(emotionType)
-			{
+        {
+            switch (emotionType)
+            {
                 case 0:
                     {
                         emoParam = 1 + (int)(utils.rnd() * 3.0);
@@ -161,13 +162,13 @@ namespace DuckstazyLive.game
                         emoCounter = 3.0f;
                     }
                     break;
-			    case 1:
-			    case 2:
-				    emoCounter = 3.0f;
-				    break;
-			}
-			emoType = emotionType;
-		}
+                case 1:
+                case 2:
+                    emoCounter = 3.0f;
+                    break;
+            }
+            emoType = emotionType;
+        }
 
         // Обновляем появление
         private void setState(int newState)
@@ -204,96 +205,117 @@ namespace DuckstazyLive.game
 
         // Обновляемся
         public bool update(float dt)
-		{
-			if(state!=3 && enabled && hero.state.health>0)
-			{
-				if(y+r > hero.y || y-r < hero.y + 40)
-					if(x+r > hero.x || x-r < hero.x + 54)
-						if(hero.overlapsCircle(x, y, r))
-							heroTouch();
-			}
-			
-			switch(state)
-			{
-			case 1:
-				if(!enabled)
-				{
-					warning-=dt;
-					if(warning<=0.0f)
-					{
-						enabled = true;
-						ps.startAcid(x, y);
-						if(type==TOXIC)
-							utils.playSound(media.sndToxicBorn, 1.0f, x);
-					}
-				}
-				else
-				{
-					appear+=10*dt;
-					r = rMax*appear;
-					if(appear>=1.0f)
-						setState(2);	
-				}
-				break;
-			case 2:
-				if(spy)
-					updateSpy();
-					
-				if(hook)
-					updateHook(dt);
-					
-				if(move) { x += vx*dt; y += vy*dt; }
-				
-				if(emo && media.power>0.5f)
-				{
-					if(emoCounter>0.0f)
-					{
-						emoCounter -= dt;
-						if(emoCounter<0.0f)
-						{
-							emoCounter = 0.0f;
-							emoPause = utils.rnd()*3.0f+2.0f;
-						}
-					}
-					else
-					{
-						emoPause-=dt;
-						if(emoPause<=0.0f)
-							startEmo((int)(utils.rnd()*3.0));
-					}
-				}
-					
-				if(high)
-				{
-					if(level.power>=0.5)
-						highCounter+=dt;//*(1.0f + 3.0*level.power);
-					else
-						highCounter+=dt*(1.0f + 7.0f*level.power);
-					if(highCounter>=1.0f)
-						highCounter-=(int)(highCounter);
-				}
-				
-				if(type==JUMP && highCounter>0.0f)
-				{
-					highCounter-=dt;
-					if(highCounter<0.0f) highCounter = 0.0f;
-				}
-				
-				break;
-			case 3:
-				appear-=10*dt;
-				if(appear<=0.0f)
-					setState(0);
-				break;
-			}
-			
-			if(user!=null)
-				user(this, null, dt);
-				
-			return state==0;
-		}
+        {
+            if (state != 3 && enabled)
+            {
+                checkHeroesTouch();
+            }
+
+            switch (state)
+            {
+                case 1:
+                    if (!enabled)
+                    {
+                        warning -= dt;
+                        if (warning <= 0.0f)
+                        {
+                            enabled = true;
+                            ps.startAcid(x, y);
+                            if (type == TOXIC)
+                                utils.playSound(media.sndToxicBorn, 1.0f, x);
+                        }
+                    }
+                    else
+                    {
+                        appear += 10 * dt;
+                        r = rMax * appear;
+                        if (appear >= 1.0f)
+                            setState(2);
+                    }
+                    break;
+                case 2:
+                    if (spy)
+                        updateSpy();
+
+                    if (hookedHero != Constants.UNDEFINED)
+                        updateHook(dt);
+
+                    if (move) { x += vx * dt; y += vy * dt; }
+
+                    if (emo && media.power > 0.5f)
+                    {
+                        if (emoCounter > 0.0f)
+                        {
+                            emoCounter -= dt;
+                            if (emoCounter < 0.0f)
+                            {
+                                emoCounter = 0.0f;
+                                emoPause = utils.rnd() * 3.0f + 2.0f;
+                            }
+                        }
+                        else
+                        {
+                            emoPause -= dt;
+                            if (emoPause <= 0.0f)
+                                startEmo((int)(utils.rnd() * 3.0));
+                        }
+                    }
+
+                    if (high)
+                    {
+                        if (level.power >= 0.5)
+                            highCounter += dt;//*(1.0f + 3.0*level.power);
+                        else
+                            highCounter += dt * (1.0f + 7.0f * level.power);
+                        if (highCounter >= 1.0f)
+                            highCounter -= (int)(highCounter);
+                    }
+
+                    if (type == JUMP && highCounter > 0.0f)
+                    {
+                        highCounter -= dt;
+                        if (highCounter < 0.0f) highCounter = 0.0f;
+                    }
+
+                    break;
+                case 3:
+                    appear -= 10 * dt;
+                    if (appear <= 0.0f)
+                        setState(0);
+                    break;
+            }
+
+            if (user != null)
+                user(this, null, dt);
+
+            return state == 0;
+        }
+
+        private void checkHeroesTouch()
+        {
+            for (int heroIndex = 0; heroIndex < heroes.getHeroesCount(); ++heroIndex)
+            {
+                Hero hero = heroes[heroIndex];
+                if (hero.state.health > 0)
+                    checkHeroesTouch(hero);
+            }
+        }
+
+        private void checkHeroesTouch(Hero hero)
+        {
+            if (y + r > hero.y || y - r < hero.y + 40)
+                if (x + r > hero.x || x - r < hero.x + 54)
+                    if (hero.overlapsCircle(x, y, r))
+                        heroTouch(hero);
+        }
 
         public void updateSpy()
+        {
+            Hero closestHero = getClosestHero();
+            updateSpy(closestHero);
+        }
+
+        public void updateSpy(Hero hero)
         {
             float dx = hero.x - x + 27.0f;
             float dy = hero.y - y + 20.0f;
@@ -303,349 +325,380 @@ namespace DuckstazyLive.game
             hy = dy * i;
         }
 
-        public void heroTouch()
-		{
-			int i;
-			GameInfo info = level.info;
-						
-			switch(type)
-			{
-			case POWER:
-				if(!hero.sleep)
-					level.gainPower(power);
-				if(level.power>=0.5)
-				{
-					i = id+level.state.hell;
-					level.state.scores+=level.state.calcHellScores(i);
-					//else if(i==1) level.state.scores+=10;
-					//else if(i==2) level.state.scores+=25;
-					info.add(x, y, info.powers[i]);
-					level.env.beat();
-				}
-				else
-				{
-					i = level.state.norm;
-					if(i==0)
-					{
-						level.state.scores++;
-						info.add(x, y, info.one);
-					}
-					else
-					{
-						info.add(x, y, info.powers[i-1]);
-						level.state.scores+=level.state.calcHellScores(i-1);
-					}
-				}
-				utils.playSound(media.sndPowers[id], 1.0f, x);
-				
-				
-				if(high && hero.doHigh(x, y))
-				{
-					// media.sndHigh.play();                    
-                    Application.sharedSoundMgr.playSound(media.sndHigh);
-					ps.explStarsPower(x, y-r, id);                    
-				}
-				else
-					ps.explStarsPower(x, y, id);
-					
-				level.stage.collected++;
-					
-				break;
-			case TOXIC:
-				i = hero.doToxicDamage(x, y, damage, id);
-				if(i>=0)
-				{
-					if(level.power>=0.5)
-					{
-						if(i==0) level.state.scores+=100;
-						else if(i==1) level.state.scores+=150;
-						else if(i==2) level.state.scores+=200;
-						info.add(x, y, info.toxics[i]);
-						level.env.beat();
-					}
-					else
-					{
-						if(i==0) level.state.scores+=5;
-						else if(i==1) level.state.scores+=10;
-						else if(i==2) level.state.scores+=25;
-						info.add(x, y, info.powers[i]);
-					}
-					if(user!=null)
-						user(this, "attack", 0);
-				}
-				else info.add(x, y, info.damages[(int)(utils.rnd()*3.0)]);
-				break;
-			case SLEEP:
-				//--delay_count;
-				if(!hero.sleep)
-				{
-					hero.doSleep();
-					level.gainSleep();
-					level.env.beat();
-				}
-				ps.explStarsSleep(x, y);
-				info.add(x, y, info.sleeps[(int)(utils.rnd()*3.0)]);
-				break;
-			case HEALTH:
-				// media.sndHeal.play();
-                Application.sharedSoundMgr.playSound(media.sndHeal);
-				hero.doHeal(5);
-				level.env.beat();
-				break;
-			case MATRIX:
-				level.switchEvnPower();
-				level.env.beat();
-				break;
-			case JUMP:
-				if(highCounter<=0.0f && hero.doHigh(x, y))
-				{
-					// media.sndJumper.play();
-                    Application.sharedSoundMgr.playSound(media.sndJumper);
-					highCounter = 1.0f;
-					level.env.beat();
-					if(user!=null)
-						user(this, "jump", 0.0f);
-				}
-				return;
-			}
-			
-			kill();
-		
-		}
+        public Hero getClosestHero()
+        {
+            int heroIndex = getClosestHeroIndex();
+            return heroes[heroIndex];
+        }
+
+        private int getClosestHeroIndex()
+        {
+            int closestHeroIndex = 0;
+            if (heroes.getHeroesCount() > 1)
+            {
+                float dx = heroes[0].x - x + 27.0f;
+                float dy = heroes[0].y - y + 20.0f;
+                float minDist = dx * dx + dy * dy;
+                for (int heroIndex = 1; heroIndex < heroes.getHeroesCount(); heroIndex++)
+                {
+                    Hero hero = heroes[heroIndex];
+                    dx = hero.x - x + 27.0f;
+                    dy = hero.y - y + 20.0f;
+
+                    float dist = dx * dx + dy * dy;
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        closestHeroIndex = heroIndex;
+                    }
+                }
+            }
+            return closestHeroIndex;
+        }
+
+        public void heroTouch(Hero hero)
+        {
+            int i;
+            GameInfo info = level.info;
+
+            switch (type)
+            {
+                case POWER:
+                    if (!hero.sleep)
+                        level.gainPower(power);
+                    if (level.power >= 0.5)
+                    {
+                        i = id + level.state.hell;
+                        level.state.scores += level.state.calcHellScores(i);
+                        //else if(i==1) level.state.scores+=10;
+                        //else if(i==2) level.state.scores+=25;
+                        info.add(x, y, info.powers[i]);
+                        level.env.beat();
+                    }
+                    else
+                    {
+                        i = level.state.norm;
+                        if (i == 0)
+                        {
+                            level.state.scores++;
+                            info.add(x, y, info.one);
+                        }
+                        else
+                        {
+                            info.add(x, y, info.powers[i - 1]);
+                            level.state.scores += level.state.calcHellScores(i - 1);
+                        }
+                    }
+                    utils.playSound(media.sndPowers[id], 1.0f, x);
+
+
+                    if (high && hero.doHigh(x, y))
+                    {
+                        // media.sndHigh.play();                    
+                        Application.sharedSoundMgr.playSound(media.sndHigh);
+                        ps.explStarsPower(x, y - r, id);
+                    }
+                    else
+                        ps.explStarsPower(x, y, id);
+
+                    level.stage.collected++;
+
+                    break;
+                case TOXIC:
+                    i = hero.doToxicDamage(x, y, damage, id);
+                    if (i >= 0)
+                    {
+                        if (level.power >= 0.5)
+                        {
+                            if (i == 0) level.state.scores += 100;
+                            else if (i == 1) level.state.scores += 150;
+                            else if (i == 2) level.state.scores += 200;
+                            info.add(x, y, info.toxics[i]);
+                            level.env.beat();
+                        }
+                        else
+                        {
+                            if (i == 0) level.state.scores += 5;
+                            else if (i == 1) level.state.scores += 10;
+                            else if (i == 2) level.state.scores += 25;
+                            info.add(x, y, info.powers[i]);
+                        }
+                        if (user != null)
+                            user(this, "attack", 0);
+                    }
+                    else info.add(x, y, info.damages[(int)(utils.rnd() * 3.0)]);
+                    break;
+                case SLEEP:
+                    //--delay_count;
+                    if (!hero.sleep)
+                    {
+                        hero.doSleep();
+                        level.gainSleep();
+                        level.env.beat();
+                    }
+                    ps.explStarsSleep(x, y);
+                    info.add(x, y, info.sleeps[(int)(utils.rnd() * 3.0)]);
+                    break;
+                case HEALTH:
+                    // media.sndHeal.play();
+                    Application.sharedSoundMgr.playSound(media.sndHeal);
+                    hero.doHeal(5);
+                    level.env.beat();
+                    break;
+                case MATRIX:
+                    level.switchEvnPower();
+                    level.env.beat();
+                    break;
+                case JUMP:
+                    if (highCounter <= 0.0f && hero.doHigh(x, y))
+                    {
+                        // media.sndJumper.play();
+                        Application.sharedSoundMgr.playSound(media.sndJumper);
+                        highCounter = 1.0f;
+                        level.env.beat();
+                        if (user != null)
+                            user(this, "jump", 0.0f);
+                    }
+                    return;
+            }
+
+            kill();
+
+        }
 
         public void startPower(float px, float py, int ID, bool h)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = POWER;
-			
-			switch(ID)
-			{
-			case 0:
-				scores = 5;
-				power = 0.01f;
-				imgMain = media.imgPower1;
-				imgEmo = media.imgPPower1;
-				break;
-			case 1:
-				scores = 25;
-				power = 0.025f;
-				imgMain = media.imgPower2;
-				imgEmo = media.imgPPower2;
-				break;
-			case 2:
-				scores = 50;
-				power = 0.05f;
-				imgMain = media.imgPower3;
-				imgEmo = media.imgPPower3;
-				break;
-			}
-			
-			rMax = 10.0f;
-			
-			damage = 0;
-			
-			id = ID;
-			
-			emo = true;
-			emoPause = utils.rnd()*3.0f+2.0f;
-			emoCounter = 0.0f;
-			hx = 0.0f;
-			hy = 0.0f;
-			
-			imgNid = media.imgNids[(int)(utils.rnd()*4)];
-			
-			spy = true;
-			
-			hook = false;
-			
-			high = h;
-						
-			enabled = true;
-			
-			setState(1);
-			
-			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0f, x);
-		}
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = POWER;
+
+            switch (ID)
+            {
+                case 0:
+                    scores = 5;
+                    power = 0.01f;
+                    imgMain = media.imgPower1;
+                    imgEmo = media.imgPPower1;
+                    break;
+                case 1:
+                    scores = 25;
+                    power = 0.025f;
+                    imgMain = media.imgPower2;
+                    imgEmo = media.imgPPower2;
+                    break;
+                case 2:
+                    scores = 50;
+                    power = 0.05f;
+                    imgMain = media.imgPower3;
+                    imgEmo = media.imgPPower3;
+                    break;
+            }
+
+            rMax = 10.0f;
+
+            damage = 0;
+
+            id = ID;
+
+            emo = true;
+            emoPause = utils.rnd() * 3.0f + 2.0f;
+            emoCounter = 0.0f;
+            hx = 0.0f;
+            hy = 0.0f;
+
+            imgNid = media.imgNids[(int)(utils.rnd() * 4)];
+
+            spy = true;
+
+            hookedHero = Constants.UNDEFINED;
+
+            high = h;
+
+            enabled = true;
+
+            setState(1);
+
+            ps.startAcid(x, y);
+            utils.playSound(media.sndGenerate, 1.0f, x);
+        }
 
         public void startJump(float px, float py)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = JUMP;
-			
-			imgMain = media.imgHigh;
-			
-			rMax = 10.0f;
-			
-			damage = 0;
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = JUMP;
 
-			spy = false;
-			hook = false;
-			high = false;
-			enabled = true;
-			
-			setState(1);
-			
-			highCounter = 0.0f;
-			
-			ps.startAcid(x, y, 0xffffffff);
-			utils.playSound(media.sndGenerate, 1.0f, x);
-		}
+            imgMain = media.imgHigh;
+
+            rMax = 10.0f;
+
+            damage = 0;
+
+            spy = false;
+            hookedHero = Constants.UNDEFINED;
+            high = false;
+            enabled = true;
+
+            setState(1);
+
+            highCounter = 0.0f;
+
+            ps.startAcid(x, y, 0xffffffff);
+            utils.playSound(media.sndGenerate, 1.0f, x);
+        }
 
         public void startMatrix(float px, float py)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = MATRIX;
-			
-			imgMain = media.imgHole;
-			//imgNid = null;
-		
-			rMax = 10.0f;
-			
-			
-			spy = false;
-			hook = false;
-			high = false;
-						
-			enabled = true;
-			
-			setState(1);
-			
-			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0f, x);
-		}
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = MATRIX;
+
+            imgMain = media.imgHole;
+            //imgNid = null;
+
+            rMax = 10.0f;
+
+
+            spy = false;
+            hookedHero = Constants.UNDEFINED;
+            high = false;
+
+            enabled = true;
+
+            setState(1);
+
+            ps.startAcid(x, y);
+            utils.playSound(media.sndGenerate, 1.0f, x);
+        }
 
         public void startToxic(float px, float py, int ID)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = TOXIC;
-						
-			switch(ID)
-			{
-			case 0:
-				damage = 20;
-				imgMain = media.imgToxic;
-				hook = true;
-				hookTime = 3.0f;
-				hookCounter = 0.0f;
-				break;
-			case 1:
-				damage = 20;
-				imgMain = media.imgToxic2;
-				hook = false;
-				break;
-			}
-			
-			id = ID;
-			
-			warning = 3.0f;
-			enabled = false;
-						
-			spy = false;
-			
-			rMax = 10.0f;
-			
-			v = 20.0f;
-			
-			emo = false;
-			
-			high = false;
-			
-			setState(1);
-			if(level.power<0.5f && !level.env.day)
-				ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
-			else
-				ps.startWarning(x, y, 3.0f, 0.0f, 0.0f, 0.0f);
-			// media.sndWarning.play();
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = TOXIC;
+
+            switch (ID)
+            {
+                case 0:
+                    damage = 20;
+                    imgMain = media.imgToxic;
+                    hookedHero = getClosestHeroIndex();
+                    hookTime = 3.0f;
+                    hookCounter = 0.0f;
+                    break;
+                case 1:
+                    damage = 20;
+                    imgMain = media.imgToxic2;
+                    hookedHero = Constants.UNDEFINED;
+                    break;
+            }
+
+            id = ID;
+
+            warning = 3.0f;
+            enabled = false;
+
+            spy = false;
+
+            rMax = 10.0f;
+
+            v = 20.0f;
+
+            emo = false;
+
+            high = false;
+
+            setState(1);
+            if (level.power < 0.5f && !level.env.day)
+                ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
+            else
+                ps.startWarning(x, y, 3.0f, 0.0f, 0.0f, 0.0f);
+            // media.sndWarning.play();
             Application.sharedSoundMgr.playSound(media.sndWarning);
-		}
+        }
 
         public void startMissle(float px, float py, int ID)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = TOXIC;
-						
-			switch(ID)
-			{
-			case 0:
-				damage = 20;
-				imgMain = media.imgToxic;
-				break;
-			case 1:
-				damage = 20;
-				imgMain = media.imgToxic2;
-				break;
-			}
-			
-			hook = false;
-			
-			id = ID;
-			
-			enabled = true;
-						
-			spy = false;
-			
-			rMax = 10.0f;
-			
-			v = 20.0f;
-			
-			emo = false;
-			
-			high = false;
-			
-			setState(1);
-		}
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = TOXIC;
+
+            switch (ID)
+            {
+                case 0:
+                    damage = 20;
+                    imgMain = media.imgToxic;
+                    break;
+                case 1:
+                    damage = 20;
+                    imgMain = media.imgToxic2;
+                    break;
+            }
+
+            hookedHero = Constants.UNDEFINED;
+
+            id = ID;
+
+            enabled = true;
+
+            spy = false;
+
+            rMax = 10.0f;
+
+            v = 20.0f;
+
+            emo = false;
+
+            high = false;
+
+            setState(1);
+        }
 
         public void startSleep(float px, float py)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = SLEEP;
-			
-			emo = false;
-			spy = false;
-			hook = false;
-			high = false;
-			enabled = true;
-						
-			rMax = 10.0f;
-						
-			imgMain = media.imgSleep;
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = SLEEP;
 
-			setState(1);
-			
-			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0f, x);
-		}
+            emo = false;
+            spy = false;
+            hookedHero = Constants.UNDEFINED;
+            high = false;
+            enabled = true;
+
+            rMax = 10.0f;
+
+            imgMain = media.imgSleep;
+
+            setState(1);
+
+            ps.startAcid(x, y);
+            utils.playSound(media.sndGenerate, 1.0f, x);
+        }
 
         public void startCure(float px, float py)
-		{
-			x = (int)(px);
-			y = (int)(py);
-			type = HEALTH;
-			
-			//damage = 5;
-			
-			emo = false;
-			spy = false;
-			hook = false;
-			high = false;
-			enabled = true;
-						
-			rMax = 10.0f;
-						
-			imgMain = media.imgCure;
+        {
+            x = (int)(px);
+            y = (int)(py);
+            type = HEALTH;
 
-			setState(1);
-			
-			ps.startAcid(x, y);
-			utils.playSound(media.sndGenerate, 1.0f, x);
-		}
+            //damage = 5;
+
+            emo = false;
+            spy = false;
+            hookedHero = Constants.UNDEFINED;
+            high = false;
+            enabled = true;
+
+            rMax = 10.0f;
+
+            imgMain = media.imgCure;
+
+            setState(1);
+
+            ps.startAcid(x, y);
+            utils.playSound(media.sndGenerate, 1.0f, x);
+        }
 
         public void kill()
         {
@@ -658,14 +711,21 @@ namespace DuckstazyLive.game
             setState(0);
         }
 
+        private int getHookedHero()
+        {
+            return getClosestHeroIndex();
+        }
+
         public void updateHook(float dt)
         {
+            Hero hero = heroes[hookedHero];
+
             if (hookCounter > 0.0f)
             {
                 hookCounter -= dt;
                 if (hookCounter > 0.0f)
                 {
-                    updateSpy();
+                    updateSpy(hero);
                     vx = hx * v;
                     vy = hy * v;
                 }
@@ -685,7 +745,7 @@ namespace DuckstazyLive.game
                 {
                     hookCounter = hookTime;
                     move = true;
-                    updateSpy();
+                    updateSpy(hero);
                     vx = hx * v;
                     vy = hy * v;
 
@@ -707,14 +767,14 @@ namespace DuckstazyLive.game
                     MAT.scale(appear, appear);
                     MAT.translate(dx, dy);
                     canvas.draw(imgMain, MAT);
-                    canvas.draw(imgNid, MAT);                    
+                    canvas.draw(imgNid, MAT);
                 }
                 else
                 {
                     POINT.X = dx - 10;
                     POINT.Y = dy - 10;
                     canvas.copyPixels(imgMain, RC, POINT);
-                    canvas.copyPixels(imgNid, RC, POINT);                    
+                    canvas.copyPixels(imgNid, RC, POINT);
                 }
             }
             else
@@ -725,13 +785,13 @@ namespace DuckstazyLive.game
                     MAT.tx = MAT.ty = -10;
                     MAT.scale(appear, appear);
                     MAT.translate(dx, dy);
-                    canvas.draw(imgEmo, MAT);                    
+                    canvas.draw(imgEmo, MAT);
                 }
                 else
                 {
                     POINT.X = dx - 10;
                     POINT.Y = dy - 10;
-                    canvas.copyPixels(imgEmo, RC, POINT);                    
+                    canvas.copyPixels(imgEmo, RC, POINT);
                 }
 
                 if (emoCounter > 0.0f)
@@ -759,8 +819,8 @@ namespace DuckstazyLive.game
                 MAT.tx = dx - 12;
                 MAT.ty = dy - 12;
                 COLOR.alphaMultiplier = 2.0f - highCounter * 2.0f;
-                canvas.draw(media.imgHigh, MAT, COLOR);                
-            }            
+                canvas.draw(media.imgHigh, MAT, COLOR);
+            }
         }
 
         public void draw(Canvas canvas)
@@ -771,19 +831,19 @@ namespace DuckstazyLive.game
                 MAT.tx = MAT.ty = -10;
                 MAT.scale(appear, appear);
                 MAT.translate(dx, dy);
-                canvas.draw(imgMain, MAT);                
+                canvas.draw(imgMain, MAT);
             }
             else
             {
                 POINT.X = dx - 10;
                 POINT.Y = dy - 10;
-                canvas.copyPixels(imgMain, RC, POINT);                
-            }            
+                canvas.copyPixels(imgMain, RC, POINT);
+            }
         }
 
         public void drawJump(Canvas canvas)
         {
-            float s = 0.8f + 0.4f * (float) Math.Sin(highCounter * 1.57);
+            float s = 0.8f + 0.4f * (float)Math.Sin(highCounter * 1.57);
 
             if (state != 2)
                 s *= appear;
@@ -803,7 +863,7 @@ namespace DuckstazyLive.game
                     canvas.draw(imgMain, MAT, BLACK);
                 else
                     canvas.draw(imgMain, MAT);
-            }            
+            }
         }
 
         private void drawNid(Canvas canvas)
@@ -822,7 +882,7 @@ namespace DuckstazyLive.game
             MAT.scale(appear, appear);
             MAT.translate(dx + hx, dy + hy);
 
-            canvas.draw(media.imgEyes1, MAT);            
+            canvas.draw(media.imgEyes1, MAT);
         }
 
         private void drawEmoDefault(Canvas canvas, float alpha, float angle)
@@ -845,13 +905,13 @@ namespace DuckstazyLive.game
             MAT.scale(appear, appear);
             MAT.translate(dx + hx, dy + hy);
 
-            canvas.draw(media.imgEyes1, MAT, COLOR);            
+            canvas.draw(media.imgEyes1, MAT, COLOR);
         }
 
         private void drawEmoHappy(Canvas canvas)
         {
             //var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
-            
+
             float a = 0.5f;
             float ang = emoCounter / 3.0f;
 
@@ -883,7 +943,7 @@ namespace DuckstazyLive.game
             MAT.scale(appear, appear);
             MAT.translate(dx, dy);
 
-            canvas.draw(media.imgEyes2, MAT, COLOR);            
+            canvas.draw(media.imgEyes2, MAT, COLOR);
         }
 
         private void drawEmoShake(Canvas canvas)
@@ -891,7 +951,7 @@ namespace DuckstazyLive.game
             //var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
             //var col:ColorTransform;
             float a = 0.5f;
-            float off = (float) (Math.Sin(emoCounter * 6.28));
+            float off = (float)(Math.Sin(emoCounter * 6.28));
 
             if (emoCounter > 2.5f) a = 3.0f - emoCounter;
             else if (emoCounter < 0.5f) a = emoCounter;
@@ -919,7 +979,7 @@ namespace DuckstazyLive.game
             MAT.scale(appear, appear);
             MAT.translate(dx, dy + off);
 
-            canvas.draw(media.imgEyes2, MAT, COLOR);            
+            canvas.draw(media.imgEyes2, MAT, COLOR);
         }
 
         private void drawEmoSmile(Canvas canvas)
@@ -947,7 +1007,7 @@ namespace DuckstazyLive.game
             MAT.scale(appear, appear);
             MAT.translate(dx, dy);
 
-            canvas.draw(media.imgEyes1, MAT, COLOR);            
+            canvas.draw(media.imgEyes1, MAT, COLOR);
         }
 
         public bool isActive()

@@ -33,20 +33,20 @@ namespace DuckstazyLive.game
         {
             get
             {
-                Debug.Assert(index >= 0 && index < heroes.Count);
+                Debug.Assert(index >= 0 && index < getHeroesCount());
                 return heroes[index];
             }
 
             set
             {
-                Debug.Assert(index >= 0 && index < heroes.Count);
+                Debug.Assert(index >= 0 && index < getHeroesCount());
                 heroes[index] = value;
             }
         }
 
         public void addHero(Hero hero)
         {
-            Debug.Assert(heroes.Count < MAX_HEROES);
+            Debug.Assert(getHeroesCount() < MAX_HEROES);
             heroes.Add(hero);
         }
 
@@ -96,13 +96,13 @@ namespace DuckstazyLive.game
 
         private void buttonPressed(ref ButtonEvent e, int playerIndex)
         {
-            Debug.Assert(playerIndex >= 0 && playerIndex < heroes.Count);
+            Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
             heroes[playerIndex].buttonPressed(ref e);
         }
 
         private void buttonReleased(ref ButtonEvent e, int playerIndex)
         {
-            Debug.Assert(playerIndex >= 0 && playerIndex < heroes.Count);
+            Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
             heroes[playerIndex].buttonReleased(ref e);
         }                
 
@@ -114,5 +114,10 @@ namespace DuckstazyLive.game
                 hero.start(_x);
             }
         }        
+
+        public int getHeroesCount()
+        {
+            return heroes.Count;
+        }
     }
 }
