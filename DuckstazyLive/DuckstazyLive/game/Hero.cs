@@ -42,6 +42,11 @@ namespace DuckstazyLive.game
         public const int duck_w2 = 54;
         public const int duck_h2 = 40;
 
+        private static Rect[] COLLISION_RECTS_SLEEP = 
+        {
+            new Rect(0, 0, duck_w2, duck_h2)
+        };
+
         private static Rect[] COLLISION_RECTS = 
         {
             new Rect(8.0f, 0.0f, 16.0f, 17.0f),
@@ -692,6 +697,9 @@ namespace DuckstazyLive.game
 
         public Rect[] getCollisionRects()
         {
+            if (sleep)
+                return COLLISION_RECTS_SLEEP;
+                
             return flip ? COLLISION_RECTS_FLIP : COLLISION_RECTS;
         }
 
