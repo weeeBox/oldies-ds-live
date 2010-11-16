@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.app;
 using Framework.core;
+using Framework.utils;
 
 namespace DuckstazyLive.game
 {
@@ -40,6 +41,16 @@ namespace DuckstazyLive.game
         public const int duck_h = 20;
         public const int duck_w2 = 54;
         public const int duck_h2 = 40;
+
+        private static Rect[] COLLISION_RECTS = 
+        {
+            new Rect(8.0f, 0.0f, 16.0f, 17.0f),
+            new Rect(0.0f, 10.0f, 15.0f, 6.0f),
+            new Rect(12.0f, 11.0f, 36.0f, 26.0f),
+            new Rect(29.0f, 35.0f, 12.0f, 6.0f),
+        };
+
+        private static Rect[] COLLISION_RECTS_FLIP;
 
         private const float STICK_HOR_THRESHOLD = 0.1f;
         private const float STICK_VER_THRESHOLD = 0.7f;
@@ -98,7 +109,9 @@ namespace DuckstazyLive.game
             flip = true;
             sleep = false;
             started = false;
-        }
+
+            initCollisionRects();
+        }        
 
         public void init()
         {
@@ -654,6 +667,17 @@ namespace DuckstazyLive.game
             heroes.particles.explHeal(x, y);
         }
 
+        public void jumpOn(Hero other)
+        {
+            jump(40);
+            other.jumpedBy(this);
+        }
+
+        public void jumpedBy(Hero other)
+        {
+
+        }
+
         public void jump(float h)
         {
             float new_vy = (float)Math.Sqrt(2 * duck_jump_gravity * h);
@@ -664,6 +688,11 @@ namespace DuckstazyLive.game
         public float getJumpHeight()
         {
             return jumpStartVel * jumpStartVel * 0.5f / duck_jump_gravity;
+        }
+
+        public Rect[] getCollisionRects()
+        {
+            return flip ? COLLISION_RECTS_FLIP : COLLISION_RECTS;
         }
 
         public bool overlapsCircle(float cx, float cy, float r)
@@ -682,9 +711,9 @@ namespace DuckstazyLive.game
             }
             else
             {
-                over = rectCircle(x + 14, y + 13, x + 49, y + 38, cx, cy, r) ||
-                    rectCircle(x + 9, y + 1.0f, x + 24, y + 17, cx, cy, r) ||
-                    rectCircle(x + 1.0f, y + 13, x + 8, y + 17, cx, cy, r);
+                over = rectCircle(x + 14.0f, y + 13.0f, x + 49.0f, y + 38.0f, cx, cy, r) ||
+                    rectCircle(x + 9.0f, y + 1.0f, x + 24.0f, y + 17.0f, cx, cy, r) ||
+                    rectCircle(x + 1.0f, y + 13.0f, x + 8.0f, y + 17.0f, cx, cy, r);
             }
 
             return over;
@@ -721,7 +750,7 @@ namespace DuckstazyLive.game
             }
 
             return d <= r * r;
-        }
+        }        
 
         public void start(float _x)
         {
@@ -748,6 +777,19 @@ namespace DuckstazyLive.game
         private float get_jump_start_vel(float x)
         {
             return utils.lerp(x, duck_jump_start_vel_min, duck_jump_start_vel_max);
-        }        
+        }
+
+        private void initCollisionRects()
+        {
+            if (COLLISION_RECTS_FLIP == null)
+            {
+                COLLISION_RECTS_FLIP = new Rect[COLLISION_RECTS.Length];
+                for (int i = 0; i < COLLISION_RECTS.Length; ++i)
+                {
+                    Rect r = COLLISION_RECTS[i];
+                    COLLISION_RECTS_FLIP[i] = new Rect(duck_w2 - (r.X + r.Width), r.Y, r.Width, r.Height);
+                }
+            }
+        }
     }
 }
