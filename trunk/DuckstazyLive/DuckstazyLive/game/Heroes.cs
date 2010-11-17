@@ -173,7 +173,7 @@ namespace DuckstazyLive.game
             started = true;
 
             float x1 = 0.25f * 640;
-            float x2 = 640 - x1;
+            float x2 = 640 - (x1 + Hero.duck_w2);
             heroes[0].start(x1);
             heroes[0].flip = true;
 
