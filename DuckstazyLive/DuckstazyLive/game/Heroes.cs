@@ -13,15 +13,15 @@ using Framework.utils;
 namespace DuckstazyLive.game
 {
     public class Heroes
-    {        
-        private bool started;    
+    {
+        private bool started;
 
-        public HeroMedia media;        
+        public HeroMedia media;
         public Particles particles;
         public Env env;
 
         private const int MAX_HEROES = 2;
-        private List<Hero> heroes;        
+        private List<Hero> heroes;
 
         public Heroes()
         {
@@ -29,7 +29,7 @@ namespace DuckstazyLive.game
             heroes = new List<Hero>(MAX_HEROES);
         }
 
-        public Hero this [int index]
+        public Hero this[int index]
         {
             get
             {
@@ -61,7 +61,7 @@ namespace DuckstazyLive.game
             {
                 hero.init();
             }
-        }        
+        }
 
         public void update(float dt, float newPower)
         {
@@ -89,7 +89,7 @@ namespace DuckstazyLive.game
                     }
                 }
             }
-        }        
+        }
 
         private bool heroesIntersects(Hero h1, Hero h2)
         {
@@ -134,7 +134,7 @@ namespace DuckstazyLive.game
                 {
                     hero.draw(canvas);
                 }
-            }            
+            }
         }
 
         public void buttonPressed(ref ButtonEvent e)
@@ -157,16 +157,29 @@ namespace DuckstazyLive.game
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
             heroes[playerIndex].buttonReleased(ref e);
-        }                
+        }
 
         public void start(float _x)
         {
+            Debug.Assert(getHeroesCount() == 1);
+
             started = true;
-            foreach (Hero hero in heroes)
-            {
-                hero.start(_x);
-            }
-        }        
+            heroes[0].start(_x);
+        }
+
+        public void startHeroes()
+        {
+            Debug.Assert(getHeroesCount() == 2);
+            started = true;
+
+            float x1 = 0.25f * 640;
+            float x2 = 640 - x1;
+            heroes[0].start(x1);
+            heroes[0].flip = true;
+
+            heroes[1].start(x2);
+            heroes[1].flip = false;
+        }
 
         public int getHeroesCount()
         {

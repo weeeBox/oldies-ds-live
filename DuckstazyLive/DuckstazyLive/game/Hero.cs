@@ -674,7 +674,7 @@ namespace DuckstazyLive.game
 
         public void jumpOn(Hero other)
         {
-            jump(40);
+            jump(0.5f * getJumpHeight());
             other.jumpedBy(this);
         }
 
