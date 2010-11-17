@@ -42,7 +42,7 @@ namespace DuckstazyLive.game.env
 
             ColorTransform trans = new ColorTransform(c1);
             trans.alphaMultiplier = 0.7f;
-            DrawMatrix m = new DrawMatrix();
+            DrawMatrix m = new DrawMatrix(true);
 
             float x = Constants.SAFE_OFFSET_X_UNSCALE;
             float y = -160.0f + t;

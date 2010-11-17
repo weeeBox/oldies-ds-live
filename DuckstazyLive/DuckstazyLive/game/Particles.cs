@@ -51,7 +51,7 @@ namespace DuckstazyLive.game
         private Particle[] pool;
         private int parts;
 
-        private DrawMatrix mat = new DrawMatrix();
+        private DrawMatrix mat = new DrawMatrix(true);
 
         public Particles()
         {
