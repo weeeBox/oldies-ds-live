@@ -208,7 +208,7 @@ namespace DuckstazyLive.game
             float x;
             int i;
             float v;
-            DrawMatrix mat = new DrawMatrix();
+            DrawMatrix mat = new DrawMatrix(true);
             float pointY;
             ColorTransform pointEmpty = env.ctProgress;
             ColorTransform pointFilled = new ColorTransform();
@@ -248,7 +248,7 @@ namespace DuckstazyLive.game
                     y = ld1[i];
                     pointY = 390.0f + y + 0.5f * (ld2[i] - y);
 
-                    mat.identity();
+                    mat.identity();                    
                     mat.translate(x, pointY);
 
                     if (prog > 0.05263)

@@ -42,11 +42,19 @@ namespace DuckstazyLive.game
                 color.B = (byte)(color.B * transform.blueMultiplier);
                 color.A = (byte)(color.A * transform.alphaMultiplier);
             }
-            Vector2 scaledPosition;
-            Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);
-            Vector2 scaledOrigin;
-            Vector2.Multiply(ref mat.ORIGIN, Constants.SCALE, out scaledOrigin);
-            AppGraphics.DrawImage(getTexture(imageId), ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
+
+            if (mat.useScale)
+            {
+                Vector2 scaledPosition;
+                Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);
+                Vector2 scaledOrigin;
+                Vector2.Multiply(ref mat.ORIGIN, Constants.SCALE, out scaledOrigin);
+                AppGraphics.DrawImage(getTexture(imageId), ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
+            }
+            else
+            {
+                AppGraphics.DrawImage(getTexture(imageId), ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
+            }            
         }        
 
         public void copyPixels(int imageId, Rect dest, Vector2 pos)

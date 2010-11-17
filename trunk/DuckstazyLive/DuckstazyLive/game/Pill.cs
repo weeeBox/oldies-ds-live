@@ -36,7 +36,7 @@ namespace DuckstazyLive.game
         private Vector2 POINT = Vector2.Zero;
         private ColorTransform COLOR = new ColorTransform();
         private ColorTransform BLACK = new ColorTransform(0, 0, 0);
-        private DrawMatrix MAT = new DrawMatrix();
+        private DrawMatrix MAT = new DrawMatrix(true);
 
         // временный идентификатор
         public int id;

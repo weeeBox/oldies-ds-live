@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public class Level
+    public abstract class Level
     {
         public static Level instance;
 
@@ -22,13 +22,13 @@ namespace DuckstazyLive.game
         private const String NEXT_LEVEL_TEXT_END = " SEC...";
 
         public int imgHP1;
-        private int imgScore;
-        private float hpPulse;
+        protected int imgScore;
+        protected float hpPulse;
         private float hpCounter;
 
         private int scoreOld;
-        private string scoreText;
-        private float scoreCounter;
+        protected string scoreText;
+        protected float scoreCounter;
 
         public string infoText;
 
@@ -137,35 +137,7 @@ namespace DuckstazyLive.game
             enterLevel();
         }
 
-        public void drawUI(Canvas canvas)
-        {
-            DrawMatrix mat = new DrawMatrix();
-            float sc = 1.0f + 0.3f * hpPulse;
-
-            mat.tx = -25.0f;
-            mat.ty = -23.0f;
-            mat.scale(sc, sc);
-            mat.translate(22.0f, 410 + 18);//463.0f);
-            canvas.draw(imgHP1, mat);
-
-            mat.identity();
-            mat.tx = -24.0f;
-            mat.ty = -24.0f;
-            sc = 1.0f + 0.3f * scoreCounter;
-            mat.scale(sc, sc);
-            mat.translate(620.0f, 410 + 18);//463.0f);
-            canvas.draw(imgScore, mat);
-
-            mat.identity();
-
-            mat.translate(40.0f, 410.0f);//445.0f;
-            String str = state.health.ToString() + "/" + state.maxHP.ToString();
-            canvas.draw(Res.FNT_BIG, str, mat);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            mat.translate(600.0f - font.stringWidth(scoreText), 410.0f);
-            canvas.draw(Res.FNT_BIG, scoreText, mat);
-        }
+        public abstract void drawUI(Canvas canvas);        
 
         public void draw(Canvas canvas)
         {
@@ -191,12 +163,12 @@ namespace DuckstazyLive.game
                 levelPostDraw();
 
                 env.draw2(canvas);
-
-                levelPreDraw();
+                
                 progress.draw(canvas);
                 drawUI(canvas);
                 stage.draw2(canvas);
 
+                levelPreDraw();
                 AppGraphics.DrawRect(0, 0, utils.scale(640), utils.scale(480), Color.White);
                 levelPostDraw();
             }

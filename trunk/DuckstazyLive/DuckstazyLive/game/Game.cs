@@ -127,8 +127,8 @@ namespace DuckstazyLive.game
         {
             if (geomTitleSafe == null)
             {
-                float w = Constants.TITLE_SAFE_X * Constants.SCREEN_WIDTH;
-                float h = Constants.TITLE_SAFE_Y * Constants.SCREEN_HEIGHT;
+                float w = Constants.TITLE_SAFE_SCALE_X * Constants.SCREEN_WIDTH;
+                float h = Constants.TITLE_SAFE_SCALE_Y * Constants.SCREEN_HEIGHT;
                 float x = 0.5f * (Constants.SCREEN_WIDTH - w);
                 float y = 0.5f * (Constants.SCREEN_HEIGHT - h);
 

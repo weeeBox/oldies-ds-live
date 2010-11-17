@@ -110,7 +110,7 @@ namespace DuckstazyLive.game
         public virtual void draw2(Canvas canvas)
         {
             ColorTransform color = new ColorTransform();
-            DrawMatrix mat = new DrawMatrix();
+            DrawMatrix mat = new DrawMatrix(true);
             float a = startCounter;
             float b = startCounter;
             string text = level.infoText;

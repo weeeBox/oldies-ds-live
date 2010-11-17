@@ -8,21 +8,27 @@ namespace DuckstazyLive.game
 {
     public class DrawMatrix
     {
-        public static DrawMatrix IDENTITY = new DrawMatrix();
+        public static DrawMatrix IDENTITY = new DrawMatrix(false);
 
         public Vector2 POSITION;
         public Vector2 ORIGIN;
         public Vector2 SCALE;
         public float ROTATION;
         public Vector2 FLIP;
+        public bool useScale;
 
-        public DrawMatrix()
+        public DrawMatrix() : this(false)
+        {            
+        }
+
+        public DrawMatrix(bool useScale)
         {
             identity();
+            this.useScale = useScale;
         }
 
         public void identity()
-        {
+        {            
             POSITION.X = POSITION.Y = 0.0f;
             ORIGIN.X = ORIGIN.Y = 0.0f;
             SCALE.X = SCALE.Y = 1.0f;
