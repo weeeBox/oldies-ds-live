@@ -8,18 +8,12 @@ namespace DuckstazyLive.game
     public class GameState
     {
         /*** Грейды ***/
-        public int def; // коэффициент урона
-        public int maxHP; // максимальное здоровье
+        
         public int hell;
-        public int norm;
-
-        /*** Герой ***/
-        public int health;
+        public int norm;        
 
         /*** Уровень ***/
-        public int level;
-
-        public int scores;
+        public int level;        
 
         public GameState()
         {
@@ -28,31 +22,20 @@ namespace DuckstazyLive.game
 
         // Все вернуть как сначала.
         public void reset()
-        {
-            def = 0;
-            maxHP = 25;
+        {            
             norm = 0;
-            hell = 0;
+            hell = 0;         
 
-            health = maxHP;
-
-            level = 0;
-            scores = 0;
+            level = 0;            
         }
 
         // присвоить
         public void assign(GameState state)
-        {
-            def = state.def;
-            maxHP = state.maxHP;
+        {            
             norm = state.norm;
             hell = state.hell;
-
-            health = state.health;
-
-            level = state.level;
-
-            scores = state.scores;
+        
+            level = state.level;            
         }
 
         public int calcHellScores(int id)

@@ -19,16 +19,7 @@ namespace DuckstazyLive.game
 
         private const String HARVEST_TEXT = "HARVESTING";
         private const String NEXT_LEVEL_TEXT_BEGIN = "WARP IN ";
-        private const String NEXT_LEVEL_TEXT_END = " SEC...";
-
-        public int imgHP1;
-        protected int imgScore;
-        protected float hpPulse;
-        private float hpCounter;
-
-        private int scoreOld;
-        protected string scoreText;
-        protected float scoreCounter;
+        private const String NEXT_LEVEL_TEXT_END = " SEC...";                       
 
         public string infoText;
 
@@ -88,23 +79,14 @@ namespace DuckstazyLive.game
 
             stage = null;
             finish = false;
-
-            imgHP1 = Res.IMG_UI_HP;
-            imgScore = Res.IMG_UI_SCORE;
-            sndStart = Res.SND_LEVEL_START;
-
-            hpCounter = 0.0f;
-            hpPulse = 0.0f;
-
-            scoreOld = 0;
-            scoreCounter = 0.0f;
+            
+            sndStart = Res.SND_LEVEL_START;            
         }
 
         protected virtual void initHero()
         {
             heroes = new Heroes();
-            Hero heroInstance = new Hero(heroes, 0);
-            heroInstance.state = state;
+            Hero heroInstance = new Hero(heroes, 0);            
             heroes.addHero(heroInstance);
 
             pills = new Pills(heroes, ps, this);
@@ -131,8 +113,7 @@ namespace DuckstazyLive.game
 
             finish = false;
             pause = false;
-
-            state.health = state.maxHP;
+            
             syncScores();
             enterLevel();
         }
@@ -155,9 +136,8 @@ namespace DuckstazyLive.game
 
                 info.drawFT(canvas);
                 pills.draw(canvas);
-
-                if (state.health > 0)
-                    heroes.draw(canvas);
+                                
+                heroes.draw(canvas);
 
                 ps.draw(canvas);
                 levelPostDraw();
@@ -168,9 +148,9 @@ namespace DuckstazyLive.game
                 drawUI(canvas);
                 stage.draw2(canvas);
 
-                levelPreDraw();
-                AppGraphics.DrawRect(0, 0, utils.scale(640), utils.scale(480), Color.White);
-                levelPostDraw();
+                //levelPreDraw();
+                //AppGraphics.DrawRect(0, 0, utils.scale(640), utils.scale(480), Color.White);
+                //levelPostDraw();
             }
         }
 
@@ -211,12 +191,11 @@ namespace DuckstazyLive.game
                     }
                 }
 
-                if (state.health <= 0)
+                if (!heroes.hasAliveHero())
                 {
                     if (!finish)
                     {
-                        finish = true;
-                        state.health = 0;
+                        finish = true;                        
                         env.blanc = 1.0f;
                         progress.play = false;
 
@@ -261,7 +240,7 @@ namespace DuckstazyLive.game
                     if (power > powerUp) power = powerUp;
                 }
 
-                if (state.health > 0) heroes.update(dt, power);
+                heroes.update(dt, power);
 
                 pills.update(dt, power);
 
@@ -271,22 +250,7 @@ namespace DuckstazyLive.game
 
                 progress.update(dt, power);
 
-                ps.update(dt);
-
-                if (hpPulse > 0.0f) { hpPulse -= 4.0f * dt; if (hpPulse < 0.0f) hpPulse = 0.0f; }
-                hpCounter += 4.0f * dt;
-                if (power < 0.33)
-                {
-                    if (hpCounter > 4.0f) { hpCounter -= 4.0f; hpPulse = 1.0f; }
-                }
-                else if (power < 0.66)
-                {
-                    if (hpCounter > 2.0f) { hpCounter -= 2.0f; hpPulse = 1.0f; }
-                }
-                else
-                {
-                    if (hpCounter > 1.0f) { hpCounter -= 1.0f; hpPulse = 1.0f; }
-                }
+                ps.update(dt);                
 
                 if (power >= 0.5) info.setRGB(env.colors.bg);
                 else
@@ -294,28 +258,7 @@ namespace DuckstazyLive.game
                     if (env.day) info.setRGB(0x000000);
                     else info.setRGB(0xffffff);
                 }
-                info.update(power, dt);
-
-                if (state.scores > scoreOld)
-                {
-                    scoreCounter += 30.0f * dt;
-                    if (scoreCounter > 1.0f)
-                    {
-                        i = (state.scores - scoreOld) / 5;
-                        if (i == 0)
-                        {
-                            scoreOld = state.scores;
-                            scoreCounter = 0.0f;
-                        }
-                        else
-                        {
-                            scoreOld += i;
-                            scoreCounter -= (int)scoreCounter;
-                        }
-
-                        scoreText = scoreOld.ToString();
-                    }
-                }
+                info.update(power, dt);                
             }
         }
 
@@ -341,7 +284,7 @@ namespace DuckstazyLive.game
             {
                 if (finish)
                 {
-                    if (state.health > 0)
+                    if (heroes.hasAliveHero())
                     {
                         //if(code==0x0D || code==0x1B) // ENTER or ESC
                         //nextLevel();
@@ -426,8 +369,10 @@ namespace DuckstazyLive.game
         // Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.
         public void syncScores()
         {
-            scoreOld = state.scores;
-            scoreText = scoreOld.ToString();
+            foreach (Hero h in heroes)
+            {
+                h.state.syncScores();
+            }
         }
 
         private void winLevel()

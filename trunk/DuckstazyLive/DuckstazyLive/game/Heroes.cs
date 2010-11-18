@@ -12,7 +12,7 @@ using Framework.utils;
 
 namespace DuckstazyLive.game
 {
-    public class Heroes
+    public class Heroes : IEnumerable<Hero>
     {
         private bool started;
 
@@ -69,7 +69,11 @@ namespace DuckstazyLive.game
 
             foreach (Hero hero in heroes)
             {
-                hero.update(dt, newPower);
+                if (hero.state.health > 0)
+                {
+                    hero.update(dt, newPower);
+                    hero.state.update(dt, newPower);
+                }
             }
 
             if (heroes.Count > 1)
@@ -137,7 +141,8 @@ namespace DuckstazyLive.game
             {
                 foreach (Hero hero in heroes)
                 {
-                    hero.draw(canvas);
+                    if (hero.state.health > 0)
+                        hero.draw(canvas);
                 }
             }
         }
@@ -186,9 +191,35 @@ namespace DuckstazyLive.game
             heroes[1].flip = false;
         }
 
+        public bool hasAliveHero()
+        {
+            foreach (Hero h in heroes)
+            {
+                if (h.state.health > 0)
+                    return true;
+            }
+            return false;
+        }
+
         public int getHeroesCount()
         {
             return heroes.Count;
+        }
+
+        public IEnumerator<Hero> GetEnumerator()
+        {
+            foreach (Hero h in heroes)
+            {
+                yield return h;
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            foreach (Hero h in heroes)
+            {
+                yield return h;
+            }
         }
     }
 }

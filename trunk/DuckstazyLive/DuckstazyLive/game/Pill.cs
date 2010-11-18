@@ -369,7 +369,7 @@ namespace DuckstazyLive.game
                     if (level.power >= 0.5)
                     {
                         i = id + level.state.hell;
-                        level.state.scores += level.state.calcHellScores(i);
+                        hero.state.scores += level.state.calcHellScores(i);
                         //else if(i==1) level.state.scores+=10;
                         //else if(i==2) level.state.scores+=25;
                         info.add(x, y, info.powers[i]);
@@ -380,13 +380,13 @@ namespace DuckstazyLive.game
                         i = level.state.norm;
                         if (i == 0)
                         {
-                            level.state.scores++;
+                            hero.state.scores++;
                             info.add(x, y, info.one);
                         }
                         else
                         {
                             info.add(x, y, info.powers[i - 1]);
-                            level.state.scores += level.state.calcHellScores(i - 1);
+                            hero.state.scores += level.state.calcHellScores(i - 1);
                         }
                     }
                     utils.playSound(media.sndPowers[id], 1.0f, x);
@@ -410,17 +410,17 @@ namespace DuckstazyLive.game
                     {
                         if (level.power >= 0.5)
                         {
-                            if (i == 0) level.state.scores += 100;
-                            else if (i == 1) level.state.scores += 150;
-                            else if (i == 2) level.state.scores += 200;
+                            if (i == 0) hero.state.scores += 100;
+                            else if (i == 1) hero.state.scores += 150;
+                            else if (i == 2) hero.state.scores += 200;
                             info.add(x, y, info.toxics[i]);
                             level.env.beat();
                         }
                         else
                         {
-                            if (i == 0) level.state.scores += 5;
-                            else if (i == 1) level.state.scores += 10;
-                            else if (i == 2) level.state.scores += 25;
+                            if (i == 0) hero.state.scores += 5;
+                            else if (i == 1) hero.state.scores += 10;
+                            else if (i == 2) hero.state.scores += 25;
                             info.add(x, y, info.powers[i]);
                         }
                         if (user != null)

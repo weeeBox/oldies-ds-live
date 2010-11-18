@@ -12,7 +12,8 @@ namespace Framework.core
     public enum AppBlendMode
     {        
         AlphaBlend,
-        NonPremultiplied,
+        Additive,
+        Opaque,
     }
 
     public class AppGraphics
@@ -64,8 +65,10 @@ namespace Framework.core
             {
                 case AppBlendMode.AlphaBlend:
                     return BlendState.AlphaBlend;
-                case AppBlendMode.NonPremultiplied:
-                    return BlendState.NonPremultiplied;
+                case AppBlendMode.Additive:
+                    return BlendState.Additive;
+                case AppBlendMode.Opaque:
+                    return BlendState.Opaque;
                 default:
                     throw new NotImplementedException();
             }
@@ -119,11 +122,25 @@ namespace Framework.core
             drawColor = color;         
         }
 
+        public static void SetBlendMode(AppBlendMode mode)
+        {
+            if (blendMode != mode)
+            {
+                blendMode = mode;
+                EndBatch();
+            }            
+        }
+
+        public static AppBlendMode GetBlendMode()
+        {
+            return blendMode;
+        }
+
         public static void SetMatrix(Matrix _matrix)
         {
             matrix = _matrix;
             EndBatch();
-        }
+        }        
 
         public static void Begin(GraphicsDevice gd, float width, float height)
         {            

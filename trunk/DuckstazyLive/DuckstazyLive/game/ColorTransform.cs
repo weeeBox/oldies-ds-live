@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.core;
 
 namespace DuckstazyLive.game
 {
@@ -13,6 +14,8 @@ namespace DuckstazyLive.game
         public float redMultiplier;
         public float greenMultiplier;
         public float blueMultiplier;
+
+        public AppBlendMode blendMode;
 
         public ColorTransform() : this (1.0f, 1.0f, 1.0f, 1.0f)
         {            
@@ -33,6 +36,8 @@ namespace DuckstazyLive.game
             this.greenMultiplier = greenMultiplier;
             this.blueMultiplier = blueMultiplier;
             this.alphaMultiplier = alphaMultiplier;
+
+            blendMode = AppBlendMode.AlphaBlend;
         }
     }
 }
