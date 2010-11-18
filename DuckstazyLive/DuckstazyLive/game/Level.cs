@@ -164,7 +164,7 @@ namespace DuckstazyLive.game
 
                 env.draw2(canvas);
                 
-                progress.draw(canvas);
+                // progress.draw(canvas);
                 drawUI(canvas);
                 stage.draw2(canvas);
 
