@@ -79,16 +79,21 @@ namespace DuckstazyLive.game
 
                 if (heroesIntersects(hero1, hero2))
                 {
-                    if (hero1.y < hero2.y)
+                    if (checkHeroJump(hero1, hero2))
                     {
                         hero1.jumpOn(hero2);
                     }
-                    else
+                    else if (checkHeroJump(hero2, hero1))
                     {
                         hero2.jumpOn(hero1);
                     }
                 }
             }
+        }
+
+        private bool checkHeroJump(Hero h1, Hero h2)
+        {
+            return h1.y < h2.y && h1.y + Hero.duck_h2 < h2.y + 0.2f * Hero.duck_h2;
         }
 
         private bool heroesIntersects(Hero h1, Hero h2)
