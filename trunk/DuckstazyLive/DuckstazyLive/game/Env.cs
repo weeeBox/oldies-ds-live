@@ -506,8 +506,7 @@ namespace DuckstazyLive.game
             if (blanc > 0.0f)
             {
                 blanc -= 0.5f * dt;
-                Color blancColor = Color.White;
-                blancColor.A = (byte)(255 * blanc);
+                Color blancColor = Color.White * blanc;                
                 geomBlanc.colorize(blancColor);
             }
         }

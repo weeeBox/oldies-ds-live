@@ -40,7 +40,7 @@ namespace DuckstazyLive.game
                 color.R = (byte)(color.R * transform.redMultiplier);
                 color.G = (byte)(color.G * transform.greenMultiplier);
                 color.B = (byte)(color.B * transform.blueMultiplier);
-                color.A = (byte)(color.A * transform.alphaMultiplier);
+                color *= transform.alphaMultiplier;
             }
 
             if (mat.useScale)
