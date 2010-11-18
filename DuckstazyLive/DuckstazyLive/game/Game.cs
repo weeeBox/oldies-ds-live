@@ -109,11 +109,11 @@ namespace DuckstazyLive.game
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);
 
-            float safeWidth = 0.8f * Constants.SCREEN_WIDTH;
-            float safeHeight = 0.8f * Constants.SCREEN_HEIGHT;
-            float safeX = 0.5f * (Constants.SCREEN_WIDTH - safeWidth);
-            float safeY = 0.5f * (Constants.SCREEN_HEIGHT - safeHeight);            
-            AppGraphics.DrawRect(safeX, safeY, safeWidth, safeHeight, Color.Red);
+            //float safeWidth = 0.8f * Constants.SCREEN_WIDTH;
+            //float safeHeight = 0.8f * Constants.SCREEN_HEIGHT;
+            //float safeX = 0.5f * (Constants.SCREEN_WIDTH - safeWidth);
+            //float safeY = 0.5f * (Constants.SCREEN_HEIGHT - safeHeight);            
+            //AppGraphics.DrawRect(safeX, safeY, safeWidth, safeHeight, Color.Red);
         }
 
         private void drawLevel()

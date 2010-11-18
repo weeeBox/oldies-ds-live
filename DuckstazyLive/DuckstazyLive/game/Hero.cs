@@ -101,7 +101,7 @@ namespace DuckstazyLive.game
         public int toxic_collected;
         public int frags;
         
-        public GameState state;
+        public HeroState state;
         private Heroes heroes;
 
         private int playerIndex;
@@ -114,6 +114,8 @@ namespace DuckstazyLive.game
             flip = true;
             sleep = false;
             started = false;
+
+            state = new HeroState();
 
             initCollisionRects();
         }        
@@ -149,6 +151,8 @@ namespace DuckstazyLive.game
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
+
+            state.health = state.maxHP;
         }
 
         private void doStepBubble()

@@ -109,81 +109,83 @@ namespace DuckstazyLive.game
 
         public virtual void draw2(Canvas canvas)
         {
-            ColorTransform color = new ColorTransform();
-            DrawMatrix mat = new DrawMatrix(true);
-            float a = startCounter;
-            float b = startCounter;
-            string text = level.infoText;
+            //ColorTransform color = new ColorTransform();
+            //DrawMatrix mat = new DrawMatrix(true);
+            //float a = startCounter;
+            //float b = startCounter;
+            //string text = level.infoText;
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            float textWidth = font.stringWidth(text);
-            float textHeight = font.fontHeight();
+            //Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            //float textWidth = font.stringWidth(text);
+            //float textHeight = font.fontHeight();
 
-            if (startTitle != Constants.UNDEFINED && a < 5.0f)
-            {
-                Texture2D startTitleTex = Application.sharedResourceMgr.getTexture(startTitle);
+            //if (startTitle != Constants.UNDEFINED && a < 5.0f)
+            //{
+            //    Texture2D startTitleTex = Application.sharedResourceMgr.getTexture(startTitle);
 
-                if (b > 4.0f) b = 5.0f - b;
-                else if (b > 2.0f) b = 1.0f;
-                else b *= 0.5f;
-                color.alphaMultiplier = b;
-                mat.translate(320 - utils.unscale(startTitleTex.Width * 0.5f), 180);
-                canvas.draw(startTitle, mat, color);
+            //    if (b > 4.0f) b = 5.0f - b;
+            //    else if (b > 2.0f) b = 1.0f;
+            //    else b *= 0.5f;
+            //    color.alphaMultiplier = b;
+            //    mat.translate(320 - utils.unscale(startTitleTex.Width * 0.5f), 180);
+            //    canvas.draw(startTitle, mat, color);
 
-                if (text.Length != 0)
-                {
-                    mat.tx = utils.unscale(textWidth * 0.5f);
-                    mat.ty = utils.unscale(textHeight * 0.5f);
+            //    if (text.Length != 0)
+            //    {
+            //        mat.tx = utils.unscale(textWidth * 0.5f);
+            //        mat.ty = utils.unscale(textHeight * 0.5f);
 
-                    if (a < 2)
-                        b = (float)(Math.Sin(2.355 * a / 2) * 1.4148);
-                    else if (a < 4)
-                        b = 1.0f;
-                    else
-                        b = 5.0f - a;
+            //        if (a < 2)
+            //            b = (float)(Math.Sin(2.355 * a / 2) * 1.4148);
+            //        else if (a < 4)
+            //            b = 1.0f;
+            //        else
+            //            b = 5.0f - a;
 
-                    mat.scale(b, b);
-                    mat.translate(320, 230);
+            //        mat.scale(b, b);
+            //        mat.translate(320, 230);
 
-                    canvas.draw(Res.FNT_BIG, text, mat);
+            //        canvas.draw(Res.FNT_BIG, text, mat);
 
-                    if (a > 4)
-                    {
-                        b = a - 4;
-                        mat.identity();
-                        mat.tx = utils.unscale(textWidth * 0.5f);
-                        mat.ty = utils.unscale(textHeight * 0.5f);
-                        mat.scale(b, b);
-                        mat.translate(320, 410);
-                        canvas.draw(Res.FNT_BIG, text, mat);
-                    }
-                }
-            }
-            else
-            {
-                if (text.Length != 0)
-                {
-                    mat.tx = utils.unscale(textWidth * 0.5f);
-                    mat.ty = utils.unscale(textHeight * 0.5f);
-                    mat.translate(320, 410);
-                    canvas.draw(Res.FNT_BIG, text, mat);
-                }
-            }
+            //        if (a > 4)
+            //        {
+            //            b = a - 4;
+            //            mat.identity();
+            //            mat.tx = utils.unscale(textWidth * 0.5f);
+            //            mat.ty = utils.unscale(textHeight * 0.5f);
+            //            mat.scale(b, b);
+            //            mat.translate(320, 410);
+            //            canvas.draw(Res.FNT_BIG, text, mat);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (text.Length != 0)
+            //    {
+            //        mat.tx = utils.unscale(textWidth * 0.5f);
+            //        mat.ty = utils.unscale(textHeight * 0.5f);
+            //        mat.translate(320, 410);
+            //        canvas.draw(Res.FNT_BIG, text, mat);
+            //    }
+            //}
 
-            if (end && endCounter < 2)
-            {
-                Texture2D endImgTex = Application.sharedResourceMgr.getTexture(endImg);
+            //if (end && endCounter < 2)
+            //{
+            //    Texture2D endImgTex = Application.sharedResourceMgr.getTexture(endImg);
 
-                mat.identity();
-                mat.tx = 320 - utils.unscale(endImgTex.Width * 0.5f);
-                mat.ty = 180;
-                a = endCounter;
+            //    mat.identity();
+            //    mat.tx = 320 - utils.unscale(endImgTex.Width * 0.5f);
+            //    mat.ty = 180;
+            //    a = endCounter;
 
-                if (a > 1) color.alphaMultiplier = (float)(Math.Cos(3.14 * (a - 1)) * 0.5 + 0.5);
-                else color.alphaMultiplier = 1;
+            //    if (a > 1) color.alphaMultiplier = (float)(Math.Cos(3.14 * (a - 1)) * 0.5 + 0.5);
+            //    else color.alphaMultiplier = 1;
 
-                canvas.draw(endImg, mat, color);
-            }
+            //    canvas.draw(endImg, mat, color);
+            //}
+
+            // implement me
         }
 
         public virtual void update(float dt)

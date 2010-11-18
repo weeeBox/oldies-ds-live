@@ -102,6 +102,7 @@
     <Compile Include="game\Hero.cs" />
     <Compile Include="game\Heroes.cs" />
     <Compile Include="game\HeroMedia.cs" />
+    <Compile Include="game\HeroState.cs" />
     <Compile Include="game\Level.cs">
       <SubType>Code</SubType>
     </Compile>

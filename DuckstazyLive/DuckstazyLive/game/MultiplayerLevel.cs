@@ -7,6 +7,7 @@ using DuckstazyLive.app;
 using Framework.visual;
 using Framework.core;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
@@ -31,13 +32,15 @@ namespace DuckstazyLive.game
         protected override void initHero()
         {
             heroes = new Heroes();
-            Hero heroInstance = new Hero(heroes, 0);
-            heroInstance.state = state;
-            heroes.addHero(heroInstance);
+            Hero hero = new Hero(heroes, 0);
+            hero.state.leftOriented = true;
+            hero.state.fontColor = Color.Yellow;
+            heroes.addHero(hero);
 
-            heroInstance = new Hero(heroes, 1);
-            heroInstance.state = state;
-            heroes.addHero(heroInstance);
+            hero = new Hero(heroes, 1);
+            hero.state.leftOriented = false;
+            hero.state.fontColor = Color.Pink;
+            heroes.addHero(hero);
 
             pills = new Pills(heroes, ps, this);
             heroes.particles = ps;
@@ -47,24 +50,8 @@ namespace DuckstazyLive.game
 
         public override void drawUI(Canvas canvas)
         {
-            DrawMatrix mat = new DrawMatrix();
-            float sc = 1.0f + 0.3f * hpPulse;
-
-            Texture2D tex = Application.sharedResourceMgr.getTexture(imgHP1);
-            mat.tx = -0.5f * tex.Width;
-            mat.ty = -0.5f * tex.Height;
-            mat.scale(sc, sc);
-            mat.translate(Constants.TITLE_SAFE_LEFT_X, utils.unscale(Constants.TITLE_SAFE_TOP_Y));
-            canvas.draw(imgHP1, mat);
-
-            mat.identity();
-            tex = Application.sharedResourceMgr.getTexture(imgScore);
-            mat.tx = -0.5f * tex.Width;
-            mat.ty = -0.5f * tex.Height;            
-            sc = 1.0f + 0.3f * scoreCounter;
-            mat.scale(sc, sc);
-            mat.translate(Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-            canvas.draw(imgScore, mat);
+            heroes[0].state.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+            heroes[1].state.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
 
             //mat.identity();
 

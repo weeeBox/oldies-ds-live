@@ -35,12 +35,14 @@ namespace DuckstazyLive.game
         public void draw(int imageId, DrawMatrix mat, ColorTransform transform)
         {            
             Color color = Color.White;
+            AppBlendMode blendMode = AppGraphics.GetBlendMode();
             if (transform != null)
             {
                 color.R = (byte)(color.R * transform.redMultiplier);
                 color.G = (byte)(color.G * transform.greenMultiplier);
                 color.B = (byte)(color.B * transform.blueMultiplier);
                 color *= transform.alphaMultiplier;
+                AppGraphics.SetBlendMode(transform.blendMode);
             }
 
             if (mat.useScale)
@@ -54,7 +56,9 @@ namespace DuckstazyLive.game
             else
             {
                 AppGraphics.DrawImage(getTexture(imageId), ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
-            }            
+            }
+
+            AppGraphics.SetBlendMode(blendMode);
         }        
 
         public void copyPixels(int imageId, Rect dest, Vector2 pos)
@@ -65,8 +69,8 @@ namespace DuckstazyLive.game
         public void draw(int fontId, String text, DrawMatrix mat)
         {
             Font fnt = Application.sharedResourceMgr.getFont(fontId);
-            float x = utils.scale(mat.POSITION.X + mat.ORIGIN.X);
-            float y = utils.scale(mat.POSITION.Y + mat.ORIGIN.Y);
+            float x = mat.POSITION.X + mat.ORIGIN.X;
+            float y = mat.POSITION.Y + mat.ORIGIN.Y;
 
             bool changeScale = mat.SCALE.X != 1.0f || mat.SCALE.Y != 1.0f;
             bool changeRotation = mat.ROTATION != 0.0f;
@@ -80,11 +84,24 @@ namespace DuckstazyLive.game
                 if (changeScale)
                     AppGraphics.Scale(mat.SCALE.X, mat.SCALE.Y, 0.0f);
 
-                fnt.draw(text, utils.scale(mat.ORIGIN.X / mat.SCALE.X), utils.scale(mat.ORIGIN.Y / mat.SCALE.Y));
+                float drawX = mat.ORIGIN.X / mat.SCALE.X;
+                float drawY = mat.ORIGIN.Y / mat.SCALE.Y;
+                if (mat.useScale)
+                {
+                    drawX = utils.scale(drawX);
+                    drawY = utils.scale(drawY);
+                }
+
+                fnt.draw(text, drawX, drawY);
                 AppGraphics.PopMatrix();
             }
             else
             {
+                if (mat.useScale)
+                {
+                    x = utils.scale(x);
+                    y = utils.scale(y);
+                }
                 fnt.draw(text, x, y);
             }
         }

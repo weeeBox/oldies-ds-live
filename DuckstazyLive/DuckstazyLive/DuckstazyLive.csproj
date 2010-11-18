@@ -150,6 +150,7 @@
     <Compile Include="game\Heroes.cs" />
     <Compile Include="game\Hero.cs" />
     <Compile Include="game\HeroMedia.cs" />
+    <Compile Include="game\HeroState.cs" />
     <Compile Include="game\Level.cs" />
     <Compile Include="game\LevelProgress.cs" />
     <Compile Include="game\LevelStage.cs" />

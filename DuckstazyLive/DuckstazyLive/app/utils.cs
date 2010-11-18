@@ -222,6 +222,26 @@ namespace DuckstazyLive.app
             return Application.sharedResourceMgr.getTexture(imageId);
         }
 
+        public static float imageWidth(int imageId)
+        {
+            return getImage(imageId).Width;
+        }
+
+        public static float imageHeight(int imageId)
+        {
+            return getImage(imageId).Height;
+        }
+
+        public static float fontHeight(int fontId)
+        {
+            return Application.sharedResourceMgr.getFont(fontId).fontHeight();
+        }
+
+        public static float stringWidth(int fontId, String str)
+        {
+            return Application.sharedResourceMgr.getFont(fontId).stringWidth(str);
+        }
+
         public static CustomGeomerty createRect(float x, float y, float w, float h, Color borderColor)
         {
             return createRect(x, y, w, h, borderColor, true);
