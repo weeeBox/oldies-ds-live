@@ -143,7 +143,7 @@ namespace DuckstazyLive.game.levels
 
             foreach (Hero hero in heroes)
             {
-                if (hero.y > 250)
+                if (hero.isActive() && hero.y > 250)
                     return false;
             }
 
@@ -200,7 +200,7 @@ namespace DuckstazyLive.game.levels
             p.Y = 400 - 113;
             canvas.copyPixels(bm, rc, p);
         }
-
+        
         public void toxicLogic(Pill pill, String msg, float dt)
         {
             int i;
