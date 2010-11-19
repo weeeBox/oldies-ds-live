@@ -196,7 +196,7 @@ namespace DuckstazyLive.game
             if (!heroStarted)
             {
                 heroStarted = true;
-                if (heroes.GetHashCode() > 1)
+                if (heroes.getHeroesCount() > 1)
                 {
                     heroes.startHeroes();
                 }

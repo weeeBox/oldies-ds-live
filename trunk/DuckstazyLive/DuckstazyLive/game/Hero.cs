@@ -190,7 +190,8 @@ namespace DuckstazyLive.game
         {
             if (!started) return;
 
-            updateGamepadInput();
+            if (!isDead())
+                updateGamepadInput();
 
             xLast = x;
             yLast = y;
