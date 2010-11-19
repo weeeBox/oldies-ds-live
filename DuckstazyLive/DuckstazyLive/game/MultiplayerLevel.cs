@@ -33,25 +33,25 @@ namespace DuckstazyLive.game
         {
             heroes = new Heroes();
             Hero hero = new Hero(heroes, 0);
-            hero.state.leftOriented = true;
-            hero.state.fontColor = Color.Yellow;
+            hero.gameState.leftOriented = true;
+            hero.gameState.fontColor = Color.Yellow;
             heroes.addHero(hero);
 
             hero = new Hero(heroes, 1);
-            hero.state.leftOriented = false;
-            hero.state.fontColor = Color.Pink;
+            hero.gameState.leftOriented = false;
+            hero.gameState.fontColor = Color.Pink;
             heroes.addHero(hero);
 
             pills = new Pills(heroes, ps, this);
             heroes.particles = ps;
             heroes.env = env;
-            heroes.init();
+            heroes.clear();
         }
 
         public override void drawUI(Canvas canvas)
         {
-            heroes[0].state.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-            heroes[1].state.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
+            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+            heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
 
             //mat.identity();
 

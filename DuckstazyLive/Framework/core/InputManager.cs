@@ -290,6 +290,8 @@ namespace Framework.core
             dic.Add(Keys.Down, Buttons.DPadDown);
             dic.Add(Keys.Left, Buttons.DPadLeft);
             dic.Add(Keys.Right, Buttons.DPadRight);
+            dic.Add(Keys.PageDown, Buttons.RightShoulder);
+            dic.Add(Keys.PageUp, Buttons.LeftShoulder);
             buttonsMappings[0] = dic;
 
             dic = new Dictionary<Keys, Buttons>();

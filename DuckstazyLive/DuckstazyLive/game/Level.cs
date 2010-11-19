@@ -92,7 +92,12 @@ namespace DuckstazyLive.game
             pills = new Pills(heroes, ps, this);
             heroes.particles = ps;
             heroes.env = env;
-            heroes.init();
+            heroes.clear();
+        }
+
+        public void reset()
+        {
+            heroes.clear();
         }
 
         public void start()
@@ -228,7 +233,9 @@ namespace DuckstazyLive.game
                     }
                 }
 
-                if (heroes[0].sleep) power_drain = 0.3f;
+                if (heroes.hasAsleepHero()) 
+                    power_drain = 0.3f;
+
                 if (powerUp < power)
                 {
                     power -= dt * power_drain;
@@ -371,7 +378,7 @@ namespace DuckstazyLive.game
         {
             foreach (Hero h in heroes)
             {
-                h.state.syncScores();
+                h.gameState.syncScores();
             }
         }
 

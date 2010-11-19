@@ -296,7 +296,7 @@ namespace DuckstazyLive.game
             for (int heroIndex = 0; heroIndex < heroes.getHeroesCount(); ++heroIndex)
             {
                 Hero hero = heroes[heroIndex];
-                if (hero.state.health > 0)
+                if (hero.gameState.health > 0)
                     checkHeroesTouch(hero);
             }
         }
@@ -364,12 +364,12 @@ namespace DuckstazyLive.game
             switch (type)
             {
                 case POWER:
-                    if (!hero.sleep)
+                    if (hero.isActive())
                         level.gainPower(power);
                     if (level.power >= 0.5)
                     {
                         i = id + level.state.hell;
-                        hero.state.scores += level.state.calcHellScores(i);
+                        hero.gameState.scores += level.state.calcHellScores(i);
                         //else if(i==1) level.state.scores+=10;
                         //else if(i==2) level.state.scores+=25;
                         info.add(x, y, info.powers[i]);
@@ -380,13 +380,13 @@ namespace DuckstazyLive.game
                         i = level.state.norm;
                         if (i == 0)
                         {
-                            hero.state.scores++;
+                            hero.gameState.scores++;
                             info.add(x, y, info.one);
                         }
                         else
                         {
                             info.add(x, y, info.powers[i - 1]);
-                            hero.state.scores += level.state.calcHellScores(i - 1);
+                            hero.gameState.scores += level.state.calcHellScores(i - 1);
                         }
                     }
                     utils.playSound(media.sndPowers[id], 1.0f, x);
@@ -410,17 +410,17 @@ namespace DuckstazyLive.game
                     {
                         if (level.power >= 0.5)
                         {
-                            if (i == 0) hero.state.scores += 100;
-                            else if (i == 1) hero.state.scores += 150;
-                            else if (i == 2) hero.state.scores += 200;
+                            if (i == 0) hero.gameState.scores += 100;
+                            else if (i == 1) hero.gameState.scores += 150;
+                            else if (i == 2) hero.gameState.scores += 200;
                             info.add(x, y, info.toxics[i]);
                             level.env.beat();
                         }
                         else
                         {
-                            if (i == 0) hero.state.scores += 5;
-                            else if (i == 1) hero.state.scores += 10;
-                            else if (i == 2) hero.state.scores += 25;
+                            if (i == 0) hero.gameState.scores += 5;
+                            else if (i == 1) hero.gameState.scores += 10;
+                            else if (i == 2) hero.gameState.scores += 25;
                             info.add(x, y, info.powers[i]);
                         }
                         if (user != null)
@@ -430,7 +430,7 @@ namespace DuckstazyLive.game
                     break;
                 case SLEEP:
                     //--delay_count;
-                    if (!hero.sleep)
+                    if (hero.isActive())
                     {
                         hero.doSleep();
                         level.gainSleep();

@@ -56,6 +56,7 @@
 				<image name="duck" file="${dir.art}/duck_fake.png" />
 				<image name="duck2" file="${dir.art}/duck_fake2.png" />
 				<image name="duck_sleep" file="${dir.art}/duck_sleep.png" />
+				<image name="duck_dead" file="${dir.art}/duck_dead.png" />
 				<image name="eye1" file="${dir.art}/eye1.png" />
 				<image name="eye2" file="${dir.art}/eye2.png" />
 				<image name="wing" file="${dir.art}/wing.png" />

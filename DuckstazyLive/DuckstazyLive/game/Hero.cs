@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using DuckstazyLive.app;
 using Framework.core;
 using Framework.utils;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -17,7 +18,7 @@ namespace DuckstazyLive.game
         private const float duck_jump_start_vel_max = 379;
         private const float duck_rapid_jump_delay = 0.1f;
 
-        private const float duck_jump_gravity = 200;
+        public const float duck_jump_gravity = 200;
         private const float duck_jump_toxic = 100;
 
         private const float duck_move_speed_min = 40;
@@ -62,7 +63,7 @@ namespace DuckstazyLive.game
         private const float STICK_VER_THRESHOLD_DIVE = 0.9f;
 
         private bool rapidJump;
-        private float jumpButtonPressedStartTime;        
+        private float jumpButtonPressedStartTime;
 
         public float x;
         public float y;
@@ -71,9 +72,14 @@ namespace DuckstazyLive.game
         private float dx;
         private float dy;
         public bool flip;
-        public bool sleep;
-        private bool started;
 
+        public const int HERO_NORMAL = 0;
+        public const int HERO_SLEEP = 1;
+        public const int HERO_DEAD = 2;
+
+        public int state;
+
+        private bool started;
         private float power;
 
         public float jumpVel;
@@ -100,25 +106,33 @@ namespace DuckstazyLive.game
         public int sleep_collected;
         public int toxic_collected;
         public int frags;
-        
-        public HeroState state;
+
+        public HeroGameState gameState;
         private Heroes heroes;
 
         private int playerIndex;
-       
+
         public Hero(Heroes heroes, int playerIndex)
         {
             this.heroes = heroes;
             this.playerIndex = playerIndex;
 
             flip = true;
-            sleep = false;
+            state = HERO_NORMAL;
             started = false;
 
-            state = new HeroState();
+            gameState = new HeroGameState();
 
             initCollisionRects();
-        }        
+        }
+
+        public void clear()
+        {
+            state = HERO_NORMAL;
+            x = 0;
+            gameState.health = gameState.maxHP;
+            init();
+        }
 
         public void init()
         {
@@ -128,12 +142,12 @@ namespace DuckstazyLive.game
             keysReset();
 
             fly = false;
-            sleep = false;
+
             started = false;
 
             jumpVel = 0.0f;
             jumpStartVel = 0.0f;
-            jumpWingVel = 0.0f;            
+            jumpWingVel = 0.0f;
             diveK = 0.0f;
 
             wingMod = 0.0f;
@@ -144,15 +158,12 @@ namespace DuckstazyLive.game
             blinkTime = 0.0f;
 
             y = 400 - duck_h2;
-            x = 0;
 
             power = 0.0f;
 
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
-
-            state.health = state.maxHP;
         }
 
         private void doStepBubble()
@@ -173,7 +184,7 @@ namespace DuckstazyLive.game
                 heroes.particles.startBubble(px, y + duck_h2, 0xff999999);
                 --i;
             }
-        }        
+        }
 
         public void update(float dt, float newPower)
         {
@@ -190,9 +201,9 @@ namespace DuckstazyLive.game
 
             jumpStartVel = get_jump_start_vel(power);
 
-            if (sleep && power <= 0)
+            if (isSleep() && power <= 0)
             {
-                sleep = false;
+                state = HERO_NORMAL;
                 startSleepParticles();
 
                 heroes.media.playAwake();
@@ -265,7 +276,7 @@ namespace DuckstazyLive.game
             if (x > (640.0f - duck_w))
                 x -= 640.0f;
 
-            if (wingLock && !sleep)
+            if (wingLock && isActive())
             {
                 wingMod -= dt * 7.0f;
                 if (wingMod <= 0.0f)
@@ -304,14 +315,14 @@ namespace DuckstazyLive.game
                 if (jumpVel > 0.0f)
                     wingYLocked = false;
 
-                if (wingLock && !sleep && wingYLocked)
+                if (wingLock && isActive() && wingYLocked)
                 {
                     jumpWingVel -= 392.0f * dt;//(gravityK+diveK)*dt;
                     y -= jumpWingVel * dt;
                 }
                 else
                 {
-                    if (wingLock && !sleep)
+                    if (wingLock && isActive())
                     {
                         if (jumpVel >= 0.0f)
                         {
@@ -369,7 +380,7 @@ namespace DuckstazyLive.game
 
         private void updateGamepadInput()
         {
-            Vector2 leftStick = Application.sharedInputMgr.ThumbSticks(playerIndex).Left;            
+            Vector2 leftStick = Application.sharedInputMgr.ThumbSticks(playerIndex).Left;
 
             if (controlledByStick)
             {
@@ -387,7 +398,7 @@ namespace DuckstazyLive.game
                 controlledByStick = true;
                 key_left = true;
                 stickMoveCoeff = getStickMoveCoeff(ref leftStick);
-            }            
+            }
             if (leftStick.Y < -STICK_VER_THRESHOLD)
             {
                 controlledByStick = true;
@@ -399,10 +410,10 @@ namespace DuckstazyLive.game
         {
             if (stickPos.Y < -STICK_VER_THRESHOLD)
             {
-                return (float) Math.Sqrt(Math.Abs(stickPos.X));
+                return (float)Math.Sqrt(Math.Abs(stickPos.X));
             }
             else
-            {            
+            {
                 float len = stickPos.Length();
                 return len;
             }
@@ -423,41 +434,52 @@ namespace DuckstazyLive.game
         public void draw(Canvas canvas)
         {
             if (started)
-            {                
+            {
                 dx = x;
                 dy = y;
 
 
                 if (step > 1 && !fly)
                     dy -= 1.0f;
-                
+
                 float alpha = 1.0f;
                 if (dx < 0)
                 {
-                    alpha = 1.0f - Math.Abs(dx) / duck_w2;                    
+                    alpha = 1.0f - Math.Abs(dx) / duck_w2;
                     drawHero(canvas, dx + 640, dy, 1.0f - alpha);
                 }
                 else if (dx > 640 - duck_w2)
                 {
-                    alpha = 1.0f - (dx - 640 + duck_w2) / duck_w2;                    
+                    alpha = 1.0f - (dx - 640 + duck_w2) / duck_w2;
                     drawHero(canvas, dx - 640, dy, 1.0f - alpha);
                 }
-                drawHero(canvas, dx, dy, alpha);                
+                drawHero(canvas, dx, dy, alpha);
             }
         }
 
         private void drawHero(Canvas dest, float x, float y, float trans)
-		{
-			bool vis = (blinkTime<=0.0f || (((int)blinkTime)&0x1)!=0);
-			
-			if(vis)
-			{
-				if(sleep)
-					heroes.media.drawSleep(dest, x, y, flip, trans);
-				else
-					heroes.media.drawDuck(playerIndex, dest, x, y, power, flip, wingAngle, trans);
-			}
-		}
+        {
+            bool vis = (blinkTime <= 0.0f || (((int)blinkTime) & 0x1) != 0) || isDead();
+
+            if (vis)
+            {
+                switch (state)
+                {
+                    case HERO_SLEEP:
+                        heroes.media.drawSleep(dest, x, y, flip, trans);
+                        break;
+                    case HERO_DEAD:
+                        heroes.media.drawDead(dest, x, y, flip, trans);
+                        break;
+                    case HERO_NORMAL:
+                        heroes.media.drawDuck(playerIndex, dest, x, y, power, flip, wingAngle, trans);
+                        break;
+                    default:
+                        Debug.Assert(false, state.ToString());
+                        break;
+                }
+            }
+        }
 
         public void buttonPressed(ref ButtonEvent e)
         {
@@ -469,14 +491,14 @@ namespace DuckstazyLive.game
 
                 case Buttons.DPadLeft:
                     key_left = true;
-                    break;;
+                    break; ;
 
                 case Buttons.A:
                     if (!key_up && started)
                     {
                         if (!fly)
                         {
-                            if (!sleep)
+                            if (isActive())
                             {
                                 fly = true;
                                 jumpVel = jumpStartVel;
@@ -486,7 +508,7 @@ namespace DuckstazyLive.game
                                 doLandBubbles();
                             }
                         }
-                        else if (!wingLock && !sleep)
+                        else if (!wingLock && isActive())
                         {
                             wingLock = true;
                             wingMod = 1.0f;
@@ -500,19 +522,19 @@ namespace DuckstazyLive.game
 
                 case Buttons.DPadRight:
                     key_right = true;
-                    break;;
+                    break; ;
             }
         }
 
         public void buttonReleased(ref ButtonEvent e)
-        {       
+        {
             switch (e.button)
             {
-                case Buttons.DPadDown: 
+                case Buttons.DPadDown:
                     key_down = false;
                     break;
 
-                case Buttons.DPadLeft: 
+                case Buttons.DPadLeft:
                     key_left = false;
                     break;
 
@@ -528,28 +550,28 @@ namespace DuckstazyLive.game
                                 wingLock = false;
                                 if (jumpVel < 0.0f)
                                     jumpVel = 0.0f;
-                            }                            
+                            }
 
                             //if(jumpVel>0 && gravityK==1)
                             //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
                         }
                     }
                     key_up = false;
-                    break;;
+                    break; ;
 
-                case Buttons.DPadRight: 
+                case Buttons.DPadRight:
                     key_right = false;
-                    break;;
-            }            
+                    break; ;
+            }
         }
 
         public void doSleep()
         {
-            if (!sleep)
+            if (isActive())
             {
                 startSleepParticles();
                 heroes.media.playSleep();
-                sleep = true;
+                state = HERO_SLEEP;
                 //wingLock = false;
             }
             //mBoard->HitSleep(world_draw_pos(mPosition), mSleepCollected);
@@ -585,7 +607,7 @@ namespace DuckstazyLive.game
 
             check = fly && (yLast + duck_h2) <= py && (y + duck_h2) >= (py - 10);
 
-            if (sleep)
+            if (isSleep())
             {
                 check = check &&
                     px >= x + 1 - 9 &&
@@ -602,56 +624,58 @@ namespace DuckstazyLive.game
         }
 
         public int doToxicDamage(float cx, float cy, int dmg, int id)
-		{
-			int dam = dmg - (int)(dmg*state.def/100);
-			int ret = -1;
-				
-			if(checkDive(cx, cy))
-			{
-				//jumpVel = duck_jump_toxic;
-				jump(40);
-				//mBoard->KillToxic(world_draw_pos(ToxicPosition), mKills);
-				// media.sndAttack.play(49);
-                Application.sharedSoundMgr.playSound(heroes.media.sndAttack);
-				heroes.particles.explStarsToxic(cx, cy-10, id, false);
-				if(frags<3) ret = 0;
-				else
-				{
-					if(frags<6) ret = 1;
-					else ret = 2;
-				}
-				++frags;
-			}
-			else if(dam>0)
-			{
-				if(blinkTime<=0.0f)
-				{
-					if(state.health>1)
-					{
-						state.health-=dam;
-						if(state.health<1)
-							state.health = 1;
-					}
-					else
-						state.health = 0;
+        {
+            int dam = dmg - (int)(dmg * gameState.def / 100);
+            int ret = -1;
 
-					blinkTime = 12;
-					heroes.particles.explStarsToxic(cx, cy, id, true);
-					heroes.env.blanc = 1.0f;
-					// media.sndToxic.play();
+            if (checkDive(cx, cy))
+            {
+                //jumpVel = duck_jump_toxic;
+                jump(40);
+                //mBoard->KillToxic(world_draw_pos(ToxicPosition), mKills);
+                // media.sndAttack.play(49);
+                Application.sharedSoundMgr.playSound(heroes.media.sndAttack);
+                heroes.particles.explStarsToxic(cx, cy - 10, id, false);
+                if (frags < 3) ret = 0;
+                else
+                {
+                    if (frags < 6) ret = 1;
+                    else ret = 2;
+                }
+                ++frags;
+            }
+            else if (dam > 0)
+            {
+                if (blinkTime <= 0.0f)
+                {
+                    if (gameState.health > 1)
+                    {
+                        gameState.health -= dam;
+                        if (gameState.health < 1)
+                            gameState.health = 1;
+                    }
+                    else
+                    {
+                        doDie();
+                    }
+
+                    blinkTime = 12;
+                    heroes.particles.explStarsToxic(cx, cy, id, true);
+                    heroes.env.blanc = 1.0f;
+                    // media.sndToxic.play();
                     Application.sharedSoundMgr.playSound(heroes.media.sndToxic);
-				}
-				else
-				{
-					heroes.particles.explStarsToxic(cx, cy, id, false);
-				}
-				
-				//mBoard->HitToxic(world_draw_pos(ToxicPosition), mToxicCollected);
-				++toxic_collected;
-			}
-			
-			return ret;
-		}
+                }
+                else
+                {
+                    heroes.particles.explStarsToxic(cx, cy, id, false);
+                }
+
+                //mBoard->HitToxic(world_draw_pos(ToxicPosition), mToxicCollected);
+                ++toxic_collected;
+            }
+
+            return ret;
+        }
 
         public bool doHigh(float cx, float cy)
         {
@@ -668,12 +692,19 @@ namespace DuckstazyLive.game
 
         public void doHeal(int health)
         {
-            state.health += health;
+            gameState.health += health;
 
-            if (state.health > state.maxHP)
-                state.health = state.maxHP;
+            if (gameState.health > gameState.maxHP)
+                gameState.health = gameState.maxHP;
 
             heroes.particles.explHeal(x, y);
+        }
+
+        public void doDie()
+        {
+            gameState.health = 0;
+            state = HERO_DEAD;
+            keysReset();
         }
 
         public void jumpOn(Hero other)
@@ -701,9 +732,9 @@ namespace DuckstazyLive.game
 
         public Rect[] getCollisionRects()
         {
-            if (sleep)
+            if (isSleep())
                 return COLLISION_RECTS_SLEEP;
-                
+
             return flip ? COLLISION_RECTS_FLIP : COLLISION_RECTS;
         }
 
@@ -717,7 +748,7 @@ namespace DuckstazyLive.game
             if (flip)
                 cx = 2 * (x + duck_w) - cx;
 
-            if (sleep)
+            if (isSleep())
             {
                 over = rectCircle(x + 1, y + 11, x + 41, y + 39, cx, cy, r);
             }
@@ -762,7 +793,7 @@ namespace DuckstazyLive.game
             }
 
             return d <= r * r;
-        }        
+        }
 
         public void start(float _x)
         {
@@ -786,7 +817,7 @@ namespace DuckstazyLive.game
             stickMoveCoeff = 0.0f;
         }
 
-        private float get_jump_start_vel(float x)
+        public static float get_jump_start_vel(float x)
         {
             return utils.lerp(x, duck_jump_start_vel_min, duck_jump_start_vel_max);
         }
@@ -802,6 +833,21 @@ namespace DuckstazyLive.game
                     COLLISION_RECTS_FLIP[i] = new Rect(duck_w2 - (r.X + r.Width), r.Y, r.Width, r.Height);
                 }
             }
+        }
+
+        public bool isDead()
+        {
+            return state == HERO_DEAD;
+        }
+
+        public bool isSleep()
+        {
+            return state == HERO_SLEEP;
+        }
+
+        public bool isActive()
+        {
+            return state == HERO_NORMAL;
         }
     }
 }

@@ -165,6 +165,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="duck_dead.png">
+      <Name>duck_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="eye1.png">
       <Name>eye1</Name>
       <Importer>TextureImporter</Importer>

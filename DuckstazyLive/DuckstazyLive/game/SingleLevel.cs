@@ -31,7 +31,7 @@ namespace DuckstazyLive.game
         {           
             foreach (Hero h in heroes)
             {
-                h.state.draw(canvas, 0, 0);
+                h.gameState.draw(canvas, 0, 0);
             }            
         }
     }
