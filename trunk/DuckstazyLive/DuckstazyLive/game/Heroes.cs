@@ -23,6 +23,8 @@ namespace DuckstazyLive.game
         private const int MAX_HEROES = 2;
         private List<Hero> heroes;
 
+        private float jumpStartVelocity;
+
         public Heroes()
         {
             media = new HeroMedia();
@@ -63,17 +65,24 @@ namespace DuckstazyLive.game
             }
         }
 
+        public void clear()
+        {
+            foreach (Hero hero in heroes)
+            {
+                hero.clear();
+            }
+        }
+
         public void update(float dt, float newPower)
         {
             if (!started) return;
 
+            jumpStartVelocity = Hero.get_jump_start_vel(newPower);
+
             foreach (Hero hero in heroes)
-            {
-                if (hero.state.health > 0)
-                {
-                    hero.update(dt, newPower);
-                    hero.state.update(dt, newPower);
-                }
+            {                
+                hero.update(dt, newPower);
+                hero.gameState.update(dt, newPower);                
             }
 
             if (heroes.Count > 1)
@@ -140,9 +149,8 @@ namespace DuckstazyLive.game
             if (started)
             {
                 foreach (Hero hero in heroes)
-                {
-                    if (hero.state.health > 0)
-                        hero.draw(canvas);
+                {                    
+                    hero.draw(canvas);
                 }
             }
         }
@@ -160,13 +168,17 @@ namespace DuckstazyLive.game
         private void buttonPressed(ref ButtonEvent e, int playerIndex)
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
-            heroes[playerIndex].buttonPressed(ref e);
+            Hero hero = heroes[playerIndex];
+            if (!hero.isDead())
+                hero.buttonPressed(ref e);
         }
 
         private void buttonReleased(ref ButtonEvent e, int playerIndex)
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
-            heroes[playerIndex].buttonReleased(ref e);
+            Hero hero = heroes[playerIndex];
+            if (!hero.isDead())
+                hero.buttonReleased(ref e);
         }
 
         public void start(float _x)
@@ -183,22 +195,43 @@ namespace DuckstazyLive.game
             started = true;
 
             float x1 = 0.25f * 640;
-            float x2 = 640 - (x1 + Hero.duck_w2);
-            heroes[0].start(x1);
-            heroes[0].flip = true;
+            if (!heroes[0].isDead())
+            {
+                heroes[0].start(x1);
+                heroes[0].flip = true;
+            }
 
-            heroes[1].start(x2);
-            heroes[1].flip = false;
+            if (!heroes[1].isDead())
+            {
+                float x2 = 640 - (x1 + Hero.duck_w2);
+                heroes[1].start(x2);
+                heroes[1].flip = false;
+            }
+        }
+
+        public bool hasAsleepHero()
+        {
+            foreach (Hero h in heroes)
+            {
+                if (h.isSleep())
+                    return true;
+            }
+            return false;
         }
 
         public bool hasAliveHero()
         {
             foreach (Hero h in heroes)
             {
-                if (h.state.health > 0)
+                if (h.gameState.health > 0)
                     return true;
             }
             return false;
+        }
+
+        public float getJumpHeight()
+        {
+            return jumpStartVelocity * jumpStartVelocity * 0.5f / Hero.duck_jump_gravity;
         }
 
         public int getHeroesCount()

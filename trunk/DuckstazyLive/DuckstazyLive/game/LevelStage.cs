@@ -22,7 +22,7 @@ namespace DuckstazyLive.game
         protected Level level;
         protected Pills pills;
         protected Particles particles;
-        protected Hero hero;
+        
         protected Heroes heroes;
         protected Env env;
 
@@ -53,8 +53,7 @@ namespace DuckstazyLive.game
             media = level.stageMedia;
             pills = level.pills;
             particles = level.pills.ps;
-            heroes = level.heroes;
-            hero = level.heroes[0];
+            heroes = level.heroes;            
             env = level.env;
 
             if (_type == 0)
@@ -259,7 +258,7 @@ namespace DuckstazyLive.game
                     endImg = media.imgStageEnd;
                     endCounter = 0.0f;
                 }
-                else if (!end && hero.state.health <= 0)
+                else if (!end && !heroes.hasAliveHero())
                 {
                     level.infoText = "";
                     end = true;

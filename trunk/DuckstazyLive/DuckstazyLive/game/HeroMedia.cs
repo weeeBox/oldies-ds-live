@@ -34,6 +34,7 @@ namespace DuckstazyLive.game
         //private var imgDuckFlip:Texture2D;
 
         private int imgSleep;
+        private int imgDead;
         // private var imgSleepFlip:Texture2D;
 
         private int imgWing;
@@ -125,6 +126,7 @@ namespace DuckstazyLive.game
 
             //imgDuck = (new rDuckImg()).bitmapData;
             imgSleep = Res.IMG_DUCK_SLEEP;
+            imgDead = Res.IMG_DUCK_DEAD;
 
             /*mat.scale(-1.0f, 1.0f);
             mat.translate(54.0, 0.0);
@@ -223,6 +225,21 @@ namespace DuckstazyLive.game
             }
 
             dest.draw(imgSleep, mat, color);
+        }
+
+        public void drawDead(Canvas dest, float x, float y, bool flip, float trans)
+        {
+            DrawMatrix mat = new DrawMatrix(true);
+            ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
+
+            mat.translate(x, y);
+
+            if (flip)
+            {
+                mat.flip(true, false);
+            }
+
+            dest.draw(imgDead, mat, color);
         }
 
         public void updateSFX(float x)

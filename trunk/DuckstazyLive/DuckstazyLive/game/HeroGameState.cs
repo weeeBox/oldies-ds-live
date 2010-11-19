@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public class HeroState
+    public class HeroGameState
     {
         public int def; // коэффициент урона
         public int maxHP; // максимальное здоровье
@@ -28,7 +28,7 @@ namespace DuckstazyLive.game
 
         public Color fontColor;
 
-        public HeroState()
+        public HeroGameState()
         {
             fontColor = Color.White;
             reset();

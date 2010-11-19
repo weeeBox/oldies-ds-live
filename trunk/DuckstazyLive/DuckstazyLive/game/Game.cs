@@ -145,6 +145,7 @@ namespace DuckstazyLive.game
         private void newGame()
         {
             gameSave.reset();
+            level.reset();
             startLevel();
         }
 
