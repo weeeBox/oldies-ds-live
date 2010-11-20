@@ -311,8 +311,10 @@ namespace DuckstazyLive.game
                     heroes.buttonPressed(ref e);
                     if (e.button == Buttons.Back)// ESC
                         game.goPause();
-                    else if (e.button == Buttons.LeftShoulder)
+                    else if (e.button == Buttons.RightShoulder)
                         nextLevel();
+                    else if (e.button == Buttons.LeftShoulder)
+                        heroes[0].doToxicDamage(heroes[0].x, heroes[0].y, 1, 0);
                     //else if (key == Keys.End)
                     //    powerUp = power = 1.0f;
                     //else if (key == Keys.Delete)

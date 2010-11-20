@@ -626,7 +626,7 @@ namespace DuckstazyLive.game
 
         public int doToxicDamage(float cx, float cy, int dmg, int id)
         {
-            int dam = dmg - (int)(dmg * gameState.def / 100);
+            int dam = dmg;
             int ret = -1;
 
             if (checkDive(cx, cy))

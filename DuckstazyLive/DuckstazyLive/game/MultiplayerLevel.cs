@@ -34,12 +34,12 @@ namespace DuckstazyLive.game
             heroes = new Heroes();
             Hero hero = new Hero(heroes, 0);
             hero.gameState.leftOriented = true;
-            hero.gameState.fontColor = Color.Yellow;
+            hero.gameState.color = Color.Yellow;
             heroes.addHero(hero);
 
             hero = new Hero(heroes, 1);
             hero.gameState.leftOriented = false;
-            hero.gameState.fontColor = Color.Pink;
+            hero.gameState.color = Color.Pink;
             heroes.addHero(hero);
 
             pills = new Pills(heroes, ps, this);

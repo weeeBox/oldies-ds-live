@@ -26,11 +26,15 @@ namespace DuckstazyLive.game
         private string scoreText;
         public bool leftOriented;
 
-        public Color fontColor;
+        public Color color;
+
+        DrawMatrix mat;
 
         public HeroGameState()
         {
-            fontColor = Color.White;
+            color = Color.White;
+            mat = new DrawMatrix();
+            
             reset();
         }
 
@@ -38,7 +42,7 @@ namespace DuckstazyLive.game
         public void reset()
         {
             def = 0;
-            maxHP = 25;
+            maxHP = 3;
             health = maxHP;            
             scores = scoreOld = 0;
             scoreCounter = 0.0f;
@@ -54,41 +58,80 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas, float x, float y)
         {
-            DrawMatrix mat = new DrawMatrix();
-            float sc = 1.0f + 0.3f * hpPulse;
+            //mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_HP);
+            //mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_HP);
+            //mat.scale(sc, sc);
+            //mat.translate(x, y);//463.0f);           
 
-            mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_HP);
-            mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_HP);
-            mat.scale(sc, sc);
-            mat.translate(x, y);//463.0f);
-            canvas.draw(Res.IMG_UI_HP, mat);
+            float drawX = x;
+            float drawY = y;
 
-            mat.identity();
-            mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_SCORE);
-            mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_SCORE);
-            sc = 1.0f + 0.3f * scoreCounter;
-            mat.scale(sc, sc);
-            mat.translate(x, y + utils.imageHeight(Res.IMG_UI_HP));//463.0f);
-            canvas.draw(Res.IMG_UI_SCORE, mat);
+            float dx = 0.55f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_BASE);
+            
+            if (!leftOriented)
+                drawX -= 2 * dx;
 
-            AppGraphics.SetColor(fontColor);
+            for (int i = 0; i < 3; ++i)
+            {                
+                bool alive = i <= health - 1;
+                drawHealthEmo(canvas, drawX, drawY, alive);
 
-            mat.identity();
-            String str = health.ToString() + "/" + maxHP.ToString();
-            if (leftOriented)
-                mat.translate(x, y - 0.5f * utils.fontHeight(Res.FNT_BIG));
+                drawX += dx;
+            }
+
+            //mat.identity();
+            //mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_SCORE);
+            //mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_SCORE);
+            //sc = 1.0f + 0.3f * scoreCounter;
+            //mat.scale(sc, sc);
+            //mat.translate(x, y + utils.imageHeight(Res.IMG_UI_HP));//463.0f);
+            //canvas.draw(Res.IMG_UI_SCORE, mat);
+
+            //AppGraphics.SetColor(fontColor);
+
+            //mat.identity();
+            //String str = health.ToString() + "/" + maxHP.ToString();
+            //if (leftOriented)
+            //    mat.translate(x, y - 0.5f * utils.fontHeight(Res.FNT_BIG));
+            //else
+            //    mat.translate(x - utils.stringWidth(Res.FNT_BIG, str), y - 0.5f * utils.fontHeight(Res.FNT_BIG));
+            //canvas.draw(Res.FNT_BIG, str, mat);            
+
+            //AppGraphics.SetColor(Color.White);
+        }
+
+        private void drawHealthEmo(Canvas canvas, float cx, float cy, bool alive)
+        {
+            mat.identity();            
+
+            if (alive)
+            {
+                float sc = 1.0f + 0.3f * hpPulse;
+
+                mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_BASE);
+                mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_HEALTH_EMO_BASE);
+                mat.scale(sc, sc);
+                mat.translate(cx, cy);
+
+                // base
+                canvas.draw(leftOriented ? Res.IMG_UI_HEALTH_EMO_BASE : Res.IMG_UI_HEALTH_EMO_BASE2, mat);
+                // eyes
+                int eyes = health == 1 ? Res.IMG_UI_HEALTH_EMO_EYES2 : Res.IMG_UI_HEALTH_EMO_EYES1;
+                canvas.draw(eyes, mat);
+                // smile
+                int smile = health == 3 ? Res.IMG_UI_HEALTH_EMO_SMILE1 :
+                            health == 2 ? Res.IMG_UI_HEALTH_EMO_SMILE2 : Res.IMG_UI_HEALTH_EMO_SMILE3;
+                canvas.draw(smile, mat);
+            }
             else
-                mat.translate(x - utils.stringWidth(Res.FNT_BIG, str), y - 0.5f * utils.fontHeight(Res.FNT_BIG));            
-            canvas.draw(Res.FNT_BIG, str, mat);
+            {
+                mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_DEAD);
+                mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_HEALTH_EMO_DEAD);                
+                mat.translate(cx, cy);
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            if (leftOriented)
-                mat.translate(x, y + utils.imageHeight(Res.IMG_UI_HP) - 0.5f * utils.fontHeight(Res.FNT_BIG));
-            else
-                mat.translate(x - utils.stringWidth(Res.FNT_BIG, scoreText), y + utils.imageHeight(Res.IMG_UI_HP) - 0.5f * utils.fontHeight(Res.FNT_BIG));
-            canvas.draw(Res.FNT_BIG, scoreText, mat);
-
-            AppGraphics.SetColor(Color.White);
+                // base
+                canvas.draw(Res.IMG_UI_HEALTH_EMO_DEAD, mat);
+            }
         }
 
         public void update(float dt, float power)

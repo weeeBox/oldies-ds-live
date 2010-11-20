@@ -190,13 +190,43 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="hp.png">
-      <Name>hp</Name>
+    <Compile Include="health_emo_base.png">
+      <Name>health_emo_base</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="score.png">
-      <Name>score</Name>
+    <Compile Include="health_emo_base2.png">
+      <Name>health_emo_base2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="health_emo_dead.png">
+      <Name>health_emo_dead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="health_emo_eyes1.png">
+      <Name>health_emo_eyes1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="health_emo_eyes2.png">
+      <Name>health_emo_eyes2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="health_emo_smile1.png">
+      <Name>health_emo_smile1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="health_emo_smile2.png">
+      <Name>health_emo_smile2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="health_emo_smile3.png">
+      <Name>health_emo_smile3</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
