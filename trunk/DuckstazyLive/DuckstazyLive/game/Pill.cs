@@ -580,14 +580,14 @@ namespace DuckstazyLive.game
             switch (ID)
             {
                 case 0:
-                    damage = 20;
+                    damage = 1;
                     imgMain = media.imgToxic;
                     hookedHero = getClosestHeroIndex();
                     hookTime = 3.0f;
                     hookCounter = 0.0f;
                     break;
                 case 1:
-                    damage = 20;
+                    damage = 2;
                     imgMain = media.imgToxic2;
                     hookedHero = Constants.UNDEFINED;
                     break;
@@ -626,11 +626,11 @@ namespace DuckstazyLive.game
             switch (ID)
             {
                 case 0:
-                    damage = 20;
+                    damage = 1;
                     imgMain = media.imgToxic;
                     break;
                 case 1:
-                    damage = 20;
+                    damage = 2;
                     imgMain = media.imgToxic2;
                     break;
             }
