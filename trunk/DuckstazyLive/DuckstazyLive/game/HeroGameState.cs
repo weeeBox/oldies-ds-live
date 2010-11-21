@@ -66,7 +66,7 @@ namespace DuckstazyLive.game
             float drawX = x;
             float drawY = y;
 
-            float dx = 0.65f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_BASE);
+            float dx = 0.9f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_BASE);
             
             if (!leftOriented)
                 drawX -= 2 * dx;
