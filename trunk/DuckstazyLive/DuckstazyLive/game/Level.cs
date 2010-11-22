@@ -182,8 +182,7 @@ namespace DuckstazyLive.game
 
         public void update(float dt)
         {
-            float power_drain = 0.0f;
-            int i;
+            float power_drain = 0.0f;            
 
             if (!pause)
             {
