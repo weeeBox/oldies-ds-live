@@ -763,17 +763,20 @@ namespace DuckstazyLive.game
                 if (state != 2)
                 {
                     MAT.identity();
-                    MAT.tx = MAT.ty = -10;
+                    MAT.tx = MAT.ty = -12;
                     MAT.scale(appear, appear);
                     MAT.translate(dx, dy);
                     canvas.draw(imgMain, MAT);
+                    MAT.tx = MAT.ty = -10;
                     canvas.draw(imgNid, MAT);
                 }
                 else
                 {
+                    POINT.X = dx - 10.5f;
+                    POINT.Y = dy - 11;
+                    canvas.copyPixels(imgMain, RC, POINT);
                     POINT.X = dx - 10;
                     POINT.Y = dy - 10;
-                    canvas.copyPixels(imgMain, RC, POINT);
                     canvas.copyPixels(imgNid, RC, POINT);
                 }
             }
@@ -782,15 +785,15 @@ namespace DuckstazyLive.game
                 if (state != 2)
                 {
                     MAT.identity();
-                    MAT.tx = MAT.ty = -10;
+                    MAT.tx = MAT.ty = -10.5f;
                     MAT.scale(appear, appear);
                     MAT.translate(dx, dy);
                     canvas.draw(imgEmo, MAT);
                 }
                 else
                 {
-                    POINT.X = dx - 10;
-                    POINT.Y = dy - 10;
+                    POINT.X = dx - 10.5f;
+                    POINT.Y = dy - 10.5f;
                     canvas.copyPixels(imgEmo, RC, POINT);
                 }
 
