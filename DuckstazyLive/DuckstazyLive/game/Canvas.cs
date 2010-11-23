@@ -20,20 +20,25 @@ namespace DuckstazyLive.game
         {
             this.width = width;
             this.height = height;
-        }
-
-        public void draw(int imageId)
-        {
-            draw(imageId, DrawMatrix.IDENTITY);
-        }
+        }        
 
         public void draw(int imageId, DrawMatrix mat)
         {
-            draw(imageId, mat, null);
+            draw(getTexture(imageId), mat);
+        }
+
+        public void draw(Texture2D image, DrawMatrix mat)
+        {
+            draw(image, mat, null);
         }
 
         public void draw(int imageId, DrawMatrix mat, ColorTransform transform)
-        {            
+        {
+            draw(getTexture(imageId), mat, transform);
+        }
+
+        public void draw(Texture2D image, DrawMatrix mat, ColorTransform transform)
+        {
             Color color = Color.White;
             AppBlendMode blendMode = AppGraphics.GetBlendMode();
             if (transform != null)
@@ -51,11 +56,11 @@ namespace DuckstazyLive.game
                 Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);
                 Vector2 scaledOrigin;
                 Vector2.Multiply(ref mat.ORIGIN, Constants.SCALE, out scaledOrigin);
-                AppGraphics.DrawImage(getTexture(imageId), ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
+                AppGraphics.DrawImage(image, ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
             }
             else
             {
-                AppGraphics.DrawImage(getTexture(imageId), ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
+                AppGraphics.DrawImage(image, ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
             }
 
             AppGraphics.SetBlendMode(blendMode);
