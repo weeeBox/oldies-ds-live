@@ -16,29 +16,8 @@ namespace DuckstazyLive.app
 
         public MenuController(ViewController p) : base(p)
         {
-            MenuView view = new MenuView();            
-
-            //Texture2D grassTex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS);            
-            //TiledImage grass = new TiledImage(grassTex, Constants.GROUND_WIDTH, grassTex.Height);
-            //grass.x = Constants.GROUND_X;
-            //grass.y = Constants.GROUND_Y;
-            //grass.setAlign(BaseElement.ALIGN_MIN, BaseElement.ALIGN_MAX);
+            MenuView view = new MenuView();
             
-            //view.addChild(grass);
-
-            //Image titleBack = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE_BACK));            
-            //Image title = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE));
-            //titleBack.toParentCenter();
-            //title.toParentCenter();
-            //sky.addChild(titleBack);
-            //sky.addChild(title);            
-
-            //Image buttonUpImage = createButtonImage(Res.IMG_BUTTON_STROKE_DEFAULT, 5.0f);            
-            //Image buttonDownImage = createButtonImage(Res.IMG_BUTTON_STROKE_FOCUSED, 2.5f);
-            //Image buttonFocusedImage = createButtonImage(Res.IMG_BUTTON_STROKE_FOCUSED, 2.5f);
-            //Button button = new Button(buttonUpImage, buttonDownImage, buttonFocusedImage, 0);
-            
-            //view.addChild(button);
             addViewWithId(view, VIEW_MENU);            
         }
 
@@ -67,9 +46,7 @@ namespace DuckstazyLive.app
             base.activate();
 
             MenuView view = (MenuView)getView(VIEW_MENU);
-            showView(VIEW_MENU);
-
-            deactivate();
+            showView(VIEW_MENU);            
         }
     }
 }

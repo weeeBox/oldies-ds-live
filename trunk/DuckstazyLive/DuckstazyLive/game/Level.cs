@@ -129,7 +129,7 @@ namespace DuckstazyLive.game
         {
             if (pause)
             {
-                canvas.draw(imgPause);
+                throw new NotImplementedException();
             }
             else
             {
