@@ -12,88 +12,6 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.app
 {
-    public class UiButton : BaseElement
-    {
-        public static UiButton focusedButton;
-
-        private const int CHILD_STROKE = 0;
-        private const int CHILD_ROTATION = 1;
-
-        public UiButton buttonLeft;
-        public UiButton buttonRight;
-        public UiButton buttonUp;
-        public UiButton buttonDown;
-
-        private Color targetColor;
-        private Vector2 targetScale;
-        private float omega;
-
-        public UiButton(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-
-            width = utils.imageWidth(Res.IMG_BUTTON_STROKE_DEFAULT);
-            height = utils.imageHeight(Res.IMG_BUTTON_STROKE_DEFAULT);
-
-            // button stroke part            
-            Image strokeImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_STROKE_FOCUSED));
-            strokeImage.toParentCenter();
-            addChildWithId(strokeImage, CHILD_STROKE);
-
-            // button rotating part
-            Image baseImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_BASE));
-            baseImage.toParentCenter();            
-            addChildWithId(baseImage, CHILD_ROTATION);            
-
-            focusLost();
-        }
-
-        public override void update(float delta)
-        {
-            BaseElement stroke = getChild(CHILD_STROKE);
-            BaseElement rotation = getChild(CHILD_ROTATION);
-
-            stroke.color.A = (byte)(0.5f * (stroke.color.A + targetColor.A));
-            stroke.color.R = (byte)(0.5f * (stroke.color.R + targetColor.R));
-            stroke.color.G = (byte)(0.5f * (stroke.color.G + targetColor.G));
-            stroke.color.B = (byte)(0.5f * (stroke.color.B + targetColor.B));
-
-            scaleX = 0.5f * (scaleX + targetScale.X);
-            scaleY = 0.5f * (scaleY + targetScale.Y);
-
-            rotation.rotation += omega * delta;
-        }
-
-        public bool isFocused()
-        {
-            return this == focusedButton;
-        }
-
-        public void setFocused()
-        {
-            if (focusedButton != null)
-                focusedButton.focusLost();
-
-            focusedButton = this;
-            focusGained();
-        }
-
-        private void focusLost()
-        {
-            targetColor = Color.Black;
-            targetScale = new Vector2(1.0f, 1.0f);
-            omega = 350.0f / 5.0f;
-        }
-
-        private void focusGained()
-        {
-            targetColor = Color.White;
-            targetScale = new Vector2(1.2f, 1.2f);
-            omega = 360.0f / 2.5f;
-        }
-    }
-
     public class MenuView : View
     {
         // дублеж, пиздешь и провокация
@@ -105,7 +23,17 @@ namespace DuckstazyLive.app
         private int[] imgClouds;
 
         private Canvas canvas;
-        private DrawMatrix MAT;        
+        private DrawMatrix MAT;
+
+        private UiButton focusedButton;
+        private UiButton oldFocusedButton;
+
+        private UiButton buttonNewGame;
+        private UiButton buttonResumeGame;
+        private UiButton buttonAbout;
+        private UiButton buttonExit;
+        private UiButton buttonCoop;
+        private UiButton buttonVersus;        
 
         public MenuView()
         {
@@ -156,70 +84,47 @@ namespace DuckstazyLive.app
             float buttonX = Constants.TITLE_SAFE_LEFT_X + 0.33f * Constants.TITLE_SAFE_AREA_WIDTH;
             float buttonY = Constants.TITLE_SAFE_TOP_Y;
             // new game
-            UiButton newGameButton = new UiButton(buttonX, buttonY);
-            newGameButton.setAlign(0.5f, 0.0f);            
-            addChild(newGameButton);
+            buttonNewGame = new UiButton(buttonX, buttonY);
+            buttonNewGame.setAlign(0.5f, 0.0f);            
+            addChild(buttonNewGame);
 
             // last save
             buttonX = Constants.TITLE_SAFE_LEFT_X + 0.66f * Constants.TITLE_SAFE_AREA_WIDTH;
-            buttonY = newGameButton.y;
-            UiButton resumeGame = new UiButton(buttonX, buttonY);
-            resumeGame.setAlign(0.5f, 0.0f);
-            addChild(resumeGame);
+            buttonY = buttonNewGame.y;
+            buttonResumeGame = new UiButton(buttonX, buttonY);
+            buttonResumeGame.setAlign(0.5f, 0.0f);
+            addChild(buttonResumeGame);
 
             // about
             buttonX = Constants.TITLE_SAFE_LEFT_X + 50;
             buttonY = Constants.TITLE_SAFE_TOP_Y + 0.5f * Constants.TITLE_SAFE_AREA_HEIGHT;
-            UiButton aboutButton = new UiButton(buttonX, buttonY);
-            aboutButton.setAlign(0.0f, 0.5f);
-            addChild(aboutButton);
+            buttonAbout = new UiButton(buttonX, buttonY);
+            buttonAbout.setAlign(0.0f, 0.5f);
+            addChild(buttonAbout);
 
             // exit
             buttonX = Constants.TITLE_SAFE_RIGHT_X - 50;
-            buttonY = aboutButton.y;
-            UiButton exitButton = new UiButton(buttonX, buttonY);
-            exitButton.setAlign(1.0f, 0.5f);
-            addChild(exitButton);
+            buttonY = buttonAbout.y;
+            buttonExit = new UiButton(buttonX, buttonY);
+            buttonExit.setAlign(1.0f, 0.5f);
+            addChild(buttonExit);
 
             // coop
-            buttonX = newGameButton.x;
+            buttonX = buttonNewGame.x;
             buttonY = Constants.TITLE_SAFE_BOTTOM_Y;
-            UiButton coopButton = new UiButton(buttonX, buttonY);
-            coopButton.setAlign(0.5f, 1.0f);
-            addChild(coopButton);
+            buttonCoop = new UiButton(buttonX, buttonY);
+            buttonCoop.setAlign(0.5f, 1.0f);
+            addChild(buttonCoop);
 
             // versus
-            buttonX = resumeGame.x;
-            buttonY = coopButton.y;
-            UiButton vsButton = new UiButton(buttonX, buttonY);
-            vsButton.setAlign(0.5f, 1.0f);
-            addChild(vsButton);
+            buttonX = buttonResumeGame.x;
+            buttonY = buttonCoop.y;
+            buttonVersus = new UiButton(buttonX, buttonY);
+            buttonVersus.setAlign(0.5f, 1.0f);
+            addChild(buttonVersus);
 
             // focus
-            newGameButton.setFocused();
-            newGameButton.buttonLeft = aboutButton;
-            newGameButton.buttonRight = resumeGame;
-            newGameButton.buttonDown = coopButton;
-
-            resumeGame.buttonLeft = newGameButton;
-            resumeGame.buttonRight = exitButton;
-            resumeGame.buttonDown = vsButton;
-
-            aboutButton.buttonUp = newGameButton;
-            aboutButton.buttonDown = coopButton;
-            aboutButton.buttonRight = exitButton;
-
-            exitButton.buttonUp = resumeGame;
-            exitButton.buttonDown = vsButton;
-            exitButton.buttonLeft = aboutButton;
-
-            coopButton.buttonUp = newGameButton;
-            coopButton.buttonLeft = aboutButton;
-            coopButton.buttonRight = vsButton;
-
-            vsButton.buttonUp = resumeGame;
-            vsButton.buttonLeft = coopButton;
-            vsButton.buttonRight = exitButton;
+            focusButton(buttonNewGame);
         }
         public override void update(float delta)
         {
@@ -272,7 +177,7 @@ namespace DuckstazyLive.app
 
         public override void buttonPressed(ref ButtonEvent e)
         {
-            Debug.Assert(UiButton.focusedButton != null);
+            Debug.Assert(focusedButton != null);
 
             switch (e.button)
             {
@@ -310,32 +215,76 @@ namespace DuckstazyLive.app
             }
         }
 
+        private void focusButton(UiButton button)
+        {
+            if (focusedButton != button)
+            {
+                oldFocusedButton = focusedButton;
+                if (focusedButton != null)
+                    focusedButton.setFocused(false);
+
+                focusedButton = button;
+                focusedButton.setFocused(true);
+            }
+        }
+
         private void focusButtonRight()
         {
-            UiButton nextButton = UiButton.focusedButton.buttonRight;
-            if (nextButton != null)
-                nextButton.setFocused();
+            if (focusedButton == buttonResumeGame || focusedButton == buttonVersus)
+                focusButton(buttonExit);
+            else if (focusedButton == buttonNewGame)
+                focusButton(buttonResumeGame);            
+            else if (focusedButton == buttonCoop)
+                focusButton(buttonVersus);
+            else if (focusedButton == buttonAbout)
+            {
+                if (oldFocusedButton == buttonNewGame)
+                    focusButton(buttonCoop);
+                else
+                    focusButton(buttonNewGame);
+            }
+
         }
 
         private void focusButtonLeft()
         {
-            UiButton nextButton = UiButton.focusedButton.buttonLeft;
-            if (nextButton != null)
-                nextButton.setFocused();
+            if (focusedButton == buttonNewGame || focusedButton == buttonCoop)
+                focusButton(buttonAbout);
+            else if (focusedButton == buttonResumeGame)
+                focusButton(buttonNewGame);
+            else if (focusedButton == buttonExit)
+            {
+                if (oldFocusedButton == buttonResumeGame)
+                    focusButton(buttonVersus);
+                else
+                    focusButton(buttonResumeGame);
+            }
+            else if (focusedButton == buttonVersus)
+                focusButton(buttonCoop);
         }
 
         private void focusButtonUp()
         {
-            UiButton nextButton = UiButton.focusedButton.buttonUp;
-            if (nextButton != null)
-                nextButton.setFocused();
+            if (focusedButton == buttonCoop)
+                focusButton(buttonNewGame);
+            else if (focusedButton == buttonVersus)
+                focusButton(buttonResumeGame);
+            else if (focusedButton == buttonAbout)
+                focusButton(buttonNewGame);
+            else if (focusedButton == buttonExit)
+                focusButton(buttonResumeGame);
         }
 
         private void focusButtonDown()
         {
-            UiButton nextButton = UiButton.focusedButton.buttonDown;
-            if (nextButton != null)
-                nextButton.setFocused();
+            if (focusedButton == buttonNewGame)
+                focusButton(buttonCoop);
+            else if (focusedButton == buttonResumeGame)
+                focusButton(buttonVersus);
+            else if (focusedButton == buttonAbout)
+                focusButton(buttonCoop);
+            else if (focusedButton == buttonExit)
+                focusButton(buttonVersus);
         }
 
         public override void keyPressed(Keys key)
