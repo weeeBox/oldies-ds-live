@@ -222,12 +222,12 @@ namespace DuckstazyLive.app
             return Application.sharedResourceMgr.getTexture(imageId);
         }
 
-        public static float imageWidth(int imageId)
+        public static int imageWidth(int imageId)
         {
             return getImage(imageId).Width;
         }
 
-        public static float imageHeight(int imageId)
+        public static int imageHeight(int imageId)
         {
             return getImage(imageId).Height;
         }

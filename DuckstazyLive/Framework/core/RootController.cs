@@ -46,7 +46,7 @@ namespace Framework.core
             currentController.update();            
         }
 
-        public void processDraw()
+        public virtual void processDraw()
         {            
             if (currentController.activeViewId != FrameworkConstants.UNDEFINED)
             {

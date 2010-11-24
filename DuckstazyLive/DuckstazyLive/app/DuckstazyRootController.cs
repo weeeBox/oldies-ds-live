@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Framework.core;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.app
 {
@@ -29,6 +30,19 @@ namespace DuckstazyLive.app
             base.activate();
             activateChild((int)Childs.CHILD_START);
         }        
+
+        public override void processDraw()
+        {
+            base.processDraw();
+
+#if WINDOWS
+            float safeWidth = 0.8f * Constants.SCREEN_WIDTH;
+            float safeHeight = 0.8f * Constants.SCREEN_HEIGHT;
+            float safeX = 0.5f * (Constants.SCREEN_WIDTH - safeWidth);
+            float safeY = 0.5f * (Constants.SCREEN_HEIGHT - safeHeight);
+            // AppGraphics.DrawRect(safeX, safeY, safeWidth, safeHeight, Color.Red);
+#endif
+        }
 
         public override void onChildDeactivated(int n)
         {
