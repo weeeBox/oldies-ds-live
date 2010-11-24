@@ -47,6 +47,10 @@
 				<font  name="big" file="${dir.art}/font_big.png" />
 			</package>
 			
+			<package name="PACK_START">
+				<image name="load_line" file="${dir.art}/effect_line.png" />
+			</package>
+			
 			<package name="PACK_MENU">
 				<image name="menu_title"  file="${dir.art}/title.png" />
 				<image name="menu_title_back" file="${dir.art}/title_back.png" />
