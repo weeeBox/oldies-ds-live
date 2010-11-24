@@ -33,10 +33,14 @@ namespace DuckstazyLive.app
         private UiButton buttonAbout;
         private UiButton buttonExit;
         private UiButton buttonCoop;
-        private UiButton buttonVersus;        
+        private UiButton buttonVersus;
 
-        public MenuView()
+        private MenuController menuController;
+
+        public MenuView(MenuController menuController)
         {
+            this.menuController = menuController;
+
             canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
             MAT = new DrawMatrix(true);
 
@@ -85,7 +89,9 @@ namespace DuckstazyLive.app
             float buttonY = Constants.TITLE_SAFE_TOP_Y;
             // new game
             buttonNewGame = new UiButton(buttonX, buttonY);
-            buttonNewGame.setAlign(0.5f, 0.0f);            
+            buttonNewGame.setAlign(0.5f, 0.0f);
+            buttonNewGame.onPressed = uiButtonPressed;
+            buttonNewGame.onFocusGain = uiButtonFocus;
             addChild(buttonNewGame);
 
             // last save
@@ -93,6 +99,8 @@ namespace DuckstazyLive.app
             buttonY = buttonNewGame.y;
             buttonResumeGame = new UiButton(buttonX, buttonY);
             buttonResumeGame.setAlign(0.5f, 0.0f);
+            buttonResumeGame.onPressed = uiButtonPressed;
+            buttonResumeGame.onFocusGain = uiButtonFocus;
             addChild(buttonResumeGame);
 
             // about
@@ -100,6 +108,8 @@ namespace DuckstazyLive.app
             buttonY = Constants.TITLE_SAFE_TOP_Y + 0.5f * Constants.TITLE_SAFE_AREA_HEIGHT;
             buttonAbout = new UiButton(buttonX, buttonY);
             buttonAbout.setAlign(0.0f, 0.5f);
+            buttonAbout.onPressed = uiButtonPressed;
+            buttonAbout.onFocusGain = uiButtonFocus;
             addChild(buttonAbout);
 
             // exit
@@ -107,6 +117,8 @@ namespace DuckstazyLive.app
             buttonY = buttonAbout.y;
             buttonExit = new UiButton(buttonX, buttonY);
             buttonExit.setAlign(1.0f, 0.5f);
+            buttonExit.onPressed = uiButtonPressed;
+            buttonExit.onFocusGain = uiButtonFocus;
             addChild(buttonExit);
 
             // coop
@@ -114,6 +126,8 @@ namespace DuckstazyLive.app
             buttonY = Constants.TITLE_SAFE_BOTTOM_Y;
             buttonCoop = new UiButton(buttonX, buttonY);
             buttonCoop.setAlign(0.5f, 1.0f);
+            buttonCoop.onPressed = uiButtonPressed;
+            buttonCoop.onFocusGain = uiButtonFocus;
             addChild(buttonCoop);
 
             // versus
@@ -121,6 +135,8 @@ namespace DuckstazyLive.app
             buttonY = buttonCoop.y;
             buttonVersus = new UiButton(buttonX, buttonY);
             buttonVersus.setAlign(0.5f, 1.0f);
+            buttonVersus.onPressed = uiButtonPressed;
+            buttonVersus.onFocusGain = uiButtonFocus;
             addChild(buttonVersus);
 
             // focus
@@ -175,6 +191,29 @@ namespace DuckstazyLive.app
             AppGraphics.SetColor(Color.White);
         }
 
+        public void uiButtonFocus(UiButton button)
+        {
+            Application.sharedSoundMgr.playSound(Res.SND_UI_FOCUS);
+        }
+
+        public void uiButtonPressed(UiButton button)
+        {
+            Application.sharedSoundMgr.playSound(Res.SND_UI_CLICK);
+
+            if (button == buttonNewGame)
+            {
+                menuController.newGame(GameMode.SINGLE);
+            }
+            else if (button == buttonCoop)
+            {
+                menuController.newGame(GameMode.COOP);
+            }
+            else if (button == buttonVersus)
+            {
+                menuController.newGame(GameMode.VERSUS);
+            }
+        }
+
         public override void buttonPressed(ref ButtonEvent e)
         {
             Debug.Assert(focusedButton != null);
@@ -211,6 +250,7 @@ namespace DuckstazyLive.app
 
                 case Buttons.A:
                 case Buttons.Start:
+                    fireButton();
                     break;
             }
         }
@@ -287,6 +327,12 @@ namespace DuckstazyLive.app
                 focusButton(buttonVersus);
         }
 
+        private void fireButton()
+        {
+            Debug.Assert(focusedButton != null);
+            focusedButton.press();
+        }
+
         public override void keyPressed(Keys key)
         {
             switch (key)
@@ -302,6 +348,9 @@ namespace DuckstazyLive.app
                     break;
                 case Keys.Down:
                     focusButtonDown();
+                    break;
+                case Keys.Enter:
+                    fireButton();
                     break;
             }
         }        
