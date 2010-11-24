@@ -238,9 +238,7 @@ namespace Framework.core
         public bool isKeyPressed(Keys key)
         {
             return currentKeyboardState.IsKeyDown(key);
-        }
-
-        
+        }        
 
         public bool hasMappedButton(Keys key, int playerIndex)
         {
