@@ -24,6 +24,10 @@ namespace DuckstazyLive.app
         public UiButton buttonUp;
         public UiButton buttonDown;
 
+        private Color targetColor;
+        private Vector2 targetScale;
+        private float omega;
+
         public UiButton(float x, float y)
         {
             this.x = x;
@@ -43,7 +47,23 @@ namespace DuckstazyLive.app
             addChildWithId(baseImage, CHILD_ROTATION);            
 
             focusLost();
-        }      
+        }
+
+        public override void update(float delta)
+        {
+            BaseElement stroke = getChild(CHILD_STROKE);
+            BaseElement rotation = getChild(CHILD_ROTATION);
+
+            stroke.color.A = (byte)(0.5f * (stroke.color.A + targetColor.A));
+            stroke.color.R = (byte)(0.5f * (stroke.color.R + targetColor.R));
+            stroke.color.G = (byte)(0.5f * (stroke.color.G + targetColor.G));
+            stroke.color.B = (byte)(0.5f * (stroke.color.B + targetColor.B));
+
+            scaleX = 0.5f * (scaleX + targetScale.X);
+            scaleY = 0.5f * (scaleY + targetScale.Y);
+
+            rotation.rotation += omega * delta;
+        }
 
         public bool isFocused()
         {
@@ -61,36 +81,16 @@ namespace DuckstazyLive.app
 
         private void focusLost()
         {
-            scaleX = scaleY = 1.0f;            
-
-            // rotating animation
-            BaseElement buttonStroke = getChild(CHILD_STROKE);
-            buttonStroke.color = Color.Black;
-
-            BaseElement buttonBase = getChild(CHILD_ROTATION);
-
-            buttonBase.turnTimelineSupportWithMaxKeyFrames(1);
-            BaseElement.KeyFrame frame1 = new BaseElement.KeyFrame(buttonBase.x, buttonBase.y, Color.White, 1.0f, 1.0f, 360.0f, 5.0f);
-            buttonBase.addKeyFrame(frame1);
-            buttonBase.setTimelineLoopType(BaseElement.Timeline.REPLAY);
-            buttonBase.playTimeline();
+            targetColor = Color.Black;
+            targetScale = new Vector2(1.0f, 1.0f);
+            omega = 350.0f / 5.0f;
         }
 
         private void focusGained()
         {
-            scaleX = scaleY = 1.2f;
-
-            // rotating animation
-            BaseElement buttonStroke = getChild(CHILD_STROKE);
-            buttonStroke.color = Color.White;
-
-            BaseElement buttonBase = getChild(CHILD_ROTATION);
-
-            buttonBase.turnTimelineSupportWithMaxKeyFrames(1);
-            BaseElement.KeyFrame frame1 = new BaseElement.KeyFrame(buttonBase.x, buttonBase.y, Color.White, 1.0f, 1.0f, 360.0f, 2.5f);
-            buttonBase.addKeyFrame(frame1);
-            buttonBase.setTimelineLoopType(BaseElement.Timeline.REPLAY);
-            buttonBase.playTimeline();
+            targetColor = Color.White;
+            targetScale = new Vector2(1.2f, 1.2f);
+            omega = 360.0f / 2.5f;
         }
     }
 
