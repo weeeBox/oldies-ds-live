@@ -36,6 +36,7 @@ namespace DuckstazyLive.game
         private bool key_left;
         private bool key_down;
         private bool controlledByStick;
+        private bool stickDive;
         private float stickMoveCoeff;
 
         public const int duck_w = 27;
@@ -295,6 +296,11 @@ namespace DuckstazyLive.game
 
             if (fly)
             {
+                if (stickDive)
+                {
+                    diveK += dt * 10.0f;
+                    if (diveK > 10.0f) diveK = 10.0f;
+                }
                 if (key_down)
                 {
                     diveK += dt * 6;
@@ -385,7 +391,7 @@ namespace DuckstazyLive.game
 
             if (controlledByStick)
             {
-                key_left = key_right = key_down = false;
+                key_left = key_right = stickDive = false;
                 controlledByStick = false;
             }
             if (leftStick.X > STICK_HOR_THRESHOLD)
@@ -403,7 +409,7 @@ namespace DuckstazyLive.game
             if (leftStick.Y < -STICK_VER_THRESHOLD)
             {
                 controlledByStick = true;
-                key_down = true;
+                stickDive = true;
             }
         }
 
@@ -487,6 +493,8 @@ namespace DuckstazyLive.game
             switch (e.button)
             {
                 case Buttons.DPadDown:
+                case Buttons.B:
+                case Buttons.X:
                     key_down = true;
                     break;
 
@@ -532,6 +540,8 @@ namespace DuckstazyLive.game
             switch (e.button)
             {
                 case Buttons.DPadDown:
+                case Buttons.B:
+                case Buttons.X:
                     key_down = false;
                     break;
 
@@ -811,6 +821,7 @@ namespace DuckstazyLive.game
             key_right = false;
             key_left = false;
             key_down = false;
+            stickDive = false;
             wingLock = false;
             controlledByStick = false;
             jumpButtonPressedStartTime = 0.0f;
