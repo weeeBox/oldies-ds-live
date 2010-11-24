@@ -18,12 +18,15 @@ namespace DuckstazyLive.app
 
         public override void activate()
         {
-            base.activate();
-
-            showView(VIEW_MAIN);
+            base.activate();            
 
             DuckstazyResourceMgr rm = (DuckstazyResourceMgr) Application.sharedResourceMgr;
             rm.initLoading();
+            rm.addPackToLoad(Packs.PACK_START);
+            rm.loadImmediately();
+
+            showView(VIEW_MAIN);
+
             rm.resourcesDelegate = this;
             rm.initLoading();
             rm.addPackToLoad(Packs.PACK_COMMON);
@@ -40,6 +43,8 @@ namespace DuckstazyLive.app
 
         public void allResourcesLoaded()
         {
+            DuckstazyResourceMgr rm = (DuckstazyResourceMgr)Application.sharedResourceMgr;
+            rm.freePack(Packs.PACK_START);
             deactivate();
         }        
     }

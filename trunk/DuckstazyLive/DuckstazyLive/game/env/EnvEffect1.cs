@@ -58,7 +58,6 @@ namespace DuckstazyLive.game.env
                 m.translate(x, y);
                 canvas.draw(Res.IMG_EFFECT_LINE, m, trans);
 
-                c = !c;
                 y += 80.0f;
             }
 			
