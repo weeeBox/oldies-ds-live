@@ -136,7 +136,7 @@ namespace DuckstazyLive.game
             state = newState;
         }
 
-        private void newGame()
+        public void newGame()
         {
             gameSave.reset();
             level.reset();

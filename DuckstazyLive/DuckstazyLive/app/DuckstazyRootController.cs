@@ -8,19 +8,16 @@ using Microsoft.Xna.Framework;
 namespace DuckstazyLive.app
 {
     class DuckstazyRootController : RootController
-    {
-        public enum Childs
-        {
-            CHILD_START,
-            CHILD_MENU,
-            CHILD_GAME
-        }
+    {        
+        public const int CHILD_START = 0;
+        public const int CHILD_MENU = 1;
+        public const int CHILD_GAME = 2;        
 
         public DuckstazyRootController(ViewController p)
             : base(p)
         {
             StartupController startupController = new StartupController(this);
-            addChildWithId(startupController, (int)Childs.CHILD_START);
+            addChildWithId(startupController, CHILD_START);
 
             viewTransition = Transition.TRANSITION_NONE;             
         }
@@ -28,7 +25,7 @@ namespace DuckstazyLive.app
         public override void activate()
         {
             base.activate();
-            activateChild((int)Childs.CHILD_START);
+            activateChild(CHILD_START);
         }        
 
         public override void processDraw()
@@ -47,28 +44,27 @@ namespace DuckstazyLive.app
         public override void onChildDeactivated(int n)
         {
             base.onChildDeactivated(n);
-
-            Childs c = (Childs)n;
-            switch (c)
+            
+            switch (n)
             {
-                case Childs.CHILD_START:
+                case CHILD_START:
                     MenuController menu = new MenuController(this);
-                    addChildWithId(menu, (int)Childs.CHILD_MENU);
+                    addChildWithId(menu, CHILD_MENU);
 
                     GameController gameController = new GameController(this);
-                    addChildWithId(gameController, (int)Childs.CHILD_GAME);
+                    addChildWithId(gameController, CHILD_GAME);
 
-                    activateChild((int)Childs.CHILD_MENU);
+                    activateChild(CHILD_MENU);
                     break;
 
-                case Childs.CHILD_MENU:
+                case CHILD_MENU:
                     viewTransition = Transition.TRANSITION_NONE;
-                    activateChild((int)Childs.CHILD_GAME);
+                    activateChild(CHILD_GAME);
                     break;
 
-                case Childs.CHILD_GAME:
+                case CHILD_GAME:
                     // re-activate game
-                    activateChild((int)Childs.CHILD_MENU);                    
+                    activateChild(CHILD_MENU);                    
                     break;
             }
         }        

@@ -7,6 +7,13 @@ using DuckstazyLive.game;
 
 namespace DuckstazyLive.app
 {
+    public enum GameMode
+    {
+        SINGLE,
+        COOP,
+        VERSUS,
+    }
+
     public class GameController : ViewController
     {
         enum Views
@@ -14,7 +21,8 @@ namespace DuckstazyLive.app
             VIEW_GAME
         }
 
-        GameView gameView;
+        private GameView gameView;
+        private GameMode gameMode;
 
         public GameController(ViewController p) : base(p)
         {
@@ -27,7 +35,12 @@ namespace DuckstazyLive.app
             base.activate();
             showView((int)Views.VIEW_GAME);
 
-            gameView.newGame();
+            gameView.newGame(gameMode);
+        }
+
+        public void setGameMode(GameMode mode)
+        {
+            gameMode = mode;
         }
     }
 }

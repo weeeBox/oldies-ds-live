@@ -18,9 +18,9 @@ namespace DuckstazyLive.app
             addChildWithId(game, 0);
         }
 
-        public void newGame()
-        {            
-            game.clickNewGame();            
+        public void newGame(GameMode gameMode)
+        {
+            game.newGame();
         }
 
         public override void buttonPressed(ref ButtonEvent e)

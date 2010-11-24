@@ -16,29 +16,16 @@ namespace DuckstazyLive.app
 
         public MenuController(ViewController p) : base(p)
         {
-            MenuView view = new MenuView();
-            
-            addViewWithId(view, VIEW_MENU);            
+            MenuView view = new MenuView(this);
+            addViewWithId(view, VIEW_MENU);
         }
 
-        private Image createButtonImage(int strokeId, float rotationDelay)
+        public void newGame(GameMode mode)
         {
-            // button rotating part
-            Image baseImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_BASE));
-            baseImage.toParentCenter();
+            GameController gameController = (GameController) Application.sharedRootController.getChild(DuckstazyRootController.CHILD_GAME);
+            gameController.setGameMode(mode);
 
-            // rotating animation
-            baseImage.turnTimelineSupportWithMaxKeyFrames(1);
-            BaseElement.KeyFrame frame1 = new BaseElement.KeyFrame(baseImage.x, baseImage.y, Color.White, 1.0f, 1.0f, 360.0f, rotationDelay);
-            baseImage.addKeyFrame(frame1);
-            baseImage.setTimelineLoopType(BaseElement.Timeline.REPLAY);
-            baseImage.playTimeline();
-
-            // button stroke part            
-            Image buttonImage = new Image(Application.sharedResourceMgr.getTexture((int)strokeId));
-            buttonImage.addChild(baseImage);            
-
-            return buttonImage;
+            deactivate();
         }
 
         public override void activate()
