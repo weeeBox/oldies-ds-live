@@ -50,7 +50,7 @@ namespace DuckstazyLive.game
 
         public override void drawUI(Canvas canvas)
         {
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+            base.drawUI(canvas);            
             heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
 
             //mat.identity();

@@ -86,8 +86,10 @@ namespace DuckstazyLive.game
         protected virtual void initHero()
         {
             heroes = new Heroes();
-            Hero heroInstance = new Hero(heroes, 0);            
-            heroes.addHero(heroInstance);
+            Hero hero = new Hero(heroes, 0);
+            hero.gameState.leftOriented = true;
+            hero.gameState.color = Color.Yellow;
+            heroes.addHero(hero);            
 
             pills = new Pills(heroes, ps, this);
             heroes.particles = ps;
@@ -123,7 +125,10 @@ namespace DuckstazyLive.game
             enterLevel();
         }
 
-        public abstract void drawUI(Canvas canvas);        
+        public virtual void drawUI(Canvas canvas)
+        {
+            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+        }
 
         public void draw(Canvas canvas)
         {
