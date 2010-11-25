@@ -8,6 +8,7 @@ using DuckstazyLive.app;
 using Framework.visual;
 using Microsoft.Xna.Framework;
 using Framework.utils;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -18,6 +19,8 @@ namespace DuckstazyLive.game
         public const int INGAME = 0;
         public const int LOOSE = 1;
         private int state;
+
+        private GameMode gameMode;
 
         // Состояние текущее и сохранение состояния перед уровнем
         public GameState gameState;
@@ -38,33 +41,45 @@ namespace DuckstazyLive.game
             gameState = new GameState();
             gameSave = new GameState();
 
-            canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);
-
-            // Уровень            
-            // level = new SingleLevel(gameState);            
-            level = new MultiplayerLevel(gameState);
-
-            state = INGAME;
-            level.env.blanc = 1;            
+            canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);            
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
         // game
         //////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void newGame()
+        public void newGame(GameMode mode)
         {
+            this.gameMode = mode;
+
             gameSave.reset();
-            level.reset();
+            level = createLevel(mode);            
             startLevel();
         }
 
-        public void startLevel()
+        private Level createLevel(GameMode mode)
         {
-            // levelMenu.go(gui);
+            switch (mode)
+            {
+                case GameMode.SINGLE:
+                    return new SingleLevel(gameState);
+
+                case GameMode.COOP:
+                    return new MultiplayerLevel(gameState);
+
+                case GameMode.VERSUS:
+                    throw new NotImplementedException();                    
+            }
+
+            Debug.Assert(false, "Wrong mode: " + mode);
+            return null;
+        }
+
+        public void startLevel()
+        {            
             gameState.assign(gameSave);
-            level.start();
             setState(INGAME);
+            level.start();            
         }
 
         public void nextLevel()
@@ -154,7 +169,7 @@ namespace DuckstazyLive.game
                 {
                     deathView = null;
                     GC.Collect();
-                    newGame();
+                    newGame(gameMode);
                 }
             }
         }
