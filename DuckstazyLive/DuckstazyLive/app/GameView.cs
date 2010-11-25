@@ -20,7 +20,7 @@ namespace DuckstazyLive.app
 
         public void newGame(GameMode gameMode)
         {
-            game.newGame();
+            game.newGame(gameMode);
         }
 
         public override void buttonPressed(ref ButtonEvent e)
