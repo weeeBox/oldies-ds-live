@@ -25,14 +25,6 @@ namespace DuckstazyLive.game
             stages.Add(LevelStages.Trains);
             stages.Add(LevelStages.Bubbles3);
             stagesCount = stages.Count;
-        }
-
-        public override void drawUI(Canvas canvas)
-        {           
-            foreach (Hero h in heroes)
-            {
-                h.gameState.draw(canvas, 0, 0);
-            }            
-        }
+        }        
     }
 }
