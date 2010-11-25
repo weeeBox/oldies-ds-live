@@ -12,10 +12,9 @@ using Framework.utils;
 namespace DuckstazyLive.game
 {
     public class Game : BaseElement
-    {
-        public const int MENU = 0;
-        public const int LEVEL = 1;
-        public const int LOOSE = 2;
+    {        
+        public const int INGAME = 0;
+        public const int LOOSE = 1;
 
         public static Game instance;
 
@@ -30,15 +29,7 @@ namespace DuckstazyLive.game
 
         private Canvas canvas;
 
-        private DeathView deathView;
-        
-        public bool mute;
-        public bool inGame;
-
-        public int maxScores;
-        public bool maxScoresFinish;
-        public int lastScores;
-        public bool lastScoresFinish;
+        private DeathView deathView;        
 
         public Game()
         {
@@ -53,15 +44,7 @@ namespace DuckstazyLive.game
             // level = new SingleLevel(gameState);            
             level = new MultiplayerLevel(gameState);
 
-            state = MENU;
-            inGame = false;
-            mute = false;
-
-            maxScores = 0;
-            maxScoresFinish = false;
-            lastScores = 0;
-            lastScoresFinish = false;
-
+            state = INGAME;
             level.env.blanc = 1;            
         }
 
@@ -71,12 +54,8 @@ namespace DuckstazyLive.game
         	Env env = level.env;            
 						
 			switch(state)
-			{
-			    case MENU:
-				    env.update(dt, 0.0f);
-				    level.progress.update(dt, 0.0f);
-				    break;
-			    case LEVEL:
+			{			    
+			    case INGAME:
 				    level.update(dt);
 				    break;                
                 case LOOSE:
@@ -92,13 +71,8 @@ namespace DuckstazyLive.game
         {            
             Env env = level.env;            
             switch (state)
-            {
-                case MENU:
-                    env.draw1(canvas);
-                    env.draw2(canvas);
-                    level.progress.draw(canvas);
-                    break;
-                case LEVEL:
+            {                
+                case INGAME:
                     drawLevel();                    
                     break;
                 case LOOSE:
@@ -154,8 +128,7 @@ namespace DuckstazyLive.game
             // levelMenu.go(gui);
             gameState.assign(gameSave);
             level.start();
-            setState(LEVEL);
-            inGame = true;
+            setState(INGAME);            
         }
 
         public void save()
@@ -165,7 +138,7 @@ namespace DuckstazyLive.game
 
         public void buttonPressed(ref ButtonEvent e)
         {
-            if (state == LEVEL)
+            if (state == INGAME)
             {
                 level.buttonPressed(ref e);
             }
@@ -182,7 +155,7 @@ namespace DuckstazyLive.game
 
         public void buttonReleased(ref ButtonEvent e)
         {
-            if (state == LEVEL)
+            if (state == INGAME)
                 level.buttonReleased(ref e);
         }
 
@@ -231,20 +204,7 @@ namespace DuckstazyLive.game
             //    SoundMixer.soundTransform = new SoundTransform(1.0f);
             //mainMenu.refreshVol(this);
             throw new NotImplementedException();
-        }
-
-        public void clickNewGame()
-        {
-            if (inGame)
-            {
-                level.setPause(false);
-                // levelMenu.go(gui);
-            }
-            else
-            {                
-                newGame();
-            }
-        }
+        }        
 
         public void goPause()
         {
