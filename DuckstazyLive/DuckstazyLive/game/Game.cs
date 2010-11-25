@@ -12,12 +12,11 @@ using Framework.utils;
 namespace DuckstazyLive.game
 {
     public class Game : BaseElement
-    {        
-        public const int INGAME = 0;
-        public const int LOOSE = 1;
-
+    {
         public static Game instance;
 
+        public const int INGAME = 0;
+        public const int LOOSE = 1;
         private int state;
 
         // Состояние текущее и сохранение состояния перед уровнем
@@ -26,7 +25,7 @@ namespace DuckstazyLive.game
 
         // Уровень.
         public Level level;
-
+                
         private Canvas canvas;
 
         private DeathView deathView;        
@@ -34,6 +33,7 @@ namespace DuckstazyLive.game
         public Game()
         {
             instance = this;
+
             // Игровые состояния
             gameState = new GameState();
             gameSave = new GameState();
@@ -48,9 +48,63 @@ namespace DuckstazyLive.game
             level.env.blanc = 1;            
         }
 
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        // game
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
+        public void newGame()
+        {
+            gameSave.reset();
+            level.reset();
+            startLevel();
+        }
+
+        public void startLevel()
+        {
+            // levelMenu.go(gui);
+            gameState.assign(gameSave);
+            level.start();
+            setState(INGAME);
+        }
+
+        public void nextLevel()
+        {
+            level.nextLevel();
+        }
+
+        public void win()
+        {         
+            throw new NotImplementedException();
+        }
+
+        public void loose()
+        {
+            setState(LOOSE);
+            deathView = new DeathView();
+        }
+
+        public void pause()
+        {
+            level.setPause(true);
+        }
+
+        private void setState(int newState)
+        {
+            state = newState;
+        }
+
+        public void save()
+        {
+            gameSave.assign(gameState);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        // Life cicle
+        //////////////////////////////////////////////////////////////////////////////////////////////
+
         public override void update(float dt)
-        {            
-        	//Number dt = device.update();
+        {           
+        	
         	Env env = level.env;            
 						
 			switch(state)
@@ -73,7 +127,7 @@ namespace DuckstazyLive.game
             switch (state)
             {                
                 case INGAME:
-                    drawLevel();                    
+                    level.draw(canvas);
                     break;
                 case LOOSE:
                     deathView.draw(canvas);
@@ -84,57 +138,9 @@ namespace DuckstazyLive.game
                 env.drawBlanc(canvas);
         }
 
-        private void drawLevel()
-        {            
-            level.draw(canvas);            
-        }        
-
-        private CustomGeomerty geomTitleSafe;
-
-        private void drawTitleSafe()
-        {
-            if (geomTitleSafe == null)
-            {
-                float w = Constants.TITLE_SAFE_SCALE_X * Constants.SCREEN_WIDTH;
-                float h = Constants.TITLE_SAFE_SCALE_Y * Constants.SCREEN_HEIGHT;
-                float x = 0.5f * (Constants.SCREEN_WIDTH - w);
-                float y = 0.5f * (Constants.SCREEN_HEIGHT - h);
-
-                geomTitleSafe = utils.createRect(x, y, w, h, Color.Red, false);
-            }
-            canvas.drawGeometry(geomTitleSafe);
-        }
-
-        private void setState(int newState)
-        {
-            state = newState;
-        }
-
-        public void newGame()
-        {
-            gameSave.reset();
-            level.reset();
-            startLevel();
-        }
-
-        public void loose()
-        {
-            setState(LOOSE);
-            deathView = new DeathView();
-        }
-
-        public void startLevel()
-        {
-            // levelMenu.go(gui);
-            gameState.assign(gameSave);
-            level.start();
-            setState(INGAME);            
-        }
-
-        public void save()
-        {
-            gameSave.assign(gameState);
-        }
+        //////////////////////////////////////////////////////////////////////////////////////////////
+        // Events
+        //////////////////////////////////////////////////////////////////////////////////////////////
 
         public void buttonPressed(ref ButtonEvent e)
         {
@@ -194,62 +200,5 @@ namespace DuckstazyLive.game
                 buttonReleased(ref buttonEvent);
             }
         }        
-
-        public void changeMute()
-        {
-            //mute = !mute;
-            //if (mute)
-            //    SoundMixer.soundTransform = new SoundTransform(0.0f);
-            //else
-            //    SoundMixer.soundTransform = new SoundTransform(1.0f);
-            //mainMenu.refreshVol(this);
-            throw new NotImplementedException();
-        }        
-
-        public void goPause()
-        {
-            level.setPause(true);            
-        }
-
-        public void goNextLevel()
-        {
-            level.nextLevel();
-        }
-
-        public void goCredits()
-        {
-            //if (inGame)
-            //{
-            //    updateResults();
-            //    state = MENU;
-            //    inGame = false;
-            //    if (gui.current != mainMenu)
-            //        gui.current = mainMenu;
-            //    mainMenu.refreshInGame(this);
-            //    level.env.blanc = 1.0f;
-            //    level.progress.end();
-            //}
-            //else descScreen.go(1);
-            throw new NotImplementedException();
-        }
-
-        public void updateResults()
-        {
-            //bool finish = false;
-            //if (level.stage != null)
-            //{
-            //    finish = gameState.level >= level.stagesCount - 1 && level.stage.win;
-            //}
-            //if (gameState.scores >= maxScores)
-            //{
-            //    if (gameState.scores == maxScores && finish)
-            //        maxScoresFinish = true;
-            //    else
-            //        maxScoresFinish = finish;
-
-            //    maxScores = gameState.scores;
-            //}            
-            throw new NotImplementedException();
-        }
     }
 }

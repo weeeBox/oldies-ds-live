@@ -302,14 +302,14 @@ namespace DuckstazyLive.game
                         if (e.button == Buttons.A || e.button == Buttons.Start) // ENTER
                             game.startLevel();
                         else if (e.button == Buttons.Back)// ESC
-                            game.goPause();
+                            game.pause();
                     }
                 }
                 else
                 {
                     heroes.buttonPressed(ref e);
                     if (e.button == Buttons.Back)// ESC
-                        game.goPause();
+                        game.pause();
                     else if (e.button == Buttons.RightShoulder)
                         nextLevel();
                     else if (e.button == Buttons.LeftShoulder)
@@ -336,7 +336,7 @@ namespace DuckstazyLive.game
         {
             if (state.level >= stagesCount - 1)
             {
-                game.goCredits();
+                game.win();
             }
             else
             {
