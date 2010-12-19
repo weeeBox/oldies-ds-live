@@ -68,7 +68,7 @@ namespace DuckstazyLive.game.env
             float transY = 0.5f * Constants.ENV_HEIGHT;
 
             int rayImg = Res.IMG_EFFECT_RAY;
-            Texture2D rayTex = utils.getImage(rayImg);
+            Texture2D rayTex = utils.getTexture(rayImg);
 
             DrawMatrix m = new DrawMatrix(false);
             m.tx = -rayTex.Width;
@@ -94,7 +94,7 @@ namespace DuckstazyLive.game.env
             }
 
             int circleImage = Res.IMG_EFFECT_CIRCLE;
-            Texture2D circleTex = utils.getImage(circleImage);
+            Texture2D circleTex = utils.getTexture(circleImage);
             m.identity();
             m.translate(transX, transY);
             m.tx = -0.5f * circleTex.Width;

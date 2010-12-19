@@ -131,36 +131,30 @@ namespace DuckstazyLive.game
         }
 
         public void draw(Canvas canvas)
-        {
+        {            
+            env.draw1(canvas);
+
+            //if(!room)
+            levelPreDraw();
+            stage.draw1(canvas);
+
+            info.drawFT(canvas);
+            pills.draw(canvas);
+                                
+            heroes.draw(canvas);
+
+            ps.draw(canvas);
+            levelPostDraw();
+
+            env.draw2(canvas);
+                
+            // progress.draw(canvas);
+            drawUI(canvas);
+            stage.draw2(canvas);
+         
             if (pause)
             {
-                throw new NotImplementedException();
-            }
-            else
-            {
-                env.draw1(canvas);
-
-                //if(!room)
-                levelPreDraw();
-                stage.draw1(canvas);
-
-                info.drawFT(canvas);
-                pills.draw(canvas);
-                                
-                heroes.draw(canvas);
-
-                ps.draw(canvas);
-                levelPostDraw();
-
-                env.draw2(canvas);
-                
-                // progress.draw(canvas);
-                drawUI(canvas);
-                stage.draw2(canvas);
-
-                //levelPreDraw();
-                //AppGraphics.DrawRect(0, 0, utils.scale(640), utils.scale(480), Color.White);
-                //levelPostDraw();
+                AppGraphics.FillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, new Color(0, 0, 0, 0.25f));
             }
         }
 
@@ -285,56 +279,63 @@ namespace DuckstazyLive.game
             powerUp = 0.0f;
         }
 
-        public void buttonPressed(ref ButtonEvent e)
+        public bool buttonPressed(ref ButtonEvent e)
         {
             if (pause)
             {
-                throw new NotImplementedException();
+                if (e.button == Buttons.Back)
+                {
+                    setPause(false);
+                    return true;
+                }
             }
-            else
+
+            if (heroes.hasAliveHero() && heroes.buttonPressed(ref e))
+                return true;
+
+            if (finish)
             {
-                if (finish)
+                switch (e.button)
                 {
-                    if (heroes.hasAliveHero())
-                    {
-                        //if(code==0x0D || code==0x1B) // ENTER or ESC
-                        //nextLevel();
-                        //else
-                        heroes.buttonPressed(ref e);
-                    }
-                    else
-                    {
-                        if (e.button == Buttons.A || e.button == Buttons.Start) // ENTER
-                            game.startLevel();
-                        else if (e.button == Buttons.Back)// ESC
-                            game.pause();
-                    }
+                    case Buttons.A:
+                    case Buttons.Start:
+                        //game.startLevel();
+                        //return true;
+                        throw new NotImplementedException();
                 }
-                else
-                {
-                    heroes.buttonPressed(ref e);
-                    if (e.button == Buttons.Back)// ESC
-                        game.pause();
-                    else if (e.button == Buttons.RightShoulder)
-                        nextLevel();
-                    else if (e.button == Buttons.LeftShoulder)
-                        heroes[0].doToxicDamage(heroes[0].x, heroes[0].y, 1, 0);
-                    //else if (key == Keys.End)
-                    //    powerUp = power = 1.0f;
-                    //else if (key == Keys.Delete)
-                    //    state.health = 0;
-                    /*else if(code==0x44)
-                        hero.doToxicDamage(320, 200, 20, 0);
-                    else if(code==0x50)
-                        powerUp = power = 1;*/
-                }
+                
+                return false;                
             }
+                
+            switch (e.button)
+            {
+                case Buttons.Back:
+                    {                   
+                        game.pause();
+                        return true;
+                    }
+                case Buttons.RightShoulder:
+                    {                   
+                        nextLevel();
+                        return true;
+                    }                    
+                case Buttons.LeftShoulder:
+                    {
+                        int heroIndex = e.playerIndex;
+                        Debug.Assert(heroIndex >= 0 && heroIndex < heroes.getHeroesCount());
+                        heroes[heroIndex].doToxicDamage(heroes[heroIndex].x, heroes[heroIndex].y, 1, 0);
+                        return true;
+                    }
+            }
+
+            return false;
         }
 
-        public void buttonReleased(ref ButtonEvent e)
+        public bool buttonReleased(ref ButtonEvent e)
         {
             if (!pause)
-                heroes.buttonReleased(ref e);
+                return heroes.buttonReleased(ref e);
+            return false;
         }
 
         public void nextLevel()
@@ -354,11 +355,8 @@ namespace DuckstazyLive.game
         {
             if (value)
             {
-                //draw(imgPause);
-                //imgPause.applyFilter(imgPause, new Rect(0.0f, 0.0f, 640.0f, 480.0f), new Point(), new BlurFilter(16.0f, 16.0f, 2)); 
-                //pause = true;
-                //hero.keysReset();
-                throw new NotImplementedException();
+                pause = true;
+                heroes.buttonsReset();
             }
             else
             {

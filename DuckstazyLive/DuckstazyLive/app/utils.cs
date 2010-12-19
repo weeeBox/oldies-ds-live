@@ -217,19 +217,19 @@ namespace DuckstazyLive.app
             return new Color(r, g, b, a);
         }
 
-        public static Texture2D getImage(int imageId)
+        public static Texture2D getTexture(int imageId)
         {
             return Application.sharedResourceMgr.getTexture(imageId);
         }
 
-        public static int imageWidth(int imageId)
+        public static int textureWidth(int imageId)
         {
-            return getImage(imageId).Width;
+            return getTexture(imageId).Width;
         }
 
-        public static int imageHeight(int imageId)
+        public static int textureHeight(int imageId)
         {
-            return getImage(imageId).Height;
+            return getTexture(imageId).Height;
         }
 
         public static float fontHeight(int fontId)

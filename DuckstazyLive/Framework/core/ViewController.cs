@@ -250,36 +250,40 @@ namespace Framework.core
             activeViewId = FrameworkConstants.UNDEFINED;
         }
 
-        public virtual void buttonPressed(ref ButtonEvent e)
+        public virtual bool buttonPressed(ref ButtonEvent e)
         {
             if (activeViewId != FrameworkConstants.UNDEFINED)
             {
-                activeView().buttonPressed(ref e);
+                return activeView().buttonPressed(ref e);
             }
+            return false;
         }
 
-        public virtual void buttonReleased(ref ButtonEvent e)
+        public virtual bool buttonReleased(ref ButtonEvent e)
         {
             if (activeViewId != FrameworkConstants.UNDEFINED)
             {
-                activeView().buttonReleased(ref e);
+                return activeView().buttonReleased(ref e);
             }
+            return false;
         }
 
-        public virtual void keyPressed(Keys key)
+        public virtual bool keyPressed(Keys key)
         {
             if (activeViewId != FrameworkConstants.UNDEFINED)
             {
-                activeView().keyPressed(key);
+                return activeView().keyPressed(key);
             }
+            return false;
         }
 
-        public virtual void keyReleased(Keys key)
+        public virtual bool keyReleased(Keys key)
         {
             if (activeViewId != FrameworkConstants.UNDEFINED)
             {
-                activeView().keyReleased(key);
+                return activeView().keyReleased(key);
             }
+            return false;
         }
     }
 }

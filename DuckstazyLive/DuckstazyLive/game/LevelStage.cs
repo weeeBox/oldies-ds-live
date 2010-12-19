@@ -25,10 +25,10 @@ namespace DuckstazyLive.game
         
         protected Heroes heroes;
         protected Env env;
-
-        // 0 - накачай утку
-        // 1 - бонус уровень (собирай данное время)
-        // 2 - трип
+        
+        public const int TYPE_PUMP = 0; // накачай утку
+        public const int TYPE_BONUS = 1; // бонус уровень (собирай данное время)
+        public const int TYPE_DUCKTRIP = 2; // трип
         protected int type;
 
         protected float pumpProg; // прогресс накачки 0->1 после power==1
@@ -56,19 +56,11 @@ namespace DuckstazyLive.game
             heroes = level.heroes;            
             env = level.env;
 
-            if (_type == 0)
+            if (_type == TYPE_PUMP)
             {
                 goalTime = 2.0f;
                 pumpVel = 1.0f;
-            }
-            else if (_type == 1)
-            {
-
-            }
-            else
-            {
-
-            }
+            }           
 
             type = _type;
         }

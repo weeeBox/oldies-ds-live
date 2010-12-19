@@ -43,7 +43,7 @@ namespace DuckstazyLive.game.env
 
             ColorTransform colorTransform = new ColorTransform(c1);
 
-            Texture2D circleTex = utils.getImage(Res.IMG_EFFECT_CIRCLE);
+            Texture2D circleTex = utils.getTexture(Res.IMG_EFFECT_CIRCLE);
             DrawMatrix m = new DrawMatrix(true);
             m.tx = utils.unscale(-0.5f * circleTex.Width);
             m.ty = utils.unscale(-0.5f * circleTex.Height);            

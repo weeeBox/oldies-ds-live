@@ -140,7 +140,7 @@ namespace DuckstazyLive.game
             move = 0.0f;
             step = 0.0f;
 
-            keysReset();
+            buttonsReset();
 
             fly = false;
 
@@ -488,7 +488,7 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void buttonPressed(ref ButtonEvent e)
+        public bool buttonPressed(ref ButtonEvent e)
         {
             switch (e.button)
             {
@@ -496,11 +496,11 @@ namespace DuckstazyLive.game
                 case Buttons.B:
                 case Buttons.X:
                     key_down = true;
-                    break;
+                    return true;
 
                 case Buttons.DPadLeft:
                     key_left = true;
-                    break; ;
+                    return true;
 
                 case Buttons.A:
                     if (!key_up && started)
@@ -527,15 +527,16 @@ namespace DuckstazyLive.game
                         }
                     }
                     key_up = true;
-                    break;
+                    return true;
 
                 case Buttons.DPadRight:
                     key_right = true;
-                    break; ;
+                    return true;
             }
+            return false;
         }
 
-        public void buttonReleased(ref ButtonEvent e)
+        public bool buttonReleased(ref ButtonEvent e)
         {
             switch (e.button)
             {
@@ -543,11 +544,11 @@ namespace DuckstazyLive.game
                 case Buttons.B:
                 case Buttons.X:
                     key_down = false;
-                    break;
+                    return true;
 
                 case Buttons.DPadLeft:
                     key_left = false;
-                    break;
+                    return true;
 
                 case Buttons.A:
                     if (key_up && started)
@@ -568,12 +569,14 @@ namespace DuckstazyLive.game
                         }
                     }
                     key_up = false;
-                    break; ;
+                    return true;
 
                 case Buttons.DPadRight:
                     key_right = false;
-                    break; ;
+                    return true;
             }
+
+            return false;
         }
 
         public void doSleep()
@@ -715,7 +718,7 @@ namespace DuckstazyLive.game
         {
             gameState.health = 0;
             state = HERO_DEAD;
-            keysReset();
+            buttonsReset();
         }
 
         public void jumpOn(Hero other)
@@ -815,7 +818,7 @@ namespace DuckstazyLive.game
             heroes.media.playAwake();
         }
 
-        public void keysReset()
+        public void buttonsReset()
         {
             key_up = false;
             key_right = false;

@@ -23,24 +23,24 @@ namespace DuckstazyLive.app
             game.newGame(gameMode);
         }
 
-        public override void buttonPressed(ref ButtonEvent e)
+        public override bool buttonPressed(ref ButtonEvent e)
         {
-            game.buttonPressed(ref e);
+            return game.buttonPressed(ref e);            
         }
 
-        public override void buttonReleased(ref ButtonEvent e)
+        public override bool buttonReleased(ref ButtonEvent e)
         {
-            game.buttonReleased(ref e);
+            return game.buttonReleased(ref e);            
         }
 
-        public override void keyPressed(Keys key)
+        public override bool keyPressed(Keys key)
         {
-            game.keyPressed(key);
+            return game.keyPressed(key);            
         }
 
-        public override void keyReleased(Keys key)
+        public override bool keyReleased(Keys key)
         {
-            game.keyReleased(key);
+            return game.keyReleased(key);            
         }
     }
 }

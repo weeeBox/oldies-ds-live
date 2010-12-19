@@ -8,6 +8,7 @@ namespace DuckstazyLive.game.levels
 {
     public enum LevelStages
     {
+        Testing,
         Harvesting,
         PartyTime,
         Bubbles,
@@ -27,6 +28,8 @@ namespace DuckstazyLive.game.levels
         {
             switch (stage)
             {
+                case LevelStages.Testing:
+                    return new FigureStage();
                 case LevelStages.Harvesting:
                     return new Harvesting();
                 case LevelStages.PartyTime:

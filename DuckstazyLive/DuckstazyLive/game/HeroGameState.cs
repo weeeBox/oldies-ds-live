@@ -66,7 +66,7 @@ namespace DuckstazyLive.game
             float drawX = x;
             float drawY = y;
 
-            float dx = utils.imageWidth(Res.IMG_UI_HEALTH_EMO_BASE);
+            float dx = utils.textureWidth(Res.IMG_UI_HEALTH_EMO_BASE);
             
             if (!leftOriented)
                 drawX -= 2 * dx;
@@ -106,8 +106,8 @@ namespace DuckstazyLive.game
 
             if (alive)
             {
-                mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_BASE);
-                mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_HEALTH_EMO_BASE);             
+                mat.tx = -0.5f * utils.textureWidth(Res.IMG_UI_HEALTH_EMO_BASE);
+                mat.ty = -0.5f * utils.textureHeight(Res.IMG_UI_HEALTH_EMO_BASE);             
                 mat.translate(cx, cy);
 
                 // base
@@ -122,8 +122,8 @@ namespace DuckstazyLive.game
             }
             else
             {
-                mat.tx = -0.5f * utils.imageWidth(Res.IMG_UI_HEALTH_EMO_DEAD);
-                mat.ty = -0.5f * utils.imageHeight(Res.IMG_UI_HEALTH_EMO_DEAD);                
+                mat.tx = -0.5f * utils.textureWidth(Res.IMG_UI_HEALTH_EMO_DEAD);
+                mat.ty = -0.5f * utils.textureHeight(Res.IMG_UI_HEALTH_EMO_DEAD);                
                 mat.translate(cx, cy);
 
                 // base

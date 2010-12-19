@@ -56,6 +56,8 @@ namespace DuckstazyLive.game
 
         public void start(float progressTime)
         {
+            Debug.Assert(progressTime > 0);
+
             progress = 0.0f;
             progressMax = progressTime;
             play = true;

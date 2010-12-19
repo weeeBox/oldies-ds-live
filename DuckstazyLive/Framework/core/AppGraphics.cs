@@ -143,7 +143,7 @@ namespace Framework.core
         }        
 
         public static void Begin(GraphicsDevice gd, float width, float height)
-        {            
+        {
             Debug.Assert(batchMode == BatchMode.None, "Bad batch mode: " + batchMode);
 
             matrixStack.Clear();
@@ -171,7 +171,7 @@ namespace Framework.core
         }
 
         public static void End()
-        {
+        {            
             EndBatch();
         }        
 
@@ -345,6 +345,19 @@ namespace Framework.core
             short[] indexData = new short[] {0, 1, 2, 3, 0};
 
             graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, vertexData, 0, 4, indexData, 0, 4);
+        }
+
+        public static void FillRect(float x, float y, float width, float height, Color color)
+        {
+            GetSpriteBatch(BatchMode.Geometry);
+
+            VertexPositionColor[] vertexData = new VertexPositionColor[4];
+            vertexData[0] = new VertexPositionColor(new Vector3(x, y, 0), color);
+            vertexData[1] = new VertexPositionColor(new Vector3(x + width, y, 0), color);
+            vertexData[2] = new VertexPositionColor(new Vector3(x, y + height, 0), color);
+            vertexData[3] = new VertexPositionColor(new Vector3(x + width, y + height, 0), color);            
+
+            graphicsDevice.DrawUserPrimitives(PrimitiveType.TriangleStrip, vertexData, 0, 2);
         }
 
         public static void DrawGeomerty(CustomGeomerty geometry)
