@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Framework.core
 {
-    public abstract class BaseElement
+    public abstract class BaseElement : InputListener
     {
         public const float ALIGN_MIN = 0.0f;
         public const float ALIGN_CENTER = 0.5f;
@@ -49,6 +51,8 @@ namespace Framework.core
 
         public bool visible;        
         public bool updateable;
+        private bool focusable;
+        private bool focused;
 
         public float x;
         public float y;
@@ -75,12 +79,8 @@ namespace Framework.core
 
         public float parentAlignX;
         public float parentAlignY;
-
-        public bool passTransformationsToChilds;
-        public bool passTouchEventsToAllChilds;
-
-        protected DynamicArray<BaseElement> childs;
-        protected BaseElement parent;
+                
+        private BaseElement parent;
 
         // timeline support
         protected KeyFrame[] keyFrames;
@@ -93,16 +93,26 @@ namespace Framework.core
         protected Timeline timelineLoopType;
         protected bool timelineDirReverse;
 
-        public BaseElement()
+        public BaseElement() : this(0, 0)
         {
-            visible = true;            
+        }
+
+        public BaseElement(int width, int height) : this(0, 0, width, height)
+        {
+        }
+
+        public BaseElement(float x, float y, int width, int height)
+        {
+            visible = true;
             updateable = true;
+            focusable = false;
+            focused = false;
 
-            x = 0;
-            y = 0;
+            this.x = x;
+            this.y = y;
 
-            width = 0;
-            height = 0;
+            this.width = width;
+            this.height = height;
 
             rotation = 0;
             rotationCenterX = 0;
@@ -113,17 +123,12 @@ namespace Framework.core
             translateX = 0;
             translateY = 0;
 
-            parentAlignX = parentAlignY = alignX = alignY = ALIGN_MIN;            
-            parent = null;
-
-            childs = new DynamicArray<BaseElement>();
+            parentAlignX = parentAlignY = alignX = alignY = ALIGN_MIN;
+            parent = null;            
 
             nextKeyFrame = FrameworkConstants.UNDEFINED;
             keyFrames = null;
-            keyFramesCount = keyFramesCapacity = 0;
-
-            passTransformationsToChilds = true;
-            passTouchEventsToAllChilds = false;
+            keyFramesCount = keyFramesCapacity = 0;            
         }
 
         public void setTimelineDelegate(TimelineDelegate td)
@@ -136,15 +141,7 @@ namespace Framework.core
             if (nextKeyFrame != FrameworkConstants.UNDEFINED)
             {
                 updateTimeline(delta);
-            }
-
-            foreach (BaseElement c in childs)
-            {
-                if (c != null && c.updateable)
-                {
-                    c.update(delta);
-                }
-            }
+            }            
         }
 
         public void restoreTransformations()
@@ -214,82 +211,21 @@ namespace Framework.core
         }
 
         public virtual void postDraw()
-        {
-            if (!passTransformationsToChilds)
-            {
-                restoreTransformations();
-            }
-
-            foreach (BaseElement c in childs)
-            {
-                if (c != null && c.visible)
-                {
-                    c.draw();
-                }
-            }
-
-            if (passTransformationsToChilds)
-            {
-                restoreTransformations();
-            }            
+        {           
+            restoreTransformations();            
         }
 
         public virtual void draw()
         {
             preDraw();
             postDraw();
-        }
-
-        public virtual void addChildWithId(BaseElement c, int i)
-        {
-            c.parent = this;
-            childs[i] = c;
-        }
-
-        public virtual int addChild(BaseElement c)
-        {
-            int index = childs.getFirstEmptyIndex();
-            addChildWithId(c, index);
-            return index;
-        }
-
-        public void removeChildWithId(int i)
-        {
-            BaseElement c = childs[i];
-            c.parent = null;
-            childs[i] = null;
-        }
-
-        public void removeChild(BaseElement c)
-        {
-            int index = childs.getObjectIndex(c);
-            removeChildWithId(index);
-        }
-
-        public void removeAllChilds()
-        {
-            childs = new DynamicArray<BaseElement>();
-        }
-
-        public BaseElement getChild(int i)
-        {
-            return childs[i];
-        }
-
-        public DynamicArray<BaseElement> getChilds()
-        {
-            return childs;
-        }
+        }        
 
         public BaseElement Parent
         {
             get { return parent; }
-        }
-
-        public int childsCount()
-        {
-            return childs.count();
-        }
+            set { parent = value; }
+        }        
 
         // timeline
         public void turnTimelineSupportWithMaxKeyFrames(int m)
@@ -442,12 +378,63 @@ namespace Framework.core
         public void setEnabled(bool e)
         {
             visible = e;            
-            updateable = e;
+            updateable = e;            
         }
 
         public bool isEnabled()
         {
             return (visible && updateable);
+        }
+
+        public void setFocusable(bool f)
+        {
+            focusable = true;
+        }
+
+        public bool isFocusable()
+        {
+            return focusable;
+        }
+
+        public bool isAcceptingInput()
+        {
+            return isFocusable() && isEnabled();
+        }
+
+        public void setFocused(bool f)
+        {
+            Debug.Assert(isFocusable());
+            bool oldFocused = focused;
+            focused = f;
+            if (oldFocused)
+            {
+                if (!focused)
+                {
+                    focusLost();
+                }
+            }
+            else // !oldFocused
+            {
+                if (focused)
+                {
+                    focusGained();
+                }
+            }
+        }
+
+        public bool isFocused()
+        {
+            return focused;
+        }
+
+        protected virtual void focusGained()
+        {
+
+        }
+
+        protected virtual void focusLost()
+        {
+
         }
 
         public void toParentCenter()
@@ -466,6 +453,26 @@ namespace Framework.core
         {
             this.parentAlignX = alignX;
             this.parentAlignY = alignY;
+        }
+
+        public virtual bool buttonPressed(ref ButtonEvent e)
+        {
+            return false;
+        }
+
+        public virtual bool buttonReleased(ref ButtonEvent e)
+        {   
+            return false;
+        }
+
+        public virtual bool keyPressed(Keys key)
+        {         
+            return false;
+        }
+
+        public virtual bool keyReleased(Keys key)
+        {         
+            return false;
         }
     }
 }

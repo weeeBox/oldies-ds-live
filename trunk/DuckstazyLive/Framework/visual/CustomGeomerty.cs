@@ -14,12 +14,7 @@ namespace Framework.visual
         private VertexPositionColor[] vertexData;
         private short[] indexData;
         int primitiveCount;
-        PrimitiveType primitiveType;
-        
-        public CustomGeomerty(Vector2[] vertices, Color vertexColor, PrimitiveType primitiveType)
-        {
-            throw new NotImplementedException();            
-        }
+        PrimitiveType primitiveType;        
 
         public CustomGeomerty(VertexPositionColor[] vertexData, PrimitiveType primitiveType)             
         {

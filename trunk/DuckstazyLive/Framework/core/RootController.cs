@@ -137,36 +137,40 @@ namespace Framework.core
             suspended = false;
         }
 
-        public override void buttonPressed(ref ButtonEvent e)
+        public override bool buttonPressed(ref ButtonEvent e)
         {
             if (currentController != null)
             {
-                currentController.buttonPressed(ref e);
+                return currentController.buttonPressed(ref e);
             }
+            return false;
         }
 
-        public override void buttonReleased(ref ButtonEvent e)
+        public override bool buttonReleased(ref ButtonEvent e)
         {
             if (currentController != null)
             {
-                currentController.buttonReleased(ref e);
+                return currentController.buttonReleased(ref e);
             }
+            return false;
         }
 
-        public override void keyPressed(Keys key)
+        public override bool keyPressed(Keys key)
         {
             if (currentController != null)
             {
-                currentController.keyPressed(key);
+                return currentController.keyPressed(key);
             }
+            return false;
         }
 
-        public override void keyReleased(Keys key)
+        public override bool keyReleased(Keys key)
         {
             if (currentController != null)
             {
-                currentController.keyReleased(key);
+                return currentController.keyReleased(key);
             }
+            return false;
         }
     }
 }

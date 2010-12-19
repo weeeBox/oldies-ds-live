@@ -7,11 +7,7 @@ namespace DuckstazyLive.game.levels.generator
 {
     public class Setuper
 	{        
-        public UserCallback userCallback;
-		
-		public Setuper()
-		{
-		}
+        public UserCallback userCallback;	
 
 		public virtual Pill start(float x, float y, Pill pill)
 		{

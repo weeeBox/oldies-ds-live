@@ -18,7 +18,8 @@ namespace DuckstazyLive.app
     {
         enum Views
         {
-            VIEW_GAME
+            VIEW_GAME,
+            VIEW_PAUSE,
         }
 
         private GameView gameView;
@@ -27,7 +28,7 @@ namespace DuckstazyLive.app
         public GameController(ViewController p) : base(p)
         {
             gameView = new GameView();
-            addViewWithId(gameView, (int)Views.VIEW_GAME);
+            addViewWithId(gameView, (int)Views.VIEW_GAME);            
         }
 
         public override void activate()

@@ -155,30 +155,40 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void buttonPressed(ref ButtonEvent e)
+        public bool buttonPressed(ref ButtonEvent e)
         {
-            buttonPressed(ref e, e.playerIndex);
+            return buttonPressed(ref e, e.playerIndex);
         }
 
-        public void buttonReleased(ref ButtonEvent e)
+        public bool buttonReleased(ref ButtonEvent e)
         {
-            buttonReleased(ref e, e.playerIndex);
+            return buttonReleased(ref e, e.playerIndex);
         }
 
-        private void buttonPressed(ref ButtonEvent e, int playerIndex)
+        private bool buttonPressed(ref ButtonEvent e, int playerIndex)
+        {
+            Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
+            Hero hero = heroes[playerIndex];
+            if (!hero.isDead())            
+                return hero.buttonPressed(ref e);
+            return false;
+        }
+
+        private bool buttonReleased(ref ButtonEvent e, int playerIndex)
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
             Hero hero = heroes[playerIndex];
             if (!hero.isDead())
-                hero.buttonPressed(ref e);
+                return hero.buttonReleased(ref e);
+            return false;
         }
 
-        private void buttonReleased(ref ButtonEvent e, int playerIndex)
+        public void buttonsReset()
         {
-            Debug.Assert(playerIndex >= 0 && playerIndex < getHeroesCount());
-            Hero hero = heroes[playerIndex];
-            if (!hero.isDead())
-                hero.buttonReleased(ref e);
+            foreach (Hero hero in heroes)
+            {
+                hero.buttonsReset();
+            }
         }
 
         public void start(float _x)

@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.app
 {
-    public class MenuView : View
+    public class MenuView : View, ButtonDelegate
     {
         // дублеж, пиздешь и провокация
 
@@ -25,15 +25,16 @@ namespace DuckstazyLive.app
         private Canvas canvas;
         private DrawMatrix MAT;
 
-        private UiButton focusedButton;
-        private UiButton oldFocusedButton;
+        private int focusedButton, oldFocusedButton;
 
-        private UiButton buttonNewGame;
-        private UiButton buttonResumeGame;
-        private UiButton buttonAbout;
-        private UiButton buttonExit;
-        private UiButton buttonCoop;
-        private UiButton buttonVersus;
+        private const int BUTTON_NEW_GAME = 0;
+        private const int BUTTON_RESUME_GAME = 1;
+        private const int BUTTON_ABOUT = 2;
+        private const int BUTTON_EXIT = 3;
+        private const int BUTTON_COOP = 4;
+        private const int BUTTON_VERSUS = 5;
+
+        private const int CHILD_TITLE = 6;
 
         private MenuController menuController;
 
@@ -69,7 +70,7 @@ namespace DuckstazyLive.app
             addTitle();
 
             // ui
-            addUI();
+            addButtons();
         }
 
         private void addTitle()
@@ -79,68 +80,56 @@ namespace DuckstazyLive.app
             Image title = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE));
             title.toParentCenter();
 
-            addChild(titleBack);
-            addChild(title);
+            BaseElementContainer titleContainer = new BaseElementContainer(titleBack.width, titleBack.height);
+            titleContainer.addChild(titleBack);
+            titleContainer.addChild(title);
+
+            addChildWithId(title, CHILD_TITLE);
         }
 
-        private void addUI()
+        private void addButton(int buttonID, float x, float y, float ax, float ay)
         {
-            float buttonX = Constants.TITLE_SAFE_LEFT_X + 0.33f * Constants.TITLE_SAFE_AREA_WIDTH;
-            float buttonY = Constants.TITLE_SAFE_TOP_Y;
+            MenuButton button = new MenuButton(buttonID, x, y);
+            button.setAlign(ax, ay);
+            button.buttonDelegate = this;
+            addChildWithId(button, buttonID);
+        }
+
+        private void addButtons()
+        {
             // new game
-            buttonNewGame = new UiButton(buttonX, buttonY);
-            buttonNewGame.setAlign(0.5f, 0.0f);
-            buttonNewGame.onPressed = uiButtonPressed;
-            buttonNewGame.onFocusGain = uiButtonFocus;
-            addChild(buttonNewGame);
+            float newGameButtonX = Constants.TITLE_SAFE_LEFT_X + 0.33f * Constants.TITLE_SAFE_AREA_WIDTH;
+            float newGameButtonY = Constants.TITLE_SAFE_TOP_Y;            
+            addButton(BUTTON_NEW_GAME, newGameButtonX, newGameButtonY, 0.5f, 0.0f);            
 
             // last save
-            buttonX = Constants.TITLE_SAFE_LEFT_X + 0.66f * Constants.TITLE_SAFE_AREA_WIDTH;
-            buttonY = buttonNewGame.y;
-            buttonResumeGame = new UiButton(buttonX, buttonY);
-            buttonResumeGame.setAlign(0.5f, 0.0f);
-            buttonResumeGame.onPressed = uiButtonPressed;
-            buttonResumeGame.onFocusGain = uiButtonFocus;
-            addChild(buttonResumeGame);
+            float resumeGameButtonX = Constants.TITLE_SAFE_LEFT_X + 0.66f * Constants.TITLE_SAFE_AREA_WIDTH;
+            float resumeGameButtonY = newGameButtonY;
+            addButton(BUTTON_RESUME_GAME, resumeGameButtonX, resumeGameButtonY, 0.5f, 0.0f);            
 
             // about
-            buttonX = Constants.TITLE_SAFE_LEFT_X + 50;
-            buttonY = Constants.TITLE_SAFE_TOP_Y + 0.5f * Constants.TITLE_SAFE_AREA_HEIGHT;
-            buttonAbout = new UiButton(buttonX, buttonY);
-            buttonAbout.setAlign(0.0f, 0.5f);
-            buttonAbout.onPressed = uiButtonPressed;
-            buttonAbout.onFocusGain = uiButtonFocus;
-            addChild(buttonAbout);
+            float aboutButtonX = Constants.TITLE_SAFE_LEFT_X + 50;
+            float aboutButtonY = Constants.TITLE_SAFE_TOP_Y + 0.5f * Constants.TITLE_SAFE_AREA_HEIGHT;
+            addButton(BUTTON_ABOUT, aboutButtonX, aboutButtonY, 0.0f, 0.5f);            
 
             // exit
-            buttonX = Constants.TITLE_SAFE_RIGHT_X - 50;
-            buttonY = buttonAbout.y;
-            buttonExit = new UiButton(buttonX, buttonY);
-            buttonExit.setAlign(1.0f, 0.5f);
-            buttonExit.onPressed = uiButtonPressed;
-            buttonExit.onFocusGain = uiButtonFocus;
-            addChild(buttonExit);
+            float exitButtonX = Constants.TITLE_SAFE_RIGHT_X - 50;
+            float exitButtonY = aboutButtonY;
+            addButton(BUTTON_EXIT, exitButtonX, exitButtonY, 1.0f, 0.5f);            
 
             // coop
-            buttonX = buttonNewGame.x;
-            buttonY = Constants.TITLE_SAFE_BOTTOM_Y;
-            buttonCoop = new UiButton(buttonX, buttonY);
-            buttonCoop.setAlign(0.5f, 1.0f);
-            buttonCoop.onPressed = uiButtonPressed;
-            buttonCoop.onFocusGain = uiButtonFocus;
-            addChild(buttonCoop);
+            float coopButtonX = newGameButtonX;
+            float coopButtonY = Constants.TITLE_SAFE_BOTTOM_Y;
+            addButton(BUTTON_COOP, coopButtonX, coopButtonY, 0.5f, 1.0f);            
 
             // versus
-            buttonX = buttonResumeGame.x;
-            buttonY = buttonCoop.y;
-            buttonVersus = new UiButton(buttonX, buttonY);
-            buttonVersus.setAlign(0.5f, 1.0f);
-            buttonVersus.onPressed = uiButtonPressed;
-            buttonVersus.onFocusGain = uiButtonFocus;
-            addChild(buttonVersus);
+            float versusButtonX = resumeGameButtonX;
+            float versusButtonY = coopButtonY;
+            addButton(BUTTON_VERSUS, versusButtonX, versusButtonY, 0.5f, 1.0f);            
 
             // focus
-            focusButton(buttonNewGame);
+            focusedButton = oldFocusedButton = Constants.UNDEFINED;
+            focusButton(BUTTON_NEW_GAME);
         }
         public override void update(float delta)
         {
@@ -189,34 +178,14 @@ namespace DuckstazyLive.app
             AppGraphics.SetColor(utils.makeColor(0xff00ff00));
             AppGraphics.DrawImageTiled(tex, ref src, ref dst);
             AppGraphics.SetColor(Color.White);
-        }
+        }                
 
-        public void uiButtonFocus(UiButton button)
+        public override bool buttonPressed(ref ButtonEvent e)
         {
-            Application.sharedSoundMgr.playSound(Res.SND_UI_FOCUS);
-        }
+            if (base.buttonPressed(ref e))
+                return true;
 
-        public void uiButtonPressed(UiButton button)
-        {
-            Application.sharedSoundMgr.playSound(Res.SND_UI_CLICK);
-
-            if (button == buttonNewGame)
-            {
-                menuController.newGame(GameMode.SINGLE);
-            }
-            else if (button == buttonCoop)
-            {
-                menuController.newGame(GameMode.COOP);
-            }
-            else if (button == buttonVersus)
-            {
-                menuController.newGame(GameMode.VERSUS);
-            }
-        }
-
-        public override void buttonPressed(ref ButtonEvent e)
-        {
-            Debug.Assert(focusedButton != null);
+            Debug.Assert(focusedButton != Constants.UNDEFINED);
 
             switch (e.button)
             {
@@ -225,134 +194,159 @@ namespace DuckstazyLive.app
                     {
                         focusButtonDown();
                     }
-                    break;
+                    return true;
 
                 case Buttons.DPadUp:
                 case Buttons.LeftThumbstickUp:
                     {
                         focusButtonUp();
                     }
-                    break;
+                    return true;
 
                 case Buttons.DPadLeft:
                 case Buttons.LeftThumbstickLeft:
                     {
                         focusButtonLeft();
                     }
-                    break;
+                    return true;
 
                 case Buttons.DPadRight:
                 case Buttons.LeftThumbstickRight:
                     {
                         focusButtonRight();
                     }
-                    break;
+                    return true;
 
-                case Buttons.A:
                 case Buttons.Start:
-                    fireButton();
-                    break;
+                    {
+                        ButtonEvent newEvent = e;
+                        newEvent.button = Buttons.A;
+                        buttonPressed(ref newEvent);
+                    }
+                    return true;
             }
+
+            return false;
         }
 
-        private void focusButton(UiButton button)
+        private void focusButton(int buttonId)
         {
-            if (focusedButton != button)
+            if (focusedButton != buttonId)
             {
                 oldFocusedButton = focusedButton;
-                if (focusedButton != null)
-                    focusedButton.setFocused(false);
+                if (focusedButton != Constants.UNDEFINED)
+                    getChild(focusedButton).setFocused(false);
 
-                focusedButton = button;
-                focusedButton.setFocused(true);
+                focusedButton = buttonId;
+                if (focusedButton != Constants.UNDEFINED)
+                    getChild(focusedButton).setFocused(true);
             }
         }
 
         private void focusButtonRight()
         {
-            if (focusedButton == buttonResumeGame || focusedButton == buttonVersus)
-                focusButton(buttonExit);
-            else if (focusedButton == buttonNewGame)
-                focusButton(buttonResumeGame);            
-            else if (focusedButton == buttonCoop)
-                focusButton(buttonVersus);
-            else if (focusedButton == buttonAbout)
+            if (focusedButton == BUTTON_RESUME_GAME || focusedButton == BUTTON_VERSUS)
+                focusButton(BUTTON_EXIT);
+            else if (focusedButton == BUTTON_NEW_GAME)
+                focusButton(BUTTON_RESUME_GAME);            
+            else if (focusedButton == BUTTON_COOP)
+                focusButton(BUTTON_VERSUS);
+            else if (focusedButton == BUTTON_ABOUT)
             {
-                if (oldFocusedButton == buttonNewGame)
-                    focusButton(buttonCoop);
+                if (oldFocusedButton == BUTTON_NEW_GAME)
+                    focusButton(BUTTON_COOP);
                 else
-                    focusButton(buttonNewGame);
+                    focusButton(BUTTON_NEW_GAME);
             }
 
         }
 
         private void focusButtonLeft()
         {
-            if (focusedButton == buttonNewGame || focusedButton == buttonCoop)
-                focusButton(buttonAbout);
-            else if (focusedButton == buttonResumeGame)
-                focusButton(buttonNewGame);
-            else if (focusedButton == buttonExit)
+            if (focusedButton == BUTTON_NEW_GAME || focusedButton == BUTTON_COOP)
+                focusButton(BUTTON_ABOUT);
+            else if (focusedButton == BUTTON_RESUME_GAME)
+                focusButton(BUTTON_NEW_GAME);
+            else if (focusedButton == BUTTON_EXIT)
             {
-                if (oldFocusedButton == buttonResumeGame)
-                    focusButton(buttonVersus);
+                if (oldFocusedButton == BUTTON_RESUME_GAME)
+                    focusButton(BUTTON_VERSUS);
                 else
-                    focusButton(buttonResumeGame);
+                    focusButton(BUTTON_RESUME_GAME);
             }
-            else if (focusedButton == buttonVersus)
-                focusButton(buttonCoop);
+            else if (focusedButton == BUTTON_VERSUS)
+                focusButton(BUTTON_COOP);
         }
 
         private void focusButtonUp()
         {
-            if (focusedButton == buttonCoop)
-                focusButton(buttonNewGame);
-            else if (focusedButton == buttonVersus)
-                focusButton(buttonResumeGame);
-            else if (focusedButton == buttonAbout)
-                focusButton(buttonNewGame);
-            else if (focusedButton == buttonExit)
-                focusButton(buttonResumeGame);
+            if (focusedButton == BUTTON_COOP)
+                focusButton(BUTTON_NEW_GAME);
+            else if (focusedButton == BUTTON_VERSUS)
+                focusButton(BUTTON_RESUME_GAME);
+            else if (focusedButton == BUTTON_ABOUT)
+                focusButton(BUTTON_NEW_GAME);
+            else if (focusedButton == BUTTON_EXIT)
+                focusButton(BUTTON_RESUME_GAME);
         }
 
         private void focusButtonDown()
         {
-            if (focusedButton == buttonNewGame)
-                focusButton(buttonCoop);
-            else if (focusedButton == buttonResumeGame)
-                focusButton(buttonVersus);
-            else if (focusedButton == buttonAbout)
-                focusButton(buttonCoop);
-            else if (focusedButton == buttonExit)
-                focusButton(buttonVersus);
-        }
+            if (focusedButton == BUTTON_NEW_GAME)
+                focusButton(BUTTON_COOP);
+            else if (focusedButton == BUTTON_RESUME_GAME)
+                focusButton(BUTTON_VERSUS);
+            else if (focusedButton == BUTTON_ABOUT)
+                focusButton(BUTTON_COOP);
+            else if (focusedButton == BUTTON_EXIT)
+                focusButton(BUTTON_VERSUS);
+        }        
 
-        private void fireButton()
-        {
-            Debug.Assert(focusedButton != null);
-            focusedButton.press();
-        }
-
-        public override void keyPressed(Keys key)
+        public override bool keyPressed(Keys key)
         {
             switch (key)
             {
                 case Keys.Left:
                     focusButtonLeft();
-                    break;
+                    return true;
                 case Keys.Right:
                     focusButtonRight();
-                    break;
+                    return true;
                 case Keys.Up:
                     focusButtonUp();
-                    break;
+                    return true;
                 case Keys.Down:
                     focusButtonDown();
-                    break;
-                case Keys.Enter:
-                    fireButton();
-                    break;
+                    return true;                
             }
-        }        
+            return false;
+        }
+
+        public void onButtonPressed(int id, int playerIndex)
+        {
+            Application.sharedSoundMgr.playSound(Res.SND_UI_CLICK);
+
+            if (id == BUTTON_NEW_GAME)
+            {
+                menuController.newGame(GameMode.SINGLE);
+            }
+            else if (id == BUTTON_COOP)
+            {
+                menuController.newGame(GameMode.COOP);
+            }
+            else if (id == BUTTON_VERSUS)
+            {
+                menuController.newGame(GameMode.VERSUS);
+            }
+        }
+
+        public void onButtonFocused(int id)
+        {
+            Application.sharedSoundMgr.playSound(Res.SND_UI_FOCUS);
+        }
+
+        public void onButtonDefocused(int id)
+        {
+        }
     }
 }

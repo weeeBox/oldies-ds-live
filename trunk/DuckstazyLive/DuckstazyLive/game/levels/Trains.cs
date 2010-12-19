@@ -157,7 +157,7 @@ namespace DuckstazyLive.game.levels
             int bm;
 
             bm = media.imgCatL;
-            Texture2D bmTex = utils.getImage(bm);
+            Texture2D bmTex = utils.getTexture(bm);
             rc.Width = bmTex.Width;
             rc.Height = bmTex.Height;
             p.X = 495;

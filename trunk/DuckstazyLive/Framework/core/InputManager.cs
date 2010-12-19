@@ -26,10 +26,12 @@ namespace Framework.core
 
     public interface InputListener
     {
-        void buttonPressed(ref ButtonEvent e);
-        void buttonReleased(ref ButtonEvent e);    
-        void keyPressed(Keys key);
-        void keyReleased(Keys key);
+        // return true, if event processed, otherwise - false
+
+        bool buttonPressed(ref ButtonEvent e);
+        bool buttonReleased(ref ButtonEvent e);    
+        bool keyPressed(Keys key);
+        bool keyReleased(Keys key);
     }
 
     public class InputManager
@@ -289,7 +291,7 @@ namespace Framework.core
             dic.Add(Keys.Left, Buttons.DPadLeft);
             dic.Add(Keys.Right, Buttons.DPadRight);
             dic.Add(Keys.PageDown, Buttons.RightShoulder);
-            dic.Add(Keys.PageUp, Buttons.LeftShoulder);
+            dic.Add(Keys.PageUp, Buttons.LeftShoulder);            
             buttonsMappings[0] = dic;
 
             dic = new Dictionary<Keys, Buttons>();

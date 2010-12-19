@@ -5,45 +5,43 @@ using System.Text;
 using Framework.core;
 using Microsoft.Xna.Framework;
 using Framework.visual;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.app
 {
-    public delegate void ButtonDelegate(UiButton button);
-
-    public class UiButton : BaseElement
+    public class MenuButton : AbstractButton
     {
-        private bool focused;
+        private const int IMG_STOKE_ID = Res.IMG_BUTTON_STROKE_FOCUSED;
+        private const int IMG_BUTTON_BASE_ID = Res.IMG_BUTTON_BASE;
 
         private const int CHILD_STROKE = 0;
         private const int CHILD_ROTATION = 1;
 
         private Color targetColor;
         private Vector2 targetScale;
-        private float omega;        
+        private float omega;
 
-        public ButtonDelegate onPressed;
-        public ButtonDelegate onFocusGain;
-        public ButtonDelegate onFocusLost;
-
-        public UiButton(float x, float y)
-        {
-            this.x = x;
-            this.y = y;
-
-            width = utils.imageWidth(Res.IMG_BUTTON_STROKE_DEFAULT);
-            height = utils.imageHeight(Res.IMG_BUTTON_STROKE_DEFAULT);
-
+        public MenuButton(int buttonID, float x, float y)
+            : base(buttonID, x, y, utils.textureWidth(IMG_STOKE_ID), utils.textureHeight(IMG_STOKE_ID))
+        {          
             // button stroke part            
-            Image strokeImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_STROKE_FOCUSED));
+            Image strokeImage = new Image(utils.getTexture(IMG_STOKE_ID));
             strokeImage.toParentCenter();
             addChildWithId(strokeImage, CHILD_STROKE);
 
             // button rotating part
-            Image baseImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_BASE));
+            Image baseImage = new Image(utils.getTexture(IMG_BUTTON_BASE_ID));
             baseImage.toParentCenter();
             addChildWithId(baseImage, CHILD_ROTATION);
 
-            focusLost();
+            reset();
+        }
+        
+        private void reset()
+        {
+            targetColor = Color.Black;
+            targetScale = new Vector2(1.0f, 1.0f);
+            omega = 350.0f / 5.0f;
         }
 
         public override void update(float delta)
@@ -60,37 +58,17 @@ namespace DuckstazyLive.app
             scaleY = 0.5f * (scaleY + targetScale.Y);
 
             rotation.rotation += omega * delta;
-        }        
+        }       
 
-        public void press()
+        protected override void focusLost()
         {
-            if (onPressed != null)
-                onPressed(this);
+            base.focusLost();
+            reset();
         }
-
-        public void setFocused(bool f)
+        
+        protected override void  focusGained()
         {
-            if (f && !focused)
-                focusGained();
-            else if (!f && focused)
-                focusLost();
-            focused = f;
-        }
-
-        private void focusLost()
-        {
-            if (onFocusLost != null)
-                onFocusLost(this);
-
-            targetColor = Color.Black;
-            targetScale = new Vector2(1.0f, 1.0f);
-            omega = 350.0f / 5.0f;
-        }
-
-        private void focusGained()
-        {
-            if (onFocusGain != null)
-                onFocusGain(this);
+            base.focusGained();
 
             targetColor = Color.White;
             targetScale = new Vector2(1.2f, 1.2f);

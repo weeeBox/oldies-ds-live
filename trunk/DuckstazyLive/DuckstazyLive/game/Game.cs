@@ -157,48 +157,36 @@ namespace DuckstazyLive.game
         // Events
         //////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void buttonPressed(ref ButtonEvent e)
+        public bool buttonPressed(ref ButtonEvent e)
         {
             if (state == INGAME)
             {
-                level.buttonPressed(ref e);
+                return level.buttonPressed(ref e);
             }
-            else if (state == LOOSE)
+
+            if (state == LOOSE)
             {
                 if (e.button == Buttons.A || e.button == Buttons.Start)
                 {
                     deathView = null;
                     GC.Collect();
                     newGame(gameMode);
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        public void buttonReleased(ref ButtonEvent e)
+        public bool buttonReleased(ref ButtonEvent e)
         {
-            if (state == INGAME)
-                level.buttonReleased(ref e);
+            if (state == INGAME)            
+                return level.buttonReleased(ref e);
+
+            return false;
         }
 
-        public void keyPressed(Keys key)
-        {
-            InputManager im = Application.sharedInputMgr;
-
-            for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
-            {
-                if (!im.isPlayerActive(playerIndex))
-                    continue;
-
-                if (!im.hasMappedButton(key, playerIndex))
-                    continue;
-
-                Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
-                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);                
-                buttonPressed(ref buttonEvent);
-            }
-        }
-
-        public void keyReleased(Keys key)
+        public bool keyPressed(Keys key)
         {
             InputManager im = Application.sharedInputMgr;
 
@@ -211,9 +199,33 @@ namespace DuckstazyLive.game
                     continue;
 
                 Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
-                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);                
-                buttonReleased(ref buttonEvent);
+                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);
+                if (buttonPressed(ref buttonEvent))
+                    return true;
             }
+
+            return false;
+        }
+
+        public bool keyReleased(Keys key)
+        {
+            InputManager im = Application.sharedInputMgr;
+
+            for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+            {
+                if (!im.isPlayerActive(playerIndex))
+                    continue;
+
+                if (!im.hasMappedButton(key, playerIndex))
+                    continue;
+
+                Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
+                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);
+                if (buttonReleased(ref buttonEvent))
+                    return true;
+            }
+
+            return false;
         }        
     }
 }
