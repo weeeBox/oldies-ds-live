@@ -306,6 +306,12 @@ namespace DuckstazyLive.app
         {
             switch (key)
             {
+                case Keys.Enter:
+                    {
+                        ButtonEvent evt = Application.sharedInputMgr.makeButtonEvent(0, Buttons.A);
+                        buttonPressed(ref evt);
+                    }
+                    return true;
                 case Keys.Left:
                     focusButtonLeft();
                     return true;
