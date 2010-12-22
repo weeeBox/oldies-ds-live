@@ -315,6 +315,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="pills_hal.png">
+      <Name>pills_hal</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="pills_hal_2.png">
+      <Name>pills_hal_2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="smile1.png">
       <Name>smile1</Name>
       <Importer>TextureImporter</Importer>

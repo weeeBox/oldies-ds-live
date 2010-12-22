@@ -23,10 +23,10 @@ namespace DuckstazyLive.game
         public const int MATRIX = 4;
         public const int JUMP = 5;
 
-        /*public const int DEAD = 0;
+        public const int DEAD = 0;
         public const int BORNING = 1;
         public const int ALIVE = 2;
-        public const int DYING = 3;*/
+        public const int DYING = 3;
 
         /*public const int HAPPY = 0;
         public const int SHAKE = 1;
@@ -129,7 +129,7 @@ namespace DuckstazyLive.game
         // Сбрасываемся
         public void init()
         {
-            state = 0;
+            state = DEAD;
             move = false;
             highCounter = 0.0f;
 
@@ -175,7 +175,7 @@ namespace DuckstazyLive.game
         {
             switch (newState)
             {
-                case 0:
+                case DEAD:
                     if (user != null)
                     {
                         user(this, "dead", 0.0f);
@@ -188,13 +188,13 @@ namespace DuckstazyLive.game
                     }
                     move = false;
                     break;
-                case 1:
+                case BORNING:
                     if (user != null)
                         user(this, "born", 0.0f);
                     appear = 0.0f;
                     r = 0.0f;
                     break;
-                case 2:
+                case ALIVE:
                     appear = 1.0f;
                     r = rMax;
                     break;
@@ -206,89 +206,105 @@ namespace DuckstazyLive.game
         // Обновляемся
         public bool update(float dt)
         {
-            if (state != 3 && enabled)
+            if (state != DYING && enabled)
             {
                 checkHeroesTouch();
             }
 
             switch (state)
             {
-                case 1:
-                    if (!enabled)
-                    {
-                        warning -= dt;
-                        if (warning <= 0.0f)
-                        {
-                            enabled = true;
-                            ps.startAcid(x, y);
-                            if (type == TOXIC)
-                                utils.playSound(media.sndToxicBorn, 1.0f, x);
-                        }
-                    }
-                    else
-                    {
-                        appear += 10 * dt;
-                        r = rMax * appear;
-                        if (appear >= 1.0f)
-                            setState(2);
-                    }
+                case BORNING:                    
+                    updateBorning(dt);                   
                     break;
-                case 2:
-                    if (spy)
-                        updateSpy();
 
-                    if (hookedHero != Constants.UNDEFINED)
-                        updateHook(dt);
-
-                    if (move) { x += vx * dt; y += vy * dt; }
-
-                    if (emo && media.power > 0.5f)
-                    {
-                        if (emoCounter > 0.0f)
-                        {
-                            emoCounter -= dt;
-                            if (emoCounter < 0.0f)
-                            {
-                                emoCounter = 0.0f;
-                                emoPause = utils.rnd() * 3.0f + 2.0f;
-                            }
-                        }
-                        else
-                        {
-                            emoPause -= dt;
-                            if (emoPause <= 0.0f)
-                                startEmo((int)(utils.rnd() * 3.0));
-                        }
-                    }
-
-                    if (high)
-                    {
-                        if (level.power >= 0.5)
-                            highCounter += dt;//*(1.0f + 3.0*level.power);
-                        else
-                            highCounter += dt * (1.0f + 7.0f * level.power);
-                        if (highCounter >= 1.0f)
-                            highCounter -= (int)(highCounter);
-                    }
-
-                    if (type == JUMP && highCounter > 0.0f)
-                    {
-                        highCounter -= dt;
-                        if (highCounter < 0.0f) highCounter = 0.0f;
-                    }
-
+                case ALIVE:                 
+                    updateAlive(dt);
                     break;
-                case 3:
-                    appear -= 10 * dt;
-                    if (appear <= 0.0f)
-                        setState(0);
+
+                case DYING:
+                    updateDying(dt);
                     break;
             }
 
             if (user != null)
                 user(this, null, dt);
 
-            return state == 0;
+            return state == DEAD;
+        }
+
+        private void updateBorning(float dt)
+        {
+            if (!enabled)
+            {
+                warning -= dt;
+                if (warning <= 0.0f)
+                {
+                    enabled = true;
+                    ps.startAcid(x, y);
+                    if (type == TOXIC)
+                        utils.playSound(media.sndToxicBorn, 1.0f, x);
+                }
+            }
+            else
+            {
+                appear += 10 * dt;
+                r = rMax * appear;
+                if (appear >= 1.0f)
+                    setState(ALIVE);
+            }
+        }
+
+        private void updateAlive(float dt)
+        {
+            if (spy)
+                updateSpy();
+
+            if (hookedHero != Constants.UNDEFINED)
+                updateHook(dt);
+
+            if (move) { x += vx * dt; y += vy * dt; }
+
+            if (emo && media.power > 0.5f)
+            {
+                if (emoCounter > 0.0f)
+                {
+                    emoCounter -= dt;
+                    if (emoCounter < 0.0f)
+                    {
+                        emoCounter = 0.0f;
+                        emoPause = utils.rnd() * 3.0f + 2.0f;
+                    }
+                }
+                else
+                {
+                    emoPause -= dt;
+                    if (emoPause <= 0.0f)
+                        startEmo((int)(utils.rnd() * 3.0));
+                }
+            }
+
+            if (high)
+            {
+                if (level.power >= 0.5)
+                    highCounter += dt;//*(1.0f + 3.0*level.power);
+                else
+                    highCounter += dt * (1.0f + 7.0f * level.power);
+                if (highCounter >= 1.0f)
+                    highCounter -= (int)(highCounter);
+            }
+
+            if (type == JUMP && highCounter > 0.0f)
+            {
+                highCounter -= dt;
+                if (highCounter < 0.0f) highCounter = 0.0f;
+            }
+        }
+
+        private void updateDying(float dt)
+        {
+            appear -= 10 * dt;
+            if (appear <= 0.0f)
+                setState(DEAD);
         }
 
         private void checkHeroesTouch()
@@ -516,7 +532,7 @@ namespace DuckstazyLive.game
 
             enabled = true;
 
-            setState(1);
+            setState(BORNING);
 
             ps.startAcid(x, y);
             utils.playSound(media.sndGenerate, 1.0f, x);
@@ -539,7 +555,7 @@ namespace DuckstazyLive.game
             high = false;
             enabled = true;
 
-            setState(1);
+            setState(BORNING);
 
             highCounter = 0.0f;
 
@@ -565,7 +581,7 @@ namespace DuckstazyLive.game
 
             enabled = true;
 
-            setState(1);
+            setState(BORNING);
 
             ps.startAcid(x, y);
             utils.playSound(media.sndGenerate, 1.0f, x);
@@ -608,7 +624,7 @@ namespace DuckstazyLive.game
 
             high = false;
 
-            setState(1);
+            setState(BORNING);
             if (level.power < 0.5f && !level.env.day)
                 ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
             else
@@ -651,7 +667,7 @@ namespace DuckstazyLive.game
 
             high = false;
 
-            setState(1);
+            setState(BORNING);
         }
 
         public void startSleep(float px, float py)
@@ -670,7 +686,7 @@ namespace DuckstazyLive.game
 
             imgMain = media.imgSleep;
 
-            setState(1);
+            setState(BORNING);
 
             ps.startAcid(x, y);
             utils.playSound(media.sndGenerate, 1.0f, x);
@@ -694,7 +710,7 @@ namespace DuckstazyLive.game
 
             imgMain = media.imgCure;
 
-            setState(1);
+            setState(BORNING);
 
             ps.startAcid(x, y);
             utils.playSound(media.sndGenerate, 1.0f, x);
@@ -702,13 +718,13 @@ namespace DuckstazyLive.game
 
         public void kill()
         {
-            setState(3);
+            setState(DYING);
             appear = 0.5f;
         }
 
         public void die()
         {
-            setState(0);
+            setState(DEAD);
         }
 
         private int getHookedHero()
@@ -760,7 +776,7 @@ namespace DuckstazyLive.game
         {
             if (media.power < 0.5f)
             {
-                if (state != 2)
+                if (state != ALIVE)
                 {
                     MAT.identity();
                     MAT.tx = MAT.ty = -12;
@@ -782,7 +798,7 @@ namespace DuckstazyLive.game
             }
             else
             {
-                if (state != 2)
+                if (state != ALIVE)
                 {
                     MAT.identity();
                     MAT.tx = MAT.ty = -10.5f;
@@ -816,7 +832,7 @@ namespace DuckstazyLive.game
                     drawNid(canvas);
             }
 
-            if (high && highCounter > 0.5 && state == 2)
+            if (high && highCounter > 0.5 && state == ALIVE)
             {
                 MAT.identity();
                 MAT.tx = dx - 12;
@@ -828,7 +844,7 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {
-            if (state != 2)
+            if (state != ALIVE)
             {
                 MAT.identity();
                 MAT.tx = MAT.ty = -10;
@@ -848,7 +864,7 @@ namespace DuckstazyLive.game
         {
             float s = 0.8f + 0.4f * (float)Math.Sin(highCounter * 1.57);
 
-            if (state != 2)
+            if (state != ALIVE)
                 s *= appear;
 
             MAT.identity();
@@ -1015,8 +1031,12 @@ namespace DuckstazyLive.game
 
         public bool isActive()
         {
-            return state != 0;
+            return state != DEAD;
         }
 
+        public bool isAlive()
+        {
+            return state == ALIVE;
+        }
     }
 }

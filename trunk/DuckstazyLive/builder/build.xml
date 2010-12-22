@@ -89,6 +89,8 @@
 				<image name="pill_toxic_2" file="${dir.art}/toxic2.png" />
 				<image name="pill_sleep" file="${dir.art}/pill_sleep.png" />
 				<image name="pill_high" file="${dir.art}/pill_high.png" />
+				<image name="pill_hal_1" file="${dir.art}/pills_hal.png" />
+				<image name="pill_hal_2" file="${dir.art}/pills_hal_2.png" />
 				<image name="smile_1" file="${dir.art}/smile1.png" />
 				<image name="smile_2" file="${dir.art}/smile2.png" />
 				<image name="smile_3" file="${dir.art}/smile3.png" />

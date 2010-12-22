@@ -32,7 +32,7 @@ namespace DuckstazyLive.game.levels
 
         public void rainLogic(Pill pill, String msg, float dt)
         {
-            if (msg == null && pill.state == 2)
+            if (msg == null && pill.isAlive())
             {
                 pill.t2 -= dt;
 

@@ -205,7 +205,7 @@ namespace DuckstazyLive.game.levels
         {
             int i;
             Pill p;
-            if (msg == null && pill.state == 2)
+            if (msg == null && pill.isAlive())
             {
                 if (pill.x >= 630 || pill.x <= 10)
                 {
@@ -309,7 +309,7 @@ namespace DuckstazyLive.game.levels
             int i;
             Pill p;
             float pow = level.power;
-            if (msg == null && pill.state == 2)
+            if (msg == null && pill.isAlive())
             {
                 if (pow >= 0.5f)
                 {
