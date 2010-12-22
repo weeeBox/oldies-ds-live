@@ -67,14 +67,14 @@ namespace DuckstazyLive.game
                 if (i == process)
                     break;
 
-                if (p.state != 0)
+                if (p.state != Pill.DEAD)
                 {
                     if (p.type == 0)
                     {
-                        if (p.state == 1 || p.state == 2)
+                        if (p.state == Pill.BORNING || p.state == Pill.ALIVE)
                             harvestCount++;
                     }
-                    else if (p.type == 1 || p.type == 2)
+                    else if (p.type == Pill.BORNING || p.type == Pill.ALIVE)
                     {
                         ps.explStarsSleep(p.x, p.y);
                         p.die();
@@ -102,12 +102,12 @@ namespace DuckstazyLive.game
                         if (i == actives)
                             break;
 
-                        if (p.state > 0)
+                        if (p.state > Pill.DEAD)
                         {
                             if (p.type == 0)
                             {
                                 harvestCount++;
-                                if (to_touch && p.state == 2)
+                                if (to_touch && p.isAlive())
                                 {
                                     Hero hero = p.getClosestHero();
                                     p.heroTouch(hero);
@@ -134,7 +134,7 @@ namespace DuckstazyLive.game
                 if (i == process)
                     break;
 
-                if (p.state != 0)
+                if (p.state != Pill.DEAD)
                 {
                     if (p.update(dt))
                         actives--;
@@ -152,7 +152,7 @@ namespace DuckstazyLive.game
                 if (i == actives)
                     break;
 
-                if (p.state != 0)
+                if (p.state != Pill.DEAD)
                 {
                     p.dx = (int)(p.x);
                     p.dy = (int)(p.y);

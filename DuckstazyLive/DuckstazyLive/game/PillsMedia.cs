@@ -151,6 +151,8 @@ namespace DuckstazyLive.game
             imgPPower2 = Res.IMG_PILL_2P;
             imgPPower3 = Res.IMG_PILL_3P;
 
+            imgHole = Res.IMG_PILL_HAL_1;
+
             imgNids = new int[] { Res.IMG_POWER_1, Res.IMG_POWER_2, Res.IMG_POWER_3, Res.IMG_POWER_4 };
 						
             ////imgEmo = (new rEmoImg()).bitmapData; 

@@ -113,7 +113,7 @@ namespace DuckstazyLive.game.levels
                 t = (float)(Math.Cos(pill.t1 * 10.064f) * 0.2f + 0.8f) * 212.0f;
                 pill.x = 320.0f - (float)(t * Math.Cos(pill.t1));
                 pill.y = 224.0f - (float)(t * Math.Sin(pill.t1));
-                if (pill.state < 3)
+                if (pill.state < Pill.DYING)
                 {
                     if (pill.t1 > 2.95f && pill.t1 < 3.12f)
                         catHum = 0.5f;
@@ -182,9 +182,9 @@ namespace DuckstazyLive.game.levels
 
             if (catToxic != null)
             {
-                if (catToxic.state != 0)
+                if (catToxic.state != Pill.DEAD)
                 {
-                    if (catToxic.state < 3)
+                    if (catToxic.state < Pill.DYING)
                     {
                         catToxic.t2 -= dt;
                         if (catToxic.t2 < 0.0f)
