@@ -32,7 +32,12 @@ namespace Framework.visual
 
             buttonID = n;            
             setState(BUTTON_NORMAL);
-        }       
+        }
+       
+        public override bool isAcceptingInput()
+        {
+            return base.isAcceptingInput() && state == BUTTON_FOCUSED;
+        }
 
         public void setState(int state)
         {

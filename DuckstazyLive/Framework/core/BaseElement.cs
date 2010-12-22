@@ -396,7 +396,7 @@ namespace Framework.core
             return focusable;
         }
 
-        public bool isAcceptingInput()
+        public virtual bool isAcceptingInput()
         {
             return isFocusable() && isEnabled();
         }
