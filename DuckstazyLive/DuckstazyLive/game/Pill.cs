@@ -32,6 +32,10 @@ namespace DuckstazyLive.game
         public const int SHAKE = 1;
         public const int SMILE = 2;*/
 
+        public const float DEFAULT_RADIUS = 10.0f;
+        public const float DEFAULT_WIDTH = 2 * DEFAULT_RADIUS;
+        public const float DEFAULT_HEIGHT = 2 * DEFAULT_RADIUS;
+
         private Rect RC = new Rect(0, 0, 20, 20);
         private Vector2 POINT = Vector2.Zero;
         private ColorTransform COLOR = new ColorTransform();
@@ -510,7 +514,7 @@ namespace DuckstazyLive.game
                     break;
             }
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
             damage = 0;
 
@@ -546,7 +550,7 @@ namespace DuckstazyLive.game
 
             imgMain = media.imgHigh;
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
             damage = 0;
 
@@ -572,7 +576,7 @@ namespace DuckstazyLive.game
             imgMain = media.imgHole;
             //imgNid = null;
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
 
             spy = false;
@@ -616,7 +620,7 @@ namespace DuckstazyLive.game
 
             spy = false;
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
             v = 20.0f;
 
@@ -659,7 +663,7 @@ namespace DuckstazyLive.game
 
             spy = false;
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
             v = 20.0f;
 
@@ -682,7 +686,7 @@ namespace DuckstazyLive.game
             high = false;
             enabled = true;
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
             imgMain = media.imgSleep;
 
@@ -706,7 +710,7 @@ namespace DuckstazyLive.game
             high = false;
             enabled = true;
 
-            rMax = 10.0f;
+            rMax = DEFAULT_RADIUS;
 
             imgMain = media.imgCure;
 

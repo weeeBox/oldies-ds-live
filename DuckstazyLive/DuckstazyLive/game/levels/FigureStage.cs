@@ -15,12 +15,18 @@ namespace DuckstazyLive.game.levels
         private int height;
 
         public float vx, vy;
+        public float x, y;
+
+        public float cellWidth, cellHeight;
 
         public FigurePattern(byte[] pattern, int width, int height)
         {
             this.pattern = pattern;
             this.width = width;
             this.height = height;
+
+            cellWidth = 1.6f * Pill.DEFAULT_WIDTH;
+            cellHeight = 1.5f * Pill.DEFAULT_HEIGHT;
         }        
 
         public byte at(int x, int y)
@@ -60,7 +66,9 @@ namespace DuckstazyLive.game.levels
             0,0,0,0,2,2,2,2,2,2,2,2,2,0,
             0,0,0,0,0,0,0,0,3,0,3,0,0,0,
         }, 
-        14, 11);        
+        14, 11);
+
+        private int numVisibleLines;
 
         private Dictionary<int, Setuper> setuperLookup;
 
@@ -91,32 +99,15 @@ namespace DuckstazyLive.game.levels
 
             gen = new Generator();
             gen.regen = false;
-            gen.speed = 50.0f;
+            gen.speed = 7.0f;
 
-            int pillWidth = utils.textureWidth(Res.IMG_PILL_1P);
-            int pillHeight = utils.textureHeight(Res.IMG_PILL_1P);
-
+            numVisibleLines = 0;                       
+                        
             int duckWidth = duckFigure.getWidth();
             int duckHeight = duckFigure.getHeight();
 
-            float sx = 640.0f;
-            float sy = 0.5f * (400.0f - duckWidth * pillHeight);
-                        
-            for (int i = 0; i < duckWidth; ++i)            
-            {
-                float px = sx + i * pillWidth;
-                for (int j = 0; j < duckHeight; ++j)                
-                {                    
-                    int pillId = duckFigure.at(i, j);
-                    if (setuperLookup.ContainsKey(pillId))
-                    {
-                        Setuper setuper = setuperLookup[pillId];
-                        
-                        float py = sy + j * pillHeight;
-                        gen.map.Add(new Placer(setuper, px, py));                        
-                    }            
-                }                
-            }
+            duckFigure.x = 640.0f;
+            duckFigure.y = 0.5f * (400.0f - duckWidth * Pill.DEFAULT_HEIGHT);            
 
             gen.regen = false;            
             gen.start();
@@ -126,8 +117,31 @@ namespace DuckstazyLive.game.levels
         {
             elapsedTime += dt;
 
-            duckFigure.vx = -100.0f;
+            duckFigure.vx = -20.0f;
             duckFigure.vy = (float)(10 * Math.Sin(3.14 * elapsedTime)); 
+            duckFigure.x += duckFigure.vx * dt;
+            duckFigure.y += duckFigure.vy * dt;
+
+            float dx = 640 - duckFigure.x;
+            int newNumVisibleLines = (int)(dx / duckFigure.cellWidth);
+            Console.WriteLine("dx:" + dx);
+            if (newNumVisibleLines > numVisibleLines && newNumVisibleLines <= duckFigure.getWidth())
+            {
+                
+                float px = duckFigure.x + numVisibleLines * duckFigure.cellWidth;
+                for (int j = 0; j < duckFigure.getHeight(); ++j)
+                {
+                    int pillId = duckFigure.at(numVisibleLines, j);
+                    if (setuperLookup.ContainsKey(pillId))
+                    {
+                        Setuper setuper = setuperLookup[pillId];
+
+                        float py = duckFigure.y + j * duckFigure.cellHeight;
+                        gen.map.Add(new Placer(setuper, px, py));
+                    }
+                }                
+                numVisibleLines = newNumVisibleLines;
+            }
 
             base.update(dt);
             gen.update(dt);
