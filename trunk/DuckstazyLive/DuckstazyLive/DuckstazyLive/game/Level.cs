@@ -31,7 +31,7 @@ namespace DuckstazyLive.game
         public Env env;
         protected Particles ps;
 
-        public LevelProgress progress;
+        public LevelProgressView progress;
 
         public float power;
         protected float powerUp;
@@ -71,7 +71,7 @@ namespace DuckstazyLive.game
 
             initHero();
 
-            progress = new LevelProgress();
+            progress = new LevelProgressView();
             progress.env = env;
 
             stageMedia = new StageMedia();
