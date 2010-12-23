@@ -1,18 +1,19 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using System.Diagnostics;
 using DuckstazyLive.app;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
-    public class LevelProgressView
+    class LevelProgressView
     {
-        //[Embed(source="gfx/progress.png")]
-        //private var rPointImg:Class;
+        private LevelProgress progress;
 
+        public Env env;
+
+        private float power;
         public int imgPoint;
 
         // Координаты извивающейся полоски
@@ -24,22 +25,10 @@ namespace DuckstazyLive.game
         // Счётчик для извивающейся полоски
         private float line_c;
 
-        private float power;
-
-        // private Shape shape;
-
-        private float progress;
-        private float progressMax;
-        public float perc;
-
-        public bool play;
-
-        public bool full;
-
-        public Env env;
-
         public LevelProgressView()
         {
+            progress = new LevelProgress();
+
             // Инициализируем полоску
             ld1 = new float[100]; // HACK: 21
             ld2 = new float[100]; // HACK: 21
@@ -50,27 +39,6 @@ namespace DuckstazyLive.game
 
             // shape = new Shape();			
             imgPoint = Res.IMG_UI_SCORE_POINT;
-
-            end();
-        }
-
-        public void start(float progressTime)
-        {
-            Debug.Assert(progressTime > 0);
-
-            progress = 0.0f;
-            progressMax = progressTime;
-            play = true;
-            full = false;
-        }
-
-        public void end()
-        {
-            perc = 0.0f;
-            progress = 0.0f;
-            progressMax = 0.0f;
-            play = false;
-            full = false;
         }
 
         public void update(float dt, float newPower)
@@ -115,24 +83,6 @@ namespace DuckstazyLive.game
             }
 
             calcLines();
-        }
-
-        public void updateProgress(float newProgress)
-        {
-            if (play)
-            {
-                if (!full)
-                {
-                    progress = newProgress;
-                    perc = progress / progressMax;
-                    if (progress >= progressMax)
-                    {
-                        progress = progressMax;
-                        perc = 1.0f;
-                        full = true;
-                    }
-                }
-            }
         }
 
         public void calcLines()
@@ -206,6 +156,8 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {
+            Debug.Assert(env != null);
+
             // Временные переменные.
             float x;
             int i;
@@ -215,34 +167,10 @@ namespace DuckstazyLive.game
             ColorTransform pointEmpty = env.ctProgress;
             ColorTransform pointFilled = new ColorTransform();
             ColorTransform pointColor = new ColorTransform();
-            float prog = progress / progressMax;
-            float y;
+            float prog = progress.getCompletePercent();
+            float y;           
 
-            //mat.identity();
-            //mat.translate(0, 400);
-
-            //shape.graphics.clear();
-            //shape.graphics.beginFill(env.colProgress, 1.0f);
-            //shape.graphics.moveTo(0, ld1[0]);
-
-            //x = 32.0f;
-            //for(i=1; i<21; ++i)
-            //{
-            //    shape.graphics.lineTo(x, ld1[i]);
-            //    x+=32.0f;
-            //}
-
-            //x = 640.0f;
-            //for(i=20; i>=0; --i)
-            //{
-            //    shape.graphics.lineTo(x, ld2[i]);
-            //    x-=32.0f;
-            //}
-
-            //shape.graphics.endFill();
-            //canvas.draw(shape, mat);
-
-            if (play)
+            if (progress.isPlaying())
             {
                 x = 22.0f;
                 for (i = 1; i < 20; ++i)
@@ -250,7 +178,7 @@ namespace DuckstazyLive.game
                     y = ld1[i];
                     pointY = 390.0f + y + 0.5f * (ld2[i] - y);
 
-                    mat.identity();                    
+                    mat.identity();
                     mat.translate(x, pointY);
 
                     if (prog > 0.05263)
@@ -273,7 +201,5 @@ namespace DuckstazyLive.game
                 }
             }
         }
-
     }
-
 }

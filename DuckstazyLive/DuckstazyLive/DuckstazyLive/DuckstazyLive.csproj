@@ -146,7 +146,7 @@
     <Compile Include="game\HeroGameState.cs" />
     <Compile Include="game\HeroMedia.cs" />
     <Compile Include="game\Level.cs" />
-    <Compile Include="game\LevelProgressView.cs" />
+    <Compile Include="game\LevelProgress.cs" />
     <Compile Include="game\LevelStage.cs" />
     <Compile Include="game\levels\AirAttack.cs" />
     <Compile Include="game\levels\BetweenCatsStage.cs" />
@@ -173,6 +173,7 @@
     <Compile Include="game\Pill.cs" />
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
+    <Compile Include="game\LevelProgressView.cs" />
     <Compile Include="game\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
