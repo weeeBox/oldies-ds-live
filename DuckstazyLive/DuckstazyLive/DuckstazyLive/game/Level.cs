@@ -151,6 +151,8 @@ namespace DuckstazyLive.game
             // progress.draw(canvas);
             drawUI(canvas);
             stage.draw2(canvas);
+
+            AppGraphics.DrawString(0, 0, infoText);
          
             if (pause)
             {
