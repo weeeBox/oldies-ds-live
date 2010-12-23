@@ -60,7 +60,7 @@ namespace DuckstazyLive.game.levels
         }
     }
 
-    public class FigureStage : LevelStage
+    public class FigureStage : BonusLevelStage
     {
         private Generator gen;
         private float elapsedTime;
@@ -88,7 +88,7 @@ namespace DuckstazyLive.game.levels
 
         private Dictionary<int, Setuper> setuperLookup;
 
-        public FigureStage() : base(TYPE_BONUS)
+        public FigureStage() : base(0)
         {
             duckFigure.vx = -10.0f; // -18.0f;
             goalTime = (640 + duckFigure.getColsCount() * duckFigure.cellWidth) / Math.Abs(duckFigure.vx);

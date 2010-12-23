@@ -8,7 +8,7 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.levels
 {
-    public class DoubleFrog : LevelStage
+    public class DoubleFrog : DucktripLevelStage
 	{
 		private FrogActor frog1;
 		private FrogActor frog2;
@@ -26,10 +26,8 @@ namespace DuckstazyLive.game.levels
 		private HintArrow arrow2;
 		private float arrowHider;
 		
-		public DoubleFrog() : base(2)
+		public DoubleFrog() : base(100)
 		{			
-			goalTime = 100.0f;
-			
 			frog1 = new FrogActor(media);
 			frog2 = new FrogActor(media);
 			

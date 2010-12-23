@@ -123,10 +123,12 @@
     <Compile Include="app\StartupView.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="DuckstazyGame.cs" />
+    <Compile Include="game\BonusLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
     <Compile Include="game\DeathView.cs" />
     <Compile Include="game\DrawMatrix.cs" />
+    <Compile Include="game\DucktripLevelStage.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
     <Compile Include="game\EnvColor.cs" />
@@ -165,7 +167,6 @@
     <Compile Include="game\levels\Harvesting.cs" />
     <Compile Include="game\levels\LevelStageFactory.cs" />
     <Compile Include="game\levels\PartyTime.cs" />
-    <Compile Include="game\levels\TestingStage.cs" />
     <Compile Include="game\levels\Trains.cs" />
     <Compile Include="game\MultiplayerLevel.cs" />
     <Compile Include="game\Particle.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
     <Compile Include="game\LevelProgressView.cs" />
+    <Compile Include="game\PumpLevelStage.cs" />
     <Compile Include="game\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />

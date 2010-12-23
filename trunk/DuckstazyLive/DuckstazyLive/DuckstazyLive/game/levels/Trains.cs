@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game.levels
 {
-    public class Trains : LevelStage
+    public class Trains : DucktripLevelStage
     {
         private FrogActor frog;
 
@@ -20,11 +20,8 @@ namespace DuckstazyLive.game.levels
 
         private float frogCounter;
 
-        public Trains()
-            : base(2)
+        public Trains() : base(100)
         {
-            goalTime = 100.0f;
-
             frog = new FrogActor(media);
 
             frog.speedHands = 2.0f;
@@ -346,6 +343,6 @@ namespace DuckstazyLive.game.levels
                     --i;
                 }
             }
-        }
+        }        
     }
 }

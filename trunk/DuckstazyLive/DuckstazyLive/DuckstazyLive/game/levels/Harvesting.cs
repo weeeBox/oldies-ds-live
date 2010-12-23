@@ -6,7 +6,7 @@ using DuckstazyLive.game.levels.generator;
 
 namespace DuckstazyLive.game.levels
 {
-    public class Harvesting : LevelStage
+    public class Harvesting : PumpLevelStage
     {
         public Generator gen;
         public PowerSetuper powers1;
@@ -15,7 +15,6 @@ namespace DuckstazyLive.game.levels
         public float prog;
 
         public Harvesting()
-            : base(0)
         {
             pumpVel = 0.2f;
         }
@@ -102,6 +101,6 @@ namespace DuckstazyLive.game.levels
                 pill.t1 = 0.0f;
                 pill.t2 = (380 - pill.y) / heroes.getJumpHeight();//pill.y;
             }
-        }
+        }        
     }
 }
