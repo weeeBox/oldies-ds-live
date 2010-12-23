@@ -8,7 +8,7 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game
 {
-    public class LevelProgress
+    public class LevelProgressView
     {
         //[Embed(source="gfx/progress.png")]
         //private var rPointImg:Class;
@@ -38,7 +38,7 @@ namespace DuckstazyLive.game
 
         public Env env;
 
-        public LevelProgress()
+        public LevelProgressView()
         {
             // Инициализируем полоску
             ld1 = new float[100]; // HACK: 21
