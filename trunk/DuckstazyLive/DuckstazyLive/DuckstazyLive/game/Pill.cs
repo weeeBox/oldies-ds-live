@@ -201,7 +201,7 @@ namespace DuckstazyLive.game
                 case ALIVE:
                     appear = 1.0f;
                     r = rMax;
-                    break;
+                    break;                
             }
 
             state = newState;
@@ -384,100 +384,111 @@ namespace DuckstazyLive.game
             switch (type)
             {
                 case POWER:
-                    if (hero.isActive())
-                        level.gainPower(power);
-                    if (level.power >= 0.5)
                     {
-                        i = id + level.state.hell;
-                        hero.gameState.scores += level.state.calcHellScores(i);
-                        //else if(i==1) level.state.scores+=10;
-                        //else if(i==2) level.state.scores+=25;
-                        info.add(x, y, info.powers[i]);
-                        level.env.beat();
-                    }
-                    else
-                    {
-                        i = level.state.norm;
-                        if (i == 0)
-                        {
-                            hero.gameState.scores++;
-                            info.add(x, y, info.one);
-                        }
-                        else
-                        {
-                            info.add(x, y, info.powers[i - 1]);
-                            hero.gameState.scores += level.state.calcHellScores(i - 1);
-                        }
-                    }
-                    utils.playSound(media.sndPowers[id], 1.0f, x);
-
-
-                    if (high && hero.doHigh(x, y))
-                    {
-                        // media.sndHigh.play();                    
-                        Application.sharedSoundMgr.playSound(media.sndHigh);
-                        ps.explStarsPower(x, y - r, id);
-                    }
-                    else
-                        ps.explStarsPower(x, y, id);
-
-                    level.stage.collected++;
-
-                    break;
-                case TOXIC:
-                    i = hero.doToxicDamage(x, y, damage, id);
-                    if (i >= 0)
-                    {
+                        if (hero.isActive())
+                            level.gainPower(power);
                         if (level.power >= 0.5)
                         {
-                            if (i == 0) hero.gameState.scores += 100;
-                            else if (i == 1) hero.gameState.scores += 150;
-                            else if (i == 2) hero.gameState.scores += 200;
-                            info.add(x, y, info.toxics[i]);
+                            i = id + level.state.hell;
+                            hero.gameState.scores += level.state.calcHellScores(i);
+                            //else if(i==1) level.state.scores+=10;
+                            //else if(i==2) level.state.scores+=25;
+                            info.add(x, y, info.powers[i]);
                             level.env.beat();
                         }
                         else
                         {
-                            if (i == 0) hero.gameState.scores += 5;
-                            else if (i == 1) hero.gameState.scores += 10;
-                            else if (i == 2) hero.gameState.scores += 25;
-                            info.add(x, y, info.powers[i]);
+                            i = level.state.norm;
+                            if (i == 0)
+                            {
+                                hero.gameState.scores++;
+                                info.add(x, y, info.one);
+                            }
+                            else
+                            {
+                                info.add(x, y, info.powers[i - 1]);
+                                hero.gameState.scores += level.state.calcHellScores(i - 1);
+                            }
                         }
-                        if (user != null)
-                            user(this, "attack", 0);
+                        utils.playSound(media.sndPowers[id], 1.0f, x);
+
+                        if (high && hero.doHigh(x, y))
+                        {
+                            // media.sndHigh.play();                    
+                            Application.sharedSoundMgr.playSound(media.sndHigh);
+                            ps.explStarsPower(x, y - r, id);
+                        }
+                        else
+                            ps.explStarsPower(x, y, id);
+
+                        level.stage.collected++;
                     }
-                    else info.add(x, y, info.damages[(int)(utils.rnd() * 3.0)]);
+                    break;
+
+                case TOXIC:
+                    {
+                        i = hero.doToxicDamage(x, y, damage, id);
+                        if (i >= 0)
+                        {
+                            if (level.power >= 0.5)
+                            {
+                                if (i == 0) hero.gameState.scores += 100;
+                                else if (i == 1) hero.gameState.scores += 150;
+                                else if (i == 2) hero.gameState.scores += 200;
+                                info.add(x, y, info.toxics[i]);
+                                level.env.beat();
+                            }
+                            else
+                            {
+                                if (i == 0) hero.gameState.scores += 5;
+                                else if (i == 1) hero.gameState.scores += 10;
+                                else if (i == 2) hero.gameState.scores += 25;
+                                info.add(x, y, info.powers[i]);
+                            }
+                            if (user != null)
+                                user(this, "attack", 0);
+                        }
+                        else info.add(x, y, info.damages[(int)(utils.rnd() * 3.0)]);
+                    }
                     break;
                 case SLEEP:
-                    //--delay_count;
-                    if (hero.isActive())
                     {
-                        hero.doSleep();
-                        level.gainSleep();
-                        level.env.beat();
+                        //--delay_count;
+                        if (hero.isActive())
+                        {
+                            hero.doSleep();
+                            level.gainSleep();
+                            level.env.beat();
+                        }
+                        ps.explStarsSleep(x, y);
+                        info.add(x, y, info.sleeps[(int)(utils.rnd() * 3.0)]);
                     }
-                    ps.explStarsSleep(x, y);
-                    info.add(x, y, info.sleeps[(int)(utils.rnd() * 3.0)]);
                     break;
                 case HEALTH:
-                    // media.sndHeal.play();
-                    Application.sharedSoundMgr.playSound(media.sndHeal);
-                    hero.doHeal(5);
-                    level.env.beat();
+                    {
+                        // media.sndHeal.play();
+                        Application.sharedSoundMgr.playSound(media.sndHeal);
+                        hero.doHeal(5);
+                        level.env.beat();
+                    }
                     break;
                 case MATRIX:
-                    level.switchEvnPower();
-                    level.env.beat();
+                    {
+                        level.switchEvnPower();
+                        level.env.beat();
+                    }
                     break;
                 case JUMP:
-                    if (highCounter <= 0.0f && hero.doHigh(x, y))
                     {
-                        // media.sndJumper.play();
-                        Application.sharedSoundMgr.playSound(media.sndJumper);
-                        highCounter = 1.0f;
-                        level.env.beat();
-                        if (user != null)
-                            user(this, "jump", 0.0f);
+                        if (highCounter <= 0.0f && hero.doHigh(x, y))
+                        {
+                            // media.sndJumper.play();
+                            Application.sharedSoundMgr.playSound(media.sndJumper);
+                            highCounter = 1.0f;
+                            level.env.beat();
+                            if (user != null)
+                                user(this, "jump", 0.0f);
+                        }
                     }
                     return;
             }
