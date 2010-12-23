@@ -157,7 +157,7 @@ namespace DuckstazyLive.game
         // Events
         //////////////////////////////////////////////////////////////////////////////////////////////
 
-        public bool buttonPressed(ref ButtonEvent e)
+        public override bool buttonPressed(ref ButtonEvent e)
         {
             if (state == INGAME)
             {
@@ -178,7 +178,7 @@ namespace DuckstazyLive.game
             return false;
         }
 
-        public bool buttonReleased(ref ButtonEvent e)
+        public override bool buttonReleased(ref ButtonEvent e)
         {
             if (state == INGAME)            
                 return level.buttonReleased(ref e);
@@ -186,7 +186,7 @@ namespace DuckstazyLive.game
             return false;
         }
 
-        public bool keyPressed(Keys key)
+        public override bool keyPressed(Keys key)
         {
             InputManager im = Application.sharedInputMgr;
 
@@ -207,7 +207,7 @@ namespace DuckstazyLive.game
             return false;
         }
 
-        public bool keyReleased(Keys key)
+        public override bool keyReleased(Keys key)
         {
             InputManager im = Application.sharedInputMgr;
 

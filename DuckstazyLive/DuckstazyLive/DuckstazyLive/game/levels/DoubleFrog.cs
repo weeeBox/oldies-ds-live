@@ -121,9 +121,6 @@ namespace DuckstazyLive.game.levels
 		
 		public override void update(float dt)
 		{			
-			int i = 0;
-			Pill p;
-			
 			base.update(dt);
 			
 			gen.update(dt);

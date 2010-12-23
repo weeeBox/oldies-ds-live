@@ -15,6 +15,9 @@ namespace DuckstazyLive.game
         // кол-во времени для прохождения
         public float goalTime;
 
+        // максимальный прогресс, который надо достичь
+        public float maxProgress;
+
         // обратить флаг в true, если прошли уровень.
         public bool win;
 
@@ -44,8 +47,14 @@ namespace DuckstazyLive.game
         protected int endImg;
         protected float endCounter;
 
-        public LevelStage(int _type)
+        public LevelStage(int type) : this(type, 0.0f)
         {
+        }
+
+        public LevelStage(int type, float goalTime)
+        {
+            this.type = type;
+
             level = Level.instance;
             media = level.stageMedia;
             pills = level.pills;
@@ -53,13 +62,11 @@ namespace DuckstazyLive.game
             heroes = level.heroes;            
             env = level.env;
 
-            if (_type == TYPE_PUMP)
+            if (type == TYPE_PUMP)
             {
                 goalTime = 2.0f;
                 pumpVel = 1.0f;
-            }           
-
-            type = _type;
+            }            
         }
 
         public virtual void start()
