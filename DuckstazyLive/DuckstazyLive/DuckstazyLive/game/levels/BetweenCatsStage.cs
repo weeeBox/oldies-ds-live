@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game.levels
 {
-    public class BetweenCatsStage : LevelStage
+    public class BetweenCatsStage : DucktripLevelStage
     {
         private Generator gen;
         private Generator gen1;
@@ -31,11 +31,9 @@ namespace DuckstazyLive.game.levels
 
         private HintArrow catArrow;
 
-        public BetweenCatsStage()
-            : base(2)
+        public BetweenCatsStage() : base(100)
         {
-            catArrow = new HintArrow(media);
-            goalTime = 100.0f;
+            catArrow = new HintArrow(media);            
         }
 
         public override void start()

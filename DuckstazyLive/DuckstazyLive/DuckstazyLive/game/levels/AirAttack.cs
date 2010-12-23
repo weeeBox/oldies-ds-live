@@ -6,18 +6,15 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.levels
 {
-    public class AirAttack : LevelStage
+    public class AirAttack : BonusLevelStage
     {
         private float regen;
         private float party;
         private int partyCount;
 
-        public AirAttack()
-            : base(1)
+        public AirAttack() : base(60)
         {
-            goalTime = 60.0f;
         }
-
 
         public override void start()
         {
@@ -128,6 +125,6 @@ namespace DuckstazyLive.game.levels
         public void parentParty(Pill pill)
         {
             partyCount--;
-        }
+        }        
     }
 }

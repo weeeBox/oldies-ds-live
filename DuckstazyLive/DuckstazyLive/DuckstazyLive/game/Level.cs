@@ -113,7 +113,7 @@ namespace DuckstazyLive.game
             pills.clear();
             info.reset();
 
-            progress.start(stage.goalTime);
+            progress.start(stage.getGoalProgress(), stage.getGoalTime());
             heroes.init();
             game.save();
 
@@ -200,8 +200,7 @@ namespace DuckstazyLive.game
                     if (!finish)
                     {
                         finish = true;                        
-                        env.blanc = 1.0f;
-                        progress.stop();
+                        env.blanc = 1.0f;                        
                         game.loose();
                     }
                 }
@@ -220,9 +219,7 @@ namespace DuckstazyLive.game
                                 {
                                     nextLevelCounter--;
                                     nextLevelCountdown--;
-                                    infoText = NEXT_LEVEL_TEXT_BEGIN +
-                                                    nextLevelCountdown.ToString() +
-                                                    NEXT_LEVEL_TEXT_END;
+                                    infoText = NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END;
                                 }
                             }
                             else
@@ -253,7 +250,7 @@ namespace DuckstazyLive.game
                 env.y = heroes[0].y;
                 env.update(dt, power);
 
-                // progress.update(dt, power);
+                progress.update(dt);
 
                 ps.update(dt);                
 

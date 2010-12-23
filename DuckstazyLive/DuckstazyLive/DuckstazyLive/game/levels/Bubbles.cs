@@ -8,7 +8,7 @@ using DuckstazyLive.game.levels.fx;
 
 namespace DuckstazyLive.game.levels
 {
-    public class Bubbles : LevelStage
+    public class Bubbles : PumpLevelStage
     {
         public Generator gen;
         public JumpStarter jumper;
@@ -26,8 +26,7 @@ namespace DuckstazyLive.game.levels
         private HintArrow arrow3;
         private float arrowHider;
 
-        public Bubbles(float pumVel, int danger)
-            : base(0)
+        public Bubbles(float pumVel, int danger)            
         {
             this.pumpVel = pumpVel;
             this.danger = danger;

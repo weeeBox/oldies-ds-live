@@ -11,57 +11,44 @@ namespace DuckstazyLive.game
     public class LevelProgress
     {
         private float progress;
-        private float progressMax;
-        private float percent;
+        private float goalProgress;
+        private float goalTime;
+        private float elapsedTime;
 
-        private bool play;
-        private bool full;        
-
-        public LevelProgress()
+        public void start(float goalProgress, float goalTime)
         {
-            end();
+            this.goalProgress = goalProgress;
+            this.goalTime = goalTime;
+
+            elapsedTime = 0.0f;
+            progress = 0.0f;            
+        }        
+
+        public void update(float dt)
+        {            
+            elapsedTime += dt;
+            if (hasTimeLimit() && elapsedTime > getGoalTime())
+                elapsedTime = goalTime;
         }
-
-        public void start(float progressTime)
-        {
-            Debug.Assert(progressTime > 0);
-
-            progress = 0.0f;
-            progressMax = progressTime;
-            play = true;
-            full = false;
-        }
-
-        public void end()
-        {
-            percent = 0.0f;
-            progress = 0.0f;
-            progressMax = 0.0f;
-            play = false;
-            full = false;
-        }       
 
         public void updateProgress(float newProgress)
         {
-            if (play)
-            {
-                if (!full)
+            if (isPlaying())
+            {                
+                progress = newProgress;                    
+                if (progress >= goalProgress)
                 {
-                    progress = newProgress;
-                    percent = progress / progressMax;
-                    if (progress >= progressMax)
-                    {
-                        progress = progressMax;
-                        percent = 1.0f;
-                        full = true;
-                    }
-                }
+                    progress = goalProgress;                    
+                }                
             }
         }        
 
         public float getCompletePercent()
         {
-            return percent;
+            if (goalProgress == 0)
+                return 0;
+                        
+            return progress / goalProgress;
         }
 
         public float getCurrentProgress()
@@ -69,24 +56,53 @@ namespace DuckstazyLive.game
             return progress;
         }
 
-        public float getMaxProgress()
+        public float getGoalProgress()
         {
-            return progressMax;
+            return goalProgress;
         }
 
-        public bool isCompleted()
+        public bool hasGoalProgress()
         {
-            return full;
+            return getGoalProgress() > 0;
+        }
+
+        public bool isProgressComplete()
+        {
+            if (hasTimeLimit() && isTimeUp())
+                return true;
+
+            if (hasGoalProgress() && getCurrentProgress() == getGoalProgress())
+                return true;
+
+            return false;
+        }
+
+        public float getElapsedTime()
+        {
+            return elapsedTime;
+        }
+
+        public float getGoalTime()
+        {
+            return goalTime;
+        }
+
+        public bool hasTimeLimit()
+        {
+            return getGoalTime() > 0;
+        }
+
+        public bool isTimeUp()
+        {
+            if (hasTimeLimit())
+                return elapsedTime >= goalTime;
+
+            return false;
         }
 
         public bool isPlaying()
         {
-            return play;
-        }
-
-        public void stop()
-        {
-            play = false;
-        }
+            return !isTimeUp() && !isProgressComplete();
+        }        
     }
 }
