@@ -111,7 +111,7 @@ namespace DuckstazyLive.game
             if (!win)
             {
 
-                if (type == 0)
+                if (type == TYPE_PUMP)
                 {
                     level.progress.updateProgress(level.power + pumpProg);
                     if (level.power >= 1.0f)
@@ -121,10 +121,10 @@ namespace DuckstazyLive.game
                             pumpProg = 1.0f;
                     }
 
-                    str = ((int)level.progress.getCompletePercent() * 100).ToString() + "%";
+                    str = ((int)(level.progress.getCompletePercent() * 100)).ToString() + "%";
                     if (level.infoText != str) level.infoText = str;
                 }
-                else if (type == 1)
+                else if (type == TYPE_BONUS)
                 {
                     level.progress.updateProgress(pumpProg);
                     if (pumpProg < goalTime)
@@ -144,7 +144,7 @@ namespace DuckstazyLive.game
 
                     if (level.infoText != str) level.infoText = str;
                 }
-                else if (type == 2)
+                else if (type == TYPE_DUCKTRIP)
                 {
                     level.progress.updateProgress(collected);
                     str = collected.ToString() + " OF " + ((int)goalTime).ToString();
