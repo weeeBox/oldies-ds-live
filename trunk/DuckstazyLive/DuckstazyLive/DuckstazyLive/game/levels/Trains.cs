@@ -79,8 +79,7 @@ namespace DuckstazyLive.game.levels
         }
 
         public override void update(float dt)
-        {
-            int i = 0;
+        {            
             Pill p;
             int newPills = 0;
 

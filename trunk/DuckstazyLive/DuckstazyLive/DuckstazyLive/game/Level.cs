@@ -40,8 +40,7 @@ namespace DuckstazyLive.game
         public GameState state;
 
         // Конец Уровня
-        public bool finish;
-        private float finishCounter;
+        public bool finish;        
 
         protected List<LevelStages> stages; // Уровни
         public LevelStage stage; // текущий уровень

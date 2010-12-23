@@ -31,7 +31,6 @@ namespace DuckstazyLive.game.env
             base.draw(canvas);
 
             // Временные переменные.            
-            bool c = false;
             //Graphics gr = shape.graphics;
 
             //gr.clear();

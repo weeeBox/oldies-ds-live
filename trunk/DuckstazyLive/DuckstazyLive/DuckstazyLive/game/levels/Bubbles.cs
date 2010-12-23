@@ -116,8 +116,7 @@ namespace DuckstazyLive.game.levels
         }
 
         public override void update(float dt)
-        {
-            int i = 0;
+        {            
             Pill p;
 
             base.update(dt);
@@ -170,10 +169,6 @@ namespace DuckstazyLive.game.levels
 
         public void jumpLogic(Pill pill, String msg, float dt)
         {
-            float t;
-            Pill p;
-            int i;
-
             if (msg == null)
             {
                 pill.y = 420 - heroes.getJumpHeight();
@@ -192,8 +187,6 @@ namespace DuckstazyLive.game.levels
 
         public void partyLogic(Pill pill, String msg, float dt)
         {
-            float t;
-
             if (msg == null && pill.enabled)
             {
                 pill.vy -= (level.power + 0.1f) * 30.0f * dt;
