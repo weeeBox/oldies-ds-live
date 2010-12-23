@@ -211,7 +211,7 @@ namespace DuckstazyLive.game
                             pumpProg = 1.0f;
                     }
 
-                    str = ((int)level.progress.perc * 100).ToString() + "%";
+                    str = ((int)level.progress.getCompletePercent() * 100).ToString() + "%";
                     if (level.infoText != str) level.infoText = str;
                 }
                 else if (type == 1)
@@ -224,7 +224,7 @@ namespace DuckstazyLive.game
                             pumpProg = goalTime;
                     }
 
-                    t = (1.0f - level.progress.perc) * goalTime;
+                    t = (1.0f - level.progress.getCompletePercent()) * goalTime;
                     i = (int)(t / 60);
                     if (i < 10) str = "0" + i.ToString() + ":";
                     else str = i.ToString() + ":";
@@ -241,7 +241,7 @@ namespace DuckstazyLive.game
                     if (level.infoText != str) level.infoText = str;
                 }
 
-                if (level.progress.full)
+                if (level.progress.isCompleted())
                 {
                     win = true;
                     level.infoText = "";

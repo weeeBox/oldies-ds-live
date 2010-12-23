@@ -31,7 +31,7 @@ namespace DuckstazyLive.game
         public Env env;
         protected Particles ps;
 
-        public LevelProgressView progress;
+        public LevelProgress progress;
 
         public float power;
         protected float powerUp;
@@ -71,8 +71,8 @@ namespace DuckstazyLive.game
 
             initHero();
 
-            progress = new LevelProgressView();
-            progress.env = env;
+            progress = new LevelProgress();
+            // progress.env = env;
 
             stageMedia = new StageMedia();
             stages = new List<LevelStages>();
@@ -200,8 +200,7 @@ namespace DuckstazyLive.game
                     {
                         finish = true;                        
                         env.blanc = 1.0f;
-                        progress.play = false;
-
+                        progress.stop();
                         game.loose();
                     }
                 }
@@ -253,7 +252,7 @@ namespace DuckstazyLive.game
                 env.y = heroes[0].y;
                 env.update(dt, power);
 
-                progress.update(dt, power);
+                // progress.update(dt, power);
 
                 ps.update(dt);                
 
