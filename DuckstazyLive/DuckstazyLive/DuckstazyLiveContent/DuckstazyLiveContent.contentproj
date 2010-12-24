@@ -458,6 +458,16 @@
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
+    <Compile Include="tex1.mp3">
+      <Name>tex1</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="tex2.mp3">
+      <Name>tex2</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
     <Compile Include="HeroMedia_rAttackSnd.wav">
       <Name>HeroMedia_rAttackSnd</Name>
       <Importer>WavImporter</Importer>

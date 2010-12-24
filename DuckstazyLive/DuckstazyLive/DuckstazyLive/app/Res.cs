@@ -99,28 +99,30 @@ namespace DuckstazyLive.app
 		// PACK_SOUNDS
 		public const int SND_ENV_POWER = 78;
 		public const int SONG_ENV_TEX = 79;
-		public const int SND_HERO_ATTACK = 80;
-		public const int SND_HERO_AWAKE = 81;
-		public const int SND_HERO_JUMP = 82;
-		public const int SND_HERO_LAND = 83;
-		public const int SND_HERO_SLEEP = 84;
-		public const int SND_HERO_STEP1 = 85;
-		public const int SND_HERO_STEP2 = 86;
-		public const int SND_HERO_TOXIC = 87;
-		public const int SND_HERO_WING1 = 88;
-		public const int SND_HERO_WING2 = 89;
-		public const int SND_LEVEL_START = 90;
-		public const int SND_PILL_GENERATE = 91;
-		public const int SND_PILL_HIGH = 92;
-		public const int SND_PILL_JUMPER = 93;
-		public const int SND_PILL_POWER1 = 94;
-		public const int SND_PILL_POWER2 = 95;
-		public const int SND_PILL_POWER3 = 96;
-		public const int SND_PILL_TOXIC_BORN = 97;
-		public const int SND_PILL_WARNING = 98;
-		public const int SND_UI_CLICK = 99;
-		public const int SND_UI_FOCUS = 100;
-		public const int RES_COUNT = 101;
+		public const int SONG_ENV_MENU = 80;
+		public const int SONG_ENV_MENU2 = 81;
+		public const int SND_HERO_ATTACK = 82;
+		public const int SND_HERO_AWAKE = 83;
+		public const int SND_HERO_JUMP = 84;
+		public const int SND_HERO_LAND = 85;
+		public const int SND_HERO_SLEEP = 86;
+		public const int SND_HERO_STEP1 = 87;
+		public const int SND_HERO_STEP2 = 88;
+		public const int SND_HERO_TOXIC = 89;
+		public const int SND_HERO_WING1 = 90;
+		public const int SND_HERO_WING2 = 91;
+		public const int SND_LEVEL_START = 92;
+		public const int SND_PILL_GENERATE = 93;
+		public const int SND_PILL_HIGH = 94;
+		public const int SND_PILL_JUMPER = 95;
+		public const int SND_PILL_POWER1 = 96;
+		public const int SND_PILL_POWER2 = 97;
+		public const int SND_PILL_POWER3 = 98;
+		public const int SND_PILL_TOXIC_BORN = 99;
+		public const int SND_PILL_WARNING = 100;
+		public const int SND_UI_CLICK = 101;
+		public const int SND_UI_FOCUS = 102;
+		public const int RES_COUNT = 103;
 	}
 	public class DuckstazyResources
 	{
@@ -225,6 +227,8 @@ namespace DuckstazyLive.app
 			{
 				new ResourceBaseInfo(Res.SND_ENV_POWER, ResourceType.RESOURCE_TYPE_SOUND, "Env_rPowerSnd"),
 				new ResourceBaseInfo(Res.SONG_ENV_TEX, ResourceType.RESOURCE_TYPE_SONG, "Env_rTex2Snd"),
+				new ResourceBaseInfo(Res.SONG_ENV_MENU, ResourceType.RESOURCE_TYPE_SONG, "tex1"),
+				new ResourceBaseInfo(Res.SONG_ENV_MENU2, ResourceType.RESOURCE_TYPE_SONG, "tex2"),
 				new ResourceBaseInfo(Res.SND_HERO_ATTACK, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rAttackSnd"),
 				new ResourceBaseInfo(Res.SND_HERO_AWAKE, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rAwakeSnd"),
 				new ResourceBaseInfo(Res.SND_HERO_JUMP, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rJumpSnd"),

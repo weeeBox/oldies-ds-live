@@ -33,7 +33,9 @@ namespace DuckstazyLive.app
             base.activate();
 
             MenuView view = (MenuView)getView(VIEW_MENU);
-            showView(VIEW_MENU);            
+            showView(VIEW_MENU);
+
+            Application.sharedSoundMgr.playSound(Res.SONG_ENV_MENU, true, SoundTransform.NONE);
         }
     }
 }
