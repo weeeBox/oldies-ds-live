@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.game.levels
 {
-    class FigurePattern
+    public class FigurePattern
     {
         private byte[] pattern;
         private int cols;
@@ -60,11 +60,36 @@ namespace DuckstazyLive.game.levels
         }
     }
 
+    public class FigurePlacer : Placer
+    {
+        private int row;
+        private int col;
+
+        private FigurePattern pattern;
+
+        public FigurePlacer(Setuper setuper, FigurePattern pattern, int row, int col)
+            : base(setuper, pattern.cellWidth * col, pattern.cellHeight * row)
+        {
+            this.pattern = pattern;
+            this.row = row;
+            this.col = col;
+        }
+
+        protected override Pill start(Pill pill)
+        {
+            float x = pattern.x + pattern.cellWidth * col;
+            float y = pattern.y + pattern.cellHeight * row;
+            return setuper.start(x, y, pill);
+        }
+    }
+
     public class FigureStage : BonusLevelStage
     {
         private Generator gen;
         private float elapsedTime;
         private float figureAppearTime;
+
+        private float additionVx;        
 
         private FigurePattern duckFigure = new FigurePattern(new byte[] 
         {
@@ -90,7 +115,8 @@ namespace DuckstazyLive.game.levels
 
         public FigureStage() : base(0)
         {
-            duckFigure.vx = -10.0f; // -18.0f;
+            duckFigure.vx = -18.0f;            
+
             goalTime = (640 + duckFigure.getColsCount() * duckFigure.cellWidth) / Math.Abs(duckFigure.vx);
 
             setuperLookup = new Dictionary<int, Setuper>();
@@ -131,15 +157,35 @@ namespace DuckstazyLive.game.levels
 
             gen.regen = false;            
             gen.start();
+
+            additionVx = 0;            
         }
 
         public override void update(float dt)
         {
-            elapsedTime += dt;
-            
+            elapsedTime += dt;                       
+
+            if (hasHeroOnTheGround())
+            {
+                additionVx -= 10 * dt;
+                if (additionVx < -20.0f)
+                    additionVx = -20.0f;
+            }
+            else
+            {
+                additionVx += 10 * dt;
+                if (additionVx > 0)
+                    additionVx = 0;
+            }
+
+            float fvx = getFigureVx();
+            float fvy = duckFigure.vy;
+
             duckFigure.vy = (float)(10 * Math.Sin(3.14 * elapsedTime)); 
-            duckFigure.x += duckFigure.vx * dt;
-            duckFigure.y += duckFigure.vy * dt;
+            duckFigure.x += fvx * dt;
+            duckFigure.y += fvy * dt;            
+
+            float genTimeout = 1.0f / gen.speed;
 
             float dx = 640 - duckFigure.x;
             int newNumVisibleLines = (int)(dx / duckFigure.cellWidth);            
@@ -147,17 +193,14 @@ namespace DuckstazyLive.game.levels
             {
                 if (numVisibleLines == 1)
                     figureAppearTime = elapsedTime;
-
-                float px = duckFigure.x + numVisibleLines * duckFigure.cellWidth;
+                                
                 for (int j = 0; j < duckFigure.getRowsCount(); ++j)
                 {
                     int pillId = duckFigure.at(numVisibleLines, j);
                     if (setuperLookup.ContainsKey(pillId))
                     {
-                        Setuper setuper = setuperLookup[pillId];
-
-                        float py = duckFigure.y + j * duckFigure.cellHeight;
-                        gen.map.Add(new Placer(setuper, px, py));
+                        Setuper setuper = setuperLookup[pillId];                       
+                        gen.map.Add(new FigurePlacer(setuper, duckFigure, j, numVisibleLines));
                     }
                 }                
                 numVisibleLines = newNumVisibleLines;
@@ -171,7 +214,7 @@ namespace DuckstazyLive.game.levels
         {
             if (null == msg)
             {
-                pill.x += duckFigure.vx * dt;
+                pill.x += getFigureVx() * dt;
                 pill.y += duckFigure.vy * dt;                
                 
                 if (pill.x < 0 && pill.isAlive())
@@ -199,6 +242,23 @@ namespace DuckstazyLive.game.levels
                     }
                 }
             }
+        }     
+   
+        private float getFigureVx()
+        {
+            return duckFigure.vx + additionVx;
+        }
+
+        private bool hasHeroOnTheGround()
+        {
+            for (int i = 0; i < heroes.getHeroesCount(); ++i)
+            {
+                Hero h = heroes[i];           
+                if (!h.isFlying())
+                    return true;
+            }
+
+            return false;
         }
     }
 }

@@ -14,9 +14,16 @@ namespace DuckstazyLive.game
             this.goalTime = goalTime;
         }
 
+        protected override void startProgress()
+        {
+            progress.start(0, goalTime);
+        }
+
         public override void updateProgress(float dt)
         {
-            float t = level.progress.getGoalTime() - level.progress.getElapsedTime();
+            base.updateProgress(dt);
+
+            float t = progress.getGoalTime() - progress.getElapsedTime();
             int i = (int)(t / 60);
             string str;
             if (i < 10) str = "0" + i.ToString() + ":";
@@ -26,11 +33,6 @@ namespace DuckstazyLive.game
             else str += i.ToString();
 
             if (level.infoText != str) level.infoText = str;
-        }
-
-        public override float getGoalTime()
-        {
-            return goalTime;
-        }
+        }        
     }
 }

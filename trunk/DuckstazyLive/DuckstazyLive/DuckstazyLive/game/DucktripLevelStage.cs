@@ -14,16 +14,18 @@ namespace DuckstazyLive.game
             this.numPills = numPills;
         }
 
-        public override void updateProgress(float dt)
+        protected override void startProgress()
         {
-            level.progress.updateProgress(collected);
-            string str = collected.ToString() + "/" + ((int)getGoalProgress()).ToString();
-            if (level.infoText != str) level.infoText = str;
+            progress.start(numPills, 0);
         }
 
-        public override float getGoalProgress()
+        public override void updateProgress(float dt)
         {
-            return numPills;
-        }
+            base.updateProgress(dt);
+
+            progress.updateProgress(collected);
+            string str = collected.ToString() + "/" + ((int)progress.getGoalProgress()).ToString();
+            if (level.infoText != str) level.infoText = str;
+        }        
     }
 }
