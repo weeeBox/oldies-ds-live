@@ -46,13 +46,26 @@ namespace DuckstazyLive.game.levels
             return rows;
         }
 
-        public int getTotalPills()
+        public int getPowerPillsCount()
         {
             int total = 0;
             for (int i = 0; i < pattern.Length; ++i)
             {
                 byte pill = pattern[i];
                 if (pill == 1 || pill == 2 || pill == 3)
+                    total++;
+            }
+
+            return total;
+        }
+
+        public int getTotalPillsCount()
+        {
+            int total = 0;
+            for (int i = 0; i < pattern.Length; ++i)
+            {
+                byte pill = pattern[i];
+                if (pill != 0)
                     total++;
             }
 
@@ -115,7 +128,7 @@ namespace DuckstazyLive.game.levels
         public FigureStage() : base(0)
         {
             duckFigure.vx = -18.0f;
-            numPills = duckFigure.getTotalPills();
+            numPills = duckFigure.getPowerPillsCount();
 
             setuperLookup = new Dictionary<int, Setuper>();
             PowerSetuper power1 = new PowerSetuper(0.0f, PowerSetuper.POWER1);
@@ -142,10 +155,10 @@ namespace DuckstazyLive.game.levels
             
             gen = new Generator();
             gen.regen = false;
-            gen.speed = 8.0f;
+            gen.speed = 10.0f;
 
             numVisibleLines = 0;
-            totalPills = numPills = duckFigure.getTotalPills();
+            totalPills = duckFigure.getTotalPillsCount();
                         
             int duckWidth = duckFigure.getColsCount();
             int duckHeight = duckFigure.getRowsCount();
@@ -165,9 +178,9 @@ namespace DuckstazyLive.game.levels
 
             if (hasHeroOnTheGround())
             {
-                additionVx -= 10 * dt;
-                if (additionVx < -20.0f)
-                    additionVx = -20.0f;
+                additionVx -= 20 * dt;
+                if (additionVx < -40.0f)
+                    additionVx = -40.0f;
             }
             else
             {
@@ -179,7 +192,7 @@ namespace DuckstazyLive.game.levels
             float fvx = getFigureVx();
             float fvy = duckFigure.vy;
 
-            duckFigure.vy = (float)(10 * Math.Sin(3.14 * elapsedTime)); 
+            duckFigure.vy = (float)(10 * (1 + 2 * level.power) * Math.Sin(3.14 * elapsedTime)); 
             duckFigure.x += fvx * dt;
             duckFigure.y += fvy * dt;            
 
@@ -222,7 +235,12 @@ namespace DuckstazyLive.game.levels
                 }             
             }
             else if ("dead" == msg)
-            {                
+            {
+                totalPills--;
+                if (totalPills == 0 && !progress.isProgressComplete())
+                {
+                    Debug.WriteLine("You loose");
+                }
             }
         }     
    
