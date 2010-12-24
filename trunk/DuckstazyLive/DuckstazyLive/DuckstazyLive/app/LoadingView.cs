@@ -10,16 +10,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.app
 {
-    public class StartupView : View
-    {
-        private CustomGeomerty back;
+    public class LoadingView : View
+    {        
         private Color linesColor;
         private float offset;
 
-        public StartupView()
+        public LoadingView()
         {
-            back = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, utils.makeColor(0x555555));
-            linesColor = utils.makeColor(0x333333);            
+            linesColor = utils.makeColor(0xd7d7d7);            
         }
 
         public override void update(float delta)
@@ -34,7 +32,7 @@ namespace DuckstazyLive.app
         public override void draw()
         {
             // back
-            AppGraphics.DrawGeomerty(back);
+            AppGraphics.FillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
 
             // lines
             AppGraphics.SetColor(linesColor);

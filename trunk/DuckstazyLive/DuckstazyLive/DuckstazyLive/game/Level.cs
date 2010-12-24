@@ -64,7 +64,9 @@ namespace DuckstazyLive.game
 
             info = new GameInfo();
             ps = new Particles();
-            env = new Env(game);
+            env = Env.getIntance();
+            env.reset();
+            env.playMusic();
 
             initHero();
             

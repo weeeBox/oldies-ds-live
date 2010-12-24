@@ -114,13 +114,14 @@
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
     <Compile Include="app\GameView.cs" />
+    <Compile Include="app\IntroView.cs" />
     <Compile Include="app\MenuButton.cs" />
     <Compile Include="app\MenuController.cs" />
     <Compile Include="app\MenuView.cs" />
     <Compile Include="app\PauseView.cs" />
     <Compile Include="app\Res.cs" />
     <Compile Include="app\StartupController.cs" />
-    <Compile Include="app\StartupView.cs" />
+    <Compile Include="app\LoadingView.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="game\TimeoutLevelStage.cs" />
