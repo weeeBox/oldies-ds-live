@@ -6,7 +6,7 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.levels
 {
-    public class AirAttack : BonusLevelStage
+    public class AirAttack : TimeoutLevelStage
     {
         private float regen;
         private float party;

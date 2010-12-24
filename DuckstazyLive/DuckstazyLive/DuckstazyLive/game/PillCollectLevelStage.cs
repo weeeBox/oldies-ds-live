@@ -5,11 +5,11 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public class DucktripLevelStage : LevelStage
+    public class PillCollectLevelStage : LevelStage
     {
         private int numPills;
 
-        public DucktripLevelStage(int numPills)
+        public PillCollectLevelStage(int numPills)
         {
             this.numPills = numPills;
         }

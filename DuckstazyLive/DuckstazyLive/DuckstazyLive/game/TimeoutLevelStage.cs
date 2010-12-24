@@ -5,11 +5,11 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public class BonusLevelStage : LevelStage
+    public class TimeoutLevelStage : LevelStage
     {
         protected float goalTime;
 
-        public BonusLevelStage(float goalTime)
+        public TimeoutLevelStage(float goalTime)
         {
             this.goalTime = goalTime;
         }
