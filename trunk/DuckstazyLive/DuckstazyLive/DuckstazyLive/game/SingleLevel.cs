@@ -13,6 +13,7 @@ namespace DuckstazyLive.game
     {
         public SingleLevel(GameState gameState) : base(gameState)
         {
+            stages.Add(LevelStages.Testing);
             stages.Add(LevelStages.Harvesting);
             stages.Add(LevelStages.PartyTime);
             stages.Add(LevelStages.Bubbles);
