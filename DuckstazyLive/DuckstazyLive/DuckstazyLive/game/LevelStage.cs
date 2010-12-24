@@ -21,19 +21,14 @@ namespace DuckstazyLive.game
         protected Pills pills;
         protected Particles particles;
         
-        protected Heroes heroes;
-        protected Env env;        
+        protected Heroes heroes;        
         
         public int collected;
 
         protected float startX;
         protected bool heroStarted;
 
-        public StageMedia media;        
-
-        protected bool end;
-        protected int endImg;
-        protected float endCounter;        
+        public StageMedia media;
 
         public LevelStage()
         {
@@ -44,7 +39,6 @@ namespace DuckstazyLive.game
             pills = level.pills;
             particles = level.pills.ps;
             heroes = level.heroes;            
-            env = level.env;            
         }
 
         protected virtual LevelProgress createLevelProgress()
@@ -60,9 +54,7 @@ namespace DuckstazyLive.game
             collected = 0;
 
             startX = utils.rnd() * (640 - 54);
-            heroStarted = false;
-
-            end = false;
+            heroStarted = false;           
 
             startProgress();
         }
@@ -104,22 +96,9 @@ namespace DuckstazyLive.game
                 {
                     win = true;
                     level.infoText = "";
-                    this.onWin();
-                    end = true;
-                    endImg = media.imgStageEnd;
-                    endCounter = 0.0f;
-                }
-                else if (!end && !heroes.hasAliveHero())
-                {
-                    level.infoText = "";
-                    end = true;
-                    endImg = media.imgTheEnd;
-                    endCounter = 0.0f;
-                }
-            }
-
-            if (end)
-                endCounter += dt;            
+                    onWin();                    
+                }                
+            }            
         }
 
         public virtual void updateProgress(float dt)

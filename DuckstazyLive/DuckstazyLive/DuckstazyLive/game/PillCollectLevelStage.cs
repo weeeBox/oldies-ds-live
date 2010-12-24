@@ -7,7 +7,7 @@ namespace DuckstazyLive.game
 {
     public class PillCollectLevelStage : LevelStage
     {
-        private int numPills;
+        protected int numPills;
 
         public PillCollectLevelStage(int numPills)
         {
