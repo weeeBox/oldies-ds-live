@@ -29,9 +29,7 @@ namespace DuckstazyLive.game
         public Heroes heroes;
         public Pills pills;
         public Env env;
-        protected Particles ps;
-
-        public LevelProgress progress;
+        protected Particles ps;        
 
         public float power;
         protected float powerUp;
@@ -69,8 +67,7 @@ namespace DuckstazyLive.game
             env = new Env(game);
 
             initHero();
-
-            progress = new LevelProgress();
+            
             // progress.env = env;
 
             stageMedia = new StageMedia();
@@ -105,15 +102,14 @@ namespace DuckstazyLive.game
         {
             env.blanc = 1.0f;
             power = 0.0f;
-            powerUp = 0.0f;
-
-            stage = LevelStageFactory.createStage(stages[state.level]);
+            powerUp = 0.0f;            
 
             ps.clear();
             pills.clear();
             info.reset();
 
-            progress.start(stage.getGoalProgress(), stage.getGoalTime());
+            stage = LevelStageFactory.createStage(stages[state.level]);
+
             heroes.init();
             game.save();
 
@@ -248,9 +244,7 @@ namespace DuckstazyLive.game
 
                 env.x = heroes[0].x;
                 env.y = heroes[0].y;
-                env.update(dt, power);
-
-                progress.update(dt);
+                env.update(dt, power);                
 
                 ps.update(dt);                
 

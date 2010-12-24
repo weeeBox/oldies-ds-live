@@ -15,9 +15,9 @@ namespace DuckstazyLive.game
             pumpVel = 1.0f;            
         }
 
-        public override float getGoalProgress()
+        protected override void startProgress()
         {
-            return 2.0f;
+            progress.start(2.0f, 0);
         }
 
         public override void start()
@@ -27,8 +27,10 @@ namespace DuckstazyLive.game
         }
 
         public override void updateProgress(float dt)
-        {            
-            level.progress.updateProgress(level.power + pumpProg);
+        {
+            base.updateProgress(dt);
+
+            progress.updateProgress(level.power + pumpProg);
             if (level.power >= 1.0f)
             {
                 pumpProg += dt * pumpVel;
@@ -36,7 +38,7 @@ namespace DuckstazyLive.game
                     pumpProg = 1.0f;
             }
 
-            string str = ((int)(level.progress.getCompletePercent() * 100)).ToString() + "%";
+            string str = ((int)(progress.getCompletePercent() * 100)).ToString() + "%";
             if (level.infoText != str) level.infoText = str;            
         }
     }

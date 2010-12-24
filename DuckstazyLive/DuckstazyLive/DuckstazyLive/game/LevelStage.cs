@@ -10,13 +10,14 @@ using Framework.core;
 
 namespace DuckstazyLive.game
 {
-    public class LevelStage
+    public abstract class LevelStage
     {
         // обратить флаг в true, если прошли уровень.
         public bool win;
 
         // уровень
         protected Level level;
+        protected LevelProgress progress;
         protected Pills pills;
         protected Particles particles;
         
@@ -36,6 +37,8 @@ namespace DuckstazyLive.game
 
         public LevelStage()
         {
+            progress = createLevelProgress();
+
             level = Level.instance;
             media = level.stageMedia;
             pills = level.pills;
@@ -43,6 +46,13 @@ namespace DuckstazyLive.game
             heroes = level.heroes;            
             env = level.env;            
         }
+
+        protected virtual LevelProgress createLevelProgress()
+        {
+            return new LevelProgress();
+        }
+
+        protected abstract void startProgress();        
 
         public virtual void start()
         {
@@ -53,6 +63,8 @@ namespace DuckstazyLive.game
             heroStarted = false;
 
             end = false;
+
+            startProgress();
         }
 
         public virtual void onWin()
@@ -88,7 +100,7 @@ namespace DuckstazyLive.game
             {
                 updateProgress(dt);                
 
-                if (level.progress.isProgressComplete())
+                if (progress.isProgressComplete())
                 {
                     win = true;
                     level.infoText = "";
@@ -112,17 +124,7 @@ namespace DuckstazyLive.game
 
         public virtual void updateProgress(float dt)
         {
-
-        }
-
-        public virtual float getGoalTime()
-        {
-            return 0; // no time limit
-        }
-
-        public virtual float getGoalProgress()
-        {
-            return 0; // no progress goal
-        }
+            progress.update(dt);
+        }        
     }
 }

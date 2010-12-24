@@ -864,5 +864,10 @@ namespace DuckstazyLive.game
         {
             return state == HERO_NORMAL;
         }
+
+        public bool isFlying()
+        {
+            return y < 400 - duck_h2;
+        }
     }
 }

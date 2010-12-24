@@ -10,17 +10,17 @@ namespace DuckstazyLive.game.levels.generator
 		public float x;
 		public float y;
 		
-		public Setuper setuper;
-		public Placer(Setuper _setuper, float _x, float _y)
+		protected Setuper setuper;
+		public Placer(Setuper setuper, float x, float y)
 		{
-			x = _x;
-			y = _y;
-			setuper = _setuper;
+			this.x = x;
+			this.y = y;
+			this.setuper = setuper;
 		}
 		
 		public Pill place(Pill pill)
 		{
-			return setuper.start(x, y, pill);
+			return start(pill);
 		}
 		
 		public Pill placeAvoidHero(Pill pill, float distSqr)
@@ -29,10 +29,15 @@ namespace DuckstazyLive.game.levels.generator
 			Pill p = null;
 			
 			if(distSqr<=0 || !pills.tooCloseHero(x, y, distSqr))
-				p = setuper.start(x, y, pill);
+				p = start(pill);
 			
 			return p;
 		}
+
+        protected virtual Pill start(Pill pill)
+        {
+            return setuper.start(x, y, pill);
+        }
 	}
 
 }
