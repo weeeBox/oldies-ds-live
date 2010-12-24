@@ -128,6 +128,8 @@
 			<package name="PACK_SOUNDS">
 				<sound name="env_power" file="${dir.sound}/Env_rPowerSnd.wav" />
 				<song name="env_tex" file="${dir.sound}/Env_rTex2Snd.mp3" />
+				<song name="env_menu" file="${dir.sound}/tex1.mp3" />
+				<song name="env_menu2" file="${dir.sound}/tex2.mp3" />
 				<sound name="hero_attack" file="${dir.sound}/HeroMedia_rAttackSnd.wav" />
 				<sound name="hero_awake" file="${dir.sound}/HeroMedia_rAwakeSnd.wav" />
 				<sound name="hero_jump" file="${dir.sound}/HeroMedia_rJumpSnd.wav" />
