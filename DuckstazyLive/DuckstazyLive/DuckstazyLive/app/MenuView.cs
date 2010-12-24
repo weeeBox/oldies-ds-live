@@ -14,17 +14,8 @@ namespace DuckstazyLive.app
 {
     public class MenuView : View, ButtonDelegate
     {
-        // дублеж, пиздешь и провокация
-
-        private CustomGeomerty geomSkyDay;        
-        private CustomGeomerty geomGround;
-
-        private EnvCloud[] clouds;
-        private int[] imgClouds;
-
         private Canvas canvas;
-        private DrawMatrix MAT;
-
+     
         private int focusedButton, oldFocusedButton;
 
         private const int BUTTON_NEW_GAME = 0;
@@ -43,29 +34,7 @@ namespace DuckstazyLive.app
             this.menuController = menuController;
 
             canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
-            MAT = new DrawMatrix(true);
-
-            // sky
-            geomSkyDay = utils.createGradient(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, utils.makeColor(0x3FB5F2), utils.makeColor(0xDDF2FF), false);
-
-            imgClouds = new int[] { Res.IMG_CLOUD_1, Res.IMG_CLOUD_2, Res.IMG_CLOUD_3 };
-
-            clouds = new EnvCloud[] { new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud(), new EnvCloud() };
-            float cloudX = 0;
-            foreach (EnvCloud it in clouds)
-            {
-                it.init(cloudX);
-                cloudX += utils.scale(128.0f + utils.rnd() * 22.0f);
-            }
-
-            // ground
-            float groundX = 0;
-            float groundY = Constants.ENV_HEIGHT;
-            float groundWidth = Constants.GROUND_WIDTH;
-            float groundHeight = Constants.GROUND_HEIGHT;
-
-            geomGround = utils.createGradient(groundX, groundY, groundWidth, groundHeight, utils.makeColor(0x371d06), utils.makeColor(0x5d310c), false);
-
+     
             // title
             addTitle();
 
@@ -131,12 +100,11 @@ namespace DuckstazyLive.app
             focusedButton = oldFocusedButton = Constants.UNDEFINED;
             focusButton(BUTTON_NEW_GAME);
         }
+
         public override void update(float delta)
         {
             base.update(delta);
-
-            foreach (EnvCloud c in clouds)
-                c.update(delta, 0.0f);
+            Env.getIntance().update(delta, 0.0f);
         }
 
         public override void draw()
@@ -148,36 +116,8 @@ namespace DuckstazyLive.app
 
         private void drawEnv()
         {
-            // the sky is high
-            AppGraphics.DrawGeomerty(geomSkyDay);
-
-            // clouds           
-            foreach (EnvCloud c in clouds)
-            {
-                float x = c.counter;
-                int imageId = imgClouds[c.id];
-                Texture2D img = Application.sharedResourceMgr.getTexture(imageId);
-
-                MAT.identity();                
-                MAT.tx = utils.unscale(-img.Width * 0.5f);
-                MAT.ty = utils.unscale(-img.Height * 0.5f);
-                MAT.scale(0.9f + 0.1f * (float)Math.Sin(x * 6.28), 0.95f + 0.05f * (float)Math.Sin(x * 6.28 + 3.14));
-                MAT.translate(c.x, c.y);
-
-                canvas.draw(imageId, MAT);
-            }
-
-            // ground
-            AppGraphics.DrawGeomerty(geomGround);
-
-            // grass
-            Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
-            Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-            Rectangle dst = new Rectangle(0, (int)(geomGround.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
-
-            AppGraphics.SetColor(utils.makeColor(0xff00ff00));
-            AppGraphics.DrawImageTiled(tex, ref src, ref dst);
-            AppGraphics.SetColor(Color.White);
+            Env.getIntance().draw1(canvas);
+            Env.getIntance().draw2(canvas);
         }                
 
         public override bool buttonPressed(ref ButtonEvent e)
