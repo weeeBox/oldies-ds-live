@@ -83,7 +83,7 @@ namespace DuckstazyLive.game.levels
         }
     }
 
-    public class FigureStage : TimeoutLevelStage
+    public class FigureStage : PillCollectLevelStage
     {
         private Generator gen;
         private float elapsedTime;
@@ -107,17 +107,15 @@ namespace DuckstazyLive.game.levels
         }, 
         14, 11);
 
-        private int numVisibleLines;
-        private int numPills;
+        private int numVisibleLines;        
         private int totalPills;
 
         private Dictionary<int, Setuper> setuperLookup;
 
         public FigureStage() : base(0)
         {
-            duckFigure.vx = -18.0f;            
-
-            goalTime = (640 + duckFigure.getColsCount() * duckFigure.cellWidth) / Math.Abs(duckFigure.vx);
+            duckFigure.vx = -18.0f;
+            numPills = duckFigure.getTotalPills();
 
             setuperLookup = new Dictionary<int, Setuper>();
             PowerSetuper power1 = new PowerSetuper(0.0f, PowerSetuper.POWER1);
@@ -224,23 +222,7 @@ namespace DuckstazyLive.game.levels
                 }             
             }
             else if ("dead" == msg)
-            {
-                if (pill.type == Pill.POWER)
-                {
-                    numPills--;
-                    Debug.WriteLine(numPills + "/" + totalPills);
-                    if (numPills == 0)
-                    {
-                        if (collected == totalPills)
-                        {
-                            
-                        }
-                        else
-                        {
-                            Debug.WriteLine("You've lost");
-                        }
-                    }
-                }
+            {                
             }
         }     
    

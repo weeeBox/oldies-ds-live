@@ -57,8 +57,8 @@ namespace DuckstazyLive.game.levels
 
             jumpGen.start();
 
-            env.day = false;
-            env.updateNorm();
+            level.env.day = false;
+            level.env.updateNorm();
 
             frog.openCounter = 0.0f;
             frog.open = true;
