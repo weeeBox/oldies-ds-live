@@ -7,9 +7,9 @@
 	<property name="dir.res" value="../res" />
 	<property name="dir.art" value="${dir.res}/art" />
 	<property name="dir.sound" value="${dir.res}/sound" />
-	<property name="dir.content" value="../DuckstazyLive/Content" />
+	<property name="dir.content" value="../DuckstazyLive/DuckstazyLiveContent" />
 	<property name="file.proj" value="${dir.content}/DuckstazyLiveContent.contentproj" />
-	<property name="file.code" value="../DuckstazyLive/app/Res.cs" />
+	<property name="file.code" value="../DuckstazyLive/DuckstazyLive/app/Res.cs" />
 	
 	<path id="libs">
 		<fileset dir="${dir.lib}">
@@ -36,8 +36,7 @@
 	<target name="run" depends="build">		
 		<content projFile="${file.proj}" codeFile="${file.code}">
 			<package name="PACK_COMMON">
-				<image name="button_base" file="${dir.art}/button.png" />
-				<image name="button_stroke_default" file="${dir.art}/button_black.png" />
+				<image name="button_base" file="${dir.art}/button.png" />				
 				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />			    
 				<image name="grass1" file="${dir.art}/grass1.png" />
 				<image name="grass2" file="${dir.art}/grass2.png" />				
