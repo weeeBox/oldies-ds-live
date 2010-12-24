@@ -4,18 +4,63 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game.env
 {
+    public struct ScaleFrame
+    {
+        public float duration;
+        public float scale;
+
+        public ScaleFrame(float scale, float duration)
+        {
+            this.scale = scale;
+            this.duration = duration;
+        }
+    }
+
     public class EnvEffect4 : EnvEffect
     {
-        private float t;
-        // private Shape shape;
+        private static ScaleFrame[] scaleSequence = 
+        {
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(1.0f, 0.1f),
+            new ScaleFrame(0.5f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(0.6f, 0.1f),
+            new ScaleFrame(0.9f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(1.0f, 0.1f),
+            new ScaleFrame(0.3f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(0.5f, 0.1f),
+            new ScaleFrame(0.9f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(1.0f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(0.5f, 0.1f),
+            new ScaleFrame(0.9f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(1.5f, 0.1f),
+            new ScaleFrame(0.9f, 0.1f),
+            new ScaleFrame(0.8f, 0.1f),
+            new ScaleFrame(0.5f, 0.1f),
+            new ScaleFrame(0.9f, 0.1f),
+        };
+
+        private int scaleFrameIndex;
+        private float scale;
+        private float dScale;
+        private float scaleFrameRemainingTime;
+
+        private float t;        
 
         public EnvEffect4()
-        {
-            // shape = new Shape();
+        {            
             t = 0.0f;
+            scale = 1.0f;
         }
 
         public override void update(float dt)
@@ -23,41 +68,21 @@ namespace DuckstazyLive.game.env
             t += dt * 1.256f * (power - 0.5f);
             if (t > 6.28f)
                 t -= 6.28f;
+
+            scaleFrameRemainingTime -= dt;
+            if (scaleFrameRemainingTime <= 0)
+            {
+                scaleFrameIndex = (scaleFrameIndex + 1) % scaleSequence.Length;
+                scaleFrameRemainingTime = scaleSequence[scaleFrameIndex].duration;
+                dScale = (scaleSequence[scaleFrameIndex].scale - scale) / scaleFrameRemainingTime;
+            }
+
+            scale += dScale * dt;            
         }
 
         public override void draw(Canvas canvas)
         {
-            base.draw(canvas);
-            //// Временные переменные.
-            //float c = 0.0f;
-            //float a = t;
-            //float a2 = t+0.314f;
-            //Graphics gr = shape.graphics;
-
-            //gr.clear();
-            //gr.lineStyle();
-            //gr.beginFill(c2);
-            //gr.drawRect(0.0, 0.0, 640.0, 400.0);
-            //gr.endFill();
-
-            //while(c<6.28)
-            //{
-            //    gr.beginFill(c1);
-            //    gr.moveTo(320.0 + 512.0*Math.Cos(a), 200.0 + 512.0*Math.Sin(a));
-            //    gr.lineTo(320.0, 200.0);
-            //    gr.lineTo(320.0 + 512.0*Math.Cos(a2), 200.0 + 512.0*Math.Sin(a2));
-            //    gr.endFill();
-
-            //    a+=0.628;
-            //    a2+=0.628;
-            //    c+=0.628;
-            //}
-
-            //gr.beginFill(c1);
-            //gr.drawCircle(320.0, 200.0, peak*25.0);
-            //gr.endFill();
-
-            //canvas.draw(shape);
+            base.draw(canvas);           
 
             // Временные переменные.
             float c = 0.0f;
@@ -99,6 +124,7 @@ namespace DuckstazyLive.game.env
             m.translate(transX, transY);
             m.tx = -0.5f * circleTex.Width;
             m.ty = -0.5f * circleTex.Height;
+            m.scale(scale, scale);
             canvas.draw(circleImage, m, colorTransform);
         }
 
