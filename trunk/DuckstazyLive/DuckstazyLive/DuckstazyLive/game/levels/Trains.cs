@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game.levels
 {
-    public class Trains : DucktripLevelStage
+    public class Trains : PillCollectLevelStage
     {
         private FrogActor frog;
 

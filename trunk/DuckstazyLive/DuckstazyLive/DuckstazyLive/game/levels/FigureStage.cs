@@ -83,7 +83,7 @@ namespace DuckstazyLive.game.levels
         }
     }
 
-    public class FigureStage : BonusLevelStage
+    public class FigureStage : TimeoutLevelStage
     {
         private Generator gen;
         private float elapsedTime;
@@ -233,7 +233,7 @@ namespace DuckstazyLive.game.levels
                     {
                         if (collected == totalPills)
                         {
-                            Debug.WriteLine("You win");
+                            
                         }
                         else
                         {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{8efd9dd1-24a6-498a-9eb2-cef48831b9b3}</ProjectGuid>
+    <ProjectGuid>{8EFD9DD1-24A6-498A-9EB2-CEF48831B9B3}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -75,12 +75,10 @@
     <Compile Include="app\StartupView.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="DuckstazyGame.cs" />
-    <Compile Include="game\BonusLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
     <Compile Include="game\DeathView.cs" />
     <Compile Include="game\DrawMatrix.cs" />
-    <Compile Include="game\DucktripLevelStage.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
     <Compile Include="game\EnvColor.cs" />
@@ -124,6 +122,7 @@
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />
+    <Compile Include="game\PillCollectLevelStage.cs" />
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
     <Compile Include="game\LevelProgressView.cs" />
@@ -131,6 +130,7 @@
     <Compile Include="game\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
+    <Compile Include="game\TimeoutLevelStage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

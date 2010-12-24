@@ -8,7 +8,7 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.levels
 {
-    public class DoubleFrog : DucktripLevelStage
+    public class DoubleFrog : PillCollectLevelStage
 	{
 		private FrogActor frog1;
 		private FrogActor frog2;

@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game.levels
 {
-    public class BetweenCatsStage : DucktripLevelStage
+    public class BetweenCatsStage : PillCollectLevelStage
     {
         private Generator gen;
         private Generator gen1;

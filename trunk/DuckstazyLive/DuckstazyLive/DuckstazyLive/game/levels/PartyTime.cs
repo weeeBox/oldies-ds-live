@@ -7,7 +7,7 @@ using DuckstazyLive.game.levels.generator;
 
 namespace DuckstazyLive.game.levels
 {
-    public class PartyTime : BonusLevelStage
+    public class PartyTime : TimeoutLevelStage
     {
         public Generator gen;
         public PartySetuper setuper;
