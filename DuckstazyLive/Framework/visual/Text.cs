@@ -6,10 +6,15 @@ using Framework.core;
 
 namespace Framework.visual
 {
+    public enum TextAlign
+    {
+        LEFT,
+        CENTER,
+        RIGHT
+    }
+
     public class Text : BaseElement
     {
-        const int DEFAULT_SPACE_WIDTH = 10;
-
         protected struct FormattedString
         {
             public String text;
@@ -22,19 +27,17 @@ namespace Framework.visual
             }
         }
 
-        public float align;
         public String text;
-        public Font font;
-        public int wrapWidth;
+        public Font font;        
 
-        protected DynamicArray<FormattedString> formattedStrings;
+        protected FormattedString[] formattedStrings;
+        protected TextAlign textAlign = TextAlign.LEFT;
 
         public Text(Font font)
         {
             this.font = font;
             width = FrameworkConstants.UNDEFINED;
-            height = FrameworkConstants.UNDEFINED;
-            formattedStrings = new DynamicArray<FormattedString>();
+            height = FrameworkConstants.UNDEFINED;            
         }
 
         public void setString(String newString)
@@ -42,15 +45,22 @@ namespace Framework.visual
             setString(newString, Int32.MaxValue);
         }
 
-        public virtual void setString(String newString, int w)
+        public virtual void setString(String newString, int wrapWidth)
         {
-            text = newString;
-            wrapWidth = w;
+            text = newString;            
 
-            formatText();
-
-            width = wrapWidth;
-            height = font.fontHeight() + font.lineOffset * formattedStrings.count();
+            String[] strings = font.wrapString(text, wrapWidth);
+            int stringsCount = strings.Length;
+            formattedStrings = new FormattedString[stringsCount];            
+            for (int i = 0; i < stringsCount; ++i)
+            {
+                String str = strings[i];
+                int strWidth = font.stringWidth(str);
+                if (strWidth > width)
+                    width = strWidth;
+                formattedStrings[i] = new FormattedString(str, strWidth);
+            }            
+            height = (font.fontHeight() + font.lineOffset) * formattedStrings.Length - font.lineOffset;
         }
 
         public String getString()
@@ -58,41 +68,39 @@ namespace Framework.visual
             return text;
         }
 
-        public void setAlignment(float a)
+        public void setAlign(TextAlign a)
         {            
-            align = a;
+            textAlign = a;
         }
 
         public override void draw()
         {
             preDraw();
 
-            float dx = drawX;
+            float dx;
             float dy = drawY;
-
             int itemHeight = font.fontHeight();
-
-            for (int i = 0; i < formattedStrings.count(); i++)
+            for (int i = 0; i < formattedStrings.Length; i++)
             {
                 FormattedString str = formattedStrings[i];
                 int len = str.text.Length;
-                String s = str.text;             
+                String s = str.text;
 
-                //if (align != HAlign.ALIGN_LEFT)
-                //{
-                //    if (align == HAlign.ALIGN_CENTER)
-                //    {
-                //        dx = drawX + (wrapWidth - str.width) / 2;
-                //    }
-                //    else
-                //    {                        
-                //        dx = drawX + wrapWidth - str.width;
-                //    }
-                //}
-                //else
+                if (textAlign != TextAlign.LEFT)
+                {
+                    if (textAlign == TextAlign.CENTER)
+                    {
+                        dx = drawX + (width - str.width) / 2;
+                    }
+                    else
+                    {
+                        dx = drawX + width - str.width;
+                    }
+                }
+                else
                 {
                     dx = drawX;
-                }               
+                }                             
 
                 for (int c = 0; c < len; c++)
                 {
@@ -107,92 +115,5 @@ namespace Framework.visual
 
             postDraw();
         }
-
-        public void formatText()
-        {
-            const int MAX_STRING_INDEXES = 512;
-            short[] strIdx = new short[MAX_STRING_INDEXES];
-            String s = text;
-
-            int len = s.Length;
-
-            int idx = 0;
-            int xc = 0;
-            int wc = 0;
-            int xp = 0;
-            int xpe = 0;
-            int wp = 0;
-            int dx = 0;
-
-            int spaceIndex = font.getCharQuad(' ');
-            int spaceWidth = DEFAULT_SPACE_WIDTH;
-            if (spaceIndex != FrameworkConstants.UNDEFINED)
-            {
-                spaceWidth = font.quads[spaceIndex].Width;
-            }
-
-            while (dx < len)
-            {
-                char c = s[dx++];
-
-                int quadIndex = font.getCharQuad(c);
-                int charWidth = font.quads[quadIndex].Width;
-
-                if (c == ' ' || c == '\n')
-                {
-                    wp += wc;
-                    xpe = dx - 1;
-                    wc = 0;
-                    xc = dx;
-
-                    if (c == ' ')
-                    {
-                        xc--;
-                        wc = charWidth + font.charOffset;
-                    }
-                }
-                else
-                {
-                    wc += charWidth + font.charOffset;
-                }
-
-                if ((wp + wc) > wrapWidth && xpe != xp || c == '\n')
-                {
-                    strIdx[idx++] = (short)xp;
-                    strIdx[idx++] = (short)xpe;
-                    while (xc < len && s[xc] == ' ')
-                    {
-                        xc++;
-                        wc -= spaceWidth;
-                    }
-
-                    xp = xc;
-                    xpe = xp;
-                    wp = 0;
-                }
-            }
-
-            if (wc != 0)
-            {
-                strIdx[idx++] = (short)xp;
-                strIdx[idx++] = (short)dx;
-            }
-
-            int strCount = idx >> 1;
-
-            formattedStrings.removeAllObjects();
-
-            for (int i = 0; i < strCount; i++)
-            {
-                int start = strIdx[i << 1];
-                int end = strIdx[(i << 1) + 1];
-               
-                String str = text.Substring(start, end - start);
-                int wd = font.stringWidth(str);
-                FormattedString fs = new FormattedString(str, wd);
-                formattedStrings[i] = fs;
-            }
-        }
-
     }
 }
