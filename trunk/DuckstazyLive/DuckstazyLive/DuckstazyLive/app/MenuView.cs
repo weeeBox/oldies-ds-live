@@ -56,9 +56,9 @@ namespace DuckstazyLive.app
             addChildWithId(title, CHILD_TITLE);
         }
 
-        private void addButton(int buttonID, float x, float y, float ax, float ay)
+        private void addButton(String text, int buttonID, float x, float y, float ax, float ay)
         {
-            MenuButton button = new MenuButton(buttonID, x, y);
+            MenuButton button = new MenuButton(text, buttonID, x, y);
             button.setAlign(ax, ay);
             button.buttonDelegate = this;
             addChildWithId(button, buttonID);
@@ -69,32 +69,32 @@ namespace DuckstazyLive.app
             // new game
             float newGameButtonX = Constants.TITLE_SAFE_LEFT_X + 0.33f * Constants.TITLE_SAFE_AREA_WIDTH;
             float newGameButtonY = Constants.TITLE_SAFE_TOP_Y;            
-            addButton(BUTTON_NEW_GAME, newGameButtonX, newGameButtonY, 0.5f, 0.0f);            
+            addButton("NEW\nGAME", BUTTON_NEW_GAME, newGameButtonX, newGameButtonY, 0.5f, 0.0f);            
 
             // last save
             float resumeGameButtonX = Constants.TITLE_SAFE_LEFT_X + 0.66f * Constants.TITLE_SAFE_AREA_WIDTH;
             float resumeGameButtonY = newGameButtonY;
-            addButton(BUTTON_RESUME_GAME, resumeGameButtonX, resumeGameButtonY, 0.5f, 0.0f);            
+            addButton("LAST\nSAVE", BUTTON_RESUME_GAME, resumeGameButtonX, resumeGameButtonY, 0.5f, 0.0f);            
 
             // about
             float aboutButtonX = Constants.TITLE_SAFE_LEFT_X + 50;
             float aboutButtonY = Constants.TITLE_SAFE_TOP_Y + 0.5f * Constants.TITLE_SAFE_AREA_HEIGHT;
-            addButton(BUTTON_ABOUT, aboutButtonX, aboutButtonY, 0.0f, 0.5f);            
+            addButton("ABOUT", BUTTON_ABOUT, aboutButtonX, aboutButtonY, 0.0f, 0.5f);            
 
             // exit
             float exitButtonX = Constants.TITLE_SAFE_RIGHT_X - 50;
             float exitButtonY = aboutButtonY;
-            addButton(BUTTON_EXIT, exitButtonX, exitButtonY, 1.0f, 0.5f);            
+            addButton("EXIT", BUTTON_EXIT, exitButtonX, exitButtonY, 1.0f, 0.5f);            
 
             // coop
             float coopButtonX = newGameButtonX;
             float coopButtonY = Constants.TITLE_SAFE_BOTTOM_Y;
-            addButton(BUTTON_COOP, coopButtonX, coopButtonY, 0.5f, 1.0f);            
+            addButton("COOP\nMODE", BUTTON_COOP, coopButtonX, coopButtonY, 0.5f, 1.0f);            
 
             // versus
             float versusButtonX = resumeGameButtonX;
             float versusButtonY = coopButtonY;
-            addButton(BUTTON_VERSUS, versusButtonX, versusButtonY, 0.5f, 1.0f);            
+            addButton("VERSUS\nMODE", BUTTON_VERSUS, versusButtonX, versusButtonY, 0.5f, 1.0f);            
 
             // focus
             focusedButton = oldFocusedButton = Constants.UNDEFINED;
