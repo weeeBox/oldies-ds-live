@@ -134,7 +134,7 @@ namespace DuckstazyLive.app
                     }
                     resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHARS] = chars;
                     resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_DATA] = data;
-                    resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHAR_OFFSET] = -2;
+                    resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_CHAR_OFFSET] = -5;
                     resParams[(int)FontVariableParams.FONT_VARIABLE_PARAM_LINE_OFFSET] = 0; 
                 }
                 

@@ -7,91 +7,57 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework.Input;
 using DuckstazyLive.game;
 using Microsoft.Xna.Framework;
+using Framework.visual;
 
 namespace DuckstazyLive.app
 {
     public class IntroView : View
-    {
-        private const int STATE_INTRO = 0;
-        private const int STATE_MENU = 1;
-        private const int STATES_COUNT = 2;
-        
-        private StartupController controller;
-        private int state;
-        private float stateElapsedTime;
+    {        
+        private StartupController controller;     
 
         private Env env;
         private Canvas canvas;
+
+        private float elapsedTime;
 
         public IntroView(StartupController controller)
         {
             this.controller = controller;
             env = Env.getIntance();
+            canvas = new Canvas(width, height);            
+        }
+
+        public override void onShow()
+        {
+            env.blanc = 1.0f;
+            elapsedTime = 0;
             env.day = true;
 
-            canvas = new Canvas(width, height);
-        }
-
-        private void startState(int state)
-        {
-            this.state = state;
-            switch (state)
-            {
-                case STATE_MENU:
-                    env.blanc = 1.0f;
-                    break;
-            }
-        }
-
-        private void startNextState()
-        {
-            state++;
-            stateElapsedTime = 0.0f;
-
-            if (state == STATES_COUNT)
-                controller.deactivate();
-        }
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Text text = new Text(font);
+            text.setString("INTRO WILL BE THERE");            
+            addChild(text);
+        }        
 
         public override void update(float delta)
         {
             base.update(delta);
             env.update(delta, 0.0f);
 
-            stateElapsedTime += delta;
-            switch (state)
-            {
-                case STATE_INTRO:
-                    if (stateElapsedTime > 3.0f)
-                        startNextState();
-                    break;               
-            }
+            elapsedTime += delta;
+
+            if (elapsedTime > 3.0f)
+                hide();
         }
                 
         public override void draw()
         {
-            switch(state)
-            {
-                case STATE_INTRO:
-                    drawIntro();
-                    break;
-                case STATE_MENU:
-                    drawMenu();
-                    break;
-                default:
-                    Debug.Assert(false, "Wrong state: " + state);
-                    break;
-            }
-        }
+            base.preDraw();
 
-        private void drawIntro()
-        {
-            AppGraphics.FillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
-        }
-
-        private void drawMenu()
-        {
             env.draw1(canvas);
             env.draw2(canvas);
+
+            base.postDraw();
         }
 
         public override bool buttonPressed(ref ButtonEvent evt)
@@ -100,11 +66,16 @@ namespace DuckstazyLive.app
             {
                 case Buttons.A:
                 case Buttons.Start:
-                    startNextState();
+                    hide();
                     return true;
             }
 
             return false;
+        }
+
+        private void hide()
+        {
+            controller.deactivate();            
         }
     }
 }
