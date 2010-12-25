@@ -86,7 +86,7 @@ namespace DuckstazyLive.game.levels
 
             frog.update(dt);
 
-            if (frog.open && frog.openCounter >= 0.5f && !win)
+            if (frog.open && frog.openCounter >= 0.5f && isPlaying())
             {
                 frogCounter += dt * (0.5f + level.power * 2.0f);
                 if (frogCounter >= 1.0f)
@@ -109,7 +109,7 @@ namespace DuckstazyLive.game.levels
 
             frog.speedHands = 2.0f + level.power * 2.0f;
 
-            if (level.power >= 0.5f && !win)
+            if (level.power >= 0.5f && isPlaying())
             {
                 catGen += dt * (0.25f + 0.75f * (level.power - 0.5f));
                 if (catGen > 1)
@@ -134,7 +134,7 @@ namespace DuckstazyLive.game.levels
 
         private bool checkFrogOpen()
         {
-            if (win)
+            if (!isPlaying())
                 return false;
 
             foreach (Hero hero in heroes)

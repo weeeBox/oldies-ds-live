@@ -64,7 +64,7 @@ namespace DuckstazyLive.game.levels
 
             base.update(dt);
 
-            if (!win)
+            if (isPlaying())
             {
                 regen -= dt;
 
