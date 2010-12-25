@@ -115,6 +115,16 @@ namespace DuckstazyLive.game
 
             curEffect = effects[3];//effects[int(Math.random()*effects.length)];
 
+            resetColorTransform();
+
+            sndPower = Res.SND_ENV_POWER;            
+            sndTex2 = Res.SONG_ENV_TEX;
+            
+            music = sndTex2;            
+        }
+
+        private void resetColorTransform()
+        {
             colGrass = 0xff00ff00;
             colGround = 0xff371d06;
             colProgress = 0xff5d310c;
@@ -122,17 +132,13 @@ namespace DuckstazyLive.game
             utils.ARGB2ColorTransform(colGrass, ctGrass);
             ctProgress = new ColorTransform();
             utils.ARGB2ColorTransform(colProgress, ctProgress);
-
-            sndPower = Res.SND_ENV_POWER;            
-            sndTex2 = Res.SONG_ENV_TEX;
-
-            musicTrans = new SoundTransform(0);
-            music = sndTex2;            
         }
 
         public void reset()
         {
             blanc = 0.0f;
+
+            resetColorTransform();
 
             // Инициализируем траву
             grassCounter = 0.0f;
@@ -142,6 +148,8 @@ namespace DuckstazyLive.game
             day = true;
             updateNorm();
             time = 0.0f;
+
+            musicTrans = new SoundTransform(0);
         }
 
         public void playMusic()
