@@ -22,8 +22,7 @@ namespace DuckstazyLive.game.levels
         public override void start()
         {
             base.start();
-            startX = 293;
-            win = false;
+            startX = 293;            
             prog = 0.0f;
 
             gen = new Generator();

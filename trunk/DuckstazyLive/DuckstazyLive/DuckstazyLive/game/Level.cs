@@ -186,11 +186,7 @@ namespace DuckstazyLive.game
             {
                 if (stage != null)
                 {
-                    stage.update(dt);
-                    if (stage.win && !finish)
-                    {
-                        winLevel();
-                    }
+                    stage.update(dt);                    
                 }
 
                 if (!heroes.hasAliveHero())
@@ -241,7 +237,6 @@ namespace DuckstazyLive.game
                 }
 
                 heroes.update(dt, power);
-
                 pills.update(dt, power);
 
                 env.x = heroes[0].x;
@@ -379,13 +374,20 @@ namespace DuckstazyLive.game
             }
         }
 
-        private void winLevel()
+        public void winLevel()
         {
             pills.finish();
             nextLevelCountdown = 3;
             harvestProcess = 2;
             infoText = HARVEST_TEXT + "...";
             nextLevelCounter = 0;
+            finish = true;
+            env.blanc = 1.0f;
+        }
+
+        public void looseLevel()
+        {
+            pills.finish();
             finish = true;
             env.blanc = 1.0f;
         }

@@ -12,8 +12,14 @@ namespace DuckstazyLive.game
 {
     public abstract class LevelStage
     {
-        // обратить флаг в true, если прошли уровень.
-        public bool win;
+        protected enum State
+        {
+            PLAYING, // играем
+            WIN, // выполнили goal
+            LOOSE // не выполнили goal
+        }
+
+        private State state;        
 
         // уровень
         protected Level level;
@@ -50,7 +56,7 @@ namespace DuckstazyLive.game
 
         public virtual void start()
         {
-            win = false;            
+            state = State.PLAYING;
             collected = 0;
 
             startX = utils.rnd() * (640 - 54);
@@ -60,6 +66,10 @@ namespace DuckstazyLive.game
         }
 
         public virtual void onWin()
+        {
+        }
+
+        public virtual void onLoose()
         {
         }
 
@@ -88,22 +98,38 @@ namespace DuckstazyLive.game
                 }
             }
 
-            if (!win)
+            if (isPlaying())
             {
                 updateProgress(dt);                
 
                 if (progress.isProgressComplete())
                 {
-                    win = true;
-                    level.infoText = "";
+                    setState(State.WIN);
+                    level.winLevel();
                     onWin();                    
-                }                
+                }
+                else if (progress.isTimeUp())
+                {
+                    setState(State.LOOSE);
+                    level.looseLevel();
+                    onLoose();
+                }
             }            
         }
 
         public virtual void updateProgress(float dt)
         {
             progress.update(dt);
-        }        
+        }
+
+        protected void setState(State state)
+        {
+            this.state = state;
+        }
+
+        public bool isPlaying()
+        {
+            return state == State.PLAYING;
+        }
     }
 }
