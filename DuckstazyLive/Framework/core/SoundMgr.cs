@@ -65,9 +65,6 @@ namespace Framework.core
             {
                 Song s = (Song)audio;
 
-                if (MediaPlayer.IsRepeating && looped && song == s)
-                    return null;
-
                 stopChannel(0);
 
                 song = s;
