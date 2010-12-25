@@ -43,6 +43,8 @@
 				<image name="cloud_1" file="${dir.art}/cloud_1.png" />
 				<image name="cloud_2" file="${dir.art}/cloud_1.png" />
 				<image name="cloud_3" file="${dir.art}/cloud_1.png" />
+				<image name="ui_button_a" file="${dir.art}/buttonA.png" />
+				<image name="ui_button_b" file="${dir.art}/buttonB.png" />
 				<font  name="big" file="${dir.art}/font_big.png" />
 			</package>
 			

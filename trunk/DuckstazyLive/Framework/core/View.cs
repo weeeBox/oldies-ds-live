@@ -12,11 +12,11 @@ namespace Framework.core
         {
         }       
 
-        public virtual void show()
+        public virtual void onShow()
         {
         }
 
-        public virtual void hide()
+        public virtual void onHide()
         {
         }        
     }

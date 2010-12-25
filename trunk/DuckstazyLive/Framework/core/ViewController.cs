@@ -138,7 +138,7 @@ namespace Framework.core
             activeViewId = n;
             View v = views[n];
             Application.sharedRootController.onControllerViewShow(v);
-            v.show();
+            v.onShow();
         }
 
         public View activeView()
@@ -246,7 +246,7 @@ namespace Framework.core
             View prevV = views[activeViewId];
             Application.sharedRootController.onControllerViewHide(prevV);
             if (prevV != null)
-                prevV.hide();
+                prevV.onHide();
             activeViewId = FrameworkConstants.UNDEFINED;
         }
 
