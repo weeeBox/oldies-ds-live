@@ -16,12 +16,13 @@ namespace DuckstazyLive.app
 
         private const int CHILD_STROKE = 0;
         private const int CHILD_ROTATION = 1;
+        private const int CHILD_TEXT = 2;
 
         private Color targetColor;
         private Vector2 targetScale;
         private float omega;
 
-        public MenuButton(int buttonID, float x, float y)
+        public MenuButton(String text, int buttonID, float x, float y)
             : base(buttonID, x, y, utils.textureWidth(IMG_STOKE_ID), utils.textureHeight(IMG_STOKE_ID))
         {          
             // button stroke part            
@@ -34,6 +35,14 @@ namespace DuckstazyLive.app
             baseImage.toParentCenter();
             addChildWithId(baseImage, CHILD_ROTATION);
 
+            // button label
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Text label = new Text(font);
+            label.setString(text);
+            label.toParentCenter();
+            label.setAlign(TextAlign.CENTER);
+            addChildWithId(label, CHILD_TEXT);
+
             reset();
         }
         
@@ -42,6 +51,7 @@ namespace DuckstazyLive.app
             targetColor = Color.Black;
             targetScale = new Vector2(1.0f, 1.0f);
             omega = 350.0f / 5.0f;
+            getChild(CHILD_TEXT).color = utils.makeColor(0x95c9ff);
         }
 
         public override void update(float delta)
@@ -62,7 +72,7 @@ namespace DuckstazyLive.app
 
         protected override void focusLost()
         {
-            base.focusLost();
+            base.focusLost();            
             reset();
         }
         
@@ -70,6 +80,7 @@ namespace DuckstazyLive.app
         {
             base.focusGained();
 
+            getChild(CHILD_TEXT).color = Color.White;
             targetColor = Color.White;
             targetScale = new Vector2(1.2f, 1.2f);
             omega = 360.0f / 2.5f;

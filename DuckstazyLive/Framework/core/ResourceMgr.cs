@@ -34,7 +34,7 @@ namespace Framework.core
         {
             packedX = px;
             packedY = py;
-            offsetX = 0; // ox;
+            offsetX = ox;
             offsetY = oy;
             width = w;
             height = h;
