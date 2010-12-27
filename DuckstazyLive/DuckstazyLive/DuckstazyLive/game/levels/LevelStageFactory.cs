@@ -19,7 +19,7 @@ namespace DuckstazyLive.game.levels
         PartyTime3,
         Trains,
         Bubbles3,
-        DuckStage,
+        DuckStage,        
     }
 
     public class LevelStageFactory
