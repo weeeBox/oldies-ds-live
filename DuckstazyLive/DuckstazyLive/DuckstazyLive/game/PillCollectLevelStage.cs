@@ -25,7 +25,7 @@ namespace DuckstazyLive.game
 
             progress.updateProgress(collected);
             string str = collected.ToString() + "/" + ((int)progress.getGoalProgress()).ToString();
-            if (level.infoText != str) level.infoText = str;
+            setInfoText(str);
         }        
     }
 }

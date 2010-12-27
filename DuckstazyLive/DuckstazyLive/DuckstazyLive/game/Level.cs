@@ -27,9 +27,7 @@ namespace DuckstazyLive.game
 
         private const String HARVEST_TEXT = "HARVESTING";
         private const String NEXT_LEVEL_TEXT_BEGIN = "WARP IN ";
-        private const String NEXT_LEVEL_TEXT_END = " SEC...";                       
-
-        public string infoText;
+        private const String NEXT_LEVEL_TEXT_END = " SEC...";        
 
         public int sndStart;
 
@@ -70,9 +68,7 @@ namespace DuckstazyLive.game
             env.reset();
             env.playMusic();
 
-            initHero();
-            
-            // progress.env = env;
+            initHero();            
 
             stageMedia = new StageMedia();
             stages = new List<LevelStages>();
@@ -129,8 +125,7 @@ namespace DuckstazyLive.game
         public void draw(Canvas canvas)
         {            
             env.draw1(canvas);
-
-            //if(!room)
+ 
             levelPreDraw();
             stage.draw1(canvas);
 
@@ -142,14 +137,11 @@ namespace DuckstazyLive.game
             ps.draw(canvas);
             levelPostDraw();
 
-            env.draw2(canvas);
-                
-            // progress.draw(canvas);
+            env.draw2(canvas);                
+            
             drawUI(canvas);
             stage.draw2(canvas);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            font.drawString(infoText, 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X), Constants.TITLE_SAFE_TOP_Y, TextAlign.HCENTER | TextAlign.VCENTER);
+            stage.drawUI(canvas);
         }
 
         private void levelPreDraw()
@@ -203,7 +195,7 @@ namespace DuckstazyLive.game
                         {
                             nextLevelCounter--;
                             nextLevelCountdown--;
-                            infoText = NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END;
+                            stage.setInfoText(NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END);
                         }
                     }
                     else
@@ -342,7 +334,7 @@ namespace DuckstazyLive.game
             pills.finish();
             nextLevelCountdown = 3;
             harvestProcess = 2;
-            infoText = HARVEST_TEXT + "...";
+            stage.setInfoText(HARVEST_TEXT + "...");
             nextLevelCounter = 0;
             setLevelState(LevelState.WON);
             env.blanc = 1.0f;
@@ -391,15 +383,15 @@ namespace DuckstazyLive.game
                         str += ".";
                         --i;
                     }
-                    infoText = HARVEST_TEXT + str;
+                    stage.setInfoText(HARVEST_TEXT + str);
                 }
             }
             else
             {
                 nextLevelCounter = 0;
-                infoText = NEXT_LEVEL_TEXT_BEGIN +
+                stage.setInfoText(NEXT_LEVEL_TEXT_BEGIN +
                                 nextLevelCountdown.ToString() +
-                                NEXT_LEVEL_TEXT_END;
+                                NEXT_LEVEL_TEXT_END);
             }
         }
 

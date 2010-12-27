@@ -39,7 +39,7 @@ namespace DuckstazyLive.game
             }
 
             string str = ((int)(progress.getCompletePercent() * 100)).ToString() + "%";
-            if (level.infoText != str) level.infoText = str;            
+            setInfoText(str);
         }
     }
 }

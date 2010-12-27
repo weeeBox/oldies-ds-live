@@ -15,8 +15,11 @@ namespace DuckstazyLive.app
         private Color linesColor;
         private float offset;
 
-        public LoadingView()
+        private StartupController controller;
+
+        public LoadingView(StartupController controller)
         {
+            this.controller = controller;
             linesColor = utils.makeColor(0xd7d7d7);            
         }
 
@@ -48,6 +51,12 @@ namespace DuckstazyLive.app
             }
 
             AppGraphics.SetColor(Color.White);
+
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            if (font != null)
+            {
+                font.drawString("LOADING " + controller.getPercentLoaded() + "%...", 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X), Constants.TITLE_SAFE_BOTTOM_Y, TextAlign.HCENTER | TextAlign.BOTTOM);
+            }
         }
     }
 }
