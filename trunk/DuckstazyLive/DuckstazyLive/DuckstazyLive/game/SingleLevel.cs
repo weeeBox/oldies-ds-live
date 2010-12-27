@@ -12,8 +12,7 @@ namespace DuckstazyLive.game
     public class SingleLevel : Level
     {
         public SingleLevel(GameState gameState) : base(gameState)
-        {
-            stages.Add(LevelStages.DuckStage);
+        {            
             stages.Add(LevelStages.Harvesting);
             stages.Add(LevelStages.PartyTime);
             stages.Add(LevelStages.Bubbles);
@@ -25,6 +24,7 @@ namespace DuckstazyLive.game
             stages.Add(LevelStages.PartyTime3);
             stages.Add(LevelStages.Trains);
             stages.Add(LevelStages.Bubbles3);
+            stages.Add(LevelStages.DuckStage);
             stagesCount = stages.Count;
         }        
     }

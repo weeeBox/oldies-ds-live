@@ -170,6 +170,10 @@ namespace DuckstazyLive.app
             {
                 getController().hidePause();
             }
+            else if (id == BUTTON_RESTART)
+            {
+                getController().restartLevel();
+            }
             else if (id == BUTTON_MENU)
             {
                 getController().deactivate();
