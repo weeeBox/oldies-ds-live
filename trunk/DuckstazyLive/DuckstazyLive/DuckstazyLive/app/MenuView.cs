@@ -42,6 +42,11 @@ namespace DuckstazyLive.app
             addButtons();
         }
 
+        public override void onShow()
+        {
+            Env.getIntance().blanc = 1.0f;
+        }
+
         private void addTitle()
         {
             Image titleBack = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE_BACK));
@@ -106,6 +111,7 @@ namespace DuckstazyLive.app
         {
             base.update(delta);
             Env.getIntance().update(delta, 0.0f);
+            Env.getIntance().updateBlanc(delta);
         }
 
         public override void draw()
@@ -113,6 +119,10 @@ namespace DuckstazyLive.app
             preDraw();
             drawEnv();
             postDraw();
+
+            Env env = Env.getIntance();
+            if (env.blanc > 0.0f)
+                env.drawBlanc(canvas);
         }
 
         private void drawEnv()

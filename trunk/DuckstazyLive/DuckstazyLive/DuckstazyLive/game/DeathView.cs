@@ -13,7 +13,7 @@ namespace DuckstazyLive.game
 {
     public class DeathView : GameView
     {
-        private const int SCULLS_COUNT = 20;
+        private const int SCULLS_COUNT = 30;
 
         public struct Scull
         {
@@ -37,10 +37,16 @@ namespace DuckstazyLive.game
                 initScull(ref sculls[i], true);
             }
 
+            Text missText = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
+            missText.setString("THAT IS HOW IT HAPPENS.\n\nBEWARE...");
+            missText.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
+            missText.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
+            addChild(missText);
+
             // add ui
             Image buttonImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_UI_BUTTON_A));
-            buttonImage.x = width / 2;
-            buttonImage.y = height;
+            buttonImage.x = 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X);
+            buttonImage.y = Constants.TITLE_SAFE_BOTTOM_Y;
             buttonImage.setAlign(ALIGN_CENTER, ALIGN_MAX);
             addChild(buttonImage);
         }        
