@@ -72,6 +72,11 @@ namespace Framework.visual
         {
             if (charMap.ContainsKey(c))
                 return charMap[c];
+
+            c = Char.IsLower(c) ? Char.ToUpper(c) : Char.ToLower(c);
+            if (charMap.ContainsKey(c))
+                return charMap[c];
+
             return FrameworkConstants.UNDEFINED;
         }
 
@@ -89,6 +94,8 @@ namespace Framework.visual
 
         public void drawString(String str, float x, float y, TextAlign textAlign)
         {
+            Debug.Assert(str != null);
+
             float dx = x;
             float dy = y;
 

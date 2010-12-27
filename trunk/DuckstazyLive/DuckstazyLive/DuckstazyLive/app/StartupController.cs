@@ -13,7 +13,7 @@ namespace DuckstazyLive.app
 
         public StartupController(ViewController p) : base(p)
         {
-            LoadingView startView = new LoadingView();
+            LoadingView startView = new LoadingView(this);
             addViewWithId(startView, VIEW_LOADING);
 
             IntroView introView = new IntroView(this);
@@ -37,7 +37,7 @@ namespace DuckstazyLive.app
             rm.addPackToLoad(Packs.PACK_MENU);
             rm.addPackToLoad(Packs.PACK_GAME);
             rm.addPackToLoad(Packs.PACK_SOUNDS);            
-            rm.startLoading();
+            rm.startLoading();            
         }
 
         public void resourceLoaded(ResourceLoadInfo res)
@@ -52,5 +52,11 @@ namespace DuckstazyLive.app
 
             showView(VIEW_INTRO);
         }        
+
+        public int getPercentLoaded()
+        {
+            DuckstazyResourceMgr rm = (DuckstazyResourceMgr)Application.sharedResourceMgr;
+            return rm.getPercentLoaded();
+        }
     }
 }

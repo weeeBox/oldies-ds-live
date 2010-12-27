@@ -32,7 +32,7 @@ namespace DuckstazyLive.game
             if (i < 10) str += "0" + i.ToString();
             else str += i.ToString();
 
-            if (level.infoText != str) level.infoText = str;
+            setInfoText(str);
         }        
     }
 }
