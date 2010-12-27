@@ -117,7 +117,7 @@ namespace DuckstazyLive.game.levels
 
         protected override void startProgress()
         {
-            progress.start(numPills, 0);
+            progress.start(numPills, 90);
         }
 
         public override void onWin()
@@ -176,7 +176,7 @@ namespace DuckstazyLive.game.levels
             frog2.draw(canvas);
             arrow1.draw(canvas);
             arrow2.draw(canvas);
-        }
+        }        
 
         public void jumpLogic(Pill pill, String msg, float dt)
         {

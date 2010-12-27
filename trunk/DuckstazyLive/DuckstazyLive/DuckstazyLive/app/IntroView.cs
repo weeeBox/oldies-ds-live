@@ -36,8 +36,8 @@ namespace DuckstazyLive.app
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text text = new Text(font);
             text.setString("SUPER AWESOME AND COOL INTRO GOES HERE");
-            text.toParentCenter();
-            text.setAlign(TextAlign.HCENTER);
+            text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
+            text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChild(text);
         }        
 

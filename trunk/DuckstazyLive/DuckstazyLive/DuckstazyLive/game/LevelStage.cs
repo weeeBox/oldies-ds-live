@@ -90,7 +90,10 @@ namespace DuckstazyLive.game
             if (infoText != null)
             {
                 Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-                font.drawString(infoText, 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X), Constants.TITLE_SAFE_TOP_Y, TextAlign.HCENTER | TextAlign.VCENTER);
+                font.drawString(infoText, 0.5f * Constants.ENV_WIDTH, 0.5f * Constants.ENV_HEIGHT, TextAlign.HCENTER | TextAlign.VCENTER);
+
+                AppGraphics.DrawString(0, 0, "Time: " + progress.getElapsedTime());
+                AppGraphics.DrawString(0, 20, "Collected: " + collected);
             }
         }
 
@@ -166,6 +169,21 @@ namespace DuckstazyLive.game
         public void setInfoText(String info)
         {
             infoText = info;
+        }        
+
+        public bool hasTimeLimit()
+        {
+            return progress.hasTimeLimit();
+        }
+
+        public bool hasGoal()
+        {
+            return progress.hasGoalProgress();
+        }
+
+        public float getRemainingTime()
+        {
+            return progress.getGoalTime() - progress.getElapsedTime();
         }
     }
 }
