@@ -39,8 +39,8 @@ namespace DuckstazyLive.app
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text label = new Text(font);
             label.setString(text);
-            label.toParentCenter();
-            label.setAlign(TextAlign.HCENTER);
+            label.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
+            label.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChildWithId(label, CHILD_TEXT);
 
             reset();

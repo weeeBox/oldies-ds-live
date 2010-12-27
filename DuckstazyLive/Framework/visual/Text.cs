@@ -34,7 +34,7 @@ namespace Framework.visual
         public Font font;        
 
         protected FormattedString[] formattedStrings;
-        protected TextAlign textAlign = TextAlign.LEFT;
+        protected TextAlign textAlign = TextAlign.LEFT | TextAlign.TOP;
 
         public Text(Font font)
         {
@@ -83,27 +83,31 @@ namespace Framework.visual
             float dx;
             float dy = drawY;
             int itemHeight = font.fontHeight();
+
+            if ((textAlign & TextAlign.BOTTOM) != 0)
+            {
+                dy -= height;
+            }
+            else if ((textAlign & TextAlign.VCENTER) != 0)
+            {
+                dy -= 0.5f * height;
+            }
+
             for (int i = 0; i < formattedStrings.Length; i++)
             {
                 FormattedString str = formattedStrings[i];
                 int len = str.text.Length;
                 String s = str.text;
 
-                if (textAlign != TextAlign.LEFT)
+                dx = drawX;
+                if ((textAlign & TextAlign.RIGHT) != 0)
                 {
-                    if (textAlign == TextAlign.HCENTER)
-                    {
-                        dx = drawX + (width - str.width) / 2;
-                    }
-                    else
-                    {
-                        dx = drawX + width - str.width;
-                    }
+                    dx -= str.width;
                 }
-                else
+                else if ((textAlign & TextAlign.HCENTER) != 0)
                 {
-                    dx = drawX;
-                }                             
+                    dx -= 0.5f * str.width;
+                }                
 
                 for (int c = 0; c < len; c++)
                 {

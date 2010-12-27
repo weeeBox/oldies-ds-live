@@ -74,7 +74,7 @@ namespace DuckstazyLive.game
             stages = new List<LevelStages>();
 
             stage = null;            
-            sndStart = Res.SND_LEVEL_START;            
+            sndStart = Res.SND_LEVEL_START;
         }
 
         protected virtual void initHero()
@@ -117,9 +117,27 @@ namespace DuckstazyLive.game
             enterLevel();
         }
 
-        public virtual void drawUI(Canvas canvas)
+        public virtual void drawHud(Canvas canvas)
         {
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);            
+
+            if (stage.hasTimeLimit())
+            {
+                float t = stage.getRemainingTime();
+                int i = (int)(t / 60);
+                string timeStr;
+                if (i < 10) timeStr = "0" + i.ToString() + ":";
+                else timeStr = i.ToString() + ":";
+                i = ((int)t) % 60;
+                if (i < 10) timeStr += "0" + i.ToString();
+                else timeStr += i.ToString();
+
+                Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+                if (stage.hasGoal())
+                    font.drawString(timeStr, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y, TextAlign.RIGHT | TextAlign.VCENTER);
+                else
+                    font.drawString(timeStr, 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X), Constants.TITLE_SAFE_TOP_Y, TextAlign.HCENTER | TextAlign.VCENTER);
+            }
         }
 
         public void draw(Canvas canvas)
@@ -139,7 +157,7 @@ namespace DuckstazyLive.game
 
             env.draw2(canvas);                
             
-            drawUI(canvas);
+            drawHud(canvas);
             stage.draw2(canvas);
             stage.drawUI(canvas);
         }

@@ -68,11 +68,17 @@ namespace DuckstazyLive.game
 
         public bool isProgressComplete()
         {
-            if (hasTimeLimit() && isTimeUp())
-                return true;
+            if (hasGoalProgress())
+            {
+                if (hasTimeLimit() && isTimeUp())
+                    return false;
+                if (getCurrentProgress() == getGoalProgress())
+                    return true;
+                return false;
+            }
 
-            if (hasGoalProgress() && getCurrentProgress() == getGoalProgress())
-                return true;
+            if (hasTimeLimit() && isTimeUp())
+                return true;            
 
             return false;
         }
