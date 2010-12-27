@@ -8,30 +8,59 @@ using System.Diagnostics;
 
 namespace Framework.core
 {
+    public enum ButtonAction
+    {
+        None,
+        OK,
+        Back,
+        Up,
+        Down,
+        Left,
+        Right
+    };
+
     public struct ButtonEvent
-    {        
-        public Buttons button;
-        public GamePadThumbSticks thumbSticks;
-        public GamePadTriggers triggers;
+    {
+        private const Keys NO_KEY = (Keys) (-1);
+        private const Buttons NO_BUTTON = (Buttons) (-1);
+
+        public ButtonAction action;
+        public Keys key;
+        public Buttons button;        
         public int playerIndex;
 
-        public ButtonEvent(int playerIndex, Buttons button, GamePadThumbSticks thumbSticks, GamePadTriggers triggers)
+        public ButtonEvent(Keys key)
+        {            
+            this.key = key;
+            action = InputManager.getInstance().getAction(key);
+            button = NO_BUTTON;
+            playerIndex = 0;
+        }
+
+        public ButtonEvent(int playerIndex, Buttons button)
         {
             this.playerIndex = playerIndex;
             this.button = button;
-            this.thumbSticks = thumbSticks;
-            this.triggers = triggers;
+            action = InputManager.getInstance().getAction(button);
+            key = NO_KEY;
+        }
+
+        public bool isGamepadEvent()
+        {
+            return button != NO_BUTTON;
+        }
+
+        public bool isKeyboardEvent()
+        {
+            return key != NO_KEY;
         }
     }
 
     public interface InputListener
     {
         // return true, if event processed, otherwise - false
-
         bool buttonPressed(ref ButtonEvent e);
-        bool buttonReleased(ref ButtonEvent e);    
-        bool keyPressed(Keys key);
-        bool keyReleased(Keys key);
+        bool buttonReleased(ref ButtonEvent e);        
     }
 
     public class InputManager
@@ -65,17 +94,24 @@ namespace Framework.core
             Buttons.LeftThumbstickRight,
         };
 
+        private static InputManager instance;
+
         private GamePadState[] currentGamepadStates;
         private KeyboardState currentKeyboardState;
         private List<InputListener> inputListeners;
 
         private Dictionary<Keys, Buttons>[] buttonsMappings;
+        private Dictionary<Keys, ButtonAction> keyActionMapping;
+        private Dictionary<Buttons, ButtonAction> buttonActionMapping;
 
         private GamePadDeadZone deadZone;
 
         public InputManager(int playersCount)
         {
+            instance = this;
+
             initButtonsMapping(playersCount);
+            initActionMapping();
 
             currentGamepadStates = new GamePadState[playersCount];
             deadZone = GamePadDeadZone.Circular;
@@ -88,6 +124,11 @@ namespace Framework.core
              
             currentKeyboardState = Keyboard.GetState();
             inputListeners = new List<InputListener>();
+        }
+
+        public static InputManager getInstance()
+        {
+            return instance;
         }
 
         public void update()
@@ -130,10 +171,15 @@ namespace Framework.core
             }
         }
 
+        public ButtonEvent makeButtonEvent(Keys key)
+        {
+            return new ButtonEvent(key);
+        }
+
         public ButtonEvent makeButtonEvent(int playerIndex, Buttons button)
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
-            return new ButtonEvent(playerIndex, button, currentGamepadStates[playerIndex].ThumbSticks, currentGamepadStates[playerIndex].Triggers);
+            return new ButtonEvent(playerIndex, button);
         }
 
         private void updateKeyboard()
@@ -150,14 +196,16 @@ namespace Framework.core
                 {
                     if (!oldKeys.Contains(newKeys[i]))
                     {
-                        fireKeyPressed(newKeys[i]);
+                        ButtonEvent evt = makeButtonEvent(newKeys[i]);
+                        fireKeyPressed(ref evt);
                     }
                 }
                 for (int i = 0; i < oldKeys.Length; ++i)
                 {
                     if (!newKeys.Contains(oldKeys[i]))
                     {
-                        fireKeyReleased(oldKeys[i]);
+                        ButtonEvent evt = makeButtonEvent(oldKeys[i]);
+                        fireKeyReleased(ref evt);
                     }
                 }
             }
@@ -183,19 +231,19 @@ namespace Framework.core
             inputListeners.Remove(listener);
         }
 
-        private void fireKeyPressed(Keys key)
+        private void fireKeyPressed(ref ButtonEvent evt)
         {
             foreach (InputListener l in inputListeners)
             {
-                l.keyPressed(key);
+                l.buttonPressed(ref evt);
             }
         }
 
-        private void fireKeyReleased(Keys key)
+        private void fireKeyReleased(ref ButtonEvent evt)
         {
             foreach (InputListener l in inputListeners)
             {
-                l.keyReleased(key);
+                l.buttonReleased(ref evt);
             }
         }
 
@@ -278,6 +326,49 @@ namespace Framework.core
         {
             Debug.Assert(playerIndex >= 0 && playerIndex < getPlayersCount());
             return (PlayerIndex) playerIndex;
+        }
+
+        public ButtonAction getAction(Keys key)
+        {
+            if (keyActionMapping.ContainsKey(key))
+                return keyActionMapping[key];
+
+            return ButtonAction.None;
+        }
+
+        public ButtonAction getAction(Buttons button)
+        {
+            if (buttonActionMapping.ContainsKey(button))
+                return buttonActionMapping[button];
+
+            return ButtonAction.None;
+        }
+
+        private void initActionMapping()
+        {
+            // keys
+            keyActionMapping = new Dictionary<Keys, ButtonAction>();
+            keyActionMapping.Add(Keys.Enter, ButtonAction.OK);
+            keyActionMapping.Add(Keys.Escape, ButtonAction.Back);
+            keyActionMapping.Add(Keys.Up, ButtonAction.Up);
+            keyActionMapping.Add(Keys.Down, ButtonAction.Down);
+            keyActionMapping.Add(Keys.Left, ButtonAction.Left);
+            keyActionMapping.Add(Keys.Right, ButtonAction.Right);
+
+            // buttons
+            buttonActionMapping = new Dictionary<Buttons, ButtonAction>();
+            buttonActionMapping.Add(Buttons.A, ButtonAction.OK);            
+            buttonActionMapping.Add(Buttons.B, ButtonAction.Back);
+            buttonActionMapping.Add(Buttons.Start, ButtonAction.OK);
+            buttonActionMapping.Add(Buttons.Back, ButtonAction.Back);
+            buttonActionMapping.Add(Buttons.DPadDown, ButtonAction.Down);
+            buttonActionMapping.Add(Buttons.DPadUp, ButtonAction.Up);
+            buttonActionMapping.Add(Buttons.DPadLeft, ButtonAction.Left);
+            buttonActionMapping.Add(Buttons.DPadRight, ButtonAction.Right);
+            buttonActionMapping.Add(Buttons.LeftThumbstickDown, ButtonAction.Down);
+            buttonActionMapping.Add(Buttons.LeftThumbstickUp, ButtonAction.Up);
+            buttonActionMapping.Add(Buttons.LeftThumbstickLeft, ButtonAction.Left);
+            buttonActionMapping.Add(Buttons.LeftThumbstickRight, ButtonAction.Right);
         }
 
         private void initButtonsMapping(int playersCount)

@@ -52,8 +52,9 @@ namespace DuckstazyLive.app
             BaseElementContainer titleContainer = new BaseElementContainer(titleBack.width, titleBack.height);
             titleContainer.addChild(titleBack);
             titleContainer.addChild(title);
+            titleContainer.toParentCenter();
 
-            addChildWithId(title, CHILD_TITLE);
+            addChildWithId(titleContainer, CHILD_TITLE);
         }
 
         private void addButton(String text, int buttonID, float x, float y, float ax, float ay)
@@ -127,37 +128,25 @@ namespace DuckstazyLive.app
 
             Debug.Assert(focusedButton != Constants.UNDEFINED);
 
-            switch (e.button)
+            switch (e.action)
             {
-                case Buttons.DPadDown:
-                case Buttons.LeftThumbstickDown:
-                    {
-                        focusButtonDown();
-                    }
+                case ButtonAction.Down:                    
+                    focusButtonDown();                    
                     return true;
 
-                case Buttons.DPadUp:
-                case Buttons.LeftThumbstickUp:
-                    {
-                        focusButtonUp();
-                    }
+                case ButtonAction.Up:                
+                    focusButtonUp();                
                     return true;
 
-                case Buttons.DPadLeft:
-                case Buttons.LeftThumbstickLeft:
-                    {
-                        focusButtonLeft();
-                    }
+                case ButtonAction.Left:                
+                    focusButtonLeft();                
                     return true;
 
-                case Buttons.DPadRight:
-                case Buttons.LeftThumbstickRight:
-                    {
-                        focusButtonRight();
-                    }
+                case ButtonAction.Right:                
+                    focusButtonRight();                
                     return true;
 
-                case Buttons.Start:
+                case ButtonAction.OK:
                     {
                         ButtonEvent newEvent = e;
                         newEvent.button = Buttons.A;
@@ -241,32 +230,6 @@ namespace DuckstazyLive.app
             else if (focusedButton == BUTTON_EXIT)
                 focusButton(BUTTON_VERSUS);
         }        
-
-        public override bool keyPressed(Keys key)
-        {
-            switch (key)
-            {
-                case Keys.Enter:
-                    {
-                        ButtonEvent evt = Application.sharedInputMgr.makeButtonEvent(0, Buttons.A);
-                        buttonPressed(ref evt);
-                    }
-                    return true;
-                case Keys.Left:
-                    focusButtonLeft();
-                    return true;
-                case Keys.Right:
-                    focusButtonRight();
-                    return true;
-                case Keys.Up:
-                    focusButtonUp();
-                    return true;
-                case Keys.Down:
-                    focusButtonDown();
-                    return true;                
-            }
-            return false;
-        }
 
         public void onButtonPressed(int id, int playerIndex)
         {

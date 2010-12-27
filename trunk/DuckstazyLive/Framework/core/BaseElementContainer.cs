@@ -136,40 +136,6 @@ namespace Framework.core
             }
 
             return base.buttonReleased(ref e);
-        }
-
-        public override bool keyPressed(Keys key)
-        {
-            if (passButtonEventsToAllChilds)
-            {
-                foreach (BaseElement c in childs)
-                {
-                    if (c != null && c.isAcceptingInput())
-                    {
-                        if (c.keyPressed(key))
-                            return true;
-                    }
-                }
-            }
-
-            return base.keyPressed(key);
-        }
-
-        public override bool keyReleased(Keys key)
-        {
-            if (passButtonEventsToAllChilds)
-            {
-                foreach (BaseElement c in childs)
-                {
-                    if (c != null && c.isAcceptingInput())
-                    {
-                        if (c.keyReleased(key))
-                            return true;
-                    }
-                }
-            }
-
-            return base.keyReleased(key);
-        }
+        }        
     }
 }

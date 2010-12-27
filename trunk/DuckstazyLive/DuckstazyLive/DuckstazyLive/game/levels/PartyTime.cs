@@ -72,8 +72,7 @@ namespace DuckstazyLive.game.levels
 
             gen.start();
 
-            startX = 20.0f + 600.0f * utils.rnd();
-            //startPause = true;
+            startX = 20.0f + 600.0f * utils.rnd();            
         }
 
         public override void onWin()

@@ -154,23 +154,5 @@ namespace Framework.core
             }
             return false;
         }
-
-        public override bool keyPressed(Keys key)
-        {
-            if (currentController != null)
-            {
-                return currentController.keyPressed(key);
-            }
-            return false;
-        }
-
-        public override bool keyReleased(Keys key)
-        {
-            if (currentController != null)
-            {
-                return currentController.keyReleased(key);
-            }
-            return false;
-        }
     }
 }

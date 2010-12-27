@@ -35,7 +35,7 @@ namespace DuckstazyLive.game.levels
             gen.regen = true;
             gen.addLine(powers1, 40, 340, 40, 0, 15);
 
-            gen.start();
+            gen.start();            
         }
 
         public override void onWin()

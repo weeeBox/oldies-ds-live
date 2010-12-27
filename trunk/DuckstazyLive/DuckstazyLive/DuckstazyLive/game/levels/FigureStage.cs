@@ -144,6 +144,8 @@ namespace DuckstazyLive.game.levels
             setuperLookup.Add(2, power2);
             setuperLookup.Add(3, power3);
             setuperLookup.Add(4, missle);
+
+            day = false;
         }
 
         public override void start()
@@ -239,7 +241,7 @@ namespace DuckstazyLive.game.levels
                 totalPills--;
                 if (totalPills == 0 && !progress.isProgressComplete())
                 {
-                    Debug.WriteLine("You loose");
+                    loose();
                 }
             }
         }     

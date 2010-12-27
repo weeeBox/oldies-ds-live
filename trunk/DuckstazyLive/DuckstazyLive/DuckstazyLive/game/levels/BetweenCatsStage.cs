@@ -99,7 +99,7 @@ namespace DuckstazyLive.game.levels
 
             //killer.init();
 
-            startX = 293;
+            startX = 293;            
         }
 
         public void catPillsCallback(Pill pill, String msg, float dt)

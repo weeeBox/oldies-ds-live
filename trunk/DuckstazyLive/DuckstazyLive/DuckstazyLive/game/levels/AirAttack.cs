@@ -13,7 +13,7 @@ namespace DuckstazyLive.game.levels
         private int partyCount;
 
         public AirAttack() : base(60)
-        {
+        {            
         }
 
         public override void start()
@@ -24,7 +24,7 @@ namespace DuckstazyLive.game.levels
 
             regen = 1.0f;
             party = 1.0f;
-            partyCount = 0;
+            partyCount = 0;            
         }
 
         public void rainLogic(Pill pill, String msg, float dt)

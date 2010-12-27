@@ -65,7 +65,9 @@
     <Compile Include="app\DuckstazyResourceMgr.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\GameController.cs" />
-    <Compile Include="app\GameView.cs" />
+    <Compile Include="app\GameView.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\IntroView.cs" />
     <Compile Include="app\LoadingView.cs" />
     <Compile Include="app\MenuButton.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="game\levels\LevelStageFactory.cs" />
     <Compile Include="game\levels\PartyTime.cs" />
     <Compile Include="game\levels\Trains.cs" />
+    <Compile Include="game\LostView.cs" />
     <Compile Include="game\MultiplayerLevel.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
