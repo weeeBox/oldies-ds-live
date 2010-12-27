@@ -48,6 +48,8 @@ namespace DuckstazyLive.game
         public StageMedia stageMedia;
         public int stagesCount;
 
+        public String infoText;        
+
         // инфа
         public GameInfo info;        
 
@@ -119,7 +121,17 @@ namespace DuckstazyLive.game
 
         public virtual void drawHud(Canvas canvas)
         {
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);            
+            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+
+            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+            float infoY = Constants.TITLE_SAFE_TOP_Y;            
+
+            if (infoText != null)
+            {                
+                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
+            }            
 
             if (stage.hasTimeLimit())
             {
@@ -132,11 +144,16 @@ namespace DuckstazyLive.game
                 if (i < 10) timeStr += "0" + i.ToString();
                 else timeStr += i.ToString();
 
-                Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-                if (stage.hasGoal())
-                    font.drawString(timeStr, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y, TextAlign.RIGHT | TextAlign.VCENTER);
+                if (infoText != null)
+                {
+                    float timeX = Constants.TITLE_SAFE_RIGHT_X;
+                    float timeY = infoY;
+                    font.drawString(timeStr, timeX, timeY, TextAlign.RIGHT | TextAlign.VCENTER);
+                }
                 else
-                    font.drawString(timeStr, 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X), Constants.TITLE_SAFE_TOP_Y, TextAlign.HCENTER | TextAlign.VCENTER);
+                {
+                    font.drawString(timeStr, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
+                }
             }
         }
 
@@ -178,6 +195,7 @@ namespace DuckstazyLive.game
         public void enterLevel()
         {
             env.blanc = 1.0f;
+            infoText = null;
 
             stage.start();
             Application.sharedSoundMgr.playSound(sndStart);
@@ -213,7 +231,7 @@ namespace DuckstazyLive.game
                         {
                             nextLevelCounter--;
                             nextLevelCountdown--;
-                            stage.setInfoText(NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END);
+                            infoText = NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END;
                         }
                     }
                     else
@@ -352,7 +370,7 @@ namespace DuckstazyLive.game
             pills.finish();
             nextLevelCountdown = 3;
             harvestProcess = 2;
-            stage.setInfoText(HARVEST_TEXT + "...");
+            infoText = HARVEST_TEXT + "...";
             nextLevelCounter = 0;
             setLevelState(LevelState.WON);
             env.blanc = 1.0f;
@@ -401,15 +419,15 @@ namespace DuckstazyLive.game
                         str += ".";
                         --i;
                     }
-                    stage.setInfoText(HARVEST_TEXT + str);
+                    infoText = HARVEST_TEXT + str;
                 }
             }
             else
             {
                 nextLevelCounter = 0;
-                stage.setInfoText(NEXT_LEVEL_TEXT_BEGIN +
+                infoText = NEXT_LEVEL_TEXT_BEGIN +
                                 nextLevelCountdown.ToString() +
-                                NEXT_LEVEL_TEXT_END);
+                                NEXT_LEVEL_TEXT_END;
             }
         }
 

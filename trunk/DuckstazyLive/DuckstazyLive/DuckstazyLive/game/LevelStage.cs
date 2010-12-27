@@ -35,8 +35,7 @@ namespace DuckstazyLive.game
         protected float startX;
         protected bool heroStarted;
 
-        public StageMedia media;
-        private String infoText;
+        public StageMedia media;        
 
         public LevelStage()
         {
@@ -86,15 +85,7 @@ namespace DuckstazyLive.game
         }
 
         public virtual void drawUI(Canvas canvas)
-        {
-            if (infoText != null)
-            {
-                Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-                font.drawString(infoText, 0.5f * Constants.ENV_WIDTH, 0.5f * Constants.ENV_HEIGHT, TextAlign.HCENTER | TextAlign.VCENTER);
-
-                AppGraphics.DrawString(0, 0, "Time: " + progress.getElapsedTime());
-                AppGraphics.DrawString(0, 20, "Collected: " + collected);
-            }
+        {            
         }
 
         public virtual void update(float dt)
@@ -163,12 +154,12 @@ namespace DuckstazyLive.game
 
         public void setDay(bool day)
         {
-            Env.getIntance().day = day;
-        }        
+            Env.getIntance().day = day;        
+        }                
 
-        public void setInfoText(String info)
+        protected void setInfoText(String text)
         {
-            infoText = info;
+            level.infoText = text;
         }        
 
         public bool hasTimeLimit()
