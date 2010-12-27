@@ -463,16 +463,6 @@ namespace Framework.core
         public virtual bool buttonReleased(ref ButtonEvent e)
         {   
             return false;
-        }
-
-        public virtual bool keyPressed(Keys key)
-        {         
-            return false;
-        }
-
-        public virtual bool keyReleased(Keys key)
-        {         
-            return false;
-        }
+        }        
     }
 }

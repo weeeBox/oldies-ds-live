@@ -40,6 +40,8 @@ namespace DuckstazyLive.game.levels
 			
 			arrow1 = new HintArrow(media);
 			arrow2 = new HintArrow(media);
+
+            day = false;
 		}
 		
 		public override void start()
@@ -109,7 +111,7 @@ namespace DuckstazyLive.game.levels
 			
 			gen.start();
 			
-			startX = 293;
+			startX = 293;            
 		}
 		
 		public override void onWin()

@@ -493,8 +493,7 @@ namespace DuckstazyLive.game
             switch (e.button)
             {
                 case Buttons.DPadDown:
-                case Buttons.B:
-                case Buttons.X:
+                case Buttons.B:         
                     key_down = true;
                     return true;
 
@@ -541,8 +540,7 @@ namespace DuckstazyLive.game
             switch (e.button)
             {
                 case Buttons.DPadDown:
-                case Buttons.B:
-                case Buttons.X:
+                case Buttons.B:                
                     key_down = false;
                     return true;
 

@@ -12,14 +12,9 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
-    public class Game : BaseElement
+    public class Game : GameView
     {
         public static Game instance;
-
-        public const int INGAME = 0;
-        public const int LOOSE = 1;
-        private int state;
-
         private GameMode gameMode;
 
         // Состояние текущее и сохранение состояния перед уровнем
@@ -28,20 +23,14 @@ namespace DuckstazyLive.game
 
         // Уровень.
         public Level level;
-                
-        private Canvas canvas;
 
-        private DeathView deathView;        
-
-        public Game()
+        public Game(GameController controller) : base(controller)
         {
-            instance = this;
+            instance = this;          
 
             // Игровые состояния
             gameState = new GameState();
-            gameSave = new GameState();
-
-            canvas = new Canvas(FrameworkConstants.SCREEN_WIDTH, FrameworkConstants.SCREEN_HEIGHT);            
+            gameSave = new GameState();            
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +57,7 @@ namespace DuckstazyLive.game
                     return new MultiplayerLevel(gameState);
 
                 case GameMode.VERSUS:
-                    throw new NotImplementedException();                    
+                    throw new NotImplementedException();
             }
 
             Debug.Assert(false, "Wrong mode: " + mode);
@@ -77,9 +66,13 @@ namespace DuckstazyLive.game
 
         public void startLevel()
         {            
-            gameState.assign(gameSave);
-            setState(INGAME);
+            gameState.assign(gameSave);            
             level.start();            
+        }
+
+        public void restartLevel()
+        {
+            level.restart();
         }
 
         public void nextLevel()
@@ -92,21 +85,21 @@ namespace DuckstazyLive.game
             throw new NotImplementedException();
         }
 
-        public void loose()
+        public void loose(string message)
         {
-            setState(LOOSE);
-            deathView = new DeathView();
+            getController().showLooseScreen(message);
+        }
+
+        public void death()
+        {            
+            getController().showDeathView();
         }
 
         public void pause()
         {
-            level.setPause(true);
-        }
-
-        private void setState(int newState)
-        {
-            state = newState;
-        }
+            level.onPause();
+            getController().showPause();            
+        }        
 
         public void save()
         {
@@ -118,36 +111,19 @@ namespace DuckstazyLive.game
         //////////////////////////////////////////////////////////////////////////////////////////////
 
         public override void update(float dt)
-        {           
-        	
-        	Env env = level.env;            
-						
-			switch(state)
-			{			    
-			    case INGAME:
-				    level.update(dt);
-				    break;                
-                case LOOSE:
-                    deathView.update(dt);
-                    break;
-			}
-			
+        {        	
+        	Env env = level.env;			
+			level.update(dt);			
 			// gui.update(dt);
 			env.updateBlanc(dt);            
         }
 
         public override void draw()
-        {            
+        {
+            Canvas canvas = getCanvas();
+
             Env env = level.env;            
-            switch (state)
-            {                
-                case INGAME:
-                    level.draw(canvas);
-                    break;
-                case LOOSE:
-                    deathView.draw(canvas);
-                    break;
-            }            
+            level.draw(canvas);            
 
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);
@@ -159,73 +135,38 @@ namespace DuckstazyLive.game
 
         public override bool buttonPressed(ref ButtonEvent e)
         {
-            if (state == INGAME)
+            if (e.isKeyboardEvent())
             {
-                return level.buttonPressed(ref e);
-            }
-
-            if (state == LOOSE)
-            {
-                if (e.button == Buttons.A || e.button == Buttons.Start)
+                InputManager im = Application.sharedInputMgr;
+                for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
                 {
-                    deathView = null;
-                    GC.Collect();
-                    newGame(gameMode);
-                    return true;
+                    if (im.hasMappedButton(e.key, playerIndex))
+                    {
+                        ButtonEvent newEvent = im.makeButtonEvent(playerIndex, im.getMappedButton(e.key, playerIndex));
+                        return level.buttonPressed(ref newEvent);
+                    }
                 }
             }
 
-            return false;
+            return level.buttonPressed(ref e);            
         }
 
         public override bool buttonReleased(ref ButtonEvent e)
         {
-            if (state == INGAME)            
-                return level.buttonReleased(ref e);
-
-            return false;
-        }
-
-        public override bool keyPressed(Keys key)
-        {
-            InputManager im = Application.sharedInputMgr;
-
-            for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+            if (e.isKeyboardEvent())
             {
-                if (!im.isPlayerActive(playerIndex))
-                    continue;
-
-                if (!im.hasMappedButton(key, playerIndex))
-                    continue;
-
-                Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
-                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);
-                if (buttonPressed(ref buttonEvent))
-                    return true;
+                InputManager im = Application.sharedInputMgr;
+                for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+                {
+                    if (im.hasMappedButton(e.key, playerIndex))
+                    {
+                        ButtonEvent newEvent = im.makeButtonEvent(playerIndex, im.getMappedButton(e.key, playerIndex));
+                        return level.buttonReleased(ref newEvent);
+                    }
+                }
             }
 
-            return false;
-        }
-
-        public override bool keyReleased(Keys key)
-        {
-            InputManager im = Application.sharedInputMgr;
-
-            for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
-            {
-                if (!im.isPlayerActive(playerIndex))
-                    continue;
-
-                if (!im.hasMappedButton(key, playerIndex))
-                    continue;
-
-                Buttons button = Application.sharedInputMgr.getMappedButton(key, playerIndex);
-                ButtonEvent buttonEvent = im.makeButtonEvent(playerIndex, button);
-                if (buttonReleased(ref buttonEvent))
-                    return true;
-            }
-
-            return false;
+            return level.buttonReleased(ref e);            
         }        
     }
 }

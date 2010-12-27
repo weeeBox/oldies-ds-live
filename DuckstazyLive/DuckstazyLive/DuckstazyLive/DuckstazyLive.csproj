@@ -13,7 +13,7 @@
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaProfile>HiDef</XnaProfile>
+    <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>5ec7123f-4a9a-411a-94fb-739a8a5c6bc2</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
@@ -124,6 +124,7 @@
     <Compile Include="app\LoadingView.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="DuckstazyGame.cs" />
+    <Compile Include="game\LostView.cs" />
     <Compile Include="game\TimeoutLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />

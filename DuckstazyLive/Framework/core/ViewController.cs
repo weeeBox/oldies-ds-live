@@ -267,23 +267,5 @@ namespace Framework.core
             }
             return false;
         }
-
-        public virtual bool keyPressed(Keys key)
-        {
-            if (activeViewId != FrameworkConstants.UNDEFINED)
-            {
-                return activeView().keyPressed(key);
-            }
-            return false;
-        }
-
-        public virtual bool keyReleased(Keys key)
-        {
-            if (activeViewId != FrameworkConstants.UNDEFINED)
-            {
-                return activeView().keyReleased(key);
-            }
-            return false;
-        }
     }
 }

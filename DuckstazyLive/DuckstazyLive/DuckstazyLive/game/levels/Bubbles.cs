@@ -105,7 +105,7 @@ namespace DuckstazyLive.game.levels
             arrow1.visible = true;
             arrow2.visible = true;
             arrow3.visible = true;
-            arrowHider = 3.0f;
+            arrowHider = 3.0f;            
         }
 
         public override void onWin()

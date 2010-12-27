@@ -4,43 +4,28 @@ using System.Linq;
 using System.Text;
 using Framework.core;
 using DuckstazyLive.game;
-using Microsoft.Xna.Framework.Input;
 
 namespace DuckstazyLive.app
 {
     public class GameView : View
     {
-        private Game game;
+        private GameController controller;
+        private Canvas canvas;
 
-        public GameView()
+        public GameView(GameController controller)
         {
-            game = new Game();
-            addChildWithId(game, 0);
+            this.controller = controller;
+            canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         }
 
-        public void newGame(GameMode gameMode)
+        protected Canvas getCanvas()
         {
-            game.newGame(gameMode);
+            return canvas;
         }
 
-        public override bool buttonPressed(ref ButtonEvent e)
+        protected GameController getController()
         {
-            return game.buttonPressed(ref e);            
-        }
-
-        public override bool buttonReleased(ref ButtonEvent e)
-        {
-            return game.buttonReleased(ref e);            
-        }
-
-        public override bool keyPressed(Keys key)
-        {
-            return game.keyPressed(key);            
-        }
-
-        public override bool keyReleased(Keys key)
-        {
-            return game.keyReleased(key);            
+            return controller;
         }
     }
 }

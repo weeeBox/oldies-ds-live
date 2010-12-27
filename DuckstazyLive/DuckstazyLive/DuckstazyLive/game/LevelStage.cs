@@ -19,7 +19,8 @@ namespace DuckstazyLive.game
             LOOSE // не выполнили goal
         }
 
-        private State state;        
+        private State state;
+        public bool day;
 
         // уровень
         protected Level level;
@@ -44,7 +45,8 @@ namespace DuckstazyLive.game
             media = level.stageMedia;
             pills = level.pills;
             particles = level.pills.ps;
-            heroes = level.heroes;            
+            heroes = level.heroes;
+            day = true;
         }
 
         protected virtual LevelProgress createLevelProgress()
@@ -60,8 +62,9 @@ namespace DuckstazyLive.game
             collected = 0;
 
             startX = utils.rnd() * (640 - 54);
-            heroStarted = false;           
+            heroStarted = false;
 
+            setDay(day);
             startProgress();
         }
 
@@ -104,15 +107,11 @@ namespace DuckstazyLive.game
 
                 if (progress.isProgressComplete())
                 {
-                    setState(State.WIN);
-                    level.winLevel();
-                    onWin();                    
+                    win();
                 }
                 else if (progress.isTimeUp())
                 {
-                    setState(State.LOOSE);
-                    level.looseLevel();
-                    onLoose();
+                    loose();
                 }
             }            
         }
@@ -131,5 +130,29 @@ namespace DuckstazyLive.game
         {
             return state == State.PLAYING;
         }
+        
+        public virtual string getLooseMessage()
+        {
+            return "YOU'VE LOST, SUCKER";
+        }
+
+        protected void loose()
+        {
+            setState(State.LOOSE);
+            level.looseLevel();
+            onLoose();
+        }
+
+        protected void win()
+        {
+            setState(State.WIN);
+            level.winLevel();
+            onWin();                    
+        }
+
+        public void setDay(bool day)
+        {
+            Env.getIntance().day = day;
+        }        
     }
 }

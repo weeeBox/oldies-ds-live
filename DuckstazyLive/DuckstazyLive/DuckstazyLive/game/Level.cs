@@ -15,7 +15,15 @@ namespace DuckstazyLive.game
 {
     public abstract class Level
     {
+        protected enum LevelState
+        {
+            PLAYING,
+            WON,
+            LOOSE            
+        }
+
         public static Level instance;
+        private LevelState levelState;
 
         private const String HARVEST_TEXT = "HARVESTING";
         private const String NEXT_LEVEL_TEXT_BEGIN = "WARP IN ";
@@ -35,10 +43,7 @@ namespace DuckstazyLive.game
         protected float powerUp;
 
         // Состояние уровня
-        public GameState state;
-
-        // Конец Уровня
-        public bool finish;        
+        public GameState state;        
 
         protected List<LevelStages> stages; // Уровни
         public LevelStage stage; // текущий уровень
@@ -46,10 +51,7 @@ namespace DuckstazyLive.game
         public int stagesCount;
 
         // инфа
-        public GameInfo info;
-
-        public bool pause;
-        public int imgPause;
+        public GameInfo info;        
 
         protected float nextLevelCounter;
         protected int harvestProcess;
@@ -75,9 +77,7 @@ namespace DuckstazyLive.game
             stageMedia = new StageMedia();
             stages = new List<LevelStages>();
 
-            stage = null;
-            finish = false;
-            
+            stage = null;            
             sndStart = Res.SND_LEVEL_START;            
         }
 
@@ -115,8 +115,7 @@ namespace DuckstazyLive.game
             heroes.init();
             game.save();
 
-            finish = false;
-            pause = false;
+            setLevelState(LevelState.PLAYING);
             
             syncScores();
             enterLevel();
@@ -149,12 +148,7 @@ namespace DuckstazyLive.game
             drawUI(canvas);
             stage.draw2(canvas);
 
-            AppGraphics.DrawString(0, 0, infoText);
-         
-            if (pause)
-            {
-                AppGraphics.FillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, new Color(0, 0, 0, 0.25f));
-            }
+            AppGraphics.DrawString(0, 0, infoText);            
         }
 
         private void levelPreDraw()
@@ -181,78 +175,71 @@ namespace DuckstazyLive.game
         public void update(float dt)
         {
             float power_drain = 0.0f;            
-
-            if (!pause)
+                        
+            if (stage != null)
             {
-                if (stage != null)
-                {
-                    stage.update(dt);                    
-                }
+                stage.update(dt);                    
+            }
 
+            if (isPlaying())
+            {
                 if (!heroes.hasAliveHero())
-                {
-                    if (!finish)
-                    {
-                        finish = true;                        
-                        env.blanc = 1.0f;                        
-                        game.loose();
-                    }
+                {               
+                    env.blanc = 1.0f;
+                    game.death();               
                 }
+            }
+            else if (isWin())
+            {
+                if (pills.harvestCount > 0)
+                    updateHarvesting(dt);
                 else
                 {
-                    if (finish)
+                    if (nextLevelCountdown > 0)
                     {
-                        if (pills.harvestCount > 0)
-                            updateHarvesting(dt);
-                        else
+                        nextLevelCounter += dt;
+                        if (nextLevelCounter > 1)
                         {
-                            if (nextLevelCountdown > 0)
-                            {
-                                nextLevelCounter += dt;
-                                if (nextLevelCounter > 1)
-                                {
-                                    nextLevelCounter--;
-                                    nextLevelCountdown--;
-                                    infoText = NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END;
-                                }
-                            }
-                            else
-                                nextLevel();
+                            nextLevelCounter--;
+                            nextLevelCountdown--;
+                            infoText = NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END;
                         }
                     }
+                    else
+                        nextLevel();
                 }
-
-                if (heroes.hasAsleepHero()) 
-                    power_drain = 0.3f;
-
-                if (powerUp < power)
-                {
-                    power -= dt * power_drain;
-                    if (power < 0.0f) power = 0.0f;
-                }
-                else
-                {
-                    power += dt * 0.05f;
-                    if (power > powerUp) power = powerUp;
-                }
-
-                heroes.update(dt, power);
-                pills.update(dt, power);
-
-                env.x = heroes[0].x;
-                env.y = heroes[0].y;
-                env.update(dt, power);                
-
-                ps.update(dt);                
-
-                if (power >= 0.5) info.setRGB(env.colors.bg);
-                else
-                {
-                    if (env.day) info.setRGB(0x000000);
-                    else info.setRGB(0xffffff);
-                }
-                info.update(power, dt);                
             }
+
+            if (heroes.hasAsleepHero()) 
+                power_drain = 0.3f;
+
+            if (powerUp < power)
+            {
+                power -= dt * power_drain;
+                if (power < 0.0f) power = 0.0f;
+            }
+            else
+            {
+                power += dt * 0.05f;
+                if (power > powerUp) power = powerUp;
+            }
+
+            heroes.update(dt, power);
+            pills.update(dt, power);
+
+            env.x = heroes[0].x;
+            env.y = heroes[0].y;
+            env.update(dt, power);                
+
+            ps.update(dt);                
+
+            if (power >= 0.5) info.setRGB(env.colors.bg);
+            else
+            {
+                if (env.day) info.setRGB(0x000000);
+                else info.setRGB(0xffffff);
+            }
+            info.update(power, dt);            
         }
 
         public void gainPower(float gained)
@@ -265,65 +252,44 @@ namespace DuckstazyLive.game
         public void gainSleep()
         {
             powerUp = 0.0f;
-        }
+        }        
 
         public bool buttonPressed(ref ButtonEvent e)
         {
-            if (pause)
-            {
-                if (e.button == Buttons.Back)
-                {
-                    setPause(false);
-                    return true;
-                }
-            }
-
             if (heroes.hasAliveHero() && heroes.buttonPressed(ref e))
-                return true;
+                return true;            
 
-            if (finish)
+            if (e.button == Buttons.Back || e.key == Keys.Escape)
             {
-                switch (e.button)
-                {
-                    case Buttons.A:
-                    case Buttons.Start:
-                        //game.startLevel();
-                        //return true;
-                        throw new NotImplementedException();
-                }
-                
-                return false;                
+                game.pause();
+                return true;
             }
-                
-            switch (e.button)
+             
+            if (e.button == Buttons.RightShoulder || e.key == Keys.PageDown)
             {
-                case Buttons.Back:
-                    {                   
-                        game.pause();
-                        return true;
-                    }
-                case Buttons.RightShoulder:
-                    {                   
-                        nextLevel();
-                        return true;
-                    }                    
-                case Buttons.LeftShoulder:
-                    {
-                        int heroIndex = e.playerIndex;
-                        Debug.Assert(heroIndex >= 0 && heroIndex < heroes.getHeroesCount());
-                        heroes[heroIndex].doToxicDamage(heroes[heroIndex].x, heroes[heroIndex].y, 1, 0);
-                        return true;
-                    }
+                nextLevel();
+                return true;
             }
+
+            if (e.button == Buttons.LeftShoulder || e.key == Keys.PageUp)
+            {
+                int heroIndex = e.playerIndex;
+                Debug.Assert(heroIndex >= 0 && heroIndex < heroes.getHeroesCount());
+                heroes[heroIndex].doToxicDamage(heroes[heroIndex].x, heroes[heroIndex].y, 1, 0);
+                return true;
+            }           
 
             return false;
         }
 
         public bool buttonReleased(ref ButtonEvent e)
+        {           
+            return heroes.buttonReleased(ref e);            
+        }
+
+        public void restart()
         {
-            if (!pause)
-                return heroes.buttonReleased(ref e);
-            return false;
+            start();
         }
 
         public void nextLevel()
@@ -339,18 +305,9 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void setPause(bool value)
-        {
-            if (value)
-            {
-                pause = true;
-                heroes.buttonsReset();
-            }
-            else
-            {
-                pause = false;
-            }
-            env.blanc = 1.0f;
+        public void onPause()
+        {           
+            heroes.buttonsReset();            
         }
 
         public void switchEvnPower()
@@ -374,6 +331,11 @@ namespace DuckstazyLive.game
             }
         }
 
+        protected void setLevelState(LevelState levelState)
+        {
+            this.levelState = levelState;
+        }
+
         public void winLevel()
         {
             pills.finish();
@@ -381,15 +343,30 @@ namespace DuckstazyLive.game
             harvestProcess = 2;
             infoText = HARVEST_TEXT + "...";
             nextLevelCounter = 0;
-            finish = true;
+            setLevelState(LevelState.WON);
             env.blanc = 1.0f;
         }
 
         public void looseLevel()
         {
             pills.finish();
-            finish = true;
-            env.blanc = 1.0f;
+            setLevelState(LevelState.LOOSE);
+            game.loose(stage.getLooseMessage());
+        }
+
+        public bool isPlaying()
+        {
+            return levelState == LevelState.PLAYING;
+        }
+
+        public bool isWin()
+        {
+            return levelState == LevelState.WON;
+        }
+
+        public bool isLoose()
+        {
+            return levelState == LevelState.LOOSE;
         }
 
         private void updateHarvesting(float dt)
