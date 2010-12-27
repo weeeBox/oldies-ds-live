@@ -40,7 +40,7 @@ namespace DuckstazyLive.app
             Text label = new Text(font);
             label.setString(text);
             label.toParentCenter();
-            label.setAlign(TextAlign.CENTER);
+            label.setAlign(TextAlign.HCENTER);
             addChildWithId(label, CHILD_TEXT);
 
             reset();

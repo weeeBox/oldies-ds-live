@@ -16,7 +16,7 @@ namespace DuckstazyLive.game
         {
             Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));            
             text.toParentCenter();
-            text.setAlign(TextAlign.CENTER);
+            text.setAlign(TextAlign.HCENTER);
 
             addChildWithId(text, CHILD_MESSAGE);
         }

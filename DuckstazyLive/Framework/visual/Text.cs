@@ -8,9 +8,12 @@ namespace Framework.visual
 {
     public enum TextAlign
     {
-        LEFT,
-        CENTER,
-        RIGHT
+        LEFT = 1 << 0,
+        HCENTER = 1 << 1,
+        RIGHT = 1 << 2,
+        TOP = 1 << 3,
+        VCENTER = 1 << 4,
+        BOTTOM = 1 << 5
     }
 
     public class Text : BaseElement
@@ -88,7 +91,7 @@ namespace Framework.visual
 
                 if (textAlign != TextAlign.LEFT)
                 {
-                    if (textAlign == TextAlign.CENTER)
+                    if (textAlign == TextAlign.HCENTER)
                     {
                         dx = drawX + (width - str.width) / 2;
                     }

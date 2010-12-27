@@ -37,7 +37,7 @@ namespace DuckstazyLive.app
             Text text = new Text(font);
             text.setString("SUPER AWESOME AND COOL INTRO GOES HERE");
             text.toParentCenter();
-            text.setAlign(TextAlign.CENTER);
+            text.setAlign(TextAlign.HCENTER);
             addChild(text);
         }        
 
