@@ -148,7 +148,8 @@ namespace DuckstazyLive.game
             drawUI(canvas);
             stage.draw2(canvas);
 
-            AppGraphics.DrawString(0, 0, infoText);            
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            font.drawString(infoText, 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X), Constants.TITLE_SAFE_TOP_Y, TextAlign.HCENTER | TextAlign.VCENTER);
         }
 
         private void levelPreDraw()

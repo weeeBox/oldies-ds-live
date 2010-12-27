@@ -78,12 +78,10 @@ namespace DuckstazyLive.game
 
         public virtual void draw1(Canvas canvas)
         {
-
         }
 
         public virtual void draw2(Canvas canvas)
-        {
-            
+        {            
         }
 
         public virtual void update(float dt)

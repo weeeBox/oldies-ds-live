@@ -82,10 +82,33 @@ namespace Framework.visual
             return charWidth;
         }
 
-        public void draw(String str, float x, float y)
+        public void drawString(String str, float x, float y)
+        {
+            drawString(str, x, y, TextAlign.LEFT | TextAlign.TOP);
+        }
+
+        public void drawString(String str, float x, float y, TextAlign textAlign)
         {
             float dx = x;
             float dy = y;
+
+            if ((textAlign & TextAlign.RIGHT) != 0)
+            {
+                dx -= stringWidth(str);
+            }
+            else if ((textAlign & TextAlign.HCENTER) != 0)
+            {
+                dx -= 0.5f * stringWidth(str);
+            }
+            if ((textAlign & TextAlign.BOTTOM) != 0)
+            {
+                dy -= fontHeight();
+            }
+            else if ((textAlign & TextAlign.VCENTER) != 0)
+            {
+                dy -= 0.5f * fontHeight();
+            }
+
             for (int charIndex = 0; charIndex < str.Length; charIndex++)
             {
                 char c = str[charIndex];
