@@ -57,7 +57,7 @@ namespace DuckstazyLive.game
                     return new CoopLevel(gameState);
 
                 case GameMode.VERSUS:
-                    throw new NotImplementedException();
+                    return new VersusLevel();
             }
 
             Debug.Assert(false, "Wrong mode: " + mode);
