@@ -35,8 +35,7 @@ namespace DuckstazyLive.game
 
         protected List<LevelStages> stages; // Уровни
         public LevelStage stage; // текущий уровень
-        public StageMedia stageMedia;
-        public int stagesCount;
+        public StageMedia stageMedia;        
 
         public String infoText;        
 
@@ -63,10 +62,12 @@ namespace DuckstazyLive.game
             initHero();            
 
             stageMedia = new StageMedia();
-            stages = new List<LevelStages>();
+            stages = createStages();            
 
             stage = null;            
         }
+
+        protected abstract List<LevelStages> createStages();        
 
         protected virtual void initHero()
         {
@@ -310,7 +311,7 @@ namespace DuckstazyLive.game
 
         public void nextLevel()
         {
-            if (state.level >= stagesCount - 1)
+            if (state.level >= stages.Count - 1)
             {
                 game.win();
             }

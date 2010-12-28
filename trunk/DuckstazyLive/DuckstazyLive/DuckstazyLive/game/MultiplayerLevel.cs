@@ -14,8 +14,13 @@ namespace DuckstazyLive.game
     public class MultiplayerLevel : Level
     {
         public MultiplayerLevel(GameState gameState) : base(gameState)
+        {            
+        }
+
+        protected override List<LevelStages> createStages()
         {
-            stages.Add(LevelStages.DuckStage);
+            List<LevelStages> stages = new List<LevelStages>();
+                        
             stages.Add(LevelStages.Harvesting);
             stages.Add(LevelStages.PartyTime);
             stages.Add(LevelStages.Bubbles);
@@ -27,7 +32,9 @@ namespace DuckstazyLive.game
             stages.Add(LevelStages.PartyTime3);
             stages.Add(LevelStages.Trains);
             stages.Add(LevelStages.Bubbles3);
-            stagesCount = stages.Count;
+            stages.Add(LevelStages.DuckStage);
+
+            return stages;
         }
 
         protected override void initHero()
