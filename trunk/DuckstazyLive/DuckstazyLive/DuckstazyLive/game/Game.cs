@@ -24,7 +24,7 @@ namespace DuckstazyLive.game
         // Уровень.
         public Level level;
 
-        public Game(GameController controller) : base(controller)
+        public Game(StoryController controller) : base(controller)
         {
             instance = this;          
 

@@ -28,7 +28,7 @@ namespace DuckstazyLive.game
         private CustomGeomerty backgroud;
         private Scull[] sculls;        
 
-        public DeathView(GameController controller) : base(controller)
+        public DeathView(StoryController controller) : base(controller)
         {
             backgroud = utils.createSolidRect(0, 0, width, height, Color.White);
             sculls = new Scull[SCULLS_COUNT];            

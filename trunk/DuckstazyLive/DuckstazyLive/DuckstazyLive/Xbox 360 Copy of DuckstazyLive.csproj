@@ -67,7 +67,6 @@
     <Compile Include="app\DuckstazyApplicationSettings.cs" />
     <Compile Include="app\DuckstazyResourceMgr.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
-    <Compile Include="app\GameController.cs" />
     <Compile Include="app\GameView.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -79,6 +78,7 @@
     <Compile Include="app\PauseView.cs" />
     <Compile Include="app\Res.cs" />
     <Compile Include="app\StartupController.cs" />
+    <Compile Include="app\StoryController.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="game\Canvas.cs" />
