@@ -15,21 +15,11 @@ namespace DuckstazyLive.game
 {
     public abstract class Level
     {
-        protected enum LevelState
-        {
-            PLAYING,
-            WON,
-            LOOSE            
-        }
-
-        public static Level instance;
-        private LevelState levelState;
+        public static Level instance;        
 
         private const String HARVEST_TEXT = "HARVESTING";
         private const String NEXT_LEVEL_TEXT_BEGIN = "WARP IN ";
         private const String NEXT_LEVEL_TEXT_END = " SEC...";        
-
-        public int sndStart;
 
         public Game game;
         public Heroes heroes;
@@ -76,7 +66,6 @@ namespace DuckstazyLive.game
             stages = new List<LevelStages>();
 
             stage = null;            
-            sndStart = Res.SND_LEVEL_START;
         }
 
         protected virtual void initHero()
@@ -111,9 +100,7 @@ namespace DuckstazyLive.game
             stage = LevelStageFactory.createStage(stages[state.level]);
 
             heroes.init();
-            game.save();
-
-            setLevelState(LevelState.PLAYING);
+            game.save();            
             
             syncScores();
             enterLevel();
@@ -198,7 +185,7 @@ namespace DuckstazyLive.game
             infoText = null;
 
             stage.start();
-            Application.sharedSoundMgr.playSound(sndStart);
+            Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
         }
 
         public void update(float dt)
@@ -358,44 +345,37 @@ namespace DuckstazyLive.game
             {
                 h.gameState.syncScores();
             }
-        }
+        }        
 
-        protected void setLevelState(LevelState levelState)
-        {
-            this.levelState = levelState;
-        }
-
-        public void winLevel()
+        public void onWin()
         {
             pills.finish();
             nextLevelCountdown = 3;
             harvestProcess = 2;
             infoText = HARVEST_TEXT + "...";
-            nextLevelCounter = 0;
-            setLevelState(LevelState.WON);
+            nextLevelCounter = 0;            
             env.blanc = 1.0f;
         }
 
-        public void looseLevel()
+        public void onLoose()
         {
-            pills.finish();
-            setLevelState(LevelState.LOOSE);
+            pills.finish();            
             game.loose(stage.getLooseMessage());
         }
 
         public bool isPlaying()
         {
-            return levelState == LevelState.PLAYING;
+            return stage.isPlaying();
         }
 
         public bool isWin()
         {
-            return levelState == LevelState.WON;
+            return stage.isWin();
         }
 
         public bool isLoose()
         {
-            return levelState == LevelState.LOOSE;
+            return stage.isLoose();
         }
 
         private void updateHarvesting(float dt)
