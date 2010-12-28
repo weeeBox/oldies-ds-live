@@ -77,7 +77,8 @@ namespace DuckstazyLive.game
 
         public void nextLevel()
         {
-            level.nextLevel();
+            // level.nextLevel();
+            throw new NotImplementedException();
         }
 
         public void win()

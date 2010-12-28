@@ -12,7 +12,7 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
-    public class CoopLevel : Level
+    public class CoopLevel : StoryLevel
     {        
         private enum LevelStages
         {
