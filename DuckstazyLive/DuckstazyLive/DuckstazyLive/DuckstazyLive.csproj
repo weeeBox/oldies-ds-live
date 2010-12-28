@@ -126,6 +126,7 @@
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="game\LostView.cs" />
     <Compile Include="game\StoryLevel.cs" />
+    <Compile Include="game\StoryLevelStage.cs" />
     <Compile Include="game\TimeoutLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public class PumpLevelStage : LevelStage
+    public class PumpLevelStage : StoryLevelStage
     {
         protected float pumpProg; // прогресс накачки 0->1 после power==1
         protected float pumpVel; // скорость накачки

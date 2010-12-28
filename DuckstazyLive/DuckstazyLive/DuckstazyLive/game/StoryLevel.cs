@@ -55,9 +55,9 @@ namespace DuckstazyLive.game
                 font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
             }            
 
-            if (stage.hasTimeLimit())
+            if (getStage().hasTimeLimit())
             {
-                float t = stage.getRemainingTime();
+                float t = getStage().getRemainingTime();
                 int i = (int)(t / 60);
                 string timeStr;
                 if (i < 10) timeStr = "0" + i.ToString() + ":";
@@ -152,17 +152,22 @@ namespace DuckstazyLive.game
         public void onLoose()
         {
             onEnd();
-            game.loose(stage.getLooseMessage());
-        }        
+            game.loose(getStage().getLooseMessage());
+        }
+
+        public bool isPlaying()
+        {
+            return getStage().isPlaying();
+        }
 
         public bool isWin()
         {
-            return stage.isWin();
+            return getStage().isWin();
         }
 
         public bool isLoose()
         {
-            return stage.isLoose();
+            return getStage().isLoose();
         }
 
         private void updateHarvesting(float dt)
@@ -197,5 +202,10 @@ namespace DuckstazyLive.game
                                 NEXT_LEVEL_TEXT_END;
             }
         }        
+
+        protected StoryLevelStage getStage()
+        {
+            return (StoryLevelStage) stage;
+        }
     }
 }

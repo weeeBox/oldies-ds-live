@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public class TimeoutLevelStage : LevelStage
+    public class TimeoutLevelStage : StoryLevelStage
     {
         protected float goalTime;
 
