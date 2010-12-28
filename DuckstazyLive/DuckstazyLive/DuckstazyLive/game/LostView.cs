@@ -12,7 +12,7 @@ namespace DuckstazyLive.game
     {
         private const int CHILD_MESSAGE = 0;
 
-        public LostView(GameController controller) : base(controller)
+        public LostView(StoryController controller) : base(controller)
         {
             Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);

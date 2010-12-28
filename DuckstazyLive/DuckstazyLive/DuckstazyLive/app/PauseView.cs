@@ -16,7 +16,7 @@ namespace DuckstazyLive.app
 
         private const int CHILD_TITLE = 4;        
 
-        public PauseView(GameController controller) : base(controller)
+        public PauseView(StoryController controller) : base(controller)
         {
             // title
             addTitle();
