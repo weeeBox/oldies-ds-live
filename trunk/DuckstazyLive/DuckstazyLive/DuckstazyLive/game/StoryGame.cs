@@ -12,9 +12,9 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
-    public class Game : GameView
+    public class StoryGame : GameView
     {
-        public static Game instance;
+        public static StoryGame instance;
         private GameMode gameMode;
 
         // Состояние текущее и сохранение состояния перед уровнем
@@ -24,7 +24,7 @@ namespace DuckstazyLive.game
         // Уровень.
         public StoryLevel level;
 
-        public Game(StoryController controller) : base(controller)
+        public StoryGame(StoryController controller) : base(controller)
         {
             instance = this;          
 

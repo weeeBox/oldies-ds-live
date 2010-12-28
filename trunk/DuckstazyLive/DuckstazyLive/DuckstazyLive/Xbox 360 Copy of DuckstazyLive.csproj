@@ -80,6 +80,7 @@
     <Compile Include="app\StartupController.cs" />
     <Compile Include="app\StoryController.cs" />
     <Compile Include="app\utils.cs" />
+    <Compile Include="app\VersusController.cs" />
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
@@ -95,7 +96,6 @@
     <Compile Include="game\env\EnvEffect3.cs" />
     <Compile Include="game\env\EnvEffect4.cs" />
     <Compile Include="game\FloatText.cs" />
-    <Compile Include="game\Game.cs" />
     <Compile Include="game\GameInfo.cs" />
     <Compile Include="game\GameState.cs" />
     <Compile Include="game\GameTimer.cs" />
@@ -139,7 +139,10 @@
     <Compile Include="game\stages\PumpLevelStage.cs" />
     <Compile Include="game\stages\TimeoutLevelStage.cs" />
     <Compile Include="game\stages\Trains.cs" />
+    <Compile Include="game\StoryGame.cs" />
     <Compile Include="game\TextField.cs" />
+    <Compile Include="game\VersusGame.cs" />
+    <Compile Include="game\VersusView.cs" />
     <Compile Include="game\WinView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

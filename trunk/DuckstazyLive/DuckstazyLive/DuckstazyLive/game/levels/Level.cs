@@ -17,7 +17,7 @@ namespace DuckstazyLive.game
     {
         public static Level instance;        
 
-        public Game game;
+        public StoryGame game;
         public Heroes heroes;
         public Pills pills;
         public Env env;
@@ -42,7 +42,7 @@ namespace DuckstazyLive.game
             instance = this;
             state = gameState;
 
-            game = Game.instance;
+            game = StoryGame.instance;
 
             info = new GameInfo();
             ps = new Particles();

@@ -21,12 +21,12 @@ namespace DuckstazyLive.app
         private const int VIEW_LOOSE = 3;
         private const int VIEW_WIN = 4;
 
-        private Game game;
+        private StoryGame game;
         private GameMode gameMode;
 
         public StoryController(ViewController p) : base(p)
         {
-            game = new Game(this);
+            game = new StoryGame(this);
             addViewWithId(game, VIEW_GAME);
 
             PauseView pauseView = new PauseView(this);
