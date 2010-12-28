@@ -421,7 +421,7 @@ namespace DuckstazyLive.game
                         else
                             ps.explStarsPower(x, y, id);
 
-                        level.stage.collected++;
+                        level.stage.collectPill(hero, this);
                     }
                     break;
 

@@ -16,9 +16,7 @@ namespace DuckstazyLive.game
                 
         protected Pills pills;
         protected Particles particles;
-        protected Heroes heroes;
-
-        public int collected;
+        protected Heroes heroes;        
 
         protected float startX;
         protected bool heroStarted;
@@ -31,9 +29,7 @@ namespace DuckstazyLive.game
         }        
 
         public virtual void start()
-        {            
-            collected = 0;
-
+        {
             startX = utils.rnd() * (640 - 54);
             heroStarted = false;           
 
@@ -71,6 +67,8 @@ namespace DuckstazyLive.game
         public void setDay(bool day)
         {
             Env.getIntance().day = day;        
-        }        
+        }
+
+        public abstract void collectPill(Hero hero, Pill pill);        
     }
 }

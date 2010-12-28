@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.core;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
@@ -15,10 +17,12 @@ namespace DuckstazyLive.game
         }
 
         private State state;
+        private int[] collected;
+        private int totalCollected;
 
         // уровень
         protected StoryLevel level;
-        protected LevelProgress progress;
+        protected LevelProgress progress;        
 
         public StoryLevelStage()
         {
@@ -30,6 +34,8 @@ namespace DuckstazyLive.game
             particles = level.pills.ps;
             heroes = level.heroes;
             day = true;
+
+            collected = new int[Application.sharedInputMgr.getPlayersCount()];
         }
 
         protected virtual LevelProgress createLevelProgress()
@@ -41,7 +47,13 @@ namespace DuckstazyLive.game
 
         public override void start()
         {
-            base.start();
+            for (int i = 0; i < collected.Length; ++i)
+            {
+                collected[i] = 0;
+            }
+            totalCollected = 0;
+
+            base.start();            
             startProgress();
         }
 
@@ -134,6 +146,19 @@ namespace DuckstazyLive.game
         public float getRemainingTime()
         {
             return progress.getGoalTime() - progress.getElapsedTime();
+        }
+
+        public override void collectPill(Hero hero, Pill pill)
+        {
+            int heroIndex = hero.getPlayerIndex();
+            Debug.Assert(heroIndex >= 0 && heroIndex < collected.Length);
+            collected[heroIndex]++;
+            totalCollected++;
+        }
+
+        public int getCollectedPills()
+        {
+            return totalCollected;
         }
     }
 }
