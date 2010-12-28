@@ -37,6 +37,9 @@ namespace DuckstazyLive.app
 
             LostView lostView = new LostView(this);
             addViewWithId(lostView, VIEW_LOOSE);
+
+            WinView winView = new WinView(this);
+            addViewWithId(winView, VIEW_WIN);
         }
 
         public override void activate()
@@ -78,6 +81,11 @@ namespace DuckstazyLive.app
             LostView v = (LostView) getView(VIEW_LOOSE);
             v.setMessage(message);
             showView(VIEW_LOOSE);
+        }
+
+        public void showWinView()
+        {
+            showView(VIEW_WIN);
         }
 
         public void showDeathView()

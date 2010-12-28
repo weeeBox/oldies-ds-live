@@ -78,8 +78,8 @@ namespace DuckstazyLive.game
         }
 
         public void win()
-        {         
-            throw new NotImplementedException();
+        {
+            getController().showWinView();
         }
 
         public void loose(string message)

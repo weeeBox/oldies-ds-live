@@ -140,6 +140,7 @@
     <Compile Include="game\stages\TimeoutLevelStage.cs" />
     <Compile Include="game\stages\Trains.cs" />
     <Compile Include="game\TextField.cs" />
+    <Compile Include="game\WinView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

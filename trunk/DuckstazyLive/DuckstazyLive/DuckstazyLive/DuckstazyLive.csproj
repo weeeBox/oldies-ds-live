@@ -183,6 +183,7 @@
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
     <Compile Include="game\levels\versus\VersusLevel.cs" />
+    <Compile Include="game\WinView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
