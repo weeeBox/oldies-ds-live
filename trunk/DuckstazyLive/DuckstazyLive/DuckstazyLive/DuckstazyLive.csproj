@@ -125,14 +125,14 @@
     <Compile Include="app\utils.cs" />
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="game\LostView.cs" />
-    <Compile Include="game\StoryLevel.cs" />
-    <Compile Include="game\StoryLevelStage.cs" />
-    <Compile Include="game\TimeoutLevelStage.cs" />
+    <Compile Include="game\levels\story\StoryLevel.cs" />
+    <Compile Include="game\levels\story\StoryLevelStage.cs" />
+    <Compile Include="game\stages\TimeoutLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
     <Compile Include="game\DeathView.cs" />
     <Compile Include="game\DrawMatrix.cs" />
-    <Compile Include="game\PillCollectLevelStage.cs" />
+    <Compile Include="game\stages\PillCollectLevelStage.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
     <Compile Include="game\EnvColor.cs" />
@@ -151,9 +151,9 @@
     <Compile Include="game\Heroes.cs" />
     <Compile Include="game\HeroGameState.cs" />
     <Compile Include="game\HeroMedia.cs" />
-    <Compile Include="game\Level.cs" />
-    <Compile Include="game\LevelProgress.cs" />
-    <Compile Include="game\LevelStage.cs" />
+    <Compile Include="game\levels\Level.cs" />
+    <Compile Include="game\levels\story\LevelProgress.cs" />
+    <Compile Include="game\levels\LevelStage.cs" />
     <Compile Include="game\stages\AirAttack.cs" />
     <Compile Include="game\stages\BetweenCatsStage.cs" />
     <Compile Include="game\stages\Bubbles.cs" />
@@ -171,18 +171,18 @@
     <Compile Include="game\stages\Harvesting.cs" />
     <Compile Include="game\stages\PartyTime.cs" />
     <Compile Include="game\stages\Trains.cs" />
-    <Compile Include="game\CoopLevel.cs" />
+    <Compile Include="game\levels\story\CoopLevel.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
     <Compile Include="game\LevelProgressView.cs" />
-    <Compile Include="game\PumpLevelStage.cs" />
-    <Compile Include="game\SingleLevel.cs" />
+    <Compile Include="game\stages\PumpLevelStage.cs" />
+    <Compile Include="game\levels\story\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
-    <Compile Include="game\VersusLevel.cs" />
+    <Compile Include="game\levels\versus\VersusLevel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -227,6 +227,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
