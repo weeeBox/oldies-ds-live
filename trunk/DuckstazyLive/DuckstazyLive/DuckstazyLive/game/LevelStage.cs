@@ -57,12 +57,13 @@ namespace DuckstazyLive.game
         protected abstract void startProgress();        
 
         public virtual void start()
-        {
-            state = State.PLAYING;
+        {            
             collected = 0;
 
             startX = utils.rnd() * (640 - 54);
             heroStarted = false;
+
+            setState(State.PLAYING);
 
             setDay(day);
             startProgress();
@@ -132,6 +133,16 @@ namespace DuckstazyLive.game
         {
             return state == State.PLAYING;
         }
+
+        public bool isWin()
+        {
+            return state == State.WIN;
+        }
+
+        public bool isLoose()
+        {
+            return state == State.LOOSE;
+        }
         
         public virtual string getLooseMessage()
         {
@@ -141,14 +152,14 @@ namespace DuckstazyLive.game
         protected void loose()
         {
             setState(State.LOOSE);
-            level.looseLevel();
+            level.onLoose();
             onLoose();
         }
 
         protected void win()
         {
             setState(State.WIN);
-            level.winLevel();
+            level.onWin();
             onWin();                    
         }
 

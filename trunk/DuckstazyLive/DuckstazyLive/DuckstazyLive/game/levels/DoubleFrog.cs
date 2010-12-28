@@ -117,7 +117,7 @@ namespace DuckstazyLive.game.levels
 
         protected override void startProgress()
         {
-            progress.start(numPills, 90);
+            progress.start(numPills, 80);
         }
 
         public override void onWin()
