@@ -119,7 +119,6 @@
     <Compile Include="game\levels\generator\PowerSetuper.cs" />
     <Compile Include="game\levels\generator\Setuper.cs" />
     <Compile Include="game\levels\Harvesting.cs" />
-    <Compile Include="game\levels\LevelStageFactory.cs" />
     <Compile Include="game\levels\PartyTime.cs" />
     <Compile Include="game\levels\Trains.cs" />
     <Compile Include="game\LostView.cs" />
@@ -135,6 +134,7 @@
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
     <Compile Include="game\TimeoutLevelStage.cs" />
+    <Compile Include="game\VersusLevel.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

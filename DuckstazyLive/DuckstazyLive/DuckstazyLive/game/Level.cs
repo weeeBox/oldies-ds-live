@@ -31,10 +31,9 @@ namespace DuckstazyLive.game
         protected float powerUp;
 
         // Состояние уровня
-        public GameState state;        
-
-        protected List<LevelStages> stages; // Уровни
-        public LevelStage stage; // текущий уровень
+        public GameState state;
+        
+        public LevelStage stage; // текущий уровень        
         public StageMedia stageMedia;        
 
         public String infoText;        
@@ -62,12 +61,12 @@ namespace DuckstazyLive.game
             initHero();            
 
             stageMedia = new StageMedia();
-            stages = createStages();            
-
             stage = null;            
         }
 
-        protected abstract List<LevelStages> createStages();        
+        protected abstract LevelStage createNextStage();
+        protected abstract LevelStage createStage(int stageIndex);
+        protected abstract int getStagesCount();
 
         protected virtual void initHero()
         {
@@ -98,7 +97,7 @@ namespace DuckstazyLive.game
             pills.clear();
             info.reset();
 
-            stage = LevelStageFactory.createStage(stages[state.level]);
+            stage = createStage(state.level);
 
             heroes.init();
             game.save();            
@@ -311,7 +310,7 @@ namespace DuckstazyLive.game
 
         public void nextLevel()
         {
-            if (state.level >= stages.Count - 1)
+            if (state.level >= getStagesCount() - 1)
             {
                 game.win();
             }
