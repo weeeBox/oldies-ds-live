@@ -10,8 +10,7 @@ namespace DuckstazyLive.app
     public enum GameMode
     {
         SINGLE,
-        COOP,
-        VERSUS,
+        COOP,        
     }
 
     public class StoryController : ViewController

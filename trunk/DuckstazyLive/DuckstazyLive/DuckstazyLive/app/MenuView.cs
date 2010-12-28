@@ -44,7 +44,9 @@ namespace DuckstazyLive.app
 
         public override void onShow()
         {
-            Env.getIntance().blanc = 1.0f;
+            Env env = Env.getIntance();
+            env.blanc = 1.0f;
+            env.day = true;
         }
 
         private void addTitle()
@@ -255,7 +257,7 @@ namespace DuckstazyLive.app
             }
             else if (id == BUTTON_VERSUS)
             {
-                menuController.newGame(GameMode.VERSUS);
+                throw new NotImplementedException();
             }
         }
 

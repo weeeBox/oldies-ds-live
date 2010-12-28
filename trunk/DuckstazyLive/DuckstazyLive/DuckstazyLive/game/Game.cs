@@ -22,7 +22,7 @@ namespace DuckstazyLive.game
         public GameState gameSave;
 
         // Уровень.
-        public Level level;
+        public StoryLevel level;
 
         public Game(StoryController controller) : base(controller)
         {
@@ -46,7 +46,7 @@ namespace DuckstazyLive.game
             startLevel();
         }
 
-        private Level createLevel(GameMode mode)
+        private StoryLevel createLevel(GameMode mode)
         {
             switch (mode)
             {
@@ -54,10 +54,7 @@ namespace DuckstazyLive.game
                     return new SingleLevel(gameState);
 
                 case GameMode.COOP:
-                    return new CoopLevel(gameState);
-
-                case GameMode.VERSUS:
-                    return new VersusLevel();
+                    return new CoopLevel(gameState);              
             }
 
             Debug.Assert(false, "Wrong mode: " + mode);
@@ -77,8 +74,7 @@ namespace DuckstazyLive.game
 
         public void nextLevel()
         {
-            // level.nextLevel();
-            throw new NotImplementedException();
+            level.nextLevel();            
         }
 
         public void win()
