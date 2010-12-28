@@ -39,6 +39,8 @@ namespace DuckstazyLive.app
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChild(text);
+
+            Application.sharedSoundMgr.playSound(Res.SONG_ENV_MENU, true, SoundTransform.NONE);
         }        
 
         public override void update(float delta)
