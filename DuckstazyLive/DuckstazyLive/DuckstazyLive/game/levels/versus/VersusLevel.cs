@@ -35,7 +35,7 @@ namespace DuckstazyLive.game
             heroes.particles = ps;
             heroes.env = env;
             heroes.clear();
-        }
+        }        
 
         protected override LevelStage createStage(int stageIndex)
         {

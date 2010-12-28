@@ -21,15 +21,19 @@ namespace DuckstazyLive.app
         }
 
         public void newGame(GameMode mode)
-        {            
-            getStoryController().setGameMode(mode);
+        {
+            StoryController storyController = (StoryController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_STORY);
+            storyController.setGameMode(mode);
             deactivate();
             Application.sharedRootController.activateChild(DuckstazyRootController.CHILD_STORY);
         }
 
         public void versusGame()
         {
-
+            VersusController versusController = (VersusController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_VERSUS);
+            versusController.newGame(0);
+            deactivate();
+            Application.sharedRootController.activateChild(DuckstazyRootController.CHILD_VERSUS);
         }
 
         public override void activate()
@@ -38,11 +42,6 @@ namespace DuckstazyLive.app
 
             MenuView view = (MenuView)getView(VIEW_MENU);
             showView(VIEW_MENU);           
-        }
-
-        private StoryController getStoryController()
-        {
-            return (StoryController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_STORY);
-        }
+        }        
     }
 }

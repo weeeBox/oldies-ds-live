@@ -161,7 +161,7 @@ namespace DuckstazyLive.game
 
         private void initGrass()
         {            
-            Game game = Game.instance;
+            StoryGame game = StoryGame.instance;
 
             float groundX = 0;
             float groundY = Constants.ENV_HEIGHT;

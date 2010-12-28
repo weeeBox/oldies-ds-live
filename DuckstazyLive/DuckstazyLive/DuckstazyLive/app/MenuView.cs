@@ -257,7 +257,7 @@ namespace DuckstazyLive.app
             }
             else if (id == BUTTON_VERSUS)
             {
-                throw new NotImplementedException();
+                menuController.versusGame();
             }
         }
 
