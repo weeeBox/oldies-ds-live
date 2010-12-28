@@ -246,11 +246,6 @@ namespace DuckstazyLive.game
             env.blanc = 1.0f;
         }        
 
-        public bool isPlaying()
-        {
-            return stage.isPlaying();
-        }        
-
         public void resetPower(float newPower)
         {
             power = powerUp = newPower;

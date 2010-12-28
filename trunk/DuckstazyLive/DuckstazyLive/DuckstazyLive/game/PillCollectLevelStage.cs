@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DuckstazyLive.game
 {
-    public class PillCollectLevelStage : LevelStage
+    public class PillCollectLevelStage : StoryLevelStage
     {
         protected int numPills;
 
