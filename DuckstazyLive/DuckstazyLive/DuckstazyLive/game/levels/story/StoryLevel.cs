@@ -39,45 +39,7 @@ namespace DuckstazyLive.game
             heroes.particles = ps;
             heroes.env = env;
             heroes.clear();
-        }        
-
-        public override void drawHud(Canvas canvas)
-        {
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-
-            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            float infoY = Constants.TITLE_SAFE_TOP_Y;            
-
-            if (infoText != null)
-            {                
-                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-            }            
-
-            if (getStage().hasTimeLimit())
-            {
-                float t = getStage().getRemainingTime();
-                int i = (int)(t / 60);
-                string timeStr;
-                if (i < 10) timeStr = "0" + i.ToString() + ":";
-                else timeStr = i.ToString() + ":";
-                i = ((int)t) % 60;
-                if (i < 10) timeStr += "0" + i.ToString();
-                else timeStr += i.ToString();
-
-                if (infoText != null)
-                {
-                    float timeX = Constants.TITLE_SAFE_RIGHT_X;
-                    float timeY = infoY;
-                    font.drawString(timeStr, timeX, timeY, TextAlign.RIGHT | TextAlign.VCENTER);
-                }
-                else
-                {
-                    font.drawString(timeStr, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-                }
-            }
-        }
+        }       
 
         public override void update(float dt)
         {

@@ -111,18 +111,48 @@ namespace DuckstazyLive.game
 
         public override void drawHud(Canvas canvas)
         {
-            base.drawHud(canvas);            
+            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
             heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
 
-            //mat.identity();
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
 
-            //mat.translate(40.0f, 410.0f);//445.0f;
-            //String str = state.health.ToString() + "/" + state.maxHP.ToString();
-            //canvas.draw(Res.FNT_BIG, str, mat);
+            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+            float infoY = Constants.TITLE_SAFE_TOP_Y;
+            bool hasInfoText = infoText != null;
 
-            //Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            //mat.translate(600.0f - font.stringWidth(scoreText), 410.0f);
-            //canvas.draw(Res.FNT_BIG, scoreText, mat);
+            if (getStage().hasTimeLimit())
+            {
+                float t = getStage().getRemainingTime();
+                int i = (int)(t / 60);
+                string timeStr;
+                if (i < 10) timeStr = "0" + i.ToString() + ":";
+                else timeStr = i.ToString() + ":";
+                i = ((int)t) % 60;
+                if (i < 10) timeStr += "0" + i.ToString();
+                else timeStr += i.ToString();
+
+                float timeX;
+                float timeY = infoY;
+                if (hasInfoText)
+                {
+                    infoX = 0.4f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+                    timeX = 0.6f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+                }
+                else
+                {
+                    timeX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+                }
+                
+                font.drawString(timeStr, timeX, timeY, TextAlign.HCENTER | TextAlign.VCENTER);                
+            }
+            else
+            {
+                infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+            }
+            if (hasInfoText)
+            {
+                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
+            }
         }
     }
 }
