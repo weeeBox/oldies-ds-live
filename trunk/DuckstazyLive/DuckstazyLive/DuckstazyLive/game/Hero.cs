@@ -445,7 +445,6 @@ namespace DuckstazyLive.game
                 dx = x;
                 dy = y;
 
-
                 if (step > 1 && !fly)
                     dy -= 1.0f;
 
@@ -866,6 +865,11 @@ namespace DuckstazyLive.game
         public bool isFlying()
         {
             return y < 400 - duck_h2;
+        }
+
+        public int getPlayerIndex()
+        {
+            return playerIndex;
         }
     }
 }

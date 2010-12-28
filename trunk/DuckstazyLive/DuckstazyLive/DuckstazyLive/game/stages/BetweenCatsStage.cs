@@ -269,7 +269,7 @@ namespace DuckstazyLive.game.levels
             switch (catStage)
             {
                 case 0:
-                    if (collected >= 25)
+                    if (getCollectedPills() >= 25)
                     {
                         catStage = 1;
                         catArrow.visible = true;

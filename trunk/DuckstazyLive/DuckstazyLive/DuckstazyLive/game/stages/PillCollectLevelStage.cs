@@ -23,8 +23,8 @@ namespace DuckstazyLive.game
         {
             base.updateProgress(dt);
 
-            progress.updateProgress(collected);
-            string str = collected.ToString() + "/" + ((int)progress.getGoalProgress()).ToString();
+            progress.updateProgress(getCollectedPills());
+            string str = getCollectedPills() + "/" + ((int)progress.getGoalProgress()).ToString();
             setInfoText(str);
         }        
     }
