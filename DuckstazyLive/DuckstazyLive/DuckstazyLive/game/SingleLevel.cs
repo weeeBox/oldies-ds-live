@@ -13,6 +13,12 @@ namespace DuckstazyLive.game
     {
         public SingleLevel(GameState gameState) : base(gameState)
         {            
+        }
+
+        protected override List<LevelStages> createStages()
+        {
+            List<LevelStages> stages = new List<LevelStages>();
+
             stages.Add(LevelStages.Harvesting);
             stages.Add(LevelStages.PartyTime);
             stages.Add(LevelStages.Bubbles);
@@ -25,7 +31,8 @@ namespace DuckstazyLive.game
             stages.Add(LevelStages.Trains);
             stages.Add(LevelStages.Bubbles3);
             stages.Add(LevelStages.DuckStage);
-            stagesCount = stages.Count;
-        }        
+
+            return stages;
+        }
     }
 }
