@@ -12,19 +12,19 @@ namespace DuckstazyLive.game
         {
         }
 
+        public override void drawHud(Canvas canvas)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override void initHero()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override LevelStage createStage(int stageIndex)
         {
             throw new NotImplementedException();
-        }
-
-        protected override LevelStage createNextStage()
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override int getStagesCount()
-        {
-            throw new NotImplementedException();
-        }
+        }        
     }
 }

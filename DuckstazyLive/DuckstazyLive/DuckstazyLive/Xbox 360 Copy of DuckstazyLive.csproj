@@ -132,6 +132,7 @@
     <Compile Include="game\PumpLevelStage.cs" />
     <Compile Include="game\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
+    <Compile Include="game\StoryLevel.cs" />
     <Compile Include="game\TextField.cs" />
     <Compile Include="game\TimeoutLevelStage.cs" />
     <Compile Include="game\VersusLevel.cs" />

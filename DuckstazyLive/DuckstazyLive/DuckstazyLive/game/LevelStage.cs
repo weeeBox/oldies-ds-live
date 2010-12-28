@@ -23,7 +23,7 @@ namespace DuckstazyLive.game
         public bool day;
 
         // уровень
-        protected Level level;
+        protected StoryLevel level;
         protected LevelProgress progress;
         protected Pills pills;
         protected Particles particles;
@@ -41,7 +41,7 @@ namespace DuckstazyLive.game
         {
             progress = createLevelProgress();
 
-            level = Level.instance;
+            level = (StoryLevel) StoryLevel.instance;
             media = level.stageMedia;
             pills = level.pills;
             particles = level.pills.ps;
