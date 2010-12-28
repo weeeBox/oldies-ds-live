@@ -54,7 +54,7 @@ namespace DuckstazyLive.game
                     return new SingleLevel(gameState);
 
                 case GameMode.COOP:
-                    return new MultiplayerLevel(gameState);
+                    return new CoopLevel(gameState);
 
                 case GameMode.VERSUS:
                     throw new NotImplementedException();

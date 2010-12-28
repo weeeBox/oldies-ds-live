@@ -80,6 +80,7 @@
     <Compile Include="DuckstazyGame.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
+    <Compile Include="game\CoopLevel.cs" />
     <Compile Include="game\DeathView.cs" />
     <Compile Include="game\DrawMatrix.cs" />
     <Compile Include="game\Env.cs" />
@@ -122,7 +123,6 @@
     <Compile Include="game\levels\PartyTime.cs" />
     <Compile Include="game\levels\Trains.cs" />
     <Compile Include="game\LostView.cs" />
-    <Compile Include="game\MultiplayerLevel.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
     <Compile Include="game\Pill.cs" />

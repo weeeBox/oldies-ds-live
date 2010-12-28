@@ -11,9 +11,9 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public class MultiplayerLevel : Level
+    public class CoopLevel : Level
     {
-        public MultiplayerLevel(GameState gameState) : base(gameState)
+        public CoopLevel(GameState gameState) : base(gameState)
         {            
         }
 
