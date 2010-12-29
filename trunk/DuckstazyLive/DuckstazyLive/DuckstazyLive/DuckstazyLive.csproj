@@ -128,12 +128,12 @@
     <Compile Include="game\LostView.cs" />
     <Compile Include="game\levels\story\StoryLevel.cs" />
     <Compile Include="game\levels\story\StoryLevelStage.cs" />
-    <Compile Include="game\stages\TimeoutLevelStage.cs" />
+    <Compile Include="game\stages\story\TimeoutLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
     <Compile Include="game\ColorTransform.cs" />
     <Compile Include="game\DeathView.cs" />
     <Compile Include="game\DrawMatrix.cs" />
-    <Compile Include="game\stages\PillCollectLevelStage.cs" />
+    <Compile Include="game\stages\story\PillCollectLevelStage.cs" />
     <Compile Include="game\Env.cs" />
     <Compile Include="game\EnvCloud.cs" />
     <Compile Include="game\EnvColor.cs" />
@@ -155,11 +155,11 @@
     <Compile Include="game\levels\Level.cs" />
     <Compile Include="game\levels\story\LevelProgress.cs" />
     <Compile Include="game\levels\LevelStage.cs" />
-    <Compile Include="game\stages\AirAttack.cs" />
-    <Compile Include="game\stages\BetweenCatsStage.cs" />
-    <Compile Include="game\stages\Bubbles.cs" />
-    <Compile Include="game\stages\DoubleFrog.cs" />
-    <Compile Include="game\stages\FigureStage.cs" />
+    <Compile Include="game\stages\story\AirAttack.cs" />
+    <Compile Include="game\stages\story\BetweenCatsStage.cs" />
+    <Compile Include="game\stages\story\Bubbles.cs" />
+    <Compile Include="game\stages\story\DoubleFrog.cs" />
+    <Compile Include="game\stages\story\FigureStage.cs" />
     <Compile Include="game\stages\fx\FrogActor.cs" />
     <Compile Include="game\stages\fx\HintArrow.cs" />
     <Compile Include="game\stages\generator\Generator.cs" />
@@ -169,9 +169,9 @@
     <Compile Include="game\stages\generator\Placer.cs" />
     <Compile Include="game\stages\generator\PowerSetuper.cs" />
     <Compile Include="game\stages\generator\Setuper.cs" />
-    <Compile Include="game\stages\Harvesting.cs" />
-    <Compile Include="game\stages\PartyTime.cs" />
-    <Compile Include="game\stages\Trains.cs" />
+    <Compile Include="game\stages\story\Harvesting.cs" />
+    <Compile Include="game\stages\story\PartyTime.cs" />
+    <Compile Include="game\stages\story\Trains.cs" />
     <Compile Include="game\levels\story\CoopLevel.cs" />
     <Compile Include="game\Particle.cs" />
     <Compile Include="game\Particles.cs" />
@@ -179,7 +179,7 @@
     <Compile Include="game\Pills.cs" />
     <Compile Include="game\PillsMedia.cs" />
     <Compile Include="game\LevelProgressView.cs" />
-    <Compile Include="game\stages\PumpLevelStage.cs" />
+    <Compile Include="game\stages\story\PumpLevelStage.cs" />
     <Compile Include="game\levels\story\SingleLevel.cs" />
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
@@ -231,7 +231,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="game\stages\versus\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
