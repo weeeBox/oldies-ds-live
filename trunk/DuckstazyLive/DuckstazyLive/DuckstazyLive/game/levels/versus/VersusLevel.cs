@@ -16,7 +16,8 @@ namespace DuckstazyLive.game
     {
         private enum VersusStages
         {
-            DoubleFrog
+            DoubleFrog,
+            AirAttack
         }
 
         private int stagesCount;
@@ -97,6 +98,10 @@ namespace DuckstazyLive.game
             {
                 case VersusStages.DoubleFrog:
                     return new DoubleFrogVs(this);
+
+                case VersusStages.AirAttack:
+                    return new AirAttackVs(this);
+
                 default:
                     Debug.Assert(false, "Bad stage: " + stage);
                     break;
