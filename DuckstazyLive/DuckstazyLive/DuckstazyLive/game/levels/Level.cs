@@ -47,8 +47,7 @@ namespace DuckstazyLive.game
             info = new GameInfo();
             ps = new Particles();
             env = Env.getIntance();
-            env.reset();
-            env.playMusic();
+            env.reset();            
 
             initHero();            
 
@@ -124,6 +123,8 @@ namespace DuckstazyLive.game
         {
             env.blanc = 1.0f;
             infoText = null;
+
+            env.playMusic();
 
             stage.start();
             Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);

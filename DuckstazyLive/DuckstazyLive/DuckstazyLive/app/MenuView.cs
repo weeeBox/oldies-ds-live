@@ -170,7 +170,6 @@ namespace DuckstazyLive.app
                 else
                     focusButton(BUTTON_NEW_GAME);
             }
-
         }
 
         private void focusButtonLeft()
