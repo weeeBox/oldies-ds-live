@@ -12,10 +12,8 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.app
 {
-    public class MenuView : View, ButtonDelegate
-    {
-        private Canvas canvas;
-     
+    public class MenuView : EnvView, ButtonDelegate
+    {     
         private int focusedButton, oldFocusedButton;
 
         private const int BUTTON_NEW_GAME = 0;
@@ -32,8 +30,6 @@ namespace DuckstazyLive.app
         public MenuView(MenuController menuController)
         {
             this.menuController = menuController;
-
-            canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
      
             // title
             addTitle();
@@ -44,9 +40,8 @@ namespace DuckstazyLive.app
 
         public override void onShow()
         {
-            Env env = Env.getIntance();
-            env.blanc = 1.0f;
-            env.day = true;
+            base.onShow();
+            env.blanc = 1.0f;            
         }
 
         private void addTitle()
@@ -108,30 +103,6 @@ namespace DuckstazyLive.app
             focusedButton = oldFocusedButton = Constants.UNDEFINED;
             focusButton(BUTTON_NEW_GAME);
         }
-
-        public override void update(float delta)
-        {
-            base.update(delta);
-            Env.getIntance().update(delta, 0.0f);
-            Env.getIntance().updateBlanc(delta);
-        }
-
-        public override void draw()
-        {
-            preDraw();
-            drawEnv();
-            postDraw();
-
-            Env env = Env.getIntance();
-            if (env.blanc > 0.0f)
-                env.drawBlanc(canvas);
-        }
-
-        private void drawEnv()
-        {
-            Env.getIntance().draw1(canvas);
-            Env.getIntance().draw2(canvas);
-        }                
 
         public override bool buttonPressed(ref ButtonEvent e)
         {

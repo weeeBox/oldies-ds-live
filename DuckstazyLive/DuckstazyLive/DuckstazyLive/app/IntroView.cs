@@ -11,27 +11,22 @@ using Framework.visual;
 
 namespace DuckstazyLive.app
 {
-    public class IntroView : View
+    public class IntroView : EnvView
     {        
-        private StartupController controller;     
-
-        private Env env;
-        private Canvas canvas;
+        private StartupController controller;        
 
         private float elapsedTime;
 
         public IntroView(StartupController controller)
         {
-            this.controller = controller;
-            env = Env.getIntance();
-            canvas = new Canvas(width, height);            
+            this.controller = controller;            
         }
 
         public override void onShow()
         {
-            env.blanc = 1.0f;
+            base.onShow();
+
             elapsedTime = 0;
-            env.day = true;
 
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text text = new Text(font);
@@ -45,24 +40,13 @@ namespace DuckstazyLive.app
 
         public override void update(float delta)
         {
-            base.update(delta);
-            env.update(delta, 0.0f);
+            base.update(delta);        
 
             elapsedTime += delta;
 
             if (elapsedTime > 3.0f)
                 hide();
-        }
-                
-        public override void draw()
-        {
-            base.preDraw();
-
-            env.draw1(canvas);
-            env.draw2(canvas);
-
-            base.postDraw();
-        }
+        }        
 
         public override bool buttonPressed(ref ButtonEvent evt)
         {

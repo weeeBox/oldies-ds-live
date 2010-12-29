@@ -34,7 +34,7 @@ namespace DuckstazyLive.app
             Application.sharedRootController.activateChild(DuckstazyRootController.CHILD_VERSUS);
 
             VersusController versusController = (VersusController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_VERSUS);
-            versusController.newGame(0);
+            versusController.selectStage();
         }
 
         public override void activate()
