@@ -69,6 +69,9 @@ namespace DuckstazyLive.game
             Env.getIntance().day = day;        
         }
 
-        public abstract void collectPill(Hero hero, Pill pill);        
+        protected abstract void updateProgress(float dt);
+
+        public abstract void collectPill(Hero hero, Pill pill);
+        public abstract bool isPlaying();
     }
 }

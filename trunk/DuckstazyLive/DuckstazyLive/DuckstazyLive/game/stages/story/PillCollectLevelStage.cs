@@ -19,7 +19,7 @@ namespace DuckstazyLive.game
             progress.start(numPills, 0);
         }
 
-        public override void updateProgress(float dt)
+        protected override void updateProgress(float dt)
         {
             base.updateProgress(dt);
 
