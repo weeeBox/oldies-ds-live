@@ -84,7 +84,7 @@ namespace DuckstazyLive.game
             }            
         }
 
-        public virtual void updateProgress(float dt)
+        protected override void updateProgress(float dt)
         {
             progress.update(dt);
         }
@@ -94,7 +94,7 @@ namespace DuckstazyLive.game
             this.state = state;
         }
 
-        public bool isPlaying()
+        public override bool isPlaying()
         {
             return state == State.PLAYING;
         }

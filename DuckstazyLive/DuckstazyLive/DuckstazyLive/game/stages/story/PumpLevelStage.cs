@@ -26,7 +26,7 @@ namespace DuckstazyLive.game
             pumpProg = 0.0f;
         }
 
-        public override void updateProgress(float dt)
+        protected override void updateProgress(float dt)
         {
             base.updateProgress(dt);
 

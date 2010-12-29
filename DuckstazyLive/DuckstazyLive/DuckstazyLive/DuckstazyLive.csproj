@@ -144,6 +144,9 @@
     <Compile Include="game\env\EnvEffect3.cs" />
     <Compile Include="game\env\EnvEffect4.cs" />
     <Compile Include="game\FloatText.cs" />
+    <Compile Include="game\stages\versus\DoubleFrogVs.cs" />
+    <Compile Include="game\stages\versus\VersusLevelStage.cs" />
+    <Compile Include="game\stages\versus\VersusProgress.cs" />
     <Compile Include="game\StoryGame.cs" />
     <Compile Include="game\GameInfo.cs" />
     <Compile Include="game\GameState.cs" />
@@ -231,9 +234,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="game\stages\versus\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
