@@ -15,6 +15,7 @@ namespace DuckstazyLive.app
         private const int CHILD_PAUSE = 3;
 
         private VersusGame game;
+        private VersusResultView result;
 
         public VersusController(ViewController parent) : base(parent)
         {
@@ -23,6 +24,9 @@ namespace DuckstazyLive.app
 
             game = new VersusGame(this);
             addViewWithId(game, CHILD_GAME);
+
+            result = new VersusResultView(this);
+            addViewWithId(result, CHILD_RESULT);
         }
         
         public void selectStage()
@@ -34,6 +38,18 @@ namespace DuckstazyLive.app
         {
             game.newGame(levelIndex);
             showView(CHILD_GAME);
+        }
+
+        public void showDraw()
+        {
+            result.setDraw();
+            showView(CHILD_RESULT);
+        }
+
+        public void showWinner(int playerIndex)
+        {
+            result.setWinner(playerIndex);
+            showView(CHILD_RESULT);
         }
 
         public void restart()

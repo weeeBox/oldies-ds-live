@@ -20,54 +20,19 @@ namespace DuckstazyLive.game
             AirAttack
         }
 
+        private VersusGame game;
         private int stagesCount;
 
-        public VersusLevel() : base(new GameState())
+        public VersusLevel(VersusGame game) : base(new GameState())
         {
+            this.game = game;
             stagesCount = Enum.GetNames(typeof(VersusStages)).Length;
-        }
+        }        
 
-        public override void drawHud(Canvas canvas)
+        public override void start()
         {
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-            heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-
-            font.drawString(getStage().getPillCollected(0).ToString(), Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y + 20);
-            font.drawString(getStage().getPillCollected(1).ToString(), Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y + 20, TextAlign.TOP | TextAlign.RIGHT);
-
-            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            float infoY = Constants.TITLE_SAFE_TOP_Y;
-            bool hasInfoText = infoText != null;
-            
-            float t = getStage().getRemainingTime();
-            int i = (int)(t / 60);
-            string timeStr;
-            if (i < 10) timeStr = "0" + i.ToString() + ":";
-            else timeStr = i.ToString() + ":";
-            i = ((int)t) % 60;
-            if (i < 10) timeStr += "0" + i.ToString();
-            else timeStr += i.ToString();
-
-            float timeX;
-            float timeY = infoY;
-            if (hasInfoText)
-            {
-                infoX = 0.4f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-                timeX = 0.6f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            }
-            else
-            {
-                timeX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            }
-
-            font.drawString(timeStr, timeX, timeY, TextAlign.HCENTER | TextAlign.VCENTER);
-            
-            if (hasInfoText)
-            {
-                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-            }
+            base.start();
+            heroes.clear();            
         }
 
         protected override void initHero()
@@ -110,6 +75,48 @@ namespace DuckstazyLive.game
             return null;
         }
 
+        public override void update(float dt)
+        {
+            base.update(dt);
+            
+            if (heroes[1].isDead())
+            {
+                onWin(0);
+            }
+            else if (heroes[0].isDead())
+            {
+                onWin(1);
+            }
+            else if (getStage().isEnded())
+            {
+                int collected0 = getStage().getPillCollected(0);
+                int collected1 = getStage().getPillCollected(1);
+
+                if (collected0 > collected1)
+                {
+                    onWin(0);
+                }
+                else if (collected1 > collected0)
+                {
+                    onWin(1);
+                }
+                else
+                {
+                    onDraw();
+                }
+            }
+        }       
+ 
+        protected virtual void onWin(int playerIndex)
+        {
+            game.showWinner(playerIndex);
+        }
+
+        protected virtual void onDraw()
+        {
+            game.showDraw();
+        }
+
         public int getStagesCount()
         {
             return stagesCount;
@@ -118,6 +125,49 @@ namespace DuckstazyLive.game
         protected VersusLevelStage getStage()
         {
             return (VersusLevelStage)stage;
+        }
+
+        public override void drawHud(Canvas canvas)
+        {
+            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
+            heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
+
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+
+            font.drawString(getStage().getPillCollected(0).ToString(), Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y + 20);
+            font.drawString(getStage().getPillCollected(1).ToString(), Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y + 20, TextAlign.TOP | TextAlign.RIGHT);
+
+            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+            float infoY = Constants.TITLE_SAFE_TOP_Y;
+            bool hasInfoText = infoText != null;
+
+            float t = getStage().getRemainingTime();
+            int i = (int)(t / 60);
+            string timeStr;
+            if (i < 10) timeStr = "0" + i.ToString() + ":";
+            else timeStr = i.ToString() + ":";
+            i = ((int)t) % 60;
+            if (i < 10) timeStr += "0" + i.ToString();
+            else timeStr += i.ToString();
+
+            float timeX;
+            float timeY = infoY;
+            if (hasInfoText)
+            {
+                infoX = 0.4f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+                timeX = 0.6f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+            }
+            else
+            {
+                timeX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
+            }
+
+            font.drawString(timeStr, timeX, timeY, TextAlign.HCENTER | TextAlign.VCENTER);
+
+            if (hasInfoText)
+            {
+                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
+            }
         }
     }
 }

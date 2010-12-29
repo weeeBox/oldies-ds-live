@@ -233,7 +233,7 @@ namespace DuckstazyLive.game
         {
             foreach (Hero h in heroes)
             {
-                if (h.gameState.health > 0)
+                if (!h.isDead())
                     return true;
             }
             return false;

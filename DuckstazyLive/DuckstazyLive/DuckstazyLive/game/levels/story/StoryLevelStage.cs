@@ -53,7 +53,7 @@ namespace DuckstazyLive.game
             }
             totalCollected = 0;
 
-            base.start();            
+            base.start();
             startProgress();
         }
 

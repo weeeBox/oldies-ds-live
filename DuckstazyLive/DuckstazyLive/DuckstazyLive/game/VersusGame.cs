@@ -14,7 +14,7 @@ namespace DuckstazyLive.game
 
         public VersusGame(VersusController controller) : base(controller)
         {
-            level = new VersusLevel();
+            level = new VersusLevel(this);
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,6 +26,16 @@ namespace DuckstazyLive.game
             level.state.level = levelIndex;
             level.start();
         }        
+
+        public void showDraw()
+        {
+            getController().showDraw();
+        }
+
+        public void showWinner(int playerIndex)
+        {
+            getController().showWinner(playerIndex);
+        }
 
         public void restartLevel()
         {

@@ -64,7 +64,7 @@ namespace DuckstazyLive.game
             heroes.clear();
         }
 
-        public void start()
+        public virtual void start()
         {
             env.blanc = 1.0f;
             power = 0.0f;

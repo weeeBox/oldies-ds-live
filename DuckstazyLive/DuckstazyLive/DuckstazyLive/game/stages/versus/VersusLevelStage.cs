@@ -49,8 +49,7 @@ namespace DuckstazyLive.game.stages.versus
         }
 
         protected void stop()
-        {
-            setState(State.ENDED);
+        {            
             onStop();
         }
 
@@ -79,6 +78,11 @@ namespace DuckstazyLive.game.stages.versus
             return state == State.PLAYING;
         }
 
+        public bool isEnded()
+        {
+            return state == State.ENDED;
+        }
+
         public override void collectPill(Hero hero, Pill pill)
         {
             int heroIndex = hero.getPlayerIndex();
@@ -99,6 +103,7 @@ namespace DuckstazyLive.game.stages.versus
 
         protected virtual void onStop()
         {
+            setState(State.ENDED);
         }
 
         public float getRemainingTime()
