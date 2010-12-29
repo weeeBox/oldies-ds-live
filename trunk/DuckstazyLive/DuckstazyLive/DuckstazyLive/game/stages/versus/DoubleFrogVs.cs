@@ -26,7 +26,7 @@ namespace DuckstazyLive.game.stages.versus
         private HintArrow arrow2;
         private float arrowHider;
 
-        public DoubleFrogVs(VersusLevel level) : base(level, 100)
+        public DoubleFrogVs(VersusLevel level) : base(level, 60)
         {
             frog1 = new FrogActor(media);
             frog2 = new FrogActor(media);
@@ -116,6 +116,7 @@ namespace DuckstazyLive.game.stages.versus
 
         protected override void onStop()
         {
+            base.onStop();
             gen.finish();
         }
 

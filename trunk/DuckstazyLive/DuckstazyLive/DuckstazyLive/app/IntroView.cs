@@ -50,12 +50,10 @@ namespace DuckstazyLive.app
 
         public override bool buttonPressed(ref ButtonEvent evt)
         {
-            switch (evt.button)
-            {
-                case Buttons.A:
-                case Buttons.Start:
-                    hide();
-                    return true;
+            if (evt.action == ButtonAction.OK)
+            {                
+                hide();
+                return true;
             }
 
             return false;
