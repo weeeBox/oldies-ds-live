@@ -216,8 +216,7 @@ namespace DuckstazyLive.game.levels
                     pill.kill();
                     level.pills.ps.startAcid(pill.x, pill.y);
 
-                    lostPillsCount++;
-                    Debug.WriteLine("Lost: " + lostPillsCount);
+                    lostPillsCount++;                    
                 }
             }
             else if (msg == "born")
