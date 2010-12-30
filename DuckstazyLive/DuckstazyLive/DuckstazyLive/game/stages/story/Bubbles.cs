@@ -5,6 +5,7 @@ using System.Text;
 using DuckstazyLive.game.levels.generator;
 using DuckstazyLive.app;
 using DuckstazyLive.game.levels.fx;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game.levels
 {
@@ -13,7 +14,6 @@ namespace DuckstazyLive.game.levels
         public Generator gen;
         public JumpStarter jumper;
         public PartySetuper setuper;
-
 
         private float x;
         private int count;
@@ -25,6 +25,8 @@ namespace DuckstazyLive.game.levels
         private HintArrow arrow2;
         private HintArrow arrow3;
         private float arrowHider;
+
+        private int lostPillsCount;
 
         public Bubbles(float pumVel, int danger)            
         {
@@ -91,6 +93,7 @@ namespace DuckstazyLive.game.levels
 
             counter = 0.1f;
             count = 0;
+            lostPillsCount = 0;
             x = 320.0f;
 
             if (utils.rnd() > 0.5f) startX = 218;
@@ -208,8 +211,14 @@ namespace DuckstazyLive.game.levels
 
                 pill.t2 += dt;
 
-                if (pill.y <= -10.0f)
-                    pill.die();
+                if (pill.y <= -10.0f && pill.isAlive())
+                {
+                    pill.kill();
+                    level.pills.ps.startAcid(pill.x, pill.y);
+
+                    lostPillsCount++;
+                    Debug.WriteLine("Lost: " + lostPillsCount);
+                }
             }
             else if (msg == "born")
             {
@@ -219,7 +228,7 @@ namespace DuckstazyLive.game.levels
                 pill.vy = -5.0f - 50 * level.power * utils.rnd();
                 //pill.enabled = true;
                 //pill.warning = 0.0;
-            }
+            }            
         }
     }
 }
