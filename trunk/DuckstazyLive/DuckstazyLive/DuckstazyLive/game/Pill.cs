@@ -28,6 +28,9 @@ namespace DuckstazyLive.game
         public const int ALIVE = 2;
         public const int DYING = 3;
 
+        public const int TOXIC_SKULL = 0;
+        public const int TOXIC_FORBID = 1;
+
         /*public const int HAPPY = 0;
         public const int SHAKE = 1;
         public const int SMILE = 2;*/
@@ -610,14 +613,14 @@ namespace DuckstazyLive.game
 
             switch (ID)
             {
-                case 0:
+                case TOXIC_SKULL:
                     damage = 1;
                     imgMain = media.imgToxic;
                     hookedHero = getClosestHeroIndex();
                     hookTime = 3.0f;
                     hookCounter = 0.0f;
                     break;
-                case 1:
+                case TOXIC_FORBID:
                     damage = 2;
                     imgMain = media.imgToxic2;
                     hookedHero = Constants.UNDEFINED;
@@ -656,11 +659,11 @@ namespace DuckstazyLive.game
 
             switch (ID)
             {
-                case 0:
+                case TOXIC_SKULL:
                     damage = 1;
                     imgMain = media.imgToxic;
                     break;
-                case 1:
+                case TOXIC_FORBID:
                     damage = 2;
                     imgMain = media.imgToxic2;
                     break;

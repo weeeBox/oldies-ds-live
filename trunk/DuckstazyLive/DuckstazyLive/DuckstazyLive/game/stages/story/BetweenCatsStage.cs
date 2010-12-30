@@ -13,6 +13,8 @@ namespace DuckstazyLive.game.levels
 {
     public class BetweenCatsStage : PillCollectLevelStage
     {
+        private const int TOXIC_RATE = 3;
+
         private Generator gen;
         private Generator gen1;
         private Generator gen2;
@@ -28,6 +30,7 @@ namespace DuckstazyLive.game.levels
         private float catFinalAttack;
 
         private int catStage;
+        private int catSpawnedPillsCount;
 
         private HintArrow catArrow;
 
@@ -99,7 +102,8 @@ namespace DuckstazyLive.game.levels
 
             //killer.init();
 
-            startX = 293;            
+            startX = 293;
+            catSpawnedPillsCount = 0;
         }
 
         public void catPillsCallback(Pill pill, String msg, float dt)
@@ -232,12 +236,22 @@ namespace DuckstazyLive.game.levels
                     if (pill != null)
                     {
                         if (catStage == 0)
-                        {
-                            pill.startPower(107, 224, 1, false);
+                        {                            
+                            float psx = 107;
+                            float psy = 224;
+                            if (catSpawnedPillsCount % TOXIC_RATE == 0)
+                            {
+                                pill.startMissle(psx, psy, Pill.TOXIC_SKULL);
+                            }
+                            else
+                            {
+                                pill.startPower(psx, psy, 1, false);
+                            }
                             pill.t1 = 0.0f;
                             pill.user = catPillsCallback;
                             catGen -= 1.0f;
                             newPills++;
+                            catSpawnedPillsCount++;
                         }
                     }
 
