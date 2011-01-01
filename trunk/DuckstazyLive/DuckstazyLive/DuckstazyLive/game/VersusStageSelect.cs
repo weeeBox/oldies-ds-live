@@ -21,7 +21,7 @@ namespace DuckstazyLive.game
         private VersusController controller;
         private int focusedButtonId;
 
-        public VersusStageSelect(VersusController controller)
+        public VersusStageSelect(VersusController controller, VersusLevel level)
         {
             this.controller = controller;
 
@@ -37,6 +37,7 @@ namespace DuckstazyLive.game
 
             int buttonId = 0;
             float buttonX, buttonY;
+
             for (int row = 0; row < NUM_BUTTON_ROWS; ++row)
             {
                 buttonY = buttonStartY + row * (buttonHeight + BUTTON_VER_DIST);
@@ -44,7 +45,8 @@ namespace DuckstazyLive.game
                 for (int col = 0; col < NUM_BUTTON_COLS; ++col)
                 {
                     buttonX = buttonStartX + col * (buttonWidth + BUTTON_HOR_DIST);
-                    addButton(buttonId, buttonX, buttonY);
+                    String buttonName = buttonId < level.getStagesCount() ? level.getStageName(buttonId).ToUpper() : "NO\nSTAGE";
+                    addButton(buttonId, buttonName, buttonX, buttonY);
                     buttonId++;
                 }
             }
@@ -57,9 +59,9 @@ namespace DuckstazyLive.game
             focusButton(0);
         }
 
-        private void addButton(int id, float x, float y)
+        private void addButton(int id, String buttonName, float x, float y)
         {
-            MenuButton button = new MenuButton("Stage " + (id + 1), id, x, y);
+            MenuButton button = new MenuButton(buttonName, id, x, y);
             button.buttonDelegate = this;
             addChildWithId(button, id);
         }

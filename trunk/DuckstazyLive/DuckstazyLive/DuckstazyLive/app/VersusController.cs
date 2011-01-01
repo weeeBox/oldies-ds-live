@@ -9,8 +9,8 @@ namespace DuckstazyLive.app
 {
     public class VersusController : ViewController
     {
-        private const int CHILD_STAGE_SELECT = 0;
-        private const int CHILD_GAME = 1;
+        private const int CHILD_GAME = 0;
+        private const int CHILD_STAGE_SELECT = 1;        
         private const int CHILD_RESULT = 2;
         private const int CHILD_PAUSE = 3;
 
@@ -19,11 +19,11 @@ namespace DuckstazyLive.app
 
         public VersusController(ViewController parent) : base(parent)
         {
-            VersusStageSelect stageSelect = new VersusStageSelect(this);
-            addViewWithId(stageSelect, CHILD_STAGE_SELECT);
-
             game = new VersusGame(this);
             addViewWithId(game, CHILD_GAME);
+
+            VersusStageSelect stageSelect = new VersusStageSelect(this, game.level);
+            addViewWithId(stageSelect, CHILD_STAGE_SELECT);            
 
             result = new VersusResultView(this);
             addViewWithId(result, CHILD_RESULT);

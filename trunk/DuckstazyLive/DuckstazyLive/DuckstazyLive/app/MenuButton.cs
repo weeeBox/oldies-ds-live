@@ -38,7 +38,7 @@ namespace DuckstazyLive.app
             // button label
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text label = new Text(font);
-            label.setString(text);
+            label.setString(text, baseImage.width);
             label.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             label.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChildWithId(label, CHILD_TEXT);

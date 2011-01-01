@@ -72,12 +72,12 @@ namespace DuckstazyLive.app
             // new game
             float newGameButtonX = Constants.TITLE_SAFE_LEFT_X + 0.33f * Constants.TITLE_SAFE_AREA_WIDTH;
             float newGameButtonY = Constants.TITLE_SAFE_TOP_Y;            
-            addButton("NEW\nGAME", BUTTON_NEW_GAME, newGameButtonX, newGameButtonY, 0.5f, 0.0f);            
+            addButton("NEW GAME", BUTTON_NEW_GAME, newGameButtonX, newGameButtonY, 0.5f, 0.0f);            
 
             // last save
             float resumeGameButtonX = Constants.TITLE_SAFE_LEFT_X + 0.66f * Constants.TITLE_SAFE_AREA_WIDTH;
             float resumeGameButtonY = newGameButtonY;
-            addButton("LAST\nSAVE", BUTTON_RESUME_GAME, resumeGameButtonX, resumeGameButtonY, 0.5f, 0.0f);            
+            addButton("LAST SAVE", BUTTON_RESUME_GAME, resumeGameButtonX, resumeGameButtonY, 0.5f, 0.0f);            
 
             // about
             float aboutButtonX = Constants.TITLE_SAFE_LEFT_X + 50;
@@ -92,12 +92,12 @@ namespace DuckstazyLive.app
             // coop
             float coopButtonX = newGameButtonX;
             float coopButtonY = Constants.TITLE_SAFE_BOTTOM_Y;
-            addButton("COOP\nMODE", BUTTON_COOP, coopButtonX, coopButtonY, 0.5f, 1.0f);            
+            addButton("COOP MODE", BUTTON_COOP, coopButtonX, coopButtonY, 0.5f, 1.0f);            
 
             // versus
             float versusButtonX = resumeGameButtonX;
             float versusButtonY = coopButtonY;
-            addButton("VERSUS\nMODE", BUTTON_VERSUS, versusButtonX, versusButtonY, 0.5f, 1.0f);            
+            addButton("VERSUS MODE", BUTTON_VERSUS, versusButtonX, versusButtonY, 0.5f, 1.0f);            
 
             // focus
             focusedButton = oldFocusedButton = Constants.UNDEFINED;
