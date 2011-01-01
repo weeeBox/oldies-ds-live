@@ -63,7 +63,7 @@ namespace DuckstazyLive.app
             // menu
             float menuButtonX = resumeGameButtonX;
             float menuButtonY = Constants.TITLE_SAFE_BOTTOM_Y;
-            addButton("MAIN\nMENU", BUTTON_MENU, menuButtonX, menuButtonY, 0.5f, 1.0f);
+            addButton("MAIN MENU", BUTTON_MENU, menuButtonX, menuButtonY, 0.5f, 1.0f);
 
             // exit
             float exitButtonX = restartGameButtonX;

@@ -16,18 +16,36 @@ namespace DuckstazyLive.game
     {
         private enum VersusStages
         {
-            DoubleFrog,
+            DoubleFrog,            
+            TripleFrog,
             AirAttack,
-            TripleFrog
         }
 
+        private struct StageInfo
+        {
+            public VersusStages stage;
+            public String name;
+
+            public StageInfo(VersusStages stage, String name)
+            {
+                this.stage = stage;
+                this.name = name;
+            }
+        }        
+
         private VersusGame game;
-        private int stagesCount;
+        private StageInfo[] stagesInfo;
 
         public VersusLevel(VersusGame game) : base(new GameState())
         {
             this.game = game;
-            stagesCount = Enum.GetNames(typeof(VersusStages)).Length;
+            stagesInfo = new StageInfo[]
+            {
+                new StageInfo(VersusStages.DoubleFrog, "Double Frog"),
+                new StageInfo(VersusStages.TripleFrog, "Triple Frog"),
+                new StageInfo(VersusStages.AirAttack, "Air Attack"),
+            };
+            
         }        
 
         public override void start()
@@ -57,8 +75,8 @@ namespace DuckstazyLive.game
 
         protected override LevelStage createStage(int stageIndex)
         {
-            Debug.Assert(stageIndex >= 0 && stageIndex < stagesCount);
-            VersusStages stage = (VersusStages)stageIndex;
+            Debug.Assert(stageIndex >= 0 && stageIndex < stagesInfo.Length);
+            VersusStages stage = stagesInfo[stageIndex].stage;            
 
             switch (stage)
             {
@@ -123,7 +141,13 @@ namespace DuckstazyLive.game
 
         public int getStagesCount()
         {
-            return stagesCount;
+            return stagesInfo.Length;
+        }        
+
+        public String getStageName(int stageIndex)
+        {
+            Debug.Assert(stageIndex >= 0 && stageIndex < getStagesCount());
+            return stagesInfo[stageIndex].name;
         }
 
         protected VersusLevelStage getStage()
