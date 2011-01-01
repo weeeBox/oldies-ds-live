@@ -509,19 +509,19 @@ namespace DuckstazyLive.game
             switch (ID)
             {
                 case 0:
-                    scores = 5;
+                    scores = 1;
                     power = 0.01f;
                     imgMain = media.imgPower1;
                     imgEmo = media.imgPPower1;
                     break;
                 case 1:
-                    scores = 25;
+                    scores = 2;
                     power = 0.025f;
                     imgMain = media.imgPower2;
                     imgEmo = media.imgPPower2;
                     break;
                 case 2:
-                    scores = 50;
+                    scores = 5;
                     power = 0.05f;
                     imgMain = media.imgPower3;
                     imgEmo = media.imgPPower3;
