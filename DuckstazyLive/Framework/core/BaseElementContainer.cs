@@ -14,6 +14,11 @@ namespace Framework.core
 
         protected DynamicArray<BaseElement> childs;
 
+        public BaseElementContainer()
+            : this(0, 0, 0, 0)
+        {
+        }
+
         public BaseElementContainer(int width, int height)
             : this(0, 0, width, height)
         {
