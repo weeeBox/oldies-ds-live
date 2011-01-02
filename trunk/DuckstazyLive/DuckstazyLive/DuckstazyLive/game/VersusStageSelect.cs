@@ -12,8 +12,8 @@ namespace DuckstazyLive.game
 {
     public class VersusStageSelect : EnvView, ButtonDelegate
     {
-        private const int NUM_BUTTON_ROWS = 3;
-        private const int NUM_BUTTON_COLS = 3;
+        private const int NUM_BUTTON_ROWS = 2;
+        private const int NUM_BUTTON_COLS = 5;
 
         private const int BUTTON_HOR_DIST = 35;
         private const int BUTTON_VER_DIST = 20;
@@ -24,6 +24,7 @@ namespace DuckstazyLive.game
         public VersusStageSelect(VersusController controller, VersusLevel level)
         {
             this.controller = controller;
+            this.height = (int)Constants.ENV_HEIGHT;
 
             Texture2D buttonTex = Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_STROKE_FOCUSED);
             int buttonWidth = buttonTex.Width;
@@ -45,11 +46,18 @@ namespace DuckstazyLive.game
                 for (int col = 0; col < NUM_BUTTON_COLS; ++col)
                 {
                     buttonX = buttonStartX + col * (buttonWidth + BUTTON_HOR_DIST);
-                    String buttonName = buttonId < level.getStagesCount() ? level.getStageName(buttonId).ToUpper() : "NO\nSTAGE";
+                    String buttonName = buttonId < level.getStagesCount() ? level.getStageName(buttonId).ToUpper() : "NO STAGE";
                     addButton(buttonId, buttonName, buttonX, buttonY);
                     buttonId++;
                 }
             }
+
+            BaseElement lastButton = getChild(buttonId - 1);
+
+            UiControllerButtons buttons = new UiControllerButtons("SELECT", "BACK");            
+            addChild(buttons);
+            attachHor(buttons, UiLayout.STYLE_CENTER);
+            UiLayout.attachVert(buttons, lastButton, this, UiLayout.STYLE_CENTER);
         }
 
         public override void onShow()
@@ -94,6 +102,12 @@ namespace DuckstazyLive.game
                         ButtonEvent newEvent = e;
                         newEvent.button = Buttons.A;
                         buttonPressed(ref newEvent);
+                    }
+                    return true;
+                    
+                case ButtonAction.Back:
+                    {
+                        controller.deactivate();
                     }
                     return true;
             }

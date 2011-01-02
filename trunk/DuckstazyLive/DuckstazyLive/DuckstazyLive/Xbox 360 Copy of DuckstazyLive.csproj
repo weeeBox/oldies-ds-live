@@ -80,6 +80,7 @@
     <Compile Include="app\Res.cs" />
     <Compile Include="app\StartupController.cs" />
     <Compile Include="app\StoryController.cs" />
+    <Compile Include="app\UiControllerButtons.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="app\VersusController.cs" />
     <Compile Include="DuckstazyGame.cs" />
