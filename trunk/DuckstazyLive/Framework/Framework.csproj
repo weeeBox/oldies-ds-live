@@ -109,6 +109,7 @@
     <Compile Include="core\SoundTransform.cs" />
     <Compile Include="core\Timer.cs" />
     <Compile Include="core\TimerManager.cs" />
+    <Compile Include="core\UiLayout.cs" />
     <Compile Include="core\View.cs" />
     <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
