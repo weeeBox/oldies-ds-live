@@ -221,11 +221,15 @@ namespace Framework.core
             postDraw();
         }        
 
-        public BaseElement Parent
+        public BaseElement getParent()
         {
-            get { return parent; }
-            set { parent = value; }
+            return parent;
         }        
+
+        public void setParent(BaseElement parent)
+        {
+            this.parent = parent;
+        }
 
         // timeline
         public void turnTimelineSupportWithMaxKeyFrames(int m)

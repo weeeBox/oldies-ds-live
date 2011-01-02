@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace Framework.core
 {
@@ -13,11 +14,13 @@ namespace Framework.core
 
         protected DynamicArray<BaseElement> childs;
 
-        public BaseElementContainer(int width, int height) : this(0, 0, width, height)
+        public BaseElementContainer(int width, int height)
+            : this(0, 0, width, height)
         {
         }
 
-        public BaseElementContainer(float x, float y, int width, int height) : base(x, y, width, height)
+        public BaseElementContainer(float x, float y, int width, int height)
+            : base(x, y, width, height)
         {
             childs = new DynamicArray<BaseElement>();
             passTransformationsToChilds = true;
@@ -60,7 +63,7 @@ namespace Framework.core
 
         public virtual void addChildWithId(BaseElement c, int i)
         {
-            c.Parent = this;
+            c.setParent(this);
             childs[i] = c;
         }
 
@@ -74,7 +77,7 @@ namespace Framework.core
         public void removeChildWithId(int i)
         {
             BaseElement c = childs[i];
-            c.Parent = null;
+            c.setParent(null);
             childs[i] = null;
         }
 
@@ -136,6 +139,51 @@ namespace Framework.core
             }
 
             return base.buttonReleased(ref e);
-        }        
+        }
+        
+        public void attachCenter(BaseElement item)
+        {
+            UiLayout.attachCenter(item, this);
+        }
+
+        public void attachHor(BaseElement item, AttachStyle style)
+        {
+            UiLayout.attachHor(item, this, this, style);
+        }
+
+        public void attachVert(BaseElement item, AttachStyle style)
+        {
+            UiLayout.attachVert(item, this, this, style);
+        }
+
+        public void resizeToFitItems()
+        {
+            resizeToFitItems(0, 0, 0, 0);
+        }
+
+        public void resizeToFitItemsHor(int leftIndent, int rightIndent)
+        {
+            resizeToFitItems(leftIndent, 0, rightIndent, 0);
+        }
+
+        public void resizeToFitItemsVer(int topIndent, int bottomIndent)
+        {
+            resizeToFitItems(0, topIndent, 0, bottomIndent);
+        }
+
+        public void resizeToFitItems(int leftIndent, int topIndent, int rightIndent, int bottomIndent)
+        {
+            UiLayout.resizeToFitItems(this, leftIndent, topIndent, rightIndent, bottomIndent);
+        }
+
+        public void arrangeVertically(int minDist, int maxDist)
+        {
+            UiLayout.arrangeVertically(this, minDist, maxDist);
+        }
+
+        public void arrangeHorizontally(int minDist, int maxDist)
+        {
+            UiLayout.arrangeHorizontally(this, minDist, maxDist);
+        }
     }
 }
