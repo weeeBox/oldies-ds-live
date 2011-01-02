@@ -36,17 +36,6 @@ namespace DuckstazyLive.app
 
             // ui
             addButtons();
-
-            BaseElementContainer container = new BaseElementContainer(0, 0);
-            addChild(container);
-            
-            container.addChild(new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_BASE)));
-            container.addChild(new Image(Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_STROKE_FOCUSED)));
-            container.addChild(new Image(Application.sharedResourceMgr.getTexture(Res.IMG_UI_BUTTON_A)));
-
-            container.arrangeHorizontally(0, 0);
-            container.resizeToFitItems();
-            attachCenter(container);
         }
 
         public override void onShow()
