@@ -14,11 +14,17 @@ namespace DuckstazyLive.game
 
         public LostView(StoryController controller) : base(controller)
         {
-            Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
-            text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
-            text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
+            this.height = (int)Constants.ENV_HEIGHT;
 
+            Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
             addChildWithId(text, CHILD_MESSAGE);
+            text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
+            attachCenter(text);
+
+            UiControllerButtons buttons = new UiControllerButtons("RETRY", "GIVEUP");
+            addChild(buttons);
+            attachHor(buttons, UiLayout.STYLE_CENTER);
+            UiLayout.attachVert(buttons, text, this, UiLayout.STYLE_CENTER);
         }
 
         public void setMessage(String message)

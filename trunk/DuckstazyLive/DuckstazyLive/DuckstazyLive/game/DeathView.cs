@@ -30,6 +30,8 @@ namespace DuckstazyLive.game
 
         public DeathView(StoryController controller) : base(controller)
         {
+            this.height = (int)Constants.ENV_HEIGHT;
+
             backgroud = utils.createSolidRect(0, 0, width, height, Color.White);
             sculls = new Scull[SCULLS_COUNT];            
             for(int i = 0; i < SCULLS_COUNT; ++i)
@@ -38,17 +40,16 @@ namespace DuckstazyLive.game
             }
 
             Text missText = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
-            missText.setString("THAT IS HOW IT HAPPENS.\n\nBEWARE...");
-            missText.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
-            missText.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChild(missText);
 
-            // add ui
-            Image buttonImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_UI_BUTTON_A));
-            buttonImage.x = 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X);
-            buttonImage.y = Constants.TITLE_SAFE_BOTTOM_Y;
-            buttonImage.setAlign(ALIGN_CENTER, ALIGN_MAX);
-            addChild(buttonImage);
+            attachCenter(missText);
+            missText.setString("THAT IS HOW IT HAPPENS.\n\nBEWARE...");            
+            missText.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);            
+
+            UiControllerButtons buttons = new UiControllerButtons("NEW TRIP", "GO HOME");
+            addChild(buttons);
+            attachHor(buttons, UiLayout.STYLE_CENTER);
+            UiLayout.attachVert(buttons, missText, this, UiLayout.STYLE_CENTER);
         }        
 
         private void initScull(ref Scull scull, bool firstInit)

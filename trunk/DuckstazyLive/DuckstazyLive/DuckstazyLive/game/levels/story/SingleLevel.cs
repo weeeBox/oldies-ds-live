@@ -7,6 +7,7 @@ using DuckstazyLive.app;
 using Framework.visual;
 using Framework.core;
 using System.Diagnostics;
+using DuckstazyLive.game.stages.story;
 
 namespace DuckstazyLive.game
 {
@@ -25,7 +26,8 @@ namespace DuckstazyLive.game
             PartyTime3,
             Trains,
             Bubbles3,
-            DuckStage,            
+            DuckStage,
+            Snakes,
         }
 
         private int stageIndex;
@@ -71,6 +73,8 @@ namespace DuckstazyLive.game
                     return new Bubbles(0.03f, 2);
                 case LevelStages.DuckStage:
                     return new FigureStage();
+                case LevelStages.Snakes:
+                    return new Snakes();
 
                 default:
                     Debug.Assert(false, "Bad stage: " + stage);

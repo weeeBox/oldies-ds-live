@@ -139,6 +139,7 @@
     <Compile Include="game\stages\story\PartyTime.cs" />
     <Compile Include="game\stages\story\PillCollectLevelStage.cs" />
     <Compile Include="game\stages\story\PumpLevelStage.cs" />
+    <Compile Include="game\stages\story\Snakes.cs" />
     <Compile Include="game\stages\story\TimeoutLevelStage.cs" />
     <Compile Include="game\stages\story\Trains.cs" />
     <Compile Include="game\stages\versus\AirAttackVs.cs" />
