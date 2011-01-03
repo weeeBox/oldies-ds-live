@@ -10,8 +10,6 @@ namespace DuckstazyLive.game
     {
         public const int poolSize = 120;
 
-        public static Pills instance;
-
         public Pill[] pool;
 
         public Particles ps;
@@ -24,8 +22,7 @@ namespace DuckstazyLive.game
         public int harvestCount;
 
         public Pills(Heroes heroes, Particles particles)
-        {
-            instance = this;
+        {            
             this.heroes = heroes;
 
             // Временные переменные
@@ -50,7 +47,7 @@ namespace DuckstazyLive.game
         public void clear()
         {
             foreach (Pill it in pool)
-                it.init();
+                it.clear();
 
             actives = 0;
         }

@@ -110,7 +110,7 @@ namespace DuckstazyLive.game
 
         private PillsMedia media;
         private Particles ps;
-        private Heroes heroes;        
+        private Heroes heroes;
 
         private int imgMain;
         private int imgEmo;
@@ -129,31 +129,52 @@ namespace DuckstazyLive.game
 
             media = pillsMedia;
             ps = particles;
-            
-            init();
+
+            clear();
         }
 
         // Сбрасываемся
-        public void init()
+        public void clear()
         {
             state = DEAD;
-            move = false;
-            highCounter = 0.0f;
-
-            // parent = null;
-            // user = null;
-
-            /*emoCounter = 0.0f;
-            emoPause = 0.0f;
-            hook = false;
-			
+            id = 0;
+            power = 0;            
+            damage = 0;            
+            scores = 0;            
+            warning = 0;
+            enabled = false;            
+            hookedHero = 0;
+            hookTime = 0.0f;
+            hookCounter = 0.0f;            
+            spy = false;
+            hx = 0.0f;
+            hy = 0.0f;            
+            appear = 0.0f;
             emo = false;
-						
+            emoType = 0;
+            emoCounter = 0.0f;
+            emoPause = 0.0f;
+            emoParam = 0.0f;            
+            x = 0.0f;
+            y = 0.0f;            
+            dx = 0.0f;
+            dy = 0.0f;            
+            t1 = 0.0f;
+            t2 = 0.0f;
+            r = 0.0f;
+            rMax = 0.0f;
+            move = false;
+            v = 0.0f;
             vx = 0.0f;
             vy = 0.0f;
-			
-            hx = 0.0f;
-            hy = 0.0f;*/
+            high = false;
+            highCounter = 0.0f;
+            type = Constants.UNDEFINED;
+            imgMain = Constants.UNDEFINED;
+            imgEmo = Constants.UNDEFINED;
+            imgNid = Constants.UNDEFINED;            
+            parent = null;            
+            user = null;
         }
 
         // Стартуем анимацию эмоции
@@ -204,7 +225,7 @@ namespace DuckstazyLive.game
                 case ALIVE:
                     appear = 1.0f;
                     r = rMax;
-                    break;                
+                    break;
             }
 
             state = newState;
@@ -220,11 +241,11 @@ namespace DuckstazyLive.game
 
             switch (state)
             {
-                case BORNING:                    
-                    updateBorning(dt);                   
+                case BORNING:
+                    updateBorning(dt);
                     break;
 
-                case ALIVE:                 
+                case ALIVE:
                     updateAlive(dt);
                     break;
 
@@ -747,6 +768,7 @@ namespace DuckstazyLive.game
         public void die()
         {
             setState(DEAD);
+            clear();
         }
 
         private int getHookedHero()

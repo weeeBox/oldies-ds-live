@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.game.stages.story
 {
@@ -22,7 +23,7 @@ namespace DuckstazyLive.game.stages.story
         private int segmentsCount;
 
         private float genCounter;
-        private int generatedCount;        
+        private int generatedCount;
 
         public Snake(byte[] pattern, Point[] nodes, int segmentsCount)
         {
@@ -53,11 +54,9 @@ namespace DuckstazyLive.game.stages.story
 
         private void startPill(int pillIndex)
         {
-            Pill pill = Pills.instance.findDead();
+            Pill pill = getPills().findDead();
             if (pill == null)
                 return;
-
-            pill.init();
 
             int pillType = getPillType(pillIndex);
             float px = 100;
@@ -80,8 +79,10 @@ namespace DuckstazyLive.game.stages.story
                     pill.startSleep(px, py);
                     break;
                 case MATRIX:
-                    throw new NotImplementedException();                    
+                    throw new NotImplementedException();
             }
+
+            getPills().actives++;
         }
 
         private int getPillType(int pillIndex)
@@ -95,6 +96,11 @@ namespace DuckstazyLive.game.stages.story
         public int getPillsCount()
         {
             return segmentsCount * pattern.Length;
+        }
+
+        private Pills getPills()
+        {
+            return GameMgr.getInstance().getPills();
         }
     }
 
@@ -117,7 +123,7 @@ namespace DuckstazyLive.game.stages.story
             },10)
         };
 
-        private int currentSnakeIndex;       
+        private int currentSnakeIndex;
 
         public Snakes()
         {
@@ -128,7 +134,7 @@ namespace DuckstazyLive.game.stages.story
         {
             base.start();
 
-            currentSnakeIndex = 0;            
+            currentSnakeIndex = 0;
         }
 
         public override void update(float dt)
