@@ -27,7 +27,7 @@ namespace DuckstazyLive.game.levels
         private float arrowHider;
 
         public DoubleFrog()
-            : base(100)
+            : base(100, 70)
         {
             frog1 = new FrogActor(media);
             frog2 = new FrogActor(media);
@@ -113,12 +113,7 @@ namespace DuckstazyLive.game.levels
             gen.start();
 
             startX = 293;
-        }
-
-        protected override void startProgress()
-        {
-            progress.start(numPills, 70);
-        }
+        }        
 
         public override void onWin()
         {

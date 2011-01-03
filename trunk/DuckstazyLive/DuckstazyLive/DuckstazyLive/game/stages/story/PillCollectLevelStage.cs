@@ -8,15 +8,22 @@ namespace DuckstazyLive.game
     public class PillCollectLevelStage : StoryLevelStage
     {
         protected int numPills;
+        protected float timeout;
 
-        public PillCollectLevelStage(int numPills)
+        public PillCollectLevelStage(int numPills) : this(numPills, 0.0f)
+        {
+
+        }
+
+        public PillCollectLevelStage(int numPills, float timeout)
         {
             this.numPills = numPills;
+            this.timeout = timeout;
         }
 
         protected override void startProgress()
         {
-            progress.start(numPills, 0);
+            progress.start(numPills, timeout);
         }
 
         protected override void updateProgress(float dt)
