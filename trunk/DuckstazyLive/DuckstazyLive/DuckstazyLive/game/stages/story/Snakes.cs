@@ -25,18 +25,21 @@ namespace DuckstazyLive.game.stages.story
         private float genCounter;
         private int generatedCount;
 
-        private float moveSpeed = 100.0f;
+        private float moveSpeed;
+        private float genTimeout;
 
-        public Snake(byte[] pattern, Point[] nodes, int segmentsCount)
+        public Snake(byte[] pattern, Point[] nodes, int segmentsCount, float speed, float genTimeout)
         {
             this.pattern = pattern;
             this.nodes = nodes;
             this.segmentsCount = segmentsCount;
+            this.moveSpeed = speed;
+            this.genTimeout = genTimeout;
         }
 
         public void reset()
         {
-            genCounter = 0.0f;
+            genCounter = genTimeout;
             generatedCount = 0;
         }
 
@@ -45,7 +48,7 @@ namespace DuckstazyLive.game.stages.story
             if (generatedCount < getPillsCount())
             {
                 genCounter += dt;
-                if (genCounter > 0.5f)
+                if (genCounter > genTimeout)
                 {
                     genCounter = 0.0f;
                     startPill(generatedCount);
@@ -188,18 +191,19 @@ namespace DuckstazyLive.game.stages.story
         {
             new Snake(new byte[] 
             {
-                Snake.POWER1,
-                Snake.POWER1,
-                Snake.POWER1,
                 Snake.SCULL,
+                Snake.POWER1,
+                Snake.POWER1,
+                Snake.POWER1,                
             },
             new Point[]
             {
-                new Point(0, 100),
-                new Point(320, 100),
-                new Point(320, 400),
-                new Point(500, 400),
-            },10)
+                new Point(640, 50),
+                new Point(0, 50),
+                new Point(0, 380),
+                new Point(640, 380),
+                new Point(640, 50),
+            }, 10, 200.0f, 0.3f)
         };
 
         private int currentSnakeIndex;
