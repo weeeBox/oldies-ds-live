@@ -109,8 +109,7 @@ namespace DuckstazyLive.game
 
         private PillsMedia media;
         private Particles ps;
-        private Heroes heroes;
-        private Level level;
+        private Heroes heroes;        
 
         private int imgMain;
         private int imgEmo;
@@ -123,13 +122,13 @@ namespace DuckstazyLive.game
         public UserCallback user;
 
         // Инициализируемся в массиве
-        public Pill(PillsMedia pillsMedia, Heroes heroes, Particles particles, Level _level)
+        public Pill(PillsMedia pillsMedia, Heroes heroes, Particles particles)
         {
             this.heroes = heroes;
 
             media = pillsMedia;
             ps = particles;
-            level = _level;
+            
             init();
         }
 
@@ -292,6 +291,8 @@ namespace DuckstazyLive.game
 
             if (high)
             {
+                Level level = getLevel();
+
                 if (level.power >= 0.5)
                     highCounter += dt;//*(1.0f + 3.0*level.power);
                 else
@@ -382,6 +383,7 @@ namespace DuckstazyLive.game
         public void heroTouch(Hero hero)
         {
             int i;
+            Level level = getLevel();
             GameInfo info = level.info;
 
             switch (type)
@@ -643,6 +645,7 @@ namespace DuckstazyLive.game
             high = false;
 
             setState(BORNING);
+            Level level = getLevel();
             if (level.power < 0.5f && !level.env.day)
                 ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
             else
@@ -890,6 +893,7 @@ namespace DuckstazyLive.game
             MAT.scale(s, s);
             MAT.translate(x, y);
 
+            Level level = getLevel();
             if (level.power >= 0.5f)
             {
                 canvas.draw(imgMain, MAT); // TODO: add blend mode invert
@@ -1055,6 +1059,11 @@ namespace DuckstazyLive.game
         public bool isAlive()
         {
             return state == ALIVE;
+        }
+
+        private Level getLevel()
+        {
+            return Level.instance;
         }
     }
 }

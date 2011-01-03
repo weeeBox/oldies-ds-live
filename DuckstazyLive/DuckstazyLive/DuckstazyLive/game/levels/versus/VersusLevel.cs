@@ -67,7 +67,7 @@ namespace DuckstazyLive.game
             hero.gameState.color = Color.Pink;
             heroes.addHero(hero);
 
-            pills = new Pills(heroes, ps, this);
+            pills = new Pills(heroes, ps);
             heroes.particles = ps;
             heroes.env = env;
             heroes.clear();

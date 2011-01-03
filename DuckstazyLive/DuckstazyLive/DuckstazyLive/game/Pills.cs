@@ -23,7 +23,7 @@ namespace DuckstazyLive.game
         public float harvesting;
         public int harvestCount;
 
-        public Pills(Heroes heroes, Particles particles, Level level)
+        public Pills(Heroes heroes, Particles particles)
         {
             instance = this;
             this.heroes = heroes;
@@ -38,7 +38,7 @@ namespace DuckstazyLive.game
             pool = new Pill[poolSize];
             while (i >= 0)
             {
-                pool[i] = new Pill(media, heroes, particles, level);
+                pool[i] = new Pill(media, heroes, particles);
                 --i;
             }
 
