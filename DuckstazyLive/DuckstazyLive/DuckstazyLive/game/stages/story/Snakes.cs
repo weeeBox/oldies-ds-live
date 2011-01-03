@@ -5,190 +5,34 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using DuckstazyLive.game.levels;
+using Framework.core;
+using DuckstazyLive.game.levels.fx;
+using DuckstazyLive.game.stages.fx;
 
 namespace DuckstazyLive.game.stages.story
 {
-    class Snake
+    public class Snakes : PillCollectLevelStage
     {
-        public const byte POWER1 = 0;
-        public const byte POWER2 = 1;
-        public const byte POWER3 = 2;
-        public const byte SCULL = 3;
-        public const byte BANNED = 4;
-        public const byte SLEEP = 5;
-        public const byte MATRIX = 6;
-
-        private byte[] pattern;
-        private Point[] nodes;
-        private int segmentsCount;
-
-        private float genCounter;
-        private int generatedCount;
-
-        private float moveSpeed;
-        private float genTimeout;
-
-        public Snake(byte[] pattern, Point[] nodes, int segmentsCount, float speed, float genTimeout)
+        private struct HintInfo
         {
-            this.pattern = pattern;
-            this.nodes = nodes;
-            this.segmentsCount = segmentsCount;
-            this.moveSpeed = speed;
-            this.genTimeout = genTimeout;
-        }
+            public float angle;
+            public uint color;
+            public float x, y;
+            public float timeout;
 
-        public void reset()
-        {
-            genCounter = genTimeout;
-            generatedCount = 0;
-        }
-
-        public void update(float dt)
-        {
-            if (generatedCount < getPillsCount())
+            public HintInfo(float x, float y, float angle, uint color, float timeout)
             {
-                genCounter += dt;
-                if (genCounter > genTimeout)
-                {
-                    genCounter = 0.0f;
-                    startPill(generatedCount);
-                    generatedCount++;
-                }
+                this.x = x;
+                this.y = y;
+                this.angle = angle;
+                this.color = color;
+                this.timeout = timeout;
             }
         }
 
-        private void startPill(int pillIndex)
-        {
-            Pill pill = getPills().findDead();
-            if (pill == null)
-                return;
-
-            pill.user = snakeCallback;
-
-            int pillType = getPillType(pillIndex);
-
-            Point startPoint = getNode(0);
-            float px = startPoint.X;
-            float py = startPoint.Y;           
-
-            switch (pillType)
-            {
-                case POWER1:
-                case POWER2:
-                case POWER3:
-                    pill.startPower(px, py, pillType - POWER1, false);
-                    break;
-                case SCULL:
-                    pill.startMissle(px, py, Pill.TOXIC_SKULL);
-                    break;
-                case BANNED:
-                    pill.startMissle(px, py, Pill.TOXIC_FORBID);
-                    break;
-                case SLEEP:
-                    pill.startSleep(px, py);
-                    break;
-                case MATRIX:
-                    throw new NotImplementedException();
-            }
-
-            pill.t1 = 0;
-            pill.t2 = 0;
-            setPillTargetNode(pill, 1);
-
-            getPills().actives++;
-        }
-
-        private void setPillTargetNode(Pill pill, int nodeIndex)
-        {
-            Debug.Assert(nodeIndex > 0 && nodeIndex < getNodesCount());
-
-            Point target = getNode(nodeIndex);
-
-            Vector2 distance = new Vector2(target.X - pill.x, target.Y - pill.y);
-            float travelTime = distance.Length() / moveSpeed;
-            
-            pill.vx = distance.X / travelTime;
-            pill.vy = distance.Y / travelTime;
-
-            pill.t1 = nodeIndex;
-            pill.t2 = travelTime;
-        }
-
-        private int getPillTargetNode(Pill pill)
-        {
-            return (int)(pill.t1);
-        }
-
-        public void snakeCallback(Pill pill, String msg, float dt)
-        {
-            if (msg == null && pill.isAlive())
-            {                
-                if (pill.t2 > dt)
-                {
-                    pill.x += pill.vx * dt;
-                    pill.y += pill.vy * dt;
-                    pill.t2 -= dt;                    
-                }
-                else
-                {
-                    int targetNode = getPillTargetNode(pill);
-                    Point target = getNode(targetNode);
-                    pill.x = target.X;
-                    pill.y = target.Y;
-
-                    if (targetNode < getNodesCount() - 1)
-                    {                        
-                        setPillTargetNode(pill, targetNode + 1);
-                    }
-                    else
-                    {
-                        pill.kill();
-                        pill.t2 = 0.0f;
-                        getParticles().startAcid(pill.x, pill.y);
-                    }                    
-                }
-            }
-        }        
-
-        private int getPillType(int pillIndex)
-        {
-            Debug.Assert(pillIndex >= 0 && pillIndex < getPillsCount());
-            int patternIndex = pillIndex % pattern.Length;
-
-            return pattern[patternIndex];
-        }
-
-        private int getNodesCount()
-        {
-            return nodes.Length;
-        }
-
-        private Point getNode(int nodeIndex)
-        {
-            Debug.Assert(nodeIndex >= 0 && nodeIndex < getNodesCount());
-            return nodes[nodeIndex];
-        }
-
-        public int getPillsCount()
-        {
-            return segmentsCount * pattern.Length;
-        }
-
-        private Pills getPills()
-        {
-            return GameMgr.getInstance().getPills();
-        }
-
-        private Particles getParticles()
-        {
-            return GameMgr.getInstance().getParticles();
-        }
-    }
-
-    public class Snakes : StoryLevelStage
-    {
         private Snake[] snakes =
         {
+            // #1
             new Snake(new byte[] 
             {
                 Snake.SCULL,
@@ -203,41 +47,158 @@ namespace DuckstazyLive.game.stages.story
                 new Point(0, 380),
                 new Point(640, 380),
                 new Point(640, 50),
-            }, 10, 200.0f, 0.3f)
+            }, 7, 200.0f, 0.3f, 2.0f),
+
+            // #2
+            new Snake(new byte[] 
+            {                
+                Snake.POWER2,                
+            },
+            new Point[]
+            {
+                new Point(0, 50),
+                new Point(640, 50),                
+            }, 20, 200.0f, 0.3f, 2.0f),
+
+            // #3
+            new Snake(new byte[] 
+            {                
+                Snake.POWER3,
+            },
+            new Point[]
+            {
+                new Point(680, 130),
+                new Point(0, 130),                
+            }, 19, 200.0f, 0.3f, 4.0f),
+
+            // #4
+            new Snake(new byte[] 
+            {   
+                Snake.SCULL,                
+                Snake.POWER1,
+                Snake.POWER2,
+                Snake.POWER3,                
+            },
+            new Point[]
+            {
+                new Point(680, 210),
+                new Point(0, 210),                
+            }, 10, 200.0f, 0.3f, 4.0f)
+        };
+
+        private HintInfo[] hints =
+        {
+            new HintInfo(640, 300, 3.14f, 0xfff7a0e1, 4.0f),
+            new HintInfo(680, 50, 3.14f * 0.5f, 0xfff7a0e1, 12.0f),
+            new HintInfo(0, 130, 3.14f * 1.5f, 0xfff7a0e1, 12.0f),
+            new HintInfo(680, 210, 3.14f * 0.5f, 0xfff7a0e1, 12.0f),
         };
 
         private int currentSnakeIndex;
+        private int currentHintIndex;
+        private float hintCounter;
 
-        public Snakes()
+        private HintArrow hintArrow;
+
+        public Snakes() : base(0, 90)
         {
+            hintArrow = new HintArrow(media);
 
+            int collectableCount = 0;
+            for (int snakeIndex = 0; snakeIndex < getSnakesCount(); ++snakeIndex)
+            {
+                collectableCount += snakes[snakeIndex].getCollectablePillsCount();
+            }
+            numPills = collectableCount;
         }
 
         public override void start()
         {
             base.start();
 
-            currentSnakeIndex = 0;
+            currentSnakeIndex = -1;
+            currentHintIndex = 0;
+            hintCounter = 0.0f;
+            startX = 0;
+
+            startNextSnake();
+            showHint(0);
         }
 
         public override void update(float dt)
         {
             base.update(dt);
 
-            Snake snake = getCurrentSnake();
-            snake.update(dt);
+            if (isPlaying())
+            {
+                Snake snake = getCurrentSnake();
+                snake.update(dt);
+                if (snake.isDone())
+                {
+                    startNextSnake();
+                }
+            }
+
+            if (isHintVisible())
+            {
+                if (hintArrow.visible)
+                {
+                    hintCounter += dt;
+                    if (hintCounter > hints[currentHintIndex].timeout)
+                    {
+                        hintArrow.visible = false;                        
+                    }
+                }
+                else if (hintArrow.visibleCounter <= 0.0f)
+                {
+                    currentHintIndex++;
+                    if (currentHintIndex < hints.Length)
+                    {
+                        showHint(currentHintIndex);
+                        hintCounter = 0.0f;
+                    }
+                }
+
+                hintArrow.update(dt);
+            }            
         }
 
-        protected override void startProgress()
+        public override void draw1(Canvas canvas)
         {
-            progress.start(0, 0);
+            if (isHintVisible())
+            {            
+                hintArrow.draw(canvas);
+            }
         }
 
-        private void startSnake(int snakeIndex)
+        private void startNextSnake()
+        {            
+            if (currentSnakeIndex < getSnakesCount() - 1)
+            {             
+                currentSnakeIndex++;
+                snakes[currentSnakeIndex].start();
+            }
+        }
+
+        private void showHint(int hintIndex)
         {
+            Debug.Assert(hintIndex >= 0 && hintIndex < hints.Length);            
 
+            float hx = hints[hintIndex].x;
+            float hy = hints[hintIndex].y;
+            float ha = hints[hintIndex].angle;
+            uint hc = hints[hintIndex].color;
+
+            hintArrow.place(hx, hy, ha, hc, true);
+            hintArrow.visibleCounter = 0.0f;
+            hintArrow.visible = true;
         }
 
+        private bool isHintVisible()
+        {
+            return currentHintIndex < hints.Length;
+        }
+        
         private Snake getCurrentSnake()
         {
             return snakes[currentSnakeIndex];

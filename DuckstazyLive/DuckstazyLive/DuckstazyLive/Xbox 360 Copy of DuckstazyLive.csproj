@@ -124,6 +124,7 @@
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\stages\fx\FrogActor.cs" />
     <Compile Include="game\stages\fx\HintArrow.cs" />
+    <Compile Include="game\stages\fx\Snake.cs" />
     <Compile Include="game\stages\generator\Generator.cs" />
     <Compile Include="game\stages\generator\JumpStarter.cs" />
     <Compile Include="game\stages\generator\MissleStarter.cs" />
