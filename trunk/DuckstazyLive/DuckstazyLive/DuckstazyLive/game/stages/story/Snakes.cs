@@ -25,6 +25,8 @@ namespace DuckstazyLive.game.stages.story
         private float genCounter;
         private int generatedCount;
 
+        private float moveSpeed = 100.0f;
+
         public Snake(byte[] pattern, Point[] nodes, int segmentsCount)
         {
             this.pattern = pattern;
@@ -43,7 +45,7 @@ namespace DuckstazyLive.game.stages.story
             if (generatedCount < getPillsCount())
             {
                 genCounter += dt;
-                if (genCounter > 1.0f)
+                if (genCounter > 0.5f)
                 {
                     genCounter = 0.0f;
                     startPill(generatedCount);
@@ -58,16 +60,20 @@ namespace DuckstazyLive.game.stages.story
             if (pill == null)
                 return;
 
+            pill.user = snakeCallback;
+
             int pillType = getPillType(pillIndex);
-            float px = 100;
-            float py = 100;
+
+            Point startPoint = getNode(0);
+            float px = startPoint.X;
+            float py = startPoint.Y;           
 
             switch (pillType)
             {
                 case POWER1:
                 case POWER2:
                 case POWER3:
-                    pill.startPower(px, py, pillType - POWER1, true);
+                    pill.startPower(px, py, pillType - POWER1, false);
                     break;
                 case SCULL:
                     pill.startMissle(px, py, Pill.TOXIC_SKULL);
@@ -82,8 +88,64 @@ namespace DuckstazyLive.game.stages.story
                     throw new NotImplementedException();
             }
 
+            pill.t1 = 0;
+            pill.t2 = 0;
+            setPillTargetNode(pill, 1);
+
             getPills().actives++;
         }
+
+        private void setPillTargetNode(Pill pill, int nodeIndex)
+        {
+            Debug.Assert(nodeIndex > 0 && nodeIndex < getNodesCount());
+
+            Point target = getNode(nodeIndex);
+
+            Vector2 distance = new Vector2(target.X - pill.x, target.Y - pill.y);
+            float travelTime = distance.Length() / moveSpeed;
+            
+            pill.vx = distance.X / travelTime;
+            pill.vy = distance.Y / travelTime;
+
+            pill.t1 = nodeIndex;
+            pill.t2 = travelTime;
+        }
+
+        private int getPillTargetNode(Pill pill)
+        {
+            return (int)(pill.t1);
+        }
+
+        public void snakeCallback(Pill pill, String msg, float dt)
+        {
+            if (msg == null && pill.isAlive())
+            {                
+                if (pill.t2 > dt)
+                {
+                    pill.x += pill.vx * dt;
+                    pill.y += pill.vy * dt;
+                    pill.t2 -= dt;                    
+                }
+                else
+                {
+                    int targetNode = getPillTargetNode(pill);
+                    Point target = getNode(targetNode);
+                    pill.x = target.X;
+                    pill.y = target.Y;
+
+                    if (targetNode < getNodesCount() - 1)
+                    {                        
+                        setPillTargetNode(pill, targetNode + 1);
+                    }
+                    else
+                    {
+                        pill.kill();
+                        pill.t2 = 0.0f;
+                        getParticles().startAcid(pill.x, pill.y);
+                    }                    
+                }
+            }
+        }        
 
         private int getPillType(int pillIndex)
         {
@@ -91,6 +153,17 @@ namespace DuckstazyLive.game.stages.story
             int patternIndex = pillIndex % pattern.Length;
 
             return pattern[patternIndex];
+        }
+
+        private int getNodesCount()
+        {
+            return nodes.Length;
+        }
+
+        private Point getNode(int nodeIndex)
+        {
+            Debug.Assert(nodeIndex >= 0 && nodeIndex < getNodesCount());
+            return nodes[nodeIndex];
         }
 
         public int getPillsCount()
@@ -101,6 +174,11 @@ namespace DuckstazyLive.game.stages.story
         private Pills getPills()
         {
             return GameMgr.getInstance().getPills();
+        }
+
+        private Particles getParticles()
+        {
+            return GameMgr.getInstance().getParticles();
         }
     }
 
@@ -117,9 +195,10 @@ namespace DuckstazyLive.game.stages.story
             },
             new Point[]
             {
-                new Point(0, 0),
-                new Point(640, 0),
-                new Point(640, 400)
+                new Point(0, 100),
+                new Point(320, 100),
+                new Point(320, 400),
+                new Point(500, 400),
             },10)
         };
 
