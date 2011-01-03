@@ -105,6 +105,7 @@
     <Compile Include="game\Heroes.cs" />
     <Compile Include="game\HeroGameState.cs" />
     <Compile Include="game\HeroMedia.cs" />
+    <Compile Include="game\levels\Game.cs" />
     <Compile Include="game\levels\Level.cs" />
     <Compile Include="game\levels\LevelStage.cs" />
     <Compile Include="game\levels\story\CoopLevel.cs" />
