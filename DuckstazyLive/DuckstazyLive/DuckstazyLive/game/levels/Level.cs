@@ -21,7 +21,7 @@ namespace DuckstazyLive.game
         public Heroes heroes;
         public Pills pills;
         public Env env;
-        protected Particles ps;        
+        protected Particles ps;
 
         public float power;
         protected float powerUp;
