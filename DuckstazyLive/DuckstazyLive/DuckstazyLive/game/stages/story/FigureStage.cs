@@ -233,7 +233,7 @@ namespace DuckstazyLive.game.levels
                 if (pill.x < 0 && pill.isAlive())
                 {
                     pill.kill();
-                    level.pills.ps.startAcid(pill.x, pill.y);
+                    getParticles().startAcid(pill.x, pill.y);
                 }             
             }
             else if ("dead" == msg)
@@ -253,6 +253,7 @@ namespace DuckstazyLive.game.levels
 
         private bool hasHeroOnTheGround()
         {
+            Heroes heroes = getHeroes();
             for (int i = 0; i < heroes.getHeroesCount(); ++i)
             {
                 Hero h = heroes[i];           

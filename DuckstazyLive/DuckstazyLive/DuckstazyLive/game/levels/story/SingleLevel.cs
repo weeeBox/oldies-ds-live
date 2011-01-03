@@ -35,6 +35,8 @@ namespace DuckstazyLive.game
 
         public SingleLevel(GameState gameState) : base(gameState)
         {
+            getGameMgr().initHeroes(1);
+            getHeroes()[0].gameState.leftOriented = true;
             stagesCount = Enum.GetNames(typeof(LevelStages)).Length;
         }
 
@@ -96,6 +98,7 @@ namespace DuckstazyLive.game
 
         public override void drawHud(Canvas canvas)
         {
+            Heroes heroes = getHeroes();
             heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
 
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);

@@ -25,21 +25,7 @@ namespace DuckstazyLive.game
         }
 
         protected abstract LevelStage createNextStage();        
-        protected abstract int getStagesCount();
-
-        protected override void initHero()
-        {
-            heroes = new Heroes();
-            Hero hero = new Hero(heroes, 0);
-            hero.gameState.leftOriented = true;
-            hero.gameState.color = Color.Yellow;
-            heroes.addHero(hero);            
-
-            pills = new Pills(heroes, ps);
-            heroes.particles = ps;
-            heroes.env = env;
-            heroes.clear();
-        }       
+        protected abstract int getStagesCount();        
 
         public override void update(float dt)
         {
@@ -47,15 +33,15 @@ namespace DuckstazyLive.game
 
             if (isPlaying())
             {
-                if (!heroes.hasAliveHero())
+                if (!getHeroes().hasAliveHero())
                 {               
-                    env.blanc = 1.0f;
+                    getEnv().blanc = 1.0f;
                     game.death();               
                 }
             }
             else if (isWin())
             {
-                if (pills.harvestCount > 0)
+                if (getPills().harvestCount > 0)
                     updateHarvesting(dt);
                 else
                 {
@@ -137,6 +123,7 @@ namespace DuckstazyLive.game
             String str = "";
             int i;
 
+            Pills pills = getPills();
             pills.harvest(dt);
             if (pills.harvestCount > 0)
             {

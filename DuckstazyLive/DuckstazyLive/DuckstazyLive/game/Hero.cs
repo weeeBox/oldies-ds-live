@@ -8,6 +8,7 @@ using DuckstazyLive.app;
 using Framework.core;
 using Framework.utils;
 using System.Diagnostics;
+using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.game
 {
@@ -171,7 +172,7 @@ namespace DuckstazyLive.game
         {
             float px = x + 4;
             if (!flip) px = x + 50;
-            heroes.particles.startStepBubble(px, y + 39);
+            getParticles().startStepBubble(px, y + 39);
         }
 
         private void doLandBubbles()
@@ -182,7 +183,7 @@ namespace DuckstazyLive.game
             while (i > 0)
             {
                 px = x + 17 + utils.rnd() * 20;
-                heroes.particles.startBubble(px, y + duck_h2, 0xff999999);
+                getParticles().startBubble(px, y + duck_h2, 0xff999999);
                 --i;
             }
         }
@@ -599,7 +600,7 @@ namespace DuckstazyLive.game
             {
                 px = x + utils.rnd() * duck_w2;
                 py = y + utils.rnd() * duck_h2;
-                heroes.particles.startBubble(px, py, 0xff690c7a);
+                getParticles().startBubble(px, py, 0xff690c7a);
                 --i;
             }
         }
@@ -646,7 +647,7 @@ namespace DuckstazyLive.game
                 //mBoard->KillToxic(world_draw_pos(ToxicPosition), mKills);
                 // media.sndAttack.play(49);
                 Application.sharedSoundMgr.playSound(heroes.media.sndAttack);
-                heroes.particles.explStarsToxic(cx, cy - 10, id, false);
+                getParticles().explStarsToxic(cx, cy - 10, id, false);
                 if (frags < 3) ret = 0;
                 else
                 {
@@ -671,14 +672,14 @@ namespace DuckstazyLive.game
                     }
 
                     blinkTime = 12;
-                    heroes.particles.explStarsToxic(cx, cy, id, true);
-                    heroes.env.blanc = 1.0f;
+                    getParticles().explStarsToxic(cx, cy, id, true);
+                    getEnv().blanc = 1.0f;
                     // media.sndToxic.play();
                     Application.sharedSoundMgr.playSound(heroes.media.sndToxic);
                 }
                 else
                 {
-                    heroes.particles.explStarsToxic(cx, cy, id, false);
+                    getParticles().explStarsToxic(cx, cy, id, false);
                 }
 
                 //mBoard->HitToxic(world_draw_pos(ToxicPosition), mToxicCollected);
@@ -708,7 +709,7 @@ namespace DuckstazyLive.game
             if (gameState.health > gameState.maxHP)
                 gameState.health = gameState.maxHP;
 
-            heroes.particles.explHeal(x, y);
+            getParticles().explHeal(x, y);
         }
 
         public void doDie()
@@ -870,6 +871,21 @@ namespace DuckstazyLive.game
         public int getPlayerIndex()
         {
             return playerIndex;
+        }
+
+        private GameMgr getGameMgr()
+        {
+            return GameMgr.getInstance();
+        }
+
+        private Particles getParticles()
+        {
+            return getGameMgr().getParticles();
+        }
+
+        private Env getEnv()
+        {
+            return getGameMgr().getEnv();
         }
     }
 }

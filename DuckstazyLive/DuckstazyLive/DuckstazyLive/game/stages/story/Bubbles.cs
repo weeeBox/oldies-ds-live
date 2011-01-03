@@ -130,6 +130,7 @@ namespace DuckstazyLive.game.levels
                 counter -= dt;
                 if (counter <= 0.0f)
                 {
+                    Pills pills = getPills();
                     p = pills.findDead();
                     if (p != null)
                     {
@@ -171,6 +172,7 @@ namespace DuckstazyLive.game.levels
 
         public void jumpLogic(Pill pill, String msg, float dt)
         {
+            Heroes heroes = getHeroes();
             if (msg == null)
             {
                 pill.y = 420 - heroes.getJumpHeight();
@@ -214,7 +216,7 @@ namespace DuckstazyLive.game.levels
                 if (pill.y <= -10.0f && pill.isAlive())
                 {
                     pill.kill();
-                    level.pills.ps.startAcid(pill.x, pill.y);
+                    getParticles().startAcid(pill.x, pill.y);
 
                     lostPillsCount++;                    
                 }

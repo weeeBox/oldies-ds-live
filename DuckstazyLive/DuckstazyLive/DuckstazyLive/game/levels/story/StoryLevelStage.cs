@@ -29,10 +29,7 @@ namespace DuckstazyLive.game
             progress = createLevelProgress();
 
             level = (StoryLevel) StoryLevel.instance;
-            media = level.stageMedia;
-            pills = level.pills;
-            particles = level.pills.ps;
-            heroes = level.heroes;
+            media = level.stageMedia;            
             day = true;
 
             collected = new int[Application.sharedInputMgr.getPlayersCount()];

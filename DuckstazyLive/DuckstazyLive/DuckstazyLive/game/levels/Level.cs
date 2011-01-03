@@ -17,11 +17,7 @@ namespace DuckstazyLive.game
     {
         public static Level instance;        
 
-        public StoryGame game;
-        public Heroes heroes;
-        public Pills pills;
-        public Env env;
-        protected Particles ps;
+        public StoryGame game;        
 
         public float power;
         protected float powerUp;
@@ -44,38 +40,33 @@ namespace DuckstazyLive.game
 
             game = StoryGame.instance;
 
-            info = new GameInfo();
-            ps = new Particles();
-            env = Env.getIntance();
-            env.reset();            
-
-            initHero();            
+            info = new GameInfo();            
+            getEnv().reset();            
 
             stageMedia = new StageMedia();
             stage = null;            
         }
         
-        protected abstract LevelStage createStage(int stageIndex);
-        protected abstract void initHero();        
+        protected abstract LevelStage createStage(int stageIndex);        
 
         public void reset()
         {
-            heroes.clear();
+            getHeroes().clear();
         }
 
         public virtual void start()
         {
-            env.blanc = 1.0f;
+            getEnv().blanc = 1.0f;
             power = 0.0f;
             powerUp = 0.0f;            
 
-            ps.clear();
-            pills.clear();
+            getParticles().clear();
+            getPills().clear();
             info.reset();
 
             stage = createStage(state.level);
 
-            heroes.init();
+            getHeroes().init();
             game.save();            
             
             syncScores();
@@ -86,20 +77,20 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {            
-            env.draw1(canvas);
+            getEnv().draw1(canvas);
  
             levelPreDraw();
             stage.draw1(canvas);
 
             info.drawFT(canvas);
-            pills.draw(canvas);
+            getPills().draw(canvas);
                                 
-            heroes.draw(canvas);
+            getHeroes().draw(canvas);
 
-            ps.draw(canvas);
+            getParticles().draw(canvas);
             levelPostDraw();
 
-            env.draw2(canvas);                
+            getEnv().draw2(canvas);                
             
             drawHud(canvas);
             stage.draw2(canvas);
@@ -121,10 +112,10 @@ namespace DuckstazyLive.game
 
         public void enterLevel()
         {
-            env.blanc = 1.0f;
+            getEnv().blanc = 1.0f;
             infoText = null;
 
-            env.playMusic();
+            getEnv().playMusic();
 
             stage.start();
             Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
@@ -132,7 +123,8 @@ namespace DuckstazyLive.game
 
         public virtual void update(float dt)
         {
-            float power_drain = 0.0f;            
+            float power_drain = 0.0f;
+            Heroes heroes = getHeroes();
                         
             if (stage != null)
             {
@@ -154,13 +146,14 @@ namespace DuckstazyLive.game
             }
 
             heroes.update(dt, power);
-            pills.update(dt, power);
+            getPills().update(dt, power);
 
+            Env env = getEnv();
             env.x = heroes[0].x;
             env.y = heroes[0].y;
             env.update(dt, power);                
 
-            ps.update(dt);                
+            getParticles().update(dt);                
 
             if (power >= 0.5) info.setRGB(env.colors.bg);
             else
@@ -185,6 +178,7 @@ namespace DuckstazyLive.game
 
         public virtual bool buttonPressed(ref ButtonEvent e)
         {
+            Heroes heroes = getHeroes();
             if (heroes.hasAliveHero() && heroes.buttonPressed(ref e))
                 return true;            
 
@@ -207,7 +201,7 @@ namespace DuckstazyLive.game
 
         public virtual bool buttonReleased(ref ButtonEvent e)
         {           
-            return heroes.buttonReleased(ref e);            
+            return getHeroes().buttonReleased(ref e);            
         }
 
         public void restart()
@@ -217,7 +211,7 @@ namespace DuckstazyLive.game
 
         public void onPause()
         {           
-            heroes.buttonsReset();            
+            getHeroes().buttonsReset();            
         }
 
         public void switchEvnPower()
@@ -235,6 +229,7 @@ namespace DuckstazyLive.game
         // Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.
         public void syncScores()
         {
+            Heroes heroes = getHeroes();
             foreach (Hero h in heroes)
             {
                 h.gameState.syncScores();
@@ -243,13 +238,38 @@ namespace DuckstazyLive.game
 
         public void onEnd()
         {
-            pills.finish();
-            env.blanc = 1.0f;
+            getPills().finish();
+            getEnv().blanc = 1.0f;
         }        
 
         public void resetPower(float newPower)
         {
             power = powerUp = newPower;
+        }
+
+        protected GameMgr getGameMgr()
+        {
+            return GameMgr.getInstance();
+        }
+
+        protected Pills getPills()
+        {
+            return getGameMgr().getPills();
+        }
+
+        protected Particles getParticles()
+        {
+            return getGameMgr().getParticles();
+        }
+
+        protected Heroes getHeroes()
+        {
+            return getGameMgr().getHeroes();
+        }
+
+        protected Env getEnv()
+        {
+            return Env.getIntance();
         }
     }
 }

@@ -57,8 +57,8 @@ namespace DuckstazyLive.game.levels
 
             jumpGen.start();
 
-            level.env.day = false;
-            level.env.updateNorm();
+            day = false;
+            getEnv().updateNorm();
 
             frog.openCounter = 0.0f;
             frog.open = true;
@@ -91,7 +91,7 @@ namespace DuckstazyLive.game.levels
                 frogCounter += dt * (0.5f + level.power * 2.0f);
                 if (frogCounter >= 1.0f)
                 {
-                    p = pills.findDead();
+                    p = getPills().findDead();
                     if (p != null)
                     {
                         p.user = toxicLogic;
@@ -114,7 +114,7 @@ namespace DuckstazyLive.game.levels
                 catGen += dt * (0.25f + 0.75f * (level.power - 0.5f));
                 if (catGen > 1)
                 {
-                    p = pills.findDead();
+                    p = getPills().findDead();
                     if (p != null)
                     {
                         p.user = rocketLogic;
@@ -128,8 +128,7 @@ namespace DuckstazyLive.game.levels
             else catGen = 1.0f;
 
             frog.open = checkFrogOpen(); //(hero.y<=250 && !win);
-
-            pills.actives += newPills;
+            getPills().actives += newPills;
         }
 
         private bool checkFrogOpen()
@@ -137,6 +136,7 @@ namespace DuckstazyLive.game.levels
             if (!isPlaying())
                 return false;
 
+            Heroes heroes = getHeroes();
             foreach (Hero hero in heroes)
             {
                 if (hero.isActive() && hero.y > 250)
@@ -206,6 +206,7 @@ namespace DuckstazyLive.game.levels
                 if (pill.x >= 630 || pill.x <= 10)
                 {
                     pill.kill();
+                    Particles particles = getParticles();
                     if (pill.type == 1)
                         particles.explStarsToxic(pill.x, pill.y, 1, false);
                     else if (pill.type == 2)
@@ -219,6 +220,7 @@ namespace DuckstazyLive.game.levels
                 i = 1 + (int)(level.power * 5);
                 while (i > 0)
                 {
+                    Pills pills = getPills();
                     p = pills.findDead();
                     if (p != null)
                     {
@@ -246,6 +248,7 @@ namespace DuckstazyLive.game.levels
             if (msg == null && pill.enabled)
             {
                 Hero hero;
+                Heroes heroes = getHeroes();
                 if (heroes[0].isDead() && heroes.getHeroesCount() > 1)
                     hero = heroes[1];
                 else
@@ -263,7 +266,7 @@ namespace DuckstazyLive.game.levels
                 if (pill.t2 < 0.0f)
                 {
                     pill.t2 = 0.05f;
-                    particles.startStarPower(pill.x, pill.y, -pill.vx, -pill.vy, pill.id);
+                    getParticles().startStarPower(pill.x, pill.y, -pill.vx, -pill.vy, pill.id);
                 }
 
                 if (pill.x > 630)
@@ -311,6 +314,7 @@ namespace DuckstazyLive.game.levels
                 {
                     pill.t2 -= dt;
 
+                    Particles particles = getParticles();
                     if (pill.t2 < 0.0f)
                     {
                         pill.t2 = 0.1f;
@@ -331,6 +335,7 @@ namespace DuckstazyLive.game.levels
             else if (msg == "attack")
             {
                 i = 1 + (int)(pow * 5);
+                Pills pills = getPills();
                 while (i > 0)
                 {
                     p = pills.findDead();

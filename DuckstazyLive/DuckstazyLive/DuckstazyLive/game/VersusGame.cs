@@ -54,20 +54,24 @@ namespace DuckstazyLive.game
 
         public override void update(float dt)
         {        	
-        	Env env = level.env;			
 			level.update(dt);		
-			env.updateBlanc(dt);            
+			getEnv().updateBlanc(dt);
         }
 
         public override void draw()
         {
             Canvas canvas = getCanvas();
 
-            Env env = level.env;            
+            Env env = getEnv();
             level.draw(canvas);            
 
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);
+        }
+
+        private Env getEnv()
+        {
+            return Env.getIntance();
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////

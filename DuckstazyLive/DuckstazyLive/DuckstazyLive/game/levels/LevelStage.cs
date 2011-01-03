@@ -7,16 +7,13 @@ using DuckstazyLive.app;
 using System.Diagnostics;
 using Framework.visual;
 using Framework.core;
+using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.game
 {
     public abstract class LevelStage
     {        
-        public bool day;
-                
-        protected Pills pills;
-        protected Particles particles;
-        protected Heroes heroes;        
+        public bool day;        
 
         protected float startX;
         protected bool heroStarted;
@@ -53,6 +50,7 @@ namespace DuckstazyLive.game
             if (!heroStarted)
             {
                 heroStarted = true;
+                Heroes heroes = getHeroes();
                 if (heroes.getHeroesCount() > 1)
                 {
                     heroes.startHeroes();
@@ -73,5 +71,30 @@ namespace DuckstazyLive.game
 
         public abstract void collectPill(Hero hero, Pill pill);
         public abstract bool isPlaying();
+
+        protected GameMgr getGameMgr()
+        {
+            return GameMgr.getInstance();
+        }
+
+        protected Heroes getHeroes()
+        {
+            return getGameMgr().getHeroes();
+        }
+
+        protected Pills getPills()
+        {
+            return getGameMgr().getPills();
+        }
+
+        protected Particles getParticles()
+        {
+            return getGameMgr().getParticles();
+        }
+
+        protected Env getEnv()
+        {
+            return getGameMgr().getEnv();
+        }
     }
 }

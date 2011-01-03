@@ -27,10 +27,7 @@ namespace DuckstazyLive.game.stages.versus
             this.level = level;
             progress = new VersusProgress(levelTime);
 
-            media = level.stageMedia;
-            pills = level.pills;
-            particles = level.pills.ps;
-            heroes = level.heroes;
+            media = level.stageMedia;            
 
             collected = new int[Application.sharedInputMgr.getPlayersCount()];
         }

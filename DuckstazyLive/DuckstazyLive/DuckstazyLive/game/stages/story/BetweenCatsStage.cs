@@ -82,6 +82,7 @@ namespace DuckstazyLive.game.levels
             i = 40;
             while (i > 0) { gen2.map.Add(placer2); --i; }
 
+            Pills pills = getPills();
             pills.findDead().startMatrix(320.0f, 100.0f);
             pills.findDead().startToxic(220.0f, 180.0f, 1);
             pills.findDead().startToxic(420.0f, 180.0f, 1);
@@ -122,7 +123,7 @@ namespace DuckstazyLive.game.levels
                     else if (pill.t1 >= 3.12f)
                     {
                         pill.kill();
-                        level.pills.ps.startAcid(pill.x, pill.y);
+                        getParticles().startAcid(pill.x, pill.y);
                         catHum = 0.0f;
                     }
                 }
@@ -133,7 +134,7 @@ namespace DuckstazyLive.game.levels
         {
             pill.startMissle(xo, yo, 0);
 
-            Hero hero = level.heroes[0];
+            Hero hero = getHeroes()[0];
 
             if (catStage == 0)
             {
@@ -192,7 +193,7 @@ namespace DuckstazyLive.game.levels
                         if (catToxic.t2 < 0.0f)
                         {
                             catToxic.t2 = 0.05f;
-                            pills.ps.startStarToxic(catToxic.x, catToxic.y, -catToxic.vx * 0.2f, -catToxic.vy * 0.2f, 0);
+                            getParticles().startStarToxic(catToxic.x, catToxic.y, -catToxic.vx * 0.2f, -catToxic.vy * 0.2f, 0);
                         }
 
                         catToxic.vy += 900.0f * dt;
@@ -214,7 +215,7 @@ namespace DuckstazyLive.game.levels
                         }
                         if (catToxic.t1 < 0.0f)
                         {
-                            pills.ps.explStarsToxic(catToxic.x, catToxic.y, 0, true);
+                            getParticles().explStarsToxic(catToxic.x, catToxic.y, 0, true);
                             catToxic.kill();
                         }
                     }
@@ -225,14 +226,13 @@ namespace DuckstazyLive.game.levels
 
             if (level.power >= 0.5f)
             {
-
                 if (catHum > 0.0f)
                     catHum -= dt;
 
                 catGen += dt * 2.0f;
                 if (catGen > 1.0f)
                 {
-                    pill = pills.findDead();
+                    pill = getPills().findDead();
                     if (pill != null)
                     {
                         if (catStage == 0)
@@ -262,7 +262,7 @@ namespace DuckstazyLive.game.levels
                     catAttack -= dt;
                     if (catAliveR && catHum <= 0.0f && catAttack < 0.0f && catToxic == null)
                     {
-                        pill = pills.findDead();
+                        pill = getPills().findDead();
                         if (pill != null)
                         {
                             launchMissle(pill, 532, 221);
@@ -278,7 +278,7 @@ namespace DuckstazyLive.game.levels
                 catArrow.update(dt);
             }
 
-            Hero hero = level.heroes[0];
+            Hero hero = getHeroes()[0];
 
             switch (catStage)
             {
@@ -294,7 +294,7 @@ namespace DuckstazyLive.game.levels
                         hero.yLast < 178 - 40 && hero.y >= 178 - 40)
                     {
                         hero.jump(120);
-                        level.env.blanc = 1.0f;
+                        getEnv().blanc = 1.0f;
                         catAliveL = false;
                         catStage = 2;
                         catFinalAttack = 15.0f;
@@ -317,7 +317,7 @@ namespace DuckstazyLive.game.levels
                             hero.yLast < 178 - 40 && hero.y >= 178 - 40)
                         {
                             hero.jump(120);
-                            level.env.blanc = 1.0f;
+                            getEnv().blanc = 1.0f;
                             catAliveR = false;
                             catStage = 3;
                             catArrow.visible = false;
@@ -327,7 +327,7 @@ namespace DuckstazyLive.game.levels
             }
 
 
-            pills.actives += newPills;
+            getPills().actives += newPills;
         }
 
         public override void draw1(Canvas canvas)

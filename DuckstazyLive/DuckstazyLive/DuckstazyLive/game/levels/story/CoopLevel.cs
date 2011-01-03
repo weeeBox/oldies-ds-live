@@ -90,27 +90,9 @@ namespace DuckstazyLive.game
             return createStage(stageIndex);
         }
 
-        protected override void initHero()
-        {
-            heroes = new Heroes();
-            Hero hero = new Hero(heroes, 0);
-            hero.gameState.leftOriented = true;
-            hero.gameState.color = Color.Yellow;
-            heroes.addHero(hero);
-
-            hero = new Hero(heroes, 1);
-            hero.gameState.leftOriented = false;
-            hero.gameState.color = Color.Pink;
-            heroes.addHero(hero);
-
-            pills = new Pills(heroes, ps);
-            heroes.particles = ps;
-            heroes.env = env;
-            heroes.clear();
-        }
-
         public override void drawHud(Canvas canvas)
         {
+            Heroes heroes = getHeroes();
             heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
             heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
 
