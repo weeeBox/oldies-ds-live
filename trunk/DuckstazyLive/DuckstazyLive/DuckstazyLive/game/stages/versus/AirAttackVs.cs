@@ -33,6 +33,7 @@ namespace DuckstazyLive.game.stages.versus
             {
                 pill.t2 -= dt;
 
+                Particles particles = getParticles();
                 if (pill.t2 < 0.0f)
                 {
                     pill.t2 = 0.05f;
@@ -68,6 +69,7 @@ namespace DuckstazyLive.game.stages.versus
             {
                 regen -= dt;
 
+                Pills pills = getPills();
                 if (regen <= 0.0f)
                 {
                     pill = pills.findDead();
@@ -102,8 +104,9 @@ namespace DuckstazyLive.game.stages.versus
                 }
             }
 
-            pills.actives += newPills;
-            
+            getPills().actives += newPills;
+
+            Heroes heroes = getHeroes();
             foreach (Hero hero in heroes)
             {
                 hero.diveK = 1.5f;

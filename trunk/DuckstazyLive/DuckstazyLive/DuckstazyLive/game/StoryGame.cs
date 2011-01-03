@@ -9,6 +9,7 @@ using Framework.visual;
 using Microsoft.Xna.Framework;
 using Framework.utils;
 using System.Diagnostics;
+using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.game
 {
@@ -109,21 +110,24 @@ namespace DuckstazyLive.game
 
         public override void update(float dt)
         {        	
-        	Env env = level.env;			
-			level.update(dt);			
-			// gui.update(dt);
-			env.updateBlanc(dt);            
+			level.update(dt);		
+			getEnv().updateBlanc(dt);            
         }
 
         public override void draw()
         {
             Canvas canvas = getCanvas();
 
-            Env env = level.env;            
+            Env env = getEnv();
             level.draw(canvas);            
 
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);
+        }
+
+        private Env getEnv()
+        {
+            return GameMgr.getInstance().getEnv();
         }
 
         //////////////////////////////////////////////////////////////////////////////////////////////

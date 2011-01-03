@@ -8,6 +8,7 @@ using DuckstazyLive.app;
 using Framework.core;
 using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
+using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.game
 {
@@ -399,7 +400,7 @@ namespace DuckstazyLive.game
                             //else if(i==1) level.state.scores+=10;
                             //else if(i==2) level.state.scores+=25;
                             info.add(x, y, info.powers[i]);
-                            level.env.beat();
+                            getEnv().beat();
                         }
                         else
                         {
@@ -441,7 +442,7 @@ namespace DuckstazyLive.game
                                 else if (i == 1) hero.gameState.scores += 150;
                                 else if (i == 2) hero.gameState.scores += 200;
                                 info.add(x, y, info.toxics[i]);
-                                level.env.beat();
+                                getEnv().beat();
                             }
                             else
                             {
@@ -463,7 +464,7 @@ namespace DuckstazyLive.game
                         {
                             hero.doSleep();
                             level.gainSleep();
-                            level.env.beat();
+                            getEnv().beat();
                         }
                         ps.explStarsSleep(x, y);
                         info.add(x, y, info.sleeps[(int)(utils.rnd() * 3.0)]);
@@ -474,13 +475,13 @@ namespace DuckstazyLive.game
                         // media.sndHeal.play();
                         Application.sharedSoundMgr.playSound(media.sndHeal);
                         hero.doHeal(5);
-                        level.env.beat();
+                        getEnv().beat();
                     }
                     break;
                 case MATRIX:
                     {
                         level.switchEvnPower();
-                        level.env.beat();
+                        getEnv().beat();
                     }
                     break;
                 case JUMP:
@@ -490,7 +491,7 @@ namespace DuckstazyLive.game
                             // media.sndJumper.play();
                             Application.sharedSoundMgr.playSound(media.sndJumper);
                             highCounter = 1.0f;
-                            level.env.beat();
+                            getEnv().beat();
                             if (user != null)
                                 user(this, "jump", 0.0f);
                         }
@@ -646,7 +647,7 @@ namespace DuckstazyLive.game
 
             setState(BORNING);
             Level level = getLevel();
-            if (level.power < 0.5f && !level.env.day)
+            if (level.power < 0.5f && !getEnv().day)
                 ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
             else
                 ps.startWarning(x, y, 3.0f, 0.0f, 0.0f, 0.0f);
@@ -900,7 +901,7 @@ namespace DuckstazyLive.game
             }
             else
             {
-                if (level.env.day)
+                if (getEnv().day)
                     canvas.draw(imgMain, MAT, BLACK);
                 else
                     canvas.draw(imgMain, MAT);
@@ -1049,6 +1050,11 @@ namespace DuckstazyLive.game
             MAT.translate(dx, dy);
 
             canvas.draw(media.imgEyes1, MAT, COLOR);
+        }
+
+        private Env getEnv()
+        {
+            return GameMgr.getInstance().getEnv();
         }
 
         public bool isActive()

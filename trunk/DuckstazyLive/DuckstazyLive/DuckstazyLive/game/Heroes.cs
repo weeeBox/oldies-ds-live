@@ -16,9 +16,7 @@ namespace DuckstazyLive.game
     {
         private bool started;
 
-        public HeroMedia media;
-        public Particles particles;
-        public Env env;
+        public HeroMedia media;        
 
         private const int MAX_HEROES = 2;
         private List<Hero> heroes;
@@ -44,7 +42,7 @@ namespace DuckstazyLive.game
                 Debug.Assert(index >= 0 && index < getHeroesCount());
                 heroes[index] = value;
             }
-        }
+        }        
 
         public void addHero(Hero hero)
         {
@@ -55,6 +53,11 @@ namespace DuckstazyLive.game
         public void removeHero(Hero hero)
         {
             heroes.Remove(hero);
+        }        
+
+        public void clearHeroes()
+        {
+            heroes.Clear();
         }
 
         public void init()

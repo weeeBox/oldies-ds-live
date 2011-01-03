@@ -170,7 +170,7 @@ namespace DuckstazyLive.game.stages.versus
                     pill.t1 += dt;
                     if (pill.t1 > PILL_TIMEOUT)
                     {                        
-                        particles.explStarsToxic(pill.x, pill.y, 0, true);
+                        getParticles().explStarsToxic(pill.x, pill.y, 0, true);
                         pill.kill();
                     }
                 }                

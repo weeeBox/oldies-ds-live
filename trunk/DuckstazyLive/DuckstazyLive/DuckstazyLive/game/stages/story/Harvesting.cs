@@ -50,6 +50,8 @@ namespace DuckstazyLive.game.levels
             base.update(dt);
 
             gen.update(dt);
+
+            Heroes heroes = getHeroes();
             foreach (Placer o in gen.map)
             {
                 if (i < 15)
@@ -93,12 +95,12 @@ namespace DuckstazyLive.game.levels
                 //t = 0.1;
                 //pill.t2 = (1.0f-t)*pill.t2 + t*(380-hero.getJumpHeight());
 
-                pill.y = (float)(380 - heroes.getJumpHeight() * pill.t2 + 10 * Math.Sin(pill.t1 * 6.28f));
+                pill.y = (float)(380 - getHeroes().getJumpHeight() * pill.t2 + 10 * Math.Sin(pill.t1 * 6.28f));
             }
             else if (msg == "born")
             {
                 pill.t1 = 0.0f;
-                pill.t2 = (380 - pill.y) / heroes.getJumpHeight();//pill.y;
+                pill.t2 = (380 - pill.y) / getHeroes().getJumpHeight();//pill.y;
             }
         }        
     }
