@@ -20,13 +20,17 @@ namespace DuckstazyLive.game.stages.fx
         private float x1, y1, x2, y2;
         private int pillsGenerated;
 
-        public int pillsCount;
-        public float lifeTime;
+        public int pillsCount;        
+        public float flyTime;
+        public float flyOscAmplitude;
+        public float flyOscOmega;
         public float lauchTimeout;
         public float genTimeout;
+        public float gravity;
+        public float explSpeed;        
 
         public Firework()
-        {            
+        {
         }        
 
         public void start(float x1, float y1, float x2, float y2)
@@ -38,6 +42,14 @@ namespace DuckstazyLive.game.stages.fx
 
             state = STATE_LAUNCHING;
             counter = lauchTimeout;
+
+            explSpeed = 120.0f;
+            flyTime = 5.0f;
+            flyOscAmplitude = 5.0f;
+            flyOscOmega = 24.0f;
+            gravity = 350.0f;
+            pillsCount = 10;
+            genTimeout = 0.05f;
         }
 
         public void update(float dt)
@@ -69,38 +81,33 @@ namespace DuckstazyLive.game.stages.fx
             }
         }
 
-        private void updateFlying(float dt)
-        {
-
-        }
-
         private void updateGenerating(float dt)
         {
             counter -= dt;
             if (counter <= 0.0f)
             {
                 counter = genTimeout;
-                double angle = pillsGenerated * Math.PI / pillsCount;
+                double angle = pillsGenerated * MathHelper.TwoPi / pillsCount;
 
                 Pills pills = getPills();             
-                Pill pill = pills.findDead();
-                float speed = 400.0f;
+                Pill pill = pills.findDead();                
                 if (pill != null)
                 {
-                    float vx = (float)(speed * Math.Cos(angle));
-                    float vy = -Math.Abs((float)(speed * Math.Sin(angle)));
+                    float vx = (float)(explSpeed * Math.Cos(angle));
+                    float vy = -Math.Abs((float)(explSpeed * Math.Sin(angle)));
 
                     pill.startPower(x2, y2, 0, false);
                     pill.vx = vx;
                     pill.vy = vy;                    
-                    pill.t1 = lifeTime;
                     pill.user = fireworkCallback;
                     pills.actives++;
                 }
 
                 pillsGenerated++;
                 if (pillsGenerated == pillsCount)
+                {
                     state = STATE_DONE;
+                }
             }
         }
 
@@ -112,18 +119,16 @@ namespace DuckstazyLive.game.stages.fx
             if (pill != null)
             {
                 float dx = x2 - x1;
-                float dy = y2 - y1;
-
-                float time = 5.0f;
+                float dy = y2 - y1;                
 
                 pill.startPower(x1, y1, 0, false);
-                pill.vx = dx / time;
-                pill.vy = dy / time;
+                pill.vx = dx / flyTime;
+                pill.vy = dy / flyTime;
                 pill.t1 = x1;
                 pill.t2 = y1;
                 pill.user = launchCallback;
 
-                counter = time;
+                counter = flyTime;
                 getPills().actives++;
             }
         }
@@ -137,12 +142,10 @@ namespace DuckstazyLive.game.stages.fx
                 pill.t1 += dx;
                 pill.t2 += dy;
 
-                Vector2 perpN = new Vector2(-dy * 10, dx * 10);
+                Vector2 perpN = new Vector2(-dy * 10, dx * 10); // eliminate equation error
                 perpN.Normalize();
-
-                float amplitude = 5.0f;
-                float omega = 24.0f;
-                Vector2 amplitudePerp = Vector2.Multiply(perpN, (float)(amplitude * Math.Sin(counter * omega)));
+                
+                Vector2 amplitudePerp = Vector2.Multiply(perpN, (float)(flyOscAmplitude * Math.Sin(counter * flyOscOmega)));
 
                 pill.x = pill.t1 + amplitudePerp.X;
                 pill.y = pill.t2 + amplitudePerp.Y;
@@ -179,7 +182,7 @@ namespace DuckstazyLive.game.stages.fx
         {
             if (msg == null && pill.isAlive())
             {
-                pill.vy += 350.0f * dt;
+                pill.vy += gravity * dt;
 
                 pill.x += pill.vx * dt;
                 pill.y += pill.vy * dt;
@@ -201,15 +204,17 @@ namespace DuckstazyLive.game.stages.fx
                 }
                 else if (pill.y > 400.0f)
                 {
-                    pill.vy = -0.5f * pill.vy;
-                    pill.y = 400;
-                }
-
-                pill.t1 -= dt;
-                if (pill.t1 <= 0)
-                {
-                    pill.kill();
-                }
+                    if (Math.Abs(pill.vy) < 5.0f)
+                    {
+                        pill.kill();
+                        getParticles().explStarsPower(pill.x, pill.y, 0);
+                    }
+                    else
+                    {
+                        pill.vy = -0.5f * pill.vy;
+                        pill.y = 400;
+                    }
+                }                
             }
         }
 
