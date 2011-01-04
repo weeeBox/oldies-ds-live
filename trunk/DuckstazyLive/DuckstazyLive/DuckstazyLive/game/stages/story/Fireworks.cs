@@ -14,21 +14,23 @@ namespace DuckstazyLive.game.stages.story
         {
             public float x1, y1, x2, y2;
             public float flyTime;
+            public float expSpeed;
 
-            public FireworkInfo(float x1, float y1, float x2, float y2, float flyTime)
+            public FireworkInfo(float x1, float y1, float x2, float y2, float flyTime, float expSpeed)
             {
                 this.x1 = x1;
                 this.y1 = y1;
                 this.x2 = x2;
                 this.y2 = y2;
                 this.flyTime = flyTime;
+                this.expSpeed = expSpeed;
             }
         }
 
         private FireworkInfo[] fireworksData =
         {
-            new FireworkInfo(0, 400, 320, 80, 2.5f),
-            new FireworkInfo(640, 0, 320, 80, 2.0f),
+            new FireworkInfo(0, 400, 320, 80, 2.5f, 120.0f),
+            new FireworkInfo(640, 400, 320, 80, 2.0f, 150.0f),
         };
 
         private Firework firework;
