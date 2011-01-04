@@ -45,8 +45,8 @@ namespace DuckstazyLive.game.stages.fx
 
             explSpeed = 120.0f;
             flyTime = 5.0f;
-            flyOscAmplitude = 5.0f;
-            flyOscOmega = 24.0f;
+            flyOscAmplitude = 15.0f;
+            flyOscOmega = 30.0f;
             gravity = 350.0f;
             pillsCount = 10;
             genTimeout = 0.05f;
@@ -144,8 +144,11 @@ namespace DuckstazyLive.game.stages.fx
 
                 Vector2 perpN = new Vector2(-dy * 10, dx * 10); // eliminate equation error
                 perpN.Normalize();
-                
-                Vector2 amplitudePerp = Vector2.Multiply(perpN, (float)(flyOscAmplitude * Math.Sin(counter * flyOscOmega)));
+
+                float progress = 1 - counter / flyTime;
+                float amplitude = flyOscAmplitude * (1 - 0.5f * progress);
+                float omega = flyOscOmega * (1 + 2.0f * progress);
+                Vector2 amplitudePerp = Vector2.Multiply(perpN, (float)(amplitude * Math.Sin(counter * omega)));
 
                 pill.x = pill.t1 + amplitudePerp.X;
                 pill.y = pill.t2 + amplitudePerp.Y;
