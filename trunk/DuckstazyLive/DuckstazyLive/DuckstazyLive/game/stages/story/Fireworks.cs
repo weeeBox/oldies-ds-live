@@ -30,7 +30,7 @@ namespace DuckstazyLive.game.stages.story
         public override void update(float dt)
         {
             base.update(dt);
-            firework.update(dt);
+            firework.update(dt, level.power);
         }
         
         protected override void startProgress()

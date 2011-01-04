@@ -20,14 +20,17 @@ namespace DuckstazyLive.game.stages.fx
         private float x1, y1, x2, y2;
         private int pillsGenerated;
 
-        public int pillsCount;        
+        public int pillsCount;
+        public float lifeTime;
         public float flyTime;
         public float flyOscAmplitude;
         public float flyOscOmega;
         public float lauchTimeout;
         public float genTimeout;
         public float gravity;
-        public float explSpeed;        
+        public float explSpeed;
+
+        private float power;
 
         public Firework()
         {
@@ -44,16 +47,20 @@ namespace DuckstazyLive.game.stages.fx
             counter = lauchTimeout;
 
             explSpeed = 120.0f;
+            lifeTime = 5.0f;
             flyTime = 5.0f;
             flyOscAmplitude = 15.0f;
             flyOscOmega = 30.0f;
             gravity = 350.0f;
             pillsCount = 10;
             genTimeout = 0.05f;
+            power = 0.0f;
         }
 
-        public void update(float dt)
+        public void update(float dt, float newPower)
         {
+            power = newPower;
+
             switch (state)
             {
                 case STATE_LAUNCHING:
@@ -97,10 +104,12 @@ namespace DuckstazyLive.game.stages.fx
                     float vy = -Math.Abs((float)(explSpeed * Math.Sin(angle)));
 
                     pill.startPower(x2, y2, 0, false);
-                    pill.vx = vx;
-                    pill.vy = vy;                    
                     pill.user = fireworkCallback;
-                    pills.actives++;
+                    pill.vx = vx;
+                    pill.vy = vy;
+                    pill.t1 = lifeTime;
+                    
+                    pills.actives++;                    
                 }
 
                 pillsGenerated++;
@@ -185,50 +194,60 @@ namespace DuckstazyLive.game.stages.fx
         {
             if (msg == null && pill.isAlive())
             {
-                pill.vy += gravity * dt;
+                float friction = 0.7f + power * 0.3f;
 
+                pill.vy += gravity * dt;
                 pill.x += pill.vx * dt;
                 pill.y += pill.vy * dt;
 
-                if (pill.x < 0.0f)
+                if (pill.x > 630)
                 {
-                    pill.x = -pill.x;
-                    pill.vx -= pill.vx;
+                    pill.vx = -pill.vx * friction;
+                    pill.vy = pill.vy * friction;
+                    pill.x = 630;
                 }
-                else if (pill.x > 640.0f)
+                if (pill.x < 10)
                 {
-                    pill.x = 640.0f;
-                    pill.vx -= pill.vx;
+                    pill.vx = -pill.vx * friction;
+                    pill.vy = pill.vy * friction;
+                    pill.x = 10;
                 }
-                if (pill.y < 0)
+
+                if (pill.y < 10)
                 {
-                    pill.y = 0;
-                    pill.vy = 0;
+                    pill.vy = -pill.vy * friction;
+                    pill.vx = pill.vx * friction;
+                    pill.y = 10;
                 }
-                else if (pill.y > 400.0f)
+                if (pill.y > 390)
                 {
-                    if (Math.Abs(pill.vy) < 5.0f)
-                    {
-                        pill.kill();
-                        getParticles().explStarsPower(pill.x, pill.y, 0);
-                    }
-                    else
-                    {
-                        pill.vy = -0.5f * pill.vy;
-                        pill.y = 400;
-                    }
-                }                
+                    pill.vy = -pill.vy * friction;
+                    pill.vx = pill.vx * friction;
+                    pill.y = 390;
+                }
+
+                pill.t1 -= dt;
+                if (pill.t1 <= 0.0f)
+                {
+                    pill.kill();
+                    getParticles().explStarsPower(pill.x, pill.y, 0);
+                }
             }
         }
 
+        private GameMgr getGameMgr()
+        {
+            return GameMgr.getInstance();
+        }        
+
         private Pills getPills()
         {
-            return GameMgr.getInstance().getPills();
+            return getGameMgr().getPills();
         }
 
         private Particles getParticles()
         {
-            return GameMgr.getInstance().getParticles();
+            return getGameMgr().getParticles();
         }
     }    
 }
