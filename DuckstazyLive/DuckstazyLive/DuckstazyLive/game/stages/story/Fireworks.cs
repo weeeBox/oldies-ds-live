@@ -10,7 +10,29 @@ namespace DuckstazyLive.game.stages.story
 {
     public class Fireworks : StoryLevelStage
     {
+        private struct FireworkInfo
+        {
+            public float x1, y1, x2, y2;
+            public float flyTime;
+
+            public FireworkInfo(float x1, float y1, float x2, float y2, float flyTime)
+            {
+                this.x1 = x1;
+                this.y1 = y1;
+                this.x2 = x2;
+                this.y2 = y2;
+                this.flyTime = flyTime;
+            }
+        }
+
+        private FireworkInfo[] fireworksData =
+        {
+            new FireworkInfo(0, 400, 320, 80, 2.5f),
+            new FireworkInfo(640, 0, 320, 80, 2.0f),
+        };
+
         private Firework firework;
+        private int fireworkIndex;
 
         public Fireworks()
         {
@@ -21,21 +43,42 @@ namespace DuckstazyLive.game.stages.story
         {
             day = false;
 
-            base.start();            
-            
-            firework.start(0, 400, 320, 80);
-            firework.flyTime = 2.5f;
+            base.start();
+
+            fireworkIndex = 0;
+            startFirework(fireworkIndex);
         }
 
         public override void update(float dt)
         {
             base.update(dt);
+            
             firework.update(dt, level.power);
+            if (firework.isDone())
+            {                
+                if (fireworkIndex < fireworksData.Length - 1)
+                {
+                    fireworkIndex++;
+                    startFirework(fireworkIndex);
+                }
+            }
         }
         
         protected override void startProgress()
         {
             progress.start(0, 0);
+        }
+
+        private void startFirework(int index)
+        {
+            Debug.Assert(index >= 0 && index < fireworksData.Length);
+
+            float x1 = fireworksData[index].x1;
+            float y1 = fireworksData[index].y1;
+            float x2 = fireworksData[index].x2;
+            float y2 = fireworksData[index].y2;
+            firework.start(x1, y1, x2, y2);
+            firework.flyTime = fireworksData[index].flyTime;
         }
     }
 }
