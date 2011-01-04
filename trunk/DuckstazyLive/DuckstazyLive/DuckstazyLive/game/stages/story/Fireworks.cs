@@ -21,11 +21,10 @@ namespace DuckstazyLive.game.stages.story
         {
             day = false;
 
-            base.start();
-            firework.lifeTime = 5.0f;
-            firework.pillsCount = 10;
-            firework.genTimeout = 0.05f;
+            base.start();            
+            
             firework.start(0, 400, 320, 80);
+            firework.flyTime = 2.5f;
         }
 
         public override void update(float dt)
