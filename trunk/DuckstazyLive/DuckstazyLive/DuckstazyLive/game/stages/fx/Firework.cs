@@ -19,6 +19,7 @@ namespace DuckstazyLive.game.stages.fx
         private float counter;
         private float x1, y1, x2, y2;
         private int pillsGenerated;
+        private int pillsCollected;
 
         public int pillsCount;
         public float lifeTime;
@@ -30,11 +31,7 @@ namespace DuckstazyLive.game.stages.fx
         public float gravity;
         public float explSpeed;
 
-        private float power;
-
-        public Firework()
-        {
-        }        
+        private float power;        
 
         public void start(float x1, float y1, float x2, float y2)
         {
@@ -43,7 +40,7 @@ namespace DuckstazyLive.game.stages.fx
             this.x2 = x2;
             this.y2 = y2;
 
-            state = STATE_LAUNCHING;
+            state = STATE_LAUNCHING;            
             counter = lauchTimeout;
 
             explSpeed = 120.0f;
@@ -55,6 +52,9 @@ namespace DuckstazyLive.game.stages.fx
             pillsCount = 10;
             genTimeout = 0.05f;
             power = 0.0f;
+
+            pillsCollected = 0;
+            pillsGenerated = 0;
         }
 
         public void update(float dt, float newPower)
@@ -168,10 +168,21 @@ namespace DuckstazyLive.game.stages.fx
                     explode(pill);
                 }
             }
+            else if (msg == "dead")
+            {
+                if (state == STATE_FLYING)
+                {
+                    pillsCollected = pillsCount;
+                    state = STATE_DONE;
+                }
+            }
         }
 
         private void explode(Pill pill)
         {
+            counter = 0.0f;
+            state = STATE_GENERATING;
+
             pill.kill();
 
             float px = pill.x;
@@ -179,16 +190,8 @@ namespace DuckstazyLive.game.stages.fx
             if (pill.type == Pill.POWER)
                 getParticles().explStarsPower(px, py, pill.id);
             else if (pill.type == Pill.TOXIC)
-                getParticles().explStarsToxic(px, py, 0, true);
-
-            startFirework();
-        }
-
-        private void startFirework()
-        {
-            counter = 0.0f;
-            state = STATE_GENERATING;            
-        }
+                getParticles().explStarsToxic(px, py, 0, true);            
+        }        
 
         public void fireworkCallback(Pill pill, String msg, float dt)
         {
@@ -233,6 +236,15 @@ namespace DuckstazyLive.game.stages.fx
                     getParticles().explStarsPower(pill.x, pill.y, 0);
                 }
             }
+            else if (msg == "dead")
+            {
+                pillsCollected++;
+            }
+        }
+
+        public bool isDone()
+        {
+            return state == STATE_DONE && pillsCollected == pillsCount;
         }
 
         private GameMgr getGameMgr()
