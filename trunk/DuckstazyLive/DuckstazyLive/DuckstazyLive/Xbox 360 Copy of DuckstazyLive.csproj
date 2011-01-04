@@ -122,6 +122,7 @@
     <Compile Include="game\PillsMedia.cs" />
     <Compile Include="game\LevelProgressView.cs" />
     <Compile Include="game\StageMedia.cs" />
+    <Compile Include="game\stages\fx\Firework.cs" />
     <Compile Include="game\stages\fx\FrogActor.cs" />
     <Compile Include="game\stages\fx\HintArrow.cs" />
     <Compile Include="game\stages\fx\Snake.cs" />
@@ -137,6 +138,8 @@
     <Compile Include="game\stages\story\Bubbles.cs" />
     <Compile Include="game\stages\story\DoubleFrog.cs" />
     <Compile Include="game\stages\story\FigureStage.cs" />
+    <Compile Include="game\stages\story\Fireworks.cs" />
+    <Compile Include="game\stages\story\GrinderStage.cs" />
     <Compile Include="game\stages\story\Harvesting.cs" />
     <Compile Include="game\stages\story\PartyTime.cs" />
     <Compile Include="game\stages\story\PillCollectLevelStage.cs" />

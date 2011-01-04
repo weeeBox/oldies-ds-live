@@ -46,6 +46,12 @@ namespace DuckstazyLive.game.levels.generator
             finished = false;
         }
 
+        public void reset()
+        {
+            finish();
+            clearMap();
+        }
+
         public void finish()
         {
             foreach (Pill it in pills)

@@ -14,7 +14,8 @@ namespace DuckstazyLive.game
     public class SingleLevel : StoryLevel
     {
         private enum LevelStages
-        {
+        {           
+            Fireworks,
             Harvesting,
             PartyTime,
             Bubbles,
@@ -28,6 +29,7 @@ namespace DuckstazyLive.game
             Bubbles3,
             DuckStage,
             Snakes,
+            Grinder,
         }
 
         private int stageIndex;
@@ -77,6 +79,10 @@ namespace DuckstazyLive.game
                     return new FigureStage();
                 case LevelStages.Snakes:
                     return new Snakes();
+                case LevelStages.Grinder:
+                    return new GrinderStage();
+                case LevelStages.Fireworks:
+                    return new Fireworks();
 
                 default:
                     Debug.Assert(false, "Bad stage: " + stage);

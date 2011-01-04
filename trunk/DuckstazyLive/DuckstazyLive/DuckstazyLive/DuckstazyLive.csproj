@@ -131,7 +131,10 @@
     <Compile Include="game\LostView.cs" />
     <Compile Include="game\levels\story\StoryLevel.cs" />
     <Compile Include="game\levels\story\StoryLevelStage.cs" />
+    <Compile Include="game\stages\fx\Firework.cs" />
     <Compile Include="game\stages\fx\Snake.cs" />
+    <Compile Include="game\stages\story\Fireworks.cs" />
+    <Compile Include="game\stages\story\GrinderStage.cs" />
     <Compile Include="game\stages\story\Snakes.cs" />
     <Compile Include="game\stages\story\TimeoutLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
