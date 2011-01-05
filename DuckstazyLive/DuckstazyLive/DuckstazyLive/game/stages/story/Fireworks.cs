@@ -50,7 +50,7 @@ namespace DuckstazyLive.game.stages.story
 
         public Fireworks()
         {
-            pumpVel = 0.03f;
+            pumpVel = 0.025f;
 
             firework = new Firework();
             jumper = new JumpStarter();
@@ -70,9 +70,9 @@ namespace DuckstazyLive.game.stages.story
                 fireworksData = new FireworkInfo[]
                 {
                     new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 320, 80, 2.5f, 120.0f, 8.0f, 3.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER2, 640, 380, 320, 80, 2.0f, 150.0f, 8.0f, 1.0f, 1),
-                    new FireworkInfo(FireworkSetuper.POWER3, 0, 50, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 2),
-                    new FireworkInfo(FireworkSetuper.POWER3, 640, 50, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 3),
+                    new FireworkInfo(FireworkSetuper.POWER2, 640, 380, 320, 80, 2.0f, 150.0f, 8.0f, 1.0f, 0),
+                    new FireworkInfo(FireworkSetuper.POWER3, 0, 50, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
+                    new FireworkInfo(FireworkSetuper.POWER3, 640, 50, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
                 };
             }
             else
