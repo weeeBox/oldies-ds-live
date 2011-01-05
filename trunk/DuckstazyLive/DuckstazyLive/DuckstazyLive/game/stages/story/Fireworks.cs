@@ -41,12 +41,13 @@ namespace DuckstazyLive.game.stages.story
         }
 
         private const int STATE_PUMP = 0;
-        private const int STATE_POWER = 1;
+        private const int STATE_PENALTY = 1;
+        private const int STATE_POWER = 2;
         private int state;
 
         private FireworkInfo[] pumpFireworkData;
         private FireworkInfo[] powerFireworkData;
-        private FireworkInfo[] pumpPenaltyFireworkData;
+        private FireworkInfo[] penaltyFireworkData;
         private FireworkInfo[] powerEndFireworkData;
 
         private Queue<FireworkInfo> fireworkQueue;
@@ -87,22 +88,20 @@ namespace DuckstazyLive.game.stages.story
                 powerFireworkData = new FireworkInfo[]
                 {
                     new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 480, 200, 2.0f, 200.0f, 4.0f, 0.0f, 8, 1),
-                    new FireworkInfo(FireworkSetuper.POWER1, 640, 380, 160, 200, 2.0f, 200.0f, 4.0f, 0.0f, 7, 2),
-                    new FireworkInfo(FireworkSetuper.POWERS, 640, 80, 160, 250, 1.5f, 200.0f, 3.5f, 0.0f, 6, 2),
-                    new FireworkInfo(FireworkSetuper.POWERS, 0, 80, 480, 250, 1.5f, 200.0f, 3.5f, 0.0f, 6, 2),
-                    new FireworkInfo(FireworkSetuper.TOXIC, 640, 380, 0, 80, 2.5f, 300.0f, 3.0f, 0.5f, 8, 1),
-                    new FireworkInfo(FireworkSetuper.TOXIC, 0, 380, 640, 80, 2.5f, 300.0f, 3.0f, 0.5f, 8, 1),
+                    new FireworkInfo(FireworkSetuper.POWER1, 640, 380, 160, 200, 2.0f, 200.0f, 4.0f, 0.0f, 7, 1),
+                    new FireworkInfo(FireworkSetuper.POWERS, 640, 80, 160, 250, 1.5f, 200.0f, 3.5f, 0.0f, 6, 1),
+                    new FireworkInfo(FireworkSetuper.POWERS, 0, 80, 480, 250, 1.5f, 200.0f, 3.5f, 0.0f, 6, 1),                    
                 };
-                pumpPenaltyFireworkData = new FireworkInfo[]
+                penaltyFireworkData = new FireworkInfo[]
                 {
                     new FireworkInfo(FireworkSetuper.TOXIC, 320, 80, 320, 100, 0.5f, 150.0f, 3.5f, 0.0f, 8, 3)
                 };
                 powerEndFireworkData = new FireworkInfo[]
                 {
                     new FireworkInfo(FireworkSetuper.TOXIC, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 0),
-                    new FireworkInfo(FireworkSetuper.POWERS, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 2),
+                    new FireworkInfo(FireworkSetuper.POWERS, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 1),
                     new FireworkInfo(FireworkSetuper.TOXIC, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 0),
-                    new FireworkInfo(FireworkSetuper.POWERS, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 2),
+                    new FireworkInfo(FireworkSetuper.POWERS, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 1),
                 };
             }
             else
@@ -114,7 +113,7 @@ namespace DuckstazyLive.game.stages.story
                 //    new FireworkInfo(FireworkSetuper.POWER3, 0, 0, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
                 //    new FireworkInfo(FireworkSetuper.POWER3, 640, 0, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
                 //};
-            }
+            }            
 
             startState(STATE_PUMP);
 
@@ -138,8 +137,12 @@ namespace DuckstazyLive.game.stages.story
 
             switch (state)
             {
-                case STATE_PUMP:                    
+                case STATE_PUMP:
                     addFireworksQueue(pumpFireworkData);
+                    break;
+
+                case STATE_PENALTY:
+                    addFireworksQueue(penaltyFireworkData);
                     break;
 
                 case STATE_POWER:
@@ -192,46 +195,69 @@ namespace DuckstazyLive.game.stages.story
 
         public override void update(float dt)
         {
-            base.update(dt);
-
-            if (level.power < 0.5f)
-            {
-                if (state == STATE_POWER)
-                {
-                    startState(STATE_PUMP);
-                }
-            }
-            else if (state == STATE_PUMP)
-            {
-                startState(STATE_POWER);
-            }
+            base.update(dt);            
 
             jumpGen.update(dt);
             firework.update(dt, level.power);
+
             if (firework.isKilled())
             {
+                Debug.WriteLine("Restart firework");
                 firework.restart();
             }
             else if (firework.isDone())
-            {   
+            {
+                if (state == STATE_POWER)
+                {
+                    if (level.power < 0.5f)
+                    {
+                        Debug.WriteLine("Back to pump state");
+                        startState(STATE_PUMP);
+                    }
+                }                
+
                 if (fireworkQueue.Count > 0)                
-                {                    
+                {
+                    Debug.WriteLine("Start firework");
                     startFirework();
                 }
                 else
                 {
-                    if (state == STATE_PUMP && level.power < 0.5f)
+                    if (state == STATE_PUMP)
                     {
-                        addFireworksQueue(pumpPenaltyFireworkData); // give a penalty
-                        addFireworksQueue(pumpFireworkData); // try again
+                        if (level.power < 0.5f)
+                        {
+                            Debug.WriteLine("Penalty");
+                            startState(STATE_PENALTY);
+                        }
+                        else
+                        {
+                            Debug.WriteLine("Start power state");
+                            startState(STATE_POWER);
+                        }
                     }
-                    else if (state == STATE_POWER && level.power > 0.5f)
+                    else if (state == STATE_PENALTY)
                     {
-                        addFireworksQueue(powerEndFireworkData);
+                        if (level.power < 0.5f)
+                        {
+                            startState(STATE_PUMP);
+                        }
+                        else
+                        {
+                            startState(STATE_POWER);
+                        }
+                    }
+                    else if (state == STATE_POWER)
+                    {
+                        if (level.power > 0.7f)
+                        {
+                            Debug.WriteLine("Start end power");
+                            addFireworksQueue(powerEndFireworkData);
+                        }                        
                     }
                 }
             }
-        }
+        }        
 
         public override void draw2(Canvas canvas)
         {
