@@ -127,6 +127,11 @@ namespace DuckstazyLive.game
             stop();
         }        
 
+        protected bool isSingleLevel()
+        {
+            return level.isSingleLevel();
+        }
+
         protected void setInfoText(String text)
         {
             level.infoText = text;

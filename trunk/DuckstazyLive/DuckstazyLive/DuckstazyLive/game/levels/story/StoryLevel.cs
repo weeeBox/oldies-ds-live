@@ -18,14 +18,15 @@ namespace DuckstazyLive.game
 
         protected float nextLevelCounter;
         protected int harvestProcess;
-        protected int nextLevelCountdown;
+        protected int nextLevelCountdown;        
 
         public StoryLevel(GameState gameState) : base(gameState)
         {            
         }
 
         protected abstract LevelStage createNextStage();        
-        protected abstract int getStagesCount();        
+        protected abstract int getStagesCount();
+        public abstract bool isSingleLevel();
 
         public override void update(float dt)
         {
