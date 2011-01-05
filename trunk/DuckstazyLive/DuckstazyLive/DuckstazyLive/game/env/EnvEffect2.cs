@@ -7,26 +7,26 @@ using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.env
 {
-   	public class EnvEffect2 : EnvEffect
-	{
-		private float t;
-		// private Shape shape;
+    public class EnvEffect2 : EnvEffect
+    {
+        private float t;
+        // private Shape shape;
 
-		public EnvEffect2()            
-		{			
-			// shape = new Shape();
-			t = 0.0f;
-		}
-		
-		public override void update(float dt)
-		{
-			t+=dt*6.28f*(power-0.5f);
-			if(t>6.28f)
-				t-=6.28f;
-		}
+        public EnvEffect2()
+        {
+            // shape = new Shape();
+            t = 0.0f;
+        }
 
-		public override void draw(Canvas canvas)
-		{
+        public override void update(float dt)
+        {
+            t += dt * 6.28f * (power - 0.5f);
+            if (t > 6.28f)
+                t -= 6.28f;
+        }
+
+        public override void draw(Canvas canvas)
+        {
             base.draw(canvas);
 
             // Временные переменные.
@@ -44,55 +44,66 @@ namespace DuckstazyLive.game.env
             ColorTransform colorTransform = new ColorTransform(c1);
 
             Texture2D circleTex = utils.getTexture(Res.IMG_EFFECT_CIRCLE);
-            DrawMatrix m = new DrawMatrix(true);
-            m.tx = utils.unscale(-0.5f * circleTex.Width);
-            m.ty = utils.unscale(-0.5f * circleTex.Height);            
+            float cw = circleTex.Width;
+            float ch = circleTex.Height;
+            float cw2 = 0.5f * cw;
+            float ch2 = 0.5f * ch;
 
-            float offsetX = Constants.SAFE_OFFSET_X_UNSCALE;
-            float offsetY = Constants.SAFE_OFFSET_Y_UNSCALE;
+            float availWidth = Constants.ENV_WIDTH - cw2;
+            float availHeight = Constants.ENV_HEIGHT - ch2;
 
-            x = offsetX + 40.0f;
-            y = offsetY + 40.0f;
+            int circlesHor = (int)((availWidth - 2 * cw) / cw);
+            int circlesVer = (int)(availHeight / ch);
+
+            float offsetX = 0.5f * (availWidth - circlesHor * cw);
+            float offsetY = 0.5f * (availHeight - circlesVer * ch);
+
+            DrawMatrix m = new DrawMatrix();
+            m.tx = -0.5f * circleTex.Width;
+            m.ty = -0.5f * circleTex.Height;
+
+            x = offsetX + cw2;
+            y = offsetY + ch2;
             // r = 22.5f + 12.5f * Math.Sin(t);
             s = (float)(0.642857 + 0.3571428 * Math.Sin(t));
             m.scale(s, s);
-            while (x < 640.0f)
+            for (int i = 0; i < circlesHor; ++i)
             {
-                while (y < 400.0f)
+                for (int j = 0; j < circlesVer; ++j)
                 {
                     //gr.beginFill(c1);
                     //gr.drawCircle(x, y, r);
                     //gr.endFill();
                     m.translate(x, y);
                     canvas.draw(Res.IMG_EFFECT_CIRCLE, m, colorTransform);
-                    y += 80.0f;
+                    y += ch;
                 }
-                y = offsetY + 40.0f;
-                x += 80.0f;
+                y = offsetY + ch2;
+                x += cw;
             }
 
-            x = offsetX + 80.0f;
-            y = offsetY + 80.0f;
+            x = offsetX + cw;
+            y = offsetY + ch;
             // r = 22.5 - 12.5 * Math.Sin(t);
             s = (float)(0.642857 - 0.3571428 * Math.Sin(t));
             m.scale(s, s);
-            while (x < 640.0f)
+            for (int i = 0; i < circlesHor; ++i)
             {
-                while (y < 400.0f)
+                for (int j = 0; j < circlesVer; ++j)
                 {
                     //gr.beginFill(c1);
                     //gr.drawCircle(x, y, r);
                     //gr.endFill();
                     m.translate(x, y);
                     canvas.draw(Res.IMG_EFFECT_CIRCLE, m, colorTransform);
-                    y += 80.0f;
+                    y += ch;
                 }
-                y = offsetY + 80.0f;
-                x += 80.0f;
+                y = offsetY + ch;
+                x += cw;
             }
-			
+
             //canvas.draw(shape);            
-		}		
-	}
+        }
+    }
 
 }
