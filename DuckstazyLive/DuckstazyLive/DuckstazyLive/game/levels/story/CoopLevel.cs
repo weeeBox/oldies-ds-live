@@ -38,6 +38,11 @@ namespace DuckstazyLive.game
             stagesCount = Enum.GetNames(typeof(LevelStages)).Length;
         }
 
+        public override bool isSingleLevel()
+        {
+            return false;
+        }
+
         protected override LevelStage createStage(int stageIndex)
         {
             LevelStages stage = (LevelStages)stageIndex;

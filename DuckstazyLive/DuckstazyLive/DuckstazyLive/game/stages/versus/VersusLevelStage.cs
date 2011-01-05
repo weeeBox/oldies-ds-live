@@ -45,7 +45,7 @@ namespace DuckstazyLive.game.stages.versus
             progress.start();
         }
 
-        protected void stop()
+        protected void stopPlaying()
         {            
             onStop();
         }
@@ -60,7 +60,7 @@ namespace DuckstazyLive.game.stages.versus
                 
                 if (progress.isTimeUp())
                 {
-                    stop();
+                    stopPlaying();
                 }
             }
         }

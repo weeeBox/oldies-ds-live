@@ -9,9 +9,7 @@ namespace DuckstazyLive.game
 {
     class LevelProgressView
     {
-        private LevelProgress progress;
-
-        public Env env;
+        private LevelProgress progress;        
 
         private float power;
         public int imgPoint;
@@ -156,7 +154,7 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {
-            Debug.Assert(env != null);
+            Env env = Env.getIntance();
 
             // Временные переменные.
             float x;

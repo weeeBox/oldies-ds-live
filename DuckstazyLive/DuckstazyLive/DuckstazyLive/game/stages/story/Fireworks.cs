@@ -63,6 +63,11 @@ namespace DuckstazyLive.game.stages.story
 
             fireworkIndex = 0;
             startFirework(fireworkIndex);
+
+            if (isSingleLevel())
+            {
+                startX = 160.0f - Hero.duck_w;
+            }
         }
 
         public override void stop()
