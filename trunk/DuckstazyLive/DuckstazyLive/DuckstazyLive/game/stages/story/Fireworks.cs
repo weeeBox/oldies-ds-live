@@ -9,7 +9,7 @@ using DuckstazyLive.game.levels.generator;
 
 namespace DuckstazyLive.game.stages.story
 {
-    public class Fireworks : StoryLevelStage
+    public class Fireworks : PumpLevelStage
     {
         private struct FireworkInfo
         {
@@ -48,6 +48,8 @@ namespace DuckstazyLive.game.stages.story
 
         public Fireworks()
         {
+            pumpVel = 0.03f;
+
             firework = new Firework();
             jumper = new JumpStarter();
 
@@ -89,7 +91,7 @@ namespace DuckstazyLive.game.stages.story
 
             fireworkIndex = 0;
             startFirework(fireworkIndex);            
-        }
+        }        
 
         public override void stop()
         {            
@@ -135,11 +137,6 @@ namespace DuckstazyLive.game.stages.story
                     startFirework(fireworkIndex);
                 }
             }
-        }
-        
-        protected override void startProgress()
-        {
-            progress.start(0, 0);
         }
 
         private void startFirework(int index)
