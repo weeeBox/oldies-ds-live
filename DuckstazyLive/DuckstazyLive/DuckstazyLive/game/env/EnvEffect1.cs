@@ -3,31 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DuckstazyLive.app;
+using Microsoft.Xna.Framework.Graphics;
+using Framework.core;
 
 namespace DuckstazyLive.game.env
 {
-    	public class EnvEffect1 : EnvEffect
-	{
-		private float t;
-		// private Shape shape;
+    public class EnvEffect1 : EnvEffect
+    {
+        private float t;
+        private int lineId;
+        
+        public EnvEffect1()
+        {        
+            t = 0.0f;
+            lineId = Res.IMG_EFFECT_LINE;
+        }
 
-		public EnvEffect1()
-		{
-			// super();
-			
-			// shape = new Shape();
-			t = 0.0f;
-		}
-		
-		public override void update(float dt)
-		{
-			t+=dt*160*(power-0.5f);
-			if(t>80)
-				t-=80;
-		}
+        public override void update(float dt)
+        {
+            int lineHeight = getLineHeight();
+            t += 2 * dt * lineHeight * (power - 0.5f);
+            if (t > lineHeight)
+                t -= lineHeight;
+        }
 
-		public override void draw(Canvas canvas)
-		{
+        public override void draw(Canvas canvas)
+        {
             base.draw(canvas);
 
             // Временные переменные.            
@@ -41,11 +42,13 @@ namespace DuckstazyLive.game.env
 
             ColorTransform trans = new ColorTransform(c1);
             trans.alphaMultiplier = 0.7f;
-            DrawMatrix m = new DrawMatrix(true);
+            DrawMatrix m = new DrawMatrix();
 
-            float x = Constants.SAFE_OFFSET_X_UNSCALE;
-            float y = -160.0f + t;
-            while (y < 400.0f)
+            int lineHeight = getLineHeight();
+            float x = Constants.SAFE_OFFSET_X;
+            float y = t - lineHeight;
+            float maxY = Constants.ENV_HEIGHT;
+            while (y < maxY)
             {
                 //gr.beginFill(c2);
                 //gr.moveTo(0.0, x);
@@ -57,11 +60,15 @@ namespace DuckstazyLive.game.env
                 m.translate(x, y);
                 canvas.draw(Res.IMG_EFFECT_LINE, m, trans);
 
-                y += 80.0f;
+                y += lineHeight;
             }
-			
-            //canvas.draw(shape);            
-		}
-	}
 
+            //canvas.draw(shape);            
+        }
+
+        private int getLineHeight()
+        {
+            return utils.textureHeight(lineId);
+        }
+    }
 }

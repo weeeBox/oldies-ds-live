@@ -195,6 +195,10 @@ namespace DuckstazyLive.game
                 heroes[heroIndex].doToxicDamage(heroes[heroIndex].x, heroes[heroIndex].y, 1, 0);
                 return true;
             }           
+            else if (e.key == Keys.P)
+            {
+                power = powerUp = 1.0f;
+            }
 
             return false;
         }
