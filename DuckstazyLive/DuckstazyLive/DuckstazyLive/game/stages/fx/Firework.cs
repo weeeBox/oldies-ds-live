@@ -14,7 +14,8 @@ namespace DuckstazyLive.game.stages.fx
         private const int STATE_LAUNCHING = 0;
         private const int STATE_FLYING = 1;
         private const int STATE_GENERATING = 2;
-        private const int STATE_DONE = 3;
+        private const int STATE_FINISHED = 3;
+        private const int STATE_KILLED = 4;
 
         private int state;
 
@@ -26,6 +27,7 @@ namespace DuckstazyLive.game.stages.fx
         private int pillsCollected;
 
         public int pillsCount;
+        public float launchTimeout;
         public float lifeTime;
         public float flyTime;
         public float flyOscAmplitude;
@@ -36,16 +38,14 @@ namespace DuckstazyLive.game.stages.fx
 
         private float power;        
 
-        public void start(Setuper setuper, float x1, float y1, float x2, float y2, float timeout)
+        public void start(Setuper setuper, float x1, float y1, float x2, float y2, float launchTimeout)
         {
             this.setuper = setuper;
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;
             this.y2 = y2;
-
-            state = STATE_LAUNCHING;            
-            counter = timeout;
+            this.launchTimeout = launchTimeout;            
             
             explSpeed = 120.0f;
             lifeTime = 5.0f;
@@ -53,9 +53,18 @@ namespace DuckstazyLive.game.stages.fx
             flyOscAmplitude = 15.0f;
             flyOscOmega = 30.0f;
             gravity = 350.0f;
-            pillsCount = 10;
-            genTimeout = 0.05f;
+            pillsCount = 12;
+            genTimeout = 0.05f;            
+
+            restart();
+        }
+
+        public void restart()
+        {
             power = 0.0f;
+
+            state = STATE_LAUNCHING;
+            counter = launchTimeout;
 
             pillsCollected = 0;
             pillsGenerated = 0;
@@ -78,7 +87,8 @@ namespace DuckstazyLive.game.stages.fx
                     updateGenerating(dt);
                     break;
 
-                case STATE_DONE:
+                case STATE_FINISHED:
+                case STATE_KILLED:
                     break;
             }
         }
@@ -119,7 +129,7 @@ namespace DuckstazyLive.game.stages.fx
                 pillsGenerated++;
                 if (pillsGenerated == pillsCount)
                 {
-                    state = STATE_DONE;
+                    state = STATE_FINISHED;
                 }
             }
         }
@@ -178,7 +188,7 @@ namespace DuckstazyLive.game.stages.fx
                 if (state == STATE_FLYING)
                 {
                     pillsCollected = pillsCount;
-                    state = STATE_DONE;
+                    state = STATE_KILLED;
                 }
             }
         }
@@ -204,7 +214,7 @@ namespace DuckstazyLive.game.stages.fx
             {
                 float friction = 0.7f + power * 0.3f;
 
-                pill.vy += gravity * dt;
+                pill.vy += (1.0f + 1.2f * power) * gravity * dt;
                 pill.x += pill.vx * dt;
                 pill.y += pill.vy * dt;
 
@@ -249,7 +259,12 @@ namespace DuckstazyLive.game.stages.fx
 
         public bool isDone()
         {
-            return state == STATE_DONE && pillsCollected == pillsCount;
+            return pillsCollected == pillsCount;
+        }
+
+        public bool isKilled()
+        {
+            return state == STATE_KILLED;
         }
 
         private GameMgr getGameMgr()
