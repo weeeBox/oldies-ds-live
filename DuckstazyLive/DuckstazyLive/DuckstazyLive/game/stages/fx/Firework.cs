@@ -25,15 +25,14 @@ namespace DuckstazyLive.game.stages.fx
         public float lifeTime;
         public float flyTime;
         public float flyOscAmplitude;
-        public float flyOscOmega;
-        public float lauchTimeout;
+        public float flyOscOmega;        
         public float genTimeout;
         public float gravity;
         public float explSpeed;
 
         private float power;        
 
-        public void start(float x1, float y1, float x2, float y2)
+        public void start(float x1, float y1, float x2, float y2, float timeout)
         {
             this.x1 = x1;
             this.y1 = y1;
@@ -41,8 +40,8 @@ namespace DuckstazyLive.game.stages.fx
             this.y2 = y2;
 
             state = STATE_LAUNCHING;            
-            counter = lauchTimeout;
-
+            counter = timeout;
+            
             explSpeed = 120.0f;
             lifeTime = 5.0f;
             flyTime = 5.0f;
