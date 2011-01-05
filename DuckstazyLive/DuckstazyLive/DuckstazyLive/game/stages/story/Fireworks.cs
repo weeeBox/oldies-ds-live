@@ -7,6 +7,7 @@ using System.Diagnostics;
 using DuckstazyLive.game.stages.fx;
 using DuckstazyLive.game.levels.generator;
 using DuckstazyLive.game.stages.generator;
+using Framework.core;
 
 namespace DuckstazyLive.game.stages.story
 {
@@ -35,18 +36,24 @@ namespace DuckstazyLive.game.stages.story
                 this.delay = delay;
                 this.sleepCount = sleepCount;
             }
-        }        
+        }
 
-        private FireworkInfo[] fireworksData;
+        private const int STATE_PUMP = 0;
+        private const int STATE_POWER = 1;
+        private int state;
 
-        private FireworkSetuper setuper;
-        
+        private FireworkInfo[] pumpFireworkData;
+        private FireworkInfo[] powerFireworkData;
+        private FireworkInfo[] pumpPenaltyFireworkData;
+
+        private Queue<FireworkInfo> fireworkQueue;
+
+        private FireworkSetuper setuper;        
 
         private Generator jumpGen;
         private JumpStarter jumper;
 
-        private Firework firework;
-        private int fireworkIndex;
+        private Firework firework;        
 
         public Fireworks()
         {
@@ -55,7 +62,8 @@ namespace DuckstazyLive.game.stages.story
             firework = new Firework();
             jumper = new JumpStarter();
 
-            setuper = new FireworkSetuper();            
+            setuper = new FireworkSetuper();
+            fireworkQueue = new Queue<FireworkInfo>();
         }
 
         public override void start()
@@ -67,17 +75,26 @@ namespace DuckstazyLive.game.stages.story
             if (isSingleLevel())
             {
                 startX = 160.0f - Hero.duck_w;
-                fireworksData = new FireworkInfo[]
+                pumpFireworkData = new FireworkInfo[]
                 {
                     new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 320, 80, 2.5f, 120.0f, 8.0f, 3.0f, 0),
                     new FireworkInfo(FireworkSetuper.POWER2, 640, 380, 320, 80, 2.0f, 150.0f, 8.0f, 1.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER3, 0, 50, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER3, 640, 50, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
+                    new FireworkInfo(FireworkSetuper.POWER3, 320, 380, 320, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),                    
+                };
+                powerFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 480, 200, 2.0f, 200.0f, 4.0f, 0.0f, 1),
+                    new FireworkInfo(FireworkSetuper.POWER1, 640, 380, 160, 200, 2.0f, 200.0f, 4.0f, 0.0f, 2),
+                    new FireworkInfo(FireworkSetuper.POWER2, 320, 80, 320, 100, 0.5f, 250.0f, 3.5f, 0.0f, 3),
+                };
+                pumpPenaltyFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(new int[] {Pill.TOXIC}, 320, 80, 320, 100, 0.5f, 100.0f, 3.5f, 0.0f, 5)
                 };
             }
             else
             {
-                fireworksData = new FireworkInfo[]
+                pumpFireworkData = new FireworkInfo[]
                 {
                     new FireworkInfo(FireworkSetuper.POWER1, 0, 400, 320, 80, 2.5f, 120.0f, 4.0f, 3.0f, 0),
                     new FireworkInfo(FireworkSetuper.POWER2, 640, 400, 320, 80, 2.0f, 150.0f, 4.0f, 1.0f, 0),
@@ -86,18 +103,55 @@ namespace DuckstazyLive.game.stages.story
                 };
             }
 
+            startState(STATE_PUMP);
+
             jumpGen = new Generator();
             startJumps();
-
-            fireworkIndex = 0;
-            startFirework(fireworkIndex);            
+            
+            startFirework();
         }        
 
         public override void stop()
         {            
             jumpGen.reset();
-            fireworksData = null;
+            pumpFireworkData = null;
+            powerFireworkData = null;            
             base.stop();
+        }
+
+        private void startState(int state)
+        {
+            clearFireworkQueue();
+
+            switch (state)
+            {
+                case STATE_PUMP:                    
+                    addFireworksQueue(pumpFireworkData);
+                    break;
+
+                case STATE_POWER:
+                    addFireworksQueue(powerFireworkData);
+                    break;
+
+                default:
+                    Debug.Assert(false, "Bad state: " + state);
+                    break;
+            }
+            
+            this.state = state;            
+        }
+
+        private void addFireworksQueue(FireworkInfo[] info)
+        {
+            foreach (FireworkInfo i in info)
+            {
+                fireworkQueue.Enqueue(i);
+            }
+        }
+
+        private void clearFireworkQueue()
+        {
+            fireworkQueue.Clear();
         }
 
         private void startJumps()
@@ -127,23 +181,49 @@ namespace DuckstazyLive.game.stages.story
         {
             base.update(dt);
 
+            if (level.power < 0.5f)
+            {
+                if (state == STATE_POWER)
+                {
+                    startState(STATE_PUMP);
+                }
+            }
+            else if (state == STATE_PUMP)
+            {
+                startState(STATE_POWER);
+            }
+
             jumpGen.update(dt);
             firework.update(dt, level.power);
             if (firework.isDone())
-            {                
-                if (fireworkIndex < fireworksData.Length - 1)
+            {   
+                if (fireworkQueue.Count > 0)                
+                {                    
+                    startFirework();
+                }
+                else
                 {
-                    fireworkIndex++;
-                    startFirework(fireworkIndex);
+                    if (state == STATE_PUMP && level.power < 0.5f)
+                    {
+                        addFireworksQueue(pumpPenaltyFireworkData); // give a penalty
+                        addFireworksQueue(pumpFireworkData); // try again
+                    }
                 }
             }
         }
 
-        private void startFirework(int index)
+        public override void draw2(Canvas canvas)
         {
-            Debug.Assert(index >= 0 && index < fireworksData.Length);
+            base.draw2(canvas);
 
-            FireworkInfo info = fireworksData[index];
+            AppGraphics.DrawString(0, 0, "Power: " + level.power);
+        }
+
+        private void startFirework()
+        {
+            Debug.Assert(fireworkQueue.Count > 0);
+
+            FireworkInfo info = fireworkQueue.Dequeue();
             float x1 = info.x1;
             float y1 = info.y1;
             float x2 = info.x2;

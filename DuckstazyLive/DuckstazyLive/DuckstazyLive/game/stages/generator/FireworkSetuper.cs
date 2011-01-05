@@ -78,6 +78,9 @@ namespace DuckstazyLive.game.stages.generator
                 case Pill.SLEEP:
                     pill.startSleep(x, y);
                     break;
+                case Pill.TOXIC:
+                    pill.startMissle(x, y, Pill.TOXIC_SKULL);
+                    break;
             }
                 
 			pill.user = userCallback;					
