@@ -5,15 +5,9 @@ using System.Text;
 
 namespace DuckstazyLive.game.levels.generator
 {
-    public class Setuper
+    public abstract class Setuper
 	{        
-        public UserCallback userCallback;	
-
-		public virtual Pill start(float x, float y, Pill pill)
-		{
-			return null;
-		}
-
+        public UserCallback userCallback;
+		public abstract Pill start(float x, float y, Pill pill);
 	}
-
 }

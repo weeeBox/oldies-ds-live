@@ -192,7 +192,7 @@ namespace DuckstazyLive.game.stages.fx
 
             float px = pill.x;
             float py = pill.y;
-            if (pill.type == Pill.POWER)
+            if (pill.isPower())
                 getParticles().explStarsPower(px, py, pill.id);
             else if (pill.type == Pill.TOXIC)
                 getParticles().explStarsToxic(px, py, 0, true);            
