@@ -13,14 +13,16 @@ namespace DuckstazyLive.game.stages.story
     {
         private struct FireworkInfo
         {
+            public Setuper setuper;
             public float x1, y1, x2, y2;
             public float flyTime;
             public float expSpeed;
             public float lifeTime;
             public float delay;
 
-            public FireworkInfo(float x1, float y1, float x2, float y2, float flyTime, float expSpeed, float lifeTime, float delay)
+            public FireworkInfo(Setuper setuper, float x1, float y1, float x2, float y2, float flyTime, float expSpeed, float lifeTime, float delay)
             {
+                this.setuper = setuper;
                 this.x1 = x1;
                 this.y1 = y1;
                 this.x2 = x2;
@@ -30,15 +32,13 @@ namespace DuckstazyLive.game.stages.story
                 this.expSpeed = expSpeed;
                 this.delay = delay;
             }
-        }
+        }        
 
-        private FireworkInfo[] fireworksData =
-        {
-            new FireworkInfo(0, 400, 320, 80, 2.5f, 120.0f, 4.0f, 3.0f),
-            new FireworkInfo(640, 400, 320, 80, 2.0f, 150.0f, 4.0f, 1.0f),
-            new FireworkInfo(0, 0, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f),
-            new FireworkInfo(640, 0, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f),
-        };
+        private FireworkInfo[] fireworksData;
+
+        private PowerSetuper power1;
+        private PowerSetuper power2;
+        private PowerSetuper power3;
 
         private Generator jumpGen;
         private JumpStarter jumper;
@@ -50,6 +50,10 @@ namespace DuckstazyLive.game.stages.story
         {
             firework = new Firework();
             jumper = new JumpStarter();
+
+            power1 = new PowerSetuper(0.0f, PowerSetuper.POWER1);
+            power2 = new PowerSetuper(0.0f, PowerSetuper.POWER2);
+            power3 = new PowerSetuper(0.0f, PowerSetuper.POWER3);
         }
 
         public override void start()
@@ -58,21 +62,39 @@ namespace DuckstazyLive.game.stages.story
 
             base.start();
 
+            if (isSingleLevel())
+            {
+                startX = 160.0f - Hero.duck_w;
+                fireworksData = new FireworkInfo[]
+                {
+                    new FireworkInfo(power1, 0, 380, 320, 80, 2.5f, 120.0f, 8.0f, 3.0f),
+                    new FireworkInfo(power2, 640, 380, 320, 80, 2.0f, 150.0f, 8.0f, 1.0f),
+                    new FireworkInfo(power3, 0, 50, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f),
+                    new FireworkInfo(power3, 640, 50, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f),
+                };
+            }
+            else
+            {
+                fireworksData = new FireworkInfo[]
+                {
+                    new FireworkInfo(power1, 0, 400, 320, 80, 2.5f, 120.0f, 4.0f, 3.0f),
+                    new FireworkInfo(power2, 640, 400, 320, 80, 2.0f, 150.0f, 4.0f, 1.0f),
+                    new FireworkInfo(power3, 0, 0, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f),
+                    new FireworkInfo(power3, 640, 0, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f),
+                };
+            }
+
             jumpGen = new Generator();
             startJumps();
 
             fireworkIndex = 0;
-            startFirework(fireworkIndex);
-
-            if (isSingleLevel())
-            {
-                startX = 160.0f - Hero.duck_w;
-            }
+            startFirework(fireworkIndex);            
         }
 
         public override void stop()
         {            
             jumpGen.reset();
+            fireworksData = null;
             base.stop();
         }
 
@@ -129,7 +151,9 @@ namespace DuckstazyLive.game.stages.story
             float y1 = info.y1;
             float x2 = info.x2;
             float y2 = info.y2;
-            firework.start(x1, y1, x2, y2, info.delay);
+            Setuper setuper = info.setuper;
+            float delay = info.delay;
+            firework.start(setuper, x1, y1, x2, y2, delay);
             firework.flyTime = info.flyTime;
             firework.lifeTime = info.lifeTime;
             firework.explSpeed = info.expSpeed;            
