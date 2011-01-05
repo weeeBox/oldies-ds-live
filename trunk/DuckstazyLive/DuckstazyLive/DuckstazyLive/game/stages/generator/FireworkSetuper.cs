@@ -10,19 +10,20 @@ namespace DuckstazyLive.game.stages.generator
 {
     public class FireworkSetuper : Setuper
     {
-        public static int[] POWER1 = new int[] {Pill.POWER1};
-		public static int[] POWER2 = new int[] {Pill.POWER2};
-		public static int[] POWER3 = new int[] {Pill.POWER3};
-		public static int[] POWERS = new int[] {Pill.POWER1, Pill.POWER2, Pill.POWER3};
-		
-		public int[] ids;
+        public static int[] POWER1 = new int[] { Pill.POWER1 };
+        public static int[] POWER2 = new int[] { Pill.POWER2 };
+        public static int[] POWER3 = new int[] { Pill.POWER3 };
+        public static int[] POWERS = new int[] { Pill.POWER1, Pill.POWER2, Pill.POWER3 };
+        public static int[] TOXIC = new int[] { Pill.TOXIC };
+
+        public int[] ids;
         private List<int> genQueue;
         private int queueIndex;
-		
-		public FireworkSetuper()
-		{
-            genQueue = new List<int>();            
-		}
+
+        public FireworkSetuper()
+        {
+            genQueue = new List<int>();
+        }
 
         public void init(int[] powerIDs, int sleepCount, int totalCount)
         {
@@ -42,7 +43,7 @@ namespace DuckstazyLive.game.stages.generator
             // add powers
             int idsCount = ids.Length;
             for (int i = 0; i < totalCount; ++i)
-            {                
+            {
                 int id = 0;
                 if (idsCount > 0)
                 {
@@ -64,12 +65,12 @@ namespace DuckstazyLive.game.stages.generator
         }
 
         public override Pill start(float x, float y, Pill pill)
-		{
+        {
             Debug.Assert(queueIndex >= 0 && queueIndex < genQueue.Count);
 
             int id = genQueue[queueIndex++];
             switch (id)
-            { 
+            {
                 case Pill.POWER1:
                 case Pill.POWER2:
                 case Pill.POWER3:
@@ -82,10 +83,10 @@ namespace DuckstazyLive.game.stages.generator
                     pill.startMissle(x, y, Pill.TOXIC_SKULL);
                     break;
             }
-                
-			pill.user = userCallback;					
-			return pill;
-		}
+
+            pill.user = userCallback;
+            return pill;
+        }
 
         public bool isDone()
         {

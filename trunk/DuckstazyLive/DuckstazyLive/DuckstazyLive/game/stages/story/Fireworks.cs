@@ -21,9 +21,10 @@ namespace DuckstazyLive.game.stages.story
             public float expSpeed;
             public float lifeTime;
             public float delay;
+            public int pillsCount;
             public int sleepCount;
 
-            public FireworkInfo(int[] ids, float x1, float y1, float x2, float y2, float flyTime, float expSpeed, float lifeTime, float delay, int sleepCount)
+            public FireworkInfo(int[] ids, float x1, float y1, float x2, float y2, float flyTime, float expSpeed, float lifeTime, float delay, int pillsCount, int sleepCount)
             {
                 this.ids = ids;
                 this.x1 = x1;
@@ -34,6 +35,7 @@ namespace DuckstazyLive.game.stages.story
                 this.lifeTime = lifeTime;
                 this.expSpeed = expSpeed;
                 this.delay = delay;
+                this.pillsCount = pillsCount;
                 this.sleepCount = sleepCount;
             }
         }
@@ -45,6 +47,7 @@ namespace DuckstazyLive.game.stages.story
         private FireworkInfo[] pumpFireworkData;
         private FireworkInfo[] powerFireworkData;
         private FireworkInfo[] pumpPenaltyFireworkData;
+        private FireworkInfo[] powerEndFireworkData;
 
         private Queue<FireworkInfo> fireworkQueue;
 
@@ -77,30 +80,40 @@ namespace DuckstazyLive.game.stages.story
                 startX = 160.0f - Hero.duck_w;
                 pumpFireworkData = new FireworkInfo[]
                 {
-                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 320, 80, 2.5f, 120.0f, 8.0f, 3.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER2, 640, 380, 320, 80, 2.0f, 150.0f, 8.0f, 1.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER3, 320, 380, 320, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),                    
+                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 320, 80, 2.5f, 120.0f, 8.0f, 3.0f, 12, 0),
+                    new FireworkInfo(FireworkSetuper.POWER2, 640, 380, 320, 80, 2.0f, 150.0f, 8.0f, 1.0f, 10, 0),
+                    new FireworkInfo(FireworkSetuper.POWER3, 320, 380, 320, 80, 1.0f, 160.0f, 4.0f, 1.0f, 8, 0),                    
                 };
                 powerFireworkData = new FireworkInfo[]
                 {
-                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 480, 200, 2.0f, 200.0f, 4.0f, 0.0f, 1),
-                    new FireworkInfo(FireworkSetuper.POWER1, 640, 380, 160, 200, 2.0f, 200.0f, 4.0f, 0.0f, 2),
-                    new FireworkInfo(FireworkSetuper.POWER2, 320, 80, 320, 100, 0.5f, 250.0f, 3.5f, 0.0f, 3),
+                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 480, 200, 2.0f, 200.0f, 4.0f, 0.0f, 8, 1),
+                    new FireworkInfo(FireworkSetuper.POWER1, 640, 380, 160, 200, 2.0f, 200.0f, 4.0f, 0.0f, 7, 2),
+                    new FireworkInfo(FireworkSetuper.POWERS, 640, 80, 160, 250, 1.5f, 200.0f, 3.5f, 0.0f, 6, 2),
+                    new FireworkInfo(FireworkSetuper.POWERS, 0, 80, 480, 250, 1.5f, 200.0f, 3.5f, 0.0f, 6, 2),
+                    new FireworkInfo(FireworkSetuper.TOXIC, 640, 380, 0, 80, 2.5f, 300.0f, 3.0f, 0.5f, 8, 1),
+                    new FireworkInfo(FireworkSetuper.TOXIC, 0, 380, 640, 80, 2.5f, 300.0f, 3.0f, 0.5f, 8, 1),
                 };
                 pumpPenaltyFireworkData = new FireworkInfo[]
                 {
-                    new FireworkInfo(new int[] {Pill.TOXIC}, 320, 80, 320, 100, 0.5f, 100.0f, 3.5f, 0.0f, 5)
+                    new FireworkInfo(FireworkSetuper.TOXIC, 320, 80, 320, 100, 0.5f, 150.0f, 3.5f, 0.0f, 8, 3)
+                };
+                powerEndFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(FireworkSetuper.TOXIC, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 0),
+                    new FireworkInfo(FireworkSetuper.POWERS, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 2),
+                    new FireworkInfo(FireworkSetuper.TOXIC, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 0),
+                    new FireworkInfo(FireworkSetuper.POWERS, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 2),
                 };
             }
             else
             {
-                pumpFireworkData = new FireworkInfo[]
-                {
-                    new FireworkInfo(FireworkSetuper.POWER1, 0, 400, 320, 80, 2.5f, 120.0f, 4.0f, 3.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER2, 640, 400, 320, 80, 2.0f, 150.0f, 4.0f, 1.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER3, 0, 0, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
-                    new FireworkInfo(FireworkSetuper.POWER3, 640, 0, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
-                };
+                //pumpFireworkData = new FireworkInfo[]
+                //{
+                //    new FireworkInfo(FireworkSetuper.POWER1, 0, 400, 320, 80, 2.5f, 120.0f, 4.0f, 3.0f, 0),
+                //    new FireworkInfo(FireworkSetuper.POWER2, 640, 400, 320, 80, 2.0f, 150.0f, 4.0f, 1.0f, 0),
+                //    new FireworkInfo(FireworkSetuper.POWER3, 0, 0, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
+                //    new FireworkInfo(FireworkSetuper.POWER3, 640, 0, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
+                //};
             }
 
             startState(STATE_PUMP);
@@ -195,7 +208,11 @@ namespace DuckstazyLive.game.stages.story
 
             jumpGen.update(dt);
             firework.update(dt, level.power);
-            if (firework.isDone())
+            if (firework.isKilled())
+            {
+                firework.restart();
+            }
+            else if (firework.isDone())
             {   
                 if (fireworkQueue.Count > 0)                
                 {                    
@@ -207,6 +224,10 @@ namespace DuckstazyLive.game.stages.story
                     {
                         addFireworksQueue(pumpPenaltyFireworkData); // give a penalty
                         addFireworksQueue(pumpFireworkData); // try again
+                    }
+                    else if (state == STATE_POWER && level.power > 0.5f)
+                    {
+                        addFireworksQueue(powerEndFireworkData);
                     }
                 }
             }
@@ -232,6 +253,7 @@ namespace DuckstazyLive.game.stages.story
             int[] ids = info.ids;
                         
             firework.start(setuper, x1, y1, x2, y2, delay);
+            firework.pillsCount = info.pillsCount;
             setuper.init(ids, info.sleepCount, firework.pillsCount - info.sleepCount);
             firework.flyTime = info.flyTime;
             firework.lifeTime = info.lifeTime;
