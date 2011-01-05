@@ -116,13 +116,15 @@ namespace DuckstazyLive.game
             setState(State.LOOSE);
             level.onLoose();
             onLoose();
+            stop();
         }
 
         protected void win()
         {
             setState(State.WIN);
             level.onWin();
-            onWin();                    
+            onWin();
+            stop();
         }        
 
         protected void setInfoText(String text)

@@ -33,6 +33,11 @@ namespace DuckstazyLive.game
             setDay(day);            
         }
 
+        public virtual void stop()
+        {
+            GC.Collect();
+        }
+
         public virtual void draw1(Canvas canvas)
         {
         }

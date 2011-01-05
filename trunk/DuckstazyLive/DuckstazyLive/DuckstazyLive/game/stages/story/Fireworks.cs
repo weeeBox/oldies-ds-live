@@ -65,6 +65,12 @@ namespace DuckstazyLive.game.stages.story
             startFirework(fireworkIndex);
         }
 
+        public override void stop()
+        {            
+            jumpGen.reset();
+            base.stop();
+        }
+
         private void startJumps()
         {
             jumpGen.reset();
