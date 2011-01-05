@@ -17,12 +17,14 @@ namespace DuckstazyLive.game
 
     public class Pill
     {
-        public const int POWER = 0;
-        public const int TOXIC = 1;
-        public const int SLEEP = 2;
-        public const int HEALTH = 3;
-        public const int MATRIX = 4;
-        public const int JUMP = 5;
+        public const int POWER1 = 0;
+        public const int POWER2 = 1;
+        public const int POWER3 = 2;
+        public const int TOXIC = 3;
+        public const int SLEEP = 4;
+        public const int HEALTH = 5;
+        public const int MATRIX = 6;
+        public const int JUMP = 7;
 
         public const int DEAD = 0;
         public const int BORNING = 1;
@@ -410,7 +412,9 @@ namespace DuckstazyLive.game
 
             switch (type)
             {
-                case POWER:
+                case POWER1:
+                case POWER2:
+                case POWER3:
                     {
                         if (hero.isActive())
                             level.gainPower(power);
@@ -527,24 +531,26 @@ namespace DuckstazyLive.game
         public void startPower(float px, float py, int ID, bool h)
         {
             x = (int)(px);
-            y = (int)(py);
-            type = POWER;
+            y = (int)(py);            
 
             switch (ID)
             {
                 case 0:
+                    type = POWER1;
                     scores = 1;
                     power = 0.01f;
                     imgMain = media.imgPower1;
                     imgEmo = media.imgPPower1;
                     break;
                 case 1:
+                    type = POWER2;
                     scores = 2;
                     power = 0.025f;
                     imgMain = media.imgPower2;
                     imgEmo = media.imgPPower2;
                     break;
                 case 2:
+                    type = POWER3;
                     scores = 5;
                     power = 0.05f;
                     imgMain = media.imgPower3;
@@ -1087,6 +1093,11 @@ namespace DuckstazyLive.game
         public bool isAlive()
         {
             return state == ALIVE;
+        }
+
+        public bool isPower()
+        {
+            return type == POWER1 || type == POWER2 || type == POWER3;
         }
 
         private Level getLevel()

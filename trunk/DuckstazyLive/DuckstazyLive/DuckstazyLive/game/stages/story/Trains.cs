@@ -207,9 +207,9 @@ namespace DuckstazyLive.game.levels
                 {
                     pill.kill();
                     Particles particles = getParticles();
-                    if (pill.type == 1)
+                    if (pill.type == Pill.TOXIC)
                         particles.explStarsToxic(pill.x, pill.y, 1, false);
-                    else if (pill.type == 2)
+                    else if (pill.type == Pill.SLEEP)
                         particles.explStarsSleep(pill.x, pill.y);
                 }
                 else

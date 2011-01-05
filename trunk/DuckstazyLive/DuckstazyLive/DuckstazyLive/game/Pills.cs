@@ -66,12 +66,12 @@ namespace DuckstazyLive.game
 
                 if (p.state != Pill.DEAD)
                 {
-                    if (p.type == 0)
+                    if (p.isPower())
                     {
                         if (p.state == Pill.BORNING || p.state == Pill.ALIVE)
                             harvestCount++;
                     }
-                    else if (p.type == Pill.BORNING || p.type == Pill.ALIVE)
+                    else if (p.state == Pill.BORNING || p.state == Pill.ALIVE)
                     {
                         ps.explStarsSleep(p.x, p.y);
                         p.die();
@@ -101,7 +101,7 @@ namespace DuckstazyLive.game
 
                         if (p.state > Pill.DEAD)
                         {
-                            if (p.type == 0)
+                            if (p.isPower())
                             {
                                 harvestCount++;
                                 if (to_touch && p.isAlive())
@@ -153,9 +153,9 @@ namespace DuckstazyLive.game
                 {
                     p.dx = (int)(p.x);
                     p.dy = (int)(p.y);
-                    if (p.type == 0)
+                    if (p.isPower())
                         p.drawEmo(canvas);
-                    else if (p.type == 5)
+                    else if (p.type == Pill.JUMP)
                         p.drawJump(canvas);
                     else
                         p.draw(canvas);

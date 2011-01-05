@@ -85,7 +85,7 @@ namespace DuckstazyLive.game.stages.versus
             int heroIndex = hero.getPlayerIndex();
             Debug.Assert(heroIndex >= 0 && heroIndex < collected.Length);
             
-            if (pill.type == Pill.POWER)
+            if (pill.isPower())
             {
                 collected[heroIndex] += pill.scores;
             }            
