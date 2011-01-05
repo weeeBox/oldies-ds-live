@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using DuckstazyLive.game.levels;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.game.levels.generator;
+using DuckstazyLive.app;
 
 namespace DuckstazyLive.game.stages.fx
 {
@@ -15,6 +17,8 @@ namespace DuckstazyLive.game.stages.fx
         private const int STATE_DONE = 3;
 
         private int state;
+
+        private Setuper setuper;
 
         private float counter;
         private float x1, y1, x2, y2;
@@ -32,8 +36,9 @@ namespace DuckstazyLive.game.stages.fx
 
         private float power;        
 
-        public void start(float x1, float y1, float x2, float y2, float timeout)
+        public void start(Setuper setuper, float x1, float y1, float x2, float y2, float timeout)
         {
+            this.setuper = setuper;
             this.x1 = x1;
             this.y1 = y1;
             this.x2 = x2;
@@ -101,8 +106,8 @@ namespace DuckstazyLive.game.stages.fx
                 {
                     float vx = (float)(explSpeed * Math.Cos(angle));
                     float vy = -Math.Abs((float)(explSpeed * Math.Sin(angle)));
-
-                    pill.startPower(x2, y2, 0, false);
+                    
+                    setuper.start(x2, y2, pill);
                     pill.user = fireworkCallback;
                     pill.vx = vx;
                     pill.vy = vy;
@@ -129,7 +134,8 @@ namespace DuckstazyLive.game.stages.fx
                 float dx = x2 - x1;
                 float dy = y2 - y1;                
 
-                pill.startPower(x1, y1, 0, false);
+                pill.startToxic(x1, y1, Pill.TOXIC_SKULL);
+                pill.hookedHero = Constants.UNDEFINED;
                 pill.vx = dx / flyTime;
                 pill.vy = dy / flyTime;
                 pill.t1 = x1;
