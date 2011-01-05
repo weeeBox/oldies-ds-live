@@ -14,8 +14,7 @@ namespace DuckstazyLive.game
     public class SingleLevel : StoryLevel
     {
         private enum LevelStages
-        {           
-            Fireworks,
+        {            
             Harvesting,
             PartyTime,
             Bubbles,
@@ -30,6 +29,7 @@ namespace DuckstazyLive.game
             DuckStage,
             Snakes,
             Grinder,
+            Fireworks,
         }
 
         private int stageIndex;
