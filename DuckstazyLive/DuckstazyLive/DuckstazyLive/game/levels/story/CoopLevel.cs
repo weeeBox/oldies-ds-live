@@ -35,6 +35,9 @@ namespace DuckstazyLive.game
 
         public CoopLevel(GameState gameState) : base(gameState)
         {
+            getGameMgr().initHeroes(2);
+            Heroes heroes = getHeroes();
+            heroes[0].gameState.leftOriented = true;
             stagesCount = Enum.GetNames(typeof(LevelStages)).Length;
         }
 
