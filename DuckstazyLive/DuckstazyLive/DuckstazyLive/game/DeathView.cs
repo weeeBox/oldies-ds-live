@@ -48,8 +48,8 @@ namespace DuckstazyLive.game
 
             UiControllerButtons buttons = new UiControllerButtons("NEW TRIP", "GO HOME");
             addChild(buttons);
-            attachHor(buttons, UiLayout.STYLE_CENTER);
-            UiLayout.attachVert(buttons, missText, this, UiLayout.STYLE_CENTER);
+            attachHor(buttons, AttachStyle.CENTER);
+            UiLayout.attachVert(buttons, missText, this, AttachStyle.CENTER);
         }        
 
         private void initScull(ref Scull scull, bool firstInit)

@@ -58,7 +58,7 @@ namespace DuckstazyLive.app
                 container.resizeToFitItems();
 
                 addChild(container);
-                attachHor(container, UiLayout.STYLE_CENTER);
+                attachHor(container, AttachStyle.CENTER);
                 container.y = Constants.TITLE_SAFE_BOTTOM_Y - container.height;                
             }
         }
