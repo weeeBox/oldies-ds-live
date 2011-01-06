@@ -36,7 +36,10 @@ namespace DuckstazyLive.game.stages.fx
         public float gravity;
         public float explSpeed;
 
-        private float power;        
+        private float power;
+
+        private bool killAll;
+        private bool clockWiseGen;
 
         public void start(Setuper setuper, float x1, float y1, float x2, float y2, float launchTimeout)
         {
@@ -52,7 +55,7 @@ namespace DuckstazyLive.game.stages.fx
             flyTime = 5.0f;
             flyOscAmplitude = 15.0f;
             flyOscOmega = 30.0f;
-            gravity = 350.0f;
+            gravity = 300.0f;
             pillsCount = 12;
             genTimeout = 0.05f;            
 
@@ -68,6 +71,8 @@ namespace DuckstazyLive.game.stages.fx
 
             pillsCollected = 0;
             pillsGenerated = 0;
+
+            killAll = false;
         }
 
         public void update(float dt, float newPower)
@@ -109,13 +114,18 @@ namespace DuckstazyLive.game.stages.fx
             {
                 counter = genTimeout;
                 double angle = pillsGenerated * MathHelper.TwoPi / pillsCount;
+                if (!clockWiseGen)
+                    angle = MathHelper.Pi - angle;
 
                 Pills pills = getPills();             
                 Pill pill = pills.findDead();                
                 if (pill != null)
                 {
-                    float vx = (float)(explSpeed * Math.Cos(angle));
-                    float vy = -Math.Abs((float)(explSpeed * Math.Sin(angle)));
+                    float speed = explSpeed * (1 + utils.rnd_float(-1, 1) * power);
+                    speed = Math.Min(speed, 1.5f * explSpeed);
+
+                    float vx = (float)(speed * Math.Cos(angle));
+                    float vy = -Math.Abs((float)(speed * Math.Sin(angle)));
                     
                     setuper.start(x2, y2, pill);
                     pill.user = fireworkCallback;
@@ -198,10 +208,13 @@ namespace DuckstazyLive.game.stages.fx
             counter = 0.0f;
             state = STATE_GENERATING;
 
-            pill.kill();
-
             float px = pill.x;
             float py = pill.y;
+
+            clockWiseGen = pill.vx > 0;
+
+            pill.kill();
+
             if (pill.isPower())
                 getParticles().explStarsPower(px, py, pill.id);
             else if (pill.type == Pill.TOXIC)
@@ -245,16 +258,25 @@ namespace DuckstazyLive.game.stages.fx
                 }
 
                 pill.t1 -= dt;
-                if (pill.t1 <= 0.0f)
+                if (pill.t1 <= 0.0f || killAll)
                 {
-                    pill.kill();
-                    getParticles().explStarsPower(pill.x, pill.y, 0);
+                    killPill(pill);
                 }
             }
             else if (msg == "dead")
             {
                 pillsCollected++;
-            }
+                if (pill.type == Pill.SLEEP)
+                {
+                    killAll = true;
+                }
+            }            
+        }
+
+        private void killPill(Pill pill) 
+        {
+            pill.kill();
+            getParticles().explStarsPower(pill.x, pill.y, 0);
         }
 
         public bool isDone()
