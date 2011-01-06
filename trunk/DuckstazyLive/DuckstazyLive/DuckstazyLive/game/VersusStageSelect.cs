@@ -56,8 +56,8 @@ namespace DuckstazyLive.game
 
             UiControllerButtons buttons = new UiControllerButtons("SELECT", "BACK");            
             addChild(buttons);
-            attachHor(buttons, UiLayout.STYLE_CENTER);
-            UiLayout.attachVert(buttons, lastButton, this, UiLayout.STYLE_CENTER);
+            attachHor(buttons, AttachStyle.CENTER);
+            UiLayout.attachVert(buttons, lastButton, this, AttachStyle.CENTER);
         }
 
         public override void onShow()

@@ -23,8 +23,8 @@ namespace DuckstazyLive.game
 
             UiControllerButtons buttons = new UiControllerButtons("RETRY", "GIVEUP");
             addChild(buttons);
-            attachHor(buttons, UiLayout.STYLE_CENTER);
-            UiLayout.attachVert(buttons, text, this, UiLayout.STYLE_CENTER);
+            attachHor(buttons, AttachStyle.CENTER);
+            UiLayout.attachVert(buttons, text, this, AttachStyle.CENTER);
         }
 
         public void setMessage(String message)

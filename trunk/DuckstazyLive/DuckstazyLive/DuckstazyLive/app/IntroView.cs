@@ -19,7 +19,7 @@ namespace DuckstazyLive.app
 
         public IntroView(StartupController controller)
         {
-            this.controller = controller;            
+            this.controller = controller;          
         }
 
         public override void onShow()
@@ -34,6 +34,11 @@ namespace DuckstazyLive.app
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChild(text);
+
+            UiControllerButtons buttons = new UiControllerButtons("SKIP", null);
+            addChild(buttons);
+            attachHor(buttons, new AttachStyle(AttachStyle.MAX, 0, Constants.TITLE_SAFE_LEFT_X));
+            attachVert(buttons, new AttachStyle(AttachStyle.MAX, 0, Constants.TITLE_SAFE_TOP_Y));
 
             Application.sharedSoundMgr.playSound(Res.SONG_ENV_MENU, true, SoundTransform.NONE);
         }        

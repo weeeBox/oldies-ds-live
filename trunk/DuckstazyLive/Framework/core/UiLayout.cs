@@ -12,6 +12,10 @@ namespace Framework.core
         public float indentLT;
         public float indentRB;
 
+        public static readonly AttachStyle MIN = new AttachStyle(0.0f);
+        public static readonly AttachStyle CENTER = new AttachStyle(0.5f);
+        public static readonly AttachStyle MAX = new AttachStyle(1.0f);        
+
         public AttachStyle(float align)
             : this(align, 0.0f, 0.0f)
         {
@@ -31,11 +35,7 @@ namespace Framework.core
 
     public class UiLayout
     {
-        public const int UNDEFINED_DISTANCE = -1;
-
-        public static readonly AttachStyle STYLE_MIN = new AttachStyle(0.0f);
-        public static readonly AttachStyle STYLE_CENTER = new AttachStyle(0.5f);
-        public static readonly AttachStyle STYLE_MAX = new AttachStyle(1.0f);
+        public const int UNDEFINED_DISTANCE = -1;        
 
         public static void attachHor(BaseElement item, BaseElement itemLT, BaseElement itemRB, AttachStyle style)
         {
@@ -49,8 +49,8 @@ namespace Framework.core
 
         public static void attachCenter(BaseElement item, BaseElement itemLTRB)
         {
-            attachHor(item, itemLTRB, itemLTRB, STYLE_CENTER);
-            attachVert(item, itemLTRB, itemLTRB, STYLE_CENTER);
+            attachHor(item, itemLTRB, itemLTRB, AttachStyle.CENTER);
+            attachVert(item, itemLTRB, itemLTRB, AttachStyle.CENTER);
         }
 
         private static void attachVertOrHor(BaseElement item, BaseElement itemLT, BaseElement itemRB, AttachStyle style, bool attachHor)
