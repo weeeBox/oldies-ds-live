@@ -11,16 +11,17 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DuckstazyLive.app
 {
     public class LoadingView : View
-    {        
+    {
         private Color linesColor;
         private float offset;
 
         private StartupController controller;
+        private Text progressText;
 
         public LoadingView(StartupController controller)
         {
             this.controller = controller;
-            linesColor = utils.makeColor(0xd7d7d7);            
+            linesColor = utils.makeColor(0xd7d7d7);
         }
 
         public override void update(float delta)
@@ -30,10 +31,42 @@ namespace DuckstazyLive.app
             offset += delta * 24;
             if (offset > line.Height)
                 offset -= line.Height;
+
+            if (progressText != null)
+            {
+                progressText.setString("" + controller.getPercentLoaded());
+            }
+            else if (Application.sharedResourceMgr.isResourceLoaded(Res.FNT_BIG))
+            {
+                Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+                BaseElementContainer container = new BaseElementContainer(0, 0);
+
+                Text loadingText = new Text(font);
+                loadingText.setString("LOADING ");
+
+                progressText = new Text(font);
+                progressText.setString("99");
+
+                Text percentText = new Text(font);
+                percentText.setString("%...");
+
+                container.addChild(loadingText);
+                container.addChild(progressText);
+                container.addChild(percentText);
+
+                container.arrangeHorizontally(0, 0);
+                container.resizeToFitItems();
+
+                addChild(container);
+                attachHor(container, UiLayout.STYLE_CENTER);
+                container.y = Constants.TITLE_SAFE_BOTTOM_Y - container.height;                
+            }
         }
 
         public override void draw()
         {
+            preDraw();
+
             // back
             AppGraphics.FillRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
 
@@ -45,18 +78,14 @@ namespace DuckstazyLive.app
             float x = Constants.SAFE_OFFSET_X;
             float y = -line.Height + offset;
             while (y < Constants.SCREEN_HEIGHT)
-            {                
-                AppGraphics.DrawImage(line, x, y);                
+            {
+                AppGraphics.DrawImage(line, x, y);
                 y += line.Height;
             }
 
             AppGraphics.SetColor(Color.White);
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-            if (font != null)
-            {
-                font.drawString("LOADING " + controller.getPercentLoaded() + "%...", 0.5f * (Constants.TITLE_SAFE_LEFT_X + Constants.TITLE_SAFE_RIGHT_X), Constants.TITLE_SAFE_BOTTOM_Y, TextAlign.HCENTER | TextAlign.BOTTOM);
-            }
+            postDraw();
         }
     }
 }

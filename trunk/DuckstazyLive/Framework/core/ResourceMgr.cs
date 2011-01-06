@@ -171,6 +171,11 @@ namespace Framework.core
             resources[resName] = null;            
         }
 
+        public bool isResourceLoaded(int resName)
+        {
+            return resources[resName] != null;
+        }
+
         public abstract int getCapacity();
 
         public object loadResource(ResourceLoadInfo r)
