@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Framework.core;
+using System.Diagnostics;
 
 namespace Framework.visual
 {
@@ -38,6 +39,8 @@ namespace Framework.visual
 
         public Text(Font font)
         {
+            Debug.Assert(font != null);
+
             this.font = font;
             width = FrameworkConstants.UNDEFINED;
             height = FrameworkConstants.UNDEFINED;            

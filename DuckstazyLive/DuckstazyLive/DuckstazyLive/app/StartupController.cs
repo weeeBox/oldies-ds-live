@@ -13,8 +13,8 @@ namespace DuckstazyLive.app
 
         public StartupController(ViewController p) : base(p)
         {
-            LoadingView startView = new LoadingView(this);
-            addViewWithId(startView, VIEW_LOADING);
+            LoadingView loadingView = new LoadingView(this);
+            addViewWithId(loadingView, VIEW_LOADING);
 
             IntroView introView = new IntroView(this);
             addViewWithId(introView, VIEW_INTRO);
