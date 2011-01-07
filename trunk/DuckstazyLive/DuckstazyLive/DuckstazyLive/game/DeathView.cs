@@ -13,7 +13,7 @@ namespace DuckstazyLive.game
 {
     public class DeathView : GameView
     {
-        private const int SCULLS_COUNT = 30;
+        private const int SCULLS_COUNT = 15;
 
         public struct Scull
         {
@@ -36,7 +36,7 @@ namespace DuckstazyLive.game
             sculls = new Scull[SCULLS_COUNT];            
             for(int i = 0; i < SCULLS_COUNT; ++i)
             {
-                initScull(ref sculls[i], true);
+                initScull(ref sculls[i], i);
             }
 
             Text missText = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
@@ -52,11 +52,14 @@ namespace DuckstazyLive.game
             UiLayout.attachVert(buttons, missText, this, AttachStyle.CENTER);
         }        
 
-        private void initScull(ref Scull scull, bool firstInit)
-        {
-            scull.x = utils.rnd_int(0, width);
-            if (firstInit)            
+        private void initScull(ref Scull scull, int scullIndex)
+        {            
+            if (scullIndex != Constants.UNDEFINED)
+            {
+                float dx = width / (sculls.Length - 1);
+                scull.x = dx * (scullIndex + utils.rnd_float(-0.25f, 0.25f));
                 scull.y = utils.rnd_int(0, height);
+            }
             else
                 scull.y -= scull.y + getScullTex().Height;
             
@@ -87,7 +90,7 @@ namespace DuckstazyLive.game
 
             if (scull.y > height + 0.5f * getScullTex().Height || scull.deathTime - scull.lifeTime < 0)
             {
-                initScull(ref scull, false);
+                initScull(ref scull, Constants.UNDEFINED);
             }            
         }
 
