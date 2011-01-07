@@ -9,6 +9,7 @@ using Framework.core;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
+using DuckstazyLive.game.stages.story;
 
 namespace DuckstazyLive.game
 {
@@ -16,6 +17,7 @@ namespace DuckstazyLive.game
     {        
         private enum LevelStages
         {
+            Fireworks,
             Harvesting,
             PartyTime,
             Bubbles,
@@ -51,6 +53,8 @@ namespace DuckstazyLive.game
             LevelStages stage = (LevelStages)stageIndex;
             switch (stage)
             {
+                case LevelStages.Fireworks:
+                    return new Fireworks();
                 case LevelStages.Harvesting:
                     return new Harvesting();
                 case LevelStages.PartyTime:
