@@ -106,13 +106,30 @@ namespace DuckstazyLive.game.stages.story
             }
             else
             {
-                //pumpFireworkData = new FireworkInfo[]
-                //{
-                //    new FireworkInfo(FireworkSetuper.POWER1, 0, 400, 320, 80, 2.5f, 120.0f, 4.0f, 3.0f, 0),
-                //    new FireworkInfo(FireworkSetuper.POWER2, 640, 400, 320, 80, 2.0f, 150.0f, 4.0f, 1.0f, 0),
-                //    new FireworkInfo(FireworkSetuper.POWER3, 0, 0, 160, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
-                //    new FireworkInfo(FireworkSetuper.POWER3, 640, 0, 480, 80, 1.0f, 100.0f, 4.0f, 1.0f, 0),
-                //};
+                pumpFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 480, 200, 2.5f, 120.0f, 5.5f, 3.0f, 9, 0),
+                    new FireworkInfo(FireworkSetuper.POWER2, 640, 380, 160, 200, 2.0f, 150.0f, 5.5f, 1.0f, 9, 0),
+                    new FireworkInfo(FireworkSetuper.POWER3, 320, 250, 320, 80, 1.0f, 160.0f, 5.0f, 1.0f, 9, 0),                    
+                };
+                powerFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(FireworkSetuper.POWER1, 0, 380, 320, 80, 2.0f, 150.0f, 5.5f, 0.0f, 10, 1),
+                    new FireworkInfo(FireworkSetuper.POWER1, 640, 380, 320, 80, 2.0f, 150.0f, 5.5f, 0.0f, 10, 1),
+                    new FireworkInfo(FireworkSetuper.POWERS, 640, 80, 160, 250, 1.5f, 150.0f, 5.5f, 0.0f, 10, 1),
+                    new FireworkInfo(FireworkSetuper.POWERS, 0, 80, 480, 250, 1.5f, 150.0f, 5.5f, 0.0f, 10, 1),                    
+                };
+                penaltyFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(FireworkSetuper.TOXIC, 320, 80, 320, 100, 0.5f, 120.0f, 5.5f, 0.0f, 10, 5)
+                };
+                powerEndFireworkData = new FireworkInfo[]
+                {
+                    new FireworkInfo(FireworkSetuper.TOXIC, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 0),
+                    new FireworkInfo(FireworkSetuper.POWERS, 600, 380, 80, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 1),
+                    new FireworkInfo(FireworkSetuper.TOXIC, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 0),
+                    new FireworkInfo(FireworkSetuper.POWERS, 80, 380, 600, 80, 2.5f, 350.0f, 3.0f, 0.5f, 5, 1),
+                };
             }            
 
             startState(STATE_PUMP);
