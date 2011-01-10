@@ -29,7 +29,8 @@ namespace DuckstazyLive.game
             PartyTime3,
             Trains,
             Bubbles3,
-            DuckStage
+            DuckStage,
+            LevelsCount
         }
 
         private int stageIndex;
@@ -40,7 +41,7 @@ namespace DuckstazyLive.game
             getGameMgr().initHeroes(2);
             Heroes heroes = getHeroes();
             heroes[0].gameState.leftOriented = true;
-            stagesCount = Enum.GetNames(typeof(LevelStages)).Length;
+            stagesCount = (int)LevelStages.LevelsCount;
         }
 
         public override bool isSingleLevel()

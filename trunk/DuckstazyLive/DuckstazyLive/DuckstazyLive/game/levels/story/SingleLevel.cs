@@ -29,7 +29,8 @@ namespace DuckstazyLive.game
             Bubbles3,
             DuckStage,
             Snakes,
-            Grinder,            
+            Grinder,   
+            LevelsCount
         }
 
         private int stageIndex;
@@ -39,7 +40,7 @@ namespace DuckstazyLive.game
         {
             getGameMgr().initHeroes(1);
             getHeroes()[0].gameState.leftOriented = true;
-            stagesCount = Enum.GetNames(typeof(LevelStages)).Length;
+            stagesCount = (int)LevelStages.LevelsCount;
         }
 
         public override bool isSingleLevel()
