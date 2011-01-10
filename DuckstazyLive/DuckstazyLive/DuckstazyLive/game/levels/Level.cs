@@ -17,8 +17,6 @@ namespace DuckstazyLive.game
     {
         public static Level instance;        
 
-        public StoryGame game;        
-
         public float power;
         protected float powerUp;
 
@@ -36,9 +34,7 @@ namespace DuckstazyLive.game
         public Level(GameState gameState)
         {
             instance = this;
-            state = gameState;
-
-            game = StoryGame.instance;
+            state = gameState;            
 
             info = new GameInfo();            
             getEnv().reset();            
@@ -67,7 +63,7 @@ namespace DuckstazyLive.game
             stage = createStage(state.level);
 
             getHeroes().init();
-            game.save();            
+            save();
             
             syncScores();
             enterLevel();
@@ -184,7 +180,7 @@ namespace DuckstazyLive.game
 
             if (e.button == Buttons.Back || e.key == Keys.Escape)
             {
-                game.pause();
+                pause();
                 return true;
             }            
 
@@ -213,10 +209,20 @@ namespace DuckstazyLive.game
             start();
         }        
 
+        public virtual void pause()
+        {
+
+        }
+
+        public virtual void save()
+        {
+
+        }
+
         public void onPause()
         {           
             getHeroes().buttonsReset();            
-        }
+        }        
 
         public void switchEvnPower()
         {

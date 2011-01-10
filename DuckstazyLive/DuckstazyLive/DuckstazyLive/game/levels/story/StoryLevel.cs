@@ -18,10 +18,12 @@ namespace DuckstazyLive.game
 
         protected float nextLevelCounter;
         protected int harvestProcess;
-        protected int nextLevelCountdown;        
+        protected int nextLevelCountdown;
+        protected StoryGame game;
 
         public StoryLevel(GameState gameState) : base(gameState)
-        {            
+        {
+            game = StoryGame.instance;
         }
 
         protected abstract LevelStage createNextStage();        
@@ -75,6 +77,11 @@ namespace DuckstazyLive.game
 
             return false;
         }        
+
+        public override void pause()
+        {
+            game.pause();
+        }
 
         public void nextLevel()
         {
