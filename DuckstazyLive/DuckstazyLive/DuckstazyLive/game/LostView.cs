@@ -17,7 +17,7 @@ namespace DuckstazyLive.game
             this.height = (int)Constants.ENV_HEIGHT;
 
             Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
-            addChildWithId(text, CHILD_MESSAGE);
+            addChild(text, CHILD_MESSAGE);
             text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             attachCenter(text);
 

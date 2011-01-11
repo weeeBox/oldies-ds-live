@@ -66,7 +66,7 @@ namespace Framework.core
             }
         }
 
-        public virtual void addChildWithId(BaseElement c, int i)
+        public virtual void addChild(BaseElement c, int i)
         {
             c.setParent(this);
             childs[i] = c;
@@ -75,7 +75,7 @@ namespace Framework.core
         public virtual int addChild(BaseElement c)
         {
             int index = childs.getFirstEmptyIndex();
-            addChildWithId(c, index);
+            addChild(c, index);
             return index;
         }
 

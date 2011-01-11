@@ -56,7 +56,7 @@ namespace DuckstazyLive.app
             titleContainer.addChild(title);
             titleContainer.toParentCenter();
 
-            addChildWithId(titleContainer, CHILD_TITLE);
+            addChild(titleContainer, CHILD_TITLE);
         }
 
         private void addButton(String text, int buttonID, float x, float y, float ax, float ay)
@@ -64,7 +64,7 @@ namespace DuckstazyLive.app
             MenuButton button = new MenuButton(text, buttonID, x, y);
             button.setAlign(ax, ay);
             button.buttonDelegate = this;
-            addChildWithId(button, buttonID);
+            addChild(button, buttonID);
         }
 
         private void addButtons()

@@ -26,7 +26,10 @@ namespace DuckstazyLive.game
         }        
 
         private CustomGeomerty backgroud;
-        private Scull[] sculls;        
+        private Scull[] sculls;
+
+        private const int CHILD_TEXT = 0;
+        private const int CHILD_BUTTONS = 1;
 
         public DeathView(StoryController controller) : base(controller)
         {
@@ -40,14 +43,14 @@ namespace DuckstazyLive.game
             }
 
             Text missText = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
-            addChild(missText);
+            addChild(missText, CHILD_TEXT);
 
             attachCenter(missText);
             missText.setString("THAT IS HOW IT HAPPENS.\n\nBEWARE...");            
             missText.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);            
 
             UiControllerButtons buttons = new UiControllerButtons("NEW TRIP", "GO HOME");
-            addChild(buttons);
+            addChild(buttons, CHILD_BUTTONS);
             attachHor(buttons, AttachStyle.CENTER);
             UiLayout.attachVert(buttons, missText, this, AttachStyle.CENTER);
         }

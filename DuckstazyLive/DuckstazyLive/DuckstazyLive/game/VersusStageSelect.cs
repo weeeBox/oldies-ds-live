@@ -71,7 +71,7 @@ namespace DuckstazyLive.game
         {
             MenuButton button = new MenuButton(buttonName, id, x, y);
             button.buttonDelegate = this;
-            addChildWithId(button, id);
+            addChild(button, id);
         }
 
         public override bool buttonPressed(ref ButtonEvent e)

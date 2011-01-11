@@ -28,12 +28,12 @@ namespace DuckstazyLive.app
             // button stroke part            
             Image strokeImage = new Image(utils.getTexture(IMG_STOKE_ID));
             strokeImage.toParentCenter();
-            addChildWithId(strokeImage, CHILD_STROKE);
+            addChild(strokeImage, CHILD_STROKE);
 
             // button rotating part
             Image baseImage = new Image(utils.getTexture(IMG_BUTTON_BASE_ID));
             baseImage.toParentCenter();
-            addChildWithId(baseImage, CHILD_ROTATION);
+            addChild(baseImage, CHILD_ROTATION);
 
             // button label
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
@@ -41,7 +41,7 @@ namespace DuckstazyLive.app
             label.setString(text, baseImage.width);
             label.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             label.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
-            addChildWithId(label, CHILD_TEXT);
+            addChild(label, CHILD_TEXT);
 
             reset();
         }
