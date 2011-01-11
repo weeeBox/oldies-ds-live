@@ -19,7 +19,7 @@ namespace DuckstazyLive.game
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
 
-            addChildWithId(text, CHILD_MESSAGE);
+            addChild(text, CHILD_MESSAGE);
         }
 
         public void setDraw()
