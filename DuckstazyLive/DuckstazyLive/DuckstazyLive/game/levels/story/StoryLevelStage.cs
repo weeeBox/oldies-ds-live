@@ -16,8 +16,7 @@ namespace DuckstazyLive.game
             LOOSE // не выполнили goal
         }
 
-        private State state;
-        private int[] collected;
+        private State state;        
         private int totalCollected;
 
         // уровень
@@ -30,9 +29,7 @@ namespace DuckstazyLive.game
 
             level = (StoryLevel) StoryLevel.instance;
             media = level.stageMedia;            
-            day = true;
-
-            collected = new int[Application.sharedInputMgr.getPlayersCount()];
+            day = true;            
         }
 
         protected virtual LevelProgress createLevelProgress()
@@ -43,11 +40,7 @@ namespace DuckstazyLive.game
         protected abstract void startProgress();        
 
         public override void start()
-        {
-            for (int i = 0; i < collected.Length; ++i)
-            {
-                collected[i] = 0;
-            }
+        {            
             totalCollected = 0;
 
             base.start();
@@ -155,8 +148,7 @@ namespace DuckstazyLive.game
         public override void collectPill(Hero hero, Pill pill)
         {
             int heroIndex = hero.getPlayerIndex();
-            Debug.Assert(heroIndex >= 0 && heroIndex < collected.Length);
-            collected[heroIndex]++;
+            hero.pillsCollected++;
             totalCollected++;
         }
 

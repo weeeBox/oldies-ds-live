@@ -17,7 +17,6 @@ namespace DuckstazyLive.game.stages.versus
         }
 
         private State state;
-        private int[] collected;
         protected VersusLevel level;
 
         private VersusProgress progress;
@@ -28,17 +27,10 @@ namespace DuckstazyLive.game.stages.versus
             progress = new VersusProgress(levelTime);
 
             media = level.stageMedia;            
-
-            collected = new int[Application.sharedInputMgr.getPlayersCount()];
         }
 
         public override void start()
-        {
-            for (int i = 0; i < collected.Length; ++i)
-            {
-                collected[i] = 0;
-            }            
-            
+        {            
             base.start();
 
             setState(State.PLAYING);
@@ -81,20 +73,16 @@ namespace DuckstazyLive.game.stages.versus
         }
 
         public override void collectPill(Hero hero, Pill pill)
-        {
-            int heroIndex = hero.getPlayerIndex();
-            Debug.Assert(heroIndex >= 0 && heroIndex < collected.Length);
-            
+        {            
             if (pill.isPower())
             {
-                collected[heroIndex] += pill.scores;
+                hero.pillsCollected += pill.scores;
             }            
         }
 
         public int getPillCollected(int playerIndex)
         {
-            Debug.Assert(playerIndex >= 0 && playerIndex < collected.Length);
-            return collected[playerIndex];
+            return getHero(playerIndex).pillsCollected;
         }
 
         protected void setState(State state)
