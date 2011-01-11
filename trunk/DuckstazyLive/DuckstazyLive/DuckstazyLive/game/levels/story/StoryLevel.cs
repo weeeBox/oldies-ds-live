@@ -109,6 +109,9 @@ namespace DuckstazyLive.game
                     break;
 
                 case LEVEL_STATE_LOOSE:
+                    {
+                        game.loose(getStage().getLooseMessage());
+                    }
                     break;                
 
                 case LEVEL_STATE_WIN:
@@ -177,6 +180,8 @@ namespace DuckstazyLive.game
 
         public void onWin()
         {
+            startLevelState(LEVEL_STATE_WIN);
+
             onEnd();
             nextLevelCountdown = 3;
             harvestProcess = 2;
@@ -187,7 +192,7 @@ namespace DuckstazyLive.game
         public void onLoose()
         {
             onEnd();
-            game.loose(getStage().getLooseMessage());
+            startLevelState(LEVEL_STATE_LOOSE);
         }
 
         public bool isPlaying()
