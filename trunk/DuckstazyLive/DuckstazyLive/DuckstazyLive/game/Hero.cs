@@ -500,18 +500,21 @@ namespace DuckstazyLive.game
             AppGraphics.Translate(utils.scale(x + duck_w), utils.scale(y + duck_h2), 0.0f);            
             AppGraphics.Scale(sx, sy, 1.0f);
 
+            float dx = -duck_w;
+            float dy = -duck_h2;
+
             if (vis)
             {
                 switch (state)
                 {
                     case HERO_SLEEP:
-                        heroes.media.drawSleep(dest, -duck_w, -duck_h2, flip, trans);
+                        heroes.media.drawSleep(dest, dx, dy, flip, trans);
                         break;
                     case HERO_DEAD:
-                        heroes.media.drawDead(dest, 0, -duck_w, flip, trans);
+                        heroes.media.drawDead(dest, dx, dy, flip, trans);
                         break;
                     case HERO_NORMAL:
-                        heroes.media.drawDuck(playerIndex, dest, -duck_w, -duck_h2, power, flip, wingAngle, trans);
+                        heroes.media.drawDuck(playerIndex, dest, dx, dy, power, flip, wingAngle, trans);
                         break;
                     default:
                         Debug.Assert(false, state.ToString());
@@ -585,20 +588,7 @@ namespace DuckstazyLive.game
                 case Buttons.A:
                     if (key_up && started)
                     {
-                        if (fly)
-                        {
-                            rapidJump = GameClock.ElapsedTime - jumpButtonPressedStartTime < duck_rapid_jump_delay;
-
-                            if (wingLock)
-                            {
-                                wingLock = false;
-                                if (jumpVel < 0.0f)
-                                    jumpVel = 0.0f;
-                            }
-
-                            //if(jumpVel>0 && gravityK==1)
-                            //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
-                        }
+                        endFlying();
                     }
                     key_up = false;
                     return true;
@@ -609,6 +599,24 @@ namespace DuckstazyLive.game
             }
 
             return false;
+        }
+
+        private void endFlying()
+        {
+            if (fly)
+            {
+                rapidJump = GameClock.ElapsedTime - jumpButtonPressedStartTime < duck_rapid_jump_delay;
+
+                if (wingLock)
+                {
+                    wingLock = false;
+                    if (jumpVel < 0.0f)
+                        jumpVel = 0.0f;
+                }
+
+                //if(jumpVel>0 && gravityK==1)
+                //gravityK = (jumpVel + jumpStartVel)/(jumpStartVel*2 - jumpVel);
+            }
         }
 
         public void doSleep()
@@ -755,7 +763,18 @@ namespace DuckstazyLive.game
 
         public void jumpOn(Hero other)
         {
-            jump(0.5f * getJumpHeight());
+            float extraHeight = 0.0f;
+            if (other.fly)
+            {
+                float powerCoeff = other.key_up ? 1.0f : 0.5f;
+                extraHeight = getJumpHeight(other.jumpStartVel * powerCoeff * (1 - other.jumpVel / other.jumpStartVel));                    
+            }
+            float jumpHeight = 0.5f * getJumpHeight() + extraHeight;
+            float maxJumpHeight = getJumpHeight(duck_jump_start_vel_max);
+            if (jumpHeight > maxJumpHeight)
+                jumpHeight = maxJumpHeight;
+            jump(jumpHeight);
+
             other.jumpedBy(this);
         }
 
@@ -767,6 +786,10 @@ namespace DuckstazyLive.game
         public void jumpedBy(Hero other)
         {
             compressCounter = COMPRESS_TIMEOUT;
+            jumpVel = 0.0f;
+
+            key_up = false;
+            endFlying();
         }
 
         public void jump(float h)
@@ -778,7 +801,12 @@ namespace DuckstazyLive.game
 
         public float getJumpHeight()
         {
-            return jumpStartVel * jumpStartVel * 0.5f / duck_jump_gravity;
+            return getJumpHeight(jumpStartVel);
+        }
+
+        private float getJumpHeight(float vy)
+        {
+            return vy * vy * 0.5f / duck_jump_gravity;
         }
 
         public Rect[] getCollisionRects()
