@@ -885,8 +885,8 @@ namespace DuckstazyLive.game
             if (high && highCounter > 0.5 && state == ALIVE)
             {
                 MAT.identity();
-                MAT.tx = dx - 14;
-                MAT.ty = dy - 14;
+                MAT.tx = dx - 14.5f;
+                MAT.ty = dy - 14.5f;
                 COLOR.alphaMultiplier = 2.0f - highCounter * 2.0f;
                 canvas.draw(media.imgHigh, MAT, COLOR);
             }
