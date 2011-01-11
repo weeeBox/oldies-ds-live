@@ -112,6 +112,7 @@ namespace DuckstazyLive.game
 
         private float blinkTime;
 
+        public int pillsCollected;
         public int sleep_collected;
         public int toxic_collected;
         public int frags;
@@ -173,6 +174,7 @@ namespace DuckstazyLive.game
 
             power = 0.0f;
 
+            pillsCollected = 0;
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
@@ -378,7 +380,7 @@ namespace DuckstazyLive.game
                     //utils.playSound(land_snd, (power+0.3)*Math.abs(jumpVel)/200.0, pos.x+27);
 
                     doLandBubbles();
-
+                    
                     sleep_collected = 0;
                     toxic_collected = 0;
                     frags = 0;
@@ -635,7 +637,7 @@ namespace DuckstazyLive.game
                 state = HERO_SLEEP;
                 //wingLock = false;
             }
-            //mBoard->HitSleep(world_draw_pos(mPosition), mSleepCollected);
+            //mBoard->HitSleep(world_draw_pos(mPosition), mSleepCollected);            
             ++sleep_collected;
         }
 

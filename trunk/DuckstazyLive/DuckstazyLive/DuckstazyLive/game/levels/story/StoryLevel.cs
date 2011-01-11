@@ -30,7 +30,7 @@ namespace DuckstazyLive.game
         protected int levelState;
         protected float levelStateElapsed;
 
-        private const float DEATH_TIMEOUT = 2.0f;
+        private const float DEATH_TIMEOUT = 3.0f;
 
         public StoryLevel(GameState gameState)
             : base(gameState)
@@ -71,9 +71,28 @@ namespace DuckstazyLive.game
 
         public override void update(float dt)
         {
+            levelStateElapsed += dt;
+            if (levelState == LEVEL_STATE_DIE)
+            {                
+                if (levelStateElapsed > DEATH_TIMEOUT)
+                {
+                    game.death();
+                }
+                else
+                {
+                    float progress = levelStateElapsed / DEATH_TIMEOUT;
+                    base.update(dt * (1 - progress));
+                    
+                    getEnv().blanc = progress;
+                }
+
+                return;
+            }
+            
+
             base.update(dt);
 
-            levelStateElapsed += dt;
+            
             switch (levelState)
             {
                 case LEVEL_STATE_START:
@@ -90,20 +109,7 @@ namespace DuckstazyLive.game
                     break;
 
                 case LEVEL_STATE_LOOSE:
-                    break;
-
-                case LEVEL_STATE_DIE:
-                    {
-                        if (levelStateElapsed > DEATH_TIMEOUT)
-                        {                            
-                            game.death();
-                        }
-                        else
-                        {
-                            getEnv().blanc = levelStateElapsed / (0.75f * DEATH_TIMEOUT);
-                        }
-                    }
-                    break;
+                    break;                
 
                 case LEVEL_STATE_WIN:
                     {

@@ -82,6 +82,12 @@ namespace DuckstazyLive.game
             return GameMgr.getInstance();
         }
 
+        protected Hero getHero(int heroIndex)
+        {
+            Debug.Assert(heroIndex >= 0 && heroIndex < getHeroes().getHeroesCount());
+            return getHeroes()[heroIndex];
+        }
+
         protected Heroes getHeroes()
         {
             return getGameMgr().getHeroes();
