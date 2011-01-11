@@ -44,10 +44,13 @@ namespace DuckstazyLive.game
         public const int duck_h = 20;
         public const int duck_w2 = 54;
         public const int duck_h2 = 40;
-
-        private const float COMPRESS_TIMEOUT = 0.5f;
-        private float compressCounter;
+        
+        private const float COMPRESS_TIMEOUT = 0.25f;
+        private float compressCounter;        
         private float sx, sy;
+
+        private const float JUMP_ON_TIMEOUT = 0.5f;
+        private float jumpedElasped;
 
         private static Rect[] COLLISION_RECTS_SLEEP = 
         {
@@ -166,6 +169,7 @@ namespace DuckstazyLive.game
             y = 400 - duck_h2;
             sx = sy = 1.0f;
             compressCounter = 0.0f;
+            jumpedElasped = 0.0f;
 
             power = 0.0f;
 
@@ -396,15 +400,18 @@ namespace DuckstazyLive.game
 
         private void updateJumpCompress(float dt)
         {
+            jumpedElasped += dt;
             if (compressCounter > 0.0f)
             {
                 compressCounter -= dt;
                 if (compressCounter > 0.0f)
                 {
                     float compressProgress = compressCounter / COMPRESS_TIMEOUT;
-                    float compress = (float)(0.25 * (1 - 0.8 * compressProgress) * Math.Sin(15.0 * compressCounter));
+                    float t = COMPRESS_TIMEOUT - compressCounter;
+                    float omega = MathHelper.Pi / COMPRESS_TIMEOUT;
+                    float compress = (float)(0.25 * (1 - 0.8 * compressProgress) * Math.Sin(omega * t));
                     sx = 1 + compress;
-                    sy = 1 - compress;
+                    sy = 1 - 0.5f * compress;
                 }
                 else
                 {
@@ -773,20 +780,21 @@ namespace DuckstazyLive.game
             float maxJumpHeight = getJumpHeight(duck_jump_start_vel_max);
             if (jumpHeight > maxJumpHeight)
                 jumpHeight = maxJumpHeight;
-            jump(jumpHeight);
+            jump(jumpHeight);            
 
             other.jumpedBy(this);
         }
 
         public bool canBeJumped()
         {
-            return compressCounter == 0.0f;
+            return jumpedElasped > JUMP_ON_TIMEOUT;
         }
 
         public void jumpedBy(Hero other)
         {
             compressCounter = COMPRESS_TIMEOUT;
             jumpVel = 0.0f;
+            jumpedElasped = 0.0f;
 
             key_up = false;
             endFlying();
