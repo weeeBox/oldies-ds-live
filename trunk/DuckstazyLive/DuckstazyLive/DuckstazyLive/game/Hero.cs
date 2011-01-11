@@ -45,6 +45,10 @@ namespace DuckstazyLive.game
         public const int duck_w2 = 54;
         public const int duck_h2 = 40;
 
+        private const float COMPRESS_TIMEOUT = 0.5f;
+        private float compressCounter;
+        private float sx, sy;
+
         private static Rect[] COLLISION_RECTS_SLEEP = 
         {
             new Rect(0, 0, duck_w2, duck_h2)
@@ -160,6 +164,8 @@ namespace DuckstazyLive.game
             blinkTime = 0.0f;
 
             y = 400 - duck_h2;
+            sx = sy = 1.0f;
+            compressCounter = 0.0f;
 
             power = 0.0f;
 
@@ -199,6 +205,8 @@ namespace DuckstazyLive.game
             yLast = y;
 
             heroes.media.updateSFX(x + duck_w);
+
+            updateJumpCompress(dt);
 
             power = newPower;
 
@@ -386,6 +394,26 @@ namespace DuckstazyLive.game
             }
         }
 
+        private void updateJumpCompress(float dt)
+        {
+            if (compressCounter > 0.0f)
+            {
+                compressCounter -= dt;
+                if (compressCounter > 0.0f)
+                {
+                    float compressProgress = compressCounter / COMPRESS_TIMEOUT;
+                    float compress = (float)(0.25 * (1 - 0.8 * compressProgress) * Math.Sin(15.0 * compressCounter));
+                    sx = 1 + compress;
+                    sy = 1 - compress;
+                }
+                else
+                {
+                    sx = sy = 1.0f;
+                    compressCounter = 0.0f;
+                }
+            }
+        }
+
         private void updateGamepadInput()
         {
             Vector2 leftStick = Application.sharedInputMgr.ThumbSticks(playerIndex).Left;
@@ -468,24 +496,30 @@ namespace DuckstazyLive.game
         {
             bool vis = (blinkTime <= 0.0f || (((int)blinkTime) & 0x1) != 0) || isDead();
 
+            AppGraphics.PushMatrix();
+            AppGraphics.Translate(utils.scale(x + duck_w), utils.scale(y + duck_h2), 0.0f);            
+            AppGraphics.Scale(sx, sy, 1.0f);
+
             if (vis)
             {
                 switch (state)
                 {
                     case HERO_SLEEP:
-                        heroes.media.drawSleep(dest, x, y, flip, trans);
+                        heroes.media.drawSleep(dest, -duck_w, -duck_h2, flip, trans);
                         break;
                     case HERO_DEAD:
-                        heroes.media.drawDead(dest, x, y, flip, trans);
+                        heroes.media.drawDead(dest, 0, -duck_w, flip, trans);
                         break;
                     case HERO_NORMAL:
-                        heroes.media.drawDuck(playerIndex, dest, x, y, power, flip, wingAngle, trans);
+                        heroes.media.drawDuck(playerIndex, dest, -duck_w, -duck_h2, power, flip, wingAngle, trans);
                         break;
                     default:
                         Debug.Assert(false, state.ToString());
                         break;
                 }
             }
+
+            AppGraphics.PopMatrix();
         }
 
         public bool buttonPressed(ref ButtonEvent e)
@@ -725,9 +759,14 @@ namespace DuckstazyLive.game
             other.jumpedBy(this);
         }
 
+        public bool canBeJumped()
+        {
+            return compressCounter == 0.0f;
+        }
+
         public void jumpedBy(Hero other)
         {
-
+            compressCounter = COMPRESS_TIMEOUT;
         }
 
         public void jump(float h)

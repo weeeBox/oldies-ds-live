@@ -109,7 +109,7 @@ namespace DuckstazyLive.game
 
         private bool checkHeroJump(Hero h1, Hero h2)
         {
-            return h1.y < h2.y && h1.y + Hero.duck_h2 < h2.y + 0.2f * Hero.duck_h2;
+            return h2.canBeJumped() && h1.y < h2.y && h1.y + Hero.duck_h2 < h2.y + 0.2f * Hero.duck_h2;
         }
 
         private bool heroesIntersects(Hero h1, Hero h2)
