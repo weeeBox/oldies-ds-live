@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public abstract class Level
+    public abstract class Level : BaseElementContainer
     {
         public static Level instance;        
 
@@ -117,8 +117,10 @@ namespace DuckstazyLive.game
             Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
         }
 
-        public virtual void update(float dt)
+        public override void update(float dt)
         {
+            base.update(dt);
+
             float power_drain = 0.0f;
             Heroes heroes = getHeroes();
                         
@@ -172,7 +174,7 @@ namespace DuckstazyLive.game
             powerUp = 0.0f;
         }        
 
-        public virtual bool buttonPressed(ref ButtonEvent e)
+        public override bool buttonPressed(ref ButtonEvent e)
         {
             Heroes heroes = getHeroes();
             if (heroes.hasAliveHero() && heroes.buttonPressed(ref e))
@@ -199,7 +201,7 @@ namespace DuckstazyLive.game
             return false;
         }
 
-        public virtual bool buttonReleased(ref ButtonEvent e)
+        public override bool buttonReleased(ref ButtonEvent e)
         {           
             return getHeroes().buttonReleased(ref e);            
         }

@@ -50,7 +50,14 @@ namespace DuckstazyLive.game
             addChild(buttons);
             attachHor(buttons, AttachStyle.CENTER);
             UiLayout.attachVert(buttons, missText, this, AttachStyle.CENTER);
-        }        
+        }
+
+        public override void onShow()
+        {
+            base.onShow();
+
+            getEnv().blanc = 1.0f;
+        }
 
         private void initScull(ref Scull scull, int scullIndex)
         {            
@@ -73,6 +80,8 @@ namespace DuckstazyLive.game
 
         public override void update(float delta)
         {
+            base.update(delta);
+
             for (int i = 0; i < SCULLS_COUNT; ++i)
             {
                 updateScull(ref sculls[i], delta);
@@ -109,6 +118,10 @@ namespace DuckstazyLive.game
             }
 
             postDraw();
+
+            Env env = getEnv();
+            if (env.blanc > 0.0f)
+                env.drawBlanc(canvas);
         }
 
         private Texture2D getScullTex()

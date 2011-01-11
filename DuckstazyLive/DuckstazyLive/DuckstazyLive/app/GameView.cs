@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Framework.core;
 using DuckstazyLive.game;
+using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.app
 {
@@ -18,6 +19,12 @@ namespace DuckstazyLive.app
             canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
         }
 
+        public override void update(float delta)
+        {
+            base.update(delta);
+            getEnv().updateBlanc(delta);
+        }
+
         protected Canvas getCanvas()
         {
             return canvas;
@@ -26,6 +33,11 @@ namespace DuckstazyLive.app
         protected StoryController getController()
         {
             return controller;
+        }
+
+        protected Env getEnv()
+        {
+            return GameMgr.getInstance().getEnv();
         }
     }
 }
