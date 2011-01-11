@@ -56,7 +56,7 @@ namespace DuckstazyLive
             // Create a new SpriteBatch, which can be used to processDraw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            infoFont = Content.Load<SpriteFont>("InfoFont");
+            infoFont = Content.Load<SpriteFont>("Mini");
             AppGraphics.SetInfoFont(infoFont);
 
             application = new DuckstazyApp(Content);
