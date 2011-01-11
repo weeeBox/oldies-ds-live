@@ -176,7 +176,7 @@ namespace DuckstazyLive.game
                 mat.flip(true, false);
                 dest.draw(imgDuck + playerIndex, mat, duckColor);
 
-                mat.translate(38.0f + x, 5.0f + y);
+                mat.translate(37.0f + x, 6.0f + y);
                 dest.draw(imgEye1, mat, eyeColor);
                 eyeColor.alphaMultiplier = power * trans;
                 dest.draw(imgEye2, mat, eyeColor);
@@ -194,7 +194,7 @@ namespace DuckstazyLive.game
                 mat.translate(x, y);
                 dest.draw(imgDuck + playerIndex, mat, duckColor);
 
-                mat.translate(10.0f + x, 5.0f + y);
+                mat.translate(11.0f + x, 6.0f + y);
                 dest.draw(imgEye1, mat, eyeColor);
                 eyeColor.alphaMultiplier = power * trans;
                 dest.draw(imgEye2, mat, eyeColor);
