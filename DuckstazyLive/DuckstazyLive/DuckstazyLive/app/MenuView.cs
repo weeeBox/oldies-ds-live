@@ -229,6 +229,10 @@ namespace DuckstazyLive.app
             {
                 menuController.versusGame();
             }
+            else if (id == BUTTON_EXIT)
+            {
+                Application.quit();
+            }
         }
 
         public void onButtonFocused(int id)

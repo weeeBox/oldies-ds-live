@@ -7,6 +7,8 @@ namespace Framework.core
 {
     public abstract class Application
     {
+        private static bool quitRequested;
+
         public abstract RootController createRootController();
 
         public abstract ApplicationSettings createAppSettings();
@@ -43,6 +45,16 @@ namespace Framework.core
         public InputManager createInputManager()
         {
             return new InputManager(2);
+        }
+
+        public static void quit()
+        {
+            quitRequested = true;
+        }
+
+        public static bool isQuitRequested()
+        {
+            return quitRequested;
         }
 
         public static RootController sharedRootController;
