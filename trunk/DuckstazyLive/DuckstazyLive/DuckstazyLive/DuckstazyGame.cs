@@ -83,9 +83,14 @@ namespace DuckstazyLive
         protected override void Update(GameTime gameTime)
         {
             float dt = (float) gameTime.ElapsedGameTime.TotalSeconds;
-            application.update(dt);
+            application.update(dt);            
 
             base.Update(gameTime);
+
+            if (DuckstazyApp.isQuitRequested())
+            {
+                Exit();
+            }
         }
 
         /// <summary>

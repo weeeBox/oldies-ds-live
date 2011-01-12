@@ -180,7 +180,7 @@ namespace DuckstazyLive.app
             }
             else if (id == BUTTON_EXIT)
             {
-                
+                Application.quit();
             }
         }
 
