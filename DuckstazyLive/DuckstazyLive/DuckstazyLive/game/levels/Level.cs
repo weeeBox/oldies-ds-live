@@ -28,8 +28,11 @@ namespace DuckstazyLive.game
 
         public String infoText;        
 
-        // инфа
+        // инфа 100%
         public GameInfo info;
+
+        protected int levelState;
+        protected float levelStateElapsed;
 
         public Level(GameState gameState)
         {
@@ -67,6 +70,12 @@ namespace DuckstazyLive.game
             
             syncScores();
             enterLevel();
+        }
+
+        protected virtual void startLevelState(int levelState)
+        {
+            levelStateElapsed = 0;
+            this.levelState = levelState;
         }
 
         public abstract void drawHud(Canvas canvas);       
