@@ -63,6 +63,12 @@ namespace Framework.core
         bool buttonReleased(ref ButtonEvent e);        
     }
 
+    public interface ControllerListener
+    {
+        void controllerConnected(int playerIndex);
+        void controllerDisconnected(int playerIndex);
+    }
+
     public class InputManager
     {        
         private static Buttons[] CHECK_BUTTONS = 
@@ -99,6 +105,7 @@ namespace Framework.core
         private GamePadState[] currentGamepadStates;
         private KeyboardState currentKeyboardState;
         private List<InputListener> inputListeners;
+        private List<ControllerListener> controllerListeners;
 
         private Dictionary<Keys, Buttons>[] buttonsMappings;
         private Dictionary<Keys, ButtonAction> keyActionMapping;
@@ -124,6 +131,7 @@ namespace Framework.core
              
             currentKeyboardState = Keyboard.GetState();
             inputListeners = new List<InputListener>();
+            controllerListeners = new List<ControllerListener>();
         }
 
         public static InputManager getInstance()
@@ -151,7 +159,19 @@ namespace Framework.core
         {
             GamePadState oldState = currentGamepadStates[playerIndex];
             currentGamepadStates[playerIndex] = GamePad.GetState(getPlayer(playerIndex), deadZone);
-
+            
+            if (controllerListeners.Count > 0)
+            {
+                if (isControllerConnected(ref oldState, ref currentGamepadStates[playerIndex]))
+                {
+                    fireControllerConnected(playerIndex);
+                }
+                else if (isControllerDisconnected(ref oldState, ref currentGamepadStates[playerIndex]))
+                {
+                    fireControllerDisconnected(playerIndex);
+                }
+            }
+            
             if (inputListeners.Count > 0)
             {
                 for (int buttonIndex = 0; buttonIndex < CHECK_BUTTONS.Length; ++buttonIndex)
@@ -211,6 +231,16 @@ namespace Framework.core
             }
         }
 
+        private bool isControllerConnected(ref GamePadState oldState, ref GamePadState newState)
+        {
+            return newState.IsConnected && !oldState.IsConnected;
+        }
+
+        private bool isControllerDisconnected(ref GamePadState oldState, ref GamePadState newState)
+        {
+            return !newState.IsConnected && oldState.IsConnected;
+        }
+
         private bool isButtonDown(Buttons button, ref GamePadState oldState, ref GamePadState newState)
         {
             return newState.IsButtonDown(button) && oldState.IsButtonUp(button);
@@ -221,6 +251,16 @@ namespace Framework.core
             return newState.IsButtonUp(button) && oldState.IsButtonDown(button);
         }
 
+        public void addControllerListener(ControllerListener listener)
+        {
+            controllerListeners.Add(listener);
+        }
+
+        public void removeControllerListener(ControllerListener listener)
+        {
+            controllerListeners.Remove(listener);
+        }
+
         public void addInputListener(InputListener listener)
         {
             inputListeners.Add(listener);
@@ -229,6 +269,22 @@ namespace Framework.core
         public void removeInputListener(InputListener listener)
         {
             inputListeners.Remove(listener);
+        }
+
+        private void fireControllerConnected(int playerIndex)
+        {
+            foreach (ControllerListener l in controllerListeners)
+            {
+                l.controllerConnected(playerIndex);
+            }
+        }
+
+        private void fireControllerDisconnected(int playerIndex)
+        {
+            foreach (ControllerListener l in controllerListeners)
+            {
+                l.controllerDisconnected(playerIndex);
+            }
         }
 
         private void fireKeyPressed(ref ButtonEvent evt)
@@ -307,7 +363,7 @@ namespace Framework.core
             return currentGamepadStates.Length;
         }
 
-        public bool isPlayerActive(int playerIndex)
+        public bool isControllerConnected(int playerIndex)
         {
 #if WINDOWS
             return true;

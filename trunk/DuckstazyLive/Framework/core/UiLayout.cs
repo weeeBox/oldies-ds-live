@@ -202,9 +202,19 @@ namespace Framework.core
             container.height = (int)rh;
         }
 
+        public static void arrangeVertically(BaseElementContainer container)
+        {
+            arrangeVertically(container, UNDEFINED_DISTANCE, UNDEFINED_DISTANCE);
+        }
+
         public static void arrangeVertically(BaseElementContainer container, int minDist, int maxDist)
         {
             arrangeInTable(container, minDist, maxDist, false);
+        }
+
+        public static void arrangeHorizontally(BaseElementContainer container)
+        {
+            arrangeHorizontally(container, UNDEFINED_DISTANCE, UNDEFINED_DISTANCE);
         }
 
         public static void arrangeHorizontally(BaseElementContainer container, int minDist, int maxDist)

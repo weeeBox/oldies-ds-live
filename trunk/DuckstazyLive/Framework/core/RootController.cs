@@ -18,7 +18,7 @@ namespace Framework.core
         TRANSITIONS_COUNT
     }
 
-    public class RootController : ViewController, InputListener
+    public class RootController : ViewController, InputListener, ControllerListener
     {
         public const float TRANSITION_DEFAULT_DELAY = 0.4f;
 
@@ -37,7 +37,7 @@ namespace Framework.core
             transitionDelay = TRANSITION_DEFAULT_DELAY;            
         }
 
-        public void processUpdate()
+        public virtual void processUpdate()
         {
             if (suspended)
                 return;
@@ -135,7 +135,7 @@ namespace Framework.core
         {
             Debug.Assert(suspended);
             suspended = false;
-        }
+        }        
 
         public override bool buttonPressed(ref ButtonEvent e)
         {
@@ -153,6 +153,22 @@ namespace Framework.core
                 return currentController.buttonReleased(ref e);
             }
             return false;
+        }
+
+        public override void controllerConnected(int playerIndex)
+        {
+            if (currentController != null)
+            {
+                currentController.controllerConnected(playerIndex);
+            }
+        }
+
+        public override void controllerDisconnected(int playerIndex)
+        {
+            if (currentController != null)
+            {
+                currentController.controllerConnected(playerIndex);
+            }
         }
     }
 }

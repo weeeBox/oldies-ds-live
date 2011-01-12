@@ -27,13 +27,14 @@ namespace DuckstazyLive.app
             DuckstazyResourceMgr rm = (DuckstazyResourceMgr) Application.sharedResourceMgr;
             rm.initLoading();
             rm.addPackToLoad(Packs.PACK_START);
+            rm.addPackToLoad(Packs.PACK_COMMON1);
             rm.loadImmediately();
 
             showView(VIEW_LOADING);
 
             rm.resourcesDelegate = this;
             rm.initLoading();
-            rm.addPackToLoad(Packs.PACK_COMMON);
+            rm.addPackToLoad(Packs.PACK_COMMON2);
             rm.addPackToLoad(Packs.PACK_MENU);
             rm.addPackToLoad(Packs.PACK_GAME);
             rm.addPackToLoad(Packs.PACK_SOUNDS);            

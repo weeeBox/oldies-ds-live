@@ -5,26 +5,28 @@ namespace DuckstazyLive.app
 {
 	public class Packs
 	{
-		public const int PACK_COMMON = 0;
-		public const int PACK_START = 1;
-		public const int PACK_MENU = 2;
-		public const int PACK_GAME = 3;
-		public const int PACK_SOUNDS = 4;
-		public const int PACKS_COUNT = 5;
+		public const int PACK_COMMON1 = 0;
+		public const int PACK_COMMON2 = 1;
+		public const int PACK_START = 2;
+		public const int PACK_MENU = 3;
+		public const int PACK_GAME = 4;
+		public const int PACK_SOUNDS = 5;
+		public const int PACKS_COUNT = 6;
 	}
 	public class Res
 	{
-		// PACK_COMMON
-		public const int IMG_BUTTON_BASE = 0;
-		public const int IMG_BUTTON_STROKE_FOCUSED = 1;
-		public const int IMG_GRASS1 = 2;
-		public const int IMG_GRASS2 = 3;
-		public const int IMG_CLOUD_1 = 4;
-		public const int IMG_CLOUD_2 = 5;
-		public const int IMG_CLOUD_3 = 6;
-		public const int IMG_UI_BUTTON_A = 7;
-		public const int IMG_UI_BUTTON_B = 8;
-		public const int FNT_BIG = 9;
+		// PACK_COMMON1
+		public const int FNT_BIG = 0;
+		public const int IMG_UI_BUTTON_A = 1;
+		public const int IMG_UI_BUTTON_B = 2;
+		// PACK_COMMON2
+		public const int IMG_BUTTON_BASE = 3;
+		public const int IMG_BUTTON_STROKE_FOCUSED = 4;
+		public const int IMG_GRASS1 = 5;
+		public const int IMG_GRASS2 = 6;
+		public const int IMG_CLOUD_1 = 7;
+		public const int IMG_CLOUD_2 = 8;
+		public const int IMG_CLOUD_3 = 9;
 		// PACK_START
 		public const int IMG_LOAD_LINE = 10;
 		// PACK_MENU
@@ -130,7 +132,14 @@ namespace DuckstazyLive.app
 	{
 		public static ResourceBaseInfo[][] RESOURCES_PACKS =
 		{
-			// PACK_COMMON
+			// PACK_COMMON1
+			new ResourceBaseInfo[]
+			{
+				new ResourceBaseInfo(Res.FNT_BIG, ResourceType.RESOURCE_TYPE_FONT, "font_big"),
+				new ResourceBaseInfo(Res.IMG_UI_BUTTON_A, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonA"),
+				new ResourceBaseInfo(Res.IMG_UI_BUTTON_B, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonB"),
+			},
+			// PACK_COMMON2
 			new ResourceBaseInfo[]
 			{
 				new ResourceBaseInfo(Res.IMG_BUTTON_BASE, ResourceType.RESOURCE_TYPE_TEXTURE, "button"),
@@ -140,9 +149,6 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_CLOUD_1, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
 				new ResourceBaseInfo(Res.IMG_CLOUD_2, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
 				new ResourceBaseInfo(Res.IMG_CLOUD_3, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
-				new ResourceBaseInfo(Res.IMG_UI_BUTTON_A, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonA"),
-				new ResourceBaseInfo(Res.IMG_UI_BUTTON_B, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonB"),
-				new ResourceBaseInfo(Res.FNT_BIG, ResourceType.RESOURCE_TYPE_FONT, "font_big"),
 			},
 			// PACK_START
 			new ResourceBaseInfo[]

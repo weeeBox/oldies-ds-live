@@ -66,6 +66,21 @@
     </Compile> 
   </ItemGroup>  
   <ItemGroup>
+    <Compile Include="font_big.png">
+      <Name>font_big</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="buttonA.png">
+      <Name>buttonA</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="buttonB.png">
+      <Name>buttonB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="button.png">
       <Name>button</Name>
       <Importer>TextureImporter</Importer>
@@ -98,21 +113,6 @@
     </Compile>
     <Compile Include="cloud_1.png">
       <Name>cloud_1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="buttonA.png">
-      <Name>buttonA</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="buttonB.png">
-      <Name>buttonB</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="font_big.png">
-      <Name>font_big</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\Constants.cs" />
+    <Compile Include="app\ControllerWarning.cs" />
     <Compile Include="app\DuckstazyApp.cs" />
     <Compile Include="app\DuckstazyApplicationSettings.cs" />
     <Compile Include="app\DuckstazyResourceMgr.cs" />

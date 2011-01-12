@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="app\Constants.cs" />
+    <Compile Include="app\ControllerWarning.cs" />
     <Compile Include="app\UiControllerButtons.cs" />
     <Compile Include="app\DuckstazyApp.cs" />
     <Compile Include="app\DuckstazyApplicationSettings.cs" />
