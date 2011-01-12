@@ -181,6 +181,16 @@ namespace Framework.core
             UiLayout.resizeToFitItems(this, leftIndent, topIndent, rightIndent, bottomIndent);
         }
 
+        public void arrangeVertically()
+        {
+            UiLayout.arrangeVertically(this);
+        }
+
+        public void arrangeHorizontally()
+        {
+            UiLayout.arrangeHorizontally(this);
+        }
+
         public void arrangeVertically(int minDist, int maxDist)
         {
             UiLayout.arrangeVertically(this, minDist, maxDist);

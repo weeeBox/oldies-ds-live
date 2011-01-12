@@ -23,6 +23,7 @@ namespace Framework.core
             sharedInputMgr = createInputManager();
 
             sharedInputMgr.addInputListener(sharedRootController);
+            sharedInputMgr.addControllerListener(sharedRootController);
         }
 
         public virtual void onApplicationStop()

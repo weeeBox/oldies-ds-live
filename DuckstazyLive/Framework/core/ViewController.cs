@@ -193,6 +193,11 @@ namespace Framework.core
             c.activate();
         }
 
+        public int getActiveChildId()
+        {
+            return activeChildId;
+        }
+
         public ViewController activeChild()
         {
             Debug.Assert(activeChildId != FrameworkConstants.UNDEFINED);
@@ -248,7 +253,7 @@ namespace Framework.core
             if (prevV != null)
                 prevV.onHide();
             activeViewId = FrameworkConstants.UNDEFINED;
-        }
+        }        
 
         public virtual bool buttonPressed(ref ButtonEvent e)
         {
@@ -266,6 +271,16 @@ namespace Framework.core
                 return activeView().buttonReleased(ref e);
             }
             return false;
+        }
+        
+        public virtual void controllerConnected(int playerIndex)
+        {
+
+        }
+
+        public virtual void controllerDisconnected(int playerIndex)
+        {
+
         }
     }
 }

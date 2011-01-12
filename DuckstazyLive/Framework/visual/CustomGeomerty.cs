@@ -9,8 +9,7 @@ using Microsoft.Xna.Framework;
 namespace Framework.visual
 {
     public class CustomGeomerty : BaseElement
-    {        
-        private VertexDeclaration vertexDeclaration;
+    {         
         private VertexPositionColor[] vertexData;
         private short[] indexData;
         int primitiveCount;
@@ -64,12 +63,7 @@ namespace Framework.visual
             {
                 vertexData[i].Color = color;
             }
-        }
-
-        public VertexDeclaration VertexDeclaration
-        {
-            get { return vertexDeclaration; }
-        }
+        }        
 
         public PrimitiveType PrimitiveType
         {
