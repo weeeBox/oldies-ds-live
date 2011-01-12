@@ -26,9 +26,7 @@ namespace DuckstazyLive.game
         protected const int LEVEL_STATE_PLAYING = 1;
         protected const int LEVEL_STATE_LOOSE = 2;
         protected const int LEVEL_STATE_WIN = 3;
-        protected const int LEVEL_STATE_DIE = 4;
-        protected int levelState;
-        protected float levelStateElapsed;
+        protected const int LEVEL_STATE_DIE = 4;        
 
         private const float DEATH_TIMEOUT = 3.0f;
 
@@ -42,7 +40,7 @@ namespace DuckstazyLive.game
         protected abstract int getStagesCount();
         public abstract bool isSingleLevel();
 
-        protected void startLevelState(int levelState)
+        protected override void startLevelState(int levelState)
         {
             this.levelState = levelState;
             levelStateElapsed = 0;
@@ -87,11 +85,9 @@ namespace DuckstazyLive.game
                 }
 
                 return;
-            }
-            
+            }            
 
             base.update(dt);
-
             
             switch (levelState)
             {

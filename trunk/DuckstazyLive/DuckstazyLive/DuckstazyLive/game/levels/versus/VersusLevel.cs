@@ -36,6 +36,12 @@ namespace DuckstazyLive.game
         private VersusGame game;
         private StageInfo[] stagesInfo;
 
+        private const int STATE_START = 0;
+        private const int STATE_PLAYING = 1;
+        private const int STATE_END = 2;
+
+        private int winner;
+
         public VersusLevel(VersusGame game) : base(new GameState())
         {
             getGameMgr().initHeroes(2);
@@ -47,14 +53,41 @@ namespace DuckstazyLive.game
                 new StageInfo(VersusStages.DoubleFrog, "Double Frog"),
                 new StageInfo(VersusStages.TripleFrog, "Triple Frog"),
                 new StageInfo(VersusStages.AirAttack, "Air Attack"),
-            };
-            
+            };            
         }        
 
         public override void start()
         {
             base.start();
-            getHeroes().clear();            
+            startLevelState(STATE_START);
+        }
+
+        protected override void startLevelState(int levelState)
+        {
+            base.startLevelState(levelState);
+
+            switch (levelState)
+            {
+                case STATE_START:
+                    {
+                        getHeroes().clear();
+                        winner = Constants.UNDEFINED;
+                    }
+                    break;
+                case STATE_PLAYING:
+                    {
+
+                    }
+                    break;
+                case STATE_END:
+                    {
+
+                    }
+                    break;
+                default:
+                    Debug.Assert(false, "Bad level state: " + levelState);
+                    break;
+            }
         }
 
         protected override LevelStage createStage(int stageIndex)
@@ -85,43 +118,74 @@ namespace DuckstazyLive.game
         {
             base.update(dt);
 
-            Heroes heroes = getHeroes();
-            if (heroes[1].isDead())
+            levelStateElapsed += dt;
+            switch (levelState)
             {
-                onWin(0);
-            }
-            else if (heroes[0].isDead())
-            {
-                onWin(1);
-            }
-            else if (getStage().isEnded())
-            {
-                int collected0 = getStage().getPillCollected(0);
-                int collected1 = getStage().getPillCollected(1);
+                case STATE_START:
+                    {
+                        startLevelState(STATE_PLAYING);
+                    }
+                    break;
+                case STATE_PLAYING:
+                    {
+                        Heroes heroes = getHeroes();
+                        if (heroes[1].isDead())
+                        {
+                            onWin(0);
+                        }
+                        else if (heroes[0].isDead())
+                        {
+                            onWin(1);
+                        }
+                        else if (getStage().isEnded())
+                        {
+                            int collected0 = getStage().getPillCollected(0);
+                            int collected1 = getStage().getPillCollected(1);
 
-                if (collected0 > collected1)
-                {
-                    onWin(0);
-                }
-                else if (collected1 > collected0)
-                {
-                    onWin(1);
-                }
-                else
-                {
-                    onDraw();
-                }
+                            if (collected0 > collected1)
+                            {
+                                onWin(0);
+                            }
+                            else if (collected1 > collected0)
+                            {
+                                onWin(1);
+                            }
+                            else
+                            {
+                                onDraw();
+                            }
+                        }
+                    }
+                    break;
+                case STATE_END:
+                    {
+                        if (levelStateElapsed > 3.0f)
+                        {
+                            if (winner == Constants.UNDEFINED)
+                            {
+                                game.showDraw();
+                            }
+                            else
+                            {
+                                game.showWinner(winner);
+                            }
+                        }
+                    }
+                    break;
             }
+            
         }       
  
         protected virtual void onWin(int playerIndex)
         {
-            game.showWinner(playerIndex);
+            winner = playerIndex;
+            startLevelState(STATE_END);            
         }
 
         protected virtual void onDraw()
         {
-            game.showDraw();
+            winner = Constants.UNDEFINED;
+            startLevelState(STATE_END);
         }
 
         public int getStagesCount()
