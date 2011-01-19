@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Net;
 using Microsoft.Xna.Framework.Storage;
 using Framework.core;
 using DuckstazyLive.app;
+using Framework.utils;
 
 namespace DuckstazyLive
 {
@@ -58,6 +59,8 @@ namespace DuckstazyLive
 
             infoFont = Content.Load<SpriteFont>("Mini");
             AppGraphics.SetInfoFont(infoFont);
+
+            FontReader.GraphicsDevice = GraphicsDevice;
 
             application = new DuckstazyApp(Content);
             application.onApplicationStart();
