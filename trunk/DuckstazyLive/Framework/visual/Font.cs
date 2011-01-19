@@ -11,61 +11,40 @@ namespace Framework.visual
 {
     public class Font : Image
     {
-        private const int DEFAULT_SPACE_WIDTH = 10;
-
         public int charOffset;
         public int lineOffset;
-        String chars;
-        Dictionary<char, int> charMap;
-
-        private int[] quadOffsetX;
-        private int[] quadOffsetY;
-
         private int spaceWidth;
 
-        public Font(String chars, Texture2D texture)
-            : base(texture, chars.Length)
-        {
-            quadOffsetX = new int[chars.Length];
-            quadOffsetY = new int[chars.Length];
+        Dictionary<char, int> charMap;
 
-            this.chars = chars;
+        private char[] chars;
+        private int[] quadOffsetX;
+        private int[] quadOffsetY;        
+
+        public Font(Texture2D texture, int charsCount)
+            : base(texture, charsCount + 1)
+        {
+            quadOffsetX = new int[charsCount + 1];
+            quadOffsetY = new int[charsCount + 1];
+            chars = new char[charsCount + 1];            
+            
             charOffset = 0;
-            lineOffset = 0;
-            createCharMap();
-        }
+            lineOffset = 0;            
+        }        
 
-        public Font(String chars, Texture2D texture, int itemWidth, int itemHeight)
-            : base(texture, itemWidth, itemHeight, false)
+        public void createCharMap()
         {
-            this.chars = chars;
-            charOffset = 0;
-            lineOffset = 0;
-            createCharMap();
-        }
+            // add space
+            setCharInfo(chars.Length - 1, ' ', 0, 0, spaceWidth, 1);
 
-        private void createCharMap()
-        {
             charMap = new Dictionary<char, int>();
             for (int i = 0; i < chars.Length; i++)
             {
-                if (charMap.ContainsKey(chars[i]))
-                {
-                    char c1 = chars[i];
-                    char c2 = chars[i];
-                }
-                else
-                {
+                if (!charMap.ContainsKey(chars[i]))
+                {                    
                     charMap.Add(chars[i], i);
                 }
-            }
-
-            int spaceIndex = getCharQuad(' ');
-            spaceWidth = DEFAULT_SPACE_WIDTH;
-            if (spaceIndex != FrameworkConstants.UNDEFINED)
-            {
-                spaceWidth = quads[spaceIndex].Width;
-            }
+            } 
         }
 
         public int getCharQuad(char c)
@@ -161,17 +140,23 @@ namespace Framework.visual
             this.lineOffset = lineOffset;
         }
 
+        public void setSpaceWidth(int spaceWidth)
+        {
+            this.spaceWidth = spaceWidth;
+        }
+
         public int fontHeight()
         {
             return quads[0].Height;
         }
 
-        public void setCharInfo(FontCharInfo info, int pos)
+        public void setCharInfo(int pos, char c, int x, int y, int w, int h)
         {
-            Rectangle rect = new Rectangle(info.packedX, info.packedY, info.width, info.height);
+            Rectangle rect = new Rectangle(x, y, w, h);
             setQuad(rect, pos);
-            quadOffsetX[pos] = info.offsetX;
-            quadOffsetY[pos] = info.offsetY;
+            chars[pos] = c;
+            quadOffsetX[pos] = 0;
+            quadOffsetY[pos] = 0;
         }
 
         public String[] wrapString(String text, int wrapWidth)

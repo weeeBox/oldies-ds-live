@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox 360 Copy of Framework"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xbox 360 Copy of DuckstazyLive", "DuckstazyLive\DuckstazyLive\Xbox 360 Copy of DuckstazyLive.csproj", "{8EFD9DD1-24A6-498A-9EB2-CEF48831B9B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentPipeline", "ContentPipeline\ContentPipeline.csproj", "{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -72,6 +74,18 @@ Global
 		{8EFD9DD1-24A6-498A-9EB2-CEF48831B9B3}.Release|Xbox 360.ActiveCfg = Release|Xbox 360
 		{8EFD9DD1-24A6-498A-9EB2-CEF48831B9B3}.Release|Xbox 360.Build.0 = Release|Xbox 360
 		{8EFD9DD1-24A6-498A-9EB2-CEF48831B9B3}.Release|Xbox 360.Deploy.0 = Release|Xbox 360
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Debug|x86.ActiveCfg = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Debug|x86.Build.0 = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Debug|Xbox 360.Build.0 = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Release|Mixed Platforms.ActiveCfg = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Release|Mixed Platforms.Build.0 = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Release|x86.ActiveCfg = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Release|x86.Build.0 = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Release|Xbox 360.ActiveCfg = Debug|x86
+		{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}.Release|Xbox 360.Build.0 = Debug|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
