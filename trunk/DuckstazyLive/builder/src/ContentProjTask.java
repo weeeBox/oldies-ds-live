@@ -34,14 +34,13 @@ public class ContentProjTask extends Task
 
 	private void updateFiles(File contentDir) 
 	{
-		FileUtils.deleteFiles(contentDir, new String[] {".png", ".mp3", ".wav"});
+		FileUtils.deleteFiles(contentDir, new String[] {".png", ".mp3", ".wav", ".pixelfont"});
 		for (Package pack : packages) 
 		{
 			List<Resource> packResources = pack.getResources();
 			for (Resource res : packResources) 
 			{
-				System.out.println("Copy: " + res.getFile() + " to " + contentDir);
-				FileUtils.copy(res.getFile(), contentDir);
+				res.process(contentDir);
 			}
 		}
 	}

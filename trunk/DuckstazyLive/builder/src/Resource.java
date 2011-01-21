@@ -72,6 +72,12 @@ public abstract class Resource
 		if (!name.equals(other.name))
 			return false;
 		return true;
+	}
+
+	public void process(File destDir) 
+	{
+		System.out.println("Copy: " + getFile() + " to " + destDir);
+		FileUtils.copy(getFile(), destDir);
 	}	
 }
 

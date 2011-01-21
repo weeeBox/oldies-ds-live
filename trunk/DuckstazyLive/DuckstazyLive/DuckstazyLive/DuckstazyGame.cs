@@ -58,9 +58,7 @@ namespace DuckstazyLive
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             infoFont = Content.Load<SpriteFont>("Mini");
-            AppGraphics.SetInfoFont(infoFont);
-
-            FontReader.GraphicsDevice = GraphicsDevice;
+            AppGraphics.SetInfoFont(infoFont);            
 
             application = new DuckstazyApp(Content);
             application.onApplicationStart();

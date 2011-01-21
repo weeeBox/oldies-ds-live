@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -71,7 +70,12 @@ public class FileUtils
 	
 	public static boolean copy(File src, File dst)
 	{
-		assert src.isFile() && dst.isDirectory();
+		if (src.isDirectory())
+			throw new AssertionError();
+		
+		if (dst.isDirectory())
+			dst = new File(dst, src.getName());
+		
 		try 
 		{
 			FileInputStream fis = null;
@@ -79,7 +83,7 @@ public class FileUtils
 			try 
 			{
 				fis = new FileInputStream(src);
-				fos = new FileOutputStream(new File(dst, src.getName()));
+				fos = new FileOutputStream(dst);
 				byte[] buffer = new byte[4096];
 				int read;
 				while ((read = fis.read(buffer)) != -1)
@@ -113,6 +117,11 @@ public class FileUtils
 	public static String getFileExt(File pathname) 
 	{
 		String filename = pathname.getName();
+		return getFileExt(filename);
+	}
+
+	public static String getFileExt(String filename) 
+	{
 		int dotIndex = filename.lastIndexOf('.');
 		
 		if (dotIndex == -1)
@@ -123,7 +132,11 @@ public class FileUtils
 	
 	public static String getFilenameNoExt(File pathname)
 	{
-		String filename = pathname.getName();
+		return getFilenameNoExt(pathname.getName());
+	}
+
+	public static String getFilenameNoExt(String filename) 
+	{
 		int dotIndex = filename.lastIndexOf('.');
 		
 		if (dotIndex == -1)
@@ -131,5 +144,4 @@ public class FileUtils
 		
 		return filename.substring(0, dotIndex);
 	}
-
 }
