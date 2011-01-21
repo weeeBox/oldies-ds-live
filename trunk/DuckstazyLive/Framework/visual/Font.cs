@@ -149,7 +149,7 @@ namespace Framework.visual
 
         public int fontHeight()
         {
-            return quads[0].Height + fontOffset;
+            return quads[0].Height;
         }
 
         public void setCharInfo(int pos, char c, int x, int y, int w, int h, int ox, int oy)
