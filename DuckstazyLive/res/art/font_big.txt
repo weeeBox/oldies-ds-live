@@ -1,6 +1,6 @@
 #Fri Jan 21 03:46:48 EET 2011
-fontOffset=-10
-lineOffset=-2
+fontOffset=-2
+lineOffset=-4
 name=big
 charOffset=-6
 chars=\!"\#$%&'()*+,-./0123456789\:;<\=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~
