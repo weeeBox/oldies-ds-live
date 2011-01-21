@@ -11,8 +11,9 @@ namespace Framework.visual
 {
     public class Font : Image
     {
-        public int charOffset;
-        public int lineOffset;
+        private int charOffset;
+        private int lineOffset;
+        private int fontOffset;
         private int spaceWidth;
 
         Dictionary<char, int> charMap;
@@ -35,7 +36,7 @@ namespace Framework.visual
         public void createCharMap()
         {
             // add space
-            setCharInfo(chars.Length - 1, ' ', 0, 0, spaceWidth, 1);
+            setCharInfo(chars.Length - 1, ' ', 0, 0, spaceWidth, 1, 0, 0);
 
             charMap = new Dictionary<char, int>();
             for (int i = 0; i < chars.Length; i++)
@@ -134,10 +135,11 @@ namespace Framework.visual
             return strWidth;
         }
 
-        public void setOffsets(int charOffset, int lineOffset)
+        public void setOffsets(int charOffset, int lineOffset, int fontOffset)
         {
             this.charOffset = charOffset;
             this.lineOffset = lineOffset;
+            this.fontOffset = fontOffset;
         }
 
         public void setSpaceWidth(int spaceWidth)
@@ -147,16 +149,16 @@ namespace Framework.visual
 
         public int fontHeight()
         {
-            return quads[0].Height;
+            return quads[0].Height + fontOffset;
         }
 
-        public void setCharInfo(int pos, char c, int x, int y, int w, int h)
+        public void setCharInfo(int pos, char c, int x, int y, int w, int h, int ox, int oy)
         {
             Rectangle rect = new Rectangle(x, y, w, h);
             setQuad(rect, pos);
             chars[pos] = c;
-            quadOffsetX[pos] = 0;
-            quadOffsetY[pos] = 0;
+            quadOffsetX[pos] = ox;
+            quadOffsetY[pos] = oy + fontOffset;
         }
 
         public String[] wrapString(String text, int wrapWidth)
@@ -240,5 +242,15 @@ namespace Framework.visual
 
             return strings;
         }
-    }
+
+        public int LineOffset
+        {
+            get { return lineOffset; }
+        }
+
+        public int CharOffset
+        {
+            get { return charOffset; }
+        }
+    }    
 }

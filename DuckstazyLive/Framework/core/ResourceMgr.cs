@@ -189,7 +189,12 @@ namespace Framework.core
 
         public Texture2D loadTextureImage(ResourceLoadInfo r)
         {
-            String name = r.getResContentName();            
+            String name = r.getResContentName();
+            return loadTexture(contentManager, name);
+        }
+
+        public Texture2D loadTexture(ContentManager contentManager, String name)
+        {            
             if (textures.ContainsKey(name))
             {
                 return textures[name];
@@ -197,7 +202,7 @@ namespace Framework.core
 
             Texture2D texture = contentManager.Load<Texture2D>(name);
             textures.Add(name, texture);
-            return texture;            
+            return texture;
         }
 
         public SoundEffect loadSound(ResourceLoadInfo r)

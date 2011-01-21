@@ -50,10 +50,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FontImporter.cs" />
-    <Compile Include="FontInfo.cs" />
-    <Compile Include="FontProcessor.cs" />
-    <Compile Include="FontWriter.cs" />
+    <Compile Include="PixelFontImporter.cs" />
+    <Compile Include="PixelFontInfo.cs" />
+    <Compile Include="PixelFontProcessor.cs" />
+    <Compile Include="PixelFontWriter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -74,6 +74,8 @@ namespace DuckstazyLive.game
         private bool rapidJump;
         private float jumpButtonPressedStartTime;
 
+        private const int MAX_KICKED_PILLS = 10;
+
         public float x;
         public float y;
         public float xLast;
@@ -781,10 +783,10 @@ namespace DuckstazyLive.game
             float jumpHeight = 0.5f * getJumpHeight() + extraHeight;
             float maxJumpHeight = getJumpHeight(duck_jump_start_vel_max);
             if (jumpHeight > maxJumpHeight)
-                jumpHeight = maxJumpHeight;
-            jump(jumpHeight);            
+                jumpHeight = maxJumpHeight;           
 
             other.jumpedBy(this);
+            jump(jumpHeight);
         }
 
         public bool canBeJumped()
@@ -798,8 +800,70 @@ namespace DuckstazyLive.game
             jumpVel = 0.0f;
             jumpedElasped = 0.0f;
 
+            float jumpPower = other.jumpVel / duck_jump_start_vel_max;
+            int kickedPills = (int)(jumpPower * MAX_KICKED_PILLS);
+            for (int i = 0; i < kickedPills && pillsCollected > 0; ++i)
+            {
+                Pill pill = getPills().findDead();
+                if (pill != null)
+                {
+                    pill.startPower(x, y + duck_h2, Pill.POWER1, false);
+                    pill.user = kickedPillCallback;
+                    getPills().actives++;
+
+                    pillsCollected -= pill.scores;
+                    if (pillsCollected == 0)
+                    {
+                        pillsCollected = 0;
+                        break;
+                    }                    
+                }
+            }
+
             key_up = false;
             endFlying();
+        }
+
+        public void kickedPillCallback(Pill pill, String msg, float dt)
+        {
+            float friction = 0.7f + power * 0.3f;
+            if (msg == null && pill.enabled)
+            {
+                pill.vy += 300.0f * dt;
+                pill.x += pill.vx * dt;
+                pill.y += pill.vy * dt;
+
+                if (pill.x > 630)
+                {
+                    pill.vx = -pill.vx * friction;
+                    pill.vy = pill.vy * friction;
+                    pill.x = 630;
+                }
+                if (pill.x < 10)
+                {
+                    pill.vx = -pill.vx * friction;
+                    pill.vy = pill.vy * friction;
+                    pill.x = 10;
+                }
+
+                if (pill.y < 10)
+                {
+                    pill.vy = -pill.vy * friction;
+                    pill.vx = pill.vx * friction;
+                    pill.y = 10;
+                }
+                if (pill.y > 390)
+                {
+                    pill.vy = -pill.vy * friction;
+                    pill.vx = pill.vx * friction;
+                    pill.y = 390;
+                }
+            }
+            else if (msg == "born")
+            {
+                pill.vx = (150.0f + 150.0f * power) * (utils.rnd() * 2.0f - 1.0f);
+                pill.vy = -100.0f - utils.rnd() * 200.0f - 200.0f * power;
+            }
         }
 
         public void jump(float h)
@@ -953,6 +1017,11 @@ namespace DuckstazyLive.game
         private GameMgr getGameMgr()
         {
             return GameMgr.getInstance();
+        }
+
+        private Pills getPills()
+        {
+            return getGameMgr().getPills();
         }
 
         private Particles getParticles()

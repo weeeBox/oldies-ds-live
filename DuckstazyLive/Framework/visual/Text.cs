@@ -66,7 +66,7 @@ namespace Framework.visual
                     width = strWidth;
                 formattedStrings[i] = new FormattedString(str, strWidth);
             }            
-            height = (font.fontHeight() + font.lineOffset) * formattedStrings.Length - font.lineOffset;
+            height = (font.fontHeight() + font.LineOffset) * formattedStrings.Length - font.LineOffset;
         }
 
         public String getString()
@@ -118,9 +118,9 @@ namespace Framework.visual
                     int itemWidth = font.quads[quadIndex].Width;
                    
                     font.drawQuad(quadIndex, dx, dy);
-                    dx += itemWidth + font.charOffset;
+                    dx += itemWidth + font.CharOffset;
                 }
-                dy += itemHeight + font.lineOffset;
+                dy += itemHeight + font.LineOffset;
             }
 
             postDraw();
