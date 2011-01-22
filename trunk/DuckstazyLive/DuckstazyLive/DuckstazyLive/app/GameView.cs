@@ -10,10 +10,10 @@ namespace DuckstazyLive.app
 {
     public class GameView : View
     {
-        private StoryController controller;
+        private StoryGameController controller;
         private Canvas canvas;
 
-        public GameView(StoryController controller)
+        public GameView(StoryGameController controller)
         {
             this.controller = controller;
             canvas = new Canvas(Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT);
@@ -30,7 +30,7 @@ namespace DuckstazyLive.app
             return canvas;
         }
 
-        protected StoryController getController()
+        protected StoryGameController getController()
         {
             return controller;
         }

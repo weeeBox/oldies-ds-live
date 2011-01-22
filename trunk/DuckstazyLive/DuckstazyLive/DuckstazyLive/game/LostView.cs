@@ -12,7 +12,7 @@ namespace DuckstazyLive.game
     {
         private const int CHILD_MESSAGE = 0;
 
-        public LostView(StoryController controller) : base(controller)
+        public LostView(StoryGameController controller) : base(controller)
         {
             this.height = (int)Constants.ENV_HEIGHT;
 
