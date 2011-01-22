@@ -129,7 +129,7 @@
     <Compile Include="app\utils.cs" />
     <Compile Include="app\VersusController.cs" />
     <Compile Include="DuckstazyGame.cs" />
-    <Compile Include="game\levels\GameElements.cs" />
+    <Compile Include="game\GameElements.cs" />
     <Compile Include="game\LostView.cs" />
     <Compile Include="game\levels\story\StoryLevel.cs" />
     <Compile Include="game\levels\story\StoryLevelStage.cs" />

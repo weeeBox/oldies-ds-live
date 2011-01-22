@@ -154,7 +154,7 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {
-            Env env = Env.getIntance();
+            Env env = GameElements.Env;
 
             // Временные переменные.
             float x;

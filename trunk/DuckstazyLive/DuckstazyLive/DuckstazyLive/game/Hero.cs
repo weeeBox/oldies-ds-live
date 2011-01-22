@@ -1012,26 +1012,21 @@ namespace DuckstazyLive.game
         public int getPlayerIndex()
         {
             return playerIndex;
-        }
-
-        private GameElements getGameMgr()
-        {
-            return GameElements.getInstance();
-        }
+        }        
 
         private Pills getPills()
         {
-            return getGameMgr().getPills();
+            return GameElements.Pills;
         }
 
         private Particles getParticles()
         {
-            return getGameMgr().getParticles();
+            return GameElements.Particles;
         }
 
         private Env getEnv()
         {
-            return getGameMgr().getEnv();
+            return GameElements.Env;
         }
     }
 }

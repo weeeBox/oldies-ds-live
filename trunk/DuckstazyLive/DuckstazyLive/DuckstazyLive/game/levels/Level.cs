@@ -303,31 +303,26 @@ namespace DuckstazyLive.game
         public void resetPower(float newPower)
         {
             power = powerUp = newPower;
-        }
-
-        protected GameElements getGameMgr()
-        {
-            return GameElements.getInstance();
-        }
+        }        
 
         protected Pills getPills()
         {
-            return getGameMgr().getPills();
+            return GameElements.Pills;
         }
 
         protected Particles getParticles()
         {
-            return getGameMgr().getParticles();
+            return GameElements.Particles;
         }
 
         protected Heroes getHeroes()
         {
-            return getGameMgr().getHeroes();
+            return GameElements.Heroes;
         }
 
         protected Env getEnv()
         {
-            return Env.getIntance();
+            return GameElements.Env;
         }
     }
 }

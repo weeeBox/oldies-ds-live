@@ -5,6 +5,7 @@ using System.Text;
 using Framework.core;
 using Microsoft.Xna.Framework;
 using DuckstazyLive.game.levels;
+using DuckstazyLive.game;
 
 namespace DuckstazyLive.app
 {
@@ -54,8 +55,6 @@ namespace DuckstazyLive.app
             switch (n)
             {
                 case CHILD_START:
-                    GameElements.createInstance();
-
                     MenuController menu = new MenuController(this);
                     addChildWithId(menu, CHILD_MENU);
 

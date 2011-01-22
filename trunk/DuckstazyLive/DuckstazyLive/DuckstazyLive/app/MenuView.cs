@@ -41,7 +41,7 @@ namespace DuckstazyLive.app
         public override void onShow()
         {
             base.onShow();
-            env.blanc = 1.0f;            
+            GameElements.Env.blanc = 1.0f;            
         }
 
         private void addTitle()

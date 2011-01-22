@@ -44,8 +44,8 @@ namespace DuckstazyLive.game
 
         public VersusLevel(VersusGame game)
         {
-            getGameMgr().initHeroes(2);
-            getGameMgr().reset();
+            GameElements.initHeroes(2);
+            GameElements.reset();
 
             this.game = game;
             stagesInfo = new StageInfo[]

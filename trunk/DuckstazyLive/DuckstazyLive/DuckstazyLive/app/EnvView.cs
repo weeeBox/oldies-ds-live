@@ -8,24 +8,24 @@ using DuckstazyLive.game;
 namespace DuckstazyLive.app
 {
     public class EnvView : View
-    {
-        protected Env env;
+    {        
         protected Canvas canvas;
 
         public EnvView()
-        {
-            env = Env.getIntance();
+        {            
             canvas = new Canvas(width, height);
         }
 
         public override void onShow()
         {
             base.onShow();
-            env.day = true;
+            GameElements.Env.day = true;
         }
 
         public override void update(float delta)
         {
+            Env env = GameElements.Env;
+
             base.update(delta);
             env.update(delta, 0.0f);
             env.updateBlanc(delta);
@@ -35,6 +35,7 @@ namespace DuckstazyLive.app
         {
             base.preDraw();
 
+            Env env = GameElements.Env;
             env.draw1(canvas);
             env.draw2(canvas);
 

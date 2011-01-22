@@ -79,19 +79,9 @@ namespace DuckstazyLive.game
 
         // эффекты
         private EnvEffect[] effects;
-        private EnvEffect curEffect;
-
-        private static Env instance;
-
-        public static Env getIntance()
-        {
-            if (instance == null)
-                instance = new Env();
-
-            return instance;
-        }
-
-        private Env()
+        private EnvEffect curEffect;        
+                
+        public Env()
         {
             // shape = new Shape();
             norm = new EnvColor(0x3FB5F2, 0x000000);

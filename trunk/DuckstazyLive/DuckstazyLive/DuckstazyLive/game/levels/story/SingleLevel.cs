@@ -38,8 +38,8 @@ namespace DuckstazyLive.game
 
         public SingleLevel(StoryController storyController) : base(storyController)
         {
-            getGameMgr().initHeroes(1);
-            getHeroes()[0].gameState.leftOriented = true;
+            GameElements.initHeroes(1);
+            GameElements.Heroes[0].gameState.leftOriented = true;
             stagesCount = (int)LevelStages.LevelsCount;
         }
 
