@@ -202,12 +202,12 @@ namespace DuckstazyLive.game.stages.fx
 
         private Pills getPills()
         {
-            return GameMgr.getInstance().getPills();
+            return GameElements.getInstance().getPills();
         }
 
         private Particles getParticles()
         {
-            return GameMgr.getInstance().getParticles();
+            return GameElements.getInstance().getParticles();
         }
     }
 }

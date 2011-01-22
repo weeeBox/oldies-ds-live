@@ -40,7 +40,7 @@ namespace DuckstazyLive.game.levels.generator
 
         protected Pills getPills()
         {
-            return GameMgr.getInstance().getPills();
+            return GameElements.getInstance().getPills();
         }
     }
 

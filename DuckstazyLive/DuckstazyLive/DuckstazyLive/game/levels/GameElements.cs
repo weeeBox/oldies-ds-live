@@ -5,26 +5,26 @@ using System.Text;
 
 namespace DuckstazyLive.game.levels
 {
-    public class GameMgr
+    public class GameElements
     {
         private Heroes heroes;
         private Pills pills;
         private Env env;
         private Particles ps;
 
-        private static GameMgr instance;
+        private static GameElements instance;
 
         public static void createInstance()
         {
-            instance = new GameMgr();
+            instance = new GameElements();
         }
 
-        public static GameMgr getInstance()
+        public static GameElements getInstance()
         {
             return instance;
         }
 
-        private GameMgr()
+        private GameElements()
         {
             heroes = new Heroes();
             ps = new Particles();

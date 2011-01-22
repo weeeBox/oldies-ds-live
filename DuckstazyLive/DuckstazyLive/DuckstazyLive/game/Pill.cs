@@ -1082,7 +1082,7 @@ namespace DuckstazyLive.game
 
         private Env getEnv()
         {
-            return GameMgr.getInstance().getEnv();
+            return GameElements.getInstance().getEnv();
         }
 
         public bool isActive()

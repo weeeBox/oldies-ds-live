@@ -37,7 +37,7 @@ namespace DuckstazyLive.app
 
         protected Env getEnv()
         {
-            return GameMgr.getInstance().getEnv();
+            return GameElements.getInstance().getEnv();
         }
     }
 }
