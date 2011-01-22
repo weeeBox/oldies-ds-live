@@ -5,6 +5,7 @@ using System.Text;
 using DuckstazyLive.app;
 using Framework.visual;
 using Framework.core;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
@@ -36,6 +37,11 @@ namespace DuckstazyLive.game
         {
             Text message = (Text)getChild(CHILD_MESSAGE);
             message.setString(text);
+            message.scaleX = message.scaleY = 0.2f;
+            message.turnTimelineSupportWithMaxKeyFrames(2);
+            message.addKeyFrame(new KeyFrame(message.x, message.y, Color.White, 1.5f, 1.5f, 0.0f, 0.5f));
+            message.addKeyFrame(new KeyFrame(message.x, message.y, Color.White, 1.0f, 1.0f, 0.0f, 0.5f));
+            message.playTimeline();
         }
 
         public override bool buttonPressed(ref ButtonEvent e)

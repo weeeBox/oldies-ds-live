@@ -17,6 +17,7 @@ namespace DuckstazyLive.game
         public float blueMultiplier;
 
         public AppBlendMode blendMode;
+        public bool overlayColor;
 
         public ColorTransform() : this (1.0f, 1.0f, 1.0f, 1.0f)
         {            

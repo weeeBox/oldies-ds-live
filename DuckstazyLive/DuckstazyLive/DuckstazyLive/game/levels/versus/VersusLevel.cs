@@ -9,6 +9,7 @@ using DuckstazyLive.game.stages.versus;
 using DuckstazyLive.app;
 using Framework.visual;
 using Framework.core;
+using Microsoft.Xna.Framework.Input;
 
 namespace DuckstazyLive.game
 {
@@ -45,10 +46,12 @@ namespace DuckstazyLive.game
         private const int STATE_END = 2;
                 
         private VersusController controller;
+        private int stageIndex;
 
-        public VersusLevel(VersusController controller)
+        public VersusLevel(VersusController controller, int stageIndex)
         {
             setUpdateInnactive(true);
+            this.stageIndex = stageIndex;
 
             this.controller = controller;
             GameElements.initHeroes(2);
@@ -57,6 +60,8 @@ namespace DuckstazyLive.game
 
         public override void start()
         {
+            state.level = stageIndex;
+
             base.start();
             startLevelState(STATE_START);
         }
@@ -73,8 +78,13 @@ namespace DuckstazyLive.game
                     break;
                 }                    
                 case STATE_PLAYING:                 
-                case STATE_END:                    
                     break;
+                case STATE_END:
+                {
+                    getPills().finish();
+                    getHeroes().buttonsReset();
+                    break;
+                }                    
                 default:
                     Debug.Assert(false, "Bad level state: " + levelState);
                     break;
@@ -222,6 +232,6 @@ namespace DuckstazyLive.game
             {
                 font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
             }
-        }
+        }        
     }
 }

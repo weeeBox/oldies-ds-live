@@ -296,7 +296,7 @@ namespace DuckstazyLive.game
 
         public void onEnd()
         {
-            getPills().finish();
+            getPills().harvest();
             getEnv().blanc = 1.0f;
         }        
 
