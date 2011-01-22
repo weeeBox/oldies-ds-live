@@ -69,18 +69,13 @@ namespace DuckstazyLive.game
 
         public void setDay(bool day)
         {
-            Env.getIntance().day = day;        
+            GameElements.Env.day = day;        
         }
 
         protected abstract void updateProgress(float dt);
 
         public abstract void collectPill(Hero hero, Pill pill);
-        public abstract bool isPlaying();
-
-        protected GameElements getGameMgr()
-        {
-            return GameElements.getInstance();
-        }
+        public abstract bool isPlaying();        
 
         protected Hero getHero(int heroIndex)
         {
@@ -90,22 +85,22 @@ namespace DuckstazyLive.game
 
         protected Heroes getHeroes()
         {
-            return getGameMgr().getHeroes();
+            return GameElements.Heroes;
         }
 
         protected Pills getPills()
         {
-            return getGameMgr().getPills();
+            return GameElements.Pills;
         }
 
         protected Particles getParticles()
         {
-            return getGameMgr().getParticles();
+            return GameElements.Particles;
         }
 
         protected Env getEnv()
         {
-            return getGameMgr().getEnv();
+            return GameElements.Env;
         }
     }
 }

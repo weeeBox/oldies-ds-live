@@ -59,7 +59,7 @@ namespace DuckstazyLive.game
         {
             base.onShow();
 
-            getEnv().blanc = 1.0f;
+            GameElements.Env.blanc = 1.0f;
         }
 
         private void initScull(ref Scull scull, int scullIndex)
@@ -122,7 +122,7 @@ namespace DuckstazyLive.game
 
             postDraw();
 
-            Env env = getEnv();
+            Env env = GameElements.Env;
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);
         }

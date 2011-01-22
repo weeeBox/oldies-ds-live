@@ -27,7 +27,7 @@ namespace DuckstazyLive.game.levels.generator
         {
             Pill p = null;
 
-            if (distSqr <= 0 || !getPills().tooCloseHero(x, y, distSqr))
+            if (distSqr <= 0 || !GameElements.Pills.tooCloseHero(x, y, distSqr))
                 p = start(pill);
 
             return p;
@@ -36,12 +36,7 @@ namespace DuckstazyLive.game.levels.generator
         protected virtual Pill start(Pill pill)
         {
             return setuper.start(x, y, pill);
-        }
-
-        protected Pills getPills()
-        {
-            return GameElements.getInstance().getPills();
-        }
+        }        
     }
 
 }

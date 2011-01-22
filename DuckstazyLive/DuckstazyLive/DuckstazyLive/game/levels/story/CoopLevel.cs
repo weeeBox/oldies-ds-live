@@ -38,7 +38,7 @@ namespace DuckstazyLive.game
 
         public CoopLevel(StoryController storyController) : base(storyController)
         {
-            getGameMgr().initHeroes(2);
+            GameElements.initHeroes(2);
             Heroes heroes = getHeroes();
             heroes[0].gameState.leftOriented = true;
             stagesCount = (int)LevelStages.LevelsCount;

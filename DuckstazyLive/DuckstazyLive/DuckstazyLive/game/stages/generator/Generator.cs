@@ -98,7 +98,7 @@ namespace DuckstazyLive.game.levels.generator
             {
                 if (pills.Count < map.Count)
                 {
-                    if ((p = getPills().findDead()) != null)
+                    if ((p = GameElements.Pills.findDead()) != null)
                     {
                         map[mapPointer].place(p);
                         pills.Add(p);
@@ -119,7 +119,7 @@ namespace DuckstazyLive.game.levels.generator
                             Pill it = pills[i];
                             if (it == null)
                             {
-                                it = getPills().findDead();
+                                it = GameElements.Pills.findDead();
                                 if (it != null)
                                 {
                                     if (map[i].placeAvoidHero(it, heroSqrDist) != null)
@@ -135,7 +135,7 @@ namespace DuckstazyLive.game.levels.generator
                     }
                 }
                 counter -= (int)(counter);
-                getPills().actives += news;
+                GameElements.Pills.actives += news;
                 pillsCount += news;
             }
         }
@@ -183,11 +183,6 @@ namespace DuckstazyLive.game.levels.generator
                 y += dy;
                 --i;
             }
-        }
-
-        private Pills getPills()
-        {
-            return GameElements.getInstance().getPills();
-        }
+        }        
     }
 }

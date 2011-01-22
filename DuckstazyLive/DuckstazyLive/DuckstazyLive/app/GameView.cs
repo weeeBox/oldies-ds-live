@@ -22,7 +22,7 @@ namespace DuckstazyLive.app
         public override void update(float delta)
         {
             base.update(delta);
-            getEnv().updateBlanc(delta);
+            GameElements.Env.updateBlanc(delta);
         }
 
         protected Canvas getCanvas()
@@ -33,11 +33,6 @@ namespace DuckstazyLive.app
         protected StoryController getController()
         {
             return controller;
-        }
-
-        protected Env getEnv()
-        {
-            return GameElements.getInstance().getEnv();
-        }
+        }       
     }
 }

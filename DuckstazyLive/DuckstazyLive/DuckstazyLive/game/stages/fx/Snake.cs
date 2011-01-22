@@ -63,7 +63,7 @@ namespace DuckstazyLive.game.stages.fx
 
         private void startPill(int pillIndex)
         {
-            Pill pill = getPills().findDead();
+            Pill pill = GameElements.Pills.findDead();
             if (pill == null)
                 return;
 
@@ -99,7 +99,7 @@ namespace DuckstazyLive.game.stages.fx
             pill.t2 = 0;
             setPillTargetNode(pill, 1);
 
-            getPills().actives++;
+            GameElements.Pills.actives++;
         }
 
         private void setPillTargetNode(Pill pill, int nodeIndex)
@@ -148,7 +148,7 @@ namespace DuckstazyLive.game.stages.fx
                     {
                         pill.kill();
                         pill.t2 = 0.0f;
-                        getParticles().startAcid(pill.x, pill.y);
+                        GameElements.Particles.startAcid(pill.x, pill.y);
                     }
                 }
             }
@@ -198,16 +198,6 @@ namespace DuckstazyLive.game.stages.fx
         public bool isDone()
         {
             return deadCount == getPillsCount();
-        }
-
-        private Pills getPills()
-        {
-            return GameElements.getInstance().getPills();
-        }
-
-        private Particles getParticles()
-        {
-            return GameElements.getInstance().getParticles();
-        }
+        }        
     }
 }

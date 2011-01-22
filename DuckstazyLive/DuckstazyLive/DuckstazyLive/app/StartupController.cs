@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Framework.core;
+using DuckstazyLive.game;
 
 namespace DuckstazyLive.app
 {
@@ -43,6 +44,8 @@ namespace DuckstazyLive.app
         {
             DuckstazyResourceMgr rm = (DuckstazyResourceMgr)Application.sharedResourceMgr;
             rm.freePack(Packs.PACK_START);
+
+            GameElements.init();           
 
             IntroView introView = new IntroView(this);
             showView(introView);
