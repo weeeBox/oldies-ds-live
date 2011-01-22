@@ -9,6 +9,7 @@ namespace DuckstazyLive.game
     public class ColorTransform
     {
         public static ColorTransform NONE = new ColorTransform();
+        public static ColorTransform BLACK = new ColorTransform(0, 0, 0);
 
         public float alphaMultiplier;
         public float redMultiplier;

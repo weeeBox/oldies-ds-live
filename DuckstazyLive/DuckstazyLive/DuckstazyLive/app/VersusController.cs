@@ -7,65 +7,42 @@ using DuckstazyLive.game;
 
 namespace DuckstazyLive.app
 {
-    public class VersusController : ViewController
+    public class VersusController : GameController
     {
         private const int CHILD_GAME = 0;
         private const int CHILD_STAGE_SELECT = 1;        
         private const int CHILD_RESULT = 2;
-        private const int CHILD_PAUSE = 3;
-
-        private VersusGame game;
-        private VersusResultView result;
+        private const int CHILD_PAUSE = 3;        
 
         public VersusController(ViewController parent) : base(parent)
-        {
-            //game = new VersusGame(this);
-            //addViewWithId(game, CHILD_GAME);
-
-            //VersusStageSelect stageSelect = new VersusStageSelect(this, game.level);
-            //addViewWithId(stageSelect, CHILD_STAGE_SELECT);            
-
-            //result = new VersusResultView(this);
-            //addViewWithId(result, CHILD_RESULT);            
+        {        
         }
         
         public void selectStage()        
         {
-            throw new NotImplementedException();
-            // showView(CHILD_STAGE_SELECT);
+            VersusStageSelect stageSelect = new VersusStageSelect(this);
+            showView(stageSelect);
         }
 
         public void newGame(int levelIndex)
         {
-            game.newGame(levelIndex);
-            // showView(CHILD_GAME);
+            VersusLevel level = new VersusLevel(this);
+            level.start();
+            showView(level);            
         }
 
         public void showDraw()
         {
-            result.setDraw();
-            //showView(CHILD_RESULT);
+            VersusResultView resultView = new VersusResultView(this);
+            resultView.setDraw();
+            showNextView(resultView);
         }
 
         public void showWinner(int playerIndex)
         {
-            result.setWinner(playerIndex);
-            // showView(CHILD_RESULT);
-        }
-
-        public void restart()
-        {
-            game.restartLevel();
-        }
-
-        public void showPause()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void hidePause()
-        {
-            throw new NotImplementedException();
-        }
+            VersusResultView resultView = new VersusResultView(this);
+            resultView.setDraw();
+            showNextView(resultView);
+        }        
     }
 }

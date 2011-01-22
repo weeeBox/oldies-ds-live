@@ -29,7 +29,7 @@ namespace DuckstazyLive.game
 
         public void draw(Texture2D image, DrawMatrix mat)
         {
-            draw(image, mat, null);
+            draw(image, mat, ColorTransform.NONE);
         }
 
         public void draw(int imageId, DrawMatrix mat, ColorTransform transform)
@@ -41,7 +41,7 @@ namespace DuckstazyLive.game
         {
             Color color = Color.White;
             AppBlendMode blendMode = AppGraphics.GetBlendMode();
-            if (transform != null)
+            if (transform != ColorTransform.NONE)
             {
                 color.R = (byte)(color.R * transform.redMultiplier);
                 color.G = (byte)(color.G * transform.greenMultiplier);
@@ -69,6 +69,22 @@ namespace DuckstazyLive.game
         public void copyPixels(int imageId, Rect dest, Vector2 pos)
         {
             AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y));
+        }
+
+        public void copyPixels(int imageId, Rect dest, Vector2 pos, ColorTransform transform)
+        {
+            Color color = Color.White;
+            AppBlendMode blendMode = AppGraphics.GetBlendMode();
+            if (transform != ColorTransform.NONE)
+            {
+                color.R = (byte)(color.R * transform.redMultiplier);
+                color.G = (byte)(color.G * transform.greenMultiplier);
+                color.B = (byte)(color.B * transform.blueMultiplier);
+                color *= transform.alphaMultiplier;
+                AppGraphics.SetBlendMode(transform.blendMode);
+            }
+            AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y), color);
+            AppGraphics.SetBlendMode(blendMode);
         }       
 
         public void drawGeometry(CustomGeomerty geom)

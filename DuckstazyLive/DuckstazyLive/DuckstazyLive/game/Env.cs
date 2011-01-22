@@ -371,7 +371,7 @@ namespace DuckstazyLive.game
             Color color = Color.White;
             color.R = (byte)(color.R * ctGrass.redMultiplier);
             color.G = (byte)(color.G * ctGrass.greenMultiplier);
-            color.B = (byte)(color.B * ctGrass.blueMultiplier);
+            color.B = (byte)(color.B * ctGrass.blueMultiplier);            
 
             if (power < 0.5f)
             {                
@@ -398,6 +398,14 @@ namespace DuckstazyLive.game
                 AppGraphics.DrawImageTiled(tex, ref src, ref dst);
                 AppGraphics.SetColor(Color.White);
             }
+        }
+
+        public void fadeBlack()
+        {
+            day = true;
+            geomGround.colorize(Color.Black);
+            geomSkyDay.colorize(Color.White);
+            ctGrass = ColorTransform.BLACK;
         }
 
         public void beat()

@@ -24,7 +24,7 @@ namespace DuckstazyLive.game
             public float amplitude;
             public double omega;
         }        
-
+                
         private CustomGeomerty backgroud;
         private Scull[] sculls;
 
@@ -34,7 +34,7 @@ namespace DuckstazyLive.game
         public DeathView(StoryController controller) : base(controller)
         {
             this.height = (int)Constants.ENV_HEIGHT;
-
+                        
             backgroud = utils.createSolidRect(0, 0, width, height, Color.White);
             sculls = new Scull[SCULLS_COUNT];            
             for(int i = 0; i < SCULLS_COUNT; ++i)
@@ -60,6 +60,7 @@ namespace DuckstazyLive.game
             base.onShow();
 
             GameElements.Env.blanc = 1.0f;
+            GameElements.Env.fadeBlack();
         }
 
         private void initScull(ref Scull scull, int scullIndex)
@@ -110,8 +111,12 @@ namespace DuckstazyLive.game
         {
             preDraw();
 
-            Canvas canvas = getCanvas();
-            canvas.drawGeometry(backgroud);
+            Canvas canvas = getCanvas();  
+            canvas.drawGeometry(backgroud);          
+
+            levelPreDraw();            
+            GameElements.Heroes.draw(canvas);            
+            levelPostDraw();            
 
             Texture2D tex = getScullTex();
             for (int i = 0; i < SCULLS_COUNT; ++i)
@@ -125,6 +130,21 @@ namespace DuckstazyLive.game
             Env env = GameElements.Env;
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);
+
+            env.draw2(canvas);
+        }
+
+        private void levelPreDraw()
+        {
+            float tx = Constants.SAFE_OFFSET_X;
+            float ty = Constants.SAFE_OFFSET_Y;
+            AppGraphics.PushMatrix();
+            AppGraphics.Translate(tx, ty, 0);
+        }
+
+        private void levelPostDraw()
+        {
+            AppGraphics.PopMatrix();
         }
 
         private Texture2D getScullTex()
