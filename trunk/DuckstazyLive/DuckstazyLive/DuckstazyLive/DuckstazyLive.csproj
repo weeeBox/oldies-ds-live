@@ -109,13 +109,14 @@
   <ItemGroup>
     <Compile Include="app\Constants.cs" />
     <Compile Include="app\ControllerWarning.cs" />
-    <Compile Include="app\StoryGameController.cs" />
+    <Compile Include="app\GameController.cs" />
     <Compile Include="app\UiControllerButtons.cs" />
     <Compile Include="app\DuckstazyApp.cs" />
     <Compile Include="app\DuckstazyApplicationSettings.cs" />
     <Compile Include="app\DuckstazyResourceMgr.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\EnvView.cs" />
+    <Compile Include="app\StoryController.cs" />
     <Compile Include="app\GameView.cs" />
     <Compile Include="app\IntroView.cs" />
     <Compile Include="app\MenuButton.cs" />

@@ -36,7 +36,7 @@ namespace DuckstazyLive.game
         private int stageIndex;
         private int stagesCount;
 
-        public CoopLevel(GameState gameState) : base(gameState)
+        public CoopLevel(StoryController storyController) : base(storyController)
         {
             getGameMgr().initHeroes(2);
             Heroes heroes = getHeroes();

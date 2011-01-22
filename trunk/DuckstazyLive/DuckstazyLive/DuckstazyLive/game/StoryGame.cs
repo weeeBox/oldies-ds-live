@@ -49,16 +49,6 @@ namespace DuckstazyLive.game
 
         private StoryLevel createLevel(GameMode mode)
         {
-            switch (mode)
-            {
-                case GameMode.SINGLE:
-                    return new SingleLevel(gameState);
-
-                case GameMode.COOP:
-                    return new CoopLevel(gameState);              
-            }
-
-            Debug.Assert(false, "Wrong mode: " + mode);
             return null;
         }
 
@@ -118,7 +108,7 @@ namespace DuckstazyLive.game
         {
             Canvas canvas = getCanvas();
                         
-            level.draw(canvas);
+            level.draw();
 
             Env env = getEnv();
             if (env.blanc > 0.0f)

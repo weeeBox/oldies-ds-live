@@ -13,7 +13,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public abstract class Level : BaseElementContainer
+    public abstract class Level : View
     {
         public static Level instance;        
 
@@ -34,16 +34,22 @@ namespace DuckstazyLive.game
         protected int levelState;
         protected float levelStateElapsed;
 
-        public Level(GameState gameState)
+        private Canvas canvas;        
+
+        public Level()
         {
+            setDrawInnactive(true);
+
             instance = this;
-            state = gameState;            
+            state = new GameState();            
 
             info = new GameInfo();            
             getEnv().reset();            
 
             stageMedia = new StageMedia();
-            stage = null;            
+            stage = null;
+
+            canvas = new Canvas(0, 0);
         }
         
         protected abstract LevelStage createStage(int stageIndex);        
@@ -80,8 +86,10 @@ namespace DuckstazyLive.game
 
         public abstract void drawHud(Canvas canvas);       
 
-        public void draw(Canvas canvas)
-        {            
+        public override void draw()
+        {
+            base.preDraw();            
+
             getEnv().draw1(canvas);
  
             levelPreDraw();
@@ -100,6 +108,8 @@ namespace DuckstazyLive.game
             drawHud(canvas);
             stage.draw2(canvas);
             stage.drawUI(canvas);
+
+            base.postDraw();
         }
 
         private void levelPreDraw()
@@ -129,16 +139,16 @@ namespace DuckstazyLive.game
         public override void update(float dt)
         {
             base.update(dt);
-
+                        
             float power_drain = 0.0f;
             Heroes heroes = getHeroes();
-                        
+
             if (stage != null)
             {
-                stage.update(dt);                    
-            }            
+                stage.update(dt);
+            }
 
-            if (heroes.hasAsleepHero()) 
+            if (heroes.hasAsleepHero())
                 power_drain = 0.3f;
 
             if (powerUp < power)
@@ -158,9 +168,9 @@ namespace DuckstazyLive.game
             Env env = getEnv();
             env.x = heroes[0].x;
             env.y = heroes[0].y;
-            env.update(dt, power);                
+            env.update(dt, power);
 
-            getParticles().update(dt);                
+            getParticles().update(dt);
 
             if (power >= 0.5) info.setRGB(env.colors.bg);
             else
@@ -168,7 +178,8 @@ namespace DuckstazyLive.game
                 if (env.day) info.setRGB(0x000000);
                 else info.setRGB(0xffffff);
             }
-            info.update(power, dt);            
+            info.update(power, dt);
+            
         }
 
         public void gainPower(float gained)
@@ -181,10 +192,23 @@ namespace DuckstazyLive.game
         public void gainSleep()
         {
             powerUp = 0.0f;
-        }        
+        }
 
         public override bool buttonPressed(ref ButtonEvent e)
         {
+            if (e.isKeyboardEvent())
+            {
+                InputManager im = Application.sharedInputMgr;
+                for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+                {
+                    if (im.hasMappedButton(e.key, playerIndex))
+                    {
+                        ButtonEvent newEvent = im.makeButtonEvent(playerIndex, im.getMappedButton(e.key, playerIndex));
+                        return buttonPressed(ref newEvent);
+                    }
+                }
+            }
+
             Heroes heroes = getHeroes();
             if (heroes.hasAliveHero() && heroes.buttonPressed(ref e))
                 return true;            
@@ -211,7 +235,20 @@ namespace DuckstazyLive.game
         }
 
         public override bool buttonReleased(ref ButtonEvent e)
-        {           
+        {
+            if (e.isKeyboardEvent())
+            {
+                InputManager im = Application.sharedInputMgr;
+                for (int playerIndex = 0; playerIndex < im.getPlayersCount(); ++playerIndex)
+                {
+                    if (im.hasMappedButton(e.key, playerIndex))
+                    {
+                        ButtonEvent newEvent = im.makeButtonEvent(playerIndex, im.getMappedButton(e.key, playerIndex));
+                        return buttonReleased(ref newEvent);
+                    }
+                }
+            }
+
             return getHeroes().buttonReleased(ref e);            
         }
 

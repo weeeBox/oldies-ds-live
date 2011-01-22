@@ -19,37 +19,38 @@ namespace DuckstazyLive.app
 
         public VersusController(ViewController parent) : base(parent)
         {
-            game = new VersusGame(this);
-            addViewWithId(game, CHILD_GAME);
+            //game = new VersusGame(this);
+            //addViewWithId(game, CHILD_GAME);
 
-            VersusStageSelect stageSelect = new VersusStageSelect(this, game.level);
-            addViewWithId(stageSelect, CHILD_STAGE_SELECT);            
+            //VersusStageSelect stageSelect = new VersusStageSelect(this, game.level);
+            //addViewWithId(stageSelect, CHILD_STAGE_SELECT);            
 
-            result = new VersusResultView(this);
-            addViewWithId(result, CHILD_RESULT);
+            //result = new VersusResultView(this);
+            //addViewWithId(result, CHILD_RESULT);            
         }
         
-        public void selectStage()
+        public void selectStage()        
         {
-            showView(CHILD_STAGE_SELECT);
+            throw new NotImplementedException();
+            // showView(CHILD_STAGE_SELECT);
         }
 
         public void newGame(int levelIndex)
         {
             game.newGame(levelIndex);
-            showView(CHILD_GAME);
+            // showView(CHILD_GAME);
         }
 
         public void showDraw()
         {
             result.setDraw();
-            showView(CHILD_RESULT);
+            //showView(CHILD_RESULT);
         }
 
         public void showWinner(int playerIndex)
         {
             result.setWinner(playerIndex);
-            showView(CHILD_RESULT);
+            // showView(CHILD_RESULT);
         }
 
         public void restart()

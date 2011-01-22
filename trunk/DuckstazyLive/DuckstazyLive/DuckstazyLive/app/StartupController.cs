@@ -8,16 +8,8 @@ namespace DuckstazyLive.app
 {
     public class StartupController : ViewController, ResourceMgrDelegate
     {
-        private const int VIEW_LOADING = 0;
-        private const int VIEW_INTRO = 1;
-
         public StartupController(ViewController p) : base(p)
-        {
-            LoadingView loadingView = new LoadingView(this);
-            addViewWithId(loadingView, VIEW_LOADING);
-
-            IntroView introView = new IntroView(this);
-            addViewWithId(introView, VIEW_INTRO);
+        {            
         }
 
         public override void activate()
@@ -30,7 +22,8 @@ namespace DuckstazyLive.app
             rm.addPackToLoad(Packs.PACK_COMMON1);
             rm.loadImmediately();
 
-            showView(VIEW_LOADING);
+            LoadingView loadingView = new LoadingView(this);
+            showView(loadingView);
 
             rm.resourcesDelegate = this;
             rm.initLoading();
@@ -51,7 +44,8 @@ namespace DuckstazyLive.app
             DuckstazyResourceMgr rm = (DuckstazyResourceMgr)Application.sharedResourceMgr;
             rm.freePack(Packs.PACK_START);
 
-            showView(VIEW_INTRO);
+            IntroView introView = new IntroView(this);
+            showView(introView);
         }        
 
         public int getPercentLoaded()

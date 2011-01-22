@@ -42,7 +42,7 @@ namespace DuckstazyLive.game
 
         private int winner;
 
-        public VersusLevel(VersusGame game) : base(new GameState())
+        public VersusLevel(VersusGame game)
         {
             getGameMgr().initHeroes(2);
             getGameMgr().reset();

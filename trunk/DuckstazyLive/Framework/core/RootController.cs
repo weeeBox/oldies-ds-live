@@ -46,13 +46,13 @@ namespace Framework.core
             currentController.update();            
         }
 
-        public virtual void processDraw()
+        public override void processDraw()
         {            
-            if (currentController.activeViewId != FrameworkConstants.UNDEFINED)
+            if (currentController.viewsPointer != FrameworkConstants.UNDEFINED)
             {
                 if (transitionTime < 0)
                 {
-                    currentController.activeView().draw();
+                    currentController.processDraw();
                 }
                 else
                 {

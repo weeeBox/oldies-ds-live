@@ -2,6 +2,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tools.ant.BuildException;
+
 public abstract class Resource 
 {	
 	private String name;
@@ -77,7 +79,11 @@ public abstract class Resource
 	public void process(File destDir) 
 	{
 		System.out.println("Copy: " + getFile() + " to " + destDir);
-		FileUtils.copy(getFile(), destDir);
+		File file = getFile();
+		if (!file.exists())
+			throw new BuildException();
+		
+		FileUtils.copy(file, destDir);
 	}	
 }
 

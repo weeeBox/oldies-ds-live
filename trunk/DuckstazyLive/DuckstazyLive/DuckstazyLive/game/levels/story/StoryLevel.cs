@@ -20,8 +20,7 @@ namespace DuckstazyLive.game
         protected float nextLevelCounter;
         protected int harvestProcess;
         protected int nextLevelCountdown;
-        protected StoryGame game;
-
+        
         protected const int LEVEL_STATE_START = 0;
         protected const int LEVEL_STATE_PLAYING = 1;
         protected const int LEVEL_STATE_LOOSE = 2;
@@ -29,11 +28,11 @@ namespace DuckstazyLive.game
         protected const int LEVEL_STATE_DIE = 4;        
 
         private const float DEATH_TIMEOUT = 3.0f;
+        private StoryController storyController;
 
-        public StoryLevel(GameState gameState)
-            : base(gameState)
+        public StoryLevel(StoryController storyController)            
         {
-            game = StoryGame.instance;
+            this.storyController = storyController;
         }
 
         protected abstract LevelStage createNextStage();
@@ -74,7 +73,7 @@ namespace DuckstazyLive.game
             {                
                 if (levelStateElapsed > DEATH_TIMEOUT)
                 {
-                    game.death();
+                    storyController.showDeathView();
                 }
                 else
                 {
@@ -106,7 +105,7 @@ namespace DuckstazyLive.game
 
                 case LEVEL_STATE_LOOSE:
                     {
-                        game.loose(getStage().getLooseMessage());
+                        storyController.showLooseScreen(getStage().getLooseMessage());
                     }
                     break;                
 
@@ -158,14 +157,14 @@ namespace DuckstazyLive.game
 
         public override void pause()
         {
-            game.pause();
+            storyController.showPause();
         }
 
         public void nextLevel()
         {
             if (state.level >= getStagesCount() - 1)
             {
-                game.win();
+                storyController.showWinView();
             }
             else
             {

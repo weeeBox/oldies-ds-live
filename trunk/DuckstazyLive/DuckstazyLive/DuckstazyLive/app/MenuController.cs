@@ -15,9 +15,7 @@ namespace DuckstazyLive.app
         const int VIEW_MENU = 0;       
 
         public MenuController(ViewController p) : base(p)
-        {
-            MenuView view = new MenuView(this);
-            addViewWithId(view, VIEW_MENU);
+        {            
         }
 
         public void newGame(GameMode mode)
@@ -41,8 +39,8 @@ namespace DuckstazyLive.app
         {
             base.activate();
 
-            MenuView view = (MenuView)getView(VIEW_MENU);
-            showView(VIEW_MENU);           
+            MenuView menuView = new MenuView(this);
+            showView(menuView);
         }        
     }
 }

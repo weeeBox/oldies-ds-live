@@ -10,7 +10,7 @@ namespace Framework.core
     public enum ControllerState
     {
         CONTROLLER_DEACTIVE,
-        CONTROLLER_ACTIVE,
+        CONTROLLER_ACTIVE,        
         CONTROLLER_PAUSED
     }
 
@@ -20,13 +20,12 @@ namespace Framework.core
         private const int DEFAULT_CHILDS_CAPACITY = 10;
 
         ControllerState controllerState;
-        public int activeViewId;
+        public int viewsPointer;        
         View[] views;
 
         int activeChildId;
         ViewController[] childs;
-        public ViewController parent;
-        int pausedViewId;
+        public ViewController parent;        
 
         public float delta;
         public float idealDelta;
@@ -41,9 +40,8 @@ namespace Framework.core
             controllerState = ControllerState.CONTROLLER_DEACTIVE;
             views = new View[DEFAULT_VIEWS_CAPACITY];
             childs = new ViewController[DEFAULT_CHILDS_CAPACITY];
-            activeViewId = FrameworkConstants.UNDEFINED;
-            activeChildId = FrameworkConstants.UNDEFINED;
-            pausedViewId = FrameworkConstants.UNDEFINED;
+            viewsPointer = -1;
+            activeChildId = FrameworkConstants.UNDEFINED;            
             parent = p;
             lastTime = -1;// DateTime.MinValue;// FrameworkConstants.UNDEFINED;
         }
@@ -60,99 +58,106 @@ namespace Framework.core
             Debug.Assert(controllerState == ControllerState.CONTROLLER_PAUSED || controllerState == ControllerState.CONTROLLER_ACTIVE);
             controllerState = ControllerState.CONTROLLER_DEACTIVE;
 
-            if (activeViewId != FrameworkConstants.UNDEFINED)
-            {
-                hideActiveView();
-            }
+            clearViews();
 
             // notify parent controller
             //ASSERT_MSG(([parent activeChild] == self || parent == nil), @"Trying to deactivate child which is not marked as active by it's parent"); 
             Application.sharedRootController.onControllerDeactivated(this);
             parent.onChildDeactivated(parent.activeChildId);
-        }
+        }        
 
         public void pause()
         {
             Debug.Assert(controllerState == ControllerState.CONTROLLER_ACTIVE);
             controllerState = ControllerState.CONTROLLER_PAUSED;
-            Application.sharedRootController.onControllerPaused(this);
-
-            if (activeViewId != FrameworkConstants.UNDEFINED)
-            {
-                pausedViewId = activeViewId;
-                hideActiveView();
-            }
+            Application.sharedRootController.onControllerPaused(this);            
         }
 
         public void unpause()
         {
             Debug.Assert(controllerState == ControllerState.CONTROLLER_PAUSED);
             controllerState = ControllerState.CONTROLLER_ACTIVE;            
-
-            if (activeChildId != FrameworkConstants.UNDEFINED)
-            {
-                activeChildId = FrameworkConstants.UNDEFINED;
-            }
-
-            Application.sharedRootController.onControllerUnpaused(this);
-
-            if (pausedViewId != FrameworkConstants.UNDEFINED)
-            {
-                showView(pausedViewId);
-            }
+           
+            activeChildId = FrameworkConstants.UNDEFINED;
+            Application.sharedRootController.onControllerUnpaused(this);           
         }
 
         public virtual void update()
         {
-            if (activeViewId == FrameworkConstants.UNDEFINED)
-                return;
-
-            View v = activeView();
-            v.update(delta);
-        }
-
-        public void addViewWithId(View v, int n)
-        {
-            Debug.Assert(views[n] == null);
-            views[n] = v;
-        }
-
-        public void deleteView(int n)
-        {
-            Debug.Assert(views[n] != null);
-            views[n] = null;
-        }
-
-        public void showView(int n)
-        {
-            Debug.Assert(controllerState == ControllerState.CONTROLLER_ACTIVE);
-            Debug.Assert(views[n] != null);
-
-            // check that we don't activate already active view
-            if (activeViewId != FrameworkConstants.UNDEFINED)
+            for (int viewIndex = 0; viewIndex <= viewsPointer; ++viewIndex)
             {
-                Debug.Assert(views[n] != views[activeViewId]); 
-                hideActiveView();
+                View v = views[viewIndex];
+                if (v.isActive() || v.isUpdateInnactive())
+                {
+                    v.update(delta);
+                }               
             }
-
-            activeViewId = n;
-            View v = views[n];
-            Application.sharedRootController.onControllerViewShow(v);
-            v.onShow();
         }
 
-        public View activeView()
+        public virtual void processDraw()
         {
-            Debug.Assert(activeViewId != FrameworkConstants.UNDEFINED);
-            Debug.Assert(views[activeViewId] != null);
-            View v = views[activeViewId];
-            Debug.Assert(v != null);
-            return v;
+            for (int viewIndex = 0; viewIndex <= viewsPointer; ++viewIndex)
+            {
+                View v = views[viewIndex];
+                if (v.isActive() || v.isDrawInnactive())
+                {
+                    v.draw();
+                }
+            }             
         }
 
-        public View getView(int n)
+        public void showView(View v)
         {
-            return views[n];
+            if (viewsPointer == -1)
+            {
+                viewsPointer = 0;                
+            }
+            else if (views[viewsPointer] != null)
+            {
+                views[viewsPointer].onHide();
+            }
+            views[viewsPointer] = v;            
+            v.onShow();            
+        }
+
+        public void showNextView(View v)
+        {
+            Debug.Assert(viewsPointer < views.Length - 1);
+            if (viewsPointer >= 0)
+            {
+                View view = views[viewsPointer];
+                view.onOvertop();
+            }
+            viewsPointer++;
+            showView(v);
+        }
+
+        public View getActiveView()
+        {
+            Debug.Assert(viewsPointer != -1);
+            return views[viewsPointer];
+        }
+
+        public void hideView()
+        {
+            Debug.Assert(viewsPointer >= 0);            
+            View view = views[viewsPointer];
+            view.onHide();
+            views[viewsPointer] = null;
+            viewsPointer--;
+            if (viewsPointer >= 0)
+            {
+                views[viewsPointer].onReveal();
+            }
+        }        
+
+        public void clearViews()
+        {
+            for (int i = 0; i <= viewsPointer; ++i)
+            {
+                views[i] = null;
+            }
+            viewsPointer = 0;
         }
 
         public void addChildWithId(ViewController c, int n)
@@ -244,31 +249,24 @@ namespace Framework.core
                 frames = 0;
                 accumDt = 0;
             }
-        }
-
-        private void hideActiveView()
-        {
-            View prevV = views[activeViewId];
-            Application.sharedRootController.onControllerViewHide(prevV);
-            if (prevV != null)
-                prevV.onHide();
-            activeViewId = FrameworkConstants.UNDEFINED;
-        }        
+        }            
 
         public virtual bool buttonPressed(ref ButtonEvent e)
         {
-            if (activeViewId != FrameworkConstants.UNDEFINED)
+            if (viewsPointer != -1)
             {
-                return activeView().buttonPressed(ref e);
+                View topView = views[viewsPointer];
+                topView.buttonPressed(ref e);                
             }
             return false;
         }
 
         public virtual bool buttonReleased(ref ButtonEvent e)
         {
-            if (activeViewId != FrameworkConstants.UNDEFINED)
+            if (viewsPointer != -1)
             {
-                return activeView().buttonReleased(ref e);
+                View topView = views[viewsPointer];
+                topView.buttonReleased(ref e);
             }
             return false;
         }

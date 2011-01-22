@@ -19,7 +19,8 @@ namespace DuckstazyLive.app
         }
 
         public override void onShow()
-        {            
+        {
+            base.onShow();
             env.day = true;
         }
 
