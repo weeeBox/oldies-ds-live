@@ -289,9 +289,9 @@ namespace DuckstazyLive.game.stages.fx
             return state == STATE_KILLED;
         }
 
-        private GameMgr getGameMgr()
+        private GameElements getGameMgr()
         {
-            return GameMgr.getInstance();
+            return GameElements.getInstance();
         }        
 
         private Pills getPills()

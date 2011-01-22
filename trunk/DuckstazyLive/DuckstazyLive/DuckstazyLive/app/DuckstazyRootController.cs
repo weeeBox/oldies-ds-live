@@ -54,7 +54,7 @@ namespace DuckstazyLive.app
             switch (n)
             {
                 case CHILD_START:
-                    GameMgr.createInstance();
+                    GameElements.createInstance();
 
                     MenuController menu = new MenuController(this);
                     addChildWithId(menu, CHILD_MENU);

@@ -305,9 +305,9 @@ namespace DuckstazyLive.game
             power = powerUp = newPower;
         }
 
-        protected GameMgr getGameMgr()
+        protected GameElements getGameMgr()
         {
-            return GameMgr.getInstance();
+            return GameElements.getInstance();
         }
 
         protected Pills getPills()

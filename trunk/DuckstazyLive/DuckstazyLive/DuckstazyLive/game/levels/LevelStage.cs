@@ -77,9 +77,9 @@ namespace DuckstazyLive.game
         public abstract void collectPill(Hero hero, Pill pill);
         public abstract bool isPlaying();
 
-        protected GameMgr getGameMgr()
+        protected GameElements getGameMgr()
         {
-            return GameMgr.getInstance();
+            return GameElements.getInstance();
         }
 
         protected Hero getHero(int heroIndex)

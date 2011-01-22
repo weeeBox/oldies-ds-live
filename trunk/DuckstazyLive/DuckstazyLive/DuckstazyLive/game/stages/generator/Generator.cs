@@ -187,7 +187,7 @@ namespace DuckstazyLive.game.levels.generator
 
         private Pills getPills()
         {
-            return GameMgr.getInstance().getPills();
+            return GameElements.getInstance().getPills();
         }
     }
 }

@@ -1014,9 +1014,9 @@ namespace DuckstazyLive.game
             return playerIndex;
         }
 
-        private GameMgr getGameMgr()
+        private GameElements getGameMgr()
         {
-            return GameMgr.getInstance();
+            return GameElements.getInstance();
         }
 
         private Pills getPills()
