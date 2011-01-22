@@ -13,7 +13,7 @@ namespace DuckstazyLive.app
         COOP,        
     }
 
-    public class StoryController : ViewController
+    public class StoryGameController : ViewController
     {
         private const int VIEW_GAME = 0;
         private const int VIEW_PAUSE = 1;
@@ -24,7 +24,7 @@ namespace DuckstazyLive.app
         private StoryGame game;
         private GameMode gameMode;
 
-        public StoryController(ViewController p) : base(p)
+        public StoryGameController(ViewController p) : base(p)
         {
             game = new StoryGame(this);
             addViewWithId(game, VIEW_GAME);
