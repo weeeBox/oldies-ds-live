@@ -46,7 +46,14 @@ namespace DuckstazyLive.game
                 color.R = (byte)(color.R * transform.redMultiplier);
                 color.G = (byte)(color.G * transform.greenMultiplier);
                 color.B = (byte)(color.B * transform.blueMultiplier);
-                color *= transform.alphaMultiplier;
+                if (transform.overlayColor)
+                {                    
+                    color.A = (byte)(color.A * transform.alphaMultiplier);
+                }
+                else
+                {                 
+                    color *= transform.alphaMultiplier;
+                }
                 AppGraphics.SetBlendMode(transform.blendMode);
             }
 

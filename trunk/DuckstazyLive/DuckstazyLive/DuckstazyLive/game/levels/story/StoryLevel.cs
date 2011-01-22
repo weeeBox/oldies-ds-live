@@ -47,7 +47,7 @@ namespace DuckstazyLive.game
             switch (levelState)
             {
                 case LEVEL_STATE_DIE:
-                    getEnv().blanc = 1.0f;
+                    getEnv().fadeBlack();
                     break;
                 case LEVEL_STATE_LOOSE:
                 case LEVEL_STATE_PLAYING:
@@ -63,8 +63,8 @@ namespace DuckstazyLive.game
         public override void start()
         {
             base.start();
-            startLevelState(LEVEL_STATE_START);
-        }
+            startLevelState(LEVEL_STATE_START);            
+        }       
 
         public override void update(float dt)
         {
@@ -78,16 +78,15 @@ namespace DuckstazyLive.game
                 else
                 {
                     float progress = levelStateElapsed / DEATH_TIMEOUT;
-                    base.update(dt * (1 - progress));
-                    
-                    getEnv().blanc = progress;
+                    float fadeProgress = 1 - progress;
+                    base.update(dt * fadeProgress);                                        
                 }
 
                 return;
             }            
 
-            base.update(dt);
-            
+            base.update(dt);            
+
             switch (levelState)
             {
                 case LEVEL_STATE_START:
@@ -211,7 +210,7 @@ namespace DuckstazyLive.game
             int i;
 
             Pills pills = getPills();
-            pills.harvest(dt);
+            pills.updateHarvest(dt);
             if (pills.harvestCount > 0)
             {
                 nextLevelCounter += dt;

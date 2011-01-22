@@ -53,6 +53,30 @@ namespace DuckstazyLive.game
         }
 
         public void finish()
+        {            
+            foreach (Pill p in pool)
+            {
+                if (p.state != Pill.DEAD)
+                {
+                    if (p.isPower())
+                    {
+                        ps.explStarsPower(p.x, p.y, p.id);
+                        p.die();                        
+                    }
+                    else if (p.state == Pill.BORNING || p.state == Pill.ALIVE)
+                    {
+                        ps.explStarsSleep(p.x, p.y);
+                        p.die();                        
+                    }
+                    actives--;                    
+                    if (actives == 0)
+                        break;
+                }
+                
+            }
+        }
+
+        public void harvest()
         {
             int i = 0;
             int process;
@@ -82,7 +106,7 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void harvest(float dt)
+        public void updateHarvest(float dt)
         {
             int i = 0;
             bool to_touch = true;

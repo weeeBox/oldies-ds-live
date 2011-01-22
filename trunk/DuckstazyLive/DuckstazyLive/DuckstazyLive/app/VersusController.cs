@@ -20,13 +20,15 @@ namespace DuckstazyLive.app
         
         public void selectStage()        
         {
+            clearViews();
+
             VersusStageSelect stageSelect = new VersusStageSelect(this);
             showView(stageSelect);
         }
 
         public void newGame(int levelIndex)
         {
-            VersusLevel level = new VersusLevel(this);
+            VersusLevel level = new VersusLevel(this, levelIndex);
             level.start();
             showView(level);            
         }
@@ -41,7 +43,7 @@ namespace DuckstazyLive.app
         public void showWinner(int playerIndex)
         {
             VersusResultView resultView = new VersusResultView(this);
-            resultView.setDraw();
+            resultView.setWinner(playerIndex);
             showNextView(resultView);
         }        
     }
