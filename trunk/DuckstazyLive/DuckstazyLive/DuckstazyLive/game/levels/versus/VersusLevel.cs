@@ -31,29 +31,28 @@ namespace DuckstazyLive.game
                 this.stage = stage;
                 this.name = name;
             }
-        }        
+        }
 
-        private VersusGame game;
-        private StageInfo[] stagesInfo;
+        private static StageInfo[] stagesInfo =
+        {
+            new StageInfo(VersusStages.DoubleFrog, "Double Frog"),
+            new StageInfo(VersusStages.TripleFrog, "Triple Frog"),
+            new StageInfo(VersusStages.AirAttack, "Air Attack"),
+        };
 
         private const int STATE_START = 0;
         private const int STATE_PLAYING = 1;
         private const int STATE_END = 2;
+                
+        private VersusController controller;
 
-        private int winner;
-
-        public VersusLevel(VersusGame game)
+        public VersusLevel(VersusController controller)
         {
+            setUpdateInnactive(true);
+
+            this.controller = controller;
             GameElements.initHeroes(2);
             GameElements.reset();
-
-            this.game = game;
-            stagesInfo = new StageInfo[]
-            {
-                new StageInfo(VersusStages.DoubleFrog, "Double Frog"),
-                new StageInfo(VersusStages.TripleFrog, "Triple Frog"),
-                new StageInfo(VersusStages.AirAttack, "Air Attack"),
-            };            
         }        
 
         public override void start()
@@ -69,20 +68,12 @@ namespace DuckstazyLive.game
             switch (levelState)
             {
                 case STATE_START:
-                    {
-                        getHeroes().clear();
-                        winner = Constants.UNDEFINED;
-                    }
+                {
+                    getHeroes().clear();
                     break;
-                case STATE_PLAYING:
-                    {
-
-                    }
-                    break;
-                case STATE_END:
-                    {
-
-                    }
+                }                    
+                case STATE_PLAYING:                 
+                case STATE_END:                    
                     break;
                 default:
                     Debug.Assert(false, "Bad level state: " + levelState);
@@ -122,78 +113,63 @@ namespace DuckstazyLive.game
             switch (levelState)
             {
                 case STATE_START:
-                    {
-                        startLevelState(STATE_PLAYING);
-                    }
+                {
+                    startLevelState(STATE_PLAYING);
                     break;
+                }
+                
                 case STATE_PLAYING:
+                {
+                    Heroes heroes = getHeroes();
+                    if (heroes[1].isDead())
                     {
-                        Heroes heroes = getHeroes();
-                        if (heroes[1].isDead())
+                        onWin(0);
+                    }
+                    else if (heroes[0].isDead())
+                    {
+                        onWin(1);
+                    }
+                    else if (getStage().isEnded())
+                    {
+                        int collected0 = getStage().getPillCollected(0);
+                        int collected1 = getStage().getPillCollected(1);
+
+                        if (collected0 > collected1)
                         {
                             onWin(0);
                         }
-                        else if (heroes[0].isDead())
+                        else if (collected1 > collected0)
                         {
                             onWin(1);
                         }
-                        else if (getStage().isEnded())
+                        else
                         {
-                            int collected0 = getStage().getPillCollected(0);
-                            int collected1 = getStage().getPillCollected(1);
-
-                            if (collected0 > collected1)
-                            {
-                                onWin(0);
-                            }
-                            else if (collected1 > collected0)
-                            {
-                                onWin(1);
-                            }
-                            else
-                            {
-                                onDraw();
-                            }
+                            onDraw();
                         }
                     }
                     break;
-                case STATE_END:
-                    {
-                        if (levelStateElapsed > 3.0f)
-                        {
-                            if (winner == Constants.UNDEFINED)
-                            {
-                                game.showDraw();
-                            }
-                            else
-                            {
-                                game.showWinner(winner);
-                            }
-                        }
-                    }
-                    break;
-            }
-            
+                }                
+            }            
         }       
  
         protected virtual void onWin(int playerIndex)
-        {
-            winner = playerIndex;
-            startLevelState(STATE_END);            
+        {            
+            startLevelState(STATE_END);
+            controller.showWinner(playerIndex);
         }
 
         protected virtual void onDraw()
-        {
-            winner = Constants.UNDEFINED;
+        {            
             startLevelState(STATE_END);
+            controller.showDraw();
         }
 
-        public int getStagesCount()
+        public static int getStagesCount()
         {
             return stagesInfo.Length;
         }        
 
-        public String getStageName(int stageIndex)
+        public static String getStageName(int stageIndex)
         {
             Debug.Assert(stageIndex >= 0 && stageIndex < getStagesCount());
             return stagesInfo[stageIndex].name;

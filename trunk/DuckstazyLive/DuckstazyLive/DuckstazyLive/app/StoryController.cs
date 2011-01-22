@@ -51,14 +51,7 @@ namespace DuckstazyLive.app
         public void setGameMode(StoryGameMode mode)
         {
             this.gameMode = mode;
-        }
-
-        public void restartLevel()
-        {
-            Debug.Assert(!isPaused());
-            StoryLevel level = (StoryLevel)getActiveView();
-            level.restart();
-        }
+        }        
 
         public void nextLevel()
         {
@@ -83,23 +76,6 @@ namespace DuckstazyLive.app
         {            
             DeathView deathView = new DeathView(this);
             showView(deathView);
-        }
-
-        public bool isPaused()
-        {
-            return getActiveView() is PauseView;
-        }
-
-        public void hidePause()
-        {
-            Debug.Assert(isPaused());
-            hideView();
-        }        
-
-        internal void showPause()
-        {
-            PauseView pause = new PauseView(this);
-            showNextView(pause);
         }        
     }
 }

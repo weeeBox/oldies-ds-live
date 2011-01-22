@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
 namespace DuckstazyLive.app
 {
-    public class PauseView : GameView, ButtonDelegate
+    public class PauseView : View, ButtonDelegate
     {
         private int focusedButton, oldFocusedButton;
 
@@ -14,10 +14,13 @@ namespace DuckstazyLive.app
         private const int BUTTON_MENU = 2;
         private const int BUTTON_EXIT = 3;
 
-        private const int CHILD_TITLE = 4;        
+        private const int CHILD_TITLE = 4;
+        private GameController controller;
 
-        public PauseView(StoryController controller) : base(controller)
+        public PauseView(GameController controller)
         {
+            this.controller = controller;
+
             setDrawInnactive(false);
 
             // title
@@ -111,7 +114,7 @@ namespace DuckstazyLive.app
                     return true;
 
                 case ButtonAction.Back:
-                    getController().hidePause();
+                    controller.hidePause();
                     return true;
             }
 
@@ -170,16 +173,16 @@ namespace DuckstazyLive.app
 
             if (id == BUTTON_RESUME)
             {
-                getController().hidePause();
+                controller.hidePause();
             }
             else if (id == BUTTON_RESTART)
             {
-                getController().hidePause();
-                getController().restartLevel();
+                controller.hidePause();
+                controller.restartLevel();
             }
             else if (id == BUTTON_MENU)
             {
-                getController().deactivate();
+                controller.deactivate();
             }
             else if (id == BUTTON_EXIT)
             {

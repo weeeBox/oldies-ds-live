@@ -199,7 +199,6 @@
     <Compile Include="game\StageMedia.cs" />
     <Compile Include="game\TextField.cs" />
     <Compile Include="game\levels\versus\VersusLevel.cs" />
-    <Compile Include="game\VersusGame.cs" />
     <Compile Include="game\VersusResultView.cs" />
     <Compile Include="game\VersusStageSelect.cs" />
     <Compile Include="game\VersusView.cs" />
