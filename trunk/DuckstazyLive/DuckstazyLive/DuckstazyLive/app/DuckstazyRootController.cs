@@ -59,7 +59,7 @@ namespace DuckstazyLive.app
                     MenuController menu = new MenuController(this);
                     addChildWithId(menu, CHILD_MENU);
 
-                    StoryGameController storyController = new StoryGameController(this);
+                    StoryController storyController = new StoryController(this);
                     addChildWithId(storyController, CHILD_STORY);
 
                     VersusController versusController = new VersusController(this);

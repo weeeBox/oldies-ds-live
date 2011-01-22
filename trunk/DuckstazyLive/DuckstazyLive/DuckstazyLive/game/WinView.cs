@@ -12,7 +12,7 @@ namespace DuckstazyLive.game
     {
         private const int CHILD_MESSAGE = 0;
 
-        public WinView(StoryGameController controller) : base(controller)
+        public WinView(StoryController controller) : base(controller)
         {
             Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
             text.setString("THE WINER IS YOU");

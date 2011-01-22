@@ -18,9 +18,9 @@ namespace DuckstazyLive.app
         {            
         }
 
-        public void newGame(GameMode mode)
+        public void newGame(StoryGameMode mode)
         {
-            StoryGameController storyController = (StoryGameController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_STORY);
+            StoryController storyController = (StoryController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_STORY);
             storyController.setGameMode(mode);
             deactivate();
             Application.sharedRootController.activateChild(DuckstazyRootController.CHILD_STORY);

@@ -219,11 +219,11 @@ namespace DuckstazyLive.app
 
             if (id == BUTTON_NEW_GAME)
             {
-                menuController.newGame(GameMode.SINGLE);
+                menuController.newGame(StoryGameMode.SINGLE);
             }
             else if (id == BUTTON_COOP)
             {
-                menuController.newGame(GameMode.COOP);
+                menuController.newGame(StoryGameMode.MULTIPLAYER);
             }
             else if (id == BUTTON_VERSUS)
             {
