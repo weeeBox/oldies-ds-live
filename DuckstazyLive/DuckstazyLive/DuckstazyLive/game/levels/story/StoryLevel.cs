@@ -73,7 +73,7 @@ namespace DuckstazyLive.game
             {                
                 if (levelStateElapsed > DEATH_TIMEOUT)
                 {
-                    storyController.showDeathView();
+                    storyController.showDeath();
                 }
                 else
                 {
@@ -105,7 +105,7 @@ namespace DuckstazyLive.game
 
                 case LEVEL_STATE_LOOSE:
                     {
-                        storyController.showLooseScreen(getStage().getLooseMessage());
+                        storyController.showLoose(getStage().getLooseMessage());
                     }
                     break;                
 
@@ -164,7 +164,7 @@ namespace DuckstazyLive.game
         {
             if (state.level >= getStagesCount() - 1)
             {
-                storyController.showWinView();
+                storyController.showWin();
             }
             else
             {

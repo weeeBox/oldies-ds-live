@@ -31,7 +31,7 @@ namespace DuckstazyLive.game
         private const int CHILD_TEXT = 0;
         private const int CHILD_BUTTONS = 1;
 
-        public DeathView(StoryGameController controller) : base(controller)
+        public DeathView(StoryController controller) : base(controller)
         {
             this.height = (int)Constants.ENV_HEIGHT;
 

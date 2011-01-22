@@ -81,7 +81,7 @@
     <Compile Include="app\PauseView.cs" />
     <Compile Include="app\Res.cs" />
     <Compile Include="app\StartupController.cs" />
-    <Compile Include="app\StoryGameController.cs" />
+    <Compile Include="app\StoryController.cs" />
     <Compile Include="app\UiControllerButtons.cs" />
     <Compile Include="app\utils.cs" />
     <Compile Include="app\VersusController.cs" />
@@ -155,7 +155,6 @@
     <Compile Include="game\stages\versus\TripleFrog.cs" />
     <Compile Include="game\stages\versus\VersusLevelStage.cs" />
     <Compile Include="game\stages\versus\VersusProgress.cs" />
-    <Compile Include="game\StoryGame.cs" />
     <Compile Include="game\TextField.cs" />
     <Compile Include="game\VersusGame.cs" />
     <Compile Include="game\VersusResultView.cs" />

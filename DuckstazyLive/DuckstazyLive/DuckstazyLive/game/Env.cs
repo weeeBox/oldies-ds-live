@@ -160,9 +160,7 @@ namespace DuckstazyLive.game
         }
 
         private void initGrass()
-        {            
-            StoryGame game = StoryGame.instance;
-
+        {
             float groundX = 0;
             float groundY = Constants.ENV_HEIGHT;
             float groundWidth = Constants.GROUND_WIDTH;
