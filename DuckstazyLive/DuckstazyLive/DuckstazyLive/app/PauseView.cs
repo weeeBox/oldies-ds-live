@@ -18,6 +18,8 @@ namespace DuckstazyLive.app
 
         public PauseView(StoryGameController controller) : base(controller)
         {
+            setDrawInnactive(false);
+
             // title
             addTitle();
 
@@ -172,6 +174,7 @@ namespace DuckstazyLive.app
             }
             else if (id == BUTTON_RESTART)
             {
+                getController().hidePause();
                 getController().restartLevel();
             }
             else if (id == BUTTON_MENU)

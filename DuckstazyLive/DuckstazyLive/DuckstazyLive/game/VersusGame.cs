@@ -63,7 +63,7 @@ namespace DuckstazyLive.game
             Canvas canvas = getCanvas();
 
             Env env = getEnv();
-            level.draw(canvas);            
+            level.draw();            
 
             if (env.blanc > 0.0f)
                 env.drawBlanc(canvas);

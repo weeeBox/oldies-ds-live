@@ -69,6 +69,7 @@
     <Compile Include="app\DuckstazyResourceMgr.cs" />
     <Compile Include="app\DuckstazyRootController.cs" />
     <Compile Include="app\EnvView.cs" />
+    <Compile Include="app\GameController.cs" />
     <Compile Include="app\GameView.cs">
       <SubType>Code</SubType>
     </Compile>
