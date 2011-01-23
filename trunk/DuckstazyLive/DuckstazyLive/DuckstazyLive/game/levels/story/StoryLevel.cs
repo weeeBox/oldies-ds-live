@@ -93,7 +93,7 @@ namespace DuckstazyLive.game
                         else
                         {
                             float progress = levelStateElapsed / DEATH_TIMEOUT;
-                            getEnv().processBlanc(progress);
+                            getEnv().proccessHitFade(progress);
                         }
                     }
                     break;

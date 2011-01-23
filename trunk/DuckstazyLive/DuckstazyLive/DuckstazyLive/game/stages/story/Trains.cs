@@ -153,7 +153,7 @@ namespace DuckstazyLive.game.levels
             int bm;
 
             Env env = GameElements.Env;
-            bool drawFade = env.hasBlanc();
+            bool drawFade = env.isHitFaded();
 
             bm = media.imgCatL;
             Texture2D bmTex = utils.getTexture(bm);

@@ -168,7 +168,7 @@ namespace DuckstazyLive.game
         {
             int i = 0;
 
-            bool hasBlanc = GameElements.Env.hasBlanc();
+            bool hasBlanc = GameElements.Env.isHitFaded();
             foreach (Pill p in pool)
             {
                 if (i == actives)

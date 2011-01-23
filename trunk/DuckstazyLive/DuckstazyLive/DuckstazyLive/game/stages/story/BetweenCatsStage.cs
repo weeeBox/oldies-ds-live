@@ -343,7 +343,7 @@ namespace DuckstazyLive.game.levels
                 p = new Vector2();
 
                 Env env = GameElements.Env;
-                bool drawFade = env.hasBlanc();
+                bool drawFade = env.isHitFaded();
 
                 if (catAliveL)
                 {                    

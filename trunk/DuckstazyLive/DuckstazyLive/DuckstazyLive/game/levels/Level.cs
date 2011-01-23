@@ -110,6 +110,8 @@ namespace DuckstazyLive.game
             stage.drawUI(canvas);
 
             base.postDraw();
+
+            getEnv().drawBlanc(canvas);
         }
 
         private void levelPreDraw()
@@ -169,6 +171,7 @@ namespace DuckstazyLive.game
             env.x = heroes[0].x;
             env.y = heroes[0].y;
             env.update(dt, power);
+            env.updateBlanc(dt);
 
             getParticles().update(dt);
 
@@ -232,7 +235,7 @@ namespace DuckstazyLive.game
             }
             else if (e.key == Keys.B)
             {
-                getEnv().startBlanc();
+                getEnv().startHitFade();
             }
 
             return false;
