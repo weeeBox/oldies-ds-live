@@ -56,6 +56,8 @@ namespace DuckstazyLive.game
         // Счётчик для эффекта с травой
         private float grassCounter;
 
+        private Image dammitImage;
+
         // Облака
         private EnvCloud[] clouds;
         private EnvStar[] nightSky;
@@ -208,6 +210,9 @@ namespace DuckstazyLive.game
             blackFade = new ColorTransform(0x000000);
             whiteFade.overlayColor = blackFade.overlayColor = true;
             geomSkyBlanc = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
+
+            dammitImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_DAMMIT));
+            dammitImage.setAlign(Image.ALIGN_CENTER, Image.ALIGN_MAX);            
         }
 
         public void updateNorm()
@@ -347,7 +352,10 @@ namespace DuckstazyLive.game
             else
             {                
                 curEffect.draw(canvas);
-                drawSkyBlanc(canvas);                
+                drawSkyBlanc(canvas);
+                
+                if (dammitImage.isTimelinePlaying())
+                    dammitImage.draw();                
             }
         }
 
@@ -470,6 +478,14 @@ namespace DuckstazyLive.game
         {
             blanc = 1.0f;
             envElapsedTime = 0.0f;
+
+            dammitImage.x = 0.5f * Constants.SCREEN_WIDTH;
+            dammitImage.y = Constants.SCREEN_HEIGHT;
+            dammitImage.scaleX = dammitImage.scaleY = 0.1f;
+            dammitImage.color = Color.White * 0.0f;
+            dammitImage.turnTimelineSupportWithMaxKeyFrames(1);
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, 0, Color.White, 1.5f, 1.5f, 0.0f, 1.0f));            
+            dammitImage.playTimeline();
         }
 
         public bool hasBlanc()
@@ -482,7 +498,7 @@ namespace DuckstazyLive.game
             if (hasBlanc())
             {
                 processBlanc(blanc);
-
+                                
                 envElapsedTime += dt;
                 if (envElapsedTime < ENV_TIMEOUT)
                 {                    
@@ -498,6 +514,8 @@ namespace DuckstazyLive.game
                     blanc = 0.0f;
                 }
             }
+
+            dammitImage.update(dt);
         }
 
         public void processBlanc(float blanc)
@@ -507,7 +525,7 @@ namespace DuckstazyLive.game
             Color skyBlanc = Color.White * blanc;
             Color groundBlanc = Color.Black * blanc;
             geomSkyBlanc.colorize(skyBlanc);
-            geomGroundBlanc.colorize(groundBlanc);
+            geomGroundBlanc.colorize(groundBlanc);            
         }
 
         public void drawBlanc(Canvas canvas)

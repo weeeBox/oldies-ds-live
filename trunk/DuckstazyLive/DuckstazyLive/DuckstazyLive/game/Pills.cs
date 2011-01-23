@@ -191,7 +191,8 @@ namespace DuckstazyLive.game
                         p.draw(canvas);
                     }
 
-                    p.drawBlanc(canvas);
+                    if (hasBlanc)
+                        p.drawBlanc(canvas);
                     ++i;
                 }
             }            
