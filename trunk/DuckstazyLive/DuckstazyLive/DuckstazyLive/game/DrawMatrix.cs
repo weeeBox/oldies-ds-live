@@ -25,7 +25,7 @@ namespace DuckstazyLive.game
             get 
             {
                 instance.identity();
-                return Instance; 
+                return instance; 
             }
         }
 
@@ -40,6 +40,7 @@ namespace DuckstazyLive.game
 
         private DrawMatrix(bool useScale)
         {
+            this.useScale = useScale;
             identity();        
         }
 
