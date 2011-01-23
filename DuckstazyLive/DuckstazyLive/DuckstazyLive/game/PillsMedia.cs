@@ -115,8 +115,7 @@ namespace DuckstazyLive.game
         // Основы таблеток
         public int imgPower1;
         public int imgPower2;
-        public int imgPower3;
-        public int imgBlanc;
+        public int imgPower3;        
 
         public int imgPPower1;
         public int imgPPower2;
@@ -127,11 +126,11 @@ namespace DuckstazyLive.game
         public int imgHigh;
 
         public int imgToxic;
-        public int imgToxic2;
+        public int imgToxic2;        
 
         public int imgCure;
         public int imgHole;
-        public int imgSleep;
+        public int imgSleep;        
 
         // Эмоции таблеток
         //public var imgEmo:Texture2D;
@@ -147,25 +146,20 @@ namespace DuckstazyLive.game
         {
             imgPower1 = Res.IMG_PILL_1;
             imgPower2 = Res.IMG_PILL_2;
-            imgPower3 = Res.IMG_PILL_3;
-            imgBlanc = Res.IMG_PILL_BLANC;
+            imgPower3 = Res.IMG_PILL_3;            
             imgPPower1 = Res.IMG_PILL_1P;
             imgPPower2 = Res.IMG_PILL_2P;
             imgPPower3 = Res.IMG_PILL_3P;
 
             imgHole = Res.IMG_PILL_HAL_1;
 
-            imgNids = new int[] { Res.IMG_POWER_1, Res.IMG_POWER_2, Res.IMG_POWER_3, Res.IMG_POWER_4 };
-
-            ////imgEmo = (new rEmoImg()).bitmapData; 
+            imgNids = new int[] { Res.IMG_POWER_1, Res.IMG_POWER_2, Res.IMG_POWER_3, Res.IMG_POWER_4 };            
 
             imgHigh = Res.IMG_PILL_HIGH;
 
             imgToxic = Res.IMG_PILL_TOXIC_1;
-            imgToxic2 = Res.IMG_PILL_TOXIC_2;
-            //imgCure = (new rCureImg()).bitmapData;
-            imgSleep = Res.IMG_PILL_SLEEP;
-            //imgHole = (new gfxHole()).bitmapData;
+            imgToxic2 = Res.IMG_PILL_TOXIC_2;            
+            imgSleep = Res.IMG_PILL_SLEEP;            
 
             imgSmile1 = Res.IMG_SMILE_1;
             imgSmile2 = Res.IMG_SMILE_2;
@@ -174,7 +168,6 @@ namespace DuckstazyLive.game
             imgEyes2 = Res.IMG_EYES_2;
 
             sndPowers = new int[] { Res.SND_PILL_POWER1, Res.SND_PILL_POWER2, Res.SND_PILL_POWER3 };
-            ////sndHeal = new rHealSnd();
             sndWarning = Res.SND_PILL_WARNING;
             sndGenerate = Res.SND_PILL_GENERATE;
 

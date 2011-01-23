@@ -44,8 +44,8 @@ namespace DuckstazyLive.game
 
         private Rect RC = new Rect(0, 0, 20, 20);
         private Vector2 POINT = Vector2.Zero;
-        private ColorTransform COLOR = new ColorTransform();
-        private ColorTransform BLACK = new ColorTransform(0, 0, 0);
+        private ColorTransform COLOR = ColorTransform.NONE;
+        private ColorTransform BLACK = ColorTransform.BLACK;
         private DrawMatrix MAT = new DrawMatrix(true);
 
         // временный идентификатор
@@ -116,8 +116,7 @@ namespace DuckstazyLive.game
 
         private int imgMain;
         private int imgEmo;
-        private int imgNid;
-        private int imgBlanc;
+        private int imgNid;        
 
         // используется для оповещения генератора-родителя
         public ParentCallback parent;
@@ -175,8 +174,7 @@ namespace DuckstazyLive.game
             type = Constants.UNDEFINED;
             imgMain = Constants.UNDEFINED;
             imgEmo = Constants.UNDEFINED;
-            imgNid = Constants.UNDEFINED;
-            imgBlanc = media.imgBlanc;
+            imgNid = Constants.UNDEFINED;            
             parent = null;            
             user = null;
         }
@@ -561,7 +559,7 @@ namespace DuckstazyLive.game
             }
 
             rMax = DEFAULT_RADIUS;
-            damage = 0;
+            damage = 0;            
 
             id = ID;
 
@@ -619,8 +617,6 @@ namespace DuckstazyLive.game
             type = MATRIX;
 
             imgMain = media.imgHole;
-            //imgNid = null;
-
             rMax = DEFAULT_RADIUS;
 
 
@@ -646,14 +642,14 @@ namespace DuckstazyLive.game
             {
                 case TOXIC_SKULL:
                     damage = 1;
-                    imgMain = media.imgToxic;
+                    imgMain = media.imgToxic;                    
                     hookedHero = getClosestHeroIndex();
                     hookTime = 3.0f;
                     hookCounter = 0.0f;
                     break;
                 case TOXIC_FORBID:
                     damage = 2;
-                    imgMain = media.imgToxic2;
+                    imgMain = media.imgToxic2;                    
                     hookedHero = Constants.UNDEFINED;
                     break;
             }
@@ -693,11 +689,11 @@ namespace DuckstazyLive.game
             {
                 case TOXIC_SKULL:
                     damage = 1;
-                    imgMain = media.imgToxic;
+                    imgMain = media.imgToxic;                    
                     break;
                 case TOXIC_FORBID:
                     damage = 2;
-                    imgMain = media.imgToxic2;
+                    imgMain = media.imgToxic2;                    
                     break;
             }
 
@@ -735,7 +731,6 @@ namespace DuckstazyLive.game
             rMax = DEFAULT_RADIUS;
 
             imgMain = media.imgSleep;
-
             setState(BORNING);
 
             ps.startAcid(x, y);
@@ -886,8 +881,8 @@ namespace DuckstazyLive.game
             if (high && highCounter > 0.5 && state == ALIVE)
             {
                 MAT.identity();
-                MAT.tx = dx - 14.5f;
-                MAT.ty = dy - 14.5f;
+                MAT.tx = dx - 0.5f * utils.unscale(utils.textureWidth(media.imgHigh));
+                MAT.ty = dy - 0.5f * utils.unscale(utils.textureHeight(media.imgHigh));
                 COLOR.alphaMultiplier = 2.0f - highCounter * 2.0f;
                 canvas.draw(media.imgHigh, MAT, COLOR);
             }
@@ -950,13 +945,13 @@ namespace DuckstazyLive.game
                 MAT.tx = MAT.ty = -12;
                 MAT.scale(appear, appear);
                 MAT.translate(dx, dy);
-                canvas.draw(imgBlanc, MAT, env.blackFade);
+                canvas.draw(imgMain, MAT, env.blackFade);
             }
             else
             {
                 POINT.X = dx - 10.5f;
                 POINT.Y = dy - 11;
-                canvas.copyPixels(imgBlanc, RC, POINT, env.blackFade);
+                canvas.copyPixels(imgMain, RC, POINT, env.blackFade);
             }            
         }
 

@@ -491,7 +491,11 @@ namespace DuckstazyLive.game
                     blanc -= ENV_SPEED * dt;
                     if (blanc < 0.0f)
                         blanc = 0.0f;
-                }                                
+                }               
+                else
+                {
+                    blanc = 0.0f;
+                }
             }
         }
 

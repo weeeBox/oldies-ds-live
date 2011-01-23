@@ -302,7 +302,7 @@ namespace DuckstazyLive.game.levels
                         catArrow.x = 532.0f;
                         catArrow.visible = false;
                         catArrow.visibleCounter = 0.0f;
-                        utils.ctSetRGB(catArrow.color, 0xffb300);
+                        utils.ctSetRGB(ref catArrow.color, 0xffb300);
                     }
                     break;
                 case 2:
@@ -342,15 +342,12 @@ namespace DuckstazyLive.game.levels
                 rc = new Rect();
                 p = new Vector2();
 
+                Env env = GameElements.Env;
+                bool drawFade = env.hasBlanc();
+
                 if (catAliveL)
-                {
-                    bm = media.imgCatL;
-                    bmTex = utils.getTexture(bm);
-                    rc.Width = bmTex.Width;
-                    rc.Height = bmTex.Height;
-                    p.X = 54;
-                    p.Y = 137;
-                    canvas.copyPixels(bm, rc, p);
+                {                    
+                    drawElement(canvas, media.imgCatL, 54, 137, ref ColorTransform.NONE);
 
                     if (catGen < 0.5f)
                     {
@@ -372,17 +369,15 @@ namespace DuckstazyLive.game.levels
                         p.Y = 219;
                         canvas.copyPixels(bm, rc, p);
                     }
+                    if (drawFade)
+                    {
+                        drawElement(canvas, media.imgCatL, 54, 137, ref env.blackFade);
+                    }
                 }
 
                 if (catAliveR)
-                {
-                    bm = media.imgCatR;
-                    bmTex = utils.getTexture(bm);
-                    rc.Width = bmTex.Width;
-                    rc.Height = bmTex.Height;
-                    p.X = 384;
-                    p.Y = 134;
-                    canvas.copyPixels(bm, rc, p);
+                {                    
+                    drawElement(canvas, media.imgCatR, 384, 134, ref ColorTransform.NONE);
 
                     if (catHum > 0.0f)
                     {
@@ -404,27 +399,28 @@ namespace DuckstazyLive.game.levels
                         p.Y = 216;
                         canvas.copyPixels(bm, rc, p);
                     }
+                    if (drawFade)
+                    {
+                        drawElement(canvas, media.imgCatR, 384, 134, ref env.blackFade);
+                    }
                 }
+                                
+                drawElement(canvas, media.imgPedestalL, 0, 286, ref ColorTransform.NONE);
+                if (drawFade) drawElement(canvas, media.imgPedestalL, 0, 286, ref env.blackFade);
 
-                bm = media.imgPedestalL;
-                bmTex = utils.getTexture(bm);
-                rc.Width = bmTex.Width;
-                rc.Height = bmTex.Height;
-                p.X = 0;
-                p.Y = 286;
-                canvas.copyPixels(bm, rc, p);
-
-                bm = media.imgPedestalR;
-                rc.Width = bmTex.Width;
-                rc.Height = bmTex.Height;
-                p.X = 408;
-                p.Y = 288;
-                canvas.copyPixels(bm, rc, p);
-
+                drawElement(canvas, media.imgPedestalR, 408, 288, ref ColorTransform.NONE);
+                if (drawFade) drawElement(canvas, media.imgPedestalR, 408, 288, ref env.blackFade);
 
                 catArrow.draw(canvas);
             }
         }
+
+        private void drawElement(Canvas canvas, int tex, int x, int y, ref ColorTransform transform)
+        {            
+            DrawMatrix m = new DrawMatrix(true);
+            m.translate(x, y);
+            canvas.draw(tex, m, transform);
+        }        
 
         public void partyLogic(Pill pill, String msg, float dt)
         {
