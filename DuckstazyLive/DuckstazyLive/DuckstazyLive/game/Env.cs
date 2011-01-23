@@ -114,7 +114,7 @@ namespace DuckstazyLive.game
             initGrass();
             initDay();
             initNight();
-            initFade();
+            initHitFade();
 
             curEffect = effects[3];//effects[int(Math.random()*effects.length)];
 
@@ -206,7 +206,7 @@ namespace DuckstazyLive.game
 
         }
 
-        private void initFade()
+        private void initHitFade()
         {
             whiteFade = new ColorTransform(0xffffff);
             blackFade = new ColorTransform(0x000000);
@@ -354,11 +354,11 @@ namespace DuckstazyLive.game
             else
             {                
                 curEffect.draw(canvas);
-                drawSkyBlanc(canvas);
-                
-                if (dammitImage.isTimelinePlaying())
-                    dammitImage.draw();                
+                drawSkyBlanc(canvas);                
             }
+
+            if (dammitImage.isTimelinePlaying())
+                dammitImage.draw();
         }
 
         public void drawSkyBlanc(Canvas canvas)
@@ -481,12 +481,30 @@ namespace DuckstazyLive.game
             hitFade = 1.0f;
             envElapsedTime = 0.0f;
 
+            Color startColor;
+            Color endColor;
+
+            if (day)
+            {
+                startColor = endColor = Color.Black;
+            }
+            else
+            {
+                startColor = Color.Black;
+                endColor = Color.White;
+            }
+
             dammitImage.x = 0.5f * Constants.SCREEN_WIDTH;
-            dammitImage.y = Constants.SCREEN_HEIGHT;
+            dammitImage.y = 0.5f * Constants.SCREEN_HEIGHT;
             dammitImage.scaleX = dammitImage.scaleY = 0.1f;
-            dammitImage.color = Color.White * 0.0f;
-            dammitImage.turnTimelineSupportWithMaxKeyFrames(1);
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, 0, Color.White, 1.5f, 1.5f, 0.0f, 1.0f));            
+            dammitImage.rotation = 0.0f;
+            dammitImage.color = startColor;
+            dammitImage.turnTimelineSupportWithMaxKeyFrames(5);
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 1.0f, 1.0f, 0.0f, ENV_FADE_TIMEOUT));
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 0.8f, 0.8f, 0.0f, 0.2f));
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 1.0f, 1.0f, 0.0f, 0.2f));
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 0.8f, 0.8f, 0.0f, 0.2f));
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 0.1f, 0.1f, 360.0f, 0.2f));
             dammitImage.playTimeline();
         }
 
