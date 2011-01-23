@@ -27,7 +27,7 @@ namespace DuckstazyLive.game
         protected const int LEVEL_STATE_WIN = 3;
         protected const int LEVEL_STATE_DIE = 4;        
 
-        private const float DEATH_TIMEOUT = 3.0f;
+        private const float DEATH_TIMEOUT = 4.5f;
         private StoryController storyController;
 
         public StoryLevel(StoryController storyController)            
@@ -47,8 +47,6 @@ namespace DuckstazyLive.game
             switch (levelState)
             {
                 case LEVEL_STATE_DIE:
-                    getEnv().fadeBlack();
-                    break;
                 case LEVEL_STATE_LOOSE:
                 case LEVEL_STATE_PLAYING:
                 case LEVEL_STATE_START:
@@ -68,25 +66,9 @@ namespace DuckstazyLive.game
 
         public override void update(float dt)
         {
+            base.update(dt);
+
             levelStateElapsed += dt;
-            if (levelState == LEVEL_STATE_DIE)
-            {                
-                if (levelStateElapsed > DEATH_TIMEOUT)
-                {
-                    storyController.showDeath();
-                }
-                else
-                {
-                    float progress = levelStateElapsed / DEATH_TIMEOUT;
-                    float fadeProgress = 1 - progress;
-                    base.update(dt * fadeProgress);                                        
-                }
-
-                return;
-            }            
-
-            base.update(dt);            
-
             switch (levelState)
             {
                 case LEVEL_STATE_START:
@@ -99,6 +81,20 @@ namespace DuckstazyLive.game
                     if (!getHeroes().hasAliveHero())
                     {
                         startLevelState(LEVEL_STATE_DIE);                        
+                    }
+                    break;
+
+                case LEVEL_STATE_DIE:
+                    {
+                        if (levelStateElapsed > DEATH_TIMEOUT)
+                        {
+                            storyController.showDeath();
+                        }
+                        else
+                        {
+                            float progress = levelStateElapsed / DEATH_TIMEOUT;
+                            getEnv().processBlanc(progress);
+                        }
                     }
                     break;
 

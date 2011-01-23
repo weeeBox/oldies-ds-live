@@ -168,6 +168,7 @@ namespace DuckstazyLive.game
         {
             int i = 0;
 
+            bool hasBlanc = GameElements.Env.hasBlanc();
             foreach (Pill p in pool)
             {
                 if (i == actives)
@@ -178,7 +179,10 @@ namespace DuckstazyLive.game
                     p.dx = (int)(p.x);
                     p.dy = (int)(p.y);
                     if (p.isPower())
+                    {
                         p.drawEmo(canvas);
+                        p.drawBlanc(canvas);
+                    }
                     else if (p.type == Pill.JUMP)
                         p.drawJump(canvas);
                     else
@@ -186,7 +190,7 @@ namespace DuckstazyLive.game
 
                     ++i;
                 }
-            }
+            }            
         }
 
         public Pill findDead()

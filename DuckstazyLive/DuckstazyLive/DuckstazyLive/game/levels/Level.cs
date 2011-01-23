@@ -61,7 +61,7 @@ namespace DuckstazyLive.game
 
         public virtual void start()
         {
-            getEnv().blanc = 1.0f;
+            getEnv().startBlanc();
             power = 0.0f;
             powerUp = 0.0f;            
 
@@ -127,7 +127,7 @@ namespace DuckstazyLive.game
 
         public void enterLevel()
         {
-            getEnv().blanc = 1.0f;
+            getEnv().startBlanc();
             infoText = null;
 
             getEnv().playMusic();
@@ -230,6 +230,10 @@ namespace DuckstazyLive.game
             {
                 power = powerUp = 1.0f;
             }
+            else if (e.key == Keys.B)
+            {
+                getEnv().startBlanc();
+            }
 
             return false;
         }
@@ -297,7 +301,7 @@ namespace DuckstazyLive.game
         public void onEnd()
         {
             getPills().harvest();
-            getEnv().blanc = 1.0f;
+            getEnv().startBlanc();
         }        
 
         public void resetPower(float newPower)

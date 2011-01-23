@@ -204,13 +204,15 @@ namespace DuckstazyLive.game
                     mat.scale(s, s);
                     mat.translate(p.x, p.y);
 
-                    canvas.draw(p.img, mat, p.col);                    
+                    Env env = GameElements.Env;
+                    ColorTransform colorTranform = env.hasBlanc() ? env.blackFade : p.col;
+                    canvas.draw(p.img, mat, colorTranform);                    
                     ++i;
                 }
             }
         }
 
-        private void setCT(ColorTransform color, uint argb)
+        private void setCT(ref ColorTransform color, uint argb)
         {
             color.alphaMultiplier = 0.0039216f * ((argb >> 24) & 0xFF);
             color.redMultiplier = 0.0039216f * ((argb >> 16) & 0xFF);
@@ -261,7 +263,7 @@ namespace DuckstazyLive.game
                     p.vx *= speed;
                     p.vy *= speed;
                     p.type = ACID;
-                    setCT(p.col, color);
+                    setCT(ref p.col, color);
                     p.alpha = p.col.alphaMultiplier;
                     p.px = -3.0f;
                     p.py = -7.0f;
@@ -322,7 +324,7 @@ namespace DuckstazyLive.game
                 p.vx = -10.0f + utils.rnd() * 20.0f;
                 p.vy = -utils.rnd() * 100.0f;
                 //p.col = utils.ARGB2ColorTransform(color);
-                setCT(p.col, color);
+                setCT(ref p.col, color);
                 p.alpha = p.col.alphaMultiplier;
                 p.x = x;
                 p.y = y;
@@ -367,9 +369,9 @@ namespace DuckstazyLive.game
                 p.y = y;
                 p.type = STAR;
                 if (utils.rnd() >= 0.5f)
-                    setCT(p.col, c1);
+                    setCT(ref p.col, c1);
                 else
-                    setCT(p.col, c2);
+                    setCT(ref p.col, c2);
                 p.alpha = p.col.alphaMultiplier;
                 p.px = -7.0f;
                 p.py = -7.0f;
@@ -413,7 +415,7 @@ namespace DuckstazyLive.game
                 p.y = y;
                 p.type = STAR;
 
-                setCT(p.col, utils.lerpColor(c1, c2, utils.rnd()));
+                setCT(ref p.col, utils.lerpColor(c1, c2, utils.rnd()));
                 p.alpha = p.col.alphaMultiplier;
 
                 p.px = -7.0f;
@@ -467,7 +469,7 @@ namespace DuckstazyLive.game
                 p.p1 = speed;
                 p.p2 = radius;
                 p.t = start;
-                setCT(p.col, color);
+                setCT(ref p.col, color);
                 p.alpha = p.col.alphaMultiplier;
                 p.x = x;
                 p.y = y;
@@ -523,7 +525,7 @@ namespace DuckstazyLive.game
                     p.y = y;
                     p.type = STAR;
 
-                    setCT(p.col, utils.lerpColor(c1, c2, utils.rnd()));
+                    setCT(ref p.col, utils.lerpColor(c1, c2, utils.rnd()));
                     p.alpha = p.col.alphaMultiplier;
 
                     p.px = -7.0f;
@@ -584,9 +586,9 @@ namespace DuckstazyLive.game
                     p.y = y;
                     p.type = STAR;
                     if (c)
-                        setCT(p.col, c1);
+                        setCT(ref p.col, c1);
                     else
-                        setCT(p.col, c2);
+                        setCT(ref p.col, c2);
                     p.alpha = p.col.alphaMultiplier;
                     p.px = -7.0f;
                     p.py = -7.0f;
@@ -629,8 +631,8 @@ namespace DuckstazyLive.game
                     p.x = x;
                     p.y = y;
                     p.type = STAR;
-                    if (c) setCT(p.col, c1);
-                    else setCT(p.col, c2);
+                    if (c) setCT(ref p.col, c1);
+                    else setCT(ref p.col, c2);
                     p.alpha = p.col.alphaMultiplier;
                     p.px = -7.0f;
                     p.py = -7.0f;
@@ -665,7 +667,7 @@ namespace DuckstazyLive.game
                     p.vx = -10.0f + utils.rnd() * 20.0f;
                     p.vy = -utils.rnd() * 100.0f;
 
-                    setCT(p.col, 0xffff0000);
+                    setCT(ref p.col, 0xffff0000);
                     p.alpha = p.col.alphaMultiplier;
 
                     p.x = x + utils.rnd() * 54.0f;

@@ -12,15 +12,14 @@ namespace DuckstazyLive.game.levels.fx
         public float x;
         public float y;
         public float angle;
-        public ColorTransform color;
+        public ColorTransform color = ColorTransform.NONE;
         private float t;
         public bool visible;
         public float visibleCounter;
 
         public HintArrow(StageMedia stageMedia)
         {
-            img = stageMedia.imgHintArrow;
-            color = new ColorTransform();
+            img = stageMedia.imgHintArrow;            
             t = 0.0f;
         }
 

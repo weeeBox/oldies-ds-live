@@ -28,13 +28,12 @@ namespace DuckstazyLive.game
 		public float s;
 		
 		public float alpha;
-		public ColorTransform col;
+		public ColorTransform col = ColorTransform.NONE;
 		
 
 		public Particle()
 		{
-			t = 0.0f;
-			col = new ColorTransform();
+			t = 0.0f;			
 		}
 
 		/*public void draw(bool canvas)

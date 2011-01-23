@@ -294,7 +294,7 @@ namespace DuckstazyLive.game.levels
                         hero.yLast < 178 - 40 && hero.y >= 178 - 40)
                     {
                         hero.jump(120);
-                        getEnv().blanc = 1.0f;
+                        getEnv().startBlanc();
                         catAliveL = false;
                         catStage = 2;
                         catFinalAttack = 15.0f;
@@ -317,7 +317,7 @@ namespace DuckstazyLive.game.levels
                             hero.yLast < 178 - 40 && hero.y >= 178 - 40)
                         {
                             hero.jump(120);
-                            getEnv().blanc = 1.0f;
+                            getEnv().startBlanc();
                             catAliveR = false;
                             catStage = 3;
                             catArrow.visible = false;

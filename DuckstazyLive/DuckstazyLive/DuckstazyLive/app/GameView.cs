@@ -21,8 +21,7 @@ namespace DuckstazyLive.app
 
         public override void update(float delta)
         {
-            base.update(delta);
-            GameElements.Env.updateBlanc(delta);
+            base.update(delta);            
         }
 
         protected Canvas getCanvas()

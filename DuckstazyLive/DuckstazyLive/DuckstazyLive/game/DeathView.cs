@@ -58,9 +58,6 @@ namespace DuckstazyLive.game
         public override void onShow()
         {
             base.onShow();
-
-            GameElements.Env.blanc = 1.0f;
-            GameElements.Env.fadeBlack();
         }
 
         private void initScull(ref Scull scull, int scullIndex)
@@ -128,7 +125,7 @@ namespace DuckstazyLive.game
             postDraw();
 
             Env env = GameElements.Env;
-            if (env.blanc > 0.0f)
+            if (env.hasBlanc())
                 env.drawBlanc(canvas);
 
             env.draw2(canvas);

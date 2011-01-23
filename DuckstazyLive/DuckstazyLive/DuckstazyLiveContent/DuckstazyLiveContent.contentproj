@@ -252,6 +252,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="pill_blanc.png">
+      <Name>pill_blanc</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="pill_1.png">
       <Name>pill_1</Name>
       <Importer>TextureImporter</Importer>

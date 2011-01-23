@@ -116,6 +116,7 @@ namespace DuckstazyLive.game
         public int imgPower1;
         public int imgPower2;
         public int imgPower3;
+        public int imgBlanc;
 
         public int imgPPower1;
         public int imgPPower2;
@@ -143,10 +144,11 @@ namespace DuckstazyLive.game
         public float power;
 
         public PillsMedia()
-		{
+        {
             imgPower1 = Res.IMG_PILL_1;
             imgPower2 = Res.IMG_PILL_2;
             imgPower3 = Res.IMG_PILL_3;
+            imgBlanc = Res.IMG_PILL_BLANC;
             imgPPower1 = Res.IMG_PILL_1P;
             imgPPower2 = Res.IMG_PILL_2P;
             imgPPower3 = Res.IMG_PILL_3P;
@@ -154,7 +156,7 @@ namespace DuckstazyLive.game
             imgHole = Res.IMG_PILL_HAL_1;
 
             imgNids = new int[] { Res.IMG_POWER_1, Res.IMG_POWER_2, Res.IMG_POWER_3, Res.IMG_POWER_4 };
-						
+
             ////imgEmo = (new rEmoImg()).bitmapData; 
 
             imgHigh = Res.IMG_PILL_HIGH;
@@ -164,23 +166,23 @@ namespace DuckstazyLive.game
             //imgCure = (new rCureImg()).bitmapData;
             imgSleep = Res.IMG_PILL_SLEEP;
             //imgHole = (new gfxHole()).bitmapData;
-			
+
             imgSmile1 = Res.IMG_SMILE_1;
             imgSmile2 = Res.IMG_SMILE_2;
             imgSmile3 = Res.IMG_SMILE_3;
             imgEyes1 = Res.IMG_EYES_1;
             imgEyes2 = Res.IMG_EYES_2;
-			
+
             sndPowers = new int[] { Res.SND_PILL_POWER1, Res.SND_PILL_POWER2, Res.SND_PILL_POWER3 };
             ////sndHeal = new rHealSnd();
             sndWarning = Res.SND_PILL_WARNING;
             sndGenerate = Res.SND_PILL_GENERATE;
-			
+
             sndJumper = Res.SND_PILL_JUMPER;
             sndHigh = Res.SND_PILL_HIGH;
             sndToxicBorn = Res.SND_PILL_TOXIC_BORN;
-			
-			power = 0.0f;            
-		}
+
+            power = 0.0f;
+        }
     }
 }
