@@ -23,7 +23,8 @@ namespace DuckstazyLive.app
         private const int BUTTON_COOP = 4;
         private const int BUTTON_VERSUS = 5;
 
-        private const int CHILD_TITLE = 6;
+        private const int CHILD_TITLE_BACK = 6;
+        private const int CHILD_TITLE = 7;        
 
         private MenuController menuController;
 
@@ -41,22 +42,24 @@ namespace DuckstazyLive.app
         public override void onShow()
         {
             base.onShow();
-            GameElements.Env.startBlanc();            
+            GameElements.Env.startBlanc();
+
+            BaseElement titleBack = getChild(CHILD_TITLE_BACK);
+            titleBack.turnTimelineSupportWithMaxKeyFrames(1);
+            titleBack.addKeyFrame(new KeyFrame(titleBack.x, titleBack.y, Color.White, 1.0f, 1.0f, 360.0f, 100.0f));
+            titleBack.setTimelineLoopType(Timeline.REPLAY);
+            titleBack.playTimeline();
         }
 
         private void addTitle()
         {
-            Image titleBack = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE_BACK));
-            titleBack.toParentCenter();
+            Image titleBack = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE_BACK));                        
             Image title = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_MENU_TITLE));
+            titleBack.toParentCenter();
             title.toParentCenter();
-
-            BaseElementContainer titleContainer = new BaseElementContainer(titleBack.width, titleBack.height);
-            titleContainer.addChild(titleBack);
-            titleContainer.addChild(title);
-            titleContainer.toParentCenter();
-
-            addChild(titleContainer, CHILD_TITLE);
+            
+            addChild(titleBack, CHILD_TITLE_BACK);
+            addChild(title, CHILD_TITLE);
         }
 
         private void addButton(String text, int buttonID, float x, float y, float ax, float ay)

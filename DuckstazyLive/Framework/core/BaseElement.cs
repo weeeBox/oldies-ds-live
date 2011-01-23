@@ -138,7 +138,7 @@ namespace Framework.core
 
         public virtual void update(float delta)
         {
-            if (nextKeyFrame != FrameworkConstants.UNDEFINED)
+            if (isTimelinePlaying())
             {
                 updateTimeline(delta);
             }            
@@ -303,6 +303,11 @@ namespace Framework.core
         public void stopTimeline()
         {
             nextKeyFrame = FrameworkConstants.UNDEFINED;
+        }
+
+        public bool isTimelinePlaying()
+        {
+            return nextKeyFrame != FrameworkConstants.UNDEFINED;
         }
 
         public void initKeyFrameStep(KeyFrame src, KeyFrame dst, float t)
