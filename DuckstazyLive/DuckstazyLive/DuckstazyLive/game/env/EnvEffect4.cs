@@ -95,7 +95,7 @@ namespace DuckstazyLive.game.env
             int rayImg = Res.IMG_EFFECT_RAY;
             Texture2D rayTex = utils.getTexture(rayImg);
 
-            DrawMatrix m = new DrawMatrix(false);
+            DrawMatrix m = DrawMatrix.Instance;
             m.tx = -rayTex.Width;
             m.ty = -0.5f * rayTex.Height;
             m.translate(transX, transY);

@@ -130,6 +130,7 @@
 				<image name="effect_ray" file="${dir.art}/effect_ray.png" />
 				<image name="effect_line" file="${dir.art}/effect_line.png" />
 				<image name="winner_effect" file="${dir.art}/winner_effect.png" />
+				<image name="dammit" file="${dir.art}/dammit.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">

@@ -26,15 +26,11 @@ namespace DuckstazyLive.game
         private string scoreText;
         public bool leftOriented;
 
-        public Color color;
-
-        DrawMatrix mat;
+        public Color color;               
 
         public HeroGameState()
         {
-            color = Color.White;
-            mat = new DrawMatrix();
-            
+            color = Color.White;            
             reset();
         }
 
@@ -102,7 +98,7 @@ namespace DuckstazyLive.game
 
         private void drawHealthEmo(Canvas canvas, float cx, float cy, bool alive)
         {
-            mat.identity();            
+            DrawMatrix mat = DrawMatrix.Instance;
 
             if (alive)
             {

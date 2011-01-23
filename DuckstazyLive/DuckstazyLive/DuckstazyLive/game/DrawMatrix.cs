@@ -15,16 +15,32 @@ namespace DuckstazyLive.game
         public Vector2 SCALE;
         public float ROTATION;
         public Vector2 FLIP;
-        public bool useScale;
+        private bool useScale;
 
-        public DrawMatrix() : this(false)
-        {            
+        private static DrawMatrix instance = new DrawMatrix(false);
+        private static DrawMatrix scaledInstance = new DrawMatrix(true);
+
+        public static DrawMatrix Instance
+        {
+            get 
+            {
+                instance.identity();
+                return Instance; 
+            }
         }
 
-        public DrawMatrix(bool useScale)
+        public static DrawMatrix ScaledInstance
         {
-            identity();
-            this.useScale = useScale;
+            get 
+            {
+                scaledInstance.identity();
+                return scaledInstance; 
+            }
+        }
+
+        private DrawMatrix(bool useScale)
+        {
+            identity();        
         }
 
         public void identity()
@@ -67,6 +83,11 @@ namespace DuckstazyLive.game
         {
             FLIP.X = x ? 1 : 0;
             FLIP.Y = y ? 1 : 0;
+        }
+
+        public bool UseScale
+        {
+            get { return useScale; }
         }
     }
 }

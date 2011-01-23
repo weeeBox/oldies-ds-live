@@ -102,33 +102,34 @@ namespace DuckstazyLive.app
 		public const int IMG_EFFECT_RAY = 79;
 		public const int IMG_EFFECT_LINE = 80;
 		public const int IMG_WINNER_EFFECT = 81;
+		public const int IMG_DAMMIT = 82;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 82;
-		public const int SONG_ENV_TEX = 83;
-		public const int SONG_ENV_MENU = 84;
-		public const int SONG_ENV_MENU2 = 85;
-		public const int SND_HERO_ATTACK = 86;
-		public const int SND_HERO_AWAKE = 87;
-		public const int SND_HERO_JUMP = 88;
-		public const int SND_HERO_LAND = 89;
-		public const int SND_HERO_SLEEP = 90;
-		public const int SND_HERO_STEP1 = 91;
-		public const int SND_HERO_STEP2 = 92;
-		public const int SND_HERO_TOXIC = 93;
-		public const int SND_HERO_WING1 = 94;
-		public const int SND_HERO_WING2 = 95;
-		public const int SND_LEVEL_START = 96;
-		public const int SND_PILL_GENERATE = 97;
-		public const int SND_PILL_HIGH = 98;
-		public const int SND_PILL_JUMPER = 99;
-		public const int SND_PILL_POWER1 = 100;
-		public const int SND_PILL_POWER2 = 101;
-		public const int SND_PILL_POWER3 = 102;
-		public const int SND_PILL_TOXIC_BORN = 103;
-		public const int SND_PILL_WARNING = 104;
-		public const int SND_UI_CLICK = 105;
-		public const int SND_UI_FOCUS = 106;
-		public const int RES_COUNT = 107;
+		public const int SND_ENV_POWER = 83;
+		public const int SONG_ENV_TEX = 84;
+		public const int SONG_ENV_MENU = 85;
+		public const int SONG_ENV_MENU2 = 86;
+		public const int SND_HERO_ATTACK = 87;
+		public const int SND_HERO_AWAKE = 88;
+		public const int SND_HERO_JUMP = 89;
+		public const int SND_HERO_LAND = 90;
+		public const int SND_HERO_SLEEP = 91;
+		public const int SND_HERO_STEP1 = 92;
+		public const int SND_HERO_STEP2 = 93;
+		public const int SND_HERO_TOXIC = 94;
+		public const int SND_HERO_WING1 = 95;
+		public const int SND_HERO_WING2 = 96;
+		public const int SND_LEVEL_START = 97;
+		public const int SND_PILL_GENERATE = 98;
+		public const int SND_PILL_HIGH = 99;
+		public const int SND_PILL_JUMPER = 100;
+		public const int SND_PILL_POWER1 = 101;
+		public const int SND_PILL_POWER2 = 102;
+		public const int SND_PILL_POWER3 = 103;
+		public const int SND_PILL_TOXIC_BORN = 104;
+		public const int SND_PILL_WARNING = 105;
+		public const int SND_UI_CLICK = 106;
+		public const int SND_UI_FOCUS = 107;
+		public const int RES_COUNT = 108;
 	}
 	public class DuckstazyResources
 	{
@@ -235,6 +236,7 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_EFFECT_RAY, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_ray"),
 				new ResourceBaseInfo(Res.IMG_EFFECT_LINE, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_line"),
 				new ResourceBaseInfo(Res.IMG_WINNER_EFFECT, ResourceType.RESOURCE_TYPE_TEXTURE, "winner_effect"),
+				new ResourceBaseInfo(Res.IMG_DAMMIT, ResourceType.RESOURCE_TYPE_TEXTURE, "dammit"),
 			},
 			// PACK_SOUNDS
 			new ResourceBaseInfo[]

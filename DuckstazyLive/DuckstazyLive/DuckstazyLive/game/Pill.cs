@@ -45,8 +45,7 @@ namespace DuckstazyLive.game
         private Rect RC = new Rect(0, 0, 20, 20);
         private Vector2 POINT = Vector2.Zero;
         private ColorTransform COLOR = ColorTransform.NONE;
-        private ColorTransform BLACK = ColorTransform.BLACK;
-        private DrawMatrix MAT = new DrawMatrix(true);
+        private ColorTransform BLACK = ColorTransform.BLACK;        
 
         // временный идентификатор
         public int id;
@@ -820,11 +819,12 @@ namespace DuckstazyLive.game
 
         public void drawEmo(Canvas canvas)
         {
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
+
             if (media.power < 0.5f)
             {
                 if (state != ALIVE)
-                {
-                    MAT.identity();
+                {                    
                     MAT.tx = MAT.ty = -12;
                     MAT.scale(appear, appear);
                     MAT.translate(dx, dy);
@@ -845,8 +845,7 @@ namespace DuckstazyLive.game
             else
             {
                 if (state != ALIVE)
-                {
-                    MAT.identity();
+                {                 
                     MAT.tx = MAT.ty = -10.5f;
                     MAT.scale(appear, appear);
                     MAT.translate(dx, dy);
@@ -891,8 +890,8 @@ namespace DuckstazyLive.game
         public void draw(Canvas canvas)
         {
             if (state != ALIVE)
-            {
-                MAT.identity();
+            {                
+                DrawMatrix MAT = DrawMatrix.ScaledInstance;
                 MAT.tx = MAT.ty = -10;
                 MAT.scale(appear, appear);
                 MAT.translate(dx, dy);
@@ -925,7 +924,7 @@ namespace DuckstazyLive.game
             if (state != ALIVE)
                 s *= appear;
 
-            MAT.identity();
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             MAT.tx = MAT.ty = -12;
             MAT.scale(s, s);
             MAT.translate(x, y);            
@@ -941,7 +940,7 @@ namespace DuckstazyLive.game
             }
             else if (state != ALIVE)
             {
-                MAT.identity();
+                DrawMatrix MAT = DrawMatrix.ScaledInstance;                
                 MAT.tx = MAT.ty = -12;
                 MAT.scale(appear, appear);
                 MAT.translate(dx, dy);
@@ -957,7 +956,7 @@ namespace DuckstazyLive.game
 
         private void drawNid(Canvas canvas)
         {
-            MAT.identity();
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             MAT.tx = -4;
             MAT.ty = 2;
             MAT.scale(appear, appear);
@@ -978,7 +977,7 @@ namespace DuckstazyLive.game
         {
             COLOR.alphaMultiplier = alpha;
 
-            MAT.identity();
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             MAT.tx = -4;
             MAT.ty = 2;
             MAT.rotate(angle);
@@ -1016,7 +1015,7 @@ namespace DuckstazyLive.game
             if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, ang);
             COLOR.alphaMultiplier = a;
 
-            MAT.identity();
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             MAT.tx = -6;
             MAT.ty = 1;
             MAT.rotate(ang);
@@ -1054,7 +1053,7 @@ namespace DuckstazyLive.game
             else if (off >= 0.0f)
                 off = 0.5f;
 
-            MAT.identity();
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             MAT.tx = -6;
             MAT.ty = 1;
             MAT.scale(appear, appear);
@@ -1082,7 +1081,7 @@ namespace DuckstazyLive.game
             if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
             COLOR.alphaMultiplier = a;
 
-            MAT.identity();
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             MAT.tx = -8;
             MAT.ty = 1;
             MAT.scale(appear, appear);

@@ -58,7 +58,7 @@ namespace DuckstazyLive.game.env
             float offsetX = 0.5f * (availWidth - circlesHor * cw);
             float offsetY = 0.5f * (availHeight - circlesVer * ch);
 
-            DrawMatrix m = new DrawMatrix();
+            DrawMatrix m = DrawMatrix.Instance;
             m.tx = -0.5f * circleTex.Width;
             m.ty = -0.5f * circleTex.Height;
 

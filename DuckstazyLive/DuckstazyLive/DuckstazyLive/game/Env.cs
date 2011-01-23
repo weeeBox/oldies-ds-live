@@ -14,8 +14,6 @@ namespace DuckstazyLive.game
 {
     public class Env
     {
-        private DrawMatrix MAT = new DrawMatrix(true);
-
         private int[] imgClouds;
         private int imgStar;
 
@@ -349,7 +347,7 @@ namespace DuckstazyLive.game
             else
             {                
                 curEffect.draw(canvas);
-                drawSkyBlanc(canvas);
+                drawSkyBlanc(canvas);                
             }
         }
 
@@ -365,6 +363,8 @@ namespace DuckstazyLive.game
         {
             // Временные переменные.
             float x;
+
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
 
             // Рисуем звезды
             ColorTransform colorTrans = ColorTransform.NONE;
@@ -391,8 +391,9 @@ namespace DuckstazyLive.game
             float x;
             // Matrix MAT = new Matrix();
             Texture2D img;
-            int imageId;                       
+            int imageId;
 
+            DrawMatrix MAT = DrawMatrix.ScaledInstance;
             // Рисуем ОБЛАКА
             foreach (EnvCloud c in clouds)
             {
