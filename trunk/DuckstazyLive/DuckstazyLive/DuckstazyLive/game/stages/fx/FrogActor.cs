@@ -52,7 +52,7 @@ namespace DuckstazyLive.game.levels.fx
             Env env = GameElements.Env;
             bool drawFade = env.hasBlanc();
 
-            DrawMatrix mat = new DrawMatrix(true);
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
             mat.tx = x + 2;
             mat.ty = y;
             float hy = y - 17 - 42 * (float)(1 - Math.Cos(openCounter * 3.14f)) * 0.5f;

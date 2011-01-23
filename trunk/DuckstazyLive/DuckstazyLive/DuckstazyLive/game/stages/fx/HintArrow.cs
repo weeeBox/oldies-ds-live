@@ -58,7 +58,7 @@ namespace DuckstazyLive.game.levels.fx
                     sy = sx = 1.0f;
                 }
 
-                mat = new DrawMatrix(true);
+                mat = DrawMatrix.ScaledInstance;
                 mat.tx = -28;
                 mat.ty = -63 - r;
                 mat.scale(sx, sy);

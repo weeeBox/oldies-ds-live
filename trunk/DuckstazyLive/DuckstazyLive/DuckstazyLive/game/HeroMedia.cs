@@ -164,7 +164,8 @@ namespace DuckstazyLive.game
 
         public void drawDuck(int playerIndex, Canvas dest, float x, float y, float power, bool flip, float wingsAngle, float trans)
         {
-            DrawMatrix mat = new DrawMatrix(true);            
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
+
             ColorTransform eyeColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans * (1.0f - power));
             ColorTransform duckColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans);            
 
@@ -214,7 +215,7 @@ namespace DuckstazyLive.game
 
         public void drawSleep(Canvas dest, float x, float y, bool flip, float trans)
         {
-            DrawMatrix mat = new DrawMatrix(true);
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
             ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
             
             mat.translate(x, y);
@@ -229,7 +230,7 @@ namespace DuckstazyLive.game
 
         public void drawDead(Canvas dest, float x, float y, bool flip, float trans)
         {
-            DrawMatrix mat = new DrawMatrix(true);
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
             ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
 
             mat.translate(x, y);

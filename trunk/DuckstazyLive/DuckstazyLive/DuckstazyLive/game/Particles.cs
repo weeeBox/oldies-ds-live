@@ -50,9 +50,7 @@ namespace DuckstazyLive.game
 
         private Particle[] pool;
         private int parts;
-
-        private DrawMatrix mat = new DrawMatrix(true);
-
+        
         public Particles()
         {
             int i = 0;
@@ -183,6 +181,8 @@ namespace DuckstazyLive.game
             int i = 0;
             float a;
             float s;
+
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
 
             foreach (Particle p in pool)
             {

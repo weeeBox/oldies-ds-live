@@ -48,7 +48,7 @@ namespace DuckstazyLive.game
                 AppGraphics.SetBlendMode(transform.blendMode);
             }
 
-            if (mat.useScale)
+            if (mat.UseScale)
             {
                 Vector2 scaledPosition;
                 Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);

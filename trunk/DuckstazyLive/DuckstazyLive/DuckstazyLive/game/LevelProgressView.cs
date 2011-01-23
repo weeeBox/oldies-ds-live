@@ -160,7 +160,8 @@ namespace DuckstazyLive.game
             float x;
             int i;
             float v;
-            DrawMatrix mat = new DrawMatrix(true);
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
+
             float pointY;
             ColorTransform pointEmpty = env.ctProgress;
             ColorTransform pointFilled = ColorTransform.NONE;

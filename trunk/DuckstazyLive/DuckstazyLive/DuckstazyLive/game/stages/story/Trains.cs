@@ -195,7 +195,7 @@ namespace DuckstazyLive.game.levels
         
         private void drawElement(Canvas canvas, int tex, float x, float y, ref ColorTransform colorTransform)
         {
-            DrawMatrix m = new DrawMatrix(true);
+            DrawMatrix m = DrawMatrix.ScaledInstance;
             m.translate(x, y);
             canvas.draw(tex, m, colorTransform);
         }
