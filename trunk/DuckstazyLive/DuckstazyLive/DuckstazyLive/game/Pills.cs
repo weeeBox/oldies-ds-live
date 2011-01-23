@@ -180,14 +180,18 @@ namespace DuckstazyLive.game
                     p.dy = (int)(p.y);
                     if (p.isPower())
                     {
-                        p.drawEmo(canvas);
-                        p.drawBlanc(canvas);
+                        p.drawEmo(canvas);                        
                     }
                     else if (p.type == Pill.JUMP)
+                    {
                         p.drawJump(canvas);
+                    }
                     else
+                    {
                         p.draw(canvas);
+                    }
 
+                    p.drawBlanc(canvas);
                     ++i;
                 }
             }            

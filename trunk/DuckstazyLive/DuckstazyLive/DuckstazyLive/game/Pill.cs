@@ -176,7 +176,7 @@ namespace DuckstazyLive.game
             imgMain = Constants.UNDEFINED;
             imgEmo = Constants.UNDEFINED;
             imgNid = Constants.UNDEFINED;
-            imgBlanc = Constants.UNDEFINED;
+            imgBlanc = media.imgBlanc;
             parent = null;            
             user = null;
         }
@@ -561,8 +561,6 @@ namespace DuckstazyLive.game
             }
 
             rMax = DEFAULT_RADIUS;
-            imgBlanc = media.imgBlanc;
-
             damage = 0;
 
             id = ID;
@@ -914,6 +912,18 @@ namespace DuckstazyLive.game
         }
 
         public void drawJump(Canvas canvas)
+        {            
+            if (getLevel().power >= 0.5f || !getEnv().day)
+            {                
+                drawJump(canvas, ref ColorTransform.NONE);
+            }
+            else
+            {               
+                drawJump(canvas, ref BLACK);                
+            }            
+        }
+
+        public void drawJump(Canvas canvas, ref ColorTransform trans)
         {
             float s = 0.8f + 0.4f * (float)Math.Sin(highCounter * 1.57);
 
@@ -923,26 +933,18 @@ namespace DuckstazyLive.game
             MAT.identity();
             MAT.tx = MAT.ty = -12;
             MAT.scale(s, s);
-            MAT.translate(x, y);
-
-            Level level = getLevel();
-            if (level.power >= 0.5f)
-            {
-                canvas.draw(imgMain, MAT); // TODO: add blend mode invert
-            }
-            else
-            {
-                if (getEnv().day)
-                    canvas.draw(imgMain, MAT, BLACK);
-                else
-                    canvas.draw(imgMain, MAT);
-            }
+            MAT.translate(x, y);            
+            canvas.draw(imgMain, MAT, trans);            
         }
 
         public void drawBlanc(Canvas canvas)
         {
-            Env env = getEnv();            
-            if (state != ALIVE)
+            Env env = getEnv();
+            if (type == JUMP)
+            {
+                drawJump(canvas, ref env.blackFade);
+            }
+            else if (state != ALIVE)
             {
                 MAT.identity();
                 MAT.tx = MAT.ty = -12;
