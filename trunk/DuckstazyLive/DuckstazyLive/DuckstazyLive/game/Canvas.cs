@@ -39,21 +39,12 @@ namespace DuckstazyLive.game
 
         public void draw(Texture2D image, DrawMatrix mat, ColorTransform transform)
         {
-            Color color = Color.White;
             AppBlendMode blendMode = AppGraphics.GetBlendMode();
-            if (transform != ColorTransform.NONE)
+
+            Color color = Color.White;            
+            if (!transform.Equals(ColorTransform.NONE))
             {
-                color.R = (byte)(color.R * transform.redMultiplier);
-                color.G = (byte)(color.G * transform.greenMultiplier);
-                color.B = (byte)(color.B * transform.blueMultiplier);
-                if (transform.overlayColor)
-                {                    
-                    color.A = (byte)(color.A * transform.alphaMultiplier);
-                }
-                else
-                {                 
-                    color *= transform.alphaMultiplier;
-                }
+                utils.colorTransformToColor(ref color, ref transform);
                 AppGraphics.SetBlendMode(transform.blendMode);
             }
 
@@ -82,12 +73,9 @@ namespace DuckstazyLive.game
         {
             Color color = Color.White;
             AppBlendMode blendMode = AppGraphics.GetBlendMode();
-            if (transform != ColorTransform.NONE)
+            if (!transform.Equals(ColorTransform.NONE))
             {
-                color.R = (byte)(color.R * transform.redMultiplier);
-                color.G = (byte)(color.G * transform.greenMultiplier);
-                color.B = (byte)(color.B * transform.blueMultiplier);
-                color *= transform.alphaMultiplier;
+                utils.colorTransformToColor(ref color, ref transform);
                 AppGraphics.SetBlendMode(transform.blendMode);
             }
             AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y), color);

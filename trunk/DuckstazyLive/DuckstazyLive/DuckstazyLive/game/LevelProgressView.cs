@@ -163,8 +163,8 @@ namespace DuckstazyLive.game
             DrawMatrix mat = new DrawMatrix(true);
             float pointY;
             ColorTransform pointEmpty = env.ctProgress;
-            ColorTransform pointFilled = new ColorTransform();
-            ColorTransform pointColor = new ColorTransform();
+            ColorTransform pointFilled = ColorTransform.NONE;
+            ColorTransform pointColor = ColorTransform.NONE;
             float prog = progress.getCompletePercent();
             float y;           
 

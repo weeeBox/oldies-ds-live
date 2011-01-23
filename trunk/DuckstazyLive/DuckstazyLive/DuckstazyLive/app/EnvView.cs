@@ -27,8 +27,7 @@ namespace DuckstazyLive.app
             Env env = GameElements.Env;
 
             base.update(delta);
-            env.update(delta, 0.0f);
-            env.updateBlanc(delta);
+            env.update(delta, 0.0f);         
         }
 
         public override void draw()
@@ -39,10 +38,7 @@ namespace DuckstazyLive.app
             env.draw1(canvas);
             env.draw2(canvas);
 
-            base.postDraw();
-            
-            if (env.blanc > 0.0f)
-                env.drawBlanc(canvas);
+            base.postDraw();            
         }
     }
 }

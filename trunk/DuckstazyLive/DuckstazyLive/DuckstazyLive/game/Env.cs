@@ -21,9 +21,11 @@ namespace DuckstazyLive.game
 
         private CustomGeomerty geomSkyDay;
         private CustomGeomerty geomSkyNight;
+        private CustomGeomerty geomSkyBlanc;
         private CustomGeomerty geomGround;
         private CustomGeomerty geomGroundEffect;
-        private CustomGeomerty geomBlanc;
+        private CustomGeomerty geomGroundBlanc;
+        private CustomGeomerty geomBlanc;        
 
         private int sndPower;
         private int sndTex2;
@@ -35,7 +37,15 @@ namespace DuckstazyLive.game
         public float x;
         public float y;
 
-        public float blanc;
+        private const float ENV_TIMEOUT = 0.25f;
+        private const float ENV_FADE_DELAY = 0.25f;
+        private const float ENV_FADE_TIMEOUT = ENV_TIMEOUT + ENV_FADE_DELAY;
+        private const float ENV_SPEED = 1.0f / ENV_FADE_DELAY;
+        private float envElapsedTime;
+
+        private float blanc;
+        public ColorTransform blackFade;
+        public ColorTransform whiteFade;
 
         // Состояние окружения
         private float power;
@@ -102,6 +112,7 @@ namespace DuckstazyLive.game
             initGrass();
             initDay();
             initNight();
+            initFade();
 
             curEffect = effects[3];//effects[int(Math.random()*effects.length)];
 
@@ -118,10 +129,10 @@ namespace DuckstazyLive.game
             colGrass = 0xff00ff00;
             colGround = 0xff371d06;
             colProgress = 0xff5d310c;
-            ctGrass = new ColorTransform();
-            utils.ARGB2ColorTransform(colGrass, ctGrass);
-            ctProgress = new ColorTransform();
-            utils.ARGB2ColorTransform(colProgress, ctProgress);
+            ctGrass = ColorTransform.NONE;
+            utils.ARGB2ColorTransform(colGrass, ref ctGrass);
+            ctProgress = ColorTransform.NONE;
+            utils.ARGB2ColorTransform(colProgress, ref ctProgress);
         }
 
         public void reset()
@@ -157,6 +168,7 @@ namespace DuckstazyLive.game
             float groundHeight = Constants.GROUND_HEIGHT;
 
             geomGround = utils.createGradient(groundX, groundY, groundWidth, groundHeight, utils.makeColor(0x371d06), utils.makeColor(0x5d310c), false);
+            geomGroundBlanc = utils.createSolidRect(groundX, groundY, groundWidth, groundHeight, Color.Black, false);
             geomGroundEffect = utils.createSolidRect(groundX, groundY, groundWidth, groundHeight, Color.White, false);
         }
 
@@ -192,6 +204,14 @@ namespace DuckstazyLive.game
 
         }
 
+        private void initFade()
+        {
+            whiteFade = new ColorTransform(0xffffff);
+            blackFade = new ColorTransform(0x000000);
+            whiteFade.overlayColor = blackFade.overlayColor = true;
+            geomSkyBlanc = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
+        }
+
         public void updateNorm()
         {
             if (day)
@@ -219,8 +239,8 @@ namespace DuckstazyLive.game
             colGround = 0xff000000 | utils.lerpColor(0x371d06, utils.multColorScalar(colors.bg, grassCounter * power), p2);
             colProgress = 0xff000000 | utils.lerpColor(0x5d310c, colors.bg, p2);
 
-            utils.ARGB2ColorTransform(colGrass, ctGrass);
-            utils.ARGB2ColorTransform(colProgress, ctProgress);
+            utils.ARGB2ColorTransform(colGrass, ref ctGrass);
+            utils.ARGB2ColorTransform(colProgress, ref ctProgress);
         }
 
         public void update(float dt, float newPower)
@@ -247,8 +267,8 @@ namespace DuckstazyLive.game
                     colGrass = 0xff00ff00;
                     colGround = 0xff371d06;
                     colProgress = 0xff5d310c;
-                    utils.ARGB2ColorTransform(colGrass, ctGrass);
-                    utils.ARGB2ColorTransform(colProgress, ctProgress);
+                    utils.ARGB2ColorTransform(colGrass, ref ctGrass);
+                    utils.ARGB2ColorTransform(colProgress, ref ctProgress);
                     curEffect = effects[(int)(utils.rnd() * effects.Length)];
                 }
 
@@ -272,15 +292,23 @@ namespace DuckstazyLive.game
             if (power < 0.5f)
             {
                 if (day)
+                {
                     foreach (EnvCloud c in clouds)
+                    {
                         c.update(dt, power);
+                    }                    
+                }
                 else
+                {
                     foreach (EnvStar s in nightSky)
+                    {
                         s.update(dt, power);
+                    }
+                }
             }
             else
             {
-                curEffect.power = power;
+                curEffect.power = power;                
                 curEffect.c1 = colors.bg;
                 curEffect.c2 = utils.multColorScalar(colors.bg, 0.5f);
                 curEffect.update(dt);
@@ -298,6 +326,7 @@ namespace DuckstazyLive.game
                 curEffect.peak = musicAttack;
             }
 
+            updateBlanc(dt);
         }
 
         public void draw1(Canvas canvas)
@@ -307,17 +336,28 @@ namespace DuckstazyLive.game
                 if (day)
                 {                    
                     canvas.drawGeometry(geomSkyDay);
+                    drawSkyBlanc(canvas);
                     drawSky(canvas);
                 }
                 else
                 {
                     canvas.drawGeometry(geomSkyNight);
+                    drawSkyBlanc(canvas);
                     drawNight(canvas);
                 }
             }
             else
+            {                
+                curEffect.draw(canvas);
+                drawSkyBlanc(canvas);
+            }
+        }
+
+        public void drawSkyBlanc(Canvas canvas)
+        {
+            if (hasBlanc())
             {
-                curEffect.draw(canvas);         
+                canvas.drawGeometry(geomSkyBlanc);
             }
         }
 
@@ -326,7 +366,8 @@ namespace DuckstazyLive.game
             // Временные переменные.
             float x;
 
-            // Рисуем ОБЛАКА
+            // Рисуем звезды
+            ColorTransform colorTrans = ColorTransform.NONE;
             foreach (EnvStar c in nightSky)
             {
                 x = c.t;
@@ -335,8 +376,12 @@ namespace DuckstazyLive.game
                 MAT.rotate(c.a);
                 MAT.scale(0.75f + 0.25f * (float)Math.Sin(x * 6.28), 0.75f + 0.25f * (float)Math.Sin(x * 6.28));
                 MAT.translate(c.x, c.y);
-
+                                
                 canvas.draw(imgStar, MAT, c.color);
+                if (hasBlanc())
+                {
+                    canvas.draw(imgStar, MAT, blackFade);
+                }
             }
         }
 
@@ -346,7 +391,7 @@ namespace DuckstazyLive.game
             float x;
             // Matrix MAT = new Matrix();
             Texture2D img;
-            int imageId;
+            int imageId;                       
 
             // Рисуем ОБЛАКА
             foreach (EnvCloud c in clouds)
@@ -362,50 +407,57 @@ namespace DuckstazyLive.game
                 MAT.translate(c.x, c.y);
 
                 canvas.draw(imageId, MAT);
+                if (hasBlanc())
+                {
+                    canvas.draw(imageId, MAT, blackFade);
+                }
             }
         }
 
         public void draw2(Canvas canvas)
         {            
-            ///**** ТРАВА ****/
+            /**** ТРАВА ****/
             Color color = Color.White;
             color.R = (byte)(color.R * ctGrass.redMultiplier);
             color.G = (byte)(color.G * ctGrass.greenMultiplier);
-            color.B = (byte)(color.B * ctGrass.blueMultiplier);            
+            color.B = (byte)(color.B * ctGrass.blueMultiplier);
+            int grassImageId;
 
             if (power < 0.5f)
-            {                
+            {
                 canvas.drawGeometry(geomGround);
-
-                Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS1);
-                Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, (int)(geomGround.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
-
-                AppGraphics.SetColor(color);
-                AppGraphics.DrawImageTiled(tex, ref src, ref dst);
-                AppGraphics.SetColor(Color.White);
+                grassImageId = Res.IMG_GRASS1;
+                drawGrass(grassImageId, ref color);
             }
             else
             {
                 geomGroundEffect.colorize(utils.makeColor(colGround));
                 canvas.drawGeometry(geomGroundEffect);
-                                
-                Texture2D tex = Application.sharedResourceMgr.getTexture(Res.IMG_GRASS2);
-                Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
-                Rectangle dst = new Rectangle(0, (int)(geomGroundEffect.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
-
-                AppGraphics.SetColor(color);
-                AppGraphics.DrawImageTiled(tex, ref src, ref dst);
-                AppGraphics.SetColor(Color.White);
+                grassImageId = Res.IMG_GRASS2;
+                drawGrass(grassImageId, ref color);
             }
-        }
 
-        public void fadeBlack()
+            if (hasBlanc())
+            {
+                canvas.drawGeometry(geomGroundBlanc);
+                Color colorBlanc = Color.Black;
+                colorBlanc.R = (byte)(colorBlanc.R * blackFade.redMultiplier);
+                colorBlanc.G = (byte)(colorBlanc.G * blackFade.greenMultiplier);
+                colorBlanc.B = (byte)(colorBlanc.B * blackFade.blueMultiplier);
+                colorBlanc.A = (byte)(colorBlanc.A * blackFade.alphaMultiplier);
+                drawGrass(grassImageId, ref colorBlanc);
+            }
+        }       
+
+        private void drawGrass(int imageId, ref Color color)
         {
-            day = true;
-            geomGround.colorize(Color.Black);
-            geomSkyDay.colorize(Color.White);
-            ctGrass = ColorTransform.BLACK;
+            Texture2D tex = Application.sharedResourceMgr.getTexture(imageId);
+            Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
+            Rectangle dst = new Rectangle(0, (int)(geomGroundEffect.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
+
+            AppGraphics.SetColor(color);
+            AppGraphics.DrawImageTiled(tex, ref src, ref dst);
+            AppGraphics.SetColor(Color.White);
         }
 
         public void beat()
@@ -413,22 +465,48 @@ namespace DuckstazyLive.game
             grassCounter = 1.0f;
         }
 
+        public void startBlanc()
+        {
+            blanc = 1.0f;
+            envElapsedTime = 0.0f;
+        }
+
+        public bool hasBlanc()
+        {
+            return blanc > 0.0f;
+        }
+
         public void updateBlanc(float dt)
         {
-            if (blanc > 0.0f)
+            if (hasBlanc())
             {
-                blanc -= 0.5f * dt;
-                Color blancColor = Color.White * blanc;
-                geomBlanc.colorize(blancColor);
+                processBlanc(blanc);
+
+                envElapsedTime += dt;
+                if (envElapsedTime < ENV_TIMEOUT)
+                {                    
+                }
+                else if (envElapsedTime < ENV_FADE_TIMEOUT)
+                {
+                    blanc -= ENV_SPEED * dt;
+                    if (blanc < 0.0f)
+                        blanc = 0.0f;
+                }                                
             }
         }
 
-        public void drawBlanc(Canvas canvas)
+        public void processBlanc(float blanc)
         {
-            if (blanc > 0.0f)
-            {
-                canvas.drawGeometry(geomBlanc);
-            }
+            whiteFade.alphaMultiplier = blackFade.alphaMultiplier = blanc;
+
+            Color skyBlanc = Color.White * blanc;
+            Color groundBlanc = Color.Black * blanc;
+            geomSkyBlanc.colorize(skyBlanc);
+            geomGroundBlanc.colorize(groundBlanc);
+        }
+
+        public void drawBlanc(Canvas canvas)
+        {            
         }
     }
 

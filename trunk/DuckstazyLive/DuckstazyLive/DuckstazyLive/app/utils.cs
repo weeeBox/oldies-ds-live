@@ -131,7 +131,7 @@ namespace DuckstazyLive.app
             ct.blueMultiplier = (rgb & 0xFF) / 255.0f;
         }
 
-        public static void ARGB2ColorTransform(uint argb, ColorTransform ct)
+        public static void ARGB2ColorTransform(uint argb, ref ColorTransform ct)
         {
             uint a = (argb >> 24) & 0xFF;
             uint r = (argb >> 16) & 0xFF;
@@ -142,6 +142,21 @@ namespace DuckstazyLive.app
             ct.greenMultiplier = g * 0.0039216f;
             ct.blueMultiplier = b * 0.0039216f;
             ct.alphaMultiplier = a * 0.0039216f;
+        }
+
+        public static void colorTransformToColor(ref Color color, ref ColorTransform ct)
+        {
+            color.R = (byte)(color.R * ct.redMultiplier);
+            color.G = (byte)(color.G * ct.greenMultiplier);
+            color.B = (byte)(color.B * ct.blueMultiplier);
+            if (ct.overlayColor)
+            {                    
+                color.A = (byte)(color.A * ct.alphaMultiplier);
+            }
+            else
+            {                 
+                color *= ct.alphaMultiplier;
+            }
         }
 
         public static uint calcARGB(float r, float g, float b, float a)

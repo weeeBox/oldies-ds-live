@@ -84,6 +84,7 @@
 				<image name="level_pump" file="${dir.art}/pump.png" />
 				<image name="level_stage_complete" file="${dir.art}/stage_complete.png" />
 				<image name="star" file="${dir.art}/star.png" />
+				<image name="pill_blanc" file="${dir.art}/pill_blanc.png" />
 				<image name="pill_1" file="${dir.art}/pill_1.png" />
 				<image name="pill_2" file="${dir.art}/pill_2.png" />
 				<image name="pill_3" file="${dir.art}/pill_3.png" />

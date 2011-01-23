@@ -117,6 +117,7 @@ namespace DuckstazyLive.game
         private int imgMain;
         private int imgEmo;
         private int imgNid;
+        private int imgBlanc;
 
         // используется для оповещения генератора-родителя
         public ParentCallback parent;
@@ -174,7 +175,8 @@ namespace DuckstazyLive.game
             type = Constants.UNDEFINED;
             imgMain = Constants.UNDEFINED;
             imgEmo = Constants.UNDEFINED;
-            imgNid = Constants.UNDEFINED;            
+            imgNid = Constants.UNDEFINED;
+            imgBlanc = Constants.UNDEFINED;
             parent = null;            
             user = null;
         }
@@ -559,6 +561,7 @@ namespace DuckstazyLive.game
             }
 
             rMax = DEFAULT_RADIUS;
+            imgBlanc = media.imgBlanc;
 
             damage = 0;
 
@@ -934,6 +937,25 @@ namespace DuckstazyLive.game
                 else
                     canvas.draw(imgMain, MAT);
             }
+        }
+
+        public void drawBlanc(Canvas canvas)
+        {
+            Env env = getEnv();            
+            if (state != ALIVE)
+            {
+                MAT.identity();
+                MAT.tx = MAT.ty = -12;
+                MAT.scale(appear, appear);
+                MAT.translate(dx, dy);
+                canvas.draw(imgBlanc, MAT, env.blackFade);
+            }
+            else
+            {
+                POINT.X = dx - 10.5f;
+                POINT.Y = dy - 11;
+                canvas.copyPixels(imgBlanc, RC, POINT, env.blackFade);
+            }            
         }
 
         private void drawNid(Canvas canvas)
