@@ -12,6 +12,7 @@ namespace Framework.core
     public enum AppBlendMode
     {        
         AlphaBlend,
+        NonPremultiplied,
         Additive,
         Opaque,
     }
@@ -69,6 +70,8 @@ namespace Framework.core
                     return BlendState.Additive;
                 case AppBlendMode.Opaque:
                     return BlendState.Opaque;
+                case AppBlendMode.NonPremultiplied:
+                    return BlendState.NonPremultiplied;
                 default:
                     throw new NotImplementedException();
             }

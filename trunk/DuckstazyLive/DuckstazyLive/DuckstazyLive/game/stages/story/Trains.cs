@@ -152,6 +152,9 @@ namespace DuckstazyLive.game.levels
             Vector2 p = new Vector2();
             int bm;
 
+            Env env = GameElements.Env;
+            bool drawFade = env.hasBlanc();
+
             bm = media.imgCatL;
             Texture2D bmTex = utils.getTexture(bm);
             rc.Width = bmTex.Width;
@@ -179,24 +182,24 @@ namespace DuckstazyLive.game.levels
                 canvas.copyPixels(bm, rc, p);
             }
 
+            if (drawFade) drawElement(canvas, media.imgCatL, 495, 140, ref env.blackFade);
 
-            frog.draw(canvas);
+            frog.draw(canvas);            
 
-            bm = media.imgPedestalL;
-            rc.Width = bmTex.Width;
-            rc.Height = bmTex.Height;
-            p.X = -27;
-            p.Y = 400 - 115;
-            canvas.copyPixels(bm, rc, p);
+            drawElement(canvas, media.imgPedestalL, -27, 400 - 115, ref ColorTransform.NONE);
+            if (drawFade) drawElement(canvas, media.imgPedestalL, -27, 400 - 115, ref env.blackFade);
 
-            bm = media.imgPedestalR;
-            rc.Width = bmTex.Width;
-            rc.Height = bmTex.Height;
-            p.X = 432;
-            p.Y = 400 - 113;
-            canvas.copyPixels(bm, rc, p);
+            drawElement(canvas, media.imgPedestalR, 432, 400 - 113, ref ColorTransform.NONE);
+            if (drawFade) drawElement(canvas, media.imgPedestalR, 432, 400 - 113, ref env.blackFade);
         }
         
+        private void drawElement(Canvas canvas, int tex, float x, float y, ref ColorTransform colorTransform)
+        {
+            DrawMatrix m = new DrawMatrix(true);
+            m.translate(x, y);
+            canvas.draw(tex, m, colorTransform);
+        }
+
         public void toxicLogic(Pill pill, String msg, float dt)
         {
             int i;

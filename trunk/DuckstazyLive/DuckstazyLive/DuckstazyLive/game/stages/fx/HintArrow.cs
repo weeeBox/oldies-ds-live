@@ -29,7 +29,7 @@ namespace DuckstazyLive.game.levels.fx
             x = _x;
             y = _y;
             angle = _angle;
-            utils.ctSetRGB(color, _color);
+            utils.ctSetRGB(ref color, _color);
 
             visible = _visible;
             if (_visible) visibleCounter = 1.0f;
@@ -68,6 +68,12 @@ namespace DuckstazyLive.game.levels.fx
                 color.alphaMultiplier = visibleCounter;
 
                 canvas.draw(img, mat, color);
+
+                Env env = GameElements.Env;
+                if (env.hasBlanc())
+                {
+                    canvas.draw(img, mat, env.blackFade);
+                }
             }
         }
 

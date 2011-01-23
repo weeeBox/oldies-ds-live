@@ -124,7 +124,7 @@ namespace DuckstazyLive.app
             return resultColor;
         }
 
-        public static void ctSetRGB(ColorTransform ct, uint rgb)
+        public static void ctSetRGB(ref ColorTransform ct, uint rgb)
         {
             ct.redMultiplier = ((rgb >> 16) & 0xFF) / 255.0f;
             ct.greenMultiplier = ((rgb >> 8) & 0xFF) / 255.0f;

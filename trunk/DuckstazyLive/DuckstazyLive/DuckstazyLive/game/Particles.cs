@@ -203,10 +203,14 @@ namespace DuckstazyLive.game
 
                     mat.scale(s, s);
                     mat.translate(p.x, p.y);
+                                        
+                    canvas.draw(p.img, mat, p.col);
 
                     Env env = GameElements.Env;
-                    ColorTransform colorTranform = env.hasBlanc() ? env.blackFade : p.col;
-                    canvas.draw(p.img, mat, colorTranform);                    
+                    if (env.hasBlanc())
+                    {
+                        canvas.draw(p.img, mat, env.blackFade);
+                    }
                     ++i;
                 }
             }
