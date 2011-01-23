@@ -50,7 +50,7 @@ namespace DuckstazyLive.game.levels.fx
         public void draw(Canvas canvas)
         {
             Env env = GameElements.Env;
-            bool drawFade = env.hasBlanc();
+            bool drawFade = env.isHitFaded();
 
             DrawMatrix mat = DrawMatrix.ScaledInstance;
             mat.tx = x + 2;

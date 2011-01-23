@@ -207,7 +207,7 @@ namespace DuckstazyLive.game
                     canvas.draw(p.img, mat, p.col);
 
                     Env env = GameElements.Env;
-                    if (env.hasBlanc())
+                    if (env.isHitFaded())
                     {
                         canvas.draw(p.img, mat, env.blackFade);
                     }

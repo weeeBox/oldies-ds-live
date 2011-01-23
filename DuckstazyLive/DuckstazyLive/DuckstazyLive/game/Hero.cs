@@ -726,8 +726,7 @@ namespace DuckstazyLive.game
 
                     blinkTime = 12;
                     getParticles().explStarsToxic(cx, cy, id, true);
-                    getEnv().startBlanc();
-                    // media.sndToxic.play();
+                    getEnv().startHitFade();                    
                     Application.sharedSoundMgr.playSound(heroes.media.sndToxic);
                 }
                 else

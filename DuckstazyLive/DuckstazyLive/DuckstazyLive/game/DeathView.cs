@@ -123,12 +123,7 @@ namespace DuckstazyLive.game
             }
 
             postDraw();
-
-            Env env = GameElements.Env;
-            if (env.hasBlanc())
-                env.drawBlanc(canvas);
-
-            env.draw2(canvas);
+            GameElements.Env.draw2(canvas);
         }
 
         private void levelPreDraw()

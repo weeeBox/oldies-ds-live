@@ -22,8 +22,7 @@ namespace DuckstazyLive.game
         private CustomGeomerty geomSkyBlanc;
         private CustomGeomerty geomGround;
         private CustomGeomerty geomGroundEffect;
-        private CustomGeomerty geomGroundBlanc;
-        private CustomGeomerty geomBlanc;        
+        private CustomGeomerty geomGroundBlanc;        
 
         private int sndPower;
         private int sndTex2;
@@ -41,9 +40,12 @@ namespace DuckstazyLive.game
         private const float ENV_SPEED = 1.0f / ENV_FADE_DELAY;
         private float envElapsedTime;
 
-        private float blanc;
+        private float hitFade;
         public ColorTransform blackFade;
         public ColorTransform whiteFade;
+
+        private float blanc;
+        private CustomGeomerty geomBlanc;
 
         // Состояние окружения
         private float power;
@@ -137,7 +139,7 @@ namespace DuckstazyLive.game
 
         public void reset()
         {
-            blanc = 0.0f;
+            hitFade = 0.0f;
 
             resetColorTransform();
 
@@ -259,14 +261,14 @@ namespace DuckstazyLive.game
                 {
                     day = !day;
                     updateNorm();
-                    blanc = 1.0f;
+                    hitFade = 1.0f;
                     musicTrans.Volume = 1;
                     channel.SoundTransform = musicTrans;
                     Application.sharedSoundMgr.playSound(sndPower);
                 }
                 else if (power >= 0.5f && newPower < 0.5f)
                 {
-                    blanc = 1.0f;
+                    hitFade = 1.0f;
                     colGrass = 0xff00ff00;
                     colGround = 0xff371d06;
                     colProgress = 0xff5d310c;
@@ -328,8 +330,8 @@ namespace DuckstazyLive.game
 
                 curEffect.peak = musicAttack;
             }
-
-            updateBlanc(dt);
+                        
+            updateHifFade(dt);
         }
 
         public void draw1(Canvas canvas)
@@ -361,7 +363,7 @@ namespace DuckstazyLive.game
 
         public void drawSkyBlanc(Canvas canvas)
         {
-            if (hasBlanc())
+            if (isHitFaded())
             {
                 canvas.drawGeometry(geomSkyBlanc);
             }
@@ -386,7 +388,7 @@ namespace DuckstazyLive.game
                 MAT.translate(c.x, c.y);
                                 
                 canvas.draw(imgStar, MAT, c.color);
-                if (hasBlanc())
+                if (isHitFaded())
                 {
                     canvas.draw(imgStar, MAT, blackFade);
                 }
@@ -416,7 +418,7 @@ namespace DuckstazyLive.game
                 MAT.translate(c.x, c.y);
 
                 canvas.draw(imageId, MAT);
-                if (hasBlanc())
+                if (isHitFaded())
                 {
                     canvas.draw(imageId, MAT, blackFade);
                 }
@@ -446,7 +448,7 @@ namespace DuckstazyLive.game
                 drawGrass(grassImageId, ref color);
             }
 
-            if (hasBlanc())
+            if (isHitFaded())
             {
                 canvas.drawGeometry(geomGroundBlanc);
                 Color colorBlanc = Color.Black;
@@ -474,9 +476,9 @@ namespace DuckstazyLive.game
             grassCounter = 1.0f;
         }
 
-        public void startBlanc()
+        public void startHitFade()
         {
-            blanc = 1.0f;
+            hitFade = 1.0f;
             envElapsedTime = 0.0f;
 
             dammitImage.x = 0.5f * Constants.SCREEN_WIDTH;
@@ -488,16 +490,16 @@ namespace DuckstazyLive.game
             dammitImage.playTimeline();
         }
 
-        public bool hasBlanc()
+        public bool isHitFaded()
         {
-            return blanc > 0.0f;
+            return hitFade > 0.0f;
         }
 
-        public void updateBlanc(float dt)
+        public void updateHifFade(float dt)
         {
-            if (hasBlanc())
+            if (isHitFaded())
             {
-                processBlanc(blanc);
+                proccessHitFade(hitFade);
                                 
                 envElapsedTime += dt;
                 if (envElapsedTime < ENV_TIMEOUT)
@@ -505,20 +507,20 @@ namespace DuckstazyLive.game
                 }
                 else if (envElapsedTime < ENV_FADE_TIMEOUT)
                 {
-                    blanc -= ENV_SPEED * dt;
-                    if (blanc < 0.0f)
-                        blanc = 0.0f;
+                    hitFade -= ENV_SPEED * dt;
+                    if (hitFade < 0.0f)
+                        hitFade = 0.0f;
                 }               
                 else
                 {
-                    blanc = 0.0f;
+                    hitFade = 0.0f;
                 }
             }
 
             dammitImage.update(dt);
         }
 
-        public void processBlanc(float blanc)
+        public void proccessHitFade(float blanc)
         {
             whiteFade.alphaMultiplier = blackFade.alphaMultiplier = blanc;
 
@@ -526,11 +528,40 @@ namespace DuckstazyLive.game
             Color groundBlanc = Color.Black * blanc;
             geomSkyBlanc.colorize(skyBlanc);
             geomGroundBlanc.colorize(groundBlanc);            
+        }       
+
+        public void startBlanc()
+        {
+            blanc = 1.0f;
+        }
+
+        public void updateBlanc(float dt)
+        {
+            if (blanc > 0)
+            {
+                blanc -= 0.5f * dt;
+                if (blanc < 0.0f)
+                {
+                    blanc = 0;
+                }
+                else
+                {
+                    setBlanc(blanc);
+                }
+            }
+        }
+
+        public void setBlanc(float blanc)
+        {
+            this.blanc = blanc;
+            Color color = Color.White * blanc;
+            geomBlanc.colorize(color);
         }
 
         public void drawBlanc(Canvas canvas)
-        {            
+        {
+            if (blanc > 0)
+                canvas.drawGeometry(geomBlanc);
         }
     }
-
 }
