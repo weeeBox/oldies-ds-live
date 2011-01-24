@@ -34,6 +34,10 @@ namespace DuckstazyLive.game
         public const int TOXIC_SKULL = 0;
         public const int TOXIC_FORBID = 1;
 
+        public const int POWER1_SCORE = 1;
+        public const int POWER2_SCORE = 2;
+        public const int POWER3_SCORE = 5;
+
         /*public const int HAPPY = 0;
         public const int SHAKE = 1;
         public const int SMILE = 2;*/

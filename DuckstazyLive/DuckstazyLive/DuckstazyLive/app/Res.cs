@@ -105,22 +105,22 @@ namespace DuckstazyLive.app
 		public const int IMG_EFFECT_LINE = 82;
 		public const int IMG_WINNER_EFFECT = 83;
 		public const int IMG_DAMMIT = 84;
-		public const int IMG_CLOCK = 85;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 86;
-		public const int SONG_ENV_TEX = 87;
-		public const int SONG_ENV_MENU = 88;
-		public const int SONG_ENV_MENU2 = 89;
-		public const int SND_HERO_ATTACK = 90;
-		public const int SND_HERO_AWAKE = 91;
-		public const int SND_HERO_JUMP = 92;
-		public const int SND_HERO_LAND = 93;
-		public const int SND_HERO_SLEEP = 94;
-		public const int SND_HERO_STEP1 = 95;
-		public const int SND_HERO_STEP2 = 96;
-		public const int SND_HERO_TOXIC = 97;
-		public const int SND_HERO_WING1 = 98;
-		public const int SND_HERO_WING2 = 99;
+		public const int SND_ENV_POWER = 85;
+		public const int SONG_ENV_TEX = 86;
+		public const int SONG_ENV_MENU = 87;
+		public const int SONG_ENV_MENU2 = 88;
+		public const int SND_HERO_ATTACK = 89;
+		public const int SND_HERO_AWAKE = 90;
+		public const int SND_HERO_JUMP = 91;
+		public const int SND_HERO_LAND = 92;
+		public const int SND_HERO_SLEEP = 93;
+		public const int SND_HERO_STEP1 = 94;
+		public const int SND_HERO_STEP2 = 95;
+		public const int SND_HERO_TOXIC = 96;
+		public const int SND_HERO_WING1 = 97;
+		public const int SND_HERO_WING2 = 98;
+		public const int SND_HERO_SQUEAK = 99;
 		public const int SND_LEVEL_START = 100;
 		public const int SND_PILL_GENERATE = 101;
 		public const int SND_PILL_HIGH = 102;
@@ -242,7 +242,6 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.IMG_EFFECT_LINE, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_line"),
 				new ResourceBaseInfo(Res.IMG_WINNER_EFFECT, ResourceType.RESOURCE_TYPE_TEXTURE, "winner_effect"),
 				new ResourceBaseInfo(Res.IMG_DAMMIT, ResourceType.RESOURCE_TYPE_TEXTURE, "dammit"),
-				new ResourceBaseInfo(Res.IMG_CLOCK, ResourceType.RESOURCE_TYPE_TEXTURE, "clock"),
 			},
 			// PACK_SOUNDS
 			new ResourceBaseInfo[]
@@ -261,6 +260,7 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.SND_HERO_TOXIC, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rToxicSnd"),
 				new ResourceBaseInfo(Res.SND_HERO_WING1, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rWingSnd1"),
 				new ResourceBaseInfo(Res.SND_HERO_WING2, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rWingSnd2"),
+				new ResourceBaseInfo(Res.SND_HERO_SQUEAK, ResourceType.RESOURCE_TYPE_SOUND, "squeak"),
 				new ResourceBaseInfo(Res.SND_LEVEL_START, ResourceType.RESOURCE_TYPE_SOUND, "Level_rStartSnd"),
 				new ResourceBaseInfo(Res.SND_PILL_GENERATE, ResourceType.RESOURCE_TYPE_SOUND, "PillsMedia_rGenerateSnd"),
 				new ResourceBaseInfo(Res.SND_PILL_HIGH, ResourceType.RESOURCE_TYPE_SOUND, "PillsMedia_rHighSnd"),
