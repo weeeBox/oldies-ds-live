@@ -34,7 +34,7 @@ namespace DuckstazyLive.game
         public float x;
         public float y;
 
-        private const float ENV_TIMEOUT = 0.25f;
+        private const float ENV_TIMEOUT = 0.5f;
         private const float ENV_FADE_DELAY = 0.25f;
         private const float ENV_FADE_TIMEOUT = ENV_TIMEOUT + ENV_FADE_DELAY;
         private const float ENV_SPEED = 1.0f / ENV_FADE_DELAY;
@@ -59,6 +59,7 @@ namespace DuckstazyLive.game
         private float grassCounter;
 
         private Image dammitImage;
+        private Color[] dammitColors;
 
         // Облака
         private EnvCloud[] clouds;
@@ -213,8 +214,11 @@ namespace DuckstazyLive.game
             whiteFade.overlayColor = blackFade.overlayColor = true;
             geomSkyBlanc = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
 
-            dammitImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_DAMMIT));
-            dammitImage.setAlign(Image.ALIGN_CENTER, Image.ALIGN_MAX);            
+            dammitImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_DAMMIT));            
+            dammitImage.setAlign(Image.ALIGN_CENTER, Image.ALIGN_MIN);
+            dammitImage.rotationCenterY = -dammitImage.height / 2;
+
+            dammitColors = new Color[] { Color.Red, Color.Green, Color.Blue };
         }
 
         public void updateNorm()
@@ -479,32 +483,12 @@ namespace DuckstazyLive.game
         public void startHitFade()
         {
             hitFade = 1.0f;
-            envElapsedTime = 0.0f;
-
-            Color startColor;
-            Color endColor;
-
-            if (day)
-            {
-                startColor = endColor = Color.Black;
-            }
-            else
-            {
-                startColor = Color.Black;
-                endColor = Color.White;
-            }
+            envElapsedTime = 0.0f;            
 
             dammitImage.x = 0.5f * Constants.SCREEN_WIDTH;
-            dammitImage.y = 0.5f * Constants.SCREEN_HEIGHT;
-            dammitImage.scaleX = dammitImage.scaleY = 0.1f;
-            dammitImage.rotation = 0.0f;
-            dammitImage.color = startColor;
-            dammitImage.turnTimelineSupportWithMaxKeyFrames(5);
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 1.0f, 1.0f, 0.0f, ENV_FADE_TIMEOUT));
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 0.8f, 0.8f, 0.0f, 0.2f));
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 1.0f, 1.0f, 0.0f, 0.2f));
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 0.8f, 0.8f, 0.0f, 0.2f));
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, dammitImage.y, endColor, 0.1f, 0.1f, 360.0f, 0.2f));
+            dammitImage.y = Constants.ENV_HEIGHT;            
+            dammitImage.turnTimelineSupportWithMaxKeyFrames(1);
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, -dammitImage.height, Color.White, 1.0f, 1.0f, 0.0f, 2.5f * ENV_TIMEOUT));
             dammitImage.playTimeline();
         }
 
@@ -515,11 +499,12 @@ namespace DuckstazyLive.game
 
         public void updateHifFade(float dt)
         {
+            envElapsedTime += dt;
+
             if (isHitFaded())
             {
-                proccessHitFade(hitFade);
-                                
-                envElapsedTime += dt;
+                proccessHitFade(hitFade);                               
+                
                 if (envElapsedTime < ENV_TIMEOUT)
                 {                    
                 }
@@ -535,7 +520,15 @@ namespace DuckstazyLive.game
                 }
             }
 
-            dammitImage.update(dt);
+            if (dammitImage.isTimelinePlaying())
+            {
+                dammitImage.update(dt);
+                int colorIndex = ((int)(envElapsedTime / 0.025f)) % dammitColors.Length;
+                float dammitAlpha = dammitImage.color.A / 255.0f;
+                dammitImage.color.R = (byte)(dammitColors[colorIndex].R * dammitAlpha);
+                dammitImage.color.G = (byte)(dammitColors[colorIndex].G * dammitAlpha);
+                dammitImage.color.B = (byte)(dammitColors[colorIndex].B * dammitAlpha);
+            }
         }
 
         public void proccessHitFade(float blanc)
