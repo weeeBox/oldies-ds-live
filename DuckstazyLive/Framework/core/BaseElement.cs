@@ -26,15 +26,15 @@ namespace Framework.core
         {
             void elementTimelineFinished(BaseElement e);
         }
-
+        
         public struct KeyFrame
         {
             public float x;
             public float y;
             public float scaleX;
             public float scaleY;
-            public float rotation;
-            public Color color;
+            public Vector4 color;
+            public float rotation;            
             public float time;
 
             public KeyFrame(float x, float y, Color color, float scaleX, float scaleY, float rotation, float time)
@@ -44,7 +44,7 @@ namespace Framework.core
                 this.scaleX = scaleX;
                 this.scaleY = scaleY;
                 this.rotation = rotation;
-                this.color = color;
+                this.color = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
                 this.time = time;
             }
         }
@@ -268,10 +268,10 @@ namespace Framework.core
         {
             keyFrameTimeLeft -= delta;
 
-            color.R += (byte)(currentStepPerSecond.color.R * delta);
-            color.G += (byte)(currentStepPerSecond.color.G * delta);
-            color.B += (byte)(currentStepPerSecond.color.B * delta);
-            color.A += (byte)(currentStepPerSecond.color.A * delta);
+            color.R += (byte)(255.0f * currentStepPerSecond.color.X * delta);
+            color.G += (byte)(255.0f * currentStepPerSecond.color.Y * delta);
+            color.B += (byte)(255.0f * currentStepPerSecond.color.Z * delta);
+            color.A += (byte)(255.0f * currentStepPerSecond.color.W * delta);
             rotation += currentStepPerSecond.rotation * delta;
             scaleX += currentStepPerSecond.scaleX * delta;
             scaleY += currentStepPerSecond.scaleY * delta;
@@ -280,7 +280,10 @@ namespace Framework.core
 
             if (keyFrameTimeLeft <= 0)
             {
-                color = keyFrames[nextKeyFrame].color;
+                color.R = (byte)(keyFrames[nextKeyFrame].color.X * 255);
+                color.G = (byte)(keyFrames[nextKeyFrame].color.Y * 255);
+                color.B = (byte)(keyFrames[nextKeyFrame].color.Z * 255);
+                color.A = (byte)(keyFrames[nextKeyFrame].color.W * 255);
                 rotation = keyFrames[nextKeyFrame].rotation;
                 scaleX = keyFrames[nextKeyFrame].scaleX;
                 scaleY = keyFrames[nextKeyFrame].scaleY;
@@ -313,10 +316,10 @@ namespace Framework.core
         public void initKeyFrameStep(KeyFrame src, KeyFrame dst, float t)
         {
             keyFrameTimeLeft = t;
-            currentStepPerSecond.color.R = (byte)((dst.color.R - src.color.R) / keyFrameTimeLeft);
-            currentStepPerSecond.color.G = (byte)((dst.color.G - src.color.G) / keyFrameTimeLeft);
-            currentStepPerSecond.color.B = (byte)((dst.color.B - src.color.B) / keyFrameTimeLeft);
-            currentStepPerSecond.color.A = (byte)((dst.color.A - src.color.A) / keyFrameTimeLeft);
+            currentStepPerSecond.color.X = ((dst.color.X - src.color.X) / keyFrameTimeLeft);
+            currentStepPerSecond.color.Y = ((dst.color.Y - src.color.Y) / keyFrameTimeLeft);
+            currentStepPerSecond.color.Z = ((dst.color.Z - src.color.Z) / keyFrameTimeLeft);
+            currentStepPerSecond.color.W = ((dst.color.W - src.color.W) / keyFrameTimeLeft);            
             currentStepPerSecond.rotation = (dst.rotation - src.rotation) / keyFrameTimeLeft;
             currentStepPerSecond.scaleX = (dst.scaleX - src.scaleX) / keyFrameTimeLeft;
             currentStepPerSecond.scaleY = (dst.scaleY - src.scaleY) / keyFrameTimeLeft;
