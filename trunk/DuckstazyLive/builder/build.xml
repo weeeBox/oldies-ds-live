@@ -133,7 +133,6 @@
 				<image name="effect_line" file="${dir.art}/effect_line.png" />
 				<image name="winner_effect" file="${dir.art}/winner_effect.png" />
 				<image name="dammit" file="${dir.art}/dammit.png" />
-				<image name="clock" file="${dir.art}/clock.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">
@@ -151,6 +150,7 @@
 				<sound name="hero_toxic" file="${dir.sound}/HeroMedia_rToxicSnd.wav" />
 				<sound name="hero_wing1" file="${dir.sound}/HeroMedia_rWingSnd1.wav" />
 				<sound name="hero_wing2" file="${dir.sound}/HeroMedia_rWingSnd2.wav" />
+				<sound name="hero_squeak" file="${dir.sound}/squeak.wav" />
 				<sound name="level_start" file="${dir.sound}/Level_rStartSnd.wav" />
 				<sound name="pill_generate" file="${dir.sound}/PillsMedia_rGenerateSnd.wav" />
 				<sound name="pill_high" file="${dir.sound}/PillsMedia_rHighSnd.wav" />

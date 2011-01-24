@@ -343,6 +343,34 @@ namespace DuckstazyLive.game
             }
         }
 
+        public void startCrapBubble(float x, float y, float vx, float vy)
+        {
+            Particle p;
+
+            p = findDead();
+            if (p != null)
+            {
+                p.p1 = utils.rnd();
+                p.p2 = 0.5f + utils.rnd();
+                p.t = 0.5f + utils.rnd();
+                p.vx = vx;
+                p.vy = vy;
+                //p.col = utils.ARGB2ColorTransform(color);
+                setCT(ref p.col, 0x406618);
+                p.alpha = p.col.alphaMultiplier;
+                p.x = x;
+                p.y = y;
+                p.px = -4.0f;
+                p.py = -4.0f;
+                p.s = 1.0f;
+                p.a = 0.0f;
+                p.img = imgFXBubble;
+                p.type = ACID;
+
+                ++parts;
+            }
+        }
+
         public void startStarToxic(float x, float y, float vx, float vy, int id)
         {
             Particle p;

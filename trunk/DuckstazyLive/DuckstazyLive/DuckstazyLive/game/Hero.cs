@@ -115,6 +115,8 @@ namespace DuckstazyLive.game
         private float blinkTime;
 
         public int pillsCollected;
+        private int pillsToAdd;
+        private float pillsAddCounter;
         public int sleep_collected;
         public int toxic_collected;
         public int frags;
@@ -177,6 +179,8 @@ namespace DuckstazyLive.game
             power = 0.0f;
 
             pillsCollected = 0;
+            pillsToAdd = 0;
+            pillsAddCounter = 0;
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
@@ -202,6 +206,21 @@ namespace DuckstazyLive.game
             }
         }
 
+        private void doCrapBubbles()
+        {
+            int i = 10;
+            float px = x + 4;
+            if (!flip) px = x + 50;
+            while (i > 0)
+            {
+                float speed = utils.rnd_float(50, 150);
+                float vx = flip ? -speed : speed;
+                float vy = -utils.rnd_float(10, 100);
+                getParticles().startCrapBubble(px, y + duck_h2, vx, vy);
+                --i;
+            }
+        }
+
         public void update(float dt, float newPower)
         {
             if (!started) return;
@@ -211,6 +230,25 @@ namespace DuckstazyLive.game
 
             xLast = x;
             yLast = y;
+
+            if (pillsToAdd != 0)
+            {
+                pillsAddCounter += dt;
+                if (pillsAddCounter > 0.05f)
+                {
+                    pillsAddCounter = 0.0f;
+                    if (Math.Sign(pillsToAdd) > 0)
+                    {
+                        pillsCollected++;
+                        pillsToAdd--;
+                    }
+                    else
+                    {
+                        pillsCollected--;
+                        pillsToAdd++;
+                    }
+                }
+            }
 
             heroes.media.updateSFX(x + duck_w);
 
@@ -295,7 +333,7 @@ namespace DuckstazyLive.game
             if (x > (640.0f - duck_w))
                 x -= 640.0f;
 
-            if (wingLock && isActive())
+            if ((wingLock || compressCounter > 0.0f) && isActive())
             {
                 wingMod -= dt * 7.0f;
                 if (wingMod <= 0.0f)
@@ -421,6 +459,8 @@ namespace DuckstazyLive.game
                 {
                     sx = sy = 1.0f;
                     compressCounter = 0.0f;
+                    wingMod = 1.0f;
+                    wingBeat();
                 }
             }
         }
@@ -799,28 +839,56 @@ namespace DuckstazyLive.game
             jumpVel = 0.0f;
             jumpedElasped = 0.0f;
 
-            float jumpPower = other.jumpVel / duck_jump_start_vel_max;
-            int kickedPills = (int)(jumpPower * MAX_KICKED_PILLS);
-            for (int i = 0; i < kickedPills && pillsCollected > 0; ++i)
+            float jumpPower = Math.Abs(other.jumpVel) / duck_jump_start_vel_max;
+            int kickedPills = (int)(jumpPower * MAX_KICKED_PILLS);            
+            while (kickedPills > 0 && pillsCollected > 0)
             {
                 Pill pill = getPills().findDead();
                 if (pill != null)
                 {
-                    pill.startPower(x, y + duck_h2, Pill.POWER1, false);
-                    pill.user = kickedPillCallback;
-                    getPills().actives++;
+                    float speed = utils.rnd_float(100, 250);
+                    float vx = flip ? -speed : speed;
+                    float vy = -utils.rnd_float(100, 250);
 
-                    pillsCollected -= pill.scores;
-                    if (pillsCollected == 0)
+                    float px = flip ? x : x + duck_w2;
+                    float py = y + duck_h2;
+
+                    int availPills = pillsCollected + pillsToAdd;
+                    int powerId;
+                    if (availPills >= Pill.POWER3_SCORE)
                     {
-                        pillsCollected = 0;
+                        powerId = utils.rnd_int(3);
+                    }
+                    else if (availPills >= Pill.POWER2_SCORE)
+                    {
+                        powerId = utils.rnd_int(2);
+                    }
+                    else if (availPills >= Pill.POWER1_SCORE)
+                    {
+                        powerId = 0;
+                    }
+                    else
+                    {
                         break;
-                    }                    
+                    }
+
+                    pill.startPower(px, py, powerId, false);
+                    pill.vx = vx;
+                    pill.vy = vy;
+                    pill.user = kickedPillCallback;
+                    getPills().actives++;                    
+                    queuePillsToAdd(-pill.scores);
+                    kickedPills -= pill.scores;
                 }
             }
 
             key_up = false;
             endFlying();
+
+            wingBeat();
+            doCrapBubbles();
+
+            Application.sharedSoundMgr.playSound(Res.SND_HERO_SQUEAK);
         }
 
         public void kickedPillCallback(Pill pill, String msg, float dt)
@@ -863,6 +931,12 @@ namespace DuckstazyLive.game
                 pill.vx = (150.0f + 150.0f * power) * (utils.rnd() * 2.0f - 1.0f);
                 pill.vy = -100.0f - utils.rnd() * 200.0f - 200.0f * power;
             }
+        }
+        
+        public void queuePillsToAdd(int pills)
+        {
+            pillsToAdd += pills;
+            pillsAddCounter = 0;
         }
 
         public void jump(float h)
