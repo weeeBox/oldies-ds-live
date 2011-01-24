@@ -41,12 +41,7 @@ public class FontInfo
 			int px, py;
 			int charWidth = aliasBorder + c.getWidth();
 			if (lineWidth + charWidth > packWidth)
-			{
-				if (totalWidth < lineWidth)
-				{
-					totalWidth = lineWidth;
-				}
-				
+			{				
 				totalHeight += lineHeight + aliasBorder;
 				lineWidth = 0;
 				lineHeight = 0;
@@ -56,11 +51,20 @@ public class FontInfo
 			{
 				px = lineWidth;				 
 			}
-			lineWidth += charWidth;				
+			lineWidth += charWidth;
+			if (totalWidth < lineWidth)
+			{
+				totalWidth = lineWidth;
+			}
 			py = totalHeight;
 			
 			packedChars.add(new CharInfo(c.getChar(), px, py, c.getWidth(), c.getHeight(), c.getOffX(), c.getOffY()));
 		}		
+		
+		if (totalHeight == 0)
+		{
+			totalHeight = 2 * aliasBorder + lineHeight;
+		}
 		
 		BufferedImage packedImage = new BufferedImage(totalWidth, totalHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = packedImage.getGraphics();		

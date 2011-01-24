@@ -71,6 +71,9 @@ public class FontExtractor
 				}
 			}
 			
+			if (x == width - 1)
+				transparentCol = true;
+			
 			if (transparentCol && endX != MIN && endY != MIN)
 			{				
 				rects.add(new Rectangle(startX, startY, endX - startX + 1, endY - startY + 1));
