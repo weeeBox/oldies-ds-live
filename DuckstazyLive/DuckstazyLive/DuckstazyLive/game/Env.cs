@@ -488,7 +488,8 @@ namespace DuckstazyLive.game
             dammitImage.x = 0.5f * Constants.SCREEN_WIDTH;
             dammitImage.y = Constants.ENV_HEIGHT;            
             dammitImage.turnTimelineSupportWithMaxKeyFrames(1);
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, -dammitImage.height, Color.White, 1.0f, 1.0f, 0.0f, 2.5f * ENV_TIMEOUT));
+            dammitImage.color = Color.White;
+            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, -dammitImage.height, Color.White * 0.0f, 1.0f, 1.0f, 0.0f, 2.5f * ENV_TIMEOUT));
             dammitImage.playTimeline();
         }
 
