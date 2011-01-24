@@ -142,6 +142,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="font_hud_digits_tex.png">
+      <Name>font_hud_digits_tex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="font_hud_digits.pixelfont">
+      <Name>font_hud_digits</Name>
+      <Importer>PixelFontImporter</Importer>
+      <Processor>PixelFontProcessor</Processor>
+    </Compile>
     <Compile Include="duck_fake.png">
       <Name>duck_fake</Name>
       <Importer>TextureImporter</Importer>

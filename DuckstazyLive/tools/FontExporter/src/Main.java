@@ -43,7 +43,7 @@ public class Main
 		fontInfo.setSpaceWidth(spaceWidth);
 		fontInfo.setFontOffset(fontOffset);
 		
-		BufferedImage fontImage = fontInfo.pack(256, 4);
+		BufferedImage fontImage = fontInfo.pack(1024, 4);
 		ImageIO.write(fontImage, "png", outputFile);
 		
 		FontWriter writer = new FontWriter(fontInfo, outputFile.getName());

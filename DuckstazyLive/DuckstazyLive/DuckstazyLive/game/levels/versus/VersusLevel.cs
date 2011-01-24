@@ -196,11 +196,11 @@ namespace DuckstazyLive.game
             heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
             heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_HUD_DIGITS);
 
             font.drawString(getStage().getPillCollected(0).ToString(), Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y + 20);
             font.drawString(getStage().getPillCollected(1).ToString(), Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y + 20, TextAlign.TOP | TextAlign.RIGHT);
-
+            
             float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
             float infoY = Constants.TITLE_SAFE_TOP_Y;
             bool hasInfoText = infoText != null;
@@ -230,6 +230,7 @@ namespace DuckstazyLive.game
 
             if (hasInfoText)
             {
+                font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
                 font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
             }
         }        
