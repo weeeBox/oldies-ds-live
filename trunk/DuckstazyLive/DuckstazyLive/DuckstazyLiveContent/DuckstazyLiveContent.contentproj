@@ -497,6 +497,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="clock.png">
+      <Name>clock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Env_rPowerSnd.wav">
       <Name>Env_rPowerSnd</Name>
       <Importer>WavImporter</Importer>
