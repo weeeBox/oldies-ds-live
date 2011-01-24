@@ -10,6 +10,7 @@ using DuckstazyLive.app;
 using Framework.visual;
 using Framework.core;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace DuckstazyLive.game
 {
@@ -225,7 +226,9 @@ namespace DuckstazyLive.game
             {
                 timeX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
             }
-
+            
+            Texture2D clock = Application.sharedResourceMgr.getTexture(Res.IMG_CLOCK);
+            AppGraphics.DrawImage(clock, timeX - 0.5f * clock.Width - 3, timeY - 0.5f * clock.Height + 3);
             font.drawString(timeStr, timeX, timeY, TextAlign.HCENTER | TextAlign.VCENTER);
 
             if (hasInfoText)
