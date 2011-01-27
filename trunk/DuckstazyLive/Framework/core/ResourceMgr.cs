@@ -171,7 +171,7 @@ namespace Framework.core
                     break;
 
                 case ResourceType.RESOURCE_TYPE_FONT:
-                    res = loadFont(r);
+                    res = loadPixelFont(r);
                     break;               
 
                 case ResourceType.RESOURCE_TYPE_BINARY:
@@ -215,9 +215,15 @@ namespace Framework.core
             return contentManager.Load<Song>(r.fileName);            
         }        
 
-        public Font loadFont(ResourceLoadInfo r)
+        public VectorFont loadVectorFont(ResourceLoadInfo r)
         {
-            return contentManager.Load<Font>(r.fileName);
+            SpriteFont font = contentManager.Load<SpriteFont>(r.fileName);
+            return new VectorFont(font);
+        }
+
+        public PixelFont loadPixelFont(ResourceLoadInfo r)
+        {
+            return contentManager.Load<PixelFont>(r.fileName);
         }
 
         public object loadBinary(ResourceLoadInfo r)

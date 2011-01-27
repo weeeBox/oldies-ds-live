@@ -99,9 +99,6 @@ namespace Framework.visual
             for (int i = 0; i < formattedStrings.Length; i++)
             {
                 FormattedString str = formattedStrings[i];
-                int len = str.text.Length;
-                String s = str.text;
-
                 dx = drawX;
                 if ((textAlign & TextAlign.RIGHT) != 0)
                 {
@@ -111,15 +108,7 @@ namespace Framework.visual
                 {
                     dx -= 0.5f * str.width;
                 }                
-
-                for (int c = 0; c < len; c++)
-                {
-                    int quadIndex = font.getCharQuad(s[c]);
-                    int itemWidth = font.quads[quadIndex].Width;
-                   
-                    font.drawQuad(quadIndex, dx, dy);
-                    dx += itemWidth + font.CharOffset;
-                }
+                font.drawString(str.text, dx, dy);                
                 dy += itemHeight + font.LineOffset;
             }
 

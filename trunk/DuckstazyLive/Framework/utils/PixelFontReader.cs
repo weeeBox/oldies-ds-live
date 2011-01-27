@@ -11,9 +11,9 @@ using Framework.core;
 
 namespace Framework.utils
 {
-    public class PixelFontReader : ContentTypeReader<Font>
+    public class PixelFontReader : ContentTypeReader<PixelFont>
     {
-        protected override Font Read(ContentReader input, Font existingInstance)
+        protected override PixelFont Read(ContentReader input, PixelFont existingInstance)
         {
             string textureName = input.ReadString();
             Texture2D texture = Application.sharedResourceMgr.loadTexture(input.ContentManager, textureName);
@@ -24,7 +24,7 @@ namespace Framework.utils
             int fontOffset = input.ReadInt32();
             int charsCount = input.ReadInt32();            
 
-            Font font = new Font(texture, charsCount);
+            PixelFont font = new PixelFont(texture, charsCount);
             font.setOffsets(charOffset, lineOffset, fontOffset);
             font.setSpaceWidth(spaceWidth);            
 
