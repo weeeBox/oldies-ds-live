@@ -68,7 +68,7 @@ namespace Framework.visual
                 dy -= 0.5f * fontHeight();
             }
 
-            AppGraphics.DrawString(dx, dy, text);
+            AppGraphics.DrawString(fnt, dx, dy, text);
         }
     }
 }

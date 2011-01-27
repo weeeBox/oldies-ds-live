@@ -34,7 +34,7 @@ public class ContentProjTask extends Task
 
 	private void updateFiles(File contentDir) 
 	{
-		FileUtils.deleteFiles(contentDir, new String[] {".png", ".mp3", ".wav", ".pixelfont"});
+		FileUtils.deleteFiles(contentDir, new String[] {".png", ".mp3", ".wav", ".pixelfont", ".spritefont"});
 		for (Package pack : packages) 
 		{
 			List<Resource> packResources = pack.getResources();

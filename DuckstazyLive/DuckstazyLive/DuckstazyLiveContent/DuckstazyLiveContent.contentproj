@@ -42,13 +42,6 @@
       <Private>False</Private> 
     </Reference> 
   </ItemGroup>  
-  <ItemGroup> 
-    <Compile Include="InfoFont.spritefont"> 
-      <Name>InfoFont</Name>  
-      <Importer>FontDescriptionImporter</Importer>  
-      <Processor>FontDescriptionProcessor</Processor> 
-    </Compile> 
-  </ItemGroup>  
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets"/>  
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
@@ -57,14 +50,6 @@
   <Target Name="AfterBuild">
   </Target>
   -->  
-  <ItemGroup> 
-    <Compile Include="Mini.spritefont"> 
-      <Name>Mini</Name>  
-      <Importer>FontDescriptionImporter</Importer>  
-      <Processor>FontDescriptionProcessor</Processor>  
-      <SubType>Designer</SubType> 
-    </Compile> 
-  </ItemGroup>  
   <ItemGroup> 
     <ProjectReference Include="..\..\ContentPipeline\ContentPipeline.csproj"> 
       <Project>{5ED6BE22-75E4-49D2-8193-C4D2AE02DF23}</Project>  
@@ -151,6 +136,11 @@
       <Name>font_hud_digits</Name>
       <Importer>PixelFontImporter</Importer>
       <Processor>PixelFontProcessor</Processor>
+    </Compile>
+    <Compile Include="font_float.spritefont">
+      <Name>font_float</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
     </Compile>
     <Compile Include="duck_fake.png">
       <Name>duck_fake</Name>

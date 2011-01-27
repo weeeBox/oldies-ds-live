@@ -21,7 +21,12 @@ public class Package
 		resources.add(image);
 	}
 	
-	public void addFont(PixelFont font)
+	public void addPixelFont(PixelFont font)
+	{
+		resources.add(font);
+	}
+	
+	public void addVectorFont(VectorFont font)
 	{
 		resources.add(font);
 	}

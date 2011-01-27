@@ -28,9 +28,7 @@ namespace Framework.core
 
         private static GraphicsDevice graphicsDevice;
         private static SpriteBatch spriteBatch;
-        private static BasicEffect basicEffect;
-
-        private static SpriteFont infoFont;
+        private static BasicEffect basicEffect;               
 
         private static BatchMode batchMode = BatchMode.None;
         private static Matrix matrix;
@@ -113,11 +111,6 @@ namespace Framework.core
                     blendMode = value;
                 }
             }
-        }
-
-        public static void SetInfoFont(SpriteFont font)
-        {
-            infoFont = font;
         }
 
         public static void SetColor(Color color)
@@ -226,11 +219,6 @@ namespace Framework.core
         {
             Matrix r = Matrix.CreateScale(sx, sy, sz);
             AddTransform(r);
-        }
-
-        public static void DrawString(float x, float y, String text)
-        {
-            GetSpriteBatch(BatchMode.Sprite).DrawString(infoFont, text, new Vector2((float)x, (float)y), Color.Red);
         }
 
         public static void DrawString(SpriteFont font, float x, float y, String text)

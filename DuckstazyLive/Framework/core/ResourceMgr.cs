@@ -17,7 +17,8 @@ namespace Framework.core
         RESOURCE_TYPE_TEXTURE,        
         RESOURCE_TYPE_SOUND,
         RESOURCE_TYPE_SONG,        
-        RESOURCE_TYPE_FONT,        
+        RESOURCE_TYPE_PIXEL_FONT,
+        RESOURCE_TYPE_VECTOR_FONT,
         RESOURCE_TYPE_BINARY
     }    
 
@@ -170,9 +171,13 @@ namespace Framework.core
                     res = loadSong(r);
                     break;
 
-                case ResourceType.RESOURCE_TYPE_FONT:
+                case ResourceType.RESOURCE_TYPE_PIXEL_FONT:
                     res = loadPixelFont(r);
                     break;               
+
+                case ResourceType.RESOURCE_TYPE_VECTOR_FONT:
+                    res = loadVectorFont(r);
+                    break;
 
                 case ResourceType.RESOURCE_TYPE_BINARY:
                     res = loadBinary(r);

@@ -283,13 +283,6 @@ namespace DuckstazyLive.game.stages.story
             }
         }        
 
-        public override void draw2(Canvas canvas)
-        {
-            base.draw2(canvas);
-
-            AppGraphics.DrawString(0, 0, "Power: " + level.power);
-        }
-
         private void startFirework()
         {
             Debug.Assert(fireworkQueue.Count > 0);
