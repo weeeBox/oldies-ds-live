@@ -37,7 +37,7 @@
 		<content projFile="${file.proj}" codeFile="${file.code}">
 			<package name="PACK_COMMON1">
 				<image name="font_big_tex" file="${dir.art}/font_big_tex.png" />
-				<font name="big" file="${dir.art}/font_big.pixelfont" />
+				<pixelFont name="big" file="${dir.art}/font_big.pixelfont" />
 				<image name="ui_button_a" file="${dir.art}/buttonA.png" />
 				<image name="ui_button_b" file="${dir.art}/buttonB.png" />				
 			</package>
@@ -63,7 +63,8 @@
 			
 			<package name="PACK_GAME">
 				<image name="font_hud_digits_tex" file="${dir.art}/font_hud_digits_tex.png" />
-				<font name="hud_digits" file="${dir.art}/font_hud_digits.pixelfont" />
+				<pixelFont name="hud_digits" file="${dir.art}/font_hud_digits.pixelfont" />
+				<vectorFont name="float" file="${dir.art}/font_float.spritefont" />
 				<image name="duck" file="${dir.art}/duck_fake.png" />
 				<image name="duck2" file="${dir.art}/duck_fake2.png" />
 				<image name="duck_sleep" file="${dir.art}/duck_sleep.png" />

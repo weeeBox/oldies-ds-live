@@ -55,10 +55,7 @@ namespace DuckstazyLive
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to processDraw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
-            infoFont = Content.Load<SpriteFont>("Mini");
-            AppGraphics.SetInfoFont(infoFont);            
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
 
             application = new DuckstazyApp(Content);
             application.onApplicationStart();

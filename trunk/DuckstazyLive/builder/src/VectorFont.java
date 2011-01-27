@@ -1,8 +1,8 @@
 
-public class PixelFont extends Resource 
+public class VectorFont extends Resource 
 {	
-	private static final String IMPORTER = "PixelFontImporter";
-	private static final String PROCESSOR = "PixelFontProcessor";
+	private static final String IMPORTER = "FontDescriptionImporter";
+	private static final String PROCESSOR = "FontDescriptionProcessor";
 
 	static
 	{
@@ -24,7 +24,7 @@ public class PixelFont extends Resource
 	@Override
 	public String getResourceType() 
 	{
-		return "RESOURCE_TYPE_PIXEL_FONT";
+		return "RESOURCE_TYPE_VECTOR_FONT";
 	}
 	
 	@Override
