@@ -73,8 +73,10 @@
     <Compile Include="visual\Font.cs" />
     <Compile Include="visual\GeometryFactory.cs" />
     <Compile Include="visual\Image.cs" />
+    <Compile Include="visual\PixelFont.cs" />
     <Compile Include="visual\Text.cs" />
     <Compile Include="visual\TiledImage.cs" />
+    <Compile Include="visual\VectorFont.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework">

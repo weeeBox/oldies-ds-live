@@ -120,11 +120,13 @@
     <Compile Include="visual\AbstractButton.cs" />
     <Compile Include="visual\Camera.cs" />
     <Compile Include="visual\CustomGeomerty.cs" />
-    <Compile Include="visual\Font.cs" />
+    <Compile Include="visual\PixelFont.cs" />
     <Compile Include="visual\GeometryFactory.cs" />
+    <Compile Include="visual\Font.cs" />
     <Compile Include="visual\Image.cs" />
     <Compile Include="visual\Text.cs" />
     <Compile Include="visual\TiledImage.cs" />
+    <Compile Include="visual\VectorFont.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
