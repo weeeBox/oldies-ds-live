@@ -223,7 +223,7 @@ namespace Framework.core
 
         public static void DrawString(SpriteFont font, float x, float y, String text)
         {
-            GetSpriteBatch(BatchMode.Sprite).DrawString(font, text, new Vector2((float)x, (float)y), Color.Red);
+            GetSpriteBatch(BatchMode.Sprite).DrawString(font, text, new Vector2((float)x, (float)y), drawColor);
         }
       
         public static void DrawImage(Texture2D tex, float x, float y)

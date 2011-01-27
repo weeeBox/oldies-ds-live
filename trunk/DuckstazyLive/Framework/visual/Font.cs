@@ -12,7 +12,7 @@ namespace Framework.visual
         int fontHeight();
         int LineOffset { get; }
 
-        void drawString(string s, float dx, float dy);
-        void drawString(string s, float dx, float dy, TextAlign textAlign);
+        void drawString(string text, float x, float y);
+        void drawString(string text, float x, float y, TextAlign textAlign);
     }
 }

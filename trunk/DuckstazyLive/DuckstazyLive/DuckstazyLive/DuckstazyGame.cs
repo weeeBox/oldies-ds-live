@@ -23,8 +23,6 @@ namespace DuckstazyLive
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SpriteFont infoFont;
-
         DuckstazyApp application;        
 
         public DuckstazyGame()
