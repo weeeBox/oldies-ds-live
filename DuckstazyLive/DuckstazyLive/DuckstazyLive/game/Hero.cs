@@ -65,7 +65,20 @@ namespace DuckstazyLive.game
             new Rect(29.0f, 35.0f, 12.0f, 6.0f),
         };
 
+        private static Rect[] ATTACKER_RECTS =
+        {
+            new Rect(14.0f, 12.0f, 35.0f, 25.0f)            
+        };
+
+        private static Rect[] VICTIM_RECTS =
+        {
+            new Rect(8.0f, 0.0f, 16.0f, 16.0f),
+            new Rect(15.0f, 13.0f, 35.0f, 25.0f),
+        };
+
         private static Rect[] COLLISION_RECTS_FLIP;
+        private static Rect[] ATTACKER_RECTS_FLIP;
+        private static Rect[] VICTIM_RECTS_FLIP;
 
         private const float STICK_HOR_THRESHOLD = 0.1f;
         private const float STICK_VER_THRESHOLD = 0.7f;
@@ -76,10 +89,12 @@ namespace DuckstazyLive.game
 
         private const int MAX_KICKED_PILLS = 10;
 
-        public float x;
-        public float y;
-        public float xLast;
-        public float yLast;
+        public Vector2 pos;
+        public Vector2 lastPos;
+        //public float x;
+        //public float y;
+        //public float xLast;
+        //public float yLast;
         private float dx;
         private float dy;
         public bool flip;
@@ -143,7 +158,7 @@ namespace DuckstazyLive.game
         public void clear()
         {
             state = HERO_NORMAL;
-            x = 0;
+            pos = lastPos = Vector2.Zero;
             gameState.health = gameState.maxHP;
             init();
         }
@@ -171,7 +186,7 @@ namespace DuckstazyLive.game
 
             blinkTime = 0.0f;
 
-            y = 400 - duck_h2;
+            pos.Y = 400 - duck_h2;
             sx = sy = 1.0f;
             compressCounter = 0.0f;
             jumpedElasped = 0.0f;
@@ -228,8 +243,8 @@ namespace DuckstazyLive.game
             if (!isDead())
                 updateGamepadInput();
 
-            xLast = x;
-            yLast = y;
+            lastPos.X = x;
+            lastPos.Y = y;            
 
             if (pillsToAdd != 0)
             {
@@ -325,13 +340,13 @@ namespace DuckstazyLive.game
                 }
             }
 
-            x += move * utils.lerp(power, duck_move_speed_min, duck_move_speed_max) * dt;
+            pos.X += move * utils.lerp(power, duck_move_speed_min, duck_move_speed_max) * dt;
 
 
             if (x < -duck_w)
-                x += 640.0f;
+                pos.X += 640.0f;
             if (x > (640.0f - duck_w))
-                x -= 640.0f;
+                pos.X -= 640.0f;
 
             if ((wingLock || compressCounter > 0.0f) && isActive())
             {
@@ -380,7 +395,7 @@ namespace DuckstazyLive.game
                 if (wingLock && isActive() && wingYLocked)
                 {
                     jumpWingVel -= 392.0f * dt;//(gravityK+diveK)*dt;
-                    y -= jumpWingVel * dt;
+                    pos.Y -= jumpWingVel * dt;
                 }
                 else
                 {
@@ -389,7 +404,7 @@ namespace DuckstazyLive.game
                         if (jumpVel >= 0.0f)
                         {
                             jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
-                            y -= jumpVel * dt;
+                            pos.Y -= jumpVel * dt;
                             if (jumpVel <= 0.0f)
                             {
                                 wingYLocked = true;
@@ -399,13 +414,13 @@ namespace DuckstazyLive.game
                         else
                         {
                             jumpVel += 5.0f * duck_jump_gravity * dt;
-                            y -= jumpVel * dt;
+                            pos.Y -= jumpVel * dt;
                         }
                     }
                     else
                     {
                         jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
-                        y -= jumpVel * dt;
+                        pos.Y -= jumpVel * dt;
                     }
                 }
 
@@ -414,7 +429,7 @@ namespace DuckstazyLive.game
                 {
                     wingLock = false;
                     fly = false;
-                    y = 400 - duck_h2;
+                    pos.Y = 400 - duck_h2;
 
                     heroes.media.playLand();
                     //utils.playSound(land_snd, (power+0.3)*Math.abs(jumpVel)/200.0, pos.x+27);
@@ -427,7 +442,7 @@ namespace DuckstazyLive.game
                     diveK = 0.0f;
                 }
                 else if (y < -50.0f)
-                    y = -50.0f;
+                    pos.Y = -50.0f;
             }
 
             if (wingCounter > 0)
@@ -710,7 +725,7 @@ namespace DuckstazyLive.game
             if (flip)
                 px = 2 * (x + duck_w) - px;
 
-            check = fly && (yLast + duck_h2) <= py && (y + duck_h2) >= (py - 10);
+            check = fly && (lastPos.Y + duck_h2) <= py && (y + duck_h2) >= (py - 10);
 
             if (isSleep())
             {
@@ -786,7 +801,7 @@ namespace DuckstazyLive.game
             bool succ = false;
             if (checkDive(cx, cy))
             {
-                //jumpVel = duck_jump_toxic;
+                //jumpVel = duck_jump_toxic;                
                 jump(40);
                 //media.playJump();
                 succ = true;
@@ -830,7 +845,7 @@ namespace DuckstazyLive.game
 
         public bool canBeJumped()
         {
-            return jumpedElasped > JUMP_ON_TIMEOUT;
+            return !isSleep() && jumpedElasped > JUMP_ON_TIMEOUT;
         }
 
         public void jumpedBy(Hero other)
@@ -1024,7 +1039,7 @@ namespace DuckstazyLive.game
         public void start(float _x)
         {
             started = true;
-            x = _x;
+            pos.X = _x;
             flip = utils.rnd() < 0.5;
             startSleepParticles();
             heroes.media.playAwake();
@@ -1051,13 +1066,20 @@ namespace DuckstazyLive.game
 
         private void initCollisionRects()
         {
-            if (COLLISION_RECTS_FLIP == null)
+            initCollisionRects(COLLISION_RECTS, ref COLLISION_RECTS_FLIP);
+            initCollisionRects(ATTACKER_RECTS, ref ATTACKER_RECTS_FLIP);
+            initCollisionRects(VICTIM_RECTS, ref VICTIM_RECTS_FLIP);            
+        }
+
+        private void initCollisionRects(Rect[] normal, ref Rect[] fliped)
+        {
+            if (fliped == null)
             {
-                COLLISION_RECTS_FLIP = new Rect[COLLISION_RECTS.Length];
-                for (int i = 0; i < COLLISION_RECTS.Length; ++i)
+                fliped = new Rect[normal.Length];
+                for (int i = 0; i < normal.Length; ++i)
                 {
-                    Rect r = COLLISION_RECTS[i];
-                    COLLISION_RECTS_FLIP[i] = new Rect(duck_w2 - (r.X + r.Width), r.Y, r.Width, r.Height);
+                    Rect r = normal[i];
+                    fliped[i] = new Rect(duck_w2 - (r.X + r.Width), r.Y, r.Width, r.Height);
                 }
             }
         }
@@ -1100,6 +1122,16 @@ namespace DuckstazyLive.game
         private Env getEnv()
         {
             return GameElements.Env;
+        }
+
+        public float x
+        {
+            get { return pos.X; }
+        }
+
+        public float y
+        {
+            get { return pos.Y; }
         }
     }
 }

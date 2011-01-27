@@ -93,49 +93,32 @@ namespace DuckstazyLive.game
                 Hero hero1 = heroes[0];
                 Hero hero2 = heroes[1];
 
-                if (heroesIntersects(hero1, hero2))
+                // check attack
+                if (checkHeroAttack(hero1, hero2))
                 {
-                    if (checkHeroJump(hero1, hero2))
-                    {
-                        hero1.jumpOn(hero2);
-                    }
-                    else if (checkHeroJump(hero2, hero1))
-                    {
-                        hero2.jumpOn(hero1);
-                    }
+                    hero1.jumpOn(hero2);
                 }
-            }
-        }
-
-        private bool checkHeroJump(Hero h1, Hero h2)
-        {
-            return h2.canBeJumped() && h1.y < h2.y && h1.y + Hero.duck_h2 < h2.y + 0.2f * Hero.duck_h2;
-        }
-
-        private bool heroesIntersects(Hero h1, Hero h2)
-        {
-            float w = Hero.duck_w2;
-            float h = Hero.duck_h2;
-            if (rectRect(h1.x, h1.y, w, h, h2.x, h2.y, w, h))
-            {
-                Rect[] r1 = h1.getCollisionRects();
-                Rect[] r2 = h2.getCollisionRects();
-
-                for (int i = 0; i < r1.Length; ++i)
+                else if (checkHeroAttack(hero2, hero1))
                 {
-                    float rx = h1.x + r1[i].X;
-                    float ry = h1.y + r1[i].Y;
-                    float rw = r1[i].Width;
-                    float rh = r1[i].Height;
-                    for (int j = 0; j < r2.Length; ++j)
-                    {
-                        if (rectRect(rx, ry, rw, rh, h2.x + r2[j].X, h2.y + r2[j].Y, r2[j].Width, r2[j].Height))
-                            return true;
-                    }
-                }
+                    hero2.jumpOn(hero1);
+                }                
             }
-            return false;
+        }        
+
+        private bool checkHeroAttack(Hero attacker, Hero victim)
+        {
+            if (!canMakeAttack(attacker, victim))
+                return false;            
+
+            return true;
         }
+
+        private bool canMakeAttack(Hero attacker, Hero victim)
+        {
+            return victim.canBeJumped() // victim can be jumped
+                && attacker.lastPos.Y < victim.lastPos.Y// attacker was higher than victim
+                && attacker.lastPos.Y <= attacker.pos.Y; // attacker is flying horizontaly or drops down
+        }        
 
         private bool rectRect(ref Rect r1, ref Rect r2)
         {

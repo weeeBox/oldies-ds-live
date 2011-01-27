@@ -350,6 +350,17 @@ namespace Framework.core
             graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.LineStrip, vertexData, 0, 4, indexData, 0, 4);
         }
 
+        public static void DrawLine(float x1, float y1, float x2, float y2, Color color)
+        {
+            GetSpriteBatch(BatchMode.Geometry);
+
+            VertexPositionColor[] vertexData = new VertexPositionColor[2];
+            vertexData[0] = new VertexPositionColor(new Vector3(x1, y1, 0), color);
+            vertexData[1] = new VertexPositionColor(new Vector3(x2, y2, 0), color);            
+
+            graphicsDevice.DrawUserPrimitives(PrimitiveType.LineStrip, vertexData, 0, 1);
+        }
+
         public static void FillRect(float x, float y, float width, float height, Color color)
         {
             GetSpriteBatch(BatchMode.Geometry);
