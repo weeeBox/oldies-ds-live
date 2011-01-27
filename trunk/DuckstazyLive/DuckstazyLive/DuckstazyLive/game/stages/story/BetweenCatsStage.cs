@@ -291,7 +291,7 @@ namespace DuckstazyLive.game.levels
                     break;
                 case 1:
                     if (hero.x >= 76 - 54 && hero.x <= 140 &&
-                        hero.yLast < 178 - 40 && hero.y >= 178 - 40)
+                        hero.lastPos.Y < 178 - 40 && hero.y >= 178 - 40)
                     {
                         hero.jump(120);
                         getEnv().startBlanc();
@@ -314,7 +314,7 @@ namespace DuckstazyLive.game.levels
                     {
                         catAttack = 5.0f;
                         if (hero.x >= 500 - 54 && hero.x <= 566 &&
-                            hero.yLast < 178 - 40 && hero.y >= 178 - 40)
+                            hero.lastPos.Y < 178 - 40 && hero.y >= 178 - 40)
                         {
                             hero.jump(120);
                             getEnv().startBlanc();
