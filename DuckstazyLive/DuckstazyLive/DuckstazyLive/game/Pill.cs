@@ -421,6 +421,7 @@ namespace DuckstazyLive.game
                     {
                         if (hero.isActive())
                             level.gainPower(power);
+
                         if (level.power >= 0.5)
                         {
                             i = id + level.state.hell;

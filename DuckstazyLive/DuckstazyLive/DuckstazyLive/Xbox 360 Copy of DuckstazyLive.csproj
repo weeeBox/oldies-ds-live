@@ -155,7 +155,6 @@
     <Compile Include="game\stages\versus\TripleFrog.cs" />
     <Compile Include="game\stages\versus\VersusLevelStage.cs" />
     <Compile Include="game\stages\versus\VersusProgress.cs" />
-    <Compile Include="game\TextField.cs" />
     <Compile Include="game\VersusResultView.cs" />
     <Compile Include="game\VersusStageSelect.cs" />
     <Compile Include="game\VersusView.cs" />
