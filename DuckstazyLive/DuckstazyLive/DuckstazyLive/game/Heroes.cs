@@ -93,24 +93,92 @@ namespace DuckstazyLive.game
                 Hero hero1 = heroes[0];
                 Hero hero2 = heroes[1];
 
-                // check attack
-                if (checkHeroAttack(hero1, hero2))
+                // check attack                
+                if (doHeroAttack(hero1, hero2))
                 {
                     hero1.jumpOn(hero2);
                 }
-                else if (checkHeroAttack(hero2, hero1))
+                else if (doHeroAttack(hero2, hero1))
                 {
                     hero2.jumpOn(hero1);
                 }                
             }
         }        
 
-        private bool checkHeroAttack(Hero attacker, Hero victim)
+        private bool doHeroAttack(Hero attacker, Hero victim)
         {
             if (!canMakeAttack(attacker, victim))
-                return false;            
+                return false;
 
-            return true;
+            Vector2 attackeOffset = attacker.pos - attacker.lastPos;
+            Vector2 victimOffset = victim.pos - victim.lastPos;
+
+            // use coordinate system where victim is still
+            Vector2 p = attacker.lastPos - victim.lastPos;
+            Vector2 r = attackeOffset - victimOffset;
+
+            // check against different parts
+            Rect[] attackerRects = attacker.getAttackerRects();
+            Rect[] victimRects = victim.getVictimRect();
+
+            float t = 1.0f;
+            bool hasCollision = false;
+
+            foreach (Rect ar in attackerRects)
+            {
+                float ax = p.X + ar.X;
+                float ay = p.Y + ar.Y;
+                float aw = ar.Width;
+                float ah = ar.Height;
+
+                LineSegment s1 = new LineSegment(ax, ay, r);
+                LineSegment s2 = new LineSegment(ax + aw, ay, r);
+                LineSegment s3 = new LineSegment(ax + aw, ay + ah, r);
+                LineSegment s4 = new LineSegment(ax, ay + ah, r);
+
+                foreach (Rect vr in victimRects)
+                {
+                    float vicX = vr.X;
+                    float vicY = vr.Y;
+                    float vw = vr.Width;
+                    float vh = vr.Height;
+
+                    float ct;
+                    if (s1.collidesRect(vicX, vicY, vw, vh, out ct))
+                    {
+                        hasCollision = true;
+                        if (ct < t)
+                            t = ct;
+                    }
+                    if (s2.collidesRect(vicX, vicY, vw, vh, out ct))
+                    {
+                        hasCollision = true;
+                        if (ct < t)
+                            t = ct;
+                    }
+                    if (s3.collidesRect(vicX, vicY, vw, vh, out ct))
+                    {
+                        hasCollision = true;
+                        if (ct < t)
+                            t = ct;
+                    }
+                    if (s4.collidesRect(vicX, vicY, vw, vh, out ct))
+                    {
+                        hasCollision = true;
+                        if (ct < t)
+                            t = ct;
+                    }
+                }
+            }
+
+            if (hasCollision)
+            {
+                // move them out of collision
+                attacker.pos = attacker.lastPos + t * attackeOffset;
+                victim.pos = victim.lastPos + t * victimOffset;
+            }
+
+            return hasCollision;
         }
 
         private bool canMakeAttack(Hero attacker, Hero victim)

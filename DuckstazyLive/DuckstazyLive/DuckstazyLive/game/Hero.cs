@@ -71,9 +71,8 @@ namespace DuckstazyLive.game
         };
 
         private static Rect[] VICTIM_RECTS =
-        {
-            new Rect(8.0f, 0.0f, 16.0f, 16.0f),
-            new Rect(15.0f, 13.0f, 35.0f, 25.0f),
+        {            
+            new Rect(8.0f, 12.0f, 44.0f, 25.0f),
         };
 
         private static Rect[] COLLISION_RECTS_FLIP;
@@ -556,7 +555,24 @@ namespace DuckstazyLive.game
                 }
                 drawHero(canvas, dx, dy, alpha);
             }
+
+            // AppGraphics.DrawRect(utils.scale(x), utils.scale(y), utils.scale(duck_w2), utils.scale(duck_h2), Color.White);
+
+            // Rect[] attackRects = getAttackerRects();
+            // drawRects(attackRects, Color.Red);
+            // Rect[] victimRects = getVictimRect();
+            // drawRects(victimRects, Color.Blue);
+
+            
         }
+
+        // private void drawRects(Rect[] rects, Color c)
+        // {
+        //    foreach (Rect r in rects)
+        //    {
+        //        AppGraphics.DrawRect(utils.scale(x + r.X), utils.scale(y + r.Y), utils.scale(r.Width), utils.scale(r.Height), c);
+        //    }
+        // }
 
         private void drawHero(Canvas dest, float x, float y, float trans)
         {
@@ -977,6 +993,22 @@ namespace DuckstazyLive.game
                 return COLLISION_RECTS_SLEEP;
 
             return flip ? COLLISION_RECTS_FLIP : COLLISION_RECTS;
+        }
+
+        public Rect[] getAttackerRects()
+        {
+            if (flip)
+                return ATTACKER_RECTS_FLIP;
+
+            return ATTACKER_RECTS;
+        }
+
+        public Rect[] getVictimRect()
+        {
+            if (flip)
+                return VICTIM_RECTS_FLIP;
+
+            return VICTIM_RECTS;
         }
 
         public bool overlapsCircle(float cx, float cy, float r)
