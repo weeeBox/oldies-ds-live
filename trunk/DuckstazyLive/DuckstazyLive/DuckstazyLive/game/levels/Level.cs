@@ -134,6 +134,7 @@ namespace DuckstazyLive.game
             env.playMusic();
 
             stage.start();
+            hud.onEnterLevel();
             Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
         }
 

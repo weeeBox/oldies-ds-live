@@ -130,6 +130,11 @@ namespace DuckstazyLive.game.stages
             update(dt);            
         }
 
+        public virtual void onEnterLevel()
+        {
+
+        }
+
         protected void startClock(float x, float y)
         {            
             clock.show(x, y);

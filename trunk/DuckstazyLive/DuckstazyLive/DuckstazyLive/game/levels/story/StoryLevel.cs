@@ -21,12 +21,10 @@ namespace DuckstazyLive.game
         {
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
 
-            infoText = new Text(font);
-            infoText.setString("");            
+            infoText = new Text(font);            
             addChild(infoText);
 
             progressText = new Text(font);
-            progressText.setString("");
             progressText.setAlign(ALIGN_CENTER, ALIGN_CENTER);
             progressText.parentAlignX = progressText.parentAlignY = ALIGN_CENTER;
             addChild(progressText);
@@ -43,18 +41,38 @@ namespace DuckstazyLive.game
             }            
         }
 
-        public void startLevelProgress(float x, float y)
-        {            
-            infoText.setEnabled(true);
-            infoText.x = x;
-            infoText.y = y;
+        public override void onEnterLevel()
+        {
+            progressText.setString("");
+            infoText.setString("");
+            progressText.visible = infoText.visible = false;            
         }
 
-        public void setInfoText(string infoText)
-        {            
-            if (progressText.getString() != infoText)
+        public void setProgressText(string text)
+        {
+            setText(progressText, text);
+        }
+
+        public void setInfoText(string text)
+        {
+            setText(infoText, text);
+        }       
+
+        private void setText(Text element, string text)
+        {
+            string oldText = element.getString();
+            if (oldText != text)
             {
-                progressText.setString(infoText);
+                element.setString(text);
+                if (!element.visible)
+                {
+                    element.visible = true;
+                    element.turnTimelineSupportWithMaxKeyFrames(2);
+                    element.scaleX = element.scaleY = 0.1f;
+                    element.addKeyFrame(new KeyFrame(element.x, element.y, Color.White, 1.2f, 1.2f, 0.0f, 0.5f));
+                    element.addKeyFrame(new KeyFrame(element.x, element.y, Color.White, 1.0f, 1.0f, 0.0f, 0.2f));
+                    element.playTimeline();
+                }                
             }
         }        
 
