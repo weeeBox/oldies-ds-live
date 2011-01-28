@@ -92,8 +92,7 @@ namespace DuckstazyLive.game.stages
             {
                 HealthSmile smile = new HealthSmile(baseImageId);               
                 addChild(smile, i);
-            }
-            drawBorders = true;
+            }            
             arrangeHorizontally(0, 0);
             resizeToFitItems();
         }        
@@ -107,8 +106,6 @@ namespace DuckstazyLive.game.stages
 
         public Hud(Level level)
         {
-            drawBorders = true;
-
             this.level = level;
             this.width = (int)Constants.TITLE_SAFE_AREA_WIDTH;
             this.height = 50;
