@@ -24,7 +24,17 @@ namespace DuckstazyLive.game
 
         protected override HealthBar[] createBars()
         {
-            throw new NotImplementedException();
+            HealthBar bar1 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE);
+            bar1.setAlign(ALIGN_MIN, ALIGN_CENTER);
+            bar1.parentAlignX = ALIGN_MIN;
+            bar1.parentAlignY = ALIGN_CENTER;
+
+            HealthBar bar2 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE2);
+            bar2.setAlign(ALIGN_MAX, ALIGN_CENTER);
+            bar2.parentAlignX = ALIGN_MAX;
+            bar2.parentAlignY = ALIGN_CENTER;
+
+            return new HealthBar[] { bar1, bar2 };
         }
     }
 
