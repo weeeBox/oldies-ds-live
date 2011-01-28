@@ -26,45 +26,36 @@ public class FontInfo
 	public BufferedImage pack(int packWidth, int aliasBorder)
 	{
 		int totalHeight = 0;
-		int totalWidth = 0;
-		int lineWidth = 0;
+		int totalWidth = 0;		
 		int lineHeight = 0;
+		int px = 0;
+		int py = 0;
 		packedChars.clear();
 		for (CharInfo c : charsImages) 
 		{
+			int charWidth = aliasBorder + c.getWidth();
 			int charHeight = c.getY() + c.getHeight();
 			if (lineHeight < charHeight)
 			{
 				lineHeight = charHeight;
 			}
 			
-			int px, py;
-			int charWidth = aliasBorder + c.getWidth();
-			if (lineWidth + charWidth > packWidth)
-			{				
-				totalHeight += lineHeight + aliasBorder;
-				lineWidth = 0;
-				lineHeight = 0;
-				px = 0;				
-			}
-			else
-			{
-				px = lineWidth;				 
-			}
-			lineWidth += charWidth;
-			if (totalWidth < lineWidth)
-			{
-				totalWidth = lineWidth;
-			}
-			py = totalHeight;
-			
 			packedChars.add(new CharInfo(c.getChar(), px, py, c.getWidth(), c.getHeight(), c.getOffX(), c.getOffY()));
+			
+			if (totalWidth < px + charWidth)
+				totalWidth = px + charWidth;
+			if (totalHeight < py + charHeight)
+				totalHeight = py + charHeight;
+			
+			px += charWidth;
+			
+			if (px > packWidth)
+			{		
+				px = 0;
+				py += lineHeight;
+				lineHeight = 0;				
+			}			
 		}		
-		
-		if (totalHeight == 0)
-		{
-			totalHeight = 2 * aliasBorder + lineHeight;
-		}
 		
 		BufferedImage packedImage = new BufferedImage(totalWidth, totalHeight, BufferedImage.TYPE_INT_ARGB);
 		Graphics g = packedImage.getGraphics();		

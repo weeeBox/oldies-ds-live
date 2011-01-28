@@ -49,6 +49,7 @@ namespace Framework.core
             }
         }
 
+        public bool drawBorders;
         public bool visible;        
         public bool updateable;
         private bool focusable;
@@ -211,7 +212,14 @@ namespace Framework.core
         }
 
         public virtual void postDraw()
-        {           
+        {
+#if DEBUG
+            if (drawBorders)
+            {
+                AppGraphics.DrawRect(drawX, drawY, width - 1, height - 1, Color.White);
+            }
+#endif
+
             restoreTransformations();            
         }
 

@@ -12,6 +12,7 @@ namespace DuckstazyLive.game
 
         public Vector2 POSITION;
         public Vector2 ORIGIN;
+        public Vector2 ALIGN;
         public Vector2 SCALE;
         public float ROTATION;
         public Vector2 FLIP;
@@ -48,9 +49,20 @@ namespace DuckstazyLive.game
         {            
             POSITION.X = POSITION.Y = 0.0f;
             ORIGIN.X = ORIGIN.Y = 0.0f;
+            ALIGN.X = ALIGN.Y = 0.0f;
             SCALE.X = SCALE.Y = 1.0f;
             ROTATION = 0;
             FLIP.X = FLIP.Y = 0.0f;            
+        }
+
+        public float alignX
+        {
+            set { ALIGN.X = value; }
+        }
+
+        public float alignY
+        {
+            set { ALIGN.Y = value; }
         }
 
         public float tx

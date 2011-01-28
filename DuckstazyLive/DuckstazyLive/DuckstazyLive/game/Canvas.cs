@@ -48,17 +48,21 @@ namespace DuckstazyLive.game
                 AppGraphics.SetBlendMode(transform.blendMode);
             }
 
+            Vector2 origin = mat.ORIGIN;
+            origin.X += mat.ALIGN.X * image.Width;
+            origin.Y += mat.ALIGN.Y * image.Height;            
+
             if (mat.UseScale)
             {
                 Vector2 scaledPosition;
                 Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);
                 Vector2 scaledOrigin;
-                Vector2.Multiply(ref mat.ORIGIN, Constants.SCALE, out scaledOrigin);
+                Vector2.Multiply(ref origin, Constants.SCALE, out scaledOrigin);
                 AppGraphics.DrawImage(image, ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
             }
             else
             {
-                AppGraphics.DrawImage(image, ref mat.POSITION, ref color, mat.ROTATION, ref mat.ORIGIN, ref mat.SCALE, ref mat.FLIP);
+                AppGraphics.DrawImage(image, ref mat.POSITION, ref color, mat.ROTATION, ref origin, ref mat.SCALE, ref mat.FLIP);
             }
 
             AppGraphics.SetBlendMode(blendMode);

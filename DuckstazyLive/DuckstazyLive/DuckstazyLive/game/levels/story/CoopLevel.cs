@@ -10,9 +10,33 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.Diagnostics;
 using DuckstazyLive.game.stages.story;
+using DuckstazyLive.game.stages;
 
 namespace DuckstazyLive.game
 {
+    public class CoopLevelHud : StoryLevelHud
+    {
+        public CoopLevelHud(Level level) : base(level)
+        {
+
+        }
+
+        protected override HealthBar[] createBars()
+        {
+            HealthBar bar1 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE);
+            bar1.setAlign(ALIGN_MIN, ALIGN_CENTER);
+            bar1.parentAlignX = ALIGN_MIN;
+            bar1.parentAlignY = ALIGN_CENTER;
+
+            HealthBar bar2 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE2);
+            bar2.setAlign(ALIGN_MAX, ALIGN_CENTER);
+            bar2.parentAlignX = ALIGN_MAX;
+            bar2.parentAlignY = ALIGN_CENTER;
+
+            return new HealthBar[] { bar1, bar2 };
+        }
+    }
+
     public class CoopLevel : StoryLevel
     {        
         private enum LevelStages
@@ -90,6 +114,11 @@ namespace DuckstazyLive.game
                     break;
             }
             return null;
+        }               
+
+        protected override Hud createHud()
+        {
+            return new CoopLevelHud(this);
         }
 
         protected override int getStagesCount()
@@ -101,53 +130,6 @@ namespace DuckstazyLive.game
         {            
             stageIndex++;
             return createStage(stageIndex);
-        }
-
-        public override void drawHud(Canvas canvas)
-        {
-            Heroes heroes = getHeroes();
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-            heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-
-            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            float infoY = Constants.TITLE_SAFE_TOP_Y;
-            bool hasInfoText = infoText != null;
-
-            if (getStage().hasTimeLimit())
-            {
-                float t = getStage().getRemainingTime();
-                int i = (int)(t / 60);
-                string timeStr;
-                if (i < 10) timeStr = "0" + i.ToString() + ":";
-                else timeStr = i.ToString() + ":";
-                i = ((int)t) % 60;
-                if (i < 10) timeStr += "0" + i.ToString();
-                else timeStr += i.ToString();
-
-                float timeX;
-                float timeY = infoY;
-                if (hasInfoText)
-                {
-                    infoX = 0.4f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-                    timeX = 0.6f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-                }
-                else
-                {
-                    timeX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-                }
-                
-                font.drawString(timeStr, timeX, timeY, TextAlign.HCENTER | TextAlign.VCENTER);                
-            }
-            else
-            {
-                infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            }
-            if (hasInfoText)
-            {
-                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-            }
-        }
+        }       
     }
 }

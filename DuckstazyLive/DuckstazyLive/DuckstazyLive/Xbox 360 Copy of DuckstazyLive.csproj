@@ -136,6 +136,7 @@
     <Compile Include="game\stages\generator\Placer.cs" />
     <Compile Include="game\stages\generator\PowerSetuper.cs" />
     <Compile Include="game\stages\generator\Setuper.cs" />
+    <Compile Include="game\stages\Hud.cs" />
     <Compile Include="game\stages\story\AirAttack.cs" />
     <Compile Include="game\stages\story\BetweenCatsStage.cs" />
     <Compile Include="game\stages\story\Bubbles.cs" />

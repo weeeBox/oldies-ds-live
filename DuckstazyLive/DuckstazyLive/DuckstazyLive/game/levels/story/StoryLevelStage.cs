@@ -127,7 +127,7 @@ namespace DuckstazyLive.game
 
         protected void setInfoText(String text)
         {
-            level.infoText = text;
+            level.setInfoText(text);
         }        
 
         public bool hasTimeLimit()
