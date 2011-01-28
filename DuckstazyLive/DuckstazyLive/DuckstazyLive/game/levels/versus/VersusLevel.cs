@@ -15,11 +15,72 @@ using DuckstazyLive.game.stages;
 
 namespace DuckstazyLive.game
 {
+    public class CollectedText : BaseElement
+    {        
+        private int heroIndex;
+        private Font font;
+
+        public CollectedText(int heroIndex)
+        {
+            this.heroIndex = heroIndex;
+
+            font = Application.sharedResourceMgr.getFont(Res.FNT_HUD_DIGITS);
+            width = font.stringWidth("000") - 4;
+            height = font.fontHeight();
+        }
+
+        public override void draw()
+        {
+            preDraw();
+
+            Hero hero = GameElements.Heroes[heroIndex];
+            int collected = hero.pillsCollected;            
+
+            float dx = width / 6.0f;            
+
+            int units = collected % 10;
+            int tens = (collected / 10) % 10;
+            int hundreds = collected / 100;
+            drawDigit(hundreds, drawX + dx, drawY, true);
+            drawDigit(tens, drawX + 3.0f * dx, drawY, collected < 100);
+            drawDigit(units, drawX + 5.0f * dx, drawY, collected < 10);
+            
+            postDraw();
+        }
+
+        private void drawDigit(int digit, float dx, float dy, bool useTransparency)
+        {
+            if (useTransparency && digit == 0)
+            {
+                AppGraphics.SetColor(Color.White * 0.5f);
+                font.drawString("0", dx, dy, TextAlign.TOP | TextAlign.HCENTER);
+                AppGraphics.SetColor(Color.White);                
+            }
+            else
+            {
+                font.drawString(digit.ToString(), dx, dy, TextAlign.TOP | TextAlign.HCENTER);
+            }
+        }
+    }
+
     public class VersusLevelHud : Hud
     {
+        protected CollectedText[] collectedTexts;        
+
         public VersusLevelHud(Level level) : base(level)
         {
+            collectedTexts = new CollectedText[2];            
+            CollectedText text1 = new CollectedText(0);            
+            CollectedText text2 = new CollectedText(1);
+            text1.x = 5;
+            text2.x = -5;
+            text1.parentAlignX = ALIGN_MIN;
+            text2.parentAlignX = ALIGN_MAX;
+            text1.parentAlignY = text2.parentAlignY = ALIGN_MAX;
+            text2.setAlign(ALIGN_MAX, ALIGN_MIN);
 
+            addChild(text1);
+            addChild(text2);
         }
 
         protected override HealthBar[] createBars()
