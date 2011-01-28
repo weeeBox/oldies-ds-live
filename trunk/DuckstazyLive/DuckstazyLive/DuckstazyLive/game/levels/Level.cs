@@ -10,6 +10,7 @@ using Framework.core;
 using Framework.visual;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using DuckstazyLive.game.stages;
 
 namespace DuckstazyLive.game
 {
@@ -24,9 +25,8 @@ namespace DuckstazyLive.game
         public GameState state;
         
         public LevelStage stage; // текущий уровень        
-        public StageMedia stageMedia;        
-
-        public String infoText;        
+        public StageMedia stageMedia;
+        public Hud hud;        
 
         // инфа 100%
         public GameInfo info;
@@ -49,10 +49,12 @@ namespace DuckstazyLive.game
             stageMedia = new StageMedia();
             stage = null;
 
-            canvas = new Canvas(0, 0);
+            hud = createHud();
+            canvas = new Canvas(0, 0);            
         }
         
-        protected abstract LevelStage createStage(int stageIndex);        
+        protected abstract LevelStage createStage(int stageIndex);
+        protected abstract Hud createHud();
 
         public void reset()
         {
@@ -82,13 +84,11 @@ namespace DuckstazyLive.game
         {
             levelStateElapsed = 0;
             this.levelState = levelState;
-        }
-
-        public abstract void drawHud(Canvas canvas);       
+        }        
 
         public override void draw()
         {
-            base.preDraw();            
+            preDraw();            
 
             getEnv().draw1(canvas);
  
@@ -103,13 +103,13 @@ namespace DuckstazyLive.game
             getParticles().draw(canvas);
             levelPostDraw();
 
-            getEnv().draw2(canvas);                
-            
-            drawHud(canvas);
+            getEnv().draw2(canvas);
+
+            hud.draw();
             stage.draw2(canvas);
             stage.drawUI(canvas);
 
-            base.postDraw();
+            postDraw();
 
             getEnv().drawBlanc(canvas);
         }
@@ -129,10 +129,9 @@ namespace DuckstazyLive.game
 
         public void enterLevel()
         {
-            getEnv().startBlanc();
-            infoText = null;
-
-            getEnv().playMusic();
+            Env env = getEnv();
+            env.startBlanc();
+            env.playMusic();
 
             stage.start();
             Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
@@ -182,7 +181,7 @@ namespace DuckstazyLive.game
                 else info.setRGB(0xffffff);
             }
             info.update(power, dt);
-            
+            hud.update(power, dt);
         }
 
         public void gainPower(float gained)

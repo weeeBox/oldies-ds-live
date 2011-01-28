@@ -64,6 +64,8 @@
 			<package name="PACK_GAME">
 				<image name="font_hud_digits_tex" file="${dir.art}/font_hud_digits_tex.png" />
 				<pixelFont name="hud_digits" file="${dir.art}/font_hud_digits.pixelfont" />
+				<image name="font_info_tex" file="${dir.art}/font_info_tex.png" />
+				<pixelFont name="info" file="${dir.art}/font_info.pixelfont" />
 				<vectorFont name="float" file="${dir.art}/font_float.spritefont" />
 				<image name="duck" file="${dir.art}/duck_fake.png" />
 				<image name="duck2" file="${dir.art}/duck_fake2.png" />

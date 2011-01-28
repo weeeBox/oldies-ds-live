@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 
 namespace Framework.core
 {
@@ -47,6 +48,13 @@ namespace Framework.core
 
         public override void postDraw()
         {
+#if DEBUG
+            if (drawBorders)
+            {
+                AppGraphics.DrawRect(drawX, drawY, width - 1, height - 1, Color.White);
+            }
+#endif
+
             if (!passTransformationsToChilds)
             {
                 restoreTransformations();

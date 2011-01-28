@@ -8,9 +8,25 @@ using Framework.visual;
 using Framework.core;
 using System.Diagnostics;
 using DuckstazyLive.game.stages.story;
+using DuckstazyLive.game.stages;
 
 namespace DuckstazyLive.game
 {
+    public class SingleLevelHud : StoryLevelHud
+    {
+        public SingleLevelHud(Level level) : base(level)
+        {            
+            infoText.setAlign(ALIGN_CENTER, ALIGN_MIN);
+            infoText.parentAlignX = ALIGN_CENTER;
+        }        
+
+        protected override HealthBar[] createBars()
+        {            
+            HealthBar bar = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE);
+            return new HealthBar[] { bar };
+        }
+    }
+
     public class SingleLevel : StoryLevel
     {
         private enum LevelStages
@@ -97,6 +113,11 @@ namespace DuckstazyLive.game
             return null;
         }
 
+        protected override Hud createHud()
+        {
+            return new SingleLevelHud(this);
+        }
+
         protected override LevelStage createNextStage()
         {            
             stageIndex++;
@@ -106,45 +127,6 @@ namespace DuckstazyLive.game
         protected override int getStagesCount()
         {
             return stagesCount;
-        }
-
-        public override void drawHud(Canvas canvas)
-        {
-            Heroes heroes = getHeroes();
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-
-            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            float infoY = Constants.TITLE_SAFE_TOP_Y;
-
-            if (infoText != null)
-            {
-                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-            }
-
-            if (getStage().hasTimeLimit())
-            {
-                float t = getStage().getRemainingTime();
-                int i = (int)(t / 60);
-                string timeStr;
-                if (i < 10) timeStr = "0" + i.ToString() + ":";
-                else timeStr = i.ToString() + ":";
-                i = ((int)t) % 60;
-                if (i < 10) timeStr += "0" + i.ToString();
-                else timeStr += i.ToString();
-
-                if (infoText != null)
-                {
-                    float timeX = Constants.TITLE_SAFE_RIGHT_X;
-                    float timeY = infoY;
-                    font.drawString(timeStr, timeX, timeY, TextAlign.RIGHT | TextAlign.VCENTER);
-                }
-                else
-                {
-                    font.drawString(timeStr, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-                }
-            }
-        }
+        }        
     }
 }

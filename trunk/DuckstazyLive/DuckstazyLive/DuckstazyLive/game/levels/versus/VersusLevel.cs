@@ -11,9 +11,23 @@ using Framework.visual;
 using Framework.core;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using DuckstazyLive.game.stages;
 
 namespace DuckstazyLive.game
 {
+    public class VersusLevelHud : Hud
+    {
+        public VersusLevelHud(Level level) : base(level)
+        {
+
+        }
+
+        protected override HealthBar[] createBars()
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class VersusLevel : Level
     {
         private enum VersusStages
@@ -116,6 +130,11 @@ namespace DuckstazyLive.game
             return null;
         }
 
+        protected override Hud createHud()
+        {
+            return new VersusLevelHud(this);
+        }
+
         public override void update(float dt)
         {
             base.update(dt);
@@ -189,51 +208,6 @@ namespace DuckstazyLive.game
         protected VersusLevelStage getStage()
         {
             return (VersusLevelStage)stage;
-        }
-
-        public override void drawHud(Canvas canvas)
-        {
-            Heroes heroes = getHeroes();
-            heroes[0].gameState.draw(canvas, Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y);
-            heroes[1].gameState.draw(canvas, Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y);
-
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_HUD_DIGITS);
-
-            font.drawString(getStage().getPillCollected(0).ToString(), Constants.TITLE_SAFE_LEFT_X, Constants.TITLE_SAFE_TOP_Y + 20);
-            font.drawString(getStage().getPillCollected(1).ToString(), Constants.TITLE_SAFE_RIGHT_X, Constants.TITLE_SAFE_TOP_Y + 20, TextAlign.TOP | TextAlign.RIGHT);
-            
-            float infoX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            float infoY = Constants.TITLE_SAFE_TOP_Y;
-            bool hasInfoText = infoText != null;
-
-            float t = getStage().getRemainingTime();
-            int i = (int)(t / 60);
-            string timeStr;
-            if (i < 10) timeStr = "0" + i.ToString() + ":";
-            else timeStr = i.ToString() + ":";
-            i = ((int)t) % 60;
-            if (i < 10) timeStr += "0" + i.ToString();
-            else timeStr += i.ToString();
-
-            float timeX;
-            float timeY = infoY;
-            if (hasInfoText)
-            {
-                infoX = 0.4f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-                timeX = 0.6f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            }
-            else
-            {
-                timeX = 0.5f * (Constants.TITLE_SAFE_RIGHT_X + Constants.TITLE_SAFE_LEFT_X);
-            }            
-            
-            font.drawString(timeStr, timeX, timeY, TextAlign.HCENTER | TextAlign.VCENTER);
-
-            if (hasInfoText)
-            {
-                font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
-                font.drawString(infoText, infoX, infoY, TextAlign.HCENTER | TextAlign.VCENTER);
-            }
-        }        
+        }           
     }
 }
