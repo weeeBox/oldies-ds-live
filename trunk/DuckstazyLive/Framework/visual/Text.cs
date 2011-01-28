@@ -34,8 +34,7 @@ namespace Framework.visual
         public String text;
         public Font font;        
 
-        protected FormattedString[] formattedStrings;
-        protected TextAlign textAlign = TextAlign.LEFT | TextAlign.TOP;
+        protected FormattedString[] formattedStrings;        
 
         public Text(Font font)
         {
@@ -74,9 +73,37 @@ namespace Framework.visual
             return text;
         }
 
-        public void setAlign(TextAlign a)
-        {            
-            textAlign = a;
+        public void setAlign(TextAlign textAlign)
+        {
+            float alignX;            
+            if ((textAlign & TextAlign.RIGHT) != 0)
+            {
+                alignX = ALIGN_MAX;
+            }
+            else if ((textAlign & TextAlign.HCENTER) != 0)
+            {
+                alignX = ALIGN_CENTER;
+            }                
+            else
+            {
+                alignX = ALIGN_MIN;
+            }
+
+            float alignY;
+            if ((textAlign & TextAlign.BOTTOM) != 0)
+            {
+                alignY = ALIGN_MAX;
+            }
+            else if ((textAlign & TextAlign.VCENTER) != 0)
+            {
+                alignY = ALIGN_CENTER;
+            }
+            else
+            {
+                alignY = ALIGN_MIN;
+            }
+
+            setAlign(alignX, alignY);
         }
 
         public override void draw()
@@ -85,29 +112,12 @@ namespace Framework.visual
 
             float dx;
             float dy = drawY;
-            int itemHeight = font.fontHeight();
-
-            if ((textAlign & TextAlign.BOTTOM) != 0)
-            {
-                dy -= height;
-            }
-            else if ((textAlign & TextAlign.VCENTER) != 0)
-            {
-                dy -= 0.5f * height;
-            }
+            int itemHeight = font.fontHeight();            
 
             for (int i = 0; i < formattedStrings.Length; i++)
             {
                 FormattedString str = formattedStrings[i];
-                dx = drawX;
-                if ((textAlign & TextAlign.RIGHT) != 0)
-                {
-                    dx -= str.width;
-                }
-                else if ((textAlign & TextAlign.HCENTER) != 0)
-                {
-                    dx -= 0.5f * str.width;
-                }                
+                dx = drawX + alignX * (width - str.width);
                 font.drawString(str.text, dx, dy);                
                 dy += itemHeight + font.LineOffset;
             }
