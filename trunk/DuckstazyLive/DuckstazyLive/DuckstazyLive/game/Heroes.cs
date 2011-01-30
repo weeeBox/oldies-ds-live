@@ -140,6 +140,12 @@ namespace DuckstazyLive.game
                 {
                     float vicX = vr.X;
                     float vicY = vr.Y;
+
+                    if (ay + ah > vicY)
+                    {
+                        continue; // attacker bottom must be higher then victim top
+                    }
+
                     float vw = vr.Width;
                     float vh = vr.Height;
 
@@ -204,7 +210,7 @@ namespace DuckstazyLive.game
             {
                 foreach (Hero hero in heroes)
                 {                    
-                    hero.draw(canvas);
+                    hero.draw();
                 }
             }
         }

@@ -47,10 +47,17 @@ namespace DuckstazyLive.game
         
         private const float COMPRESS_TIMEOUT = 0.25f;
         private float compressCounter;        
-        private float sx, sy;
+        private float scaleX, scaleY;
+        private float rotation;
 
         private const float JUMP_ON_TIMEOUT = 0.5f;
         private float jumpedElasped;
+
+        private const float DROP_VELOCITY = 1000.0f;
+        private const float DROP_TIME = 0.2f;
+        private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
+        private float dropCounter;
+        private bool dropping;
 
         private static Rect[] COLLISION_RECTS_SLEEP = 
         {
@@ -87,7 +94,7 @@ namespace DuckstazyLive.game
         private float jumpButtonPressedStartTime;
 
         private const int MAX_KICKED_PILLS = 10;
-
+        
         public Vector2 pos;
         public Vector2 lastPos;
         //public float x;
@@ -108,6 +115,7 @@ namespace DuckstazyLive.game
         private float power;
 
         public float jumpVel;
+        private float dropVelocity;
         private float jumpWingVel;
         private float jumpStartVel;
         //private var gravityK:float;
@@ -137,6 +145,7 @@ namespace DuckstazyLive.game
 
         public HeroGameState gameState;
         private Heroes heroes;
+        private Canvas canvas;
 
         private int playerIndex;
 
@@ -148,6 +157,7 @@ namespace DuckstazyLive.game
             flip = true;
             state = HERO_NORMAL;
             started = false;
+            canvas = new Canvas(0, 0);
 
             gameState = new HeroGameState();
 
@@ -186,7 +196,7 @@ namespace DuckstazyLive.game
             blinkTime = 0.0f;
 
             pos.Y = 400 - duck_h2;
-            sx = sy = 1.0f;
+            scaleX = scaleY = 1.0f;
             compressCounter = 0.0f;
             jumpedElasped = 0.0f;
 
@@ -198,6 +208,10 @@ namespace DuckstazyLive.game
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
+
+            dropping = false;
+            dropCounter = 0.0f;
+            rotation = 0.0f;
         }
 
         private void doStepBubble()
@@ -205,6 +219,11 @@ namespace DuckstazyLive.game
             float px = x + 4;
             if (!flip) px = x + 50;
             getParticles().startStepBubble(px, y + 39);
+        }
+
+        private void doDropBubbles()
+        {
+
         }
 
         private void doLandBubbles()
@@ -240,37 +259,18 @@ namespace DuckstazyLive.game
             if (!started) return;
 
             if (!isDead())
-                updateGamepadInput();
+                updateGamepadInput();            
 
             lastPos.X = x;
-            lastPos.Y = y;            
+            lastPos.Y = y;
 
-            if (pillsToAdd != 0)
-            {
-                pillsAddCounter += dt;
-                if (pillsAddCounter > 0.05f)
-                {
-                    pillsAddCounter = 0.0f;
-                    if (Math.Sign(pillsToAdd) > 0)
-                    {
-                        pillsCollected++;
-                        pillsToAdd--;
-                    }
-                    else
-                    {
-                        pillsCollected--;
-                        pillsToAdd++;
-                    }
-                }
-            }
+            updatePills(dt);
 
             heroes.media.updateSFX(x + duck_w);
 
             updateJumpCompress(dt);
 
-            power = newPower;
-
-            jumpStartVel = get_jump_start_vel(power);
+            power = newPower;            
 
             if (isSleep() && power <= 0)
             {
@@ -281,9 +281,19 @@ namespace DuckstazyLive.game
             }
 
             if (blinkTime > 0.0f)
-                blinkTime -= dt * 8.0f;
-
+                blinkTime -= dt * 8.0f;            
+                        
+            updateHor(dt);
+            updateVer(dt);
+            updateWings(dt);
+        }        
+        
+        private void updateHor(float dt)
+        {
             steping = false;
+
+            if (dropping)
+                return;
 
             if (key_left)
             {
@@ -301,7 +311,6 @@ namespace DuckstazyLive.game
                 if (move > 1)
                     move = 1;
             }
-
 
             if (steping)
             {
@@ -341,11 +350,15 @@ namespace DuckstazyLive.game
 
             pos.X += move * utils.lerp(power, duck_move_speed_min, duck_move_speed_max) * dt;
 
-
             if (x < -duck_w)
                 pos.X += 640.0f;
             if (x > (640.0f - duck_w))
                 pos.X -= 640.0f;
+        }
+
+        private void updateVer(float dt)
+        {
+            jumpStartVel = get_jump_start_vel(power);
 
             if ((wingLock || compressCounter > 0.0f) && isActive())
             {
@@ -356,7 +369,6 @@ namespace DuckstazyLive.game
                     wingBeat();
                 }
 
-
                 if (wingYLocked && y > wingY)
                 {
                     jumpWingVel = 28.0f;
@@ -365,64 +377,10 @@ namespace DuckstazyLive.game
 
             if (fly)
             {
-                if (stickDive)
-                {
-                    diveK += dt * 10.0f;
-                    if (diveK > 10.0f) diveK = 10.0f;
-                }
-                if (key_down)
-                {
-                    diveK += dt * 6;
-                    if (diveK > 4.0f) diveK = 4.0f;
-                }
+                if (dropping)
+                    updateDropping(dt);
                 else
-                {
-                    diveK -= dt * 6;
-                    if (diveK < 0.0f) diveK = 0.0f;
-                }
-
-                if (rapidJump)
-                {
-                    if (jumpVel > 0.0f)
-                        jumpVel = 0.7f * jumpVel;
-                    rapidJump = false;
-                }
-
-                if (jumpVel > 0.0f)
-                    wingYLocked = false;
-
-                if (wingLock && isActive() && wingYLocked)
-                {
-                    jumpWingVel -= 392.0f * dt;//(gravityK+diveK)*dt;
-                    pos.Y -= jumpWingVel * dt;
-                }
-                else
-                {
-                    if (wingLock && isActive())
-                    {
-                        if (jumpVel >= 0.0f)
-                        {
-                            jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
-                            pos.Y -= jumpVel * dt;
-                            if (jumpVel <= 0.0f)
-                            {
-                                wingYLocked = true;
-                                wingY = y;
-                            }
-                        }
-                        else
-                        {
-                            jumpVel += 5.0f * duck_jump_gravity * dt;
-                            pos.Y -= jumpVel * dt;
-                        }
-                    }
-                    else
-                    {
-                        jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
-                        pos.Y -= jumpVel * dt;
-                    }
-                }
-
+                    updateFlying(dt);
 
                 if (y >= 400 - duck_h2)
                 {
@@ -433,8 +391,12 @@ namespace DuckstazyLive.game
                     heroes.media.playLand();
                     //utils.playSound(land_snd, (power+0.3)*Math.abs(jumpVel)/200.0, pos.x+27);
 
-                    doLandBubbles();
-                    
+                    if (dropping)
+                        doDropBubbles();
+                    else
+                        doLandBubbles();
+
+                    dropping = false;
                     sleep_collected = 0;
                     toxic_collected = 0;
                     frags = 0;
@@ -443,7 +405,95 @@ namespace DuckstazyLive.game
                 else if (y < -50.0f)
                     pos.Y = -50.0f;
             }
+        }
 
+        private void updateDropping(float dt)
+        {
+            if (dropping)
+            {
+                if (dropCounter > 0)
+                {
+                    dropCounter -= dt;
+                    if (dropCounter < 0)
+                    {
+                        dropCounter = 0.0f;
+                        rotation = 0.0f;
+                    }
+                    else
+                    {
+                        rotation += DROP_DA;
+                    }                    
+                }
+                else
+                {
+                    pos.Y += dropVelocity * dt;
+                }                
+            }            
+        }
+
+        private void updateFlying(float dt)
+        {
+            if (stickDive)
+            {
+                diveK += dt * 10.0f;
+                if (diveK > 10.0f) diveK = 10.0f;
+            }
+            if (key_down)
+            {
+                diveK += dt * 6;
+                if (diveK > 4.0f) diveK = 4.0f;
+            }
+            else
+            {
+                diveK -= dt * 6;
+                if (diveK < 0.0f) diveK = 0.0f;
+            }
+
+            if (rapidJump)
+            {
+                if (jumpVel > 0.0f)
+                    jumpVel = 0.7f * jumpVel;
+                rapidJump = false;
+            }
+
+            if (jumpVel > 0.0f)
+                wingYLocked = false;
+
+            if (wingLock && isActive() && wingYLocked)
+            {
+                jumpWingVel -= 392.0f * dt;//(gravityK+diveK)*dt;
+                pos.Y -= jumpWingVel * dt;
+            }
+            else
+            {
+                if (wingLock && isActive())
+                {
+                    if (jumpVel >= 0.0f)
+                    {
+                        jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
+                        pos.Y -= jumpVel * dt;
+                        if (jumpVel <= 0.0f)
+                        {
+                            wingYLocked = true;
+                            wingY = y;
+                        }
+                    }
+                    else
+                    {
+                        jumpVel += 5.0f * duck_jump_gravity * dt;
+                        pos.Y -= jumpVel * dt;
+                    }
+                }
+                else
+                {
+                    jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
+                    pos.Y -= jumpVel * dt;
+                }
+            }
+        }
+
+        private void updateWings(float dt)
+        {
             if (wingCounter > 0)
             {
                 wingCounter -= 10 * dt;
@@ -451,6 +501,28 @@ namespace DuckstazyLive.game
                     wingCounter = 0;
 
                 wingAngle = 0.5f * ((float)Math.Sin(wingCounter * 4.71f));
+            }
+        }
+
+        private void updatePills(float dt)
+        {
+            if (pillsToAdd != 0)
+            {
+                pillsAddCounter += dt;
+                if (pillsAddCounter > 0.05f)
+                {
+                    pillsAddCounter = 0.0f;
+                    if (Math.Sign(pillsToAdd) > 0)
+                    {
+                        pillsCollected++;
+                        pillsToAdd--;
+                    }
+                    else
+                    {
+                        pillsCollected--;
+                        pillsToAdd++;
+                    }
+                }
             }
         }
 
@@ -466,12 +538,12 @@ namespace DuckstazyLive.game
                     float t = COMPRESS_TIMEOUT - compressCounter;
                     float omega = MathHelper.Pi / COMPRESS_TIMEOUT;
                     float compress = (float)(0.25 * (1 - 0.8 * compressProgress) * Math.Sin(omega * t));
-                    sx = 1 + compress;
-                    sy = 1 - 0.5f * compress;
+                    scaleX = 1 + compress;
+                    scaleY = 1 - 0.5f * compress;
                 }
                 else
                 {
-                    sx = sy = 1.0f;
+                    scaleX = scaleY = 1.0f;
                     compressCounter = 0.0f;
                     wingMod = 1.0f;
                     wingBeat();
@@ -532,7 +604,7 @@ namespace DuckstazyLive.game
             heroes.media.playWing();
         }
 
-        public void draw(Canvas canvas)
+        public void draw()
         {
             if (started)
             {
@@ -546,57 +618,58 @@ namespace DuckstazyLive.game
                 if (dx < 0)
                 {
                     alpha = 1.0f - Math.Abs(dx) / duck_w2;
-                    drawHero(canvas, dx + 640, dy, 1.0f - alpha);
+                    drawHero(dx + 640, dy, 1.0f - alpha);
                 }
                 else if (dx > 640 - duck_w2)
                 {
                     alpha = 1.0f - (dx - 640 + duck_w2) / duck_w2;
-                    drawHero(canvas, dx - 640, dy, 1.0f - alpha);
+                    drawHero(dx - 640, dy, 1.0f - alpha);
                 }
-                drawHero(canvas, dx, dy, alpha);
+                drawHero(dx, dy, alpha);
             }
-
-            // AppGraphics.DrawRect(utils.scale(x), utils.scale(y), utils.scale(duck_w2), utils.scale(duck_h2), Color.White);
-
-            // Rect[] attackRects = getAttackerRects();
-            // drawRects(attackRects, Color.Red);
-            // Rect[] victimRects = getVictimRect();
-            // drawRects(victimRects, Color.Blue);
-
-            
         }
 
-        // private void drawRects(Rect[] rects, Color c)
-        // {
-        //    foreach (Rect r in rects)
-        //    {
-        //        AppGraphics.DrawRect(utils.scale(x + r.X), utils.scale(y + r.Y), utils.scale(r.Width), utils.scale(r.Height), c);
-        //    }
-        // }
-
-        private void drawHero(Canvas dest, float x, float y, float trans)
+        private void drawHero(float x, float y, float trans)
         {
             bool vis = (blinkTime <= 0.0f || (((int)blinkTime) & 0x1) != 0) || isDead();
 
-            AppGraphics.PushMatrix();
-            AppGraphics.Translate(utils.scale(x + duck_w), utils.scale(y + duck_h2), 0.0f);            
-            AppGraphics.Scale(sx, sy, 1.0f);
+            bool hasScale = scaleX != 0 || scaleY != 0;
+            bool hasRotation = rotation != 0;
+            bool hasTrans = hasScale || hasRotation;
 
-            float dx = -duck_w;
-            float dy = -duck_h2;
+            float dx;
+            float dy;
+            if (hasTrans)
+            {
+                float offX = duck_w;
+                float offY = hasRotation ? duck_h : duck_h2;
+
+                AppGraphics.PushMatrix();
+                AppGraphics.Translate(utils.scale(x + offX), utils.scale(y + offY), 0.0f);
+                AppGraphics.Rotate(rotation, 0.0f, 0.0f, 1.0f);
+                AppGraphics.Scale(scaleX, scaleY, 1.0f);
+
+                dx = -offX;
+                dy = -offY;
+            }
+            else
+            {
+                dx = x - duck_w;
+                dy = y - duck_h2;
+            }            
 
             if (vis)
             {
                 switch (state)
                 {
                     case HERO_SLEEP:
-                        heroes.media.drawSleep(dest, dx, dy, flip, trans);
+                        drawSleep(dx, dy, flip, trans);
                         break;
                     case HERO_DEAD:
-                        heroes.media.drawDead(dest, dx, dy, flip, trans);
+                        drawDead(dx, dy, flip, trans);
                         break;
                     case HERO_NORMAL:
-                        heroes.media.drawDuck(playerIndex, dest, dx, dy, power, flip, wingAngle, trans);
+                        drawDuck(playerIndex, dx, dy, power, trans);
                         break;
                     default:
                         Debug.Assert(false, state.ToString());
@@ -604,15 +677,98 @@ namespace DuckstazyLive.game
                 }
             }
 
-            AppGraphics.PopMatrix();
+            if (hasTrans)
+            {
+                AppGraphics.PopMatrix();
+            }
+        }
+
+        public void drawDuck(int playerIndex, float x, float y, float power, float trans)
+        {
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
+
+            ColorTransform eyeColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans * (1.0f - power));
+            ColorTransform duckColor = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
+
+            if (flip)
+            {
+                mat.flip(true, false);
+
+                mat.translate(x, y);
+                mat.flip(true, false);
+                canvas.draw(heroes.media.imgDuck + playerIndex, mat, duckColor);
+
+                mat.translate(37.0f + x, 6.0f + y);
+                canvas.draw(heroes.media.imgEye1, mat, eyeColor);
+                eyeColor.alphaMultiplier = power * trans;
+                canvas.draw(heroes.media.imgEye2, mat, eyeColor);
+
+                mat.tx = -12.0f;
+                mat.ty = -7.0f;
+                mat.rotate(-wingAngle);
+                mat.translate(21.0f + x, 26.0f + y);
+                duckColor.alphaMultiplier *= trans;
+                canvas.draw(heroes.media.imgWing + playerIndex, mat, duckColor);
+            }
+            else
+            {
+                //canvas.copyPixels(imgDuck, rcHero, new Point(x, y));
+                mat.translate(x, y);
+                canvas.draw(heroes.media.imgDuck + playerIndex, mat, duckColor);
+
+                mat.translate(11.0f + x, 6.0f + y);
+                canvas.draw(heroes.media.imgEye1, mat, eyeColor);
+                eyeColor.alphaMultiplier = power * trans;
+                canvas.draw(heroes.media.imgEye2, mat, eyeColor);
+
+                mat.tx = -3.0f;
+                mat.ty = -7.0f;
+                mat.rotate(wingAngle);
+                mat.translate(33.0f + x, 26.0f + y);
+                duckColor.alphaMultiplier *= trans;
+                canvas.draw(heroes.media.imgWing + playerIndex, mat, duckColor);
+            }
+        }
+
+        public void drawSleep(float x, float y, bool flip, float trans)
+        {
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
+            ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
+
+            mat.translate(x, y);
+
+            if (flip)
+            {
+                mat.flip(true, false);
+            }
+
+            canvas.draw(heroes.media.imgSleep, mat, color);
+        }
+
+        public void drawDead(float x, float y, bool flip, float trans)
+        {
+            DrawMatrix mat = DrawMatrix.ScaledInstance;
+            ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
+
+            mat.translate(x, y);
+
+            if (flip)
+            {
+                mat.flip(true, false);
+            }
+
+            canvas.draw(heroes.media.imgDead, mat, color);
         }
 
         public bool buttonPressed(ref ButtonEvent e)
         {
             switch (e.button)
             {
+                case Buttons.B:
+                    if (canDrop()) 
+                        drop();
+                    return true;
                 case Buttons.DPadDown:
-                case Buttons.B:         
                     key_down = true;
                     return true;
 
@@ -658,8 +814,7 @@ namespace DuckstazyLive.game
         {
             switch (e.button)
             {
-                case Buttons.DPadDown:
-                case Buttons.B:                
+                case Buttons.DPadDown:                
                     key_down = false;
                     return true;
 
@@ -861,7 +1016,7 @@ namespace DuckstazyLive.game
 
         public bool canBeJumped()
         {
-            return !isSleep() && jumpedElasped > JUMP_ON_TIMEOUT;
+            return isActive() && jumpedElasped > JUMP_ON_TIMEOUT;
         }
 
         public void jumpedBy(Hero other)
@@ -970,8 +1125,24 @@ namespace DuckstazyLive.game
             pillsAddCounter = 0;
         }
 
+        private bool canDrop()
+        {
+            return isActive() && !dropping && pos.Y < 400 - 1.5f * duck_h2;
+        }
+
+        public void drop()
+        {
+            move = 0.0f;
+            dropVelocity = DROP_VELOCITY;
+            dropping = true;
+            dropCounter = DROP_TIME;
+            rotation = 0.0f;
+        }
+
         public void jump(float h)
         {
+
+            dropping = false;
             float new_vy = (float)Math.Sqrt(2 * duck_jump_gravity * h);
             if (jumpVel < new_vy)
                 jumpVel = new_vy;
