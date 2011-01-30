@@ -30,16 +30,16 @@ namespace DuckstazyLive.game
         //[Embed(source="gfx/eye2.png")]
         //private var rEyeImg2:Class;
 
-        private int imgDuck;
+        public int imgDuck;
         //private var imgDuckFlip:Texture2D;
 
-        private int imgSleep;
-        private int imgDead;
+        public int imgSleep;
+        public int imgDead;
         // private var imgSleepFlip:Texture2D;
 
-        private int imgWing;
-        private int imgEye1;
-        private int imgEye2;
+        public int imgWing;
+        public int imgEye1;
+        public int imgEye2;
 
         //static private const rcHero:Rect = new Rect(0.0, 0.0, 54.0, 42.0);
 
