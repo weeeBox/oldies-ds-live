@@ -91,6 +91,8 @@ namespace DuckstazyLive.game
 
         public float x;
         public float y;
+        public float xLast;
+        public float yLast;
 
         // округлённые координаты
         public float dx;
@@ -161,7 +163,9 @@ namespace DuckstazyLive.game
             emoPause = 0.0f;
             emoParam = 0.0f;            
             x = 0.0f;
-            y = 0.0f;            
+            y = 0.0f;
+            xLast = 0.0f;
+            yLast = 0.0f;
             dx = 0.0f;
             dy = 0.0f;            
             t1 = 0.0f;
@@ -239,6 +243,9 @@ namespace DuckstazyLive.game
         // Обновляемся
         public bool update(float dt)
         {
+            xLast = x;
+            yLast = y;
+
             if (state != DYING && enabled)
             {
                 checkHeroesTouch();
@@ -354,10 +361,7 @@ namespace DuckstazyLive.game
 
         private void checkHeroesTouch(Hero hero)
         {
-            if (y + r > hero.y || y - r < hero.y + 40)
-                if (x + r > hero.x || x - r < hero.x + 54)
-                    if (hero.overlapsCircle(x, y, r))
-                        heroTouch(hero);
+            hero.doPillAttack(this);
         }
 
         public void updateSpy()
@@ -447,7 +451,7 @@ namespace DuckstazyLive.game
                         }
                         utils.playSound(media.sndPowers[id], 1.0f, x);
 
-                        if (high && hero.doHigh(x, y))
+                        if (high && !hero.isDroppingDown() && hero.doHigh(x, y))
                         {
                             // media.sndHigh.play();                    
                             Application.sharedSoundMgr.playSound(media.sndHigh);
@@ -1116,6 +1120,11 @@ namespace DuckstazyLive.game
         public bool isAlive()
         {
             return state == ALIVE;
+        }
+
+        public bool isJumper()
+        {
+            return type == JUMP;
         }
 
         public bool isPower()

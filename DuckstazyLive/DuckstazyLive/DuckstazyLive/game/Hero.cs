@@ -58,6 +58,7 @@ namespace DuckstazyLive.game
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
         private float dropCounter;
         private bool dropping;
+        private Vector4 dropRect;
 
         private static Rect[] COLLISION_RECTS_SLEEP = 
         {
@@ -428,6 +429,12 @@ namespace DuckstazyLive.game
                 {
                     pos.Y += dropVelocity * dt;
                 }                
+
+                // 14.0f, 12.0f, 35.0f, 25.0f
+                dropRect.X = lastPos.X + 14.0f;
+                dropRect.Y = lastPos.Y + 12.0f;
+                dropRect.Z = dropRect.X + 35.0f;
+                dropRect.W = pos.Y + 12.0f + 25.0f;
             }            
         }
 
@@ -626,7 +633,7 @@ namespace DuckstazyLive.game
                     drawHero(dx - 640, dy, 1.0f - alpha);
                 }
                 drawHero(dx, dy, alpha);
-            }
+            }            
         }
 
         private void drawHero(float x, float y, float trans)
@@ -919,21 +926,15 @@ namespace DuckstazyLive.game
             int dam = dmg;
             int ret = -1;
 
-            if (checkDive(cx, cy))
+            if (isDroppingDown())
             {
-                //jumpVel = duck_jump_toxic;
-                jump(40);
-                //mBoard->KillToxic(world_draw_pos(ToxicPosition), mKills);
-                // media.sndAttack.play(49);
-                Application.sharedSoundMgr.playSound(heroes.media.sndAttack);
-                getParticles().explStarsToxic(cx, cy - 10, id, false);
-                if (frags < 3) ret = 0;
-                else
-                {
-                    if (frags < 6) ret = 1;
-                    else ret = 2;
-                }
-                ++frags;
+                ret = killToxic(cx, cy, id, ret);
+            }
+            else if (checkDive(cx, cy))
+            {
+                jump(40);                
+                ret = killToxic(cx, cy, id, ret);
+
             }
             else if (dam > 0)
             {
@@ -967,17 +968,33 @@ namespace DuckstazyLive.game
             return ret;
         }
 
+        private int killToxic(float cx, float cy, int id, int ret)
+        {
+            Application.sharedSoundMgr.playSound(heroes.media.sndAttack);
+            getParticles().explStarsToxic(cx, cy - 10, id, false);
+            if (frags < 3) ret = 0;
+            else
+            {
+                if (frags < 6) ret = 1;
+                else ret = 2;
+            }
+            ++frags; 
+            return ret;
+        }
+
         public bool doHigh(float cx, float cy)
         {
-            bool succ = false;
-            if (checkDive(cx, cy))
-            {
-                //jumpVel = duck_jump_toxic;                
-                jump(40);
-                //media.playJump();
-                succ = true;
+            if (isDroppingDown() || checkDive(cx, cy))
+            {                
+                jump(40);                
+                return true;
             }
-            return succ;
+            return false;
+        }
+
+        public bool isDroppingDown()
+        {
+            return dropping && dropCounter == 0.0f;
         }
 
         public void doHeal(int health)
@@ -1180,6 +1197,37 @@ namespace DuckstazyLive.game
                 return VICTIM_RECTS_FLIP;
 
             return VICTIM_RECTS;
+        }
+
+        public void doPillAttack(Pill pill)
+        {
+            if (dropping && dropCounter == 0.0f)
+            {
+                float x1 = dropRect.X;
+                float y1 = dropRect.Y;
+                float x2 = dropRect.Z;
+                float y2 = dropRect.W;
+
+                if (rectCircle(x1, y1, x2, y2, pill.x, pill.y, pill.r) || 
+                    rectCircle(x1, y1, x2, y2, pill.xLast, pill.yLast, pill.r))
+                {
+                    if (pill.isJumper() && pill.highCounter <= 0.0f)
+                    {
+                        pos.Y = pill.y - pill.r - duck_h2;                        
+                    }
+                    pill.heroTouch(this);
+                }                
+            }
+            else
+            {
+                if ((pill.y + pill.r > y || pill.y - pill.r < y + 40 ) && (pill.x + pill.r > x || pill.x - pill.r < x + 54))
+                {
+                    if (overlapsCircle(pill.x, pill.y, pill.r))
+                    {
+                        pill.heroTouch(this);
+                    }
+                }
+            }
         }
 
         public bool overlapsCircle(float cx, float cy, float r)
