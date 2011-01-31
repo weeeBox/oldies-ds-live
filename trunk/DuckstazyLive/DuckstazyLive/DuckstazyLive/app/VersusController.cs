@@ -24,13 +24,13 @@ namespace DuckstazyLive.app
 
             VersusStageSelect stageSelect = new VersusStageSelect(this);
             showView(stageSelect);
-        }
+        }        
 
         public void newGame(int levelIndex)
         {
             VersusLevel level = new VersusLevel(this, levelIndex);
             level.start();
-            showView(level);            
+            showNextView(level);
         }
 
         public void showDraw()

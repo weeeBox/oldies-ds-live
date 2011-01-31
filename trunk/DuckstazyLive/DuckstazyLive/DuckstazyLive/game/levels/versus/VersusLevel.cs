@@ -130,16 +130,12 @@ namespace DuckstazyLive.game
         private const int STATE_START = 0;
         private const int STATE_PLAYING = 1;
         private const int STATE_END = 2;
-                
-        private VersusController controller;
         private int stageIndex;
 
-        public VersusLevel(VersusController controller, int stageIndex)
-        {
-            setUpdateInnactive(true);
+        public VersusLevel(GameController controller, int stageIndex) : base(controller)
+        {            
             this.stageIndex = stageIndex;
-
-            this.controller = controller;
+            
             GameElements.initHeroes(2);
             GameElements.reset();
         }        
@@ -256,13 +252,13 @@ namespace DuckstazyLive.game
         protected virtual void onWin(int playerIndex)
         {            
             startLevelState(STATE_END);
-            controller.showWinner(playerIndex);
+            getController().showWinner(playerIndex);
         }
 
         protected virtual void onDraw()
         {            
             startLevelState(STATE_END);
-            controller.showDraw();
+            getController().showDraw();
         }
 
         public static int getStagesCount()
@@ -274,6 +270,11 @@ namespace DuckstazyLive.game
         {
             Debug.Assert(stageIndex >= 0 && stageIndex < getStagesCount());
             return stagesInfo[stageIndex].name;
+        }
+
+        protected VersusController getController()
+        {
+            return (VersusController)controller;
         }
 
         protected VersusLevelStage getStage()

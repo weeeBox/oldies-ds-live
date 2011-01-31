@@ -34,10 +34,13 @@ namespace DuckstazyLive.game
         protected int levelState;
         protected float levelStateElapsed;
 
-        private Canvas canvas;        
+        private Canvas canvas;
+        protected GameController controller;
 
-        public Level()
+        public Level(GameController controller)
         {
+            this.controller = controller;
+
             setDrawInnactive(true);
 
             instance = this;
@@ -266,18 +269,14 @@ namespace DuckstazyLive.game
 
         public virtual void pause()
         {
-
+            getHeroes().buttonsReset();
+            controller.showPause();
         }
 
         public virtual void save()
         {
 
         }
-
-        public void onPause()
-        {           
-            getHeroes().buttonsReset();            
-        }        
 
         public void switchEvnPower()
         {

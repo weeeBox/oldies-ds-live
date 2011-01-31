@@ -182,7 +182,7 @@ namespace DuckstazyLive.app
             }
             else if (id == BUTTON_MENU)
             {
-                controller.deactivate();
+                controller.quitLevel();
             }
             else if (id == BUTTON_EXIT)
             {

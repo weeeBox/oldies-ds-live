@@ -53,7 +53,8 @@ namespace DuckstazyLive.game
         private const float JUMP_ON_TIMEOUT = 0.5f;
         private float jumpedElasped;
 
-        private const float DROP_VELOCITY = 1000.0f;
+        private const float DROP_VELOCITY_MIN = 800.0f;
+        private const float DROP_VELOCITY_MAX = 1200.0f;
         private const float DROP_TIME = 0.2f;
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
         private float dropCounter;
@@ -772,8 +773,10 @@ namespace DuckstazyLive.game
             switch (e.button)
             {
                 case Buttons.B:
-                    if (canDrop()) 
+                    if (canDrop())
+                    {
                         drop();
+                    }
                     return true;
                 case Buttons.DPadDown:
                     key_down = true;
@@ -1150,7 +1153,7 @@ namespace DuckstazyLive.game
         public void drop()
         {
             move = 0.0f;
-            dropVelocity = DROP_VELOCITY;
+            dropVelocity = utils.lerp(power, DROP_VELOCITY_MIN, DROP_VELOCITY_MAX);
             dropping = true;
             dropCounter = DROP_TIME;
             rotation = 0.0f;
@@ -1158,7 +1161,6 @@ namespace DuckstazyLive.game
 
         public void jump(float h)
         {
-
             dropping = false;
             float new_vy = (float)Math.Sqrt(2 * duck_jump_gravity * h);
             if (jumpVel < new_vy)

@@ -132,16 +132,11 @@ namespace DuckstazyLive.game.stages
 
         public virtual void onEnterLevel()
         {
-
-        }
-
-        protected void startClock(float x, float y)
-        {            
-            clock.show(x, y);
-        }
+            
+        }        
     }
 
-    public class StageClock : BaseElementContainer
+    public class StageClock : BaseElementContainer, BaseElement.TimelineDelegate
     {
         private const int CHILD_IMAGE = 0;
         private const int CHILD_MINUTES = 1;
@@ -169,7 +164,7 @@ namespace DuckstazyLive.game.stages
             arrangeHorizontally(0, 0);
             resizeToFitItems();
 
-            hide();
+            visible = false;
         }    
     
         public void setRemainingTime(float time)
@@ -185,16 +180,36 @@ namespace DuckstazyLive.game.stages
             secondsText.setString(secondStr);            
         }
 
-        public void hide()
+        public void show()
         {
-            visible = false;
+            if (!visible)
+            {
+                visible = true;
+                scaleX = scaleY = 0.1f;
+                turnTimelineSupportWithMaxKeyFrames(2);
+                addKeyFrame(new KeyFrame(x, y, Color.White, 1.2f, 1.2f, 0.0f, 0.5f));
+                addKeyFrame(new KeyFrame(x, y, Color.White, 1.0f, 1.0f, 0.0f, 0.2f));
+                playTimeline();
+                setTimelineDelegate(null);
+            }
         }
 
-        public void show(float x, float y)
+        public void hide()
         {
-            this.x = x;
-            this.y = y;
-            visible = true;
+            if (visible)
+            {
+                turnTimelineSupportWithMaxKeyFrames(2);
+                addKeyFrame(new KeyFrame(x, y, Color.White, 1.2f, 1.2f, 0.0f, 0.2f));
+                addKeyFrame(new KeyFrame(x, y, Color.White, 0.1f, 0.1f, 0.0f, 0.5f));
+                playTimeline();
+                setTimelineDelegate(this);
+            }
+        }   
+     
+        public void elementTimelineFinished(BaseElement e)
+        {
+            if (scaleX == 0.1f)
+                visible = false;
         }
     }
 }
