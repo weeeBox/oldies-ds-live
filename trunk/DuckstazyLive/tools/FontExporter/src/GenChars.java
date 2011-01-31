@@ -10,7 +10,7 @@ public class GenChars
 	{
 		List<String> strings = new ArrayList<String>();
 		strings.add("DAMMIT!");
-		strings.add("DEAD...SORRY");
+		strings.add("DEAD!");
 		
 		Set<Character> chars = new HashSet<Character>();
 		for (String str : strings) 

@@ -216,8 +216,8 @@ namespace DuckstazyLive.game
 
             Font badFont = Application.sharedResourceMgr.getFont(Res.FNT_HUD_BAD);
             dammitText = new Text(badFont);
-            dammitText.setString("DAMMIT!");
-            dammitText.scaleX = dammitText.scaleY = 2.5f;
+            dammitText.setString("");
+            dammitText.scaleX = dammitText.scaleY = 2.95f;
             dammitText.setAlign(Image.ALIGN_CENTER, Image.ALIGN_MIN);
             dammitText.rotationCenterY = -dammitText.height / 2;
 
@@ -483,10 +483,13 @@ namespace DuckstazyLive.game
             grassCounter = 1.0f;
         }
 
-        public void startHitFade()
+        public void startHitFade(bool dead)
         {
             hitFade = 1.0f;
-            envElapsedTime = 0.0f;            
+            envElapsedTime = 0.0f;
+
+            if (dead) dammitText.setString("DEAD!!!");
+            else dammitText.setString("DAMMIT!");
 
             dammitText.x = 0.5f * Constants.SCREEN_WIDTH;
             dammitText.y = Constants.ENV_HEIGHT;            
