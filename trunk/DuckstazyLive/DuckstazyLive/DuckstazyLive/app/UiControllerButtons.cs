@@ -28,7 +28,7 @@ namespace DuckstazyLive.app
             BaseElementContainer container = new BaseElementContainer();
 
             Image button = new Image(Application.sharedResourceMgr.getTexture(imageId));            
-            Text label = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
+            Text label = new Text(Application.sharedResourceMgr.getFont(Res.FNT_INFO));
             label.setString(text);
 
             container.addChild(button);

@@ -36,8 +36,8 @@
 	<target name="run" depends="build">		
 		<content projFile="${file.proj}" codeFile="${file.code}">
 			<package name="PACK_COMMON1">
-				<image name="font_big_tex" file="${dir.art}/font_big_tex.png" />
-				<pixelFont name="big" file="${dir.art}/font_big.pixelfont" />
+				<image name="font_info_tex" file="${dir.art}/font_info_tex.png" />
+				<pixelFont name="info" file="${dir.art}/font_info.pixelfont" />
 				<image name="ui_button_a" file="${dir.art}/buttonA.png" />
 				<image name="ui_button_b" file="${dir.art}/buttonB.png" />				
 			</package>
@@ -57,6 +57,8 @@
 			</package>
 			
 			<package name="PACK_MENU">
+				<image name="font_big_tex" file="${dir.art}/font_big_tex.png" />
+				<pixelFont name="big" file="${dir.art}/font_big.pixelfont" />
 				<image name="menu_title"  file="${dir.art}/title.png" />
 				<image name="menu_title_back" file="${dir.art}/title_back.png" />
 			</package>
@@ -65,9 +67,7 @@
 				<image name="font_bad_tex" file="${dir.art}/font_bad_tex.png" />
 				<pixelFont name="hud_bad" file="${dir.art}/font_bad.pixelfont" />
 				<image name="font_hud_digits_tex" file="${dir.art}/font_hud_digits_tex.png" />
-				<pixelFont name="hud_digits" file="${dir.art}/font_hud_digits.pixelfont" />
-				<image name="font_info_tex" file="${dir.art}/font_info_tex.png" />
-				<pixelFont name="info" file="${dir.art}/font_info.pixelfont" />
+				<pixelFont name="hud_digits" file="${dir.art}/font_hud_digits.pixelfont" />				
 				<vectorFont name="float" file="${dir.art}/font_float.spritefont" />
 				<image name="duck" file="${dir.art}/duck_fake.png" />
 				<image name="duck2" file="${dir.art}/duck_fake2.png" />
