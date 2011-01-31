@@ -58,6 +58,7 @@ namespace DuckstazyLive.game
         private const float DROP_TIME = 0.2f;
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
         private float dropCounter;
+        private float dropDAngle;
         private bool dropping;
         private bool droppingCanceled;
         private Vector4 dropRect;
@@ -214,6 +215,7 @@ namespace DuckstazyLive.game
 
             dropping = false;
             dropCounter = 0.0f;
+            dropDAngle = 0.0f;
             rotation = 0.0f;
         }
 
@@ -429,7 +431,7 @@ namespace DuckstazyLive.game
                     }
                     else
                     {
-                        rotation += DROP_DA;
+                        rotation += dropDAngle;
                     }                    
                 }
                 else
@@ -1162,6 +1164,7 @@ namespace DuckstazyLive.game
             dropVelocity = utils.lerp(power, DROP_VELOCITY_MIN, DROP_VELOCITY_MAX);
             dropping = true;
             dropCounter = DROP_TIME;
+            dropDAngle = flip ? DROP_DA : -DROP_DA;
             rotation = 0.0f;
         }
 
