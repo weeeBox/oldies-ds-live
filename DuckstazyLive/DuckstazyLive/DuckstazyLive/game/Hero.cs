@@ -1253,7 +1253,7 @@ namespace DuckstazyLive.game
                 if (rectCircle(x1, y1, x2, y2, pill.x, pill.y, pill.r) || 
                     rectCircle(x1, y1, x2, y2, pill.xLast, pill.yLast, pill.r))
                 {
-                    if (pill.isJumper() && pill.highCounter <= 0.0f)
+                    if (pill.isJumper() && pill.highCounter <= 0.0f && lastPos.Y + duck_h2 < pill.y - pill.r)
                     {
                         pos.Y = pill.y - pill.r - duck_h2;                        
                     }
