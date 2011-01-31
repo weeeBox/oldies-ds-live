@@ -45,10 +45,7 @@ namespace DuckstazyLive.game
 
         public void draw(Canvas canvas)
         {
-            int i = 0;
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_PICKUP);
-            Env env = GameElements.Env;
-            
+            int i = 0;            
             foreach (FloatText ft in ftPool)
             {
                 if (i == ftCount)
