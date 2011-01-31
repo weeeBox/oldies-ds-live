@@ -59,6 +59,7 @@ namespace DuckstazyLive.game
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
         private float dropCounter;
         private bool dropping;
+        private bool droppingCanceled;
         private Vector4 dropRect;
 
         private static Rect[] COLLISION_RECTS_SLEEP = 
@@ -283,12 +284,18 @@ namespace DuckstazyLive.game
             }
 
             if (blinkTime > 0.0f)
-                blinkTime -= dt * 8.0f;            
-                        
+                blinkTime -= dt * 8.0f;
+
+            updateRotating(dt);
             updateHor(dt);
             updateVer(dt);
             updateWings(dt);
         }        
+
+        private void updateRotating(float dt)
+        {
+
+        }
         
         private void updateHor(float dt)
         {
@@ -420,6 +427,19 @@ namespace DuckstazyLive.game
                     {
                         dropCounter = 0.0f;
                         rotation = 0.0f;
+
+                        if (droppingCanceled)
+                        {
+                            dropping = droppingCanceled = false;
+                        }
+                        else
+                        {
+                            // 14.0f, 12.0f, 35.0f, 25.0f
+                            dropRect.X = lastPos.X + 14.0f;
+                            dropRect.Y = lastPos.Y + 12.0f;
+                            dropRect.Z = dropRect.X + 35.0f;
+                            dropRect.W = pos.Y + 12.0f + 25.0f;
+                        }
                     }
                     else
                     {
@@ -430,12 +450,6 @@ namespace DuckstazyLive.game
                 {
                     pos.Y += dropVelocity * dt;
                 }                
-
-                // 14.0f, 12.0f, 35.0f, 25.0f
-                dropRect.X = lastPos.X + 14.0f;
-                dropRect.Y = lastPos.Y + 12.0f;
-                dropRect.Z = dropRect.X + 35.0f;
-                dropRect.W = pos.Y + 12.0f + 25.0f;
             }            
         }
 
@@ -1161,7 +1175,14 @@ namespace DuckstazyLive.game
 
         public void jump(float h)
         {
-            dropping = false;
+            if (dropping)
+            {
+                if (dropCounter > 0)
+                    droppingCanceled = true;
+                else
+                    dropping = false;
+            }
+
             float new_vy = (float)Math.Sqrt(2 * duck_jump_gravity * h);
             if (jumpVel < new_vy)
                 jumpVel = new_vy;
