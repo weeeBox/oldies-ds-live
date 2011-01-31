@@ -286,17 +286,11 @@ namespace DuckstazyLive.game
             if (blinkTime > 0.0f)
                 blinkTime -= dt * 8.0f;
 
-            updateRotating(dt);
             updateHor(dt);
             updateVer(dt);
             updateWings(dt);
         }        
 
-        private void updateRotating(float dt)
-        {
-
-        }
-        
         private void updateHor(float dt)
         {
             steping = false;
