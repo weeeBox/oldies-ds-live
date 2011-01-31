@@ -76,7 +76,7 @@ namespace DuckstazyLive.game.stages.versus
         {            
             if (pill.isPower())
             {
-                hero.queuePillsToAdd(pill.scores);
+                hero.addPills(pill.scores);
             }            
         }
 

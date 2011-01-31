@@ -546,7 +546,7 @@ namespace DuckstazyLive.game
                 case 0:
                 {
                     type = POWER1;
-                    scores = 1;
+                    scores = POWER1_SCORE;
                     power = 0.01f;
                     imgMain = media.imgPower1;
                     imgEmo = media.imgPPower1;
@@ -555,7 +555,7 @@ namespace DuckstazyLive.game
                 case 1:
                 {
                     type = POWER2;
-                    scores = 2;
+                    scores = POWER2_SCORE;
                     power = 0.025f;
                     imgMain = media.imgPower2;
                     imgEmo = media.imgPPower2;
@@ -564,7 +564,7 @@ namespace DuckstazyLive.game
                 case 2:
                 {
                     type = POWER3;
-                    scores = 5;
+                    scores = POWER3_SCORE;
                     power = 0.05f;
                     imgMain = media.imgPower3;
                     imgEmo = media.imgPPower3;
