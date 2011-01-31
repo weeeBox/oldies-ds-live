@@ -96,14 +96,12 @@ namespace DuckstazyLive.game
             getEnv().draw1(canvas);
  
             levelPreDraw();
-            stage.draw1(canvas);
 
-            info.drawFT(canvas);
-            getPills().draw(canvas);
-                                
+            stage.draw1(canvas);            
+            getPills().draw(canvas);                                
             getHeroes().draw(canvas);
-
             getParticles().draw(canvas);
+            info.draw(canvas);
             levelPostDraw();
 
             getEnv().draw2(canvas);
@@ -177,13 +175,7 @@ namespace DuckstazyLive.game
             env.updateBlanc(dt);
 
             getParticles().update(dt);
-
-            if (power >= 0.5) info.setRGB(env.colors.bg);
-            else
-            {
-                if (env.day) info.setRGB(0x000000);
-                else info.setRGB(0xffffff);
-            }
+            
             info.update(power, dt);
             hud.update(power, dt);
         }

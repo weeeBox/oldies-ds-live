@@ -429,10 +429,9 @@ namespace DuckstazyLive.game
                         if (level.power >= 0.5)
                         {
                             i = id + level.state.hell;
-                            hero.gameState.scores += level.state.calcHellScores(i);
-                            //else if(i==1) level.state.scores+=10;
-                            //else if(i==2) level.state.scores+=25;
-                            info.add(x, y, info.powers[i]);
+                            int score = level.state.calcHellScores(i);
+                            hero.gameState.scores += score;                            
+                            info.add(x, y, score);
                             getEnv().beat();
                         }
                         else
@@ -441,12 +440,13 @@ namespace DuckstazyLive.game
                             if (i == 0)
                             {
                                 hero.gameState.scores++;
-                                info.add(x, y, info.one);
+                                info.add(x, y, 1);
                             }
                             else
                             {
-                                info.add(x, y, info.powers[i - 1]);
-                                hero.gameState.scores += level.state.calcHellScores(i - 1);
+                                int score = level.state.calcHellScores(i - 1);
+                                info.add(x, y, score);
+                                hero.gameState.scores += score;
                             }
                         }
                         utils.playSound(media.sndPowers[id], 1.0f, x);
@@ -469,25 +469,26 @@ namespace DuckstazyLive.game
                         i = hero.doToxicDamage(x, y, damage, id);
                         if (i >= 0)
                         {
+                            int score = 0;
                             if (level.power >= 0.5)
                             {
-                                if (i == 0) hero.gameState.scores += 100;
-                                else if (i == 1) hero.gameState.scores += 150;
-                                else if (i == 2) hero.gameState.scores += 200;
-                                info.add(x, y, info.toxics[i]);
+                                if (i == 0) score = 100;
+                                else if (i == 1) score = 150;
+                                else if (i == 2) score = 200;                                
                                 getEnv().beat();
                             }
                             else
-                            {
-                                if (i == 0) hero.gameState.scores += 5;
-                                else if (i == 1) hero.gameState.scores += 10;
-                                else if (i == 2) hero.gameState.scores += 25;
-                                info.add(x, y, info.powers[i]);
+                            {                                
+                                if (i == 0) score = 5;
+                                else if (i == 1) score = 10;
+                                else if (i == 2) score = 25;                                
                             }
                             if (user != null)
                                 user(this, "attack", 0);
-                        }
-                        else info.add(x, y, info.damages[(int)(utils.rnd() * 3.0)]);
+
+                            hero.gameState.scores += score;
+                            if (score != 0) info.add(x, y, score);
+                        }                        
                     }
                     break;
                 case SLEEP:
@@ -499,8 +500,7 @@ namespace DuckstazyLive.game
                             level.gainSleep();
                             getEnv().beat();
                         }
-                        ps.explStarsSleep(x, y);
-                        info.add(x, y, info.sleeps[(int)(utils.rnd() * 3.0)]);
+                        ps.explStarsSleep(x, y);                        
                     }
                     break;
                 case HEALTH:
@@ -544,26 +544,32 @@ namespace DuckstazyLive.game
             switch (ID)
             {
                 case 0:
+                {
                     type = POWER1;
                     scores = 1;
                     power = 0.01f;
                     imgMain = media.imgPower1;
                     imgEmo = media.imgPPower1;
                     break;
+                }
                 case 1:
+                {
                     type = POWER2;
                     scores = 2;
                     power = 0.025f;
                     imgMain = media.imgPower2;
                     imgEmo = media.imgPPower2;
                     break;
+                }
                 case 2:
+                {
                     type = POWER3;
                     scores = 5;
                     power = 0.05f;
                     imgMain = media.imgPower3;
                     imgEmo = media.imgPPower3;
                     break;
+                }
             }
 
             rMax = DEFAULT_RADIUS;
@@ -668,13 +674,9 @@ namespace DuckstazyLive.game
             enabled = false;
 
             spy = false;
-
             rMax = DEFAULT_RADIUS;
-
             v = 20.0f;
-
             emo = false;
-
             high = false;
 
             setState(BORNING);
@@ -683,7 +685,7 @@ namespace DuckstazyLive.game
                 ps.startWarning(x, y, 3.0f, 1.0f, 1.0f, 1.0f);
             else
                 ps.startWarning(x, y, 3.0f, 0.0f, 0.0f, 0.0f);
-            // media.sndWarning.play();
+            
             Application.sharedSoundMgr.playSound(media.sndWarning);
         }
 
