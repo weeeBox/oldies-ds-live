@@ -425,15 +425,7 @@ namespace DuckstazyLive.game
                         if (droppingCanceled)
                         {
                             dropping = droppingCanceled = false;
-                        }
-                        else
-                        {
-                            // 14.0f, 12.0f, 35.0f, 25.0f
-                            dropRect.X = lastPos.X + 14.0f;
-                            dropRect.Y = lastPos.Y + 12.0f;
-                            dropRect.Z = dropRect.X + 35.0f;
-                            dropRect.W = pos.Y + 12.0f + 25.0f;
-                        }
+                        }                        
                     }
                     else
                     {
@@ -443,7 +435,13 @@ namespace DuckstazyLive.game
                 else
                 {
                     pos.Y += dropVelocity * dt;
-                }                
+                }
+
+                // 14.0f, 12.0f, 35.0f, 25.0f
+                dropRect.X = lastPos.X + 14.0f;
+                dropRect.Y = lastPos.Y + 12.0f;
+                dropRect.Z = dropRect.X + 35.0f;
+                dropRect.W = pos.Y + 12.0f + 25.0f;
             }            
         }
 
