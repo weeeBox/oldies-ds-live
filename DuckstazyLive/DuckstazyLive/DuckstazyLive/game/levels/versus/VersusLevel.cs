@@ -106,6 +106,7 @@ namespace DuckstazyLive.game
             DoubleFrog,            
             TripleFrog,
             AirAttack,
+            Duckfight
         }
 
         private struct StageInfo
@@ -125,6 +126,7 @@ namespace DuckstazyLive.game
             new StageInfo(VersusStages.DoubleFrog, "Double Frog"),
             new StageInfo(VersusStages.TripleFrog, "Triple Frog"),
             new StageInfo(VersusStages.AirAttack, "Air Attack"),
+            new StageInfo(VersusStages.Duckfight, "Duckfight"),
         };
 
         private const int STATE_START = 0;
@@ -144,6 +146,7 @@ namespace DuckstazyLive.game
         {
             state.level = stageIndex;
 
+            getHeroes().clear();
             base.start();
             startLevelState(STATE_START);
         }
@@ -154,11 +157,7 @@ namespace DuckstazyLive.game
 
             switch (levelState)
             {
-                case STATE_START:
-                {
-                    getHeroes().clear();
-                    break;
-                }                    
+                case STATE_START:                
                 case STATE_PLAYING:                 
                     break;
                 case STATE_END:
@@ -188,6 +187,9 @@ namespace DuckstazyLive.game
 
                 case VersusStages.TripleFrog:
                     return new TripleFrog(this);
+
+                case VersusStages.Duckfight:
+                    return new Duckfight(this);
 
                 default:
                     Debug.Assert(false, "Bad stage: " + stage);
