@@ -36,9 +36,9 @@ namespace DuckstazyLive.app
             {
                 progressText.setString("" + controller.getPercentLoaded());
             }
-            else if (Application.sharedResourceMgr.isResourceLoaded(Res.FNT_BIG))
+            else if (Application.sharedResourceMgr.isResourceLoaded(Res.FNT_INFO))
             {
-                Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+                Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
                 BaseElementContainer container = new BaseElementContainer(0, 0);
 
                 Text loadingText = new Text(font);

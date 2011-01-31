@@ -15,7 +15,7 @@ namespace DuckstazyLive.game
 
         public VersusResultView(VersusController controller) : base(controller)
         {
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
             Text text = new Text(font);
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);

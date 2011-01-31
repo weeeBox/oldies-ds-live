@@ -16,8 +16,8 @@ namespace DuckstazyLive.app
 	public class Res
 	{
 		// PACK_COMMON1
-		public const int IMG_FONT_BIG_TEX = 0;
-		public const int FNT_BIG = 1;
+		public const int IMG_FONT_INFO_TEX = 0;
+		public const int FNT_INFO = 1;
 		public const int IMG_UI_BUTTON_A = 2;
 		public const int IMG_UI_BUTTON_B = 3;
 		// PACK_COMMON2
@@ -31,15 +31,15 @@ namespace DuckstazyLive.app
 		// PACK_START
 		public const int IMG_LOAD_LINE = 11;
 		// PACK_MENU
-		public const int IMG_MENU_TITLE = 12;
-		public const int IMG_MENU_TITLE_BACK = 13;
+		public const int IMG_FONT_BIG_TEX = 12;
+		public const int FNT_BIG = 13;
+		public const int IMG_MENU_TITLE = 14;
+		public const int IMG_MENU_TITLE_BACK = 15;
 		// PACK_GAME
-		public const int IMG_FONT_BAD_TEX = 14;
-		public const int FNT_HUD_BAD = 15;
-		public const int IMG_FONT_HUD_DIGITS_TEX = 16;
-		public const int FNT_HUD_DIGITS = 17;
-		public const int IMG_FONT_INFO_TEX = 18;
-		public const int FNT_INFO = 19;
+		public const int IMG_FONT_BAD_TEX = 16;
+		public const int FNT_HUD_BAD = 17;
+		public const int IMG_FONT_HUD_DIGITS_TEX = 18;
+		public const int FNT_HUD_DIGITS = 19;
 		public const int FNT_FLOAT = 20;
 		public const int IMG_DUCK = 21;
 		public const int IMG_DUCK2 = 22;
@@ -145,8 +145,8 @@ namespace DuckstazyLive.app
 			// PACK_COMMON1
 			new ResourceBaseInfo[]
 			{
-				new ResourceBaseInfo(Res.IMG_FONT_BIG_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_big_tex"),
-				new ResourceBaseInfo(Res.FNT_BIG, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_big"),
+				new ResourceBaseInfo(Res.IMG_FONT_INFO_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_info_tex"),
+				new ResourceBaseInfo(Res.FNT_INFO, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_info"),
 				new ResourceBaseInfo(Res.IMG_UI_BUTTON_A, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonA"),
 				new ResourceBaseInfo(Res.IMG_UI_BUTTON_B, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonB"),
 			},
@@ -169,6 +169,8 @@ namespace DuckstazyLive.app
 			// PACK_MENU
 			new ResourceBaseInfo[]
 			{
+				new ResourceBaseInfo(Res.IMG_FONT_BIG_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_big_tex"),
+				new ResourceBaseInfo(Res.FNT_BIG, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_big"),
 				new ResourceBaseInfo(Res.IMG_MENU_TITLE, ResourceType.RESOURCE_TYPE_TEXTURE, "title"),
 				new ResourceBaseInfo(Res.IMG_MENU_TITLE_BACK, ResourceType.RESOURCE_TYPE_TEXTURE, "title_back"),
 			},
@@ -179,8 +181,6 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.FNT_HUD_BAD, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_bad"),
 				new ResourceBaseInfo(Res.IMG_FONT_HUD_DIGITS_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_hud_digits_tex"),
 				new ResourceBaseInfo(Res.FNT_HUD_DIGITS, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_hud_digits"),
-				new ResourceBaseInfo(Res.IMG_FONT_INFO_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_info_tex"),
-				new ResourceBaseInfo(Res.FNT_INFO, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_info"),
 				new ResourceBaseInfo(Res.FNT_FLOAT, ResourceType.RESOURCE_TYPE_VECTOR_FONT, "font_float"),
 				new ResourceBaseInfo(Res.IMG_DUCK, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
 				new ResourceBaseInfo(Res.IMG_DUCK2, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake2"),
