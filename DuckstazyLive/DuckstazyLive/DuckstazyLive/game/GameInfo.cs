@@ -15,7 +15,14 @@ namespace DuckstazyLive.game
     {
         private const int ftSize = 50;
         private FloatText[] ftPool;
-        private int ftCount;                       
+        private int ftCount;
+
+        private static Color[] PLAYERS_COLORS = 
+        {
+            utils.makeColor(0xfff799),
+            utils.makeColor(0xf49ac1),
+        };
+        private static Color BAD_COLOR = utils.makeColor(0xed1c24);
 
         public GameInfo()
         {
@@ -39,8 +46,9 @@ namespace DuckstazyLive.game
         public void draw(Canvas canvas)
         {
             int i = 0;
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_FLOAT);
-
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_PICKUP);
+            Env env = GameElements.Env;
+            
             foreach (FloatText ft in ftPool)
             {
                 if (i == ftCount)
@@ -54,21 +62,31 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void add(float x, float y, int score)
+        public void add(float x, float y, int score, int playerIndex)
         {
             Debug.Assert(score != 0);
-            if (score > 0) add(x, y, "+" + score);            
-            else add(x, y, "-" + score);            
+            string str;
+            Color color;
+            if (score > 0)
+            {
+                str = "+" + score;
+                color = PLAYERS_COLORS[playerIndex];
+            }
+            else
+            {
+                str = "-" + score;
+                color = BAD_COLOR;
+            }
+            add(x, y, str, ref color);
         }
 
-        public void add(float x, float y, String text)
+        public void add(float x, float y, String text, ref Color color)
         {
             foreach (FloatText ft in ftPool)
             {
                 if (!ft.isAlive())
-                {
-                    Color col = utils.makeColor(0xfff799);
-                    ft.start(text, x, y, ref col);
+                {                    
+                    ft.start(text, x, y, ref color);
                     ++ftCount;
                     break;
                 }

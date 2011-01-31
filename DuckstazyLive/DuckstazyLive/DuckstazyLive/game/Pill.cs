@@ -431,7 +431,7 @@ namespace DuckstazyLive.game
                             i = id + level.state.hell;
                             int score = level.state.calcHellScores(i);
                             hero.gameState.scores += score;                            
-                            info.add(x, y, score);
+                            info.add(x, y, score, hero.getPlayerIndex());
                             getEnv().beat();
                         }
                         else
@@ -440,12 +440,12 @@ namespace DuckstazyLive.game
                             if (i == 0)
                             {
                                 hero.gameState.scores++;
-                                info.add(x, y, 1);
+                                info.add(x, y, 1, hero.getPlayerIndex());
                             }
                             else
                             {
                                 int score = level.state.calcHellScores(i - 1);
-                                info.add(x, y, score);
+                                info.add(x, y, score, hero.getPlayerIndex());
                                 hero.gameState.scores += score;
                             }
                         }
@@ -487,7 +487,7 @@ namespace DuckstazyLive.game
                                 user(this, "attack", 0);
 
                             hero.gameState.scores += score;
-                            if (score != 0) info.add(x, y, score);
+                            if (score != 0) info.add(x, y, score, hero.getPlayerIndex());
                         }                        
                     }
                     break;
