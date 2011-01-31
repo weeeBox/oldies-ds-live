@@ -64,6 +64,8 @@
 			</package>
 			
 			<package name="PACK_GAME">
+				<image name="font_pickup_tex" file="${dir.art}/font_pickup_tex.png" />
+				<pixelFont name="pickup" file="${dir.art}/font_pickup.pixelfont" />
 				<image name="font_bad_tex" file="${dir.art}/font_bad_tex.png" />
 				<pixelFont name="hud_bad" file="${dir.art}/font_bad.pixelfont" />
 				<image name="font_hud_digits_tex" file="${dir.art}/font_hud_digits_tex.png" />

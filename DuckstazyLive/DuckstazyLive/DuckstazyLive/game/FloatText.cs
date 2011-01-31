@@ -6,30 +6,51 @@ using Microsoft.Xna.Framework.Graphics;
 using Framework.core;
 using Framework.visual;
 using DuckstazyLive.app;
+using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.game
 {
-    public class FloatText : BaseElement
+    public class FloatText
     {
-        public float t;
-        public string text;
-        public ColorTransform ct;
+        private float t;
+        private string text;
+        private Color startColor;
 
-        public FloatText()
+        private float x, y;               
+
+        public void start(string text, float x, float y, ref Color c)
         {
-            t = 0.0f;
-            ct = ColorTransform.NONE;
-            setAlign(ALIGN_CENTER, ALIGN_MIN);
+            startColor = c;
+            this.x = x;
+            this.y = y;
+            this.text = text;
+            t = 1.0f;
         }
 
-        public override void draw()
+        public void update(float dt)
         {
-            preDraw();
+            y -= 50.0f * dt;
+            t -= dt;
+        }
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_FLOAT);
-            font.drawString(text, utils.scale(drawX), utils.scale(drawY));
+        public void draw(Canvas canvas)
+        {
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_PICKUP);
+            Color drawColor = startColor * t;
+            AppGraphics.SetColor(drawColor);
+            font.drawString(text, utils.scale(x), utils.scale(y), TextAlign.HCENTER | TextAlign.BOTTOM);
+            AppGraphics.SetColor(Color.White);
+        }
 
-            postDraw();
+        public bool isAlive()
+        {
+            return t > 0.0f;
+        }
+
+        public void reset()
+        {
+            t = 0.0f;
+            text = null;
         }
     }
 }

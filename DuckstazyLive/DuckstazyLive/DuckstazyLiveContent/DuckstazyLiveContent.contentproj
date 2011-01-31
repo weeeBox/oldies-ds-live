@@ -137,6 +137,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="font_pickup_tex.png">
+      <Name>font_pickup_tex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="font_pickup.pixelfont">
+      <Name>font_pickup</Name>
+      <Importer>PixelFontImporter</Importer>
+      <Processor>PixelFontProcessor</Processor>
+    </Compile>
     <Compile Include="font_bad_tex.png">
       <Name>font_bad_tex</Name>
       <Importer>TextureImporter</Importer>

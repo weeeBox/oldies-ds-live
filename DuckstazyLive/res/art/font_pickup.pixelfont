@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<font filename="font_pickup_tex.png" charOffset="0" lineOffset="0" spaceWidth="0" fontOffset="0">
+  <char value="+" x="0" y="0" w="18" h="18" ox="0" oy="2"/>
+  <char value="-" x="22" y="0" w="17" h="8" ox="0" oy="7"/>
+  <char value="0" x="43" y="0" w="17" h="23" ox="0" oy="0"/>
+  <char value="1" x="64" y="0" w="12" h="21" ox="0" oy="1"/>
+  <char value="2" x="80" y="0" w="16" h="23" ox="0" oy="0"/>
+  <char value="3" x="100" y="0" w="15" h="22" ox="0" oy="1"/>
+  <char value="4" x="119" y="0" w="18" h="23" ox="0" oy="0"/>
+  <char value="5" x="141" y="0" w="15" h="23" ox="0" oy="0"/>
+  <char value="6" x="160" y="0" w="16" h="22" ox="0" oy="1"/>
+  <char value="7" x="180" y="0" w="16" h="21" ox="0" oy="0"/>
+  <char value="8" x="200" y="0" w="17" h="23" ox="0" oy="0"/>
+  <char value="9" x="221" y="0" w="18" h="22" ox="0" oy="1"/>
+</font>
