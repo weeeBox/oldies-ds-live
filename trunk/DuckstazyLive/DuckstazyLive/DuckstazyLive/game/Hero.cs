@@ -393,13 +393,16 @@ namespace DuckstazyLive.game
                     fly = false;
                     pos.Y = 400 - duck_h2;
 
-                    heroes.media.playLand();
-                    //utils.playSound(land_snd, (power+0.3)*Math.abs(jumpVel)/200.0, pos.x+27);
-
                     if (dropping)
+                    {
                         doDropBubbles();
+                        heroes.media.playLandHeavy();
+                    }
                     else
+                    {
                         doLandBubbles();
+                        heroes.media.playLand();
+                    }
 
                     dropping = false;
                     sleep_collected = 0;
@@ -1166,6 +1169,8 @@ namespace DuckstazyLive.game
             dropCounter = DROP_TIME;
             dropDAngle = flip ? DROP_DA : -DROP_DA;
             rotation = 0.0f;
+
+            heroes.media.playFlip();
         }
 
         public void jump(float h)

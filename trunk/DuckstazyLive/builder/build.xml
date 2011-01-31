@@ -148,6 +148,7 @@
 				<sound name="hero_awake" file="${dir.sound}/HeroMedia_rAwakeSnd.wav" />
 				<sound name="hero_jump" file="${dir.sound}/HeroMedia_rJumpSnd.wav" />
 				<sound name="hero_land" file="${dir.sound}/HeroMedia_rLandSnd.wav" />
+				<sound name="hero_land_heavy" file="${dir.sound}/HeroMedia_rLandHeavySnd.wav" />
 				<sound name="hero_sleep" file="${dir.sound}/HeroMedia_rSleepSnd.wav" />
 				<sound name="hero_step1" file="${dir.sound}/HeroMedia_rStepSnd1.wav" />
 				<sound name="hero_step2" file="${dir.sound}/HeroMedia_rStepSnd2.wav" />
@@ -155,6 +156,7 @@
 				<sound name="hero_wing1" file="${dir.sound}/HeroMedia_rWingSnd1.wav" />
 				<sound name="hero_wing2" file="${dir.sound}/HeroMedia_rWingSnd2.wav" />
 				<sound name="hero_squeak" file="${dir.sound}/squeak.wav" />
+				<sound name="hero_salto" file="${dir.sound}/HeroMedia_rSaltoSnd.wav" />
 				<sound name="level_start" file="${dir.sound}/Level_rStartSnd.wav" />
 				<sound name="pill_generate" file="${dir.sound}/PillsMedia_rGenerateSnd.wav" />
 				<sound name="pill_high" file="${dir.sound}/PillsMedia_rHighSnd.wav" />

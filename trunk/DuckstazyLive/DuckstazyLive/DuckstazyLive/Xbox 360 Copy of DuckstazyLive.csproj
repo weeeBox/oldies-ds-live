@@ -153,6 +153,7 @@
     <Compile Include="game\stages\story\Trains.cs" />
     <Compile Include="game\stages\versus\AirAttackVs.cs" />
     <Compile Include="game\stages\versus\DoubleFrogVs.cs" />
+    <Compile Include="game\stages\versus\Duckfight.cs" />
     <Compile Include="game\stages\versus\TripleFrog.cs" />
     <Compile Include="game\stages\versus\VersusLevelStage.cs" />
     <Compile Include="game\stages\versus\VersusProgress.cs" />

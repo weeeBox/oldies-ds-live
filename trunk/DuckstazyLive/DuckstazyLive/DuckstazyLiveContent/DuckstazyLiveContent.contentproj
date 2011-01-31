@@ -542,6 +542,11 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="HeroMedia_rLandHeavySnd.wav">
+      <Name>HeroMedia_rLandHeavySnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Compile Include="HeroMedia_rSleepSnd.wav">
       <Name>HeroMedia_rSleepSnd</Name>
       <Importer>WavImporter</Importer>
@@ -574,6 +579,11 @@
     </Compile>
     <Compile Include="squeak.wav">
       <Name>squeak</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rSaltoSnd.wav">
+      <Name>HeroMedia_rSaltoSnd</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

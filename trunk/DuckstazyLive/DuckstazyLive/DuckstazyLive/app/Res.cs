@@ -118,25 +118,27 @@ namespace DuckstazyLive.app
 		public const int SND_HERO_AWAKE = 94;
 		public const int SND_HERO_JUMP = 95;
 		public const int SND_HERO_LAND = 96;
-		public const int SND_HERO_SLEEP = 97;
-		public const int SND_HERO_STEP1 = 98;
-		public const int SND_HERO_STEP2 = 99;
-		public const int SND_HERO_TOXIC = 100;
-		public const int SND_HERO_WING1 = 101;
-		public const int SND_HERO_WING2 = 102;
-		public const int SND_HERO_SQUEAK = 103;
-		public const int SND_LEVEL_START = 104;
-		public const int SND_PILL_GENERATE = 105;
-		public const int SND_PILL_HIGH = 106;
-		public const int SND_PILL_JUMPER = 107;
-		public const int SND_PILL_POWER1 = 108;
-		public const int SND_PILL_POWER2 = 109;
-		public const int SND_PILL_POWER3 = 110;
-		public const int SND_PILL_TOXIC_BORN = 111;
-		public const int SND_PILL_WARNING = 112;
-		public const int SND_UI_CLICK = 113;
-		public const int SND_UI_FOCUS = 114;
-		public const int RES_COUNT = 115;
+		public const int SND_HERO_LAND_HEAVY = 97;
+		public const int SND_HERO_SLEEP = 98;
+		public const int SND_HERO_STEP1 = 99;
+		public const int SND_HERO_STEP2 = 100;
+		public const int SND_HERO_TOXIC = 101;
+		public const int SND_HERO_WING1 = 102;
+		public const int SND_HERO_WING2 = 103;
+		public const int SND_HERO_SQUEAK = 104;
+		public const int SND_HERO_SALTO = 105;
+		public const int SND_LEVEL_START = 106;
+		public const int SND_PILL_GENERATE = 107;
+		public const int SND_PILL_HIGH = 108;
+		public const int SND_PILL_JUMPER = 109;
+		public const int SND_PILL_POWER1 = 110;
+		public const int SND_PILL_POWER2 = 111;
+		public const int SND_PILL_POWER3 = 112;
+		public const int SND_PILL_TOXIC_BORN = 113;
+		public const int SND_PILL_WARNING = 114;
+		public const int SND_UI_CLICK = 115;
+		public const int SND_UI_FOCUS = 116;
+		public const int RES_COUNT = 117;
 	}
 	public class DuckstazyResources
 	{
@@ -262,6 +264,7 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.SND_HERO_AWAKE, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rAwakeSnd"),
 				new ResourceBaseInfo(Res.SND_HERO_JUMP, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rJumpSnd"),
 				new ResourceBaseInfo(Res.SND_HERO_LAND, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rLandSnd"),
+				new ResourceBaseInfo(Res.SND_HERO_LAND_HEAVY, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rLandHeavySnd"),
 				new ResourceBaseInfo(Res.SND_HERO_SLEEP, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rSleepSnd"),
 				new ResourceBaseInfo(Res.SND_HERO_STEP1, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rStepSnd1"),
 				new ResourceBaseInfo(Res.SND_HERO_STEP2, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rStepSnd2"),
@@ -269,6 +272,7 @@ namespace DuckstazyLive.app
 				new ResourceBaseInfo(Res.SND_HERO_WING1, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rWingSnd1"),
 				new ResourceBaseInfo(Res.SND_HERO_WING2, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rWingSnd2"),
 				new ResourceBaseInfo(Res.SND_HERO_SQUEAK, ResourceType.RESOURCE_TYPE_SOUND, "squeak"),
+				new ResourceBaseInfo(Res.SND_HERO_SALTO, ResourceType.RESOURCE_TYPE_SOUND, "HeroMedia_rSaltoSnd"),
 				new ResourceBaseInfo(Res.SND_LEVEL_START, ResourceType.RESOURCE_TYPE_SOUND, "Level_rStartSnd"),
 				new ResourceBaseInfo(Res.SND_PILL_GENERATE, ResourceType.RESOURCE_TYPE_SOUND, "PillsMedia_rGenerateSnd"),
 				new ResourceBaseInfo(Res.SND_PILL_HIGH, ResourceType.RESOURCE_TYPE_SOUND, "PillsMedia_rHighSnd"),
