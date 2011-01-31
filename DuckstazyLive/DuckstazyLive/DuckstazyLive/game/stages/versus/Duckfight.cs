@@ -16,8 +16,16 @@ namespace DuckstazyLive.game.stages.versus
         {
             base.start();
 
-            getHero(0).queuePillsToAdd(50);
-            getHero(1).queuePillsToAdd(50);
+            float x1 = 0.25f * 640;            
+            float x2 = 640 - (x1 + Hero.duck_w2);
+            Heroes heroes = getHeroes();
+
+            heroes[0].addPills(50);
+            heroes[1].addPills(50);
+            level.info.add(x1, 360, 50, 0);            
+            level.info.add(x2, 360, 50, 1);
         }
+
+        
     }
 }

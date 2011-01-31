@@ -145,7 +145,7 @@ namespace DuckstazyLive.game
         private float blinkTime;
 
         public int pillsCollected;
-        private int pillsToAdd;
+        public int pillsCollectedHud;
         private float pillsAddCounter;
         public int sleep_collected;
         public int toxic_collected;
@@ -211,7 +211,7 @@ namespace DuckstazyLive.game
             power = 0.0f;
 
             pillsCollected = 0;
-            pillsToAdd = 0;
+            pillsCollectedHud = 0;
             pillsAddCounter = 0;
             sleep_collected = 0;
             toxic_collected = 0;
@@ -529,6 +529,7 @@ namespace DuckstazyLive.game
 
         private void updatePills(float dt)
         {
+            int pillsToAdd = pillsCollected - pillsCollectedHud;
             if (pillsToAdd != 0)
             {
                 pillsAddCounter += dt;
@@ -537,13 +538,11 @@ namespace DuckstazyLive.game
                     pillsAddCounter = 0.0f;
                     if (Math.Sign(pillsToAdd) > 0)
                     {
-                        pillsCollected++;
-                        pillsToAdd--;
+                        pillsCollectedHud++;
                     }
                     else
                     {
-                        pillsCollected--;
-                        pillsToAdd++;
+                        pillsCollectedHud--;                        
                     }
                 }
             }
@@ -1081,18 +1080,17 @@ namespace DuckstazyLive.game
 
                     float px = flip ? x : x + duck_w2;
                     float py = y + duck_h2;
-
-                    int availPills = pillsCollected + pillsToAdd;
+                                        
                     int powerId;
-                    if (availPills >= Pill.POWER3_SCORE)
+                    if (pillsCollected >= Pill.POWER3_SCORE)
                     {
                         powerId = utils.rnd_int(3);
                     }
-                    else if (availPills >= Pill.POWER2_SCORE)
+                    else if (pillsCollected >= Pill.POWER2_SCORE)
                     {
                         powerId = utils.rnd_int(2);
                     }
-                    else if (availPills >= Pill.POWER1_SCORE)
+                    else if (pillsCollected >= Pill.POWER1_SCORE)
                     {
                         powerId = 0;
                     }
@@ -1106,7 +1104,7 @@ namespace DuckstazyLive.game
                     pill.vy = vy;
                     pill.user = kickedPillCallback;
                     getPills().actives++;                    
-                    queuePillsToAdd(-pill.scores);
+                    addPills(-pill.scores);
                     kickedPills -= pill.scores;
                 }
             }
@@ -1162,9 +1160,10 @@ namespace DuckstazyLive.game
             }
         }
         
-        public void queuePillsToAdd(int pills)
+        public void addPills(int pills)
         {
-            pillsToAdd += pills;
+            Debug.Assert(pillsCollected + pills >= 0);
+            pillsCollected += pills;
             pillsAddCounter = 0;
         }
 
