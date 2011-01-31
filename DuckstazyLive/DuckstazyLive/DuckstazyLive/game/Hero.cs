@@ -1060,6 +1060,7 @@ namespace DuckstazyLive.game
             jumpedElasped = 0.0f;
 
             int kickedPills;
+            int totalKicked = 0;
             if (other.isDroppingDown())
             {
                 kickedPills = (int)utils.lerp(power, MIN_DROP_KICKED_PILLS, MAX_DROP_KICKED_PILLS);
@@ -1106,6 +1107,7 @@ namespace DuckstazyLive.game
                     getPills().actives++;                    
                     addPills(-pill.scores);
                     kickedPills -= pill.scores;
+                    totalKicked += pill.scores;
                 }
             }
 
@@ -1114,6 +1116,12 @@ namespace DuckstazyLive.game
 
             wingBeat();
             doCrapBubbles();
+
+            if (totalKicked != 0)
+            {
+                Level level = Level.instance;
+                level.info.add(x, y, -totalKicked, playerIndex);
+            }
 
             Application.sharedSoundMgr.playSound(Res.SND_HERO_SQUEAK);
         }
