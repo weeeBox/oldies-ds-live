@@ -82,6 +82,7 @@ namespace DuckstazyLive.game
         private int sndWing2;
         private int sndJump;
         private int sndLand;
+        private int sndLandHeavy;
         private int sndAwake;
         private int sndSleep;
         public int sndAttack;
@@ -153,6 +154,7 @@ namespace DuckstazyLive.game
             sndWing2 = Res.SND_HERO_WING2;
             sndJump = Res.SND_HERO_JUMP;
             sndLand = Res.SND_HERO_LAND;
+            sndLandHeavy = Res.SND_HERO_LAND_HEAVY;
             sndAwake = Res.SND_HERO_AWAKE;
             sndSleep = Res.SND_HERO_SLEEP;
             sndAttack = Res.SND_HERO_ATTACK;
@@ -282,6 +284,11 @@ namespace DuckstazyLive.game
             //utils.playSound(land_snd, (power+0.3)*Math.abs(jumpVel)/200.0, pos.x+27);
         }
 
+        public void playLandHeavy()
+        {
+            Application.sharedSoundMgr.playSound(sndLandHeavy);
+        }
+
         public void playStep()
         {
             int snd;
@@ -295,6 +302,11 @@ namespace DuckstazyLive.game
             // snd.play(49.0, 0, transformPanVol);
             Application.sharedSoundMgr.playSound(snd, transformPanVol);
             //var trans:SoundTransform = new SoundTransform(utils.rnd_float(0.3, 1.0f), utils.pos2pan(pos.x+duck_w));
+        }
+
+        public void playFlip()
+        {
+            Application.sharedSoundMgr.playSound(Res.SND_HERO_SALTO);
         }
 
         public void playWing()
