@@ -21,6 +21,11 @@ namespace DuckstazyLive.app
             level.restart();
         }
 
+        public void quitLevel()
+        {
+            deactivate();
+        }
+
         public bool isPaused()
         {
             return getActiveView() is PauseView;
@@ -32,7 +37,7 @@ namespace DuckstazyLive.app
             hideView();
         }
 
-        internal void showPause()
+        public void showPause()
         {
             PauseView pause = new PauseView(this);
             showNextView(pause);

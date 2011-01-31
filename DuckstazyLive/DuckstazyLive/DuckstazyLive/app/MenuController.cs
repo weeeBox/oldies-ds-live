@@ -27,12 +27,11 @@ namespace DuckstazyLive.app
         }
 
         public void versusGame()
-        {            
-            deactivate();
-            Application.sharedRootController.activateChild(DuckstazyRootController.CHILD_VERSUS);
-
+        {
             VersusController versusController = (VersusController)Application.sharedRootController.getChild(DuckstazyRootController.CHILD_VERSUS);
             versusController.selectStage();
+            deactivate();
+            Application.sharedRootController.activateChild(DuckstazyRootController.CHILD_VERSUS);            
         }
 
         public override void activate()

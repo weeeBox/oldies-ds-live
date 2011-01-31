@@ -12,23 +12,24 @@ using DuckstazyLive.game.stages;
 
 namespace DuckstazyLive.game
 {
-    public abstract class StoryLevelHud : Hud
+    public abstract class StoryLevelHud : Hud, BaseElement.TimelineDelegate
     {
         protected Text infoText;
         protected Text progressText;        
 
-        public StoryLevelHud(Level level) : base(level)
+        public StoryLevelHud(Level level)
+            : base(level)
         {
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
 
-            infoText = new Text(font);            
+            infoText = new Text(font);
             addChild(infoText);
 
             progressText = new Text(font);
-            progressText.setAlign(ALIGN_CENTER, ALIGN_CENTER);
-            progressText.parentAlignX = progressText.parentAlignY = ALIGN_CENTER;
-            addChild(progressText);
-        }        
+            progressText.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
+            progressText.x = 0.5f * Constants.ENV_WIDTH;
+            progressText.y = 0.5f * Constants.ENV_HEIGHT;            
+        }
 
         public override void update(float power, float dt)
         {
@@ -38,25 +39,38 @@ namespace DuckstazyLive.game
             if (stage.hasTimeLimit())
             {
                 clock.setRemainingTime(stage.getRemainingTime());
-            }            
+            }
+            progressText.update(dt);
+        }
+
+        public override void draw()
+        {
+            base.draw();
+            progressText.draw();
         }
 
         public override void onEnterLevel()
         {
             progressText.setString("");
             infoText.setString("");
-            progressText.visible = infoText.visible = false;            
+            progressText.visible = infoText.visible = false;
+            
+            if (getLevel().getStage().hasTimeLimit())
+            {
+                clock.show();
+                clock.parentAlignX = clock.parentAlignY = ALIGN_CENTER;
+            }
         }
 
         public void setProgressText(string text)
         {
             setText(progressText, text);
-        }
+        }        
 
         public void setInfoText(string text)
         {
             setText(infoText, text);
-        }       
+        }
 
         private void setText(Text element, string text)
         {
@@ -72,9 +86,33 @@ namespace DuckstazyLive.game
                     element.addKeyFrame(new KeyFrame(element.x, element.y, Color.White, 1.2f, 1.2f, 0.0f, 0.5f));
                     element.addKeyFrame(new KeyFrame(element.x, element.y, Color.White, 1.0f, 1.0f, 0.0f, 0.2f));
                     element.playTimeline();
-                }                
+                    element.setTimelineDelegate(null);
+                }
             }
-        }        
+        }
+
+        public void hideElements()
+        {
+            if (infoText.visible)
+            {
+                infoText.turnTimelineSupportWithMaxKeyFrames(2);
+                infoText.scaleX = infoText.scaleY = 1.0f;
+                infoText.addKeyFrame(new KeyFrame(infoText.x, infoText.y, Color.White, 1.2f, 1.2f, 0.0f, 0.2f));
+                infoText.addKeyFrame(new KeyFrame(infoText.x, infoText.y, Color.White, 0.1f, 0.1f, 0.0f, 0.5f));
+                infoText.playTimeline();
+                infoText.setTimelineDelegate(this);
+            }
+            clock.hide();
+        }
+
+        public void elementTimelineFinished(BaseElement e)
+        {
+            if (e == infoText)
+            {
+                e.visible = false;
+                e.timelineDelegate = null;
+            }
+        }
 
         public StoryLevel getLevel()
         {
@@ -96,19 +134,17 @@ namespace DuckstazyLive.game
         protected float nextLevelCounter;
         protected int harvestProcess;
         protected int nextLevelCountdown;
-        
+
         protected const int LEVEL_STATE_START = 0;
         protected const int LEVEL_STATE_PLAYING = 1;
         protected const int LEVEL_STATE_LOOSE = 2;
         protected const int LEVEL_STATE_WIN = 3;
-        protected const int LEVEL_STATE_DIE = 4;        
+        protected const int LEVEL_STATE_DIE = 4;               
 
-        private const float DEATH_TIMEOUT = 4.5f;
-        private StoryController storyController;
+        private const float DEATH_TIMEOUT = 4.5f;        
 
-        public StoryLevel(StoryController storyController)            
-        {
-            this.storyController = storyController;
+        public StoryLevel(GameController controller) : base(controller)
+        {            
         }
 
         protected abstract LevelStage createNextStage();
@@ -137,8 +173,8 @@ namespace DuckstazyLive.game
         public override void start()
         {
             base.start();
-            startLevelState(LEVEL_STATE_START);            
-        }       
+            startLevelState(LEVEL_STATE_START);
+        }
 
         public override void update(float dt)
         {
@@ -152,69 +188,69 @@ namespace DuckstazyLive.game
             switch (levelState)
             {
                 case LEVEL_STATE_START:
-                {
-                    startLevelState(LEVEL_STATE_PLAYING);
-                    break;
-                }
+                    {
+                        startLevelState(LEVEL_STATE_PLAYING);
+                        break;
+                    }
 
                 case LEVEL_STATE_PLAYING:
-                {
-                    if (!getHeroes().hasAliveHero())
                     {
-                        startLevelState(LEVEL_STATE_DIE);
+                        if (!getHeroes().hasAliveHero())
+                        {
+                            startLevelState(LEVEL_STATE_DIE);
+                        }
+                        break;
                     }
-                    break;
-                }
 
                 case LEVEL_STATE_DIE:
-                {
-                    if (levelStateElapsed > DEATH_TIMEOUT)
                     {
-                        storyController.showDeath();
-                    }
-                    else
-                    {
-                        float progress = levelStateElapsed / DEATH_TIMEOUT;
-                        getEnv().proccessHitFade(progress);
-                    }
-                    break;
-                }                    
-
-                case LEVEL_STATE_LOOSE:
-                {
-                    storyController.showLoose(getStage().getLooseMessage());
-                    break;
-                }                   
-
-                case LEVEL_STATE_WIN:
-                {
-                    if (getPills().harvestCount > 0)
-                        updateHarvesting(dt);
-                    else
-                    {
-                        if (nextLevelCountdown > 0)
+                        if (levelStateElapsed > DEATH_TIMEOUT)
                         {
-                            nextLevelCounter += dt;
-                            if (nextLevelCounter > 1)
-                            {
-                                nextLevelCounter--;
-                                nextLevelCountdown--;
-                                setInfoText(NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END);
-                            }
+                            getController().showDeath();
                         }
                         else
                         {
-                            nextLevel();
+                            float progress = levelStateElapsed / DEATH_TIMEOUT;
+                            getEnv().proccessHitFade(progress);
                         }
+                        break;
                     }
-                    break;
-                }                    
+
+                case LEVEL_STATE_LOOSE:
+                    {
+                        getController().showLoose(getStage().getLooseMessage());
+                        break;
+                    }
+
+                case LEVEL_STATE_WIN:
+                    {
+                        if (getPills().harvestCount > 0)
+                            updateHarvesting(dt);
+                        else
+                        {
+                            if (nextLevelCountdown > 0)
+                            {
+                                nextLevelCounter += dt;
+                                if (nextLevelCounter > 1)
+                                {
+                                    nextLevelCounter--;
+                                    nextLevelCountdown--;
+                                    setProgressText(NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END);
+                                }
+                            }
+                            else
+                            {
+                                nextLevel();
+                            }
+                        }
+                        break;
+                    }
 
                 default:
-                {
-                    Debug.Assert(false, "Bad state: " + state);
-                    break;
-                }                    
+                    {
+                        Debug.Assert(false, "Bad state: " + state);
+                        break;
+                    }
             }
         }
 
@@ -230,18 +266,13 @@ namespace DuckstazyLive.game
             }
 
             return false;
-        }
-
-        public override void pause()
-        {
-            storyController.showPause();
-        }
+        }       
 
         public void nextLevel()
         {
             if (state.level >= getStagesCount() - 1)
             {
-                storyController.showWin();
+                getController().showWin();
             }
             else
             {
@@ -253,12 +284,14 @@ namespace DuckstazyLive.game
         public void onWin()
         {
             startLevelState(LEVEL_STATE_WIN);
+            getHud().hideElements();
+            
 
             onEnd();
             nextLevelCountdown = 3;
             harvestProcess = 2;
-            
-            setInfoText(HARVEST_TEXT + "...");
+
+            setProgressText(HARVEST_TEXT + "...");
             nextLevelCounter = 0;
         }
 
@@ -305,19 +338,29 @@ namespace DuckstazyLive.game
                         str += ".";
                         --i;
                     }
-                    setInfoText(HARVEST_TEXT + str);
+                    setProgressText(HARVEST_TEXT + str);
                 }
             }
             else
             {
                 nextLevelCounter = 0;
-                setInfoText(NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END);
+                setProgressText(NEXT_LEVEL_TEXT_BEGIN + nextLevelCountdown.ToString() + NEXT_LEVEL_TEXT_END);
             }
+        }
+
+        public void setProgressText(string text)
+        {
+            getHud().setProgressText(text);
         }
 
         public void setInfoText(string infoText)
         {
             getHud().setInfoText(infoText);
+        }
+
+        protected StoryController getController()
+        {
+            return (StoryController)controller;
         }
 
         public StoryLevelStage getStage()
