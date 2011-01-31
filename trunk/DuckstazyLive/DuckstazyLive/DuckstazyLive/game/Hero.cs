@@ -18,6 +18,7 @@ namespace DuckstazyLive.game
         private const float duck_jump_start_vel_min = 127;
         private const float duck_jump_start_vel_max = 379;
         private const float duck_rapid_jump_delay = 0.1f;
+        private const float duck_dive_vel_max = 800.0f;
 
         public const float duck_jump_gravity = 200;
         private const float duck_jump_toxic = 100;
@@ -97,6 +98,9 @@ namespace DuckstazyLive.game
         private bool rapidJump;
         private float jumpButtonPressedStartTime;
 
+        private const int MIN_DROP_KICKED_PILLS = 10;
+        private const int MAX_DROP_KICKED_PILLS = 25;
+        private const int MIN_KICKED_PILLS = 1;
         private const int MAX_KICKED_PILLS = 10;
         
         public Vector2 pos;
@@ -1056,8 +1060,16 @@ namespace DuckstazyLive.game
             jumpVel = 0.0f;
             jumpedElasped = 0.0f;
 
-            float jumpPower = Math.Abs(other.jumpVel) / duck_jump_start_vel_max;
-            int kickedPills = (int)(jumpPower * MAX_KICKED_PILLS);            
+            int kickedPills;
+            if (other.isDroppingDown())
+            {
+                kickedPills = (int)utils.lerp(power, MIN_DROP_KICKED_PILLS, MAX_DROP_KICKED_PILLS);
+            }
+            else
+            {
+                float jumpPower = Math.Abs(other.jumpVel) / duck_dive_vel_max;
+                kickedPills = (int)utils.lerp(jumpPower, MIN_KICKED_PILLS, MAX_KICKED_PILLS);
+            }
             while (kickedPills > 0 && pillsCollected > 0)
             {
                 Pill pill = getPills().findDead();
