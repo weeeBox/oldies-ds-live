@@ -69,12 +69,12 @@ namespace DuckstazyLive.game
             Color color;
             if (score > 0)
             {
-                str = "+" + score;
+                str = "+" + score.ToString();
                 color = PLAYERS_COLORS[playerIndex];
             }
             else
             {
-                str = "-" + score;
+                str = score.ToString();
                 color = BAD_COLOR;
             }
             add(x, y, str, ref color);

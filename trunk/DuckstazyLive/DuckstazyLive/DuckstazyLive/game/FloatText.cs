@@ -16,7 +16,8 @@ namespace DuckstazyLive.game
         private string text;
         private Color startColor;
 
-        private float x, y;               
+        private float x, y;
+        private float vx;
 
         public void start(string text, float x, float y, ref Color c)
         {
@@ -25,10 +26,13 @@ namespace DuckstazyLive.game
             this.y = y;
             this.text = text;
             t = 1.0f;
+            vx = 0.0f;
         }
 
         public void update(float dt)
         {
+            vx = (float)(10.0f * Math.Sin(18 * t));
+            x += vx * dt;
             y -= 50.0f * dt;
             t -= dt;
         }
