@@ -58,7 +58,7 @@ namespace DuckstazyLive.game
         // Счётчик для эффекта с травой
         private float grassCounter;
 
-        private Image dammitImage;
+        private Text dammitText;
         private Color[] dammitColors;
 
         // Облака
@@ -214,9 +214,12 @@ namespace DuckstazyLive.game
             whiteFade.overlayColor = blackFade.overlayColor = true;
             geomSkyBlanc = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
 
-            dammitImage = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_DAMMIT));            
-            dammitImage.setAlign(Image.ALIGN_CENTER, Image.ALIGN_MIN);
-            dammitImage.rotationCenterY = -dammitImage.height / 2;
+            Font badFont = Application.sharedResourceMgr.getFont(Res.FNT_HUD_BAD);
+            dammitText = new Text(badFont);
+            dammitText.setString("DAMMIT!");
+            dammitText.scaleX = dammitText.scaleY = 2.5f;
+            dammitText.setAlign(Image.ALIGN_CENTER, Image.ALIGN_MIN);
+            dammitText.rotationCenterY = -dammitText.height / 2;
 
             dammitColors = new Color[] { Color.Red, Color.Green, Color.Blue };
         }
@@ -361,8 +364,8 @@ namespace DuckstazyLive.game
                 drawSkyBlanc(canvas);                
             }
 
-            if (dammitImage.isTimelinePlaying())
-                dammitImage.draw();
+            if (dammitText.isTimelinePlaying())
+                dammitText.draw();
         }
 
         public void drawSkyBlanc(Canvas canvas)
@@ -485,12 +488,12 @@ namespace DuckstazyLive.game
             hitFade = 1.0f;
             envElapsedTime = 0.0f;            
 
-            dammitImage.x = 0.5f * Constants.SCREEN_WIDTH;
-            dammitImage.y = Constants.ENV_HEIGHT;            
-            dammitImage.turnTimelineSupportWithMaxKeyFrames(1);
-            dammitImage.color = Color.White;
-            dammitImage.addKeyFrame(new BaseElement.KeyFrame(dammitImage.x, -dammitImage.height, Color.White * 0.0f, 1.0f, 1.0f, 0.0f, 2.5f * ENV_TIMEOUT));
-            dammitImage.playTimeline();
+            dammitText.x = 0.5f * Constants.SCREEN_WIDTH;
+            dammitText.y = Constants.ENV_HEIGHT;            
+            dammitText.turnTimelineSupportWithMaxKeyFrames(1);
+            dammitText.color = Color.White;
+            dammitText.addKeyFrame(new BaseElement.KeyFrame(dammitText.x, -dammitText.height, Color.White * 0.0f, dammitText.scaleX, dammitText.scaleY, 0.0f, 2.5f * ENV_TIMEOUT));
+            dammitText.playTimeline();
         }
 
         public bool isHitFaded()
@@ -521,14 +524,14 @@ namespace DuckstazyLive.game
                 }
             }
 
-            if (dammitImage.isTimelinePlaying())
+            if (dammitText.isTimelinePlaying())
             {
-                dammitImage.update(dt);
+                dammitText.update(dt);
                 int colorIndex = ((int)(envElapsedTime / 0.025f)) % dammitColors.Length;
-                float dammitAlpha = dammitImage.color.A / 255.0f;
-                dammitImage.color.R = (byte)(dammitColors[colorIndex].R * dammitAlpha);
-                dammitImage.color.G = (byte)(dammitColors[colorIndex].G * dammitAlpha);
-                dammitImage.color.B = (byte)(dammitColors[colorIndex].B * dammitAlpha);
+                float dammitAlpha = dammitText.color.A / 255.0f;
+                dammitText.color.R = (byte)(dammitColors[colorIndex].R * dammitAlpha);
+                dammitText.color.G = (byte)(dammitColors[colorIndex].G * dammitAlpha);
+                dammitText.color.B = (byte)(dammitColors[colorIndex].B * dammitAlpha);
             }
         }
 

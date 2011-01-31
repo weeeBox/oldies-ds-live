@@ -127,6 +127,16 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="font_bad_tex.png">
+      <Name>font_bad_tex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="font_bad.pixelfont">
+      <Name>font_bad</Name>
+      <Importer>PixelFontImporter</Importer>
+      <Processor>PixelFontProcessor</Processor>
+    </Compile>
     <Compile Include="font_hud_digits_tex.png">
       <Name>font_hud_digits_tex</Name>
       <Importer>TextureImporter</Importer>
@@ -489,11 +499,6 @@
     </Compile>
     <Compile Include="winner_effect.png">
       <Name>winner_effect</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="dammit.png">
-      <Name>dammit</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
