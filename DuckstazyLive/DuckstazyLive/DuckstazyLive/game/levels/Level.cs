@@ -238,7 +238,11 @@ namespace DuckstazyLive.game
             }
             else if (e.key == Keys.B)
             {
-                getEnv().startHitFade();
+                getEnv().startHitFade(false);
+            }
+            else if (e.key == Keys.N)
+            {
+                getEnv().startHitFade(true);
             }
 
             return false;
