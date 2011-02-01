@@ -79,6 +79,22 @@ namespace DuckstazyLive.game
             Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
         }
 
+        public virtual void restart()
+        {
+            start();
+        }
+
+        public virtual void pause()
+        {
+            getHeroes().buttonsReset();
+            controller.showPause();
+        }
+
+        public virtual void onEnd()
+        {
+            getEnv().startBlanc();
+        }
+
         protected virtual void startLevelState(int levelState)
         {
             levelStateElapsed = 0;
@@ -243,17 +259,6 @@ namespace DuckstazyLive.game
             return getHeroes().buttonReleased(ref e);            
         }
 
-        public void restart()
-        {
-            start();
-        }        
-
-        public virtual void pause()
-        {
-            getHeroes().buttonsReset();
-            controller.showPause();
-        }        
-
         public void switchEvnPower()
         {
             if (power >= 0.5f)
@@ -264,12 +269,6 @@ namespace DuckstazyLive.game
             {
                 powerUp = power = 0.5f;
             }
-        }
-
-        public void onEnd()
-        {
-            getPills().harvest();
-            getEnv().startBlanc();
         }        
 
         public void resetPower(float newPower)

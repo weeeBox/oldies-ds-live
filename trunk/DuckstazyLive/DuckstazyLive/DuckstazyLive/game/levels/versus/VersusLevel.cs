@@ -151,6 +151,13 @@ namespace DuckstazyLive.game
             startLevelState(STATE_START);
         }
 
+        public override void onEnd()
+        {
+            base.onEnd();
+            getPills().finish();
+            getHeroes().buttonsReset();
+        }
+
         protected override void startLevelState(int levelState)
         {
             base.startLevelState(levelState);
@@ -162,8 +169,7 @@ namespace DuckstazyLive.game
                     break;
                 case STATE_END:
                 {
-                    getPills().finish();
-                    getHeroes().buttonsReset();
+                    onEnd();
                     break;
                 }                    
                 default:
