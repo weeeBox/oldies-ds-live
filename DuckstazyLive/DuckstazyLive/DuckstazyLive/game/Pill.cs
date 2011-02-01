@@ -1096,7 +1096,7 @@ namespace DuckstazyLive.game
         {
             if (isPower())
             {
-                if (power < 0.5f)
+                if (getLevel().power < 0.5f)
                     return scores;
 
                 switch (id)
