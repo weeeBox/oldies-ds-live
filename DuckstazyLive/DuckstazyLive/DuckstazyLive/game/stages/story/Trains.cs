@@ -30,12 +30,12 @@ namespace DuckstazyLive.game.levels
             frog.y = 253;
         }
 
-        public override void start()
+        public override void onStart()
         {
             //var placer:Placer;
             JumpStarter jumper = new JumpStarter();
 
-            base.start();
+            base.onStart();
 
             jumpGen = new Generator();
             jumpGen.regen = false;

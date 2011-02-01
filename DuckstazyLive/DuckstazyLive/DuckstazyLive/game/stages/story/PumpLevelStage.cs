@@ -20,9 +20,9 @@ namespace DuckstazyLive.game
             progress.start(2.0f, 0);
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
             pumpProg = 0.0f;
         }
 
