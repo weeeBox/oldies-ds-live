@@ -176,6 +176,12 @@ namespace DuckstazyLive.game
             startLevelState(LEVEL_STATE_START);
         }
 
+        public override void onEnd()
+        {
+            base.onEnd();
+            getPills().harvest();
+        }
+
         public override void update(float dt)
         {
             base.update(dt);
