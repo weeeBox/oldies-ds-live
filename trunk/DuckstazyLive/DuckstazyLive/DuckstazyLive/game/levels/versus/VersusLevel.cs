@@ -34,7 +34,7 @@ namespace DuckstazyLive.game
             preDraw();
 
             Hero hero = GameElements.Heroes[heroIndex];
-            int collected = hero.pillsCollectedHud;
+            int collected = hero.gameState.pillsCollectedHud;
 
             float dx = width / 6.0f;            
 

@@ -76,13 +76,13 @@ namespace DuckstazyLive.game.stages.versus
         {            
             if (pill.isPower())
             {
-                hero.addPills(pill.scores);
+                hero.gameState.addPills(pill.scores);
             }            
         }
 
         public int getPillCollected(int playerIndex)
         {
-            return getHero(playerIndex).pillsCollected;
+            return getHero(playerIndex).gameState.pillsCollected;
         }
 
         protected void setState(State state)
