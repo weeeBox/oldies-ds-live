@@ -142,14 +142,14 @@ namespace DuckstazyLive.game
         private float step;
         private bool steping;
 
-        private float blinkTime;
-               
+        private float blinkTime;               
         
         public int sleep_collected;
         public int toxic_collected;
         public int frags;
 
-        public HeroGameState gameState;
+        public GameState gameState;
+        public GameInfo info;
         private Heroes heroes;
         private Canvas canvas;
 
@@ -165,7 +165,8 @@ namespace DuckstazyLive.game
             started = false;
             canvas = new Canvas(0, 0);
 
-            gameState = new HeroGameState();
+            gameState = new GameState();
+            info = new GameInfo(this);
 
             initCollisionRects();
         }
@@ -216,6 +217,8 @@ namespace DuckstazyLive.game
             dropCounter = 0.0f;
             dropDAngle = 0.0f;
             rotation = 0.0f;
+
+            info.reset();
         }
 
         private void doStepBubble()
@@ -286,6 +289,7 @@ namespace DuckstazyLive.game
                 blinkTime -= dt * 8.0f;
 
             gameState.update(dt);
+            info.update(newPower, dt);
 
             updateHor(dt);
             updateVer(dt);
@@ -1033,8 +1037,7 @@ namespace DuckstazyLive.game
             jumpVel = 0.0f;
             jumpedElasped = 0.0f;
 
-            int kickedPills;
-            int totalKicked = 0;
+            int kickedPills;            
             if (other.isDroppingDown())
             {
                 kickedPills = (int)utils.lerp(power, MIN_DROP_KICKED_PILLS, MAX_DROP_KICKED_PILLS);
@@ -1044,7 +1047,10 @@ namespace DuckstazyLive.game
                 float jumpPower = Math.Abs(other.jumpVel) / duck_dive_vel_max;
                 kickedPills = (int)utils.lerp(jumpPower, MIN_KICKED_PILLS, MAX_KICKED_PILLS);
             }
-            while (kickedPills > 0 && gameState.pillsCollected > 0)
+
+            int oldScores = gameState.getScores();
+
+            for (int i = 0; i < kickedPills && gameState.getScores() > 0; ++i)
             {
                 Pill pill = getPills().findDead();
                 if (pill != null)
@@ -1055,48 +1061,38 @@ namespace DuckstazyLive.game
 
                     float px = flip ? x : x + duck_w2;
                     float py = y + duck_h2;
-                                        
-                    int powerId;
-                    int pillsCollected = gameState.pillsCollected;
-                    if (pillsCollected >= Pill.POWER3_SCORE)
-                    {
-                        powerId = utils.rnd_int(3);
-                    }
-                    else if (pillsCollected >= Pill.POWER2_SCORE)
-                    {
-                        powerId = utils.rnd_int(2);
-                    }
-                    else if (pillsCollected >= Pill.POWER1_SCORE)
-                    {
-                        powerId = 0;
-                    }
-                    else
-                    {
-                        break;
-                    }
 
+                    int powerId = utils.rnd_int(3);
                     pill.startPower(px, py, powerId, false);
                     pill.vx = vx;
                     pill.vy = vy;
                     pill.user = kickedPillCallback;
-                    getPills().actives++;                    
-                    gameState.addPills(-pill.scores);
-                    kickedPills -= pill.scores;
-                    totalKicked += pill.scores;
+                    getPills().actives++;
+                    
+                    int pillScore = pill.getScore();                    
+                    if (gameState.getScores() - pillScore < 0)
+                    {
+                        gameState.addScores(-gameState.getScores());
+                        break;
+                    }
+                    else
+                    {
+                        gameState.addScores(-pillScore);
+                    }
                 }
+            }
+
+            int scoreDif = gameState.getScores() - oldScores;
+            if (scoreDif < 0)
+            {                
+                info.add(scoreDif);
             }
 
             key_up = false;
             endFlying();
 
             wingBeat();
-            doCrapBubbles();
-
-            if (totalKicked != 0)
-            {
-                Level level = Level.instance;
-                level.info.add(x, y, -totalKicked, playerIndex);
-            }
+            doCrapBubbles();            
 
             Application.sharedSoundMgr.playSound(Res.SND_HERO_SQUEAK);
         }

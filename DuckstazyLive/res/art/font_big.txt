@@ -1,9 +1,0 @@
-#Fri Jan 21 03:46:48 EET 2011
-fontOffset=-2
-lineOffset=-4
-name=big
-charOffset=-6
-chars=\!"\#$%&'()*+,-./0123456789\:;<\=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`{|}~
-space=20
-src=font_big.png
-dst=font_big_tex.png

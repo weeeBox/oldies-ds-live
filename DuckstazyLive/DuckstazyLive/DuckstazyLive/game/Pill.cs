@@ -415,7 +415,7 @@ namespace DuckstazyLive.game
         {
             int i;
             Level level = getLevel();
-            GameInfo info = level.info;
+            GameInfo info = hero.info;
 
             switch (type)
             {
@@ -426,29 +426,13 @@ namespace DuckstazyLive.game
                         if (hero.isActive())
                             level.gainPower(power);
 
+                        int score = getScore();
+                        hero.gameState.addScores(score);
+                        info.add(score);
                         if (level.power >= 0.5)
-                        {
-                            i = id + level.state.hell;
-                            int score = level.state.calcHellScores(i);
-                            hero.gameState.scores += score;                            
-                            info.add(x, y, score, hero.getPlayerIndex());
+                        {                            
                             getEnv().beat();
-                        }
-                        else
-                        {
-                            i = level.state.norm;
-                            if (i == 0)
-                            {
-                                hero.gameState.scores++;
-                                info.add(x, y, 1, hero.getPlayerIndex());
-                            }
-                            else
-                            {
-                                int score = level.state.calcHellScores(i - 1);
-                                info.add(x, y, score, hero.getPlayerIndex());
-                                hero.gameState.scores += score;
-                            }
-                        }
+                        }                        
                         utils.playSound(media.sndPowers[id], 1.0f, x);
 
                         if (high && !hero.isDroppingDown() && hero.doHigh(x, y))
@@ -486,8 +470,8 @@ namespace DuckstazyLive.game
                             if (user != null)
                                 user(this, "attack", 0);
 
-                            hero.gameState.scores += score;
-                            if (score != 0) info.add(x, y, score, hero.getPlayerIndex());
+                            hero.gameState.addScores(score);
+                            if (score != 0) info.add(score);
                         }                        
                     }
                     break;
@@ -1106,6 +1090,33 @@ namespace DuckstazyLive.game
             MAT.translate(dx, dy);
 
             canvas.draw(media.imgEyes1, MAT, COLOR);
+        }
+
+        public int getScore()
+        {
+            if (isPower())
+            {
+                if (power < 0.5f)
+                    return scores;
+
+                switch (id)
+                {
+                    case POWER1:
+                        return 5;
+                    case POWER2:
+                        return 10;
+                    case POWER3:
+                        return 25;
+                }
+            }
+
+            if (type == TOXIC)
+                return 100;
+
+            if (type == SLEEP)
+                return 150;
+
+            return 0;
         }
 
         private Env getEnv()

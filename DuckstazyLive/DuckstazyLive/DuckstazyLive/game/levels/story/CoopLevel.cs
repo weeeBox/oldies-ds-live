@@ -56,8 +56,7 @@ namespace DuckstazyLive.game
             DuckStage,
             LevelsCount
         }
-
-        private int stageIndex;
+                
         private int stagesCount;
 
         public CoopLevel(StoryController storyController) : base(storyController)

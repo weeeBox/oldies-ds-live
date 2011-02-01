@@ -255,7 +255,7 @@ namespace DuckstazyLive.game
 
                 default:
                     {
-                        Debug.Assert(false, "Bad state: " + state);
+                        Debug.Assert(false, "Bad state: " + levelState);
                         break;
                     }
             }
@@ -277,13 +277,13 @@ namespace DuckstazyLive.game
 
         public void nextLevel()
         {
-            if (state.level >= getStagesCount() - 1)
+            if (stageIndex >= getStagesCount() - 1)
             {
                 getController().showWin();
             }
             else
             {
-                state.level++;
+                stageIndex++;
                 start();
             }
         }

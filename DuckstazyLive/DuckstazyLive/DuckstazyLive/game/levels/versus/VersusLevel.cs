@@ -34,7 +34,7 @@ namespace DuckstazyLive.game
             preDraw();
 
             Hero hero = GameElements.Heroes[heroIndex];
-            int collected = hero.gameState.pillsCollectedHud;
+            int collected = hero.gameState.getScores();
 
             float dx = width / 6.0f;            
 
@@ -72,12 +72,11 @@ namespace DuckstazyLive.game
             collectedTexts = new CollectedText[2];            
             CollectedText text1 = new CollectedText(0);            
             CollectedText text2 = new CollectedText(1);
-            text1.x = 5;
-            text2.x = -5;
-            text1.parentAlignX = ALIGN_MIN;
-            text2.parentAlignX = ALIGN_MAX;
-            text1.parentAlignY = text2.parentAlignY = ALIGN_MAX;
-            text2.setAlign(ALIGN_MAX, ALIGN_MIN);
+            text1.setAlign(ALIGN_MIN, ALIGN_CENTER);
+            text2.setAlign(ALIGN_MAX, ALIGN_CENTER);
+            text1.parentAlignY = text2.parentAlignY = ALIGN_CENTER;
+            text1.x = healthBars[0].x + healthBars[0].width + 5;
+            text2.x = healthBars[1].x - 5;
 
             addChild(text1);
             addChild(text2);
@@ -86,16 +85,37 @@ namespace DuckstazyLive.game
         protected override HealthBar[] createBars()
         {
             HealthBar bar1 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE);
-            bar1.setAlign(ALIGN_MIN, ALIGN_CENTER);
-            bar1.parentAlignX = ALIGN_MIN;
-            bar1.parentAlignY = ALIGN_CENTER;
-
-            HealthBar bar2 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE2);
-            bar2.setAlign(ALIGN_MAX, ALIGN_CENTER);
-            bar2.parentAlignX = ALIGN_MAX;
-            bar2.parentAlignY = ALIGN_CENTER;
+            HealthBar bar2 = new HealthBar(Res.IMG_UI_HEALTH_EMO_BASE2);            
+            bar1.x = 0;
+            bar2.x = width - bar2.width;
+            bar1.alignY = bar2.alignY = bar1.parentAlignY = bar2.parentAlignY = ALIGN_CENTER;
 
             return new HealthBar[] { bar1, bar2 };
+        }
+
+        public override void update(float power, float dt)
+        {
+            base.update(power, dt);
+            VersusLevelStage stage = getStage();            
+            clock.setRemainingTime(stage.getRemainingTime());
+        }
+
+        public override void onStart()
+        {
+            base.onStart();
+            
+            clock.alignX = clock.alignY = clock.parentAlignX = clock.parentAlignY = ALIGN_CENTER;
+            clock.show();
+        }
+
+        public VersusLevel getLevel()
+        {
+            return (VersusLevel)level;
+        }
+
+        public VersusLevelStage getStage()
+        {
+            return getLevel().getStage();
         }
     }
 
@@ -131,8 +151,7 @@ namespace DuckstazyLive.game
 
         private const int STATE_START = 0;
         private const int STATE_PLAYING = 1;
-        private const int STATE_END = 2;
-        private int stageIndex;
+        private const int STATE_END = 2;        
 
         public VersusLevel(GameController controller, int stageIndex) : base(controller)
         {            
@@ -144,8 +163,6 @@ namespace DuckstazyLive.game
 
         public override void start()
         {
-            state.level = stageIndex;
-
             getHeroes().clear();
             base.start();
             startLevelState(STATE_START);
@@ -285,7 +302,7 @@ namespace DuckstazyLive.game
             return (VersusController)controller;
         }
 
-        protected VersusLevelStage getStage()
+        public VersusLevelStage getStage()
         {
             return (VersusLevelStage)stage;
         }           
