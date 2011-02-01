@@ -77,9 +77,8 @@ namespace DuckstazyLive.game
             stage = createStage(state.level);
 
             getHeroes().init();
-            save();
+            save();           
             
-            syncScores();
             enterLevel();
         }
 
@@ -285,16 +284,6 @@ namespace DuckstazyLive.game
                 powerUp = power = 0.5f;
             }
         }
-
-        // Синхронизировать очки, тоесть указать oldScore=state.scores, обновить надпись.
-        public void syncScores()
-        {
-            Heroes heroes = getHeroes();
-            foreach (Hero h in heroes)
-            {
-                h.gameState.syncScores();
-            }
-        }        
 
         public void onEnd()
         {

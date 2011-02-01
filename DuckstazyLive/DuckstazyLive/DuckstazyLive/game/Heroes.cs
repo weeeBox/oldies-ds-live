@@ -84,8 +84,7 @@ namespace DuckstazyLive.game
 
             foreach (Hero hero in heroes)
             {                
-                hero.update(dt, newPower);
-                hero.gameState.update(dt, newPower);                
+                hero.update(dt, newPower);                
             }
 
             if (heroes.Count > 1)

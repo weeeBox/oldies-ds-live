@@ -54,8 +54,7 @@ namespace DuckstazyLive.game
 
         public SingleLevel(StoryController storyController) : base(storyController)
         {
-            GameElements.initHeroes(1);
-            GameElements.Heroes[0].gameState.leftOriented = true;
+            GameElements.initHeroes(1);            
             stagesCount = (int)LevelStages.LevelsCount;
         }
 
