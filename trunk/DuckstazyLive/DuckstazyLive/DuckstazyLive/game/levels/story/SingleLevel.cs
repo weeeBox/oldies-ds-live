@@ -48,8 +48,7 @@ namespace DuckstazyLive.game
             Grinder,   
             LevelsCount
         }
-
-        private int stageIndex;
+                
         private int stagesCount;
 
         public SingleLevel(StoryController storyController) : base(storyController)

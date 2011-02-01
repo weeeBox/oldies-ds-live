@@ -36,7 +36,7 @@ namespace DuckstazyLive.app
             addChild(baseImage, CHILD_ROTATION);
 
             // button label
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
             Text label = new Text(font);
             label.setString(text, baseImage.width);
             label.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
@@ -48,7 +48,7 @@ namespace DuckstazyLive.app
         
         private void reset()
         {
-            targetColor = Color.Black;
+            targetColor = utils.makeColor(0x0f0540);
             targetScale = new Vector2(1.0f, 1.0f);
             omega = 350.0f / 5.0f;
             getChild(CHILD_TEXT).color = utils.makeColor(0x95c9ff);

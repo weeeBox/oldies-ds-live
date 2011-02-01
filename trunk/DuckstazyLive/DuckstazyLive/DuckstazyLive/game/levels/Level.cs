@@ -20,16 +20,13 @@ namespace DuckstazyLive.game
 
         public float power;
         protected float powerUp;
-
-        // Состояние уровня
-        public GameState state;
-        
+                
         public LevelStage stage; // текущий уровень        
         public StageMedia stageMedia;
         public Hud hud;        
 
-        // инфа 100%
-        public GameInfo info;
+        // инфа 100%        
+        protected int stageIndex;
 
         protected int levelState;
         protected float levelStateElapsed;
@@ -43,9 +40,7 @@ namespace DuckstazyLive.game
 
             setDrawInnactive(true);
 
-            instance = this;
-            state = new GameState();
-            info = new GameInfo();            
+            instance = this;            
             getEnv().reset();            
 
             stageMedia = new StageMedia();
@@ -65,10 +60,9 @@ namespace DuckstazyLive.game
 
             getParticles().clear();
             getPills().clear();            
-            getHeroes().init();
-            info.reset();
+            getHeroes().init();            
 
-            stage = createStage(state.level);
+            stage = createStage(stageIndex);
             stage.onStart();
 
             hud.onStart();
@@ -113,7 +107,7 @@ namespace DuckstazyLive.game
             getPills().draw(canvas);                                
             getHeroes().draw(canvas);
             getParticles().draw(canvas);
-            info.draw(canvas);
+            getHeroes().drawInfo(canvas);
             levelPostDraw();
 
             getEnv().draw2(canvas);
@@ -176,8 +170,7 @@ namespace DuckstazyLive.game
             env.updateBlanc(dt);
 
             getParticles().update(dt);
-            
-            info.update(power, dt);
+                        
             hud.update(power, dt);
         }
 

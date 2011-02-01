@@ -82,7 +82,7 @@ namespace DuckstazyLive.game.stages
 
     public class HealthBar : BaseElementContainer
     {
-        private const int HEALTH_CAPACITY = 3;
+        private const int HEALTH_CAPACITY = 1;
         private HealthSmile[] healthSmiles;        
 
         public HealthBar(int baseImageId)
@@ -163,14 +163,11 @@ namespace DuckstazyLive.game.stages
             text.setString("00");
             text.alignY = text.parentAlignY = ALIGN_CENTER;
             addChild(text, CHILD_SECONDS);
-
-            arrangeHorizontally(0, 0);
-            resizeToFitItemsHor(0, 0);
-
-            Image image = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_UI_CLOCK));
-            image.alignX = ALIGN_MAX + 0.15f;
+            
+            Image image = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_UI_CLOCK));            
             addChild(image, CHILD_IMAGE);
 
+            arrangeHorizontally(0, 0);
             resizeToFitItemsHor(0, 0);
 
             visible = false;

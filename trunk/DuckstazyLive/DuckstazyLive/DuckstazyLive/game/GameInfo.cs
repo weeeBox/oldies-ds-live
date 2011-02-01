@@ -16,6 +16,8 @@ namespace DuckstazyLive.game
         private const int ftSize = 50;
         private FloatText[] ftPool;
         private int ftCount;
+        private Color color;
+        private Hero hero;
 
         private static Color[] PLAYERS_COLORS = 
         {
@@ -24,8 +26,11 @@ namespace DuckstazyLive.game
         };
         private static Color BAD_COLOR = utils.makeColor(0xed1c24);
 
-        public GameInfo()
+        public GameInfo(Hero hero)
         {
+            this.hero = hero;
+            this.color = PLAYERS_COLORS[hero.getPlayerIndex()];
+
             int i = 0;
             ftPool = new FloatText[ftSize];
             for (; i < ftSize; ++i)
@@ -59,25 +64,27 @@ namespace DuckstazyLive.game
             }
         }
 
-        public void add(float x, float y, int score, int playerIndex)
+        public void add(int score)
         {
             Debug.Assert(score != 0);
             string str;
-            Color color;
+            Color drawColor;
             if (score > 0)
             {
                 str = "+" + score.ToString();
-                color = PLAYERS_COLORS[playerIndex];
+                drawColor = color;
             }
             else
             {
                 str = score.ToString();
-                color = BAD_COLOR;
+                drawColor = BAD_COLOR;
             }
-            add(x, y, str, ref color);
+            float addX = hero.flip ? (hero.x + Hero.duck_w2) : hero.x;
+            float addY = hero.y;
+            add(addX, addY, str, ref drawColor);
         }
 
-        public void add(float x, float y, String text, ref Color color)
+        private void add(float x, float y, String text, ref Color color)
         {
             foreach (FloatText ft in ftPool)
             {

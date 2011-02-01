@@ -1,58 +1,79 @@
-﻿﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework.visual;
+using Framework.core;
+using DuckstazyLive.app;
+using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game
 {
     public class GameState
-    {
-        /*** Грейды ***/
-        
-        public int hell;
-        public int norm;        
+    {        
+        public int maxHP;
 
-        /*** Уровень ***/
-        public int level;        
+        public int health;        
+        private int scores;
+        public int pillsCollected;
+        public int toxicCollected;
+        public int sleepCollected;
+
+        public int pillsCollectedHud;
+        private float pillsAddCounter;
 
         public GameState()
-        {
+        {            
             reset();
         }
-
-        // Все вернуть как сначала.
+        
         public void reset()
         {            
-            norm = 0;
-            hell = 0;         
+            maxHP = 3;
+            health = maxHP;            
+            scores = 0;
+            pillsCollected = 0;
+            toxicCollected = 0;
+            sleepCollected = 0;
+        }       
 
-            level = 0;            
-        }
-
-        // присвоить
-        public void assign(GameState state)
-        {            
-            norm = state.norm;
-            hell = state.hell;
-        
-            level = state.level;            
-        }
-
-        public int calcHellScores(int id)
+        public void update(float dt)
         {
-            int i = 1;
-
-            switch (id)
+            int pillsToAdd = pillsCollected - pillsCollectedHud;
+            if (pillsToAdd != 0)
             {
-                case 0: i = 5; break;
-                case 1: i = 10; break;
-                case 2: i = 25; break;
-                case 3: i = 50; break;
-                case 4: i = 100; break;
-                case 5: i = 150; break;
+                pillsAddCounter += dt;
+                if (pillsAddCounter > 0.05f)
+                {
+                    pillsAddCounter = 0.0f;
+                    if (Math.Sign(pillsToAdd) > 0)
+                    {
+                        pillsCollectedHud++;
+                    }
+                    else
+                    {
+                        pillsCollectedHud--;
+                    }
+                }
             }
-            return i;
         }
 
+        public void addPills(int pills)
+        {
+            Debug.Assert(pillsCollected + pills >= 0);
+            pillsCollected += pills;
+            pillsAddCounter = 0;
+        }
+
+        public void addScores(int scores)
+        {
+            this.scores += scores;
+        }
+
+        public int getScores()
+        {
+            return scores;
+        }
     }
 }

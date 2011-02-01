@@ -117,16 +117,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="font_big_tex.png">
-      <Name>font_big_tex</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="font_big.pixelfont">
-      <Name>font_big</Name>
-      <Importer>PixelFontImporter</Importer>
-      <Processor>PixelFontProcessor</Processor>
-    </Compile>
     <Compile Include="title.png">
       <Name>title</Name>
       <Importer>TextureImporter</Importer>

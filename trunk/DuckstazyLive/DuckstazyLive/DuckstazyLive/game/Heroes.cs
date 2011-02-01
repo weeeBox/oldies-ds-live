@@ -214,6 +214,17 @@ namespace DuckstazyLive.game
             }
         }
 
+        public void drawInfo(Canvas canvas)
+        {
+            if (started)
+            {
+                foreach (Hero hero in heroes)
+                {
+                    hero.info.draw(canvas);
+                }
+            }
+        }
+
         public bool buttonPressed(ref ButtonEvent e)
         {
             return buttonPressed(ref e, e.playerIndex);

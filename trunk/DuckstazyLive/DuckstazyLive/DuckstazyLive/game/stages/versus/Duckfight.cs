@@ -41,10 +41,8 @@ namespace DuckstazyLive.game.stages.versus
         }
 
         private void addStartScores(Hero hero)
-        {
-            float addX = hero.flip ? (hero.x + Hero.duck_w2) : hero.x;
-            float addY = hero.y;
-            level.info.add(addX, addY, 50, hero.getPlayerIndex());
+        {            
+            hero.info.add(50);
             hero.gameState.addPills(50);
         }
     }
