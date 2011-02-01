@@ -141,28 +141,37 @@ namespace DuckstazyLive.game.stages
         private const int CHILD_IMAGE = 0;
         private const int CHILD_MINUTES = 1;
         private const int CHILD_SEPARATOR = 2;
-        private const int CHILD_SECONDS = 3;
+        private const int CHILD_SECONDS = 3;        
 
         public StageClock()
         {
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_HUD_DIGITS);
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_HUD_DIGITS);            
 
             setAlign(ALIGN_CENTER, ALIGN_CENTER);
 
             Text text = new Text(font);
             text.setString("00");
+            text.alignY = text.parentAlignY = ALIGN_CENTER;
             addChild(text, CHILD_MINUTES);
 
             text = new Text(font);
             text.setString(":");
+            text.alignY = text.parentAlignY = ALIGN_CENTER;
             addChild(text, CHILD_SEPARATOR);
 
             text = new Text(font);
             text.setString("00");
+            text.alignY = text.parentAlignY = ALIGN_CENTER;
             addChild(text, CHILD_SECONDS);
 
             arrangeHorizontally(0, 0);
-            resizeToFitItems();
+            resizeToFitItemsHor(0, 0);
+
+            Image image = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_UI_CLOCK));
+            image.alignX = ALIGN_MAX + 0.15f;
+            addChild(image, CHILD_IMAGE);
+
+            resizeToFitItemsHor(0, 0);
 
             visible = false;
         }    

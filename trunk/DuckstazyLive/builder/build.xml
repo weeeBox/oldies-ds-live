@@ -88,6 +88,7 @@
 				<image name="ui_health_emo_smile2" file="${dir.art}/health_emo_smile2.png" />
 				<image name="ui_health_emo_smile3" file="${dir.art}/health_emo_smile3.png" />
 				<image name="ui_score_point" file="${dir.art}/score_point.png" />
+				<image name="ui_clock" file="${dir.art}/clock.png" />
 				<image name="level_ducktrip" file="${dir.art}/ducktrip.png" />
 				<image name="level_party" file="${dir.art}/party.png" />
 				<image name="level_pump" file="${dir.art}/pump.png" />

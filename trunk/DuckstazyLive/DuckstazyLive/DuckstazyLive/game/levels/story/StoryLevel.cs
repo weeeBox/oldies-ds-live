@@ -54,8 +54,9 @@ namespace DuckstazyLive.game
             progressText.setString("");
             infoText.setString("");
             progressText.visible = infoText.visible = false;
-            
-            if (getLevel().getStage().hasTimeLimit())
+
+            StoryLevelStage stage = getLevel().getStage();
+            if (stage.hasTimeLimit())
             {
                 clock.show();
                 clock.parentAlignX = clock.parentAlignY = ALIGN_CENTER;
