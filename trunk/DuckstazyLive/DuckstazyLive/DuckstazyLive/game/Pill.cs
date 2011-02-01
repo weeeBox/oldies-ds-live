@@ -633,7 +633,6 @@ namespace DuckstazyLive.game
             imgMain = media.imgHole;
             rMax = DEFAULT_RADIUS;
 
-
             spy = false;
             hookedHero = Constants.UNDEFINED;
             high = false;
