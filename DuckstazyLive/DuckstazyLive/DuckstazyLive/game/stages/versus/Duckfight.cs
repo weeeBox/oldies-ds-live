@@ -7,6 +7,8 @@ namespace DuckstazyLive.game.stages.versus
 {
     public class Duckfight : VersusLevelStage
     {
+        private bool fightStarted;
+
         public Duckfight(VersusLevel level) : base(level, 60)
         {
 
@@ -16,16 +18,34 @@ namespace DuckstazyLive.game.stages.versus
         {
             base.onStart();
 
-            float x1 = 0.25f * 640;            
-            float x2 = 640 - (x1 + Hero.duck_w2);
-            Heroes heroes = getHeroes();
+            fightStarted = false;
 
-            heroes[0].gameState.addPills(50);
-            heroes[1].gameState.addPills(50);
-            level.info.add(x1, 360, 50, 0);            
-            level.info.add(x2, 360, 50, 1);
+            getPills().findDead().startMatrix(320, 320);
+            getPills().actives++;
         }
 
-        
+        public override void update(float dt)
+        {
+            base.update(dt);
+
+            if (level.power >= 0.5f && !fightStarted)
+            {
+                getEnv().startBlanc();
+
+                fightStarted = true;
+                Hero h1 = getHero(0);
+                Hero h2 = getHero(1);
+                addStartScores(h1);
+                addStartScores(h2);
+            }
+        }
+
+        private void addStartScores(Hero hero)
+        {
+            float addX = hero.flip ? (hero.x + Hero.duck_w2) : hero.x;
+            float addY = hero.y;
+            level.info.add(addX, addY, 50, hero.getPlayerIndex());
+            hero.gameState.addPills(50);
+        }
     }
 }
