@@ -39,7 +39,7 @@ namespace DuckstazyLive.game.levels
             catArrow = new HintArrow(media);            
         }
 
-        public override void start()
+        public override void onStart()
         {
             JumpStarter jumper = new JumpStarter();
             PartySetuper party = new PartySetuper();
@@ -50,7 +50,7 @@ namespace DuckstazyLive.game.levels
 
             party.userCallback = partyLogic;
 
-            base.start();
+            base.onStart();
 
             gen = new Generator();
 

@@ -25,7 +25,7 @@ namespace DuckstazyLive.game
             day = true;
         }        
 
-        public virtual void start()
+        public virtual void onStart()
         {
             startX = utils.rnd() * (640 - 54);
             heroStarted = false;           

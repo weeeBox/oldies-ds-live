@@ -39,11 +39,11 @@ namespace DuckstazyLive.game
 
         protected abstract void startProgress();        
 
-        public override void start()
+        public override void onStart()
         {            
             totalCollected = 0;
 
-            base.start();
+            base.onStart();
             startProgress();
         }
 

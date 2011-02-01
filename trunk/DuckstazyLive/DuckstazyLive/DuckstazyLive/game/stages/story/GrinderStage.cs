@@ -41,9 +41,9 @@ namespace DuckstazyLive.game.stages.story
             progress.start(0, 0);
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
 
             gcx = 320.0f;
             gcy = 390.0f;

@@ -70,11 +70,11 @@ namespace DuckstazyLive.game.stages.story
             fireworkQueue = new Queue<FireworkInfo>();
         }
 
-        public override void start()
+        public override void onStart()
         {
             day = false;
 
-            base.start();
+            base.onStart();
 
             if (isSingleLevel())
             {

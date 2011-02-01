@@ -12,9 +12,9 @@ namespace DuckstazyLive.game.stages.versus
 
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
 
             float x1 = 0.25f * 640;            
             float x2 = 640 - (x1 + Hero.duck_w2);

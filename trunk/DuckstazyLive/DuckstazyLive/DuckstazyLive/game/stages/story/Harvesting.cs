@@ -19,9 +19,9 @@ namespace DuckstazyLive.game.levels
             pumpVel = 0.2f;
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
             startX = 293;            
             prog = 0.0f;
 

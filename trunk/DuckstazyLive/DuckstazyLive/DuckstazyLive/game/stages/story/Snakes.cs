@@ -112,9 +112,9 @@ namespace DuckstazyLive.game.stages.story
             numPills = collectableCount;
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
 
             currentSnakeIndex = -1;
             currentHintIndex = 0;

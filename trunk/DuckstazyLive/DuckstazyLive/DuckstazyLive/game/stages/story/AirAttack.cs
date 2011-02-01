@@ -16,9 +16,9 @@ namespace DuckstazyLive.game.levels
         {            
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
 
             startX = 293;
 

@@ -45,11 +45,11 @@ namespace DuckstazyLive.game.levels
             day = false;
         }
 
-        public override void start()
+        public override void onStart()
         {
             Placer placer;
 
-            base.start();
+            base.onStart();
 
             setuper = new PartySetuper();
             setuper.userCallback = partyLogic;

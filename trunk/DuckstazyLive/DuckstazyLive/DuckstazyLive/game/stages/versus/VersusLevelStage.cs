@@ -29,9 +29,9 @@ namespace DuckstazyLive.game.stages.versus
             media = level.stageMedia;            
         }
 
-        public override void start()
+        public override void onStart()
         {            
-            base.start();
+            base.onStart();
 
             setState(State.PLAYING);
             progress.start();

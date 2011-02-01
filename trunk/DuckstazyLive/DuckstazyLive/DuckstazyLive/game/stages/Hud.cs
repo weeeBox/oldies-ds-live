@@ -130,7 +130,7 @@ namespace DuckstazyLive.game.stages
             update(dt);            
         }
 
-        public virtual void onEnterLevel()
+        public virtual void onStart()
         {
             
         }        

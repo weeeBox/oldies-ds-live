@@ -20,14 +20,14 @@ namespace DuckstazyLive.game.levels
             this.danger = danger;
         }
 
-        public override void start()
+        public override void onStart()
         {
             float y = 350.0f;
             float x0 = 40.0f;
             float dx = 110.0f;
             float dy = 30.0f;
 
-            base.start();
+            base.onStart();
 
             setuper = new PartySetuper();
             if (danger == 0)

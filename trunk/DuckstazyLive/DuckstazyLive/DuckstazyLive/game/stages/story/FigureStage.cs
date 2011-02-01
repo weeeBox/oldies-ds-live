@@ -148,9 +148,9 @@ namespace DuckstazyLive.game.levels
             day = false;
         }
 
-        public override void start()
+        public override void onStart()
         {
-            base.start();
+            base.onStart();
 
             elapsedTime = 0;
             figureAppearTime = 0;

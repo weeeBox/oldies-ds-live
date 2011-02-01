@@ -44,8 +44,7 @@ namespace DuckstazyLive.game
             setDrawInnactive(true);
 
             instance = this;
-            state = new GameState();            
-
+            state = new GameState();
             info = new GameInfo();            
             getEnv().reset();            
 
@@ -57,29 +56,27 @@ namespace DuckstazyLive.game
         }
         
         protected abstract LevelStage createStage(int stageIndex);
-        protected abstract Hud createHud();
-
-        public void reset()
-        {
-            getHeroes().clear();
-        }
+        protected abstract Hud createHud();        
 
         public virtual void start()
-        {
-            getEnv().startBlanc();
+        {            
             power = 0.0f;
             powerUp = 0.0f;            
 
             getParticles().clear();
-            getPills().clear();
+            getPills().clear();            
+            getHeroes().init();
             info.reset();
 
             stage = createStage(state.level);
+            stage.onStart();
 
-            getHeroes().init();
-            save();           
-            
-            enterLevel();
+            hud.onStart();
+
+            Env env = getEnv();
+            env.startBlanc();
+            env.playMusic();            
+            Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
         }
 
         protected virtual void startLevelState(int levelState)
@@ -125,18 +122,7 @@ namespace DuckstazyLive.game
         private void levelPostDraw()
         {
             AppGraphics.PopMatrix();
-        }
-
-        public void enterLevel()
-        {
-            Env env = getEnv();
-            env.startBlanc();
-            env.playMusic();
-
-            stage.start();
-            hud.onEnterLevel();
-            Application.sharedSoundMgr.playSound(Res.SND_LEVEL_START);
-        }
+        }        
 
         public override void update(float dt)
         {
@@ -266,12 +252,7 @@ namespace DuckstazyLive.game
         {
             getHeroes().buttonsReset();
             controller.showPause();
-        }
-
-        public virtual void save()
-        {
-
-        }
+        }        
 
         public void switchEvnPower()
         {

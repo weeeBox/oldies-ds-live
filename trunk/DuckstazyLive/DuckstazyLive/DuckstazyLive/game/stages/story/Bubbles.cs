@@ -38,14 +38,14 @@ namespace DuckstazyLive.game.levels
             arrow3 = new HintArrow(media);
         }
 
-        public override void start()
+        public override void onStart()
         {
             //float y = 350.0f;
             //float x0 = 40.0f;
             //float dx = 110.0f;
             //float dy = 30.0f;			
 
-            base.start();
+            base.onStart();
 
             setuper = new PartySetuper();
             setuper.userCallback = partyLogic;

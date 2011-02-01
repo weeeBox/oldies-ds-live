@@ -49,7 +49,7 @@ namespace DuckstazyLive.game
             progressText.draw();
         }
 
-        public override void onEnterLevel()
+        public override void onStart()
         {
             progressText.setString("");
             infoText.setString("");
