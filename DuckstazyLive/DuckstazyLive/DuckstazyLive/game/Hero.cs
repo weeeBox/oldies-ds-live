@@ -143,10 +143,8 @@ namespace DuckstazyLive.game
         private bool steping;
 
         private float blinkTime;
-
-        public int pillsCollected;
-        public int pillsCollectedHud;
-        private float pillsAddCounter;
+               
+        
         public int sleep_collected;
         public int toxic_collected;
         public int frags;
@@ -209,10 +207,7 @@ namespace DuckstazyLive.game
             jumpedElasped = 0.0f;
 
             power = 0.0f;
-
-            pillsCollected = 0;
-            pillsCollectedHud = 0;
-            pillsAddCounter = 0;
+            
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
@@ -271,9 +266,7 @@ namespace DuckstazyLive.game
                 updateGamepadInput();            
 
             lastPos.X = x;
-            lastPos.Y = y;
-
-            updatePills(dt);
+            lastPos.Y = y;            
 
             heroes.media.updateSFX(x + duck_w);
 
@@ -291,6 +284,8 @@ namespace DuckstazyLive.game
 
             if (blinkTime > 0.0f)
                 blinkTime -= dt * 8.0f;
+
+            gameState.update(dt);
 
             updateHor(dt);
             updateVer(dt);
@@ -525,28 +520,7 @@ namespace DuckstazyLive.game
 
                 wingAngle = 0.5f * ((float)Math.Sin(wingCounter * 4.71f));
             }
-        }
-
-        private void updatePills(float dt)
-        {
-            int pillsToAdd = pillsCollected - pillsCollectedHud;
-            if (pillsToAdd != 0)
-            {
-                pillsAddCounter += dt;
-                if (pillsAddCounter > 0.05f)
-                {
-                    pillsAddCounter = 0.0f;
-                    if (Math.Sign(pillsToAdd) > 0)
-                    {
-                        pillsCollectedHud++;
-                    }
-                    else
-                    {
-                        pillsCollectedHud--;                        
-                    }
-                }
-            }
-        }
+        }        
 
         private void updateJumpCompress(float dt)
         {
@@ -1070,7 +1044,7 @@ namespace DuckstazyLive.game
                 float jumpPower = Math.Abs(other.jumpVel) / duck_dive_vel_max;
                 kickedPills = (int)utils.lerp(jumpPower, MIN_KICKED_PILLS, MAX_KICKED_PILLS);
             }
-            while (kickedPills > 0 && pillsCollected > 0)
+            while (kickedPills > 0 && gameState.pillsCollected > 0)
             {
                 Pill pill = getPills().findDead();
                 if (pill != null)
@@ -1083,6 +1057,7 @@ namespace DuckstazyLive.game
                     float py = y + duck_h2;
                                         
                     int powerId;
+                    int pillsCollected = gameState.pillsCollected;
                     if (pillsCollected >= Pill.POWER3_SCORE)
                     {
                         powerId = utils.rnd_int(3);
@@ -1105,7 +1080,7 @@ namespace DuckstazyLive.game
                     pill.vy = vy;
                     pill.user = kickedPillCallback;
                     getPills().actives++;                    
-                    addPills(-pill.scores);
+                    gameState.addPills(-pill.scores);
                     kickedPills -= pill.scores;
                     totalKicked += pill.scores;
                 }
@@ -1166,14 +1141,7 @@ namespace DuckstazyLive.game
                 pill.vx = (150.0f + 150.0f * power) * (utils.rnd() * 2.0f - 1.0f);
                 pill.vy = -100.0f - utils.rnd() * 200.0f - 200.0f * power;
             }
-        }
-        
-        public void addPills(int pills)
-        {
-            Debug.Assert(pillsCollected + pills >= 0);
-            pillsCollected += pills;
-            pillsAddCounter = 0;
-        }
+        }        
 
         private bool canDrop()
         {

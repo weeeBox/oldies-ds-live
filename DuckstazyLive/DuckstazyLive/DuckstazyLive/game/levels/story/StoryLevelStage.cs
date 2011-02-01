@@ -148,7 +148,7 @@ namespace DuckstazyLive.game
         public override void collectPill(Hero hero, Pill pill)
         {
             int heroIndex = hero.getPlayerIndex();
-            hero.addPills(pill.scores);
+            hero.gameState.addPills(pill.scores);
             totalCollected += pill.scores;
         }
 
