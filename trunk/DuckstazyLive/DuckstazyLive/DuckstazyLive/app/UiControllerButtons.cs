@@ -25,16 +25,17 @@ namespace DuckstazyLive.app
 
         private BaseElement createButtonWithLabel(int imageId, String text)
         {
-            BaseElementContainer container = new BaseElementContainer();
+            BaseElementContainer container = new BaseElementContainer();            
 
             Image button = new Image(Application.sharedResourceMgr.getTexture(imageId));            
             Text label = new Text(Application.sharedResourceMgr.getFont(Res.FNT_INFO));
             label.setString(text);
+            label.alignY = label.parentAlignY = ALIGN_CENTER;            
 
             container.addChild(button);
             container.addChild(label);
 
-            container.arrangeHorizontally(20, 20);
+            container.arrangeHorizontally(10, 10);
             container.resizeToFitItems();
 
             return container;

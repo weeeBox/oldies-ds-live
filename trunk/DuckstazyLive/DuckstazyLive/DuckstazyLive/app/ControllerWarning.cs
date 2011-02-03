@@ -21,7 +21,7 @@ namespace DuckstazyLive.app
             CustomGeomerty background = GeometryFactory.createSolidRect(0, 0, width, height, backColor);
             addChild(background, CHILD_BACKGROUND);            
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text message = new Text(font);
             message.setString("RECONNECT CONTROLLER");            
             addChild(message, CHILD_MESSAGE);

@@ -146,7 +146,7 @@ namespace DuckstazyLive.game
             new StageInfo(VersusStages.DoubleFrog, "Double Frog"),
             new StageInfo(VersusStages.TripleFrog, "Triple Frog"),
             new StageInfo(VersusStages.AirAttack, "Air Attack"),
-            new StageInfo(VersusStages.Duckfight, "Duckfight"),
+            new StageInfo(VersusStages.Duckfight, "Duck Fight"),
         };
 
         private const int STATE_START = 0;

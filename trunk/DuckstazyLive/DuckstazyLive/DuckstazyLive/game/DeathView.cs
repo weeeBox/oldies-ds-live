@@ -42,7 +42,7 @@ namespace DuckstazyLive.game
                 initScull(ref sculls[i], i);
             }
 
-            Text missText = new Text(Application.sharedResourceMgr.getFont(Res.FNT_INFO));
+            Text missText = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
             addChild(missText, CHILD_TEXT);
 
             attachCenter(missText);

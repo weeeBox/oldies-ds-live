@@ -57,6 +57,16 @@
     </ProjectReference> 
   </ItemGroup>  
   <ItemGroup>
+    <Compile Include="font_big_tex.png">
+      <Name>font_big_tex</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="font_big.pixelfont">
+      <Name>font_big</Name>
+      <Importer>PixelFontImporter</Importer>
+      <Processor>PixelFontProcessor</Processor>
+    </Compile>
     <Compile Include="font_info_tex.png">
       <Name>font_info_tex</Name>
       <Importer>TextureImporter</Importer>
