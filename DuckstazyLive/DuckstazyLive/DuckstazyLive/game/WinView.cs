@@ -14,7 +14,7 @@ namespace DuckstazyLive.game
 
         public WinView(StoryController controller) : base(controller)
         {
-            Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_INFO));
+            Text text = new Text(Application.sharedResourceMgr.getFont(Res.FNT_BIG));
             text.setString("THE WINER IS YOU");
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             text.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);

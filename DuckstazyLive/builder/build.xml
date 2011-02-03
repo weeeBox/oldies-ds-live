@@ -36,6 +36,8 @@
 	<target name="run" depends="build">		
 		<content projFile="${file.proj}" codeFile="${file.code}">
 			<package name="PACK_COMMON1">
+				<image name="font_big_tex" file="${dir.art}/font_big_tex.png" />
+				<pixelFont name="big" file="${dir.art}/font_big.pixelfont" />
 				<image name="font_info_tex" file="${dir.art}/font_info_tex.png" />
 				<pixelFont name="info" file="${dir.art}/font_info.pixelfont" />
 				<image name="ui_button_a" file="${dir.art}/buttonA.png" />

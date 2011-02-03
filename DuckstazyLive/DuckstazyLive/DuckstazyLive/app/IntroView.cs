@@ -28,7 +28,7 @@ namespace DuckstazyLive.app
 
             elapsedTime = 0;
 
-            Font font = Application.sharedResourceMgr.getFont(Res.FNT_INFO);
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text text = new Text(font);
             text.setString("SUPER AWESOME AND COOL INTRO GOES HERE");
             text.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);

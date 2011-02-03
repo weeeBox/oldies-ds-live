@@ -18,6 +18,9 @@ namespace DuckstazyLive.game
         private int ftCount;
         private Color color;
         private Hero hero;
+        private float addCounter;
+        private int addBuffer;
+        private float bufferX, bufferY;
 
         private static Color[] PLAYERS_COLORS = 
         {
@@ -46,6 +49,9 @@ namespace DuckstazyLive.game
                 it.reset();
             }
             ftCount = 0;
+            addCounter = 0.0f;
+            addBuffer = 0;
+            bufferX = bufferY = 0.0f;
         }
 
         public void draw(Canvas canvas)
@@ -65,6 +71,25 @@ namespace DuckstazyLive.game
         }
 
         public void add(int score)
+        {            
+            if (score > 0)
+            {
+                if (addCounter == 0.0f)
+                {
+                    addCounter = 0.5f;
+                    bufferX = hero.x;
+                    bufferY = hero.y;
+                }
+                addBuffer += score;
+            }
+            else if (score < 0)
+            {
+                commitScore(score);
+            }
+
+        }
+
+        private void commitScore(int score)
         {
             Debug.Assert(score != 0);
             string str;
@@ -99,6 +124,20 @@ namespace DuckstazyLive.game
 
         public void update(float power, float dt)
         {
+            if (addCounter > 0)
+            {
+                addCounter -= dt;
+                if (addCounter <= 0)
+                {
+                    addCounter = 0.0f;
+                    if (addBuffer != 0)
+                    {
+                        commitScore(addBuffer);
+                        addBuffer = 0;
+                    }
+                }
+            }
+
             int i = 0;
             int ft_proc = ftCount;
             foreach (FloatText ft in ftPool)

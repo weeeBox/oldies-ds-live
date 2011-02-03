@@ -28,8 +28,8 @@ public class FontInfo
 		int totalHeight = 0;
 		int totalWidth = 0;		
 		int lineHeight = 0;
-		int px = 0;
-		int py = 0;
+		int px = aliasBorder;
+		int py = aliasBorder;
 		packedChars.clear();
 		for (CharInfo c : charsImages) 
 		{
@@ -51,7 +51,7 @@ public class FontInfo
 			
 			if (px > packWidth)
 			{		
-				px = 0;
+				px = aliasBorder;
 				py += lineHeight;
 				lineHeight = 0;				
 			}			
