@@ -50,6 +50,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AtlasImporter.cs" />
+    <Compile Include="AtlasInfo.cs" />
+    <Compile Include="AtlasProcessor.cs" />
+    <Compile Include="AtlasWriter.cs" />
     <Compile Include="PixelFontImporter.cs" />
     <Compile Include="PixelFontInfo.cs" />
     <Compile Include="PixelFontProcessor.cs" />
