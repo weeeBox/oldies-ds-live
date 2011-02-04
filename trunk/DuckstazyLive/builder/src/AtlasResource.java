@@ -48,13 +48,7 @@ public class AtlasResource extends Resource
 		Atlas atlas = new Atlas(getName());
 		for (int imageIndex = 0; imageIndex < packables.size(); ++imageIndex)
 		{			
-			Packable packable = packables.get(imageIndex);
-			if (packable instanceof CharImage)
-			{
-				continue;
-			}
-			
-			AtlasImage img = (AtlasImage) packable;
+			AtlasImage img = (AtlasImage) packables.get(imageIndex);
 			atlas.add(img);
 		}
 		

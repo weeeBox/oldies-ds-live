@@ -133,7 +133,7 @@ namespace DuckstazyLive.game
         public int imgSleep;        
 
         // Эмоции таблеток
-        //public var imgEmo:Texture2D;
+        //public var imgEmo:SpriteTexture;
         public int imgSmile1;
         public int imgSmile2;
         public int imgSmile3;

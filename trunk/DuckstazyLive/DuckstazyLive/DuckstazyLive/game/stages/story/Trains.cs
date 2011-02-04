@@ -8,6 +8,7 @@ using DuckstazyLive.app;
 using Framework.utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Framework.visual;
 
 namespace DuckstazyLive.game.levels
 {
@@ -156,7 +157,7 @@ namespace DuckstazyLive.game.levels
             bool drawFade = env.isHitFaded();
 
             bm = media.imgCatL;
-            Texture2D bmTex = utils.getTexture(bm);
+            SpriteTexture bmTex = utils.getTexture(bm);
             rc.Width = bmTex.Width;
             rc.Height = bmTex.Height;
             p.X = 495;

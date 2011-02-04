@@ -12,13 +12,13 @@ namespace Framework.visual
     {
         private Rectangle src;
         private Rectangle dest;
-        private Texture2D texture;
+        private SpriteTexture texture;
 
-        public TiledImage(Texture2D texture, int width, int height) : this(texture, new Rectangle(0, 0, texture.Width, texture.Height), width, height)
+        public TiledImage(SpriteTexture texture, int width, int height) : this(texture, new Rectangle(0, 0, texture.Width, texture.Height), width, height)
         {            
         }
 
-        public TiledImage(Texture2D texture, Rectangle src, int width, int height)
+        public TiledImage(SpriteTexture texture, Rectangle src, int width, int height)
         {
             this.src = src;            
             this.texture = texture;
@@ -33,7 +33,7 @@ namespace Framework.visual
             preDraw();
             dest.X = (int)drawX;
             dest.Y = (int)drawY;
-            AppGraphics.DrawImageTiled(texture, ref src, ref dest);
+            texture.drawTiled(ref src, ref dest);
             postDraw();
         }
     }

@@ -8,6 +8,7 @@ using DuckstazyLive.app;
 using Framework.utils;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Framework.visual;
 
 namespace DuckstazyLive.game.levels
 {
@@ -335,7 +336,7 @@ namespace DuckstazyLive.game.levels
             Rect rc;
             Vector2 p;
             int bm;
-            Texture2D bmTex;
+            SpriteTexture bmTex;
 
             if (level.power >= 0.5f)
             {

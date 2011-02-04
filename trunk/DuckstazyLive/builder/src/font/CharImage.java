@@ -16,7 +16,8 @@ public class CharImage extends AtlasImage implements Packable
 		setX(x);
 		setY(y);
 		setOx(offX);
-		setOy(offY);		
+		setOy(offY);	
+		setExportInfo(false);
 	}
 
 	public char getChar() 

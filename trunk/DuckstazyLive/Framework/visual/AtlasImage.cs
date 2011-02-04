@@ -21,14 +21,22 @@ namespace Framework.visual
             this.oy = offY;
         }        
 
-        public int getWidth()
+        public int Width
         {
-            return quad.Width;
+            get { return quad.Width; }
         }
 
-        public int getHeight()
+        public int Height
         {
-            return quad.Height;
+            get { return quad.Height; }
         }
+
+        public void draw(float x, float y) { }
+        public void draw(float x, float y, float opacity) { }
+        public void draw(float x, float y, ref Color color) { }
+        public void draw(ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale, ref Vector2 flip) { }
+
+        public void drawPart(ref Rectangle rectangle, float x, float y) { }
+        public void drawTiled(ref Rectangle src, ref Rectangle dst) { }
     }
 }

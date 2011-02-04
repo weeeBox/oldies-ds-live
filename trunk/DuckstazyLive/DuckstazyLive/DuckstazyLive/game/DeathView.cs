@@ -115,11 +115,11 @@ namespace DuckstazyLive.game
             GameElements.Heroes.draw(canvas);            
             levelPostDraw();            
 
-            Texture2D tex = getScullTex();
+            SpriteTexture tex = getScullTex();
             for (int i = 0; i < SCULLS_COUNT; ++i)
             {
                 float opacity = 1.0f -sculls[i].lifeTime / sculls[i].deathTime;
-                AppGraphics.DrawImage(tex, sculls[i].x - 0.5f * tex.Width, sculls[i].y - 0.5f * tex.Height, opacity);
+                tex.draw(sculls[i].x - 0.5f * tex.Width, sculls[i].y - 0.5f * tex.Height, opacity);
             }
 
             postDraw();
@@ -139,7 +139,7 @@ namespace DuckstazyLive.game
             AppGraphics.PopMatrix();
         }
 
-        private Texture2D getScullTex()
+        private SpriteTexture getScullTex()
         {
             return Application.sharedResourceMgr.getTexture(Res.IMG_PILL_TOXIC_1);
         }        

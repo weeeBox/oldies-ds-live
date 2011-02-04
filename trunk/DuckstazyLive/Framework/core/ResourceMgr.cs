@@ -132,9 +132,9 @@ namespace Framework.core
             return resources[resName];
         }
 
-        public Texture2D getTexture(int resName)
+        public SpriteTexture getTexture(int resName)
         {
-            return (Texture2D)resources[resName];
+            return (SpriteTexture)resources[resName];
         }
 
         public Font getFont(int resName)
@@ -197,10 +197,11 @@ namespace Framework.core
 
         private Dictionary<string, Texture2D> textures = new Dictionary<string, Texture2D>();
 
-        public Texture2D loadTextureImage(ResourceLoadInfo r)
+        public SpriteTexture loadTextureImage(ResourceLoadInfo r)
         {
             String name = r.getResContentName();
-            return loadTexture(contentManager, name);
+            Texture2D texture = loadTexture(contentManager, name);
+            return new SingleTexture(texture);
         }
 
         public Texture2D loadTexture(ContentManager contentManager, String name)
@@ -246,8 +247,7 @@ namespace Framework.core
             Atlas atlas = contentManager.Load<Atlas>(r.getResContentName());
             AtlasImage[] images = atlas.Images;
             for (int imageIndex = 0, resId = r.resId + 1; imageIndex < images.Length; ++imageIndex, ++resId)
-            {
-                Console.WriteLine("Load child:" + resId);
+            {                
                 resources[resId] = images[imageIndex];
             }
 

@@ -238,7 +238,7 @@ namespace DuckstazyLive.app
             return new Color(r, g, b, a);
         }
 
-        public static Texture2D getTexture(int imageId)
+        public static SpriteTexture getTexture(int imageId)
         {
             return Application.sharedResourceMgr.getTexture(imageId);
         }

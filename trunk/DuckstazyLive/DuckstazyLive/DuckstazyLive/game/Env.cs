@@ -407,7 +407,7 @@ namespace DuckstazyLive.game
             // Временные переменные.
             float x;
             // Matrix MAT = new Matrix();
-            Texture2D img;
+            SpriteTexture img;
             int imageId;
 
             DrawMatrix MAT = DrawMatrix.ScaledInstance;
@@ -469,12 +469,12 @@ namespace DuckstazyLive.game
 
         private void drawGrass(int imageId, ref Color color)
         {
-            Texture2D tex = Application.sharedResourceMgr.getTexture(imageId);
+            SpriteTexture tex = Application.sharedResourceMgr.getTexture(imageId);
             Rectangle src = new Rectangle(0, 0, tex.Width, tex.Height);
             Rectangle dst = new Rectangle(0, (int)(geomGroundEffect.y - tex.Height), Constants.SCREEN_WIDTH, tex.Height);
 
             AppGraphics.SetColor(color);
-            AppGraphics.DrawImageTiled(tex, ref src, ref dst);
+            tex.drawTiled(ref src, ref dst);
             AppGraphics.SetColor(Color.White);
         }
 

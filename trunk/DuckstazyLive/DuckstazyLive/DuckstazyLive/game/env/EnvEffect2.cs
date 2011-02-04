@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
+using Framework.visual;
 
 namespace DuckstazyLive.game.env
 {
@@ -43,7 +44,7 @@ namespace DuckstazyLive.game.env
 
             ColorTransform colorTransform = new ColorTransform(c1);
 
-            Texture2D circleTex = utils.getTexture(Res.IMG_EFFECT_CIRCLE);
+            SpriteTexture circleTex = utils.getTexture(Res.IMG_EFFECT_CIRCLE);
             float cw = circleTex.Width;
             float ch = circleTex.Height;
             float cw2 = 0.5f * cw;

@@ -10,7 +10,7 @@ namespace Framework.visual
 {
     public class Image : BaseElement
     {
-        public Texture2D texture;
+        public SpriteTexture texture;
         public Rectangle[] quads;
         public int quadToDraw = FrameworkConstants.UNDEFINED;
 
@@ -24,14 +24,14 @@ namespace Framework.visual
             quadToDraw = FrameworkConstants.UNDEFINED;
         }
 
-        public Image(Texture2D texture)
+        public Image(SpriteTexture texture)
         {
             this.texture = texture;
             this.width = texture.Width;
             this.height = texture.Height;
         }
 
-        public Image(Texture2D texture, int capacity)
+        public Image(SpriteTexture texture, int capacity)
         {
             this.texture = texture;
             quads = new Rectangle[capacity];
@@ -40,7 +40,7 @@ namespace Framework.visual
             this.height = texture.Height;
         }
 
-        public Image(Texture2D texture, int rows, int columns)
+        public Image(SpriteTexture texture, int rows, int columns)
         {
             this.texture = texture;
             quads = new Rectangle[rows * columns];
@@ -58,12 +58,12 @@ namespace Framework.visual
             setDrawQuad(0);
         }
 
-        public Image(Texture2D texture, int qw, int qh, bool unused)
+        public Image(SpriteTexture texture, int qw, int qh, bool unused)
             : this(texture, qw, qh, texture.Width / qw, (texture.Width / qw) * (texture.Height / qh))
         {
         }
 
-        public Image(Texture2D texture, int qw, int qh, int c, int qc)
+        public Image(SpriteTexture texture, int qw, int qh, int c, int qc)
         {
             this.texture = texture;
             this.width = qw;
@@ -88,16 +88,11 @@ namespace Framework.visual
         public void setQuad(Rectangle rect, int pos)
         {
             quads[pos] = rect;
-        }
-
-        public void drawQuad(int n, int x, int y)
-        {
-            AppGraphics.DrawImagePart(texture, quads[n], x, y);
-        }
+        }        
 
         public virtual void drawQuad(int n, float x, float y)
         {
-            AppGraphics.DrawImagePart(texture, quads[n], x, y);
+            texture.drawPart(ref quads[n], x, y);           
         }        
 
         public void drawQuad(int n)
@@ -110,7 +105,7 @@ namespace Framework.visual
             preDraw();
             if (quadToDraw == FrameworkConstants.UNDEFINED)
             {
-                AppGraphics.DrawImage(texture, drawX, drawY);
+                texture.draw(drawX, drawY);                
             }
             else
             {

@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using DuckstazyLive.app;
 using System.Diagnostics;
+using Framework.visual;
 
 namespace DuckstazyLive.game.env
 {
@@ -93,7 +94,7 @@ namespace DuckstazyLive.game.env
             float transY = 0.5f * Constants.ENV_HEIGHT;
 
             int rayImg = Res.IMG_EFFECT_RAY;
-            Texture2D rayTex = utils.getTexture(rayImg);
+            SpriteTexture rayTex = utils.getTexture(rayImg);
 
             DrawMatrix m = DrawMatrix.Instance;
             m.tx = -rayTex.Width;
@@ -119,7 +120,7 @@ namespace DuckstazyLive.game.env
             }
 
             int circleImage = Res.IMG_EFFECT_CIRCLE;
-            Texture2D circleTex = utils.getTexture(circleImage);
+            SpriteTexture circleTex = utils.getTexture(circleImage);
             m.identity();
             m.translate(transX, transY);
             m.tx = -0.5f * circleTex.Width;

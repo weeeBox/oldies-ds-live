@@ -26,7 +26,7 @@ namespace DuckstazyLive.app
 
         public override void update(float delta)
         {
-            Texture2D line = Application.sharedResourceMgr.getTexture(Res.IMG_LOAD_LINE);
+            SpriteTexture line = Application.sharedResourceMgr.getTexture(Res.IMG_LOAD_LINE);
 
             offset += delta * 24;
             if (offset > line.Height)
@@ -73,13 +73,13 @@ namespace DuckstazyLive.app
             // lines
             AppGraphics.SetColor(linesColor);
 
-            Texture2D line = Application.sharedResourceMgr.getTexture(Res.IMG_LOAD_LINE);
+            SpriteTexture line = Application.sharedResourceMgr.getTexture(Res.IMG_LOAD_LINE);
 
             float x = Constants.SAFE_OFFSET_X;
             float y = -line.Height + offset;
             while (y < Constants.SCREEN_HEIGHT)
             {
-                AppGraphics.DrawImage(line, x, y);
+                line.draw(x, y);
                 y += line.Height;
             }
 
