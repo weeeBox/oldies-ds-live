@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.List;
 
-
 public class CodeFileGenerator 
 {
 	public void generate(File file, List<Package> packs) throws IOException
@@ -69,8 +68,19 @@ public class CodeFileGenerator
 			List<Resource> packResources = pack.getResources();
 			for (Resource res : packResources) 
 			{
-				out.println("\t\tpublic const int " + res.getName() + " = " + resIndex + ";");
-				resIndex++;
+				out.println("\t\tpublic const int " + res.getLongName() + " = " + resIndex++ + ";");
+				if (res instanceof AtlasResource)
+				{
+					AtlasResource atlas = (AtlasResource) res;
+					List<Resource> childRes = atlas.resources();
+					for (Resource child : childRes) 
+					{
+						if (child instanceof Image)
+						{
+							out.println("\t\tpublic const int " + child.getLongName() + " = " + resIndex++ + ";");
+						}
+					}
+				}
 			}
 		}
 		out.println("\t\tpublic const int RES_COUNT = " + resIndex + ";");
@@ -110,7 +120,7 @@ public class CodeFileGenerator
 
 	private void writeResInfo(PrintStream out, Resource res) 
 	{
-		out.format("\t\t\t\tnew ResourceBaseInfo(Res.%s, ResourceType.%s, \"%s\"),", res.getName(), res.getResourceType(), res.getShortName());
+		out.format("\t\t\t\tnew ResourceBaseInfo(Res.%s, ResourceType.%s, \"%s\"),", res.getLongName(), res.getResourceType(), res.getShortName());
 		out.println(); // fix line endings
 	}
 

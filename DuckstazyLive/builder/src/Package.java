@@ -18,27 +18,38 @@ public class Package
 
 	public void addImage(Image image)
 	{
-		resources.add(image);
+		addResource(image);
+	}
+	
+	public void addAtlas(AtlasResource atlas)
+	{
+		addResource(atlas);
 	}
 	
 	public void addPixelFont(PixelFont font)
 	{
-		resources.add(font);
+		addResource(font);
 	}
 	
 	public void addVectorFont(VectorFont font)
 	{
-		resources.add(font);
+		addResource(font);
 	}
 	
 	public void addSound(Sound sound)
 	{
-		resources.add(sound);
+		addResource(sound);
 	}
 	
 	public void addSong(Song song)
 	{
-		resources.add(song);
+		addResource(song);
+	}
+	
+	private void addResource(Resource res)
+	{
+		res.setPackage(this);
+		resources.add(res);
 	}
 	
 	public List<Resource> getResources()
