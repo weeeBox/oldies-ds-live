@@ -71,29 +71,7 @@ namespace DuckstazyLive.game
 		public int imgFrogEye2;
 		public int imgFrogHand1;
 		public int imgFrogHand2;
-		public int imgFrogHead;
-		
-        //[Embed(source="gfx/pump.png")]
-        //private Class gfxPump;
-
-        //[Embed(source="gfx/party.png")]
-        //private Class gfxParty;
-
-        //[Embed(source="gfx/trip.png")]
-        //private Class gfxTrip;
-
-		public int imgPump;
-		public int imgParty;
-		public int imgTrip;
-
-        //[Embed(source="gfx/theend.png")]
-        //private Class gfxTheEnd;
-        
-        //[Embed(source="gfx/stageend.png")]
-        //private Class gfxStageEnd;
-        
-		public int imgTheEnd;
-		public int imgStageEnd;
+		public int imgFrogHead;        
 		
 		public StageMedia()
 		{
@@ -114,14 +92,7 @@ namespace DuckstazyLive.game
             imgFrogEye2 = Res.IMG_GFX_FROG_EYE2;
             imgFrogHand1 = Res.IMG_GFX_FROG_HAND1;
             imgFrogHand2 = Res.IMG_GFX_FROG_HAND2;
-            imgFrogHead = Res.IMG_GFX_FROG_HEAD;
-			
-            imgPump = Res.IMG_LEVEL_PUMP;
-            imgParty = Res.IMG_LEVEL_PARTY;
-            imgTrip = Res.IMG_LEVEL_DUCKTRIP;
-			
-            imgTheEnd = Constants.UNDEFINED;
-            imgStageEnd = Res.IMG_LEVEL_STAGE_COMPLETE;
+            imgFrogHead = Res.IMG_GFX_FROG_HEAD;            
 		}
 	}
 

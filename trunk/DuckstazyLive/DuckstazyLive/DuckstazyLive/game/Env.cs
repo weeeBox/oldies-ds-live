@@ -214,7 +214,7 @@ namespace DuckstazyLive.game
             whiteFade.overlayColor = blackFade.overlayColor = true;
             geomSkyBlanc = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
 
-            Font badFont = Application.sharedResourceMgr.getFont(Res.FNT_HUD_BAD);
+            Font badFont = Application.sharedResourceMgr.getFont(Res.FNT_BAD);
             dammitText = new Text(badFont);
             dammitText.setString("");
             dammitText.scaleX = dammitText.scaleY = 2.95f;

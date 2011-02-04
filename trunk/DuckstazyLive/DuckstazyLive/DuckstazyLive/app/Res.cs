@@ -16,132 +16,124 @@ namespace DuckstazyLive.app
 	public class Res
 	{
 		// PACK_COMMON1
-		public const int IMG_FONT_BIG_TEX = 0;
-		public const int FNT_BIG = 1;
-		public const int IMG_FONT_INFO_TEX = 2;
-		public const int FNT_INFO = 3;
-		public const int IMG_UI_BUTTON_A = 4;
-		public const int IMG_UI_BUTTON_B = 5;
+		public const int ATLAS_COMMON = 0;
+		public const int IMG_UI_BUTTON_A = 1;
+		public const int IMG_UI_BUTTON_B = 2;
+		public const int FNT_BIG = 3;
+		public const int FNT_INFO = 4;
 		// PACK_COMMON2
-		public const int IMG_BUTTON_BASE = 6;
-		public const int IMG_BUTTON_STROKE_FOCUSED = 7;
-		public const int IMG_GRASS1 = 8;
-		public const int IMG_GRASS2 = 9;
-		public const int IMG_CLOUD_1 = 10;
-		public const int IMG_CLOUD_2 = 11;
-		public const int IMG_CLOUD_3 = 12;
+		public const int IMG_BUTTON_BASE = 5;
+		public const int IMG_BUTTON_STROKE_FOCUSED = 6;
 		// PACK_START
-		public const int IMG_LOAD_LINE = 13;
+		public const int IMG_LOAD_LINE = 7;
 		// PACK_MENU
-		public const int IMG_MENU_TITLE = 14;
-		public const int IMG_MENU_TITLE_BACK = 15;
+		public const int ATLAS_MENU = 8;
+		public const int IMG_MENU_TITLE = 9;
+		public const int IMG_MENU_TITLE_BACK = 10;
 		// PACK_GAME
-		public const int IMG_FONT_PICKUP_TEX = 16;
-		public const int FNT_PICKUP = 17;
-		public const int IMG_FONT_BAD_TEX = 18;
-		public const int FNT_HUD_BAD = 19;
-		public const int IMG_FONT_HUD_DIGITS_TEX = 20;
-		public const int FNT_HUD_DIGITS = 21;
-		public const int FNT_FLOAT = 22;
-		public const int IMG_DUCK = 23;
-		public const int IMG_DUCK2 = 24;
-		public const int IMG_DUCK_SLEEP = 25;
-		public const int IMG_DUCK_DEAD = 26;
-		public const int IMG_EYE1 = 27;
-		public const int IMG_EYE2 = 28;
-		public const int IMG_WING = 29;
-		public const int IMG_WING2 = 30;
-		public const int IMG_UI_HEALTH_EMO_BASE = 31;
-		public const int IMG_UI_HEALTH_EMO_BASE2 = 32;
-		public const int IMG_UI_HEALTH_EMO_DEAD = 33;
-		public const int IMG_UI_HEALTH_EMO_EYES1 = 34;
-		public const int IMG_UI_HEALTH_EMO_EYES2 = 35;
-		public const int IMG_UI_HEALTH_EMO_SMILE1 = 36;
-		public const int IMG_UI_HEALTH_EMO_SMILE2 = 37;
-		public const int IMG_UI_HEALTH_EMO_SMILE3 = 38;
-		public const int IMG_UI_SCORE_POINT = 39;
-		public const int IMG_UI_CLOCK = 40;
-		public const int IMG_LEVEL_DUCKTRIP = 41;
-		public const int IMG_LEVEL_PARTY = 42;
-		public const int IMG_LEVEL_PUMP = 43;
-		public const int IMG_LEVEL_STAGE_COMPLETE = 44;
-		public const int IMG_STAR = 45;
-		public const int IMG_PILL_1 = 46;
-		public const int IMG_PILL_2 = 47;
-		public const int IMG_PILL_3 = 48;
-		public const int IMG_PILL_1P = 49;
-		public const int IMG_PILL_2P = 50;
-		public const int IMG_PILL_3P = 51;
-		public const int IMG_PILL_TOXIC_1 = 52;
-		public const int IMG_PILL_TOXIC_2 = 53;
-		public const int IMG_PILL_SLEEP = 54;
-		public const int IMG_PILL_HIGH = 55;
-		public const int IMG_PILL_HAL_1 = 56;
-		public const int IMG_PILL_HAL_2 = 57;
-		public const int IMG_SMILE_1 = 58;
-		public const int IMG_SMILE_2 = 59;
-		public const int IMG_SMILE_3 = 60;
-		public const int IMG_EYES_1 = 61;
-		public const int IMG_EYES_2 = 62;
-		public const int IMG_POWER_1 = 63;
-		public const int IMG_POWER_2 = 64;
-		public const int IMG_POWER_3 = 65;
-		public const int IMG_POWER_4 = 66;
-		public const int IMG_FX_ACID = 67;
-		public const int IMG_FX_BUBBLE = 68;
-		public const int IMG_FX_STAR = 69;
-		public const int IMG_FX_WARNING = 70;
-		public const int IMG_FX_IN = 71;
-		public const int IMG_FX_OUT = 72;
-		public const int IMG_FX_HINT_ARROW = 73;
-		public const int IMG_GFX_PEDESTAL_L = 74;
-		public const int IMG_GFX_PEDESTAL_R = 75;
-		public const int IMG_GFX_CAT_L = 76;
-		public const int IMG_GFX_CAT_R = 77;
-		public const int IMG_GFX_CAT_SMILE = 78;
-		public const int IMG_GFX_CAT_HUM = 79;
-		public const int IMG_GFX_FROG_HEAD = 80;
-		public const int IMG_GFX_FROG_BODY = 81;
-		public const int IMG_GFX_FROG_HAND1 = 82;
-		public const int IMG_GFX_FROG_HAND2 = 83;
-		public const int IMG_GFX_FROG_EYE1 = 84;
-		public const int IMG_GFX_FROG_EYE2 = 85;
-		public const int IMG_GFX_FROG_EMO1 = 86;
-		public const int IMG_GFX_FROG_EMO2 = 87;
-		public const int IMG_EFFECT_CIRCLE = 88;
-		public const int IMG_EFFECT_RAY = 89;
-		public const int IMG_EFFECT_LINE = 90;
-		public const int IMG_WINNER_EFFECT = 91;
+		public const int ATLAS_GAME = 11;
+		public const int IMG_GRASS1 = 12;
+		public const int IMG_GRASS2 = 13;
+		public const int IMG_CLOUD_1 = 14;
+		public const int IMG_CLOUD_2 = 15;
+		public const int IMG_CLOUD_3 = 16;
+		public const int IMG_DUCK = 17;
+		public const int IMG_DUCK2 = 18;
+		public const int IMG_DUCK_SLEEP = 19;
+		public const int IMG_DUCK_DEAD = 20;
+		public const int IMG_EYE1 = 21;
+		public const int IMG_EYE2 = 22;
+		public const int IMG_WING = 23;
+		public const int IMG_WING2 = 24;
+		public const int IMG_UI_HEALTH_EMO_BASE = 25;
+		public const int IMG_UI_HEALTH_EMO_BASE2 = 26;
+		public const int IMG_UI_HEALTH_EMO_DEAD = 27;
+		public const int IMG_UI_HEALTH_EMO_EYES1 = 28;
+		public const int IMG_UI_HEALTH_EMO_EYES2 = 29;
+		public const int IMG_UI_HEALTH_EMO_SMILE1 = 30;
+		public const int IMG_UI_HEALTH_EMO_SMILE2 = 31;
+		public const int IMG_UI_HEALTH_EMO_SMILE3 = 32;
+		public const int IMG_UI_SCORE_POINT = 33;
+		public const int IMG_UI_CLOCK = 34;
+		public const int IMG_STAR = 35;
+		public const int IMG_PILL_1 = 36;
+		public const int IMG_PILL_2 = 37;
+		public const int IMG_PILL_3 = 38;
+		public const int IMG_PILL_1P = 39;
+		public const int IMG_PILL_2P = 40;
+		public const int IMG_PILL_3P = 41;
+		public const int IMG_PILL_TOXIC_1 = 42;
+		public const int IMG_PILL_TOXIC_2 = 43;
+		public const int IMG_PILL_SLEEP = 44;
+		public const int IMG_PILL_HIGH = 45;
+		public const int IMG_PILL_HAL_1 = 46;
+		public const int IMG_PILL_HAL_2 = 47;
+		public const int IMG_SMILE_1 = 48;
+		public const int IMG_SMILE_2 = 49;
+		public const int IMG_SMILE_3 = 50;
+		public const int IMG_EYES_1 = 51;
+		public const int IMG_EYES_2 = 52;
+		public const int IMG_POWER_1 = 53;
+		public const int IMG_POWER_2 = 54;
+		public const int IMG_POWER_3 = 55;
+		public const int IMG_POWER_4 = 56;
+		public const int IMG_FX_ACID = 57;
+		public const int IMG_FX_BUBBLE = 58;
+		public const int IMG_FX_STAR = 59;
+		public const int IMG_FX_WARNING = 60;
+		public const int IMG_FX_IN = 61;
+		public const int IMG_FX_OUT = 62;
+		public const int IMG_FX_HINT_ARROW = 63;
+		public const int IMG_GFX_PEDESTAL_L = 64;
+		public const int IMG_GFX_PEDESTAL_R = 65;
+		public const int IMG_GFX_CAT_L = 66;
+		public const int IMG_GFX_CAT_R = 67;
+		public const int IMG_GFX_CAT_SMILE = 68;
+		public const int IMG_GFX_CAT_HUM = 69;
+		public const int IMG_GFX_FROG_HEAD = 70;
+		public const int IMG_GFX_FROG_BODY = 71;
+		public const int IMG_GFX_FROG_HAND1 = 72;
+		public const int IMG_GFX_FROG_HAND2 = 73;
+		public const int IMG_GFX_FROG_EYE1 = 74;
+		public const int IMG_GFX_FROG_EYE2 = 75;
+		public const int IMG_GFX_FROG_EMO1 = 76;
+		public const int IMG_GFX_FROG_EMO2 = 77;
+		public const int IMG_EFFECT_CIRCLE = 78;
+		public const int IMG_EFFECT_RAY = 79;
+		public const int IMG_EFFECT_LINE = 80;
+		public const int FNT_PICKUP = 81;
+		public const int FNT_BAD = 82;
+		public const int FNT_HUD_DIGITS = 83;
 		// PACK_SOUNDS
-		public const int SND_ENV_POWER = 92;
-		public const int SONG_ENV_TEX = 93;
-		public const int SONG_ENV_MENU = 94;
-		public const int SONG_ENV_MENU2 = 95;
-		public const int SND_HERO_ATTACK = 96;
-		public const int SND_HERO_AWAKE = 97;
-		public const int SND_HERO_JUMP = 98;
-		public const int SND_HERO_LAND = 99;
-		public const int SND_HERO_LAND_HEAVY = 100;
-		public const int SND_HERO_SLEEP = 101;
-		public const int SND_HERO_STEP1 = 102;
-		public const int SND_HERO_STEP2 = 103;
-		public const int SND_HERO_TOXIC = 104;
-		public const int SND_HERO_WING1 = 105;
-		public const int SND_HERO_WING2 = 106;
-		public const int SND_HERO_SQUEAK = 107;
-		public const int SND_HERO_SALTO = 108;
-		public const int SND_LEVEL_START = 109;
-		public const int SND_PILL_GENERATE = 110;
-		public const int SND_PILL_HIGH = 111;
-		public const int SND_PILL_JUMPER = 112;
-		public const int SND_PILL_POWER1 = 113;
-		public const int SND_PILL_POWER2 = 114;
-		public const int SND_PILL_POWER3 = 115;
-		public const int SND_PILL_TOXIC_BORN = 116;
-		public const int SND_PILL_WARNING = 117;
-		public const int SND_UI_CLICK = 118;
-		public const int SND_UI_FOCUS = 119;
-		public const int RES_COUNT = 120;
+		public const int SND_ENV_POWER = 84;
+		public const int SONG_ENV_TEX = 85;
+		public const int SONG_ENV_MENU = 86;
+		public const int SONG_ENV_MENU2 = 87;
+		public const int SND_HERO_ATTACK = 88;
+		public const int SND_HERO_AWAKE = 89;
+		public const int SND_HERO_JUMP = 90;
+		public const int SND_HERO_LAND = 91;
+		public const int SND_HERO_LAND_HEAVY = 92;
+		public const int SND_HERO_SLEEP = 93;
+		public const int SND_HERO_STEP1 = 94;
+		public const int SND_HERO_STEP2 = 95;
+		public const int SND_HERO_TOXIC = 96;
+		public const int SND_HERO_WING1 = 97;
+		public const int SND_HERO_WING2 = 98;
+		public const int SND_HERO_SQUEAK = 99;
+		public const int SND_HERO_SALTO = 100;
+		public const int SND_LEVEL_START = 101;
+		public const int SND_PILL_GENERATE = 102;
+		public const int SND_PILL_HIGH = 103;
+		public const int SND_PILL_JUMPER = 104;
+		public const int SND_PILL_POWER1 = 105;
+		public const int SND_PILL_POWER2 = 106;
+		public const int SND_PILL_POWER3 = 107;
+		public const int SND_PILL_TOXIC_BORN = 108;
+		public const int SND_PILL_WARNING = 109;
+		public const int SND_UI_CLICK = 110;
+		public const int SND_UI_FOCUS = 111;
+		public const int RES_COUNT = 112;
 	}
 	public class DuckstazyResources
 	{
@@ -150,23 +142,15 @@ namespace DuckstazyLive.app
 			// PACK_COMMON1
 			new ResourceBaseInfo[]
 			{
-				new ResourceBaseInfo(Res.IMG_FONT_BIG_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_big_tex"),
-				new ResourceBaseInfo(Res.FNT_BIG, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_big"),
-				new ResourceBaseInfo(Res.IMG_FONT_INFO_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_info_tex"),
-				new ResourceBaseInfo(Res.FNT_INFO, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_info"),
-				new ResourceBaseInfo(Res.IMG_UI_BUTTON_A, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonA"),
-				new ResourceBaseInfo(Res.IMG_UI_BUTTON_B, ResourceType.RESOURCE_TYPE_TEXTURE, "buttonB"),
+				new ResourceBaseInfo(Res.ATLAS_COMMON, ResourceType.RESOURCE_TYPE_ATLAS, "common"),
+				new ResourceBaseInfo(Res.FNT_BIG, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "big"),
+				new ResourceBaseInfo(Res.FNT_INFO, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "info"),
 			},
 			// PACK_COMMON2
 			new ResourceBaseInfo[]
 			{
 				new ResourceBaseInfo(Res.IMG_BUTTON_BASE, ResourceType.RESOURCE_TYPE_TEXTURE, "button"),
 				new ResourceBaseInfo(Res.IMG_BUTTON_STROKE_FOCUSED, ResourceType.RESOURCE_TYPE_TEXTURE, "button_white"),
-				new ResourceBaseInfo(Res.IMG_GRASS1, ResourceType.RESOURCE_TYPE_TEXTURE, "grass1"),
-				new ResourceBaseInfo(Res.IMG_GRASS2, ResourceType.RESOURCE_TYPE_TEXTURE, "grass2"),
-				new ResourceBaseInfo(Res.IMG_CLOUD_1, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
-				new ResourceBaseInfo(Res.IMG_CLOUD_2, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
-				new ResourceBaseInfo(Res.IMG_CLOUD_3, ResourceType.RESOURCE_TYPE_TEXTURE, "cloud_1"),
 			},
 			// PACK_START
 			new ResourceBaseInfo[]
@@ -176,88 +160,15 @@ namespace DuckstazyLive.app
 			// PACK_MENU
 			new ResourceBaseInfo[]
 			{
-				new ResourceBaseInfo(Res.IMG_MENU_TITLE, ResourceType.RESOURCE_TYPE_TEXTURE, "title"),
-				new ResourceBaseInfo(Res.IMG_MENU_TITLE_BACK, ResourceType.RESOURCE_TYPE_TEXTURE, "title_back"),
+				new ResourceBaseInfo(Res.ATLAS_MENU, ResourceType.RESOURCE_TYPE_ATLAS, "menu"),
 			},
 			// PACK_GAME
 			new ResourceBaseInfo[]
 			{
-				new ResourceBaseInfo(Res.IMG_FONT_PICKUP_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_pickup_tex"),
-				new ResourceBaseInfo(Res.FNT_PICKUP, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_pickup"),
-				new ResourceBaseInfo(Res.IMG_FONT_BAD_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_bad_tex"),
-				new ResourceBaseInfo(Res.FNT_HUD_BAD, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_bad"),
-				new ResourceBaseInfo(Res.IMG_FONT_HUD_DIGITS_TEX, ResourceType.RESOURCE_TYPE_TEXTURE, "font_hud_digits_tex"),
-				new ResourceBaseInfo(Res.FNT_HUD_DIGITS, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "font_hud_digits"),
-				new ResourceBaseInfo(Res.FNT_FLOAT, ResourceType.RESOURCE_TYPE_VECTOR_FONT, "font_float"),
-				new ResourceBaseInfo(Res.IMG_DUCK, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake"),
-				new ResourceBaseInfo(Res.IMG_DUCK2, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_fake2"),
-				new ResourceBaseInfo(Res.IMG_DUCK_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_sleep"),
-				new ResourceBaseInfo(Res.IMG_DUCK_DEAD, ResourceType.RESOURCE_TYPE_TEXTURE, "duck_dead"),
-				new ResourceBaseInfo(Res.IMG_EYE1, ResourceType.RESOURCE_TYPE_TEXTURE, "eye1"),
-				new ResourceBaseInfo(Res.IMG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "eye2"),
-				new ResourceBaseInfo(Res.IMG_WING, ResourceType.RESOURCE_TYPE_TEXTURE, "wing"),
-				new ResourceBaseInfo(Res.IMG_WING2, ResourceType.RESOURCE_TYPE_TEXTURE, "wing2"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_BASE, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_base"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_BASE2, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_base2"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_DEAD, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_dead"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_EYES1, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_eyes1"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_EYES2, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_eyes2"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_SMILE1, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_smile1"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_SMILE2, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_smile2"),
-				new ResourceBaseInfo(Res.IMG_UI_HEALTH_EMO_SMILE3, ResourceType.RESOURCE_TYPE_TEXTURE, "health_emo_smile3"),
-				new ResourceBaseInfo(Res.IMG_UI_SCORE_POINT, ResourceType.RESOURCE_TYPE_TEXTURE, "score_point"),
-				new ResourceBaseInfo(Res.IMG_UI_CLOCK, ResourceType.RESOURCE_TYPE_TEXTURE, "clock"),
-				new ResourceBaseInfo(Res.IMG_LEVEL_DUCKTRIP, ResourceType.RESOURCE_TYPE_TEXTURE, "ducktrip"),
-				new ResourceBaseInfo(Res.IMG_LEVEL_PARTY, ResourceType.RESOURCE_TYPE_TEXTURE, "party"),
-				new ResourceBaseInfo(Res.IMG_LEVEL_PUMP, ResourceType.RESOURCE_TYPE_TEXTURE, "pump"),
-				new ResourceBaseInfo(Res.IMG_LEVEL_STAGE_COMPLETE, ResourceType.RESOURCE_TYPE_TEXTURE, "stage_complete"),
-				new ResourceBaseInfo(Res.IMG_STAR, ResourceType.RESOURCE_TYPE_TEXTURE, "star"),
-				new ResourceBaseInfo(Res.IMG_PILL_1, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_1"),
-				new ResourceBaseInfo(Res.IMG_PILL_2, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_2"),
-				new ResourceBaseInfo(Res.IMG_PILL_3, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_3"),
-				new ResourceBaseInfo(Res.IMG_PILL_1P, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_1p"),
-				new ResourceBaseInfo(Res.IMG_PILL_2P, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_2p"),
-				new ResourceBaseInfo(Res.IMG_PILL_3P, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_3p"),
-				new ResourceBaseInfo(Res.IMG_PILL_TOXIC_1, ResourceType.RESOURCE_TYPE_TEXTURE, "toxic1"),
-				new ResourceBaseInfo(Res.IMG_PILL_TOXIC_2, ResourceType.RESOURCE_TYPE_TEXTURE, "toxic2"),
-				new ResourceBaseInfo(Res.IMG_PILL_SLEEP, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_sleep"),
-				new ResourceBaseInfo(Res.IMG_PILL_HIGH, ResourceType.RESOURCE_TYPE_TEXTURE, "pill_high"),
-				new ResourceBaseInfo(Res.IMG_PILL_HAL_1, ResourceType.RESOURCE_TYPE_TEXTURE, "pills_hal"),
-				new ResourceBaseInfo(Res.IMG_PILL_HAL_2, ResourceType.RESOURCE_TYPE_TEXTURE, "pills_hal_2"),
-				new ResourceBaseInfo(Res.IMG_SMILE_1, ResourceType.RESOURCE_TYPE_TEXTURE, "smile1"),
-				new ResourceBaseInfo(Res.IMG_SMILE_2, ResourceType.RESOURCE_TYPE_TEXTURE, "smile2"),
-				new ResourceBaseInfo(Res.IMG_SMILE_3, ResourceType.RESOURCE_TYPE_TEXTURE, "smile3"),
-				new ResourceBaseInfo(Res.IMG_EYES_1, ResourceType.RESOURCE_TYPE_TEXTURE, "eyes1"),
-				new ResourceBaseInfo(Res.IMG_EYES_2, ResourceType.RESOURCE_TYPE_TEXTURE, "eyes2"),
-				new ResourceBaseInfo(Res.IMG_POWER_1, ResourceType.RESOURCE_TYPE_TEXTURE, "power1"),
-				new ResourceBaseInfo(Res.IMG_POWER_2, ResourceType.RESOURCE_TYPE_TEXTURE, "power2"),
-				new ResourceBaseInfo(Res.IMG_POWER_3, ResourceType.RESOURCE_TYPE_TEXTURE, "power3"),
-				new ResourceBaseInfo(Res.IMG_POWER_4, ResourceType.RESOURCE_TYPE_TEXTURE, "power4"),
-				new ResourceBaseInfo(Res.IMG_FX_ACID, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_acid"),
-				new ResourceBaseInfo(Res.IMG_FX_BUBBLE, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_bubble"),
-				new ResourceBaseInfo(Res.IMG_FX_STAR, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_star"),
-				new ResourceBaseInfo(Res.IMG_FX_WARNING, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_warning"),
-				new ResourceBaseInfo(Res.IMG_FX_IN, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_in"),
-				new ResourceBaseInfo(Res.IMG_FX_OUT, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_out"),
-				new ResourceBaseInfo(Res.IMG_FX_HINT_ARROW, ResourceType.RESOURCE_TYPE_TEXTURE, "fx_hint_arrow"),
-				new ResourceBaseInfo(Res.IMG_GFX_PEDESTAL_L, ResourceType.RESOURCE_TYPE_TEXTURE, "pedestal_l"),
-				new ResourceBaseInfo(Res.IMG_GFX_PEDESTAL_R, ResourceType.RESOURCE_TYPE_TEXTURE, "pedestal_r"),
-				new ResourceBaseInfo(Res.IMG_GFX_CAT_L, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_l"),
-				new ResourceBaseInfo(Res.IMG_GFX_CAT_R, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_r"),
-				new ResourceBaseInfo(Res.IMG_GFX_CAT_SMILE, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_smile"),
-				new ResourceBaseInfo(Res.IMG_GFX_CAT_HUM, ResourceType.RESOURCE_TYPE_TEXTURE, "cat_hum"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_HEAD, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_head"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_BODY, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_body"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_HAND1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_hand1"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_HAND2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_hand2"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_EYE1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_eye1"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_EYE2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_eye2"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_EMO1, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_emo1"),
-				new ResourceBaseInfo(Res.IMG_GFX_FROG_EMO2, ResourceType.RESOURCE_TYPE_TEXTURE, "frog_emo2"),
-				new ResourceBaseInfo(Res.IMG_EFFECT_CIRCLE, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_circle"),
-				new ResourceBaseInfo(Res.IMG_EFFECT_RAY, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_ray"),
-				new ResourceBaseInfo(Res.IMG_EFFECT_LINE, ResourceType.RESOURCE_TYPE_TEXTURE, "effect_line"),
-				new ResourceBaseInfo(Res.IMG_WINNER_EFFECT, ResourceType.RESOURCE_TYPE_TEXTURE, "winner_effect"),
+				new ResourceBaseInfo(Res.ATLAS_GAME, ResourceType.RESOURCE_TYPE_ATLAS, "game"),
+				new ResourceBaseInfo(Res.FNT_PICKUP, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "pickup"),
+				new ResourceBaseInfo(Res.FNT_BAD, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "bad"),
+				new ResourceBaseInfo(Res.FNT_HUD_DIGITS, ResourceType.RESOURCE_TYPE_PIXEL_FONT, "hud_digits"),
 			},
 			// PACK_SOUNDS
 			new ResourceBaseInfo[]

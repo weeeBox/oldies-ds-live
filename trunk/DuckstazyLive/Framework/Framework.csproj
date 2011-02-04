@@ -113,18 +113,23 @@
     <Compile Include="core\View.cs" />
     <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="utils\AtlasReader.cs" />
     <Compile Include="utils\Dimension.cs" />
     <Compile Include="utils\LineSegment.cs" />
     <Compile Include="utils\PixelFontReader.cs" />
     <Compile Include="utils\Rect.cs" />
     <Compile Include="visual\AbstractButton.cs" />
+    <Compile Include="visual\Atlas.cs" />
+    <Compile Include="visual\AtlasImage.cs" />
     <Compile Include="visual\Camera.cs" />
     <Compile Include="visual\CustomGeomerty.cs" />
     <Compile Include="visual\PixelFont.cs" />
     <Compile Include="visual\GeometryFactory.cs" />
     <Compile Include="visual\Font.cs" />
     <Compile Include="visual\Image.cs" />
+    <Compile Include="visual\SingleTexture.cs" />
     <Compile Include="visual\Text.cs" />
+    <Compile Include="visual\Texture.cs" />
     <Compile Include="visual\TiledImage.cs" />
     <Compile Include="visual\VectorFont.cs" />
   </ItemGroup>
