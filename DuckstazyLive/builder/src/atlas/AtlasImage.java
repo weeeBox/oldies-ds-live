@@ -4,17 +4,19 @@ import java.awt.image.BufferedImage;
 
 public class AtlasImage implements Packable
 {	
-	private static final int ALIAS_BORDER = 2;
+	static final int ALIAS_BORDER = 4;
 	
 	private BufferedImage image;
 	private int x;
 	private int y;
 	private int ox;
 	private int oy;
+	private boolean exportInfo;
 	
 	public AtlasImage(BufferedImage image) 
 	{
 		this.image = image;
+		setExportInfo(true);
 	}
 
 	public BufferedImage getImage()
@@ -22,28 +24,48 @@ public class AtlasImage implements Packable
 		return image;
 	}
 
+	public int getRealX()
+	{
+		return x + ALIAS_BORDER;
+	}
+	
+	public int getRealY()
+	{
+		return y + ALIAS_BORDER;
+	}
+	
+	public int getRealWidth() 
+	{
+		return image.getWidth();
+	}
+	
+	public int getRealHeight() 
+	{
+		return image.getHeight();
+	}
+	
 	@Override
 	public int getHeight() 
 	{
-		return image.getHeight() + 2 * ALIAS_BORDER;
-	}
+		return getRealHeight() + 2 * ALIAS_BORDER;
+	}	
 
 	@Override
 	public int getWidth() 
 	{
-		return image.getWidth() + 2 * ALIAS_BORDER;
+		return getRealWidth() + 2 * ALIAS_BORDER;
 	}
 
 	@Override
 	public int getX() 
 	{
-		return x + ALIAS_BORDER;
+		return x;
 	}
 
 	@Override
 	public int getY() 
 	{
-		return y + ALIAS_BORDER;
+		return y;
 	}
 
 	@Override
@@ -76,5 +98,15 @@ public class AtlasImage implements Packable
 	public void setOy(int oy) 
 	{
 		this.oy = oy;
+	}
+
+	public boolean isExportInfo() 
+	{
+		return exportInfo;
+	}
+
+	public void setExportInfo(boolean exportInfo) 
+	{
+		this.exportInfo = exportInfo;
 	}
 }

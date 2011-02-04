@@ -23,8 +23,8 @@ namespace Framework.utils
             int spaceWidth = input.ReadInt32();
             int fontOffset = input.ReadInt32();
             int charsCount = input.ReadInt32();            
-
-            PixelFont font = new PixelFont(texture, charsCount);
+            
+            PixelFont font = new PixelFont(new SingleTexture(texture), charsCount);
             font.setOffsets(charOffset, lineOffset, fontOffset);
             font.setSpaceWidth(spaceWidth);            
 

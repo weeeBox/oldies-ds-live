@@ -27,7 +27,7 @@ namespace DuckstazyLive.game
             draw(getTexture(imageId), mat);
         }
 
-        public void draw(Texture2D image, DrawMatrix mat)
+        public void draw(SpriteTexture image, DrawMatrix mat)
         {
             draw(image, mat, ColorTransform.NONE);
         }
@@ -37,7 +37,7 @@ namespace DuckstazyLive.game
             draw(getTexture(imageId), mat, transform);
         }
 
-        public void draw(Texture2D image, DrawMatrix mat, ColorTransform transform)
+        public void draw(SpriteTexture image, DrawMatrix mat, ColorTransform transform)
         {
             AppBlendMode blendMode = AppGraphics.GetBlendMode();
 
@@ -58,11 +58,11 @@ namespace DuckstazyLive.game
                 Vector2.Multiply(ref mat.POSITION, Constants.SCALE, out scaledPosition);
                 Vector2 scaledOrigin;
                 Vector2.Multiply(ref origin, Constants.SCALE, out scaledOrigin);
-                AppGraphics.DrawImage(image, ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
+                image.draw(ref scaledPosition, ref color, mat.ROTATION, ref scaledOrigin, ref mat.SCALE, ref mat.FLIP);
             }
             else
             {
-                AppGraphics.DrawImage(image, ref mat.POSITION, ref color, mat.ROTATION, ref origin, ref mat.SCALE, ref mat.FLIP);
+                image.draw(ref mat.POSITION, ref color, mat.ROTATION, ref origin, ref mat.SCALE, ref mat.FLIP);
             }
 
             AppGraphics.SetBlendMode(blendMode);
@@ -70,7 +70,7 @@ namespace DuckstazyLive.game
 
         public void copyPixels(int imageId, Rect dest, Vector2 pos)
         {
-            AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y));
+            getTexture(imageId).draw(utils.scale(pos.X), utils.scale(pos.Y));
         }
 
         public void copyPixels(int imageId, Rect dest, Vector2 pos, ColorTransform transform)
@@ -82,7 +82,7 @@ namespace DuckstazyLive.game
                 utils.colorTransformToColor(ref color, ref transform);
                 AppGraphics.SetBlendMode(transform.blendMode);
             }
-            AppGraphics.DrawImage(getTexture(imageId), utils.scale(pos.X), utils.scale(pos.Y), color);
+            getTexture(imageId).draw(utils.scale(pos.X), utils.scale(pos.Y), ref color);
             AppGraphics.SetBlendMode(blendMode);
         }       
 
@@ -96,7 +96,7 @@ namespace DuckstazyLive.game
             AppGraphics.DrawGeomerty(geom);
         }        
 
-        private Texture2D getTexture(int imageId)
+        private SpriteTexture getTexture(int imageId)
         {
             return Application.sharedResourceMgr.getTexture(imageId);
         }        

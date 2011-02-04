@@ -22,7 +22,7 @@ namespace Framework.visual
         private int[] quadOffsetX;
         private int[] quadOffsetY;        
 
-        public PixelFont(Texture2D texture, int charsCount)
+        public PixelFont(SpriteTexture texture, int charsCount)
             : base(texture, charsCount + 1)
         {
             quadOffsetX = new int[charsCount + 1];

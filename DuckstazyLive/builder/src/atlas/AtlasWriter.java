@@ -49,11 +49,16 @@ public class AtlasWriter
 		List<AtlasImage> images = atlas.getImages();
 		for (AtlasImage img : images) 
 		{
+			if (!img.isExportInfo())
+			{
+				continue;
+			}
+			
 			Element e = root.addElement("image");			
-			e.addAttribute("x", Integer.toString(img.getX()));
-			e.addAttribute("y", Integer.toString(img.getY()));
-			e.addAttribute("w", Integer.toString(img.getWidth()));
-			e.addAttribute("h", Integer.toString(img.getHeight()));
+			e.addAttribute("x", Integer.toString(img.getRealX()));
+			e.addAttribute("y", Integer.toString(img.getRealY()));
+			e.addAttribute("w", Integer.toString(img.getRealWidth()));
+			e.addAttribute("h", Integer.toString(img.getRealHeight()));
 			e.addAttribute("ox", Integer.toString(img.getOx()));
 			e.addAttribute("oy", Integer.toString(img.getOy()));
 		}

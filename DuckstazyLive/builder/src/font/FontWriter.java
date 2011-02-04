@@ -38,10 +38,10 @@ public class FontWriter
 		{
 			Element e = root.addElement("char");
 			e.addAttribute("value", Character.toString(c.getChar()));			
-			e.addAttribute("x", Integer.toString(c.getX()));
-			e.addAttribute("y", Integer.toString(c.getY()));
-			e.addAttribute("w", Integer.toString(c.getWidth()));
-			e.addAttribute("h", Integer.toString(c.getHeight()));
+			e.addAttribute("x", Integer.toString(c.getRealX()));
+			e.addAttribute("y", Integer.toString(c.getRealY()));
+			e.addAttribute("w", Integer.toString(c.getRealWidth()));
+			e.addAttribute("h", Integer.toString(c.getRealHeight()));
 			e.addAttribute("ox", Integer.toString(c.getOx()));
 			e.addAttribute("oy", Integer.toString(c.getOy()));
 		}		

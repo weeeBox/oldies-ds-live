@@ -26,7 +26,7 @@ namespace DuckstazyLive.game
             this.controller = controller;
             this.height = (int)Constants.ENV_HEIGHT;
 
-            Texture2D buttonTex = Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_STROKE_FOCUSED);
+            SpriteTexture buttonTex = Application.sharedResourceMgr.getTexture(Res.IMG_BUTTON_STROKE_FOCUSED);
             int buttonWidth = buttonTex.Width;
             int buttonHeight = buttonTex.Height;
 

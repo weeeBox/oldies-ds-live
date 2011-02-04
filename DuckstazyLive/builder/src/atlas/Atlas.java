@@ -42,7 +42,7 @@ public class Atlas
 		for (int i = 0; i < images.size(); ++i)
 		{
 			AtlasImage packed = images.get(i);
-			g.drawImage(packed.getImage(), packed.getX(), packed.getY(), null);
+			g.drawImage(packed.getImage(), packed.getRealX(), packed.getRealY(), null);
 		}
 		g.dispose();
 		

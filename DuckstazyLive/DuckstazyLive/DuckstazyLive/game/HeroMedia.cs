@@ -31,11 +31,11 @@ namespace DuckstazyLive.game
         //private var rEyeImg2:Class;
 
         public int imgDuck;
-        //private var imgDuckFlip:Texture2D;
+        //private var imgDuckFlip:SpriteTexture;
 
         public int imgSleep;
         public int imgDead;
-        // private var imgSleepFlip:Texture2D;
+        // private var imgSleepFlip:SpriteTexture;
 
         public int imgWing;
         public int imgEye1;
@@ -114,13 +114,13 @@ namespace DuckstazyLive.game
             imgEye2 = Res.IMG_EYE2;
             imgWing = Res.IMG_WING;
 
-            /*imgDuck = new Texture2D(54, 42, true, 0x00000000);
+            /*imgDuck = new SpriteTexture(54, 42, true, 0x00000000);
             imgDuck.lock();
             imgDuck.copyPixels(duckBitmap.bitmapData, rcBody, new Point());
             imgDuck.copyPixels(footsBitmap.bitmapData, rcFoots, new Point(30.0, 39.0));
             imgDuck.unlock();
 			
-            imgSleep = new Texture2D(54, 42, true, 0x00000000);
+            imgSleep = new SpriteTexture(54, 42, true, 0x00000000);
             imgSleep.lock();
             imgSleep.copyPixels(sleepBitmap.bitmapData, rcBody, new Point());
             imgSleep.unlock();*/
@@ -132,13 +132,13 @@ namespace DuckstazyLive.game
             /*mat.scale(-1.0f, 1.0f);
             mat.translate(54.0, 0.0);
 			
-            imgDuckFlip = new Texture2D(54, 42, true, 0x00000000);			
+            imgDuckFlip = new SpriteTexture(54, 42, true, 0x00000000);			
             imgDuckFlip.lock();
             imgDuckFlip.draw(duckBitmap.bitmapData, mat);
             imgDuckFlip.copyPixels(footsBitmap.bitmapData, rcFoots, new Point(12.0, 39.0));
             imgDuckFlip.unlock();
 					
-            imgSleepFlip = new Texture2D(54, 42, true, 0x00000000);			
+            imgSleepFlip = new SpriteTexture(54, 42, true, 0x00000000);			
             imgSleepFlip.lock();
             imgSleepFlip.draw(sleepBitmap.bitmapData, mat);
             imgSleepFlip.unlock();*/
