@@ -9,8 +9,9 @@ public class GenChars
 	public static void main(String[] args) 
 	{
 		List<String> strings = new ArrayList<String>();
-		strings.add("DAMMIT!");
-		strings.add("DEAD!");
+		strings.add("YEAH!!!");
+		strings.add("FUCKYEAH!!!");
+		strings.add("DAMNYOU’REGOOD!!!");
 		
 		Set<Character> chars = new HashSet<Character>();
 		for (String str : strings) 
