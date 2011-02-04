@@ -2,12 +2,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.tools.ant.BuildException;
-
 public abstract class Resource 
 {	
 	private String name;
 	private File file;
+	private Package pack;
 		
 	private static List<ContentPair> contentPairs = new ArrayList<ContentPair>();
 	
@@ -23,7 +22,22 @@ public abstract class Resource
 		return contentPairs;
 	}
 	
-	public String getName() 
+	public Package getPackage() 
+	{
+		return pack;
+	}
+
+	public void setPackage(Package parent) 
+	{
+		this.pack = parent;
+	}
+
+	public String getName()
+	{
+		return name;
+	}
+	
+	public String getLongName() 
 	{
 		return (getResourceTypePrefix() + name).toUpperCase();
 	}
@@ -76,14 +90,10 @@ public abstract class Resource
 		return true;
 	}
 
-	public void process(File destDir) 
+	public void process() 
 	{
-		System.out.println("Copy: " + getFile() + " to " + destDir);
-		File file = getFile();
-		if (!file.exists())
-			throw new BuildException();
-		
-		FileUtils.copy(file, destDir);
+		ContentProjTask.fileSync.addFile(getFile());
+		ContentProjTask.projSync.addResource(this);
 	}	
 }
 
