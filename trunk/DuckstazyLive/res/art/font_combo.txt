@@ -1,9 +1,9 @@
 #Fri Jan 21 03:46:48 EET 2011
 fontOffset=0
 lineOffset=0
-name=bad
+name=big
 charOffset=0
-chars=DET!AMI
+chars=DEFG!ACMNOHKUR’Y
 space=40
-src=font_bad.png
-dst=font_bad_tex.png
+src=font_combo.png
+dst=font_combo_tex.png
