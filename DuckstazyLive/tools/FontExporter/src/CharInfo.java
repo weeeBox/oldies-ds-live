@@ -1,5 +1,5 @@
-public class CharInfo {
-
+public class CharInfo 
+{
 	protected char chr;
 	protected int x;
 	protected int y;
