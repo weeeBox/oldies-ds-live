@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Framework.visual
 {
-    public interface Texture
+    public interface SpriteTexture
     {
         int getWidth();
         int getHeight();

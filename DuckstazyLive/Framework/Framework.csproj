@@ -129,7 +129,7 @@
     <Compile Include="visual\Image.cs" />
     <Compile Include="visual\SingleTexture.cs" />
     <Compile Include="visual\Text.cs" />
-    <Compile Include="visual\Texture.cs" />
+    <Compile Include="visual\SpriteTexture.cs" />
     <Compile Include="visual\TiledImage.cs" />
     <Compile Include="visual\VectorFont.cs" />
   </ItemGroup>
