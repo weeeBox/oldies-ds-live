@@ -14,12 +14,13 @@ namespace Framework.core
 {
     public enum ResourceType
     {
-        RESOURCE_TYPE_TEXTURE,        
+        RESOURCE_TYPE_TEXTURE,
         RESOURCE_TYPE_SOUND,
-        RESOURCE_TYPE_SONG,        
+        RESOURCE_TYPE_SONG,
         RESOURCE_TYPE_PIXEL_FONT,
         RESOURCE_TYPE_VECTOR_FONT,
-        RESOURCE_TYPE_BINARY
+        RESOURCE_TYPE_BINARY,
+        RESOURCE_TYPE_ATLAS
     }    
 
     public struct ResourceLoadInfo
@@ -182,6 +183,10 @@ namespace Framework.core
                 case ResourceType.RESOURCE_TYPE_BINARY:
                     res = loadBinary(r);
                     break;
+
+                case ResourceType.RESOURCE_TYPE_ATLAS:
+                    res = loadAtlas(r);
+                    break;
             }
 
             if (r.resId >= 0)
@@ -234,6 +239,19 @@ namespace Framework.core
         public object loadBinary(ResourceLoadInfo r)
         {
             return contentManager.Load<byte[]>(r.getResContentName());
+        }
+
+        public Atlas loadAtlas(ResourceLoadInfo r)
+        {            
+            Atlas atlas = contentManager.Load<Atlas>(r.getResContentName());
+            AtlasImage[] images = atlas.Images;
+            for (int imageIndex = 0, resId = r.resId + 1; imageIndex < images.Length; ++imageIndex, ++resId)
+            {
+                Console.WriteLine("Load child:" + resId);
+                resources[resId] = images[imageIndex];
+            }
+
+            return atlas;
         }
 
         public override void update()
