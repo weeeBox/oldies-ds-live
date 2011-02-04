@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Framework.visual
 {
-    public class SingleTexture : Texture
+    public class SingleTexture : SpriteTexture
     {
         private Texture2D texture;
 

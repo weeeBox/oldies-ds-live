@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace Framework.visual
 {
-    public class AtlasImage : Texture
+    public class AtlasImage : SpriteTexture
     {
         private Atlas atlas;
         private Rectangle quad;
