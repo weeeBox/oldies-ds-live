@@ -265,6 +265,15 @@ namespace Framework.core
             GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, null, color, rotation, origin, scale, flipEffects, 0.0f);
         }
 
+        public static void DrawImage(Texture2D tex, ref Rectangle src, ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale, ref Vector2 flip)
+        {
+            SpriteEffects flipEffects = flip.X == 1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
+            if (flip.Y == 1)
+                flipEffects |= SpriteEffects.FlipVertically;
+
+            GetSpriteBatch(BatchMode.Sprite).Draw(tex, position, src, color, rotation, origin, scale, flipEffects, 0.0f);
+        }
+
         public static void DrawScaledImage(Texture2D tex, float x, float y, float scaleX, float scaleY)
         {
             Vector2 origin = new Vector2(0.5f * tex.Width, 0.5f * tex.Height);

@@ -28,5 +28,10 @@ namespace Framework.visual
         {
             get { return images; }
         }
+
+        public Texture2D getTexture()
+        {
+            return texture;
+        }
     }
 }
