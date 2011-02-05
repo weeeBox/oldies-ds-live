@@ -92,15 +92,15 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="tex_menu.png">
-      <Name>tex_menu</Name>
+    <Compile Include="title.png">
+      <Name>title</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="menu.atlas">
-      <Name>menu</Name>
-      <Importer>AtlasImporter</Importer>
-      <Processor>AtlasProcessor</Processor>
+    <Compile Include="title_back.png">
+      <Name>title_back</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="tex_game.png">
       <Name>tex_game</Name>
@@ -111,6 +111,11 @@
       <Name>game</Name>
       <Importer>AtlasImporter</Importer>
       <Processor>AtlasProcessor</Processor>
+    </Compile>
+    <Compile Include="combo.pixelfont">
+      <Name>combo</Name>
+      <Importer>PixelFontImporter</Importer>
+      <Processor>PixelFontProcessor</Processor>
     </Compile>
     <Compile Include="pickup.pixelfont">
       <Name>pickup</Name>
@@ -126,6 +131,26 @@
       <Name>hud_digits</Name>
       <Importer>PixelFontImporter</Importer>
       <Processor>PixelFontProcessor</Processor>
+    </Compile>
+    <Compile Include="cat_l.png">
+      <Name>cat_l</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="cat_r.png">
+      <Name>cat_r</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="effect_ray.png">
+      <Name>effect_ray</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="effect_line.png">
+      <Name>effect_line</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Env_rPowerSnd.wav">
       <Name>Env_rPowerSnd</Name>

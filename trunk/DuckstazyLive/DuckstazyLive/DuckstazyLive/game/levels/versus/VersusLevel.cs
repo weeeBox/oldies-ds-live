@@ -151,7 +151,10 @@ namespace DuckstazyLive.game
 
         private const int STATE_START = 0;
         private const int STATE_PLAYING = 1;
-        private const int STATE_END = 2;        
+        private const int STATE_END = 2;
+
+        private BaseElement[] combos;
+        private int comboIndex;
 
         public VersusLevel(GameController controller, int stageIndex) : base(controller)
         {            
@@ -159,13 +162,54 @@ namespace DuckstazyLive.game
             
             GameElements.initHeroes(2);
             GameElements.reset();
+
+            initCombos();
         }        
+
+        private void initCombos()
+        {
+            Image comboX2 = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_COMBO_X2));
+            comboX2.setAlign(ALIGN_CENTER, ALIGN_MAX);
+            Image comboX3 = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_COMBO_X3));
+            comboX3.setAlign(ALIGN_CENTER, ALIGN_MAX);
+            Image comboX4 = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_COMBO_X4));
+            comboX4.setAlign(ALIGN_CENTER, ALIGN_MAX);
+            Image comboX5 = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_COMBO_X5));
+            comboX5.setAlign(ALIGN_CENTER, ALIGN_MAX);
+            Image comboX6 = new Image(Application.sharedResourceMgr.getTexture(Res.IMG_COMBO_X6));
+            comboX6.setAlign(ALIGN_CENTER, ALIGN_MAX);
+
+            Text comboX7 = createComboText("YEAH!!!");
+            Text comboX8 = createComboText("FUCK\nYEAH!!!");
+            Text comboX9 = createComboText("DAMN\nYOU’RE\nGOOD!!!");           
+
+            combos = new BaseElement[]
+            {
+                comboX2, comboX3, comboX4, comboX5, comboX6, comboX7, comboX8, comboX9
+            };
+        }
+
+        private Text createComboText(String text)
+        {
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_COMBO);
+            Text comboText = new Text(font);
+            comboText.setString(text);
+            comboText.setAlign(ALIGN_CENTER, ALIGN_CENTER);
+            comboText.x = utils.scale(320);
+            comboText.y = utils.scale(200) - Constants.TITLE_SAFE_TOP_Y;
+            return comboText;
+        }
 
         public override void start()
         {
             getHeroes().clear();
             base.start();
             startLevelState(STATE_START);
+
+            Heroes heroes = getHeroes();
+            heroes[0].user = heroes[1].user = victimCallback;
+            comboIndex = Constants.UNDEFINED;
+            heroes[1].gameState.addScores(500);
         }
 
         public override void onEnd()
@@ -242,6 +286,11 @@ namespace DuckstazyLive.game
                 
                 case STATE_PLAYING:
                 {
+                    if (comboIndex != Constants.UNDEFINED)
+                    {
+                        combos[comboIndex].update(dt);
+                    }
+
                     Heroes heroes = getHeroes();
                     if (heroes[1].isDead())
                     {
@@ -272,7 +321,22 @@ namespace DuckstazyLive.game
                     break;
                 }                
             }            
-        }       
+        }
+
+        public override void draw1()
+        {
+            base.draw1();
+
+            if (comboIndex > 6)
+                combos[comboIndex].draw();
+        }
+
+        public override void draw2()
+        {
+            base.draw2();
+            if (comboIndex >= 0 && comboIndex <= 6)
+                combos[comboIndex].draw();
+        }
  
         protected virtual void onWin(int playerIndex)
         {            
@@ -289,7 +353,25 @@ namespace DuckstazyLive.game
         public static int getStagesCount()
         {
             return stagesInfo.Length;
-        }        
+        }
+        
+        public void victimCallback(Hero hero, HeroMessage message)
+        {
+            if (message == HeroMessage.ATTACKER)
+            {
+                comboIndex = Constants.UNDEFINED;
+                int combo = hero.combo;
+                if (combo >= 2 && combo <= 9)
+                {
+                    comboIndex = combo - 2;
+                    if (combo < 7)
+                    {
+                        combos[comboIndex].x = utils.scale(hero.x + Hero.duck_w);
+                        combos[comboIndex].y = utils.scale(hero.y);
+                    }
+                }               
+            }
+        }
 
         public static String getStageName(int stageIndex)
         {

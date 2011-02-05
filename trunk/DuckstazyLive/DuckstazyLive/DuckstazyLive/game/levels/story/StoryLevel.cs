@@ -140,9 +140,10 @@ namespace DuckstazyLive.game
         protected const int LEVEL_STATE_PLAYING = 1;
         protected const int LEVEL_STATE_LOOSE = 2;
         protected const int LEVEL_STATE_WIN = 3;
-        protected const int LEVEL_STATE_DIE = 4;               
+        protected const int LEVEL_STATE_DIE = 4;
 
-        private const float DEATH_TIMEOUT = 4.5f;        
+        private const float FADE_TIMEOUT = 3.5f;
+        private const float DEATH_TIMEOUT = 4.5f;
 
         public StoryLevel(GameController controller) : base(controller)
         {            
@@ -211,14 +212,21 @@ namespace DuckstazyLive.game
 
                 case LEVEL_STATE_DIE:
                     {
-                        if (levelStateElapsed > DEATH_TIMEOUT)
-                        {
-                            getController().showDeath();
-                        }
-                        else
+                        if (levelStateElapsed < FADE_TIMEOUT)                        
                         {
                             float progress = levelStateElapsed / DEATH_TIMEOUT;
                             getEnv().proccessHitFade(progress);
+                        }
+                        else if (levelStateElapsed < DEATH_TIMEOUT)
+                        {                            
+                            float full = DEATH_TIMEOUT - FADE_TIMEOUT;
+                            float current = levelStateElapsed - FADE_TIMEOUT;
+                            getEnv().setBlanc(current / full);
+                            getEnv().proccessHitFade(1.0f);
+                        }
+                        else
+                        {                           
+                            getController().showDeath();                            
                         }
                         break;
                     }

@@ -55,11 +55,9 @@
 				<image name="load_line" file="${dir.art}/effect_line.png" />
 			</package>
 			
-			<package name="PACK_MENU">	
-				<atlas name="menu">
-					<image name="menu_title"  file="${dir.art}/title.png" />
-					<image name="menu_title_back" file="${dir.art}/title_back.png" />
-				</atlas>
+			<package name="PACK_MENU">				
+				<image name="menu_title"  file="${dir.art}/title.png" />
+				<image name="menu_title_back" file="${dir.art}/title_back.png" />				
 			</package>
 			
 			<package name="PACK_GAME">
@@ -118,8 +116,6 @@
 					<image name="fx_hint_arrow" file="${dir.art}/fx_hint_arrow.png" />
 					<image name="gfx_pedestal_l" file="${dir.art}/pedestal_l.png" />
 					<image name="gfx_pedestal_r" file="${dir.art}/pedestal_r.png" />
-					<image name="gfx_cat_l" file="${dir.art}/cat_l.png" />
-					<image name="gfx_cat_r" file="${dir.art}/cat_r.png" />
 					<image name="gfx_cat_smile" file="${dir.art}/cat_smile.png" />
 					<image name="gfx_cat_hum" file="${dir.art}/cat_hum.png" />
 					<image name="gfx_frog_head" file="${dir.art}/frog_head.png" />
@@ -131,12 +127,21 @@
 					<image name="gfx_frog_emo1" file="${dir.art}/frog_emo1.png" />
 					<image name="gfx_frog_emo2" file="${dir.art}/frog_emo2.png" />
 					<image name="effect_circle" file="${dir.art}/effect_circle.png" />
-					<image name="effect_ray" file="${dir.art}/effect_ray.png" />
-					<image name="effect_line" file="${dir.art}/effect_line.png" />
+					<image name="combo_x2" file="${dir.art}/combo_x2.png" />
+					<image name="combo_x3" file="${dir.art}/combo_x3.png" />
+					<image name="combo_x4" file="${dir.art}/combo_x4.png" />
+					<image name="combo_x5" file="${dir.art}/combo_x5.png" />
+					<image name="combo_x6" file="${dir.art}/combo_x6.png" />
+					
+					<pixelFont name="combo" file="${dir.art}/font_combo.txt" />
 					<pixelFont name="pickup" file="${dir.art}/font_pickup.txt" />
 					<pixelFont name="hud_bad" file="${dir.art}/font_bad.txt" />
 					<pixelFont name="hud_digits" file="${dir.art}/font_hud_digits.txt" />
 				</atlas>
+				<image name="gfx_cat_l" file="${dir.art}/cat_l.png" />
+				<image name="gfx_cat_r" file="${dir.art}/cat_r.png" />
+				<image name="effect_ray" file="${dir.art}/effect_ray.png" />
+				<image name="effect_line" file="${dir.art}/effect_line.png" />
 			</package>
 			
 			<package name="PACK_SOUNDS">
