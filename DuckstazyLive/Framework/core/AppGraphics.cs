@@ -32,7 +32,7 @@ namespace Framework.core
 
         private static BatchMode batchMode = BatchMode.None;
         private static Matrix matrix;
-        private static Color drawColor;
+        public static Color drawColor;
         private static AppBlendMode blendMode = AppBlendMode.AlphaBlend;
 
         private static Stack<Matrix> matrixStack = new Stack<Matrix>();        
@@ -116,7 +116,7 @@ namespace Framework.core
         public static void SetColor(Color color)
         {
             drawColor = color;         
-        }
+        }        
 
         public static void SetBlendMode(AppBlendMode mode)
         {

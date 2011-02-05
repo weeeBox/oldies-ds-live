@@ -1042,13 +1042,12 @@ namespace DuckstazyLive.game
 
             int oldScore = other.gameState.getScores();
             other.jumpedBy(this);
-            jump(jumpHeight);
-
-            if (other.gameState.getScores() < oldScore)
+            if (other.gameState.getScores() < oldScore && isDroppingDown())
             {
                 combo++;
                 if (user != null) user(this, HeroMessage.ATTACKER);
             }
+            jump(jumpHeight);
         }
 
         public bool canBeJumped()

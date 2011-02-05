@@ -39,13 +39,13 @@ namespace Framework.visual
 
         public void draw(float x, float y) 
         {
-            Texture2D texture = atlas.getTexture();
-            draw(x, y, ref COLOR_WHITE);
+            Texture2D texture = atlas.getTexture();            
+            draw(x, y, ref AppGraphics.drawColor);
         }
 
         public void draw(float x, float y, float opacity) 
         {
-            Color color = Color.White * opacity;
+            Color color = AppGraphics.drawColor * opacity;
             draw(x, y, ref color);
         }
 
@@ -69,7 +69,7 @@ namespace Framework.visual
             Rectangle partQuad = rectangle;
             partQuad.X += quad.X;
             partQuad.Y += quad.Y;
-            AppGraphics.DrawImage(texture, ref partQuad, ref position, ref COLOR_WHITE, 0.0f, ref VECTOR_ZERO, ref VECTOR_ONE, ref VECTOR_ZERO);
+            AppGraphics.DrawImage(texture, ref partQuad, ref position, ref AppGraphics.drawColor, 0.0f, ref VECTOR_ZERO, ref VECTOR_ONE, ref VECTOR_ZERO);
         }
 
         public void drawTiled(ref Rectangle src, ref Rectangle dst) 
