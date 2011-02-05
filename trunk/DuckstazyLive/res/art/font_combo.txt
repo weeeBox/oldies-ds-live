@@ -1,6 +1,6 @@
 #Fri Jan 21 03:46:48 EET 2011
 fontOffset=0
-lineOffset=0
+lineOffset=12
 name=combo
 charOffset=0
 chars=DEFG!ACMNOHKUR’Y

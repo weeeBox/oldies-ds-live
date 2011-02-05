@@ -103,8 +103,8 @@ namespace DuckstazyLive.game
  
             levelPreDraw();
 
-            stage.draw1(canvas);
             draw1();
+            stage.draw1(canvas);            
             getPills().draw(canvas);                                
             getHeroes().draw(canvas);
             getParticles().draw(canvas);

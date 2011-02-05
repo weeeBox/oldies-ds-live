@@ -13,8 +13,6 @@ namespace Framework.visual
         void draw(ref Vector2 position, ref Color color, float rotation, ref Vector2 origin, ref Vector2 scale, ref Vector2 flip);
 
         void drawPart(ref Rectangle rectangle, float x, float y);
-        void drawTiled(ref Rectangle src, ref Rectangle dst);
-
-        
+        void drawTiled(ref Rectangle src, ref Rectangle dst);        
     }
 }

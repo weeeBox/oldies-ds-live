@@ -155,6 +155,20 @@ namespace DuckstazyLive.game
 
         private BaseElement[] combos;
         private int comboIndex;
+        private float comboCounter;
+        private Color[] comboColors;
+        private static Color[] comboColors1 = 
+        {
+            utils.makeColor(0xfff200), utils.makeColor(0xf26522), Color.Red
+        };
+        private static Color[] comboColors2 = 
+        {
+            utils.makeColor(0xec008c), utils.makeColor(0xed1c24), Color.Blue
+        };
+        private static Color[] comboBackColors = 
+        {
+            utils.makeColor(0xe1e1e1), Color.White
+        };
 
         public VersusLevel(GameController controller, int stageIndex) : base(controller)
         {            
@@ -286,10 +300,8 @@ namespace DuckstazyLive.game
                 
                 case STATE_PLAYING:
                 {
-                    if (comboIndex != Constants.UNDEFINED)
-                    {
-                        combos[comboIndex].update(dt);
-                    }
+                    updateCombo(dt);
+
 
                     Heroes heroes = getHeroes();
                     if (heroes[1].isDead())
@@ -323,18 +335,52 @@ namespace DuckstazyLive.game
             }            
         }
 
+        private void updateCombo(float dt)
+        {
+            if (comboIndex != Constants.UNDEFINED)
+            {
+                BaseElement comboElement = combos[comboIndex];
+                comboElement.update(dt);                
+                if (!comboElement.isTimelinePlaying())
+                {
+                    comboIndex = Constants.UNDEFINED;
+                }
+                else if (comboIndex < 5)
+                {
+                    comboElement.y -= 100 * dt;
+                }
+                else
+                {
+                    comboCounter += dt;
+
+                    int colorIndex = ((int)(comboCounter / 0.025f)) % comboColors.Length;
+                    float dammitAlpha = comboElement.color.A / 255.0f;
+                    comboElement.color.R = (byte)(comboColors[colorIndex].R * dammitAlpha);
+                    comboElement.color.G = (byte)(comboColors[colorIndex].G * dammitAlpha);
+                    comboElement.color.B = (byte)(comboColors[colorIndex].B * dammitAlpha);
+                }
+
+            }
+        }
+
         public override void draw1()
         {
             base.draw1();
 
-            if (comboIndex > 6)
+            if (comboIndex > 4)
+            {
+                float tx = Constants.SAFE_OFFSET_X;
+                float ty = Constants.SAFE_OFFSET_Y;
+                int colorIndex = ((int)(comboCounter / 0.025f)) % comboBackColors.Length;                
+                AppGraphics.FillRect(-tx, -ty, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, comboBackColors[colorIndex]);
                 combos[comboIndex].draw();
+            }
         }
 
         public override void draw2()
         {
             base.draw2();
-            if (comboIndex >= 0 && comboIndex <= 6)
+            if (comboIndex >= 0 && comboIndex <= 4)
                 combos[comboIndex].draw();
         }
  
@@ -360,15 +406,31 @@ namespace DuckstazyLive.game
             if (message == HeroMessage.ATTACKER)
             {
                 comboIndex = Constants.UNDEFINED;
+                comboCounter = 0.0f;
                 int combo = hero.combo;
                 if (combo >= 2 && combo <= 9)
                 {
                     comboIndex = combo - 2;
+                    BaseElement comboElement = combos[comboIndex];                                        
                     if (combo < 7)
-                    {
-                        combos[comboIndex].x = utils.scale(hero.x + Hero.duck_w);
-                        combos[comboIndex].y = utils.scale(hero.y);
+                    {                        
+                        comboElement.x = utils.scale(hero.x + Hero.duck_w);
+                        comboElement.y = utils.scale(hero.y) - 50;
+                        comboElement.color = hero.getPlayerIndex() == 0 ? utils.makeColor(0xfff799) : utils.makeColor(0xf49ac1);
+                        comboElement.scaleX = comboElement.scaleY = 0.1f;
+                        comboElement.turnTimelineSupportWithMaxKeyFrames(3);
+                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color, 1.2f, 1.2f, 0.0f, 0.2f));
+                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color, 1.0f, 1.0f, 0.0f, 0.05f));
+                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color * 0.0f, 1.0f, 1.0f, 0.0f, 0.6f));                        
                     }
+                    else
+                    {
+                        comboElement.color = Color.White;
+                        comboColors = hero.getPlayerIndex() == 0 ? comboColors1 : comboColors2;
+                        comboElement.turnTimelineSupportWithMaxKeyFrames(1);                        
+                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color, 1.0f, 1.0f, 0.0f, 1.5f));
+                    }
+                    comboElement.playTimeline();
                 }               
             }
         }
