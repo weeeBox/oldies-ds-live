@@ -540,6 +540,7 @@ namespace DuckstazyLive.game
 
         public void proccessHitFade(float blanc)
         {
+            hitFade = blanc;
             whiteFade.alphaMultiplier = blackFade.alphaMultiplier = blanc;
 
             Color skyBlanc = Color.White * blanc;

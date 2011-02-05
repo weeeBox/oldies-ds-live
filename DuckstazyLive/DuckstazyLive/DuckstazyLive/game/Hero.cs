@@ -12,6 +12,15 @@ using DuckstazyLive.game.levels;
 
 namespace DuckstazyLive.game
 {
+    public enum HeroMessage
+    {
+        JUMP,
+        ATTACKER,
+        VICTIM,
+    };
+
+    public delegate void HeroCallback(Hero hero, HeroMessage message);
+
     public class Hero
     {
         // duck logic consts
@@ -63,6 +72,8 @@ namespace DuckstazyLive.game
         private bool dropping;
         private bool droppingCanceled;
         private Vector4 dropRect;
+
+        public HeroCallback user;
 
         private static Rect[] COLLISION_RECTS_SLEEP = 
         {
@@ -154,6 +165,7 @@ namespace DuckstazyLive.game
         private Canvas canvas;
 
         private int playerIndex;
+        public int combo;
 
         public Hero(Heroes heroes, int playerIndex)
         {
@@ -217,8 +229,10 @@ namespace DuckstazyLive.game
             dropCounter = 0.0f;
             dropDAngle = 0.0f;
             rotation = 0.0f;
+            combo = 0;
 
             info.reset();
+            user = null;
         }
 
         private void doStepBubble()
@@ -412,6 +426,7 @@ namespace DuckstazyLive.game
                     toxic_collected = 0;
                     frags = 0;
                     diveK = 0.0f;
+                    combo = 0;
                 }
                 else if (y < -50.0f)
                     pos.Y = -50.0f;
@@ -666,7 +681,7 @@ namespace DuckstazyLive.game
                         drawSleep(dx, dy, flip, trans);
                         break;
                     case HERO_DEAD:
-                        drawDead(dx, dy, flip, trans);
+                        drawDead(dx, dy, flip);
                         break;
                     case HERO_NORMAL:
                         drawDuck(playerIndex, dx, dy, power, trans);
@@ -745,11 +760,9 @@ namespace DuckstazyLive.game
             canvas.draw(heroes.media.imgSleep, mat, color);
         }
 
-        public void drawDead(float x, float y, bool flip, float trans)
+        public void drawDead(float x, float y, bool flip)
         {
             DrawMatrix mat = DrawMatrix.ScaledInstance;
-            ColorTransform color = new ColorTransform(1.0f, 1.0f, 1.0f, trans);
-
             mat.translate(x, y);
 
             if (flip)
@@ -757,7 +770,12 @@ namespace DuckstazyLive.game
                 mat.flip(true, false);
             }
 
-            canvas.draw(heroes.media.imgDead, mat, color);
+            canvas.draw(heroes.media.imgDead, mat);
+
+            if (getEnv().isHitFaded())
+            {
+                canvas.draw(heroes.media.imgDead, mat, getEnv().blackFade);
+            }
         }
 
         public bool buttonPressed(ref ButtonEvent e)
@@ -1020,10 +1038,17 @@ namespace DuckstazyLive.game
             float jumpHeight = 0.5f * getJumpHeight() + extraHeight;
             float maxJumpHeight = getJumpHeight(duck_jump_start_vel_max);
             if (jumpHeight > maxJumpHeight)
-                jumpHeight = maxJumpHeight;           
+                jumpHeight = maxJumpHeight;
 
+            int oldScore = other.gameState.getScores();
             other.jumpedBy(this);
             jump(jumpHeight);
+
+            if (other.gameState.getScores() < oldScore)
+            {
+                combo++;
+                if (user != null) user(this, HeroMessage.ATTACKER);
+            }
         }
 
         public bool canBeJumped()
@@ -1086,6 +1111,8 @@ namespace DuckstazyLive.game
             if (scoreDif < 0)
             {                
                 info.add(scoreDif);
+                if (user != null)
+                    user(this, HeroMessage.VICTIM);
             }
 
             key_up = false;

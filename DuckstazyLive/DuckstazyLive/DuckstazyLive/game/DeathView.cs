@@ -58,6 +58,7 @@ namespace DuckstazyLive.game
         public override void onShow()
         {
             base.onShow();
+            getEnv().startBlanc();
         }
 
         private void initScull(ref Scull scull, int scullIndex)
@@ -87,6 +88,8 @@ namespace DuckstazyLive.game
             {
                 updateScull(ref sculls[i], delta);
             }
+            getEnv().proccessHitFade(1.0f);
+            getEnv().updateBlanc(delta);
         }
 
         private void updateScull(ref Scull scull, float dt)
@@ -123,7 +126,8 @@ namespace DuckstazyLive.game
             }
 
             postDraw();
-            GameElements.Env.draw2(canvas);
+            getEnv().draw2(canvas);
+            getEnv().drawBlanc(canvas);
         }
 
         private void levelPreDraw()
@@ -157,6 +161,11 @@ namespace DuckstazyLive.game
             }          
 
             return false;
+        }
+
+        private Env getEnv()
+        {
+            return GameElements.Env;
         }
     }
 }

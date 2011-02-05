@@ -1,7 +1,7 @@
 #Fri Jan 21 03:46:48 EET 2011
 fontOffset=0
 lineOffset=0
-name=big
+name=combo
 charOffset=0
 chars=DEFG!ACMNOHKUR’Y
 space=40

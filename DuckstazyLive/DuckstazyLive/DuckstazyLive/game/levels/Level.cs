@@ -103,14 +103,16 @@ namespace DuckstazyLive.game
  
             levelPreDraw();
 
-            stage.draw1(canvas);            
+            stage.draw1(canvas);
+            draw1();
             getPills().draw(canvas);                                
             getHeroes().draw(canvas);
             getParticles().draw(canvas);
             getHeroes().drawInfo(canvas);
+            draw2();
             levelPostDraw();
 
-            getEnv().draw2(canvas);
+            getEnv().draw2(canvas);            
 
             hud.draw();
             stage.draw2(canvas);
@@ -119,6 +121,16 @@ namespace DuckstazyLive.game
             postDraw();
 
             getEnv().drawBlanc(canvas);
+        }
+
+        public virtual void draw1()
+        {
+
+        }
+
+        public virtual void draw2()
+        {
+
         }
 
         private void levelPreDraw()
