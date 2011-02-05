@@ -222,8 +222,7 @@ namespace DuckstazyLive.game
 
             Heroes heroes = getHeroes();
             heroes[0].user = heroes[1].user = victimCallback;
-            comboIndex = Constants.UNDEFINED;
-            heroes[1].gameState.addScores(500);
+            comboIndex = Constants.UNDEFINED;            
         }
 
         public override void onEnd()
@@ -369,11 +368,16 @@ namespace DuckstazyLive.game
 
             if (comboIndex > 4)
             {
+                BaseElement comboElement = combos[comboIndex];
+
                 float tx = Constants.SAFE_OFFSET_X;
                 float ty = Constants.SAFE_OFFSET_Y;
-                int colorIndex = ((int)(comboCounter / 0.025f)) % comboBackColors.Length;                
-                AppGraphics.FillRect(-tx, -ty, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, comboBackColors[colorIndex]);
-                combos[comboIndex].draw();
+                int colorIndex = ((int)(comboCounter / 0.025f)) % comboBackColors.Length;
+                float alpha = comboElement.color.A / 255.0f;
+                Color color = comboBackColors[colorIndex] * alpha;
+                AppGraphics.FillRect(-tx, -ty, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, color);
+
+                comboElement.draw();
             }
         }
 
@@ -427,8 +431,9 @@ namespace DuckstazyLive.game
                     {
                         comboElement.color = Color.White;
                         comboColors = hero.getPlayerIndex() == 0 ? comboColors1 : comboColors2;
-                        comboElement.turnTimelineSupportWithMaxKeyFrames(1);                        
-                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color, 1.0f, 1.0f, 0.0f, 1.5f));
+                        comboElement.turnTimelineSupportWithMaxKeyFrames(2);                        
+                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color, 1.0f, 1.0f, 0.0f, 1.0f));
+                        comboElement.addKeyFrame(new KeyFrame(comboElement.x, comboElement.y, comboElement.color * 0.0f, 1.0f, 1.0f, 0.0f, 0.25f));
                     }
                     comboElement.playTimeline();
                 }               
