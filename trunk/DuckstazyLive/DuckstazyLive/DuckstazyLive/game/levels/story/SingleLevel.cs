@@ -31,7 +31,7 @@ namespace DuckstazyLive.game
     {
         private enum LevelStages
         {
-            Fireworks,
+            Tutorial,
             Harvesting,
             PartyTime,
             Bubbles,
@@ -69,6 +69,8 @@ namespace DuckstazyLive.game
             LevelStages stage = (LevelStages)stageIndex;
             switch (stage)
             {
+                case LevelStages.Tutorial:
+                    return new SingleTutorialStage();
                 case LevelStages.Harvesting:
                     return new Harvesting();
                 case LevelStages.PartyTime:
@@ -100,9 +102,7 @@ namespace DuckstazyLive.game
                 case LevelStages.Snakes:
                     return new Snakes();
                 case LevelStages.Grinder:
-                    return new GrinderStage();
-                case LevelStages.Fireworks:
-                    return new Fireworks();
+                    return new GrinderStage();                
 
                 default:
                     Debug.Assert(false, "Bad stage: " + stage);

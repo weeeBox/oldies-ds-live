@@ -138,6 +138,7 @@
     <Compile Include="game\stages\generator\FireworkSetuper.cs" />
     <Compile Include="game\stages\story\Fireworks.cs" />
     <Compile Include="game\stages\story\GrinderStage.cs" />
+    <Compile Include="game\stages\story\SingleTutorialStage.cs" />
     <Compile Include="game\stages\story\Snakes.cs" />
     <Compile Include="game\stages\story\TimeoutLevelStage.cs" />
     <Compile Include="game\Canvas.cs" />
