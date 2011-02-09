@@ -65,8 +65,8 @@
 					<image name="grass1" file="${dir.art}/grass1.png" />
 					<image name="grass2" file="${dir.art}/grass2.png" />				
 					<image name="cloud_1" file="${dir.art}/cloud_1.png" />
-					<image name="cloud_2" file="${dir.art}/cloud_1.png" />
-					<image name="cloud_3" file="${dir.art}/cloud_1.png" />				
+					<image name="cloud_2" file="${dir.art}/cloud_2.png" />
+					<image name="cloud_3" file="${dir.art}/cloud_3.png" />				
 					<image name="duck" file="${dir.art}/duck_fake.png" />
 					<image name="duck2" file="${dir.art}/duck_fake2.png" />
 					<image name="duck_sleep" file="${dir.art}/duck_sleep.png" />
