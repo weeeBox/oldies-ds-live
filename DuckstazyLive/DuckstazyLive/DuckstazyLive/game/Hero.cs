@@ -63,14 +63,20 @@ namespace DuckstazyLive.game
         private const float JUMP_ON_TIMEOUT = 0.5f;
         private float jumpedElasped;
 
+        private const int ATTACK_NONE = -1;
+        private const int ATTACK_DROP = 1;
+        private const int ATTACK_DASH = 2;
+        private const int ATTACK_UP = 3;
+
+        private int attackType;
+        private bool attackCanceled;
+
         private const float DROP_VELOCITY_MIN = 800.0f;
         private const float DROP_VELOCITY_MAX = 1200.0f;
         private const float DROP_TIME = 0.2f;
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
-        private float dropCounter;
-        private float dropDAngle;
-        private bool dropping;
-        private bool droppingCanceled;
+        private float attackCounter;
+        private float dropDAngle;                
         private Vector4 dropRect;
 
         public HeroCallback user;
@@ -225,8 +231,8 @@ namespace DuckstazyLive.game
             toxic_collected = 0;
             frags = 0;
 
-            dropping = false;
-            dropCounter = 0.0f;
+            attackType = ATTACK_NONE;            
+            attackCounter = 0.0f;
             dropDAngle = 0.0f;
             rotation = 0.0f;
             combo = 0;
@@ -314,7 +320,7 @@ namespace DuckstazyLive.game
         {
             steping = false;
 
-            if (dropping)
+            if (attackType == ATTACK_DROP)
                 return;
 
             if (key_left)
@@ -399,10 +405,8 @@ namespace DuckstazyLive.game
 
             if (fly)
             {
-                if (dropping)
-                    updateDropping(dt);
-                else
-                    updateFlying(dt);
+                if (isAttacking()) updateAttack(dt);
+                else updateFlying(dt);
 
                 if (y >= 400 - duck_h2)
                 {
@@ -410,8 +414,10 @@ namespace DuckstazyLive.game
                     fly = false;
                     pos.Y = 400 - duck_h2;
 
-                    if (dropping)
+                    if (attackType == ATTACK_DROP)
                     {
+                        stopAttack();
+                        
                         doDropBubbles();
                         heroes.media.playLandHeavy();
                     }
@@ -421,7 +427,6 @@ namespace DuckstazyLive.game
                         heroes.media.playLand();
                     }
 
-                    dropping = false;
                     sleep_collected = 0;
                     toxic_collected = 0;
                     frags = 0;
@@ -431,41 +436,52 @@ namespace DuckstazyLive.game
                 else if (y < -50.0f)
                     pos.Y = -50.0f;
             }
+        }        
+        
+        private void updateAttack(float dt)
+        {
+            switch (attackType)
+            {
+                case ATTACK_DROP:
+                    updateDropping(dt);
+                    break;
+                case ATTACK_DASH:
+                case ATTACK_UP:                    
+                    break;
+            }
         }
 
         private void updateDropping(float dt)
-        {
-            if (dropping)
+        {            
+            if (attackCounter > 0)
             {
-                if (dropCounter > 0)
+                attackCounter -= dt;
+                if (attackCounter < 0)
                 {
-                    dropCounter -= dt;
-                    if (dropCounter < 0)
-                    {
-                        dropCounter = 0.0f;
-                        rotation = 0.0f;
+                    attackCounter = 0.0f;
+                    rotation = 0.0f;
 
-                        if (droppingCanceled)
-                        {
-                            dropping = droppingCanceled = false;
-                        }                        
-                    }
-                    else
+                    if (attackCanceled)
                     {
-                        rotation += dropDAngle;
-                    }                    
+                        stopAttack();
+                        attackCanceled = false;
+                    }                        
                 }
                 else
                 {
-                    pos.Y += dropVelocity * dt;
-                }
+                    rotation += dropDAngle;
+                }                    
+            }
+            else
+            {
+                pos.Y += dropVelocity * dt;
+            }
 
-                // 14.0f, 12.0f, 35.0f, 25.0f
-                dropRect.X = lastPos.X + 14.0f;
-                dropRect.Y = lastPos.Y + 12.0f;
-                dropRect.Z = dropRect.X + 35.0f;
-                dropRect.W = pos.Y + 12.0f + 25.0f;
-            }            
+            // 14.0f, 12.0f, 35.0f, 25.0f
+            dropRect.X = lastPos.X + 14.0f;
+            dropRect.Y = lastPos.Y + 12.0f;
+            dropRect.Z = dropRect.X + 35.0f;
+            dropRect.W = pos.Y + 12.0f + 25.0f;            
         }
 
         private void updateFlying(float dt)
@@ -1007,7 +1023,17 @@ namespace DuckstazyLive.game
 
         public bool isDroppingDown()
         {
-            return dropping && dropCounter == 0.0f;
+            return attackType == ATTACK_DROP && attackCounter == 0.0f;
+        }
+
+        public bool isAttacking()
+        {
+            return attackType != ATTACK_NONE;
+        }
+
+        private void stopAttack()
+        {
+            attackType = ATTACK_NONE;
         }
 
         public void doHeal(int health)
@@ -1167,15 +1193,15 @@ namespace DuckstazyLive.game
 
         private bool canDrop()
         {
-            return isActive() && !dropping && pos.Y < 400 - 1.5f * duck_h2;
+            return isActive() && !isAttacking() && pos.Y < 400 - 1.5f * duck_h2;
         }
 
         public void drop()
         {
             move = 0.0f;
             dropVelocity = utils.lerp(power, DROP_VELOCITY_MIN, DROP_VELOCITY_MAX);
-            dropping = true;
-            dropCounter = DROP_TIME;
+            attackType = ATTACK_DROP;
+            attackCounter = DROP_TIME;
             dropDAngle = flip ? DROP_DA : -DROP_DA;
             rotation = 0.0f;
 
@@ -1184,12 +1210,12 @@ namespace DuckstazyLive.game
 
         public void jump(float h)
         {
-            if (dropping)
+            if (attackType == ATTACK_DROP)
             {
-                if (dropCounter > 0)
-                    droppingCanceled = true;
+                if (attackCounter > 0)
+                    attackCanceled = true;
                 else
-                    dropping = false;
+                    stopAttack();
             }
 
             float new_vy = (float)Math.Sqrt(2 * duck_jump_gravity * h);
@@ -1233,7 +1259,17 @@ namespace DuckstazyLive.game
 
         public void doPillAttack(Pill pill)
         {
-            if (dropping && dropCounter == 0.0f)
+            if (!isAttacking())
+            {
+                if ((pill.y + pill.r > y || pill.y - pill.r < y + 40) && (pill.x + pill.r > x || pill.x - pill.r < x + 54))
+                {
+                    if (overlapsCircle(pill.x, pill.y, pill.r))
+                    {
+                        pill.heroTouch(this);
+                    }
+                }
+            }
+            else if (isDroppingDown())
             {
                 float x1 = dropRect.X;
                 float y1 = dropRect.Y;
@@ -1249,17 +1285,7 @@ namespace DuckstazyLive.game
                     }
                     pill.heroTouch(this);
                 }                
-            }
-            else
-            {
-                if ((pill.y + pill.r > y || pill.y - pill.r < y + 40 ) && (pill.x + pill.r > x || pill.x - pill.r < x + 54))
-                {
-                    if (overlapsCircle(pill.x, pill.y, pill.r))
-                    {
-                        pill.heroTouch(this);
-                    }
-                }
-            }
+            }            
         }
 
         public bool overlapsCircle(float cx, float cy, float r)
