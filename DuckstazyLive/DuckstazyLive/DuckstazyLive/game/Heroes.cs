@@ -98,7 +98,7 @@ namespace DuckstazyLive.game
                 }
                 else if (doDashAttack(hero1, hero2))
                 {
-                    Debug.WriteLine("dash");
+                    
                 }
                 else if (doDashAttack(hero2, hero1))
                 {
