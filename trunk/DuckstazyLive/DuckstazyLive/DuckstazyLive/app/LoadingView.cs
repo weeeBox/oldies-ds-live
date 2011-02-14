@@ -42,13 +42,14 @@ namespace DuckstazyLive.app
                 BaseElementContainer container = new BaseElementContainer(0, 0);
 
                 Text loadingText = new Text(font);
-                loadingText.setString("LOADING ");
+                loadingText.setString("LOADING");                
 
                 progressText = new Text(font);
-                progressText.setString("99");
+                progressText.setString("100");
+                progressText.setAlign(TextAlign.HCENTER | TextAlign.TOP);                
 
                 Text percentText = new Text(font);
-                percentText.setString("%...");
+                percentText.setString("%...");                
 
                 container.addChild(loadingText);
                 container.addChild(progressText);
@@ -56,6 +57,8 @@ namespace DuckstazyLive.app
 
                 container.arrangeHorizontally(0, 0);
                 container.resizeToFitItems();
+
+                progressText.x += 0.5f * progressText.width;
 
                 addChild(container);
                 attachHor(container, AttachStyle.CENTER);
