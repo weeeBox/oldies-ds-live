@@ -92,6 +92,11 @@ namespace DuckstazyLive.game
                 Hero hero1 = heroes[0];
                 Hero hero2 = heroes[1];
 
+                if (hero1.isDashing())
+                {
+
+                }
+
                 // check attack                
                 if (doHeroAttack(hero1, hero2))
                 {
@@ -109,72 +114,68 @@ namespace DuckstazyLive.game
             if (!canMakeAttack(attacker, victim))
                 return false;
 
+            Rect attackerRects = attacker.getAttackerRects();
+            Rect victimRects = victim.getVictimRect();
+
+            return doHeroAttack(attacker, victim, ref attackerRects, ref victimRects);
+        }
+
+        private bool doHeroAttack(Hero attacker, Hero victim, ref Rect attackerRects, ref Rect victimRects)
+        {
             Vector2 attackeOffset = attacker.pos - attacker.lastPos;
             Vector2 victimOffset = victim.pos - victim.lastPos;
 
             // use coordinate system where victim is still
             Vector2 p = attacker.lastPos - victim.lastPos;
-            Vector2 r = attackeOffset - victimOffset;
-
-            // check against different parts
-            Rect[] attackerRects = attacker.getAttackerRects();
-            Rect[] victimRects = victim.getVictimRect();
+            Vector2 r = attackeOffset - victimOffset;            
 
             float t = 1.0f;
-            bool hasCollision = false;
+            bool hasCollision = false;                        
+            
+            float ax = p.X + attackerRects.X;
+            float ay = p.Y + attackerRects.Y;
+            float aw = attackerRects.Width;
+            float ah = attackerRects.Height;
 
-            foreach (Rect ar in attackerRects)
+            LineSegment s1 = new LineSegment(ax, ay, r);
+            LineSegment s2 = new LineSegment(ax + aw, ay, r);
+            LineSegment s3 = new LineSegment(ax + aw, ay + ah, r);
+            LineSegment s4 = new LineSegment(ax, ay + ah, r);                                
+                
+            float vicX = victimRects.X;
+            float vicY = victimRects.Y;
+
+            if (ay + ah <= vicY) // attacker bottom must be higher then victim top
             {
-                float ax = p.X + ar.X;
-                float ay = p.Y + ar.Y;
-                float aw = ar.Width;
-                float ah = ar.Height;
+                float vw = victimRects.Width;
+                float vh = victimRects.Height;
 
-                LineSegment s1 = new LineSegment(ax, ay, r);
-                LineSegment s2 = new LineSegment(ax + aw, ay, r);
-                LineSegment s3 = new LineSegment(ax + aw, ay + ah, r);
-                LineSegment s4 = new LineSegment(ax, ay + ah, r);
-
-                foreach (Rect vr in victimRects)
+                float ct;
+                if (s1.collidesRect(vicX, vicY, vw, vh, out ct))
                 {
-                    float vicX = vr.X;
-                    float vicY = vr.Y;
-
-                    if (ay + ah > vicY)
-                    {
-                        continue; // attacker bottom must be higher then victim top
-                    }
-
-                    float vw = vr.Width;
-                    float vh = vr.Height;
-
-                    float ct;
-                    if (s1.collidesRect(vicX, vicY, vw, vh, out ct))
-                    {
-                        hasCollision = true;
-                        if (ct < t)
-                            t = ct;
-                    }
-                    if (s2.collidesRect(vicX, vicY, vw, vh, out ct))
-                    {
-                        hasCollision = true;
-                        if (ct < t)
-                            t = ct;
-                    }
-                    if (s3.collidesRect(vicX, vicY, vw, vh, out ct))
-                    {
-                        hasCollision = true;
-                        if (ct < t)
-                            t = ct;
-                    }
-                    if (s4.collidesRect(vicX, vicY, vw, vh, out ct))
-                    {
-                        hasCollision = true;
-                        if (ct < t)
-                            t = ct;
-                    }
+                    hasCollision = true;
+                    if (ct < t)
+                        t = ct;
                 }
-            }
+                if (s2.collidesRect(vicX, vicY, vw, vh, out ct))
+                {
+                    hasCollision = true;
+                    if (ct < t)
+                        t = ct;
+                }
+                if (s3.collidesRect(vicX, vicY, vw, vh, out ct))
+                {
+                    hasCollision = true;
+                    if (ct < t)
+                        t = ct;
+                }
+                if (s4.collidesRect(vicX, vicY, vw, vh, out ct))
+                {
+                    hasCollision = true;
+                    if (ct < t)
+                        t = ct;
+                }
+            }                            
 
             if (hasCollision)
             {
