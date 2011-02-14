@@ -63,16 +63,23 @@ namespace DuckstazyLive.game
         private const float JUMP_ON_TIMEOUT = 0.5f;
         private float jumpedElasped;
 
+        private const int HIT_NONE = -1;
+        private const int HIT_DROP = 1;
+        private const int HIT_DASH = 2;
+        private const int HIT_UP = 3;
+
+        private int hitType;
+
         private const int ATTACK_NONE = -1;
         private const int ATTACK_DROP = 1;
         private const int ATTACK_DASH = 2;
-        private const int ATTACK_UP = 3;
+        private const int ATTACK_UP = 3;                
 
         private int attackType;
         private bool attackCanceled;
                 
         private float attackCounter;
-        private float attackVelocity;
+        public float attackVelocity;
 
         private const float DROP_VELOCITY_MIN = 800.0f;
         private const float DROP_VELOCITY_MAX = 1200.0f;
@@ -80,7 +87,7 @@ namespace DuckstazyLive.game
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
 
         private const float DASH_TIME = 0.15f;
-        private const float DASH_DA = MathHelper.TwoPi / DASH_TIME;
+        private const float DASH_DA = 0.5f * MathHelper.PiOver4 / DASH_TIME;        
 
         private float attackDAngle;                
         private Vector4 attackSweepRect;
@@ -100,12 +107,19 @@ namespace DuckstazyLive.game
             new Rect(29.0f, 35.0f, 12.0f, 6.0f),
         };
 
-        private static Rect ATTACKER_RECTS = new Rect(14.0f, 12.0f, 35.0f, 25.0f);
-        private static Rect VICTIM_RECTS = new Rect(8.0f, 12.0f, 44.0f, 25.0f);
+        private static Rect[] ATTACKER_RECTS =
+        {
+            new Rect(14.0f, 12.0f, 35.0f, 25.0f)            
+        };
+
+        private static Rect[] VICTIM_RECTS =
+        {            
+            new Rect(8.0f, 12.0f, 44.0f, 25.0f),
+        };
 
         private static Rect[] COLLISION_RECTS_FLIP;
-        private static Rect ATTACKER_RECTS_FLIP;
-        private static Rect VICTIM_RECTS_FLIP;
+        private static Rect[] ATTACKER_RECTS_FLIP;
+        private static Rect[] VICTIM_RECTS_FLIP;
 
         private const float STICK_HOR_THRESHOLD = 0.1f;
         private const float STICK_VER_THRESHOLD = 0.7f;
@@ -229,7 +243,8 @@ namespace DuckstazyLive.game
             toxic_collected = 0;
             frags = 0;
 
-            attackType = ATTACK_NONE;            
+            hitType = HIT_NONE;
+            attackType = ATTACK_NONE;
             attackCounter = 0.0f;
             attackDAngle = 0.0f;
             rotation = 0.0f;
@@ -761,7 +776,18 @@ namespace DuckstazyLive.game
             if (hasTrans)
             {
                 AppGraphics.PopMatrix();
-            }            
+            }
+
+            //if (isAttacking())
+            //{
+            //    Rect sr = getAttackSweepRect();
+
+            //    float rx = utils.scale(sr.X);
+            //    float ry = utils.scale(sr.Y);
+            //    float rw = utils.scale(sr.Width);
+            //    float rh = utils.scale(sr.Height);
+            //    AppGraphics.DrawRect(rx, ry, rw, rh, Color.White);
+            //}
         }
 
         public void drawDuck(int playerIndex, float x, float y, float power, float trans)
@@ -1098,6 +1124,26 @@ namespace DuckstazyLive.game
             rotation = 0.0f;
         }
 
+        public Rect getAttackSweepRect()
+        {
+            float rx;
+            float rw;            
+            if (attackSweepRect.X < attackSweepRect.Z)
+            {
+                rx = attackSweepRect.X;
+                rw = attackSweepRect.Z - attackSweepRect.X;
+            }
+            else
+            {
+                rx = attackSweepRect.Z;
+                rw = attackSweepRect.X - attackSweepRect.Z;
+            }
+            float ry = attackSweepRect.Y;
+            float rh = attackSweepRect.W - ry;
+
+            return new Rect(rx, ry, rw, rh);            
+        }
+
         public void doHeal(int health)
         {
             gameState.health += health;
@@ -1334,7 +1380,7 @@ namespace DuckstazyLive.game
             return flip ? COLLISION_RECTS_FLIP : COLLISION_RECTS;
         }
 
-        public Rect getAttackerRects()
+        public Rect[] getAttackerRects()
         {
             if (flip)
                 return ATTACKER_RECTS_FLIP;
@@ -1342,7 +1388,7 @@ namespace DuckstazyLive.game
             return ATTACKER_RECTS;
         }
 
-        public Rect getVictimRect()
+        public Rect[] getVictimRect()
         {
             if (flip)
                 return VICTIM_RECTS_FLIP;
@@ -1472,8 +1518,8 @@ namespace DuckstazyLive.game
         private void initCollisionRects()
         {
             initCollisionRects(COLLISION_RECTS, ref COLLISION_RECTS_FLIP);
-            initCollisionRects(ref ATTACKER_RECTS, ref ATTACKER_RECTS_FLIP);
-            initCollisionRects(ref VICTIM_RECTS, ref VICTIM_RECTS_FLIP);            
+            initCollisionRects(ATTACKER_RECTS, ref ATTACKER_RECTS_FLIP);
+            initCollisionRects(VICTIM_RECTS, ref VICTIM_RECTS_FLIP);            
         }
 
         private void initCollisionRects(Rect[] normal, ref Rect[] fliped)
@@ -1487,12 +1533,6 @@ namespace DuckstazyLive.game
                     fliped[i] = new Rect(duck_w2 - (r.X + r.Width), r.Y, r.Width, r.Height);
                 }
             }
-        }
-
-
-        private void initCollisionRects(ref Rect normal, ref Rect fliped)
-        {
-            fliped = new Rect(duck_w2 - (normal.X + normal.Width), normal.Y, normal.Width, normal.Height);
         }
 
         public bool isDead()
