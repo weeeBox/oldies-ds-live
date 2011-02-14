@@ -70,14 +70,20 @@ namespace DuckstazyLive.game
 
         private int attackType;
         private bool attackCanceled;
+                
+        private float attackCounter;
+        private float attackVelocity;
 
         private const float DROP_VELOCITY_MIN = 800.0f;
         private const float DROP_VELOCITY_MAX = 1200.0f;
         private const float DROP_TIME = 0.2f;
         private const float DROP_DA = MathHelper.TwoPi / DROP_TIME;
-        private float attackCounter;
-        private float dropDAngle;                
-        private Vector4 dropRect;
+
+        private const float DASH_TIME = 0.15f;
+        private const float DASH_DA = MathHelper.TwoPi / DASH_TIME;
+
+        private float attackDAngle;                
+        private Vector4 attackSweepRect;
 
         public HeroCallback user;
 
@@ -139,8 +145,7 @@ namespace DuckstazyLive.game
         private bool started;
         private float power;
 
-        public float jumpVel;
-        private float dropVelocity;
+        public float jumpVel;        
         private float jumpWingVel;
         private float jumpStartVel;
         //private var gravityK:float;
@@ -233,7 +238,7 @@ namespace DuckstazyLive.game
 
             attackType = ATTACK_NONE;            
             attackCounter = 0.0f;
-            dropDAngle = 0.0f;
+            attackDAngle = 0.0f;
             rotation = 0.0f;
             combo = 0;
 
@@ -318,11 +323,29 @@ namespace DuckstazyLive.game
 
         private void updateHor(float dt)
         {
-            steping = false;
+            steping = false;            
 
-            if (attackType == ATTACK_DROP)
+            if (!isAttacking())
+            {
+                updateHorNorm(dt);
+            }
+            else if (attackType == ATTACK_DASH)
+            {
+                updateDashAttack(dt);
+            }
+            else
+            {
                 return;
+            }
 
+            if (x < -duck_w)
+                pos.X += 640.0f;
+            if (x > (640.0f - duck_w))
+                pos.X -= 640.0f;
+        }
+
+        private void updateHorNorm(float dt)
+        {
             if (key_left)
             {
                 steping = true;
@@ -377,15 +400,15 @@ namespace DuckstazyLive.game
             }
 
             pos.X += move * utils.lerp(power, duck_move_speed_min, duck_move_speed_max) * dt;
-
-            if (x < -duck_w)
-                pos.X += 640.0f;
-            if (x > (640.0f - duck_w))
-                pos.X -= 640.0f;
         }
 
         private void updateVer(float dt)
         {
+            if (attackType == ATTACK_DASH)
+            {
+                return;
+            }
+
             jumpStartVel = get_jump_start_vel(power);
 
             if ((wingLock || compressCounter > 0.0f) && isActive())
@@ -405,8 +428,18 @@ namespace DuckstazyLive.game
 
             if (fly)
             {
-                if (isAttacking()) updateAttack(dt);
-                else updateFlying(dt);
+                if (attackType == ATTACK_DROP)
+                {
+                    updateDropAttack(dt);
+                }
+                else if (attackType == ATTACK_UP)
+                {
+                    updateUpAttack(dt);
+                }
+                else
+                {
+                    updateFlying(dt);
+                }
 
                 if (y >= 400 - duck_h2)
                 {
@@ -437,21 +470,8 @@ namespace DuckstazyLive.game
                     pos.Y = -50.0f;
             }
         }        
-        
-        private void updateAttack(float dt)
-        {
-            switch (attackType)
-            {
-                case ATTACK_DROP:
-                    updateDropping(dt);
-                    break;
-                case ATTACK_DASH:
-                case ATTACK_UP:                    
-                    break;
-            }
-        }
 
-        private void updateDropping(float dt)
+        private void updateDropAttack(float dt)
         {            
             if (attackCounter > 0)
             {
@@ -469,19 +489,56 @@ namespace DuckstazyLive.game
                 }
                 else
                 {
-                    rotation += dropDAngle;
+                    rotation += attackDAngle;
                 }                    
             }
             else
             {
-                pos.Y += dropVelocity * dt;
+                pos.Y += attackVelocity * dt;
             }
 
             // 14.0f, 12.0f, 35.0f, 25.0f
-            dropRect.X = lastPos.X + 14.0f;
-            dropRect.Y = lastPos.Y + 12.0f;
-            dropRect.Z = dropRect.X + 35.0f;
-            dropRect.W = pos.Y + 12.0f + 25.0f;            
+            attackSweepRect.X = lastPos.X + 14.0f;
+            attackSweepRect.Y = lastPos.Y + 12.0f;
+            attackSweepRect.Z = attackSweepRect.X + 35.0f;
+            attackSweepRect.W = pos.Y + 12.0f + 25.0f;
+        }
+
+        private void updateDashAttack(float dt)
+        {
+            if (attackCounter > 0)
+            {
+                attackCounter -= dt;
+                if (attackCounter > 0)
+                {
+                    pos.X += attackVelocity * dt;
+                    rotation += attackDAngle;
+
+                    if (attackVelocity > 0)
+                    {
+                        attackSweepRect.X = lastPos.X;
+                        attackSweepRect.Y = lastPos.Y;
+                        attackSweepRect.Z = pos.X + duck_w2;
+                        attackSweepRect.W = attackSweepRect.Y + duck_h2;
+                    }
+                    else
+                    {
+                        attackSweepRect.X = pos.X;
+                        attackSweepRect.Y = pos.Y;
+                        attackSweepRect.Z = lastPos.X + duck_w2;
+                        attackSweepRect.W = attackSweepRect.Y + duck_h2;
+                    }
+                }
+                else
+                {
+                    stopAttack();
+                }
+            }
+        }
+
+        private void updateUpAttack(float dt)
+        {
+
         }
 
         private void updateFlying(float dt)
@@ -712,6 +769,15 @@ namespace DuckstazyLive.game
             {
                 AppGraphics.PopMatrix();
             }
+
+            if (isAttacking())
+            {
+                float rx = utils.scale(attackSweepRect.X);
+                float ry = utils.scale(attackSweepRect.Y);
+                float rw = utils.scale(attackSweepRect.W - attackSweepRect.X);
+                float rh = utils.scale(attackSweepRect.Z - attackSweepRect.Y);
+                AppGraphics.DrawRect(rx, ry, rw, rh, Color.White);
+            }
         }
 
         public void drawDuck(int playerIndex, float x, float y, float power, float trans)
@@ -804,6 +870,12 @@ namespace DuckstazyLive.game
                         drop();
                     }
                     return true;
+                case Buttons.X:
+                    {
+                        if (canDash())
+                            dash();
+                        return true;
+                    }
                 case Buttons.DPadDown:
                     key_down = true;
                     return true;
@@ -1034,6 +1106,7 @@ namespace DuckstazyLive.game
         private void stopAttack()
         {
             attackType = ATTACK_NONE;
+            rotation = 0.0f;
         }
 
         public void doHeal(int health)
@@ -1193,19 +1266,50 @@ namespace DuckstazyLive.game
 
         private bool canDrop()
         {
-            return isActive() && !isAttacking() && pos.Y < 400 - 1.5f * duck_h2;
+            return (canAttack() || attackType == ATTACK_DASH) && pos.Y < 400 - 1.5f * duck_h2;
         }
 
         public void drop()
         {
             move = 0.0f;
-            dropVelocity = utils.lerp(power, DROP_VELOCITY_MIN, DROP_VELOCITY_MAX);
+            attackVelocity = utils.lerp(power, DROP_VELOCITY_MIN, DROP_VELOCITY_MAX);
             attackType = ATTACK_DROP;
             attackCounter = DROP_TIME;
-            dropDAngle = flip ? DROP_DA : -DROP_DA;
+            attackDAngle = flip ? DROP_DA : -DROP_DA;
             rotation = 0.0f;
 
             heroes.media.playFlip();
+        }
+
+        private bool canDash()
+        {
+            return canAttack();
+        }
+
+        private void dash()
+        {            
+            key_left = key_right = false;
+            jumpVel = 0.0f;
+            if (flip)
+            {
+                attackVelocity = 500;
+                attackDAngle = DASH_DA;
+                move = 1.0f;
+            }
+            else
+            {
+                attackVelocity = -500;
+                attackDAngle = -DASH_DA;
+                move = -1.0f;
+            }
+            
+            attackType = ATTACK_DASH;
+            attackCounter = DASH_TIME;
+        }
+
+        private bool canAttack()
+        {
+            return isActive() && !isAttacking();
         }
 
         public void jump(float h)
@@ -1259,7 +1363,27 @@ namespace DuckstazyLive.game
 
         public void doPillAttack(Pill pill)
         {
-            if (!isAttacking())
+            if (isAttacking())
+            {
+                float x1 = attackSweepRect.X;
+                float y1 = attackSweepRect.Y;
+                float x2 = attackSweepRect.Z;
+                float y2 = attackSweepRect.W;
+
+                if (rectCircle(x1, y1, x2, y2, pill.x, pill.y, pill.r) ||
+                    rectCircle(x1, y1, x2, y2, pill.xLast, pill.yLast, pill.r))
+                {
+                    if (isDroppingDown())
+                    {
+                        if (pill.isJumper() && pill.highCounter <= 0.0f && lastPos.Y + duck_h2 < pill.y - pill.r)
+                        {
+                            pos.Y = pill.y - pill.r - duck_h2;
+                        }
+                    }                    
+                    pill.heroTouch(this);
+                }                
+            }
+            else 
             {
                 if ((pill.y + pill.r > y || pill.y - pill.r < y + 40) && (pill.x + pill.r > x || pill.x - pill.r < x + 54))
                 {
@@ -1269,23 +1393,6 @@ namespace DuckstazyLive.game
                     }
                 }
             }
-            else if (isDroppingDown())
-            {
-                float x1 = dropRect.X;
-                float y1 = dropRect.Y;
-                float x2 = dropRect.Z;
-                float y2 = dropRect.W;
-
-                if (rectCircle(x1, y1, x2, y2, pill.x, pill.y, pill.r) || 
-                    rectCircle(x1, y1, x2, y2, pill.xLast, pill.yLast, pill.r))
-                {
-                    if (pill.isJumper() && pill.highCounter <= 0.0f && lastPos.Y + duck_h2 < pill.y - pill.r)
-                    {
-                        pos.Y = pill.y - pill.r - duck_h2;                        
-                    }
-                    pill.heroTouch(this);
-                }                
-            }            
         }
 
         public bool overlapsCircle(float cx, float cy, float r)
