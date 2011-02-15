@@ -22,6 +22,9 @@ namespace DuckstazyLive.app
         private Vector2 targetScale;
         private float omega;
 
+        private static Color[] COLORS = new Color[] { Color.White, new Color(0.975f, 0.975f, 0.975f) };        
+        private float colorCounter;
+
         public MenuButton(String text, int buttonID, float x, float y)
             : base(buttonID, x, y, utils.textureWidth(IMG_STOKE_ID), utils.textureHeight(IMG_STOKE_ID))
         {          
@@ -51,6 +54,8 @@ namespace DuckstazyLive.app
             targetColor = utils.makeColor(0x0f0540);
             targetScale = new Vector2(1.0f, 1.0f);
             omega = MathHelper.TwoPi / 5.0f;
+            colorIndex = 0;
+            colorCounter = 0.0f;
             getChild(CHILD_TEXT).color = utils.makeColor(0x95c9ff);
         }
 
@@ -68,6 +73,10 @@ namespace DuckstazyLive.app
             scaleY = 0.5f * (scaleY + targetScale.Y);
 
             rotation.rotation += omega * delta;
+
+            colorCounter += delta;
+            int colorIndex = ((int)(colorCounter / 0.05f)) % COLORS.Length;
+            rotation.color = COLORS[colorIndex];
         }       
 
         protected override void focusLost()
