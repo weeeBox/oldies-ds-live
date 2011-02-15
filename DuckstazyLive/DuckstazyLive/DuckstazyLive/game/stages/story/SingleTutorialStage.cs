@@ -21,7 +21,8 @@ namespace DuckstazyLive.game.stages.story
             {
                 new GreetingStep(this),
                 new MovementStep(this),
-                new JumpStep(this)
+                new JumpStep(this),
+                new DropStep(this)
             };
         }
         

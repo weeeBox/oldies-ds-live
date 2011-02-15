@@ -186,27 +186,83 @@ namespace DuckstazyLive.game.stages.story
         }
     }
 
-    public class JumpStep : SingleTutorialStep
+    public class JumpStep : SingleTutorialStep, BaseElement.TimelineDelegate
     {
+        private const int CHILD_MESSAGE = 0;
+
         public JumpStep(SingleTutorialStage stage) : base(stage)
         {
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text message = new Text(font);
-            addChild(message);
+            addChild(message, CHILD_MESSAGE);
             message.setString("A TO JUMP");
+            // message.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
+            attachCenter(message);
+        }        
+
+        public override bool buttonPressed(ref ButtonEvent evt)
+        {
+            if (evt.button == Buttons.A)
+            {
+                BaseElement e = getChild(CHILD_MESSAGE);
+                e.turnTimelineSupportWithMaxKeyFrames(2);
+                e.scaleX = e.scaleY = 1.0f;
+                e.addKeyFrame(new KeyFrame(e.x, e.y, Color.White, 0.1f, 0.1f, 0.0f, 0.2f));
+                e.playTimeline();
+
+                e.timelineDelegate = this;
+                return false; // allow player to jump
+            }
+
+            return base.buttonPressed(ref evt);
+        }
+
+        public void elementTimelineFinished(BaseElement e)
+        {
+            nextStep();
+        }
+    }
+
+    public class DropStep : SingleTutorialStep, BaseElement.TimelineDelegate
+    {
+        private const int CHILD_MESSAGE = 0;
+
+        public DropStep(SingleTutorialStage stage) : base(stage)
+        {
+            Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
+            Text message = new Text(font);
+            addChild(message, CHILD_MESSAGE);
+            message.setString("B TO DROP WHILE FLYING");
             // message.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             attachCenter(message);
         }
 
         public override bool buttonPressed(ref ButtonEvent evt)
         {
-            if (evt.button == Buttons.A)
+            if (evt.button == Buttons.B)
             {
-                nextStep();
-                return true;
+                Heroes heroes = GameElements.Heroes;
+                Hero hero1 = heroes[0];
+
+                if (hero1.isFlying())
+                {
+                    BaseElement e = getChild(CHILD_MESSAGE);
+                    e.turnTimelineSupportWithMaxKeyFrames(2);
+                    e.scaleX = e.scaleY = 1.0f;
+                    e.addKeyFrame(new KeyFrame(e.x, e.y, Color.White, 0.1f, 0.1f, 0.0f, 0.2f));
+                    e.playTimeline();
+
+                    e.timelineDelegate = this;
+                }
+                return false; // allow player to jump
             }
 
             return base.buttonPressed(ref evt);
+        }
+
+        public void elementTimelineFinished(BaseElement e)
+        {
+            nextStep();
         }
     }
 }
