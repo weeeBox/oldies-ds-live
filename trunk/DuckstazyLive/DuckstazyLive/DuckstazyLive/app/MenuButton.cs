@@ -53,8 +53,7 @@ namespace DuckstazyLive.app
         {
             targetColor = utils.makeColor(0x0f0540);
             targetScale = new Vector2(1.0f, 1.0f);
-            omega = MathHelper.TwoPi / 5.0f;
-            colorIndex = 0;
+            omega = MathHelper.TwoPi / 5.0f;            
             colorCounter = 0.0f;
             getChild(CHILD_TEXT).color = utils.makeColor(0x95c9ff);
         }
