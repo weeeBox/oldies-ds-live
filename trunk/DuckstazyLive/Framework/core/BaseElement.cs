@@ -43,7 +43,7 @@ namespace Framework.core
                 this.y = y;
                 this.scaleX = scaleX;
                 this.scaleY = scaleY;
-                this.rotation = rotation;
+                this.rotation = MathHelper.ToRadians(rotation);
                 this.color = new Vector4(color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f);
                 this.time = time;
             }
