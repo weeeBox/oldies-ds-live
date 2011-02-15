@@ -153,6 +153,7 @@
     <Compile Include="game\stages\story\Snakes.cs" />
     <Compile Include="game\stages\story\TimeoutLevelStage.cs" />
     <Compile Include="game\stages\story\Trains.cs" />
+    <Compile Include="game\stages\story\TutorialSteps.cs" />
     <Compile Include="game\stages\versus\AirAttackVs.cs" />
     <Compile Include="game\stages\versus\DoubleFrogVs.cs" />
     <Compile Include="game\stages\versus\Duckfight.cs" />

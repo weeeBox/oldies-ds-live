@@ -157,6 +157,7 @@
     <Compile Include="game\env\EnvEffect4.cs" />
     <Compile Include="game\FloatText.cs" />
     <Compile Include="game\stages\Hud.cs" />
+    <Compile Include="game\stages\story\TutorialSteps.cs" />
     <Compile Include="game\stages\versus\AirAttackVs.cs" />
     <Compile Include="game\stages\versus\DoubleFrogVs.cs" />
     <Compile Include="game\stages\versus\Duckfight.cs" />
