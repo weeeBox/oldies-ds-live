@@ -77,8 +77,13 @@
       <Importer>PixelFontImporter</Importer>
       <Processor>PixelFontProcessor</Processor>
     </Compile>
-    <Compile Include="button.png">
-      <Name>button</Name>
+    <Compile Include="button1.png">
+      <Name>button1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="button2.png">
+      <Name>button2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

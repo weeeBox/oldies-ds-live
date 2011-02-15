@@ -70,6 +70,14 @@ namespace DuckstazyLive.app
             addChild(button, buttonID);
         }
 
+        private void addButton(String text, int buttonID, float x, float y, float ax, float ay, uint c1, uint c2)
+        {
+            MenuButton button = new MenuButton(text, buttonID, x, y, c1, c2);
+            button.setAlign(ax, ay);
+            button.buttonDelegate = this;
+            addChild(button, buttonID);
+        }
+
         private void addButtons()
         {
             // new game
