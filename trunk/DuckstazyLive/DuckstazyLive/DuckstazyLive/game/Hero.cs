@@ -20,6 +20,7 @@ namespace DuckstazyLive.game
     };
 
     public delegate void HeroCallback(Hero hero, HeroMessage message);
+    public delegate void MovementCallback(Hero hero, float dt);
 
     public class Hero
     {
@@ -69,6 +70,8 @@ namespace DuckstazyLive.game
         private const int HIT_UP = 3;
 
         private int hitType;
+        private float hitSpeed;
+        private float hitCounter;
 
         private const int ATTACK_NONE = -1;
         private const int ATTACK_DROP = 1;
@@ -93,6 +96,7 @@ namespace DuckstazyLive.game
         private Vector4 attackSweepRect;
 
         public HeroCallback user;
+        public MovementCallback movementCallback;
 
         private static Rect[] COLLISION_RECTS_SLEEP = 
         {
@@ -249,9 +253,12 @@ namespace DuckstazyLive.game
             attackDAngle = 0.0f;
             rotation = 0.0f;
             combo = 0;
+            hitSpeed = 0;
+            hitCounter = 0;
 
             info.reset();
             user = null;
+            movementCallback = null;
         }
 
         private void doStepBubble()
@@ -302,7 +309,8 @@ namespace DuckstazyLive.game
                 updateGamepadInput();            
 
             lastPos.X = x;
-            lastPos.Y = y;            
+            lastPos.Y = y;
+            steping = false;
 
             heroes.media.updateSFX(x + duck_w);
 
@@ -322,38 +330,23 @@ namespace DuckstazyLive.game
                 blinkTime -= dt * 8.0f;
 
             gameState.update(dt);
-            info.update(newPower, dt);
+            info.update(newPower, dt);            
 
-            updateHor(dt);
-            updateVer(dt);
-            updateWings(dt);
-        }        
-
-        private void updateHor(float dt)
-        {
-            steping = false;            
-
-            if (!isAttacking())
+            if (movementCallback != null)
             {
-                updateHorNorm(dt);
-            }
-            else if (attackType == ATTACK_DASH)
-            {
-                updateDashAttack(dt);
+                movementCallback(this, dt);
             }
             else
             {
-                return;
+                updateHor(dt);
+                updateVer(dt);
             }
+            updateFixPos(dt);
+            updateWings(dt);
+        }        
 
-            if (x < -duck_w)
-                pos.X += 640.0f;
-            if (x > (640.0f - duck_w))
-                pos.X -= 640.0f;
-        }
-
-        private void updateHorNorm(float dt)
-        {
+        public void updateHor(float dt)
+        {            
             if (key_left)
             {
                 steping = true;
@@ -412,11 +405,6 @@ namespace DuckstazyLive.game
 
         private void updateVer(float dt)
         {
-            if (attackType == ATTACK_DASH)
-            {
-                return;
-            }
-
             jumpStartVel = get_jump_start_vel(power);
 
             if ((wingLock || compressCounter > 0.0f) && isActive())
@@ -435,51 +423,41 @@ namespace DuckstazyLive.game
             }
 
             if (fly)
-            {
-                if (attackType == ATTACK_DROP)
-                {
-                    updateDropAttack(dt);
-                }
-                else if (attackType == ATTACK_UP)
-                {
-                    updateUpAttack(dt);
-                }
-                else
-                {
-                    updateFlying(dt);
-                }
+            {            
+                updateFlying(dt);
 
                 if (y >= 400 - duck_h2)
                 {
-                    wingLock = false;
-                    fly = false;
-                    pos.Y = 400 - duck_h2;
-
-                    if (attackType == ATTACK_DROP)
-                    {
-                        stopAttack();
-                        
-                        doDropBubbles();
-                        heroes.media.playLandHeavy();
-                    }
-                    else
-                    {
-                        doLandBubbles();
-                        heroes.media.playLand();
-                    }
-
-                    sleep_collected = 0;
-                    toxic_collected = 0;
-                    frags = 0;
-                    diveK = 0.0f;
-                    combo = 0;
+                    doLand();
+                    doLandBubbles();
+                    heroes.media.playLand();                    
                 }
                 else if (y < -50.0f)
                     pos.Y = -50.0f;
             }
-        }        
+        }
 
-        private void updateDropAttack(float dt)
+        private void doLand()
+        {
+            wingLock = false;
+            fly = false;
+            pos.Y = 400 - duck_h2;
+            sleep_collected = 0;
+            toxic_collected = 0;
+            frags = 0;
+            diveK = 0.0f;
+            combo = 0;
+        }
+
+        private void updateFixPos(float dt)
+        {
+            if (x < -duck_w)
+                pos.X += 640.0f;
+            if (x > (640.0f - duck_w))
+                pos.X -= 640.0f;
+        }
+
+        private void updateDropAttack(Hero hero, float dt)
         {            
             if (attackCounter > 0)
             {
@@ -503,6 +481,13 @@ namespace DuckstazyLive.game
             else
             {
                 pos.Y += attackVelocity * dt;
+                if (y >= 400 - duck_h2)
+                {
+                    stopAttack();
+
+                    doDropBubbles();
+                    heroes.media.playLandHeavy();
+                }
             }
 
             // 14.0f, 12.0f, 35.0f, 25.0f
@@ -512,7 +497,7 @@ namespace DuckstazyLive.game
             attackSweepRect.W = pos.Y + 12.0f + 25.0f;
         }
 
-        private void updateDashAttack(float dt)
+        private void updateDashAttack(Hero hero, float dt)
         {
             if (attackCounter > 0)
             {
@@ -1122,6 +1107,7 @@ namespace DuckstazyLive.game
         {
             attackType = ATTACK_NONE;
             rotation = 0.0f;
+            movementCallback = null;
         }
 
         public Rect getAttackSweepRect()
@@ -1312,6 +1298,7 @@ namespace DuckstazyLive.game
             attackCounter = DROP_TIME;
             attackDAngle = flip ? DROP_DA : -DROP_DA;
             rotation = 0.0f;
+            movementCallback = updateDropAttack;
 
             heroes.media.playFlip();
         }
@@ -1340,11 +1327,19 @@ namespace DuckstazyLive.game
             
             attackType = ATTACK_DASH;
             attackCounter = DASH_TIME;
+            movementCallback = updateDashAttack;
         }
 
         private bool canAttack()
         {
             return isActive() && !isAttacking();
+        }
+
+        public void hit(float speed)
+        {
+            hitType = HIT_DASH;
+            hitSpeed = speed;
+            hitCounter = 0.0f;
         }
 
         public void jump(float h)
