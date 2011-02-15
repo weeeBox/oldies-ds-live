@@ -19,13 +19,22 @@ namespace DuckstazyLive.game.stages.story
         {
             steps = new SingleTutorialStep[] 
             {
-                new GreetingStep(this)
+                new GreetingStep(this),
+                new MovementStep(this),
+                new JumpStep(this)
             };
         }
         
         protected override void startProgress()
         {
             progress.start(0, 0);
+        }
+
+        public override void onStart()
+        {
+            base.onStart();
+            stepIndex = -1;
+            nextStep();
         }
 
         public override void update(float dt)
@@ -58,7 +67,11 @@ namespace DuckstazyLive.game.stages.story
         public void nextStep()
         {
             stepIndex++;
-            if (stepIndex == steps.Length)
+            if (stepIndex < steps.Length)
+            {
+                getCurrentStep().start();
+            }
+            else
             {
                 finish();
             }
