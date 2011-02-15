@@ -199,10 +199,9 @@ namespace Framework.core
             AddTransform(Matrix.CreateTranslation(tx, ty, tz));
         }
 
-        public static void Rotate(float grad, float ax, float ay, float az)
+        public static void Rotate(float rad, float ax, float ay, float az)
         {
-            Matrix r;
-            float rad = (float)(Math.PI * grad / 180);
+            Matrix r;            
             if (ax == 1 && ay == 0 && az == 0)
                 r = Matrix.CreateRotationX(rad);
             else if (ax == 0 && ay == 1 && az == 0)

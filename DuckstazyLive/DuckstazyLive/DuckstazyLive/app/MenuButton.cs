@@ -50,7 +50,7 @@ namespace DuckstazyLive.app
         {
             targetColor = utils.makeColor(0x0f0540);
             targetScale = new Vector2(1.0f, 1.0f);
-            omega = 350.0f / 5.0f;
+            omega = MathHelper.TwoPi / 5.0f;
             getChild(CHILD_TEXT).color = utils.makeColor(0x95c9ff);
         }
 
@@ -83,7 +83,7 @@ namespace DuckstazyLive.app
             getChild(CHILD_TEXT).color = Color.White;
             targetColor = Color.White;
             targetScale = new Vector2(1.2f, 1.2f);
-            omega = 360.0f / 2.5f;
+            omega = MathHelper.TwoPi / 2.5f;
         }
     }
 }

@@ -215,7 +215,9 @@ namespace DuckstazyLive.game
             Rect victimRect = new Rect(victim.x, victim.y, Hero.duck_w2, Hero.duck_h2);
             if (rectRect(ref dashRect, ref victimRect))
             {                
-                victim.pos.X = attacker.attackVelocity > 0 ? (attacker.x + Hero.duck_w2) : (attacker.x - Hero.duck_w2);                
+                victim.pos.X = attacker.attackVelocity > 0 ? (attacker.x + Hero.duck_w2) : (attacker.x - Hero.duck_w2);
+                victim.hit(attacker.attackVelocity);
+                attacker.stopAttack();                
                 return true;
             }
 

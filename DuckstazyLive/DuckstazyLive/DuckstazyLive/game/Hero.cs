@@ -72,6 +72,7 @@ namespace DuckstazyLive.game
         private int hitType;
         private float hitSpeed;
         private float hitCounter;
+        private float hitDa;
 
         private const int ATTACK_NONE = -1;
         private const int ATTACK_DROP = 1;
@@ -475,7 +476,7 @@ namespace DuckstazyLive.game
                 }
                 else
                 {
-                    rotation += attackDAngle;
+                    rotation += attackDAngle * dt;
                 }                    
             }
             else
@@ -505,7 +506,7 @@ namespace DuckstazyLive.game
                 if (attackCounter > 0)
                 {
                     pos.X += attackVelocity * dt;
-                    rotation += attackDAngle;
+                    rotation += attackDAngle * dt;
 
                     if (attackVelocity > 0)
                     {
@@ -588,7 +589,7 @@ namespace DuckstazyLive.game
                     }
                 }
                 else
-                {
+                {                    
                     jumpVel -= duck_jump_gravity * (diveK + 1.0f) * dt;
                     pos.Y -= jumpVel * dt;
                 }
@@ -1103,7 +1104,7 @@ namespace DuckstazyLive.game
             return attackType != ATTACK_NONE;
         }
 
-        private void stopAttack()
+        public void stopAttack()
         {
             attackType = ATTACK_NONE;
             rotation = 0.0f;
@@ -1340,6 +1341,24 @@ namespace DuckstazyLive.game
             hitType = HIT_DASH;
             hitSpeed = speed;
             hitCounter = 0.0f;
+            float da = MathHelper.TwoPi / 0.25f;
+            hitDa = flip ? -da : da;
+            movementCallback = updateHit;            
+        }
+
+        public void updateHit(Hero hero, float dt)
+        {
+            jumpVel += -5.0f * 400 * dt;
+            pos.Y -= jumpVel * dt;
+            pos.X += hitSpeed * dt;
+            rotation += hitDa * dt;
+
+            if (y >= 400 - duck_h2)
+            {
+                hitType = 0;
+                movementCallback = null;
+                rotation = 0;
+            }
         }
 
         public void jump(float h)
