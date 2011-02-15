@@ -145,6 +145,16 @@ namespace DuckstazyLive.game
             return progress.getGoalTime() - progress.getElapsedTime();
         }
 
+        public virtual bool buttonPressed(ref ButtonEvent e)
+        {
+            return false;
+        }
+
+        public virtual bool buttonReleased(ref ButtonEvent e)
+        {
+            return false;
+        }
+
         public override void collectPill(Hero hero, Pill pill)
         {
             int heroIndex = hero.getPlayerIndex();

@@ -271,6 +271,9 @@ namespace DuckstazyLive.game
 
         public override bool buttonPressed(ref ButtonEvent e)
         {
+            if (getStage().buttonPressed(ref e))
+                return true;
+
             if (base.buttonPressed(ref e))
                 return true;
 
@@ -281,7 +284,15 @@ namespace DuckstazyLive.game
             }
 
             return false;
-        }       
+        }
+
+        public override bool buttonReleased(ref ButtonEvent e)
+        {
+            if (getStage().buttonReleased(ref e))
+                return true;
+
+            return base.buttonReleased(ref e);
+        }
 
         public void nextLevel()
         {
@@ -299,8 +310,7 @@ namespace DuckstazyLive.game
         public void onWin()
         {
             startLevelState(LEVEL_STATE_WIN);
-            getHud().hideElements();
-            
+            getHud().hideElements();            
 
             onEnd();
             nextLevelCountdown = 3;
