@@ -47,7 +47,8 @@
 			</package>
 			
 			<package name="PACK_COMMON2">
-				<image name="button_base" file="${dir.art}/button.png" />				
+				<image name="button_base1" file="${dir.art}/button1.png" />
+				<image name="button_base2" file="${dir.art}/button2.png" />
 				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />			    
 			</package>
 			

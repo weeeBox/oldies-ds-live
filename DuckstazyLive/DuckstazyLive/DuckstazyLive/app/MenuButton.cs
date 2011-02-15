@@ -12,36 +12,50 @@ namespace DuckstazyLive.app
     public class MenuButton : AbstractButton
     {
         private const int IMG_STOKE_ID = Res.IMG_BUTTON_STROKE_FOCUSED;
-        private const int IMG_BUTTON_BASE_ID = Res.IMG_BUTTON_BASE;
 
         private const int CHILD_STROKE = 0;
-        private const int CHILD_ROTATION = 1;
-        private const int CHILD_TEXT = 2;
+        private const int CHILD_ROTATION1 = 1;
+        private const int CHILD_ROTATION2 = 2;
+        private const int CHILD_TEXT = 3;
 
         private Color targetColor;
         private Vector2 targetScale;
         private float omega;
 
-        private static Color[] COLORS = new Color[] { Color.White, new Color(0.975f, 0.975f, 0.975f) };        
+        private static float[] MULTIPLIERS = new float[] { 1.0f, 0.975f };        
         private float colorCounter;
 
-        public MenuButton(String text, int buttonID, float x, float y)
-            : base(buttonID, x, y, utils.textureWidth(IMG_STOKE_ID), utils.textureHeight(IMG_STOKE_ID))
-        {          
+        private Color color1;
+        private Color color2;
+
+        public MenuButton(String text, int buttonID, float x, float y) : this(text, buttonID, x, y, 0x99ccff, 0xd5f2ff)
+        {
+
+        }
+
+        public MenuButton(String text, int buttonID, float x, float y, uint c1, uint c2) : base(buttonID, x, y, utils.textureWidth(IMG_STOKE_ID), utils.textureHeight(IMG_STOKE_ID))
+        {
+            color1 = utils.makeColor(c1);
+            color2 = utils.makeColor(c2);
+
             // button stroke part            
             Image strokeImage = new Image(utils.getTexture(IMG_STOKE_ID));
             strokeImage.toParentCenter();
             addChild(strokeImage, CHILD_STROKE);
 
             // button rotating part
-            Image baseImage = new Image(utils.getTexture(IMG_BUTTON_BASE_ID));
-            baseImage.toParentCenter();
-            addChild(baseImage, CHILD_ROTATION);
+            Image baseImage1 = new Image(utils.getTexture(Res.IMG_BUTTON_BASE1));            
+            baseImage1.toParentCenter();            
+            addChild(baseImage1, CHILD_ROTATION1);
+
+            Image baseImage2 = new Image(utils.getTexture(Res.IMG_BUTTON_BASE2));
+            baseImage2.toParentCenter();            
+            addChild(baseImage2, CHILD_ROTATION2);
 
             // button label
             Font font = Application.sharedResourceMgr.getFont(Res.FNT_BIG);
             Text label = new Text(font);
-            label.setString(text, baseImage.width);
+            label.setString(text, baseImage1.width);
             label.setParentAlign(ALIGN_CENTER, ALIGN_CENTER);
             label.setAlign(TextAlign.HCENTER | TextAlign.VCENTER);
             addChild(label, CHILD_TEXT);
@@ -61,7 +75,8 @@ namespace DuckstazyLive.app
         public override void update(float delta)
         {
             BaseElement stroke = getChild(CHILD_STROKE);
-            BaseElement rotation = getChild(CHILD_ROTATION);
+            BaseElement rotation1 = getChild(CHILD_ROTATION1);
+            BaseElement rotation2 = getChild(CHILD_ROTATION2);
 
             stroke.color.A = (byte)(0.5f * (stroke.color.A + targetColor.A));
             stroke.color.R = (byte)(0.5f * (stroke.color.R + targetColor.R));
@@ -71,11 +86,13 @@ namespace DuckstazyLive.app
             scaleX = 0.5f * (scaleX + targetScale.X);
             scaleY = 0.5f * (scaleY + targetScale.Y);
 
-            rotation.rotation += omega * delta;
+            rotation2.rotation += omega * delta;
 
             colorCounter += delta;
-            int colorIndex = ((int)(colorCounter / 0.05f)) % COLORS.Length;
-            rotation.color = COLORS[colorIndex];
+            int colorIndex = ((int)(colorCounter / 0.05f)) % MULTIPLIERS.Length;
+            float multiplier = MULTIPLIERS[colorIndex];
+            rotation1.color = color1 * multiplier;
+            rotation2.color = color2 * multiplier;
         }       
 
         protected override void focusLost()
