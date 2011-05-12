@@ -2,7 +2,7 @@
 
 <project name="Resources">	
 	
-	<property name="game.name" value="Game"/>
+	<property name="game.name" value="DuckstazyLive"/>
 	<property name="dir.res" value="../Resources" />
 	<property name="dir.gfx" value="${dir.res}/Gfx" />
 	<property name="dir.sound" value="${dir.res}/Sfx" />
@@ -36,22 +36,143 @@
 	
 	<target name="run" depends="build">
 		<content projFile="${file.proj}" codeFile="${file.code}" resTemp="${dir.restmp}">			
-			<package name="PACK_COMMON">
+			<package name="PACK_COMMON1">
 				<atlas name="common">
-					<image name="ui_button_a" file="${dir.gfx}/buttonA.png" />
-					<image name="ui_button_b" file="${dir.gfx}/buttonB.png" />
-					<font name="test" file="${dir.gfx}/font_test.font" />
-				</atlas>				
+					<image name="ui_button_a" file="${dir.art}/buttonA.png" />
+					<image name="ui_button_b" file="${dir.art}/buttonB.png" />
+					<font name="big" file="${dir.art}/font_big.font" />
+					<font name="info" file="${dir.art}/font_info.font" />
+				</atlas>
 			</package>
 			
-			<package name="PACK_MENU">
-				<anim name="anim" file="${dir.gfx}/test.swf" />							    
-				<image name="ui_button_a2" file="${dir.gfx}/buttonA.png" />
-				<image name="ui_button_b2" file="${dir.gfx}/buttonB.png" />
-				<image name="duck_dead" file="${dir.gfx}/duck_dead.png" />
-				
-				<music name="music" file="${dir.sound}/music.mp3" />
-				<sound name="sound" file="${dir.sound}/sound.wav" />
+			<package name="PACK_COMMON2">
+				<image name="button_base1" file="${dir.art}/button1.png" />
+				<image name="button_base2" file="${dir.art}/button2.png" />
+				<image name="button_stroke_focused" file="${dir.art}/button_white.png" />			    
+			</package>
+			
+			<package name="PACK_START">
+				<image name="load_line" file="${dir.art}/effect_line.png" />
+			</package>
+			
+			<package name="PACK_MENU">				
+				<image name="menu_title"  file="${dir.art}/title.png" />
+				<image name="menu_title_back" file="${dir.art}/title_back.png" />				
+			</package>
+			
+			<package name="PACK_GAME">
+				<atlas name="game">				
+					<image name="grass1" file="${dir.art}/grass1.png" />
+					<image name="grass2" file="${dir.art}/grass2.png" />				
+					<image name="cloud_1" file="${dir.art}/cloud_1.png" />
+					<image name="cloud_2" file="${dir.art}/cloud_2.png" />
+					<image name="cloud_3" file="${dir.art}/cloud_3.png" />				
+					<image name="duck" file="${dir.art}/duck_fake.png" />
+					<image name="duck2" file="${dir.art}/duck_fake2.png" />
+					<image name="duck_sleep" file="${dir.art}/duck_sleep.png" />
+					<image name="duck_dead" file="${dir.art}/duck_dead.png" />
+					<image name="eye1" file="${dir.art}/eye1.png" />
+					<image name="eye2" file="${dir.art}/eye2.png" />
+					<image name="wing" file="${dir.art}/wing.png" />
+					<image name="wing2" file="${dir.art}/wing2.png" />				
+					<image name="ui_health_emo_base" file="${dir.art}/health_emo_base.png" />
+					<image name="ui_health_emo_base2" file="${dir.art}/health_emo_base2.png" />
+					<image name="ui_health_emo_dead" file="${dir.art}/health_emo_dead.png" />
+					<image name="ui_health_emo_eyes1" file="${dir.art}/health_emo_eyes1.png" />
+					<image name="ui_health_emo_eyes2" file="${dir.art}/health_emo_eyes2.png" />
+					<image name="ui_health_emo_smile1" file="${dir.art}/health_emo_smile1.png" />
+					<image name="ui_health_emo_smile2" file="${dir.art}/health_emo_smile2.png" />
+					<image name="ui_health_emo_smile3" file="${dir.art}/health_emo_smile3.png" />
+					<image name="ui_score_point" file="${dir.art}/score_point.png" />
+					<image name="ui_clock" file="${dir.art}/clock.png" />
+					<image name="star" file="${dir.art}/star.png" />
+					<image name="pill_1" file="${dir.art}/pill_1.png" />
+					<image name="pill_2" file="${dir.art}/pill_2.png" />
+					<image name="pill_3" file="${dir.art}/pill_3.png" />
+					<image name="pill_1p" file="${dir.art}/pill_1p.png" />
+					<image name="pill_2p" file="${dir.art}/pill_2p.png" />
+					<image name="pill_3p" file="${dir.art}/pill_3p.png" />
+					<image name="pill_toxic_1" file="${dir.art}/toxic1.png" />
+					<image name="pill_toxic_2" file="${dir.art}/toxic2.png" />
+					<image name="pill_sleep" file="${dir.art}/pill_sleep.png" />
+					<image name="pill_high" file="${dir.art}/pill_high.png" />
+					<image name="pill_hal_1" file="${dir.art}/pills_hal.png" />
+					<image name="pill_hal_2" file="${dir.art}/pills_hal_2.png" />
+					<image name="smile_1" file="${dir.art}/smile1.png" />
+					<image name="smile_2" file="${dir.art}/smile2.png" />
+					<image name="smile_3" file="${dir.art}/smile3.png" />
+					<image name="eyes_1" file="${dir.art}/eyes1.png" />
+					<image name="eyes_2" file="${dir.art}/eyes2.png" />
+					<image name="power_1" file="${dir.art}/power1.png" />
+					<image name="power_2" file="${dir.art}/power2.png" />
+					<image name="power_3" file="${dir.art}/power3.png" />
+					<image name="power_4" file="${dir.art}/power4.png" />
+					<image name="fx_acid" file="${dir.art}/fx_acid.png" />
+					<image name="fx_bubble" file="${dir.art}/fx_bubble.png" />
+					<image name="fx_star" file="${dir.art}/fx_star.png" />
+					<image name="fx_warning" file="${dir.art}/fx_warning.png" />
+					<image name="fx_in" file="${dir.art}/fx_in.png" />
+					<image name="fx_out" file="${dir.art}/fx_out.png" />
+					<image name="fx_hint_arrow" file="${dir.art}/fx_hint_arrow.png" />
+					<image name="gfx_pedestal_l" file="${dir.art}/pedestal_l.png" />
+					<image name="gfx_pedestal_r" file="${dir.art}/pedestal_r.png" />
+					<image name="gfx_cat_smile" file="${dir.art}/cat_smile.png" />
+					<image name="gfx_cat_hum" file="${dir.art}/cat_hum.png" />
+					<image name="gfx_frog_head" file="${dir.art}/frog_head.png" />
+					<image name="gfx_frog_body" file="${dir.art}/frog_body.png" />
+					<image name="gfx_frog_hand1" file="${dir.art}/frog_hand1.png" />
+					<image name="gfx_frog_hand2" file="${dir.art}/frog_hand2.png" />
+					<image name="gfx_frog_eye1" file="${dir.art}/frog_eye1.png" />
+					<image name="gfx_frog_eye2" file="${dir.art}/frog_eye2.png" />
+					<image name="gfx_frog_emo1" file="${dir.art}/frog_emo1.png" />
+					<image name="gfx_frog_emo2" file="${dir.art}/frog_emo2.png" />
+					<image name="effect_circle" file="${dir.art}/effect_circle.png" />
+					<image name="combo_x2" file="${dir.art}/combo_x2.png" />
+					<image name="combo_x3" file="${dir.art}/combo_x3.png" />
+					<image name="combo_x4" file="${dir.art}/combo_x4.png" />
+					<image name="combo_x5" file="${dir.art}/combo_x5.png" />
+					<image name="combo_x6" file="${dir.art}/combo_x6.png" />
+					
+					<font name="combo" file="${dir.art}/font_combo.font" />
+					<font name="pickup" file="${dir.art}/font_pickup.font" />
+					<font name="hud_bad" file="${dir.art}/font_bad.font" />
+					<font name="hud_digits" file="${dir.art}/font_hud_digits.font" />
+				</atlas>
+				<image name="gfx_cat_l" file="${dir.art}/cat_l.png" />
+				<image name="gfx_cat_r" file="${dir.art}/cat_r.png" />
+				<image name="effect_ray" file="${dir.art}/effect_ray.png" />
+				<image name="effect_line" file="${dir.art}/effect_line.png" />
+			</package>
+			
+			<package name="PACK_SOUNDS">
+				<sound name="env_power" file="${dir.sound}/Env_rPowerSnd.wav" />
+				<music name="env_tex" file="${dir.sound}/Env_rTex2Snd.mp3" />
+				<music name="env_menu" file="${dir.sound}/tex1.mp3" />
+				<music name="env_menu2" file="${dir.sound}/tex2.mp3" />
+				<sound name="hero_attack" file="${dir.sound}/HeroMedia_rAttackSnd.wav" />
+				<sound name="hero_awake" file="${dir.sound}/HeroMedia_rAwakeSnd.wav" />
+				<sound name="hero_jump" file="${dir.sound}/HeroMedia_rJumpSnd.wav" />
+				<sound name="hero_land" file="${dir.sound}/HeroMedia_rLandSnd.wav" />
+				<sound name="hero_land_heavy" file="${dir.sound}/HeroMedia_rLandHeavySnd.wav" />
+				<sound name="hero_sleep" file="${dir.sound}/HeroMedia_rSleepSnd.wav" />
+				<sound name="hero_step1" file="${dir.sound}/HeroMedia_rStepSnd1.wav" />
+				<sound name="hero_step2" file="${dir.sound}/HeroMedia_rStepSnd2.wav" />
+				<sound name="hero_toxic" file="${dir.sound}/HeroMedia_rToxicSnd.wav" />
+				<sound name="hero_wing1" file="${dir.sound}/HeroMedia_rWingSnd1.wav" />
+				<sound name="hero_wing2" file="${dir.sound}/HeroMedia_rWingSnd2.wav" />
+				<sound name="hero_squeak" file="${dir.sound}/squeak.wav" />
+				<sound name="hero_salto" file="${dir.sound}/HeroMedia_rSaltoSnd.wav" />
+				<sound name="level_start" file="${dir.sound}/Level_rStartSnd.wav" />
+				<sound name="pill_generate" file="${dir.sound}/PillsMedia_rGenerateSnd.wav" />
+				<sound name="pill_high" file="${dir.sound}/PillsMedia_rHighSnd.wav" />
+				<sound name="pill_jumper" file="${dir.sound}/PillsMedia_rJumperSnd.wav" />
+				<sound name="pill_power1" file="${dir.sound}/PillsMedia_rPower1Snd.wav" />
+				<sound name="pill_power2" file="${dir.sound}/PillsMedia_rPower2Snd.wav" />
+				<sound name="pill_power3" file="${dir.sound}/PillsMedia_rPower3Snd.wav" />
+				<sound name="pill_toxic_born" file="${dir.sound}/PillsMedia_rToxicBornSnd.wav" />
+				<sound name="pill_warning" file="${dir.sound}/PillsMedia_rWarningSnd.wav" />
+				<sound name="ui_click" file="${dir.sound}/ui_sfxClick.wav" />
+				<sound name="ui_focus" file="${dir.sound}/ui_sfxOn.wav" />
 			</package>
 		</content>
 	</target>	
