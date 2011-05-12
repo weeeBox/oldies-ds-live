@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Resources">	
+	
+	<property name="game.name" value="Game"/>
+	<property name="dir.res" value="../Resources" />
+	<property name="dir.gfx" value="${dir.res}/Gfx" />
+	<property name="dir.sound" value="${dir.res}/Sound" />
+	<property name="dir.content" value="../${game.name}/${game.name}Content" />
+	<property name="file.proj" value="${dir.content}/${game.name}Content.contentproj" />
+	<property name="file.code" value="../${game.name}/${game.name}/app/Res.cs" />
+	
+	<property name="dir.builder" value="../Builder"/>
+	
+	<target name="clean">
+		<ant antfile="${dir.builder}/build.xml" target="clean" dir="${dir.builder}"/>
+	</target>
+	
+	<target name="build">
+		<ant antfile="${dir.builder}/build.xml" target="build" dir="${dir.builder}"/>
+		
+		<!-- Content task -->
+		<path id="libs">
+			<fileset dir="${dir.builder}/lib">
+				<include name="**/*.jar" /> 
+			</fileset>
+		</path>
+		
+		<taskdef name="content" classname="tasks.ContentProjTask">
+			<classpath path="${dir.builder}/tmp/classes"/>
+			<classpath refid="libs"/>
+		</taskdef>
+		
+		<property name="dir.restmp" value="${dir.builder}/tmp/res"/>
+	</target>
+	
+	<target name="run" depends="build">
+		<content projFile="${file.proj}" codeFile="${file.code}" resTemp="${dir.restmp}">			
+			<package name="PACK_COMMON">
+				<atlas name="common">
+					<image name="ui_button_a" file="${dir.gfx}/buttonA.png" />
+					<image name="ui_button_b" file="${dir.gfx}/buttonB.png" />
+					<font name="test" file="${dir.gfx}/font_test.font" />
+				</atlas>				
+			</package>
+			
+			<package name="PACK_MENU">
+				<anim name="anim" file="${dir.gfx}/test.swf" />							    
+				<image name="ui_button_a2" file="${dir.gfx}/buttonA.png" />
+				<image name="ui_button_b2" file="${dir.gfx}/buttonB.png" />
+				<image name="duck_dead" file="${dir.gfx}/duck_dead.png" />
+				
+				<music name="music" file="${dir.sound}/music.mp3" />
+				<sound name="sound" file="${dir.sound}/sound.wav" />
+			</package>
+		</content>
+	</target>	
+</project>
