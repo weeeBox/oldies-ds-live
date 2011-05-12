@@ -5,7 +5,7 @@
 	<property name="game.name" value="Game"/>
 	<property name="dir.res" value="../Resources" />
 	<property name="dir.gfx" value="${dir.res}/Gfx" />
-	<property name="dir.sound" value="${dir.res}/Sound" />
+	<property name="dir.sound" value="${dir.res}/Sfx" />
 	<property name="dir.content" value="../${game.name}/${game.name}Content" />
 	<property name="file.proj" value="${dir.content}/${game.name}Content.contentproj" />
 	<property name="file.code" value="../${game.name}/${game.name}/app/Res.cs" />
