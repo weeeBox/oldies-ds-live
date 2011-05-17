@@ -1,0 +1,9 @@
+#Fri Jan 21 03:46:48 EET 2011
+fontOffset=0
+lineOffset=0
+name=bad
+charOffset=0
+chars=DET!AMI
+space=40
+src=font_bad.png
+dst=font_bad_tex.png
