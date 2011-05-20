@@ -1,8 +1,0 @@
-fontOffset=0
-lineOffset=0
-name=pickup
-charOffset=0
-chars=+-0123456789
-space=0
-src=font_pickup.png
-dst=font_pickup_tex.png

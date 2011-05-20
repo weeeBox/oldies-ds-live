@@ -1,8 +1,0 @@
-fontOffset=-6
-lineOffset=-4
-name=big
-charOffset=-3
-chars=!%()+,-./0123456789:?ABCDEFGHIJKLMNOPQRSTUVWXYZ
-space=20
-src=font_big.png
-dst=font_big_tex.png

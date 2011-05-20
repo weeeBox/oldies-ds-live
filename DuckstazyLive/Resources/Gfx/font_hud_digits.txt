@@ -1,9 +1,0 @@
-#Fri Jan 21 03:46:48 EET 2011
-fontOffset=0
-lineOffset=0
-name=hud_digits
-charOffset=-4
-chars=0123456789:
-space=0
-src=font_hud_digits.png
-dst=font_hud_digits_tex.png
