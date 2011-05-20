@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<font filename="tex_game" internalLeading="0" ascender="23" descender="0" externalLeading="0" charOffset="0.0" spaceWidth="10">
+  <char value="+" x="480" y="825" w="18" h="18" ox="0" oy="2"/>
+  <char value="-" x="402" y="164" w="17" h="8" ox="0" oy="7"/>
+  <char value="0" x="120" y="825" w="17" h="23" ox="0" oy="0"/>
+  <char value="1" x="436" y="825" w="12" h="21" ox="0" oy="1"/>
+  <char value="2" x="145" y="825" w="16" h="23" ox="0" oy="0"/>
+  <char value="3" x="243" y="825" w="15" h="22" ox="0" oy="1"/>
+  <char value="4" x="169" y="825" w="18" h="23" ox="0" oy="0"/>
+  <char value="5" x="195" y="825" w="15" h="23" ox="0" oy="0"/>
+  <char value="6" x="266" y="825" w="16" h="22" ox="0" oy="1"/>
+  <char value="7" x="456" y="825" w="16" h="21" ox="0" oy="0"/>
+  <char value="8" x="218" y="825" w="17" h="23" ox="0" oy="0"/>
+  <char value="9" x="290" y="825" w="18" h="22" ox="0" oy="1"/>
+</font>

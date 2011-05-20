@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build" ToolsVersion="4.0">  
+  <PropertyGroup> 
+    <ProjectGuid>{B34B4667-2999-46A2-8870-F46D4E88ADF9}</ProjectGuid>  
+    <ProjectTypeGuids>{96E2B04D-8817-42c6-938A-82C39BA4D311};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>  
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>  
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>  
+    <OutputType>Library</OutputType>  
+    <AppDesignerFolder>Properties</AppDesignerFolder>  
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>  
+    <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>  
+    <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>  
+    <ContentRootDirectory>Content</ContentRootDirectory> 
+  </PropertyGroup>  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'"> 
+    <PlatformTarget>x86</PlatformTarget> 
+  </PropertyGroup>  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'"> 
+    <PlatformTarget>x86</PlatformTarget> 
+  </PropertyGroup>  
+  <PropertyGroup> 
+    <RootNamespace>DuckstazyLiveContent</RootNamespace> 
+  </PropertyGroup>  
+  <ItemGroup> 
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.EffectImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL"> 
+      <Private>False</Private> 
+    </Reference>  
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.FBXImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL"> 
+      <Private>False</Private> 
+    </Reference>  
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.TextureImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL"> 
+      <Private>False</Private> 
+    </Reference>  
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.XImporter, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL"> 
+      <Private>False</Private> 
+    </Reference>  
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.AudioImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL"> 
+      <Private>False</Private> 
+    </Reference>  
+    <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL"> 
+      <Private>False</Private> 
+    </Reference> 
+  </ItemGroup>  
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets"/>  
+  <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->  
+  <ItemGroup> 
+    <ProjectReference Include="..\..\ContentExtension\ContentExtension.csproj"> 
+      <Project>{8EE01ED5-0AEF-4A35-9C45-6016B2F58CE1}</Project>  
+      <Name>ContentExtension</Name> 
+    </ProjectReference> 
+  </ItemGroup>  
+  <ItemGroup> 
+    <Compile Include="button1.png"> 
+      <Name>button1</Name>  
+      <Importer>TextureImporter</Importer>  
+      <Processor>TextureProcessor</Processor> 
+    </Compile>  
+    <Compile Include="button2.png"> 
+      <Name>button2</Name>  
+      <Importer>TextureImporter</Importer>  
+      <Processor>TextureProcessor</Processor> 
+    </Compile>  
+    <Compile Include="button_white.png"> 
+      <Name>button_white</Name>  
+      <Importer>TextureImporter</Importer>  
+      <Processor>TextureProcessor</Processor> 
+    </Compile> 
+  </ItemGroup>  
+  <ItemGroup> 
+    <Compile Include="Embeded\BaseEffect.fx"> 
+      <Name>BaseEffect</Name>  
+      <Importer>EffectImporter</Importer>  
+      <Processor>EffectProcessor</Processor> 
+    </Compile> 
+  </ItemGroup>  
+  <ItemGroup> 
+    <Compile Include="Embeded\Circle.fx"> 
+      <Name>Circle</Name>  
+      <Importer>EffectImporter</Importer>  
+      <Processor>EffectProcessor</Processor> 
+    </Compile> 
+  </ItemGroup>  
+  <ItemGroup>
+    <Compile Include="tex_common.png">
+      <Name>tex_common</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="big.bitmapfont">
+      <Name>big</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
+    <Compile Include="info.bitmapfont">
+      <Name>info</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
+    <Compile Include="common.atlas">
+      <Name>common</Name>
+      <Importer>AtlasImporter</Importer>
+      <Processor>AtlasProcessor</Processor>
+    </Compile>
+    <Compile Include="effect_line.png">
+      <Name>effect_line</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="title.png">
+      <Name>title</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="title_back.png">
+      <Name>title_back</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="tex_game.png">
+      <Name>tex_game</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="combo.bitmapfont">
+      <Name>combo</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
+    <Compile Include="pickup.bitmapfont">
+      <Name>pickup</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
+    <Compile Include="hud_bad.bitmapfont">
+      <Name>hud_bad</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
+    <Compile Include="hud_digits.bitmapfont">
+      <Name>hud_digits</Name>
+      <Importer>BitmapFontImporter</Importer>
+      <Processor>BitmapFontProcessor</Processor>
+    </Compile>
+    <Compile Include="game.atlas">
+      <Name>game</Name>
+      <Importer>AtlasImporter</Importer>
+      <Processor>AtlasProcessor</Processor>
+    </Compile>
+    <Compile Include="cat_l.png">
+      <Name>cat_l</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="cat_r.png">
+      <Name>cat_r</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="effect_ray.png">
+      <Name>effect_ray</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="effect_line.png">
+      <Name>effect_line</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Env_rPowerSnd.wav">
+      <Name>Env_rPowerSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Env_rTex2Snd.mp3">
+      <Name>Env_rTex2Snd</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="tex1.mp3">
+      <Name>tex1</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="tex2.mp3">
+      <Name>tex2</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rAttackSnd.wav">
+      <Name>HeroMedia_rAttackSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rAwakeSnd.wav">
+      <Name>HeroMedia_rAwakeSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rJumpSnd.wav">
+      <Name>HeroMedia_rJumpSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rLandSnd.wav">
+      <Name>HeroMedia_rLandSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rLandHeavySnd.wav">
+      <Name>HeroMedia_rLandHeavySnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rSleepSnd.wav">
+      <Name>HeroMedia_rSleepSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rStepSnd1.wav">
+      <Name>HeroMedia_rStepSnd1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rStepSnd2.wav">
+      <Name>HeroMedia_rStepSnd2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rToxicSnd.wav">
+      <Name>HeroMedia_rToxicSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rWingSnd1.wav">
+      <Name>HeroMedia_rWingSnd1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rWingSnd2.wav">
+      <Name>HeroMedia_rWingSnd2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="squeak.wav">
+      <Name>squeak</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="HeroMedia_rSaltoSnd.wav">
+      <Name>HeroMedia_rSaltoSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Level_rStartSnd.wav">
+      <Name>Level_rStartSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rGenerateSnd.wav">
+      <Name>PillsMedia_rGenerateSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rHighSnd.wav">
+      <Name>PillsMedia_rHighSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rJumperSnd.wav">
+      <Name>PillsMedia_rJumperSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rPower1Snd.wav">
+      <Name>PillsMedia_rPower1Snd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rPower2Snd.wav">
+      <Name>PillsMedia_rPower2Snd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rPower3Snd.wav">
+      <Name>PillsMedia_rPower3Snd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rToxicBornSnd.wav">
+      <Name>PillsMedia_rToxicBornSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="PillsMedia_rWarningSnd.wav">
+      <Name>PillsMedia_rWarningSnd</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="ui_sfxClick.wav">
+      <Name>ui_sfxClick</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="ui_sfxOn.wav">
+      <Name>ui_sfxOn</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+</Project>
