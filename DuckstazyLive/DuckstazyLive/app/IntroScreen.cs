@@ -10,7 +10,7 @@ using DuckstazyLive.app.menu;
 
 namespace DuckstazyLive.app
 {
-    public class IntroScreen : Screen
+    public class IntroScreen : EnvScreen
     {
         private StartupController controller;
 

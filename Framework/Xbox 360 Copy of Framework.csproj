@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{9F1841DC-44BD-4C05-BBA9-3C461E397344}</ProjectGuid>
+    <ProjectGuid>{33df794f-5e6b-45b4-be53-6c3d77899040}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Xbox 360</Platform>
@@ -47,32 +47,13 @@
     <Compile Include="core\GameClock.cs" />
     <Compile Include="core\InputManager.cs" />
     <Compile Include="core\Preferences.cs" />
-    <Compile Include="core\RootController.cs" />
     <Compile Include="core\SoundChannel.cs" />
     <Compile Include="core\SoundMgr.cs" />
     <Compile Include="core\SoundTransform.cs" />
-    <Compile Include="core\Timer.cs" />
-    <Compile Include="core\TimerManager.cs" />
-    <Compile Include="core\UiLayout.cs" />
-    <Compile Include="core\ViewController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="utils\AtlasReader.cs" />
-    <Compile Include="utils\Dimension.cs" />
-    <Compile Include="utils\LineSegment.cs" />
-    <Compile Include="utils\PixelFontReader.cs" />
-    <Compile Include="utils\Rect.cs" />
-    <Compile Include="visual\AbstractButton.cs" />
-    <Compile Include="visual\Atlas.cs" />
-    <Compile Include="visual\AtlasImage.cs" />
     <Compile Include="visual\Camera.cs" />
     <Compile Include="visual\CustomGeomerty.cs" />
-    <Compile Include="visual\Font.cs" />
     <Compile Include="visual\GeometryFactory.cs" />
-    <Compile Include="visual\PixelFont.cs" />
-    <Compile Include="visual\SingleTexture.cs" />
-    <Compile Include="visual\SpriteTexture.cs" />
-    <Compile Include="visual\TiledImage.cs" />
-    <Compile Include="visual\VectorFont.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework">
