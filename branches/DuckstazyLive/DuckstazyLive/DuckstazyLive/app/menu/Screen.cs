@@ -102,7 +102,7 @@ namespace app.menu
             return InputManager.GetDefaultFocusTraversalPolicy();
         }
         
-        public override HashSet<KeyCode> GetNextFocusKeyCodes()
+        public override List<KeyCode> GetNextFocusKeyCodes()
         {
             if (nextFocusKeyCodes != null)
                 return nextFocusKeyCodes;
@@ -110,7 +110,7 @@ namespace app.menu
             return InputManager.GetDefaultNextFocusKeyCodes();
     }
     
-        public override HashSet<KeyCode> GetPrevFocusKeyCodes()
+        public override List<KeyCode> GetPrevFocusKeyCodes()
         {
             if (prevFocusKeyCodes != null)
                 return prevFocusKeyCodes;

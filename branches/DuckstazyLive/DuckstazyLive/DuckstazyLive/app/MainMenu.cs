@@ -13,7 +13,7 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.app
 {
-    public class MainMenu : Screen, ButtonListener
+    public class MainMenu : EnvScreen, ButtonListener
     {
         private MenuController menuController;
 
@@ -31,7 +31,7 @@ namespace DuckstazyLive.app
 
         public MainMenu(MenuController menuController) : base(ScreenId.MAIN_MENU)
         {
-            this.menuController = menuController;
+            this.menuController = menuController;            
 
             // title
             AddTitle();

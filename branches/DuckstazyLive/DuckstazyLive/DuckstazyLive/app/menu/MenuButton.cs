@@ -40,11 +40,11 @@ namespace DuckstazyLive.app.menu
             color2 = ColorUtils.MakeColor(c2);
 
             // button stroke part            
-            strokeImage = new Circle(81, Color.Black);            
+            strokeImage = new CircleShape(81, Color.Black);            
             AddChild(strokeImage);
 
             //// button rotating part
-            rotationElement1 = new Circle(77, color1);
+            rotationElement1 = new CircleShape(77, color1);
             AddChild(rotationElement1);
 
             rotationElement2 = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_BUTTON_BASE));
