@@ -44,7 +44,7 @@ namespace DuckstazyLive.app.game.env
         {
             foreach (EnvCloud cloud in clouds)
             {
-                cloud.update(delta, power);
+                cloud.Update(delta, power);
 
                 float border = cloud.width;
                 if (cloud.x <= -border)

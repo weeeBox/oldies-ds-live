@@ -21,7 +21,7 @@ namespace DuckstazyLive.app
     //        CustomGeomerty background = GeometryFactory.createSolidRect(0, 0, width, height, backColor);
     //        AddChild(background, CHILD_BACKGROUND);            
 
-    //        Font font = Application.sharedResourceMgr.GetFont(Res.FNT_BIG);
+    //        BaseFont font = Application.sharedResourceMgr.GetFont(Res.FNT_BIG);
     //        Text message = new Text(font);
     //        message.setString("RECONNECT CONTROLLER");            
     //        AddChild(message, CHILD_MESSAGE);
@@ -49,7 +49,7 @@ namespace DuckstazyLive.app
     //        button.setEnabled(true);
     //    }
 
-    //    public override bool buttonPressed(ref ButtonEvent e)
+    //    public override bool KeyPressed(ref ButtonEvent e)
     //    {
     //        if (e.button == Buttons.A)
     //            stop();

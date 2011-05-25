@@ -191,7 +191,7 @@ namespace DuckstazyLive.app.game.env
             //whiteFade.overlayColor = blackFade.overlayColor = true;
             //geomSkyBlanc = GeometryFactory.createSolidRect(0, 0, Constants.SCREEN_WIDTH, Constants.SCREEN_HEIGHT, Color.White);
 
-            //Font badFont = Application.sharedResourceMgr.getFont(Res.FNT_BAD);
+            //BaseFont badFont = Application.sharedResourceMgr.getFont(Res.FNT_BAD);
             //dammitText = new Text(badFont);
             //dammitText.setString("");
             //dammitText.scaleX = dammitText.scaleY = 2.95f;
@@ -234,10 +234,10 @@ namespace DuckstazyLive.app.game.env
 
         public override void Update(float delta)
         {
-            update(delta, 0.0f);
+            Update(delta, 0.0f);
         }
 
-        public void update(float dt, float newPower)
+        public void Update(float dt, float newPower)
         {
             // Временные переменные.
             float x;
@@ -263,7 +263,7 @@ namespace DuckstazyLive.app.game.env
                     colProgress = 0xff5d310c;
                     //utils.ARGB2ColorTransform(colGrass, ref ctGrass);
                     //utils.ARGB2ColorTransform(colProgress, ref ctProgress);
-                    //curEffect = effects[(int)(utils.rnd() * effects.Length)];
+                    //curEffect = effects[(int)(RandomHelper.rnd() * effects.Length)];
                 }
 
                 power = newPower;
@@ -292,7 +292,7 @@ namespace DuckstazyLive.app.game.env
             //    curEffect.power = power;
             //    curEffect.c1 = colors.bg;
             //    curEffect.c2 = utils.multColorScalar(colors.bg, 0.5f);
-            //    curEffect.update(dt);
+            //    curEffect.Update(dt);
             //    // Прокручиваем время день/ночь
             //    time += dt * 0.1f;
             //    while (time > hellCount - 1)
@@ -377,7 +377,7 @@ namespace DuckstazyLive.app.game.env
             //{
             //    x = c.counter;
             //    imageId = imgClouds[c.id];
-            //    img = Application.sharedResourceMgr.getTexture(imageId);
+            //    img = Application.sharedResourceMgr.GetTexture(imageId);
 
             //    MAT.identity();
             //    MAT.tx = utils.unscale(-img.Width * 0.5f);
@@ -399,9 +399,9 @@ namespace DuckstazyLive.app.game.env
 
             ///**** ТРАВА ****/
             //Color color = Color.White;
-            //color.R = (byte)(color.R * ctGrass.redMultiplier);
-            //color.G = (byte)(color.G * ctGrass.greenMultiplier);
-            //color.B = (byte)(color.B * ctGrass.blueMultiplier);
+            //color.R = (byte)(color.R * ctGrass.MulR);
+            //color.G = (byte)(color.G * ctGrass.MulG);
+            //color.B = (byte)(color.B * ctGrass.MulB);
             //int grassImageId;
 
             //if (power < 0.5f)
@@ -422,10 +422,10 @@ namespace DuckstazyLive.app.game.env
             //{
             //    canvas.drawGeometry(geomGroundBlanc);
             //    Color colorBlanc = Color.Black;
-            //    colorBlanc.R = (byte)(colorBlanc.R * blackFade.redMultiplier);
-            //    colorBlanc.G = (byte)(colorBlanc.G * blackFade.greenMultiplier);
-            //    colorBlanc.B = (byte)(colorBlanc.B * blackFade.blueMultiplier);
-            //    colorBlanc.A = (byte)(colorBlanc.A * blackFade.alphaMultiplier);
+            //    colorBlanc.R = (byte)(colorBlanc.R * blackFade.MulR);
+            //    colorBlanc.G = (byte)(colorBlanc.G * blackFade.MulG);
+            //    colorBlanc.B = (byte)(colorBlanc.B * blackFade.MulB);
+            //    colorBlanc.A = (byte)(colorBlanc.A * blackFade.MulA);
             //    drawGrass(grassImageId, ref colorBlanc);
             //}
         }
@@ -492,7 +492,7 @@ namespace DuckstazyLive.app.game.env
 
             //if (dammitText.isTimelinePlaying())
             //{
-            //    dammitText.update(dt);
+            //    dammitText.Update(dt);
             //    int colorIndex = ((int)(envElapsedTime / 0.025f)) % dammitColors.Length;
             //    float dammitAlpha = dammitText.color.A / 255.0f;
             //    dammitText.color.R = (byte)(dammitColors[colorIndex].R * dammitAlpha);
@@ -504,7 +504,7 @@ namespace DuckstazyLive.app.game.env
         public void proccessHitFade(float blanc)
         {
             //hitFade = blanc;
-            //whiteFade.alphaMultiplier = blackFade.alphaMultiplier = blanc;
+            //whiteFade.MulA = blackFade.MulA = blanc;
 
             //Color skyBlanc = Color.White * blanc;
             //Color groundBlanc = Color.Black * blanc;
@@ -533,14 +533,15 @@ namespace DuckstazyLive.app.game.env
             //}
         }
 
-        //public void setBlanc(float blanc)
-        //{
-        //    this.blanc = blanc;
-        //    Color color = Color.White * blanc;
-        //    geomBlanc.colorize(color);
-        //}
+        public void setBlanc(float blanc)
+        {
+            //this.blanc = blanc;
+            //Color color = Color.White * blanc;
+            //geomBlanc.colorize(color);
+            throw new NotImplementedException();
+        }
 
-        //public void drawBlanc(Canvas canvas)
+        //public void drawBlanc(Graphics g)
         //{
         //    if (blanc > 0)
         //        canvas.drawGeometry(geomBlanc);

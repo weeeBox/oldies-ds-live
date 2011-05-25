@@ -9,5 +9,6 @@ namespace app.menu
         START_LOADING, 
         INTRO,
         MAIN_MENU,        
+        SINGLE_GAME
     }    
 }

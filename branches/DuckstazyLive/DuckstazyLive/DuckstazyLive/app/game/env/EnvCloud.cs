@@ -21,7 +21,7 @@ namespace DuckstazyLive.app.game.env
             SetTexture(texture);
         }        
 
-        public void update(float dt, float power)
+        public void Update(float dt, float power)
         {
             x -= (float)((0.75 + 0.25 * Math.Sin(counter * 6.2832)) * (30.0f + power * 200.0f) * dt);            
             counter += (0.1f + 0.9f * power) * dt;
