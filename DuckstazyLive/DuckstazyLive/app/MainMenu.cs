@@ -13,31 +13,27 @@ using System.Diagnostics;
 
 namespace DuckstazyLive.app
 {
-    public class MainMenu : EnvScreen, ButtonListener
+    public class MainMenu : EnvScreen
     {
-        private MenuController menuController;
+        public const int BUTTON_NEW_GAME = 0;
 
-        private const int BUTTON_NEW_GAME = 0;
+        public const int BUTTON_RESUME_GAME = 1;
 
-        private const int BUTTON_RESUME_GAME = 1;
+        public const int BUTTON_ABOUT = 2;
 
-        private const int BUTTON_ABOUT = 2;
+        public const int BUTTON_EXIT = 3;
 
-        private const int BUTTON_EXIT = 3;
+        public const int BUTTON_COOP = 4;
 
-        private const int BUTTON_COOP = 4;
+        public const int BUTTON_VERSUS = 5;
 
-        private const int BUTTON_VERSUS = 5;
-
-        public MainMenu(MenuController menuController) : base(ScreenId.MAIN_MENU)
+        public MainMenu(ButtonListener listener) : base(ScreenId.MAIN_MENU)
         {
-            this.menuController = menuController;            
-
             // title
             AddTitle();
 
             // ui
-            AddButtons();
+            AddButtons(listener);
         }
 
         //public override void onShow()
@@ -64,48 +60,48 @@ namespace DuckstazyLive.app
             AttachCenter(title);
         }        
 
-        private void AddButtons()
+        private void AddButtons(ButtonListener listener)
         {
             UiComponent container = CreateTitleSafeContainer();            
 
             // new game            
-            MenuButton button = new MenuButton("NEW GAME", BUTTON_NEW_GAME, this);            
+            MenuButton button = new MenuButton("NEW GAME", BUTTON_NEW_GAME, listener);            
             container.AddChild(button);
             container.AttachHor(button, 0.33f);            
 
             // last save            
-            button = new MenuButton("LAST SAVE", BUTTON_RESUME_GAME, this);
+            button = new MenuButton("LAST SAVE", BUTTON_RESUME_GAME, listener);
             container.AddChild(button);
             container.AttachHor(button, 0.66f);
 
             // about            
-            button = new MenuButton("ABOUT", BUTTON_ABOUT, this);
+            button = new MenuButton("ABOUT", BUTTON_ABOUT, listener);
             container.AddChild(button);
             container.AttachHor(button, 0.05f);
             container.AttachVert(button, ALIGN_CENTER);
 
             // exit                        
-            button = new MenuButton("EXIT", BUTTON_EXIT, this);
+            button = new MenuButton("EXIT", BUTTON_EXIT, listener);
             container.AddChild(button);
             container.AttachHor(button, 0.95f);
             container.AttachVert(button, ALIGN_CENTER);
 
             // coop                        
-            button = new MenuButton("COOP MODE", BUTTON_COOP, this);
+            button = new MenuButton("COOP MODE", BUTTON_COOP, listener);
             container.AddChild(button);
             container.AttachHor(button, 0.33f);
             container.AttachVert(button, ALIGN_MAX);
 
             // versus                        
-            button = new MenuButton("VERSUS MODE", BUTTON_VERSUS, this);
+            button = new MenuButton("VERSUS MODE", BUTTON_VERSUS, listener);
             container.AddChild(button);
             container.AttachHor(button, 0.66f);
             container.AttachVert(button, ALIGN_MAX);
         }
 
-        //public override bool buttonPressed(ref ButtonEvent e)
+        //public override bool KeyPressed(ref ButtonEvent e)
         //{
-        //    if (base.buttonPressed(ref e))
+        //    if (base.KeyPressed(ref e))
         //        return true;
 
         //    Debug.Assert(focusedButton != Constants.UNDEFINED);
@@ -132,7 +128,7 @@ namespace DuckstazyLive.app
         //            {
         //                ButtonEvent newEvent = e;
         //                newEvent.button = Buttons.A;
-        //                buttonPressed(ref newEvent);
+        //                KeyPressed(ref newEvent);
         //            }
         //            return true;
         //    }

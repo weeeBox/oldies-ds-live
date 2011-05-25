@@ -7,10 +7,10 @@ namespace DuckstazyLive.app.game.env
 {
     public class EnvColor
     {
-        public int bg;
-        public int text;
+        public uint bg;
+        public uint text;
 
-        public EnvColor(int sky, int floatText)
+        public EnvColor(uint sky, uint floatText)
         {
             bg = sky;
             text = floatText;

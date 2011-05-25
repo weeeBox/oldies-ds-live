@@ -2,6 +2,7 @@
 using asap.core;
 using asap.resources;
 using System;
+using DuckstazyLive.app.game;
 
 namespace DuckstazyLive.app
 {
@@ -29,7 +30,9 @@ namespace DuckstazyLive.app
 
         public void allResourcesLoaded()
         {
-            Application.sharedResourceMgr.UnloadPack(ResPacks.PACK_START);                        
+            Application.sharedResourceMgr.UnloadPack(ResPacks.PACK_START);
+
+            GameElements.init();
 
             IntroScreen introView = new IntroScreen(this);
             Application.sharedScreensView.StartScreen(introView);            
@@ -46,9 +49,7 @@ namespace DuckstazyLive.app
 
         public override void Stop(int param)
         {
-            base.Stop(param);
-
-            //GameElements.init();
+            base.Stop(param);            
             AppRootController.StartController(AppRootController.menuController, 0);
         }
     }

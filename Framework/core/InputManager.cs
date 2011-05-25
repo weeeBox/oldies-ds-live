@@ -59,8 +59,8 @@ namespace Framework.core
     public interface InputListener
     {
         // return true, if event processed, otherwise - false
-        bool buttonPressed(ref ButtonEvent e);
-        bool buttonReleased(ref ButtonEvent e);        
+        bool KeyPressed(ref ButtonEvent e);
+        bool KeyReleased(ref ButtonEvent e);        
     }
 
     public interface ControllerListener
@@ -139,7 +139,7 @@ namespace Framework.core
             return instance;
         }
 
-        public void update()
+        public void Update()
         {
             updateGamepad();
 #if WINDOWS
@@ -291,7 +291,7 @@ namespace Framework.core
         {
             foreach (InputListener l in inputListeners)
             {
-                l.buttonPressed(ref evt);
+                l.KeyPressed(ref evt);
             }
         }
 
@@ -299,7 +299,7 @@ namespace Framework.core
         {
             foreach (InputListener l in inputListeners)
             {
-                l.buttonReleased(ref evt);
+                l.KeyReleased(ref evt);
             }
         }
 
@@ -307,7 +307,7 @@ namespace Framework.core
         {
             foreach (InputListener l in inputListeners)
             {
-                l.buttonPressed(ref e);
+                l.KeyPressed(ref e);
             }
         }
 
@@ -315,7 +315,7 @@ namespace Framework.core
         {
             foreach (InputListener l in inputListeners)
             {
-                l.buttonReleased(ref e);
+                l.KeyReleased(ref e);
             }
         }
 

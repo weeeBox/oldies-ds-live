@@ -23,26 +23,33 @@ namespace DuckstazyLive.app
             return new Color(r, g, b, a);
         }
 
-        public static int lerpColor(int fromColor, int toColor, float progress)
+        public static uint lerpColor(uint fromColor, uint toColor, float progress)
         {
             float q = 1 - progress;
-            int fromA = (fromColor >> 24) & 0xFF;
-            int fromR = (fromColor >> 16) & 0xFF;
-            int fromG = (fromColor >> 8) & 0xFF;
-            int fromB = fromColor & 0xFF;
+            uint fromA = (fromColor >> 24) & 0xFF;
+            uint fromR = (fromColor >> 16) & 0xFF;
+            uint fromG = (fromColor >> 8) & 0xFF;
+            uint fromB = fromColor & 0xFF;
 
-            int toA = (toColor >> 24) & 0xFF;
-            int toR = (toColor >> 16) & 0xFF;
-            int toG = (toColor >> 8) & 0xFF;
-            int toB = toColor & 0xFF;
+            uint toA = (toColor >> 24) & 0xFF;
+            uint toR = (toColor >> 16) & 0xFF;
+            uint toG = (toColor >> 8) & 0xFF;
+            uint toB = toColor & 0xFF;
 
-            int resultA = (int)(fromA * q + toA * progress);
-            int resultR = (int)(fromR * q + toR * progress);
-            int resultG = (int)(fromG * q + toG * progress);
-            int resultB = (int)(fromB * q + toB * progress);
-            int resultColor = resultA << 24 | resultR << 16 | resultG << 8 | resultB;
+            uint resultA = (uint)(fromA * q + toA * progress);
+            uint resultR = (uint)(fromR * q + toR * progress);
+            uint resultG = (uint)(fromG * q + toG * progress);
+            uint resultB = (uint)(fromB * q + toB * progress);
+            uint resultColor = resultA << 24 | resultR << 16 | resultG << 8 | resultB;
 
             return resultColor;
+        }
+
+        public static void ctSetRGB(ref ColorTransform ct, uint rgb)
+        {
+            ct.MulR = ((rgb >> 16) & 0xFF) / 255.0f;
+            ct.MulG = ((rgb >> 8) & 0xFF) / 255.0f;
+            ct.MulB = (rgb & 0xFF) / 255.0f;
         }
 
         public static void ARGB2ColorTransform(uint argb, ref ColorTransform ct)

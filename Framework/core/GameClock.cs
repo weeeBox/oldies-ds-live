@@ -9,7 +9,7 @@ namespace Framework.core
     {
         private static float elapsedTime;
 
-        public static void update(float dt)
+        public static void Update(float dt)
         {
             elapsedTime += dt;
         }

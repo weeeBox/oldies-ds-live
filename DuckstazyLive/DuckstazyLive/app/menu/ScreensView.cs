@@ -92,7 +92,8 @@ namespace app.menu
             System.Diagnostics.Debug.Assert((GetActiveScreen()) != null);
             if ((drawPrevScreen) && ((screenIndex) > 0))
                 screensStack[((screenIndex) - 1)].Draw(g);
-            
+
+            Screen screen = GetActiveScreen();
             GetActiveScreen().Draw(g);
         }
         

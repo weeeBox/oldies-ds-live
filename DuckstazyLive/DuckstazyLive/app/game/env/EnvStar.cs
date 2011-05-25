@@ -16,7 +16,7 @@ namespace DuckstazyLive.app.game.env
         public float a;
         public ColorTransform color = ColorTransform.NONE;        
 
-        public void update(float dt, float power)
+        public void Update(float dt, float power)
         {
             float delta = dt * power;
 

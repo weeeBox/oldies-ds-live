@@ -51,7 +51,7 @@ namespace DuckstazyLive.app.game.env
         {
             foreach (EnvStar star in stars)
             {
-                star.update(delta, power);
+                star.Update(delta, power);
 
                 if (star.x < MIN_X) star.x += MAX_X;
                 else if (star.x > MAX_X) star.x -= MAX_X;
