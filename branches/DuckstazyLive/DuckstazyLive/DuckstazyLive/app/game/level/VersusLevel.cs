@@ -171,8 +171,8 @@ namespace DuckstazyLive.app.game.level
             ColorUtils.MakeColor(0xe1e1e1), Color.White
         };
 
-        public VersusLevel(BaseGame controller, int stageIndex)
-            : base(controller)
+        public VersusLevel(BaseGame controller, int stageIndex, float width, float height)
+            : base(controller, width, height)
         {
             this.stageIndex = stageIndex;
 

@@ -7,10 +7,11 @@ using Microsoft.Xna.Framework;
 using asap.graphics;
 using asap.core;
 using asap.util;
+using asap.visual;
 
 namespace DuckstazyLive.app.game
 {
-    public class Heroes : IEnumerable<Hero>
+    public class Heroes : BaseElementContainer, IEnumerable<Hero>
     {
         private bool started;
 
@@ -46,16 +47,20 @@ namespace DuckstazyLive.app.game
         {
             Debug.Assert(getHeroesCount() < MAX_HEROES);
             heroes.Add(hero);
+
+            AddChild(hero);
         }
 
         public void removeHero(Hero hero)
         {
             heroes.Remove(hero);
+            RemoveChild(hero);
         }
 
         public void clearHeroes()
         {
             heroes.Clear();
+            RemoveAllChilds();
         }
 
         public void init()
@@ -213,7 +218,7 @@ namespace DuckstazyLive.app.game
             Rect victimRect = new Rect(victim.x, victim.y, Hero.duck_w2, Hero.duck_h2);
             if (rectRect(ref dashRect, ref victimRect))
             {
-                victim.pos.X = attacker.attackVelocity > 0 ? (attacker.x + Hero.duck_w2) : (attacker.x - Hero.duck_w2);
+                victim.x = attacker.attackVelocity > 0 ? (attacker.x + Hero.duck_w2) : (attacker.x - Hero.duck_w2);
                 victim.hit(attacker.attackVelocity);
                 attacker.stopAttack();
                 return true;
@@ -309,17 +314,6 @@ namespace DuckstazyLive.app.game
         private bool rectRect(float x1, float y1, float w1, float h1, float x2, float y2, float w2, float h2)
         {
             return !(x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1);
-        }
-
-        public void draw(Graphics g)
-        {
-            if (started)
-            {
-                foreach (Hero hero in heroes)
-                {
-                    hero.Draw(g);
-                }
-            }
         }
 
         public void drawInfo(Graphics g)

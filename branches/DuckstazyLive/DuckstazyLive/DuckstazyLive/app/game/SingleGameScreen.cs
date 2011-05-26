@@ -5,30 +5,33 @@ using System.Text;
 using app.menu;
 using DuckstazyLive.app.game.level;
 using asap.graphics;
+using app;
+using asap.core;
 
 namespace DuckstazyLive.app.game
 {
-    public class SingleGameScreen : EnvScreen
+    public class SingleGameScreen : Screen
     {
         StoryLevel level;
 
         public SingleGameScreen(GameController controller) : base(ScreenId.SINGLE_GAME)
         {
-            level = new SingleLevel(null);
-            level.start();
+            level = new SingleLevel(null, 960, 600);            
+            //level.alignX = level.parentAlignX = ALIGN_CENTER;
+            level.drawBorder = true;
+            AddChild(level);
+
+            level.start();            
         }
 
-        public override void Draw(Graphics g)
+        public override bool KeyPressed(KeyEvent evt)
         {
-            PreDraw(g);
-            level.Draw(g);
-            PostDraw(g);
+            return level.KeyPressed(evt);
         }
 
-        public override void Update(float delta)
+        public override bool KeyReleased(KeyEvent evt)
         {
-            base.Update(delta);
-            level.Update(delta);
+            return level.KeyReleased(evt);
         }
 
         //protected override Hud createHud()
