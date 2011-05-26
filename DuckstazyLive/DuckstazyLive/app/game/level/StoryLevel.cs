@@ -42,11 +42,11 @@ namespace DuckstazyLive.app.game.level
             progressText.Update(dt);
         }
 
-        public override void Draw(Graphics g)
-        {
-            base.Draw(g);
-            //progressText.draw();
-        }
+        //public override void Draw(Graphics g)
+        //{
+        //    base.Draw(g);
+        //    //progressText.draw();
+        //}
 
         public override void onStart()
         {
@@ -144,8 +144,8 @@ namespace DuckstazyLive.app.game.level
         private const float FADE_TIMEOUT = 3.5f;
         private const float DEATH_TIMEOUT = 4.5f;
 
-        public StoryLevel(BaseGame controller)
-            : base(controller)
+        public StoryLevel(BaseGame controller, float width, float height)
+            : base(controller, width, height)
         {
         }
 

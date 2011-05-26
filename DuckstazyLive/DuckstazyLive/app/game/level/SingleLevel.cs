@@ -50,10 +50,10 @@ namespace DuckstazyLive.app.game.level
 
         private int stagesCount;
 
-        public SingleLevel(StoryGame storyController)
-            : base(storyController)
+        public SingleLevel(StoryGame storyController, float width, float height)
+            : base(storyController, width, height)
         {
-            GameElements.initHeroes(1);
+            GameElements.initHeroes(1);            
             stagesCount = (int)LevelStages.LevelsCount;
         }
 

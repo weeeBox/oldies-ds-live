@@ -20,19 +20,19 @@ namespace DuckstazyLive.app.game
         public void newGame()
         {
             StoryLevel level = null;
-            switch (gameMode)
-            {
-                case StoryGameMode.SINGLE:
-                    level = new SingleLevel(this);
-                    break;
-                case StoryGameMode.MULTIPLAYER:
-                    level = new CoopLevel(this);
-                    break;
-                default:
-                    Debug.Assert(false, "Bad mode: " + gameMode);
-                    break;
-            }            
-            level.start();
+            //switch (gameMode)
+            //{
+            //    case StoryGameMode.SINGLE:
+            //        level = new SingleLevel(this);
+            //        break;
+            //    case StoryGameMode.MULTIPLAYER:
+            //        level = new CoopLevel(this);
+            //        break;
+            //    default:
+            //        Debug.Assert(false, "Bad mode: " + gameMode);
+            //        break;
+            //}            
+            //level.start();
         }
 
         public void setGameMode(StoryGameMode mode)

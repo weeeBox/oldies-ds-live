@@ -31,7 +31,7 @@ namespace DuckstazyLive.app.game.level
 
         public BaseGame controller;
 
-        public Level(BaseGame controller)
+        public Level(BaseGame controller, float width, float height) : base(width, height)
         {
             this.controller = controller;
 
@@ -43,6 +43,12 @@ namespace DuckstazyLive.app.game.level
             stageMedia = new StageMedia();
             stage = null;
             hud = createHud();
+
+            getHeroes().width = width;
+            getHeroes().Height = height;
+            getHeroes().drawBorder = true;
+
+            AddChild(getHeroes());
         }
         
         protected abstract LevelStage createStage(int stageIndex);
@@ -91,33 +97,33 @@ namespace DuckstazyLive.app.game.level
             this.levelState = levelState;
         }        
 
-        public override void Draw(Graphics g)
-        {
-            PreDraw(g);
+        //public override void Draw(Graphics g)
+        //{
+        //    PreDraw(g);
 
-            getEnv().draw1(g);
+        //    //getEnv().draw1(g);
  
-            //levelPreDraw();
+        //    ////levelPreDraw();
 
-            draw1();
-            stage.draw1(g);            
-            getPills().Draw(g);                                
-            getHeroes().draw(g);
-            getParticles().draw(g);
-            getHeroes().drawInfo(g);
-            draw2();
-            //levelPostDraw();
+        //    //draw1();
+        //    //stage.draw1(g);            
+        //    //getPills().Draw(g);                                
+        //    //getHeroes().draw(g);
+        //    //getParticles().draw(g);
+        //    //getHeroes().drawInfo(g);
+        //    //draw2();
+        //    ////levelPostDraw();
 
-            getEnv().draw2(g);            
+        //    //getEnv().draw2(g);            
 
-            //hud.draw(g);
-            stage.draw2(g);
-            stage.drawUI(g);
+        //    ////hud.draw(g);
+        //    //stage.draw2(g);
+        //    //stage.drawUI(g);
 
-            PostDraw(g);
+        //    PostDraw(g);
 
-            // getEnv().drawBlanc(canvas);
-        }
+        //    // getEnv().drawBlanc(canvas);
+        //}
 
         public virtual void draw1()
         {
