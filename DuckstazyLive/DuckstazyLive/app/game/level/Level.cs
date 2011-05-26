@@ -37,18 +37,19 @@ namespace DuckstazyLive.app.game.level
 
             //setDrawInnactive(true);
 
-            instance = this;            
-            getEnv().reset();            
+            instance = this;
+
+            Env env = getEnv();
+            env.reset();            
 
             stageMedia = new StageMedia();
             stage = null;
             hud = createHud();
 
-            getHeroes().width = width;
-            getHeroes().Height = height;
-            getHeroes().drawBorder = true;
-
-            AddChild(getHeroes());
+            Heroes heroes = getHeroes();
+            heroes.width = width;
+            heroes.Height = height;
+            AddChild(heroes);
         }
         
         protected abstract LevelStage createStage(int stageIndex);
