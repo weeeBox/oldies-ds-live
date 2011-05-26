@@ -912,6 +912,7 @@ namespace DuckstazyLive.app.game
                     key_left = true;
                     return true;
 
+                case KeyCode.VK_Up:
                 case KeyCode.A:
                     if (!key_up && started)
                     {
@@ -961,6 +962,7 @@ namespace DuckstazyLive.app.game
                     key_left = false;
                     return true;
 
+                case KeyCode.VK_Up:
                 case KeyCode.A:
                     if (key_up && started)
                     {

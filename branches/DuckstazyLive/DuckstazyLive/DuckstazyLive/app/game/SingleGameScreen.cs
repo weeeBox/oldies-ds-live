@@ -7,6 +7,7 @@ using DuckstazyLive.app.game.level;
 using asap.graphics;
 using app;
 using asap.core;
+using DuckstazyLive.app.game.env;
 
 namespace DuckstazyLive.app.game
 {
@@ -16,11 +17,23 @@ namespace DuckstazyLive.app.game
 
         public SingleGameScreen(GameController controller) : base(ScreenId.SINGLE_GAME)
         {
-            level = new SingleLevel(null, 960, 600);            
-            //level.alignX = level.parentAlignX = ALIGN_CENTER;
-            level.drawBorder = true;
-            AddChild(level);
+            Env env = GameElements.Env;
+            Sky sky = env.GetSky();
+            Ground ground = env.GetGround();
 
+            // sky            
+            AddChild(sky);            
+
+            level = new SingleLevel(null, 960, 600);            
+            level.alignX = level.parentAlignX = ALIGN_CENTER;
+            level.alignY = ALIGN_MAX;
+            level.y = ground.y;
+            level.drawBorder = true;
+            AddChild(level);                                    
+
+            // ground
+            AddChild(ground);
+            
             level.start();            
         }
 

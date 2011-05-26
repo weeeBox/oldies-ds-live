@@ -546,5 +546,15 @@ namespace DuckstazyLive.app.game.env
         //    if (blanc > 0)
         //        canvas.drawGeometry(geomBlanc);
         //}
+
+        public Sky GetSky()
+        {
+            return currentSky;
+        }
+
+        public Ground GetGround()
+        {
+            return ground;
+        }
     }
 }
