@@ -886,7 +886,7 @@ namespace DuckstazyLive.app.game
 
         private void drawNid(Graphics g)
         {
-            media.emo.drawNid(g);
+            media.emo.drawNid(g, hx, hy);
         }        
 
         private void drawEmoHappy(Graphics g)

@@ -72,12 +72,12 @@ namespace DuckstazyLive.app.game.stage.fx
             PostDraw(g);
         }
 
-        public void drawNid(Graphics g)
+        public void drawNid(Graphics g, float hx, float hy)
         {
             PreDraw(g);
 
             g.DrawImage(media.imgSmile1, 9.9f, 19.1f);
-            g.DrawImage(media.imgEyes1, 8.25f, 10.35f);            
+            g.DrawImage(media.imgEyes1, 8.25f + hx, 10.35f + hy);            
 
             PostDraw(g);            
         }
