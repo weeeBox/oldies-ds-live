@@ -98,6 +98,7 @@
     <Compile Include="app\game\Pills.cs" />
     <Compile Include="app\game\PillsMedia.cs" />
     <Compile Include="app\game\SingleGameScreen.cs" />
+    <Compile Include="app\game\stage\fx\Emo.cs" />
     <Compile Include="app\game\stage\fx\Firework.cs" />
     <Compile Include="app\game\stage\fx\FrogActor.cs" />
     <Compile Include="app\game\stage\fx\HintArrow.cs" />

@@ -111,8 +111,7 @@ namespace DuckstazyLive.app.game
 
         private GameTexture imgMain;
         private GameTexture imgEmo;
-        private GameTexture imgNid;
-        private GameTexture imgHigh;
+        private GameTexture imgNid;        
 
         // используется для оповещения генератора-родителя
         public ParentCallback parent;
@@ -828,7 +827,7 @@ namespace DuckstazyLive.app.game
             }
             else
             {
-                g.DrawImage(imgNid, 0, 0);
+                g.DrawImage(imgEmo, 0, 0);
 
                 if (emoCounter > 0.0f)
                 {
@@ -852,9 +851,9 @@ namespace DuckstazyLive.app.game
             }
 
             if (high && highCounter > 0.5 && state == ALIVE)
-            {                
-                ctForm.MulA = 2.0f - highCounter * 2.0f;
-                g.DrawImage(imgHigh, 0, 0);                
+            {
+                GameTexture img = media.imgHigh;
+                g.DrawImage(img, 0.5f * (width - img.GetWidth()), 0.5f * (height - img.GetHeight()), 2.0f - highCounter * 2.0f);
             }            
         }
 
@@ -883,173 +882,56 @@ namespace DuckstazyLive.app.game
                 s *= appear;
             
             g.DrawImage(imgMain, 0, 0);         
-        }
-
-        public void drawBlanc(Graphics g)
-        {
-            //Env env = getEnv();
-            //if (type == JUMP)
-            //{
-            //    drawJump(canvas, ref env.blackFade);
-            //}
-            //else if (state != ALIVE)
-            //{
-            //    DrawMatrix MAT = DrawMatrix.ScaledInstance;
-            //    MAT.tx = MAT.ty = -12;
-            //    MAT.scale(appear, appear);
-            //    MAT.translate(dx, dy);
-            //    canvas.draw(imgMain, MAT, env.blackFade);
-            //}
-            //else
-            //{
-            //    POINT.X = dx - 10.5f;
-            //    POINT.Y = dy - 11;
-            //    canvas.copyPixels(imgMain, RC, POINT, env.blackFade);
-            //}
-        }
+        }        
 
         private void drawNid(Graphics g)
         {
-            //DrawMatrix MAT = DrawMatrix.ScaledInstance;
-            //MAT.tx = -4;
-            //MAT.ty = 2;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgSmile1, MAT);
-
-            //MAT.identity();
-            //MAT.tx = -5;
-            //MAT.ty = -3;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx + hx, dy + hy);
-
-            //canvas.draw(media.imgEyes1, MAT);
-        }
-
-        private void drawEmoDefault(Graphics g, float alpha, float angle)
-        {
-            //COLOR.MulA = alpha;
-
-            //DrawMatrix MAT = DrawMatrix.ScaledInstance;
-            //MAT.tx = -4;
-            //MAT.ty = 2;
-            //MAT.rotate(angle);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgSmile1, MAT, COLOR);
-
-            //MAT.identity();
-            //MAT.tx = -5;
-            //MAT.ty = -3;
-            //MAT.rotate(angle);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx + hx, dy + hy);
-
-            //canvas.draw(media.imgEyes1, MAT, COLOR);
-        }
+            media.emo.drawNid(g);
+        }        
 
         private void drawEmoHappy(Graphics g)
         {
-            ////var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
+            float a = 0.5f;
+            float ang = emoCounter / 3.0f;
 
-            //float a = 0.5f;
-            //float ang = emoCounter / 3.0f;
+            if (emoCounter > 2.5f) a = 3.0f - emoCounter;
+            else if (emoCounter < 0.5f) a = emoCounter;
+            a *= 2.0f;
 
-            //if (emoCounter > 2.5f) a = 3.0f - emoCounter;
-            //else if (emoCounter < 0.5f) a = emoCounter;
-            //a *= 2.0f;
+            if (emoParam > 0.0f)
+                ang = 1.0f - ang;
 
-            //if (emoParam > 0.0f)
-            //    ang = 1.0f - ang;
+            ang *= Math.Abs(emoParam) * 6.28f;
 
-            //ang *= Math.Abs(emoParam) * 6.28f;
-
-            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, ang);
-            //COLOR.MulA = a;
-
-            //DrawMatrix MAT = DrawMatrix.ScaledInstance;
-            //MAT.tx = -6;
-            //MAT.ty = 1;
-            //MAT.rotate(ang);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgSmile3, MAT, COLOR);
-
-            //MAT.identity();
-            //MAT.tx = -7;
-            //MAT.ty = -5;
-            //MAT.rotate(ang);
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgEyes2, MAT, COLOR);
+            media.emo.drawEmoHappy(g, a, ang, hx, hy);         
         }
 
         private void drawEmoShake(Graphics g)
-        {
-            ////var mat:Matrix = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, -6.0, 1.0f);
-            ////var col:ColorTransform;
-            //float a = 0.5f;
-            //float off = (float)(Math.Sin(emoCounter * 6.28));
+        {            
+            float a = 0.5f;
+            float off = (float)(Math.Sin(emoCounter * 6.28));
 
-            //if (emoCounter > 2.5f) a = 3.0f - emoCounter;
-            //else if (emoCounter < 0.5f) a = emoCounter;
-            //a *= 2.0f;
+            if (emoCounter > 2.5f) a = 3.0f - emoCounter;
+            else if (emoCounter < 0.5f) a = emoCounter;
+            a *= 2.0f;
 
-            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
-            //COLOR.MulA = a;
+            if (off < 0.0f)
+                off = 0.0f;
+            else if (off >= 0.0f)
+                off = 0.5f;
 
-            //if (off < 0.0f)
-            //    off = 0.0f;
-            //else if (off >= 0.0f)
-            //    off = 0.5f;
-
-            //DrawMatrix MAT = DrawMatrix.ScaledInstance;
-            //MAT.tx = -6;
-            //MAT.ty = 1;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgSmile3, MAT, COLOR);
-
-            //MAT.identity();
-            //MAT.tx = -7;
-            //MAT.ty = -5;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy + off);
-
-            //canvas.draw(media.imgEyes2, MAT, COLOR);
+            media.emo.drawEmoShake(g, a, off, hx, hy);            
         }
 
         private void drawEmoSmile(Graphics g)
         {
-            //float a = 0.5f;
+            float a = 0.5f;
 
-            //if (emoCounter > 2.5f) a = 3.0f - emoCounter;
-            //else if (emoCounter < 0.5f) a = emoCounter;
-            //a *= 2.0f;
+            if (emoCounter > 2.5f) a = 3.0f - emoCounter;
+            else if (emoCounter < 0.5f) a = emoCounter;
+            a *= 2.0f;
 
-            //if (a < 1.0f) drawEmoDefault(canvas, 1.0f - a, 0.0f);
-            //COLOR.MulA = a;
-
-            //DrawMatrix MAT = DrawMatrix.ScaledInstance;
-            //MAT.tx = -8;
-            //MAT.ty = 1;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgSmile2, MAT, COLOR);
-
-            //MAT.identity();
-            //MAT.tx = -5;
-            //MAT.ty = -3;
-            //MAT.scale(appear, appear);
-            //MAT.translate(dx, dy);
-
-            //canvas.draw(media.imgEyes1, MAT, COLOR);
+            media.emo.drawEmoSmile(g, a, hx, hy);            
         }
 
         public int getScore()
