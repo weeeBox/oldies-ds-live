@@ -338,18 +338,11 @@ namespace DuckstazyLive.app.game
                 getParticles().startCrapBubble(px, y + duck_h2, vx, vy);
                 --i;
             }
-        }
-
-        public override void Update(float delta)
-        {
-            Update(delta, Level.instance.power);
-
-            wingElement.rotation = wingAngle;
-        }
+        }        
 
         public void Update(float dt, float newPower)
         {
-            if (!started) return;
+            wingElement.rotation = wingAngle;
 
             if (!isDead())
                 updateGamepadInput();
