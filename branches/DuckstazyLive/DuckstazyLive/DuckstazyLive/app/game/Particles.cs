@@ -5,10 +5,11 @@ using System.Text;
 using asap.util;
 using app;
 using asap.graphics;
+using asap.visual;
 
 namespace DuckstazyLive.app.game
 {
-    public class Particles
+    public class Particles : BaseElement
     {
         // направляющие частицы
         public const int ACID = 0;
@@ -21,26 +22,8 @@ namespace DuckstazyLive.app.game
 
         public const int poolSize = 100;
 
-        //[Embed(source = "gfx/fx_acid.png")]
-        //private Class rFXAcidImg;
-
-        //[Embed(source = "gfx/fx_bub.png")]
-        //private Class rFXBubbleImg;
-
-        //[Embed(source = "gfx/fx_w.png")]
-        //private Class rFXWarningImg;
-
-        //[Embed(source = "gfx/fx_star.png")]
-        //private Class rFXStarImg;
-
-        //[Embed(source = "gfx/fx_star2.png")]
-        //private Class rFXStar2Img;
-
-        //[Embed(source = "gfx/fx_out.png")]
-        //private Class rFXOutImg;
-
-        //[Embed(source = "gfx/fx_in.png")]
-        //private Class rFXInImg;
+        private const float FALL_GRAVITY = 300.0f;
+        private const float FLOATUP_GRAVITY = -150.0f;
 
         // Частицы FX
         public int imgFXAcid;
@@ -52,6 +35,8 @@ namespace DuckstazyLive.app.game
 
         private Particle[] pool;
         private int parts;
+
+        private Image image;
 
         public Particles()
         {
@@ -68,6 +53,9 @@ namespace DuckstazyLive.app.game
 
             imgFXOut = Res.IMG_FX_OUT;
             imgFXIn = Res.IMG_FX_IN;
+
+            image = new Image();
+            image.alignX = image.alignY = ALIGN_CENTER;
         }
 
         public void clear()
@@ -78,7 +66,7 @@ namespace DuckstazyLive.app.game
             parts = 0;
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             int i = 0;
             int parts_process = parts;
@@ -93,15 +81,17 @@ namespace DuckstazyLive.app.game
                     switch (p.type)
                     {
                         case STAR:
+                        {
                             p.a += 1.5708f * dt;
 
-                            p.vy += 200.0f * dt;
+                            p.vy += FALL_GRAVITY * dt;
                             p.x += p.vx * dt;
                             p.y += p.vy * dt;
 
-                            if (p.y + 3.0f > 400.0f)
+                            float yMax = height - 0.5f * p.Height;
+                            if (p.y > yMax)
                             {
-                                p.y = 397.0f;
+                                p.y = yMax;
                                 p.vy = -0.5f * p.vy;
                                 p.vx = 0.7f * p.vx;
                             }
@@ -111,18 +101,18 @@ namespace DuckstazyLive.app.game
                                 p.s = p.t * 2.0f;
                                 p.col.MulA = p.alpha * p.s;
                             }
-
-
                             break;
+                        }
                         case ACID:
-
-                            p.vy += 200.0f * dt;
+                        {
+                            p.vy += FALL_GRAVITY * dt;
                             p.x += p.vx * dt;
                             p.y += p.vy * dt;
 
-                            if (p.y + 3.0f > 400.0f)
+                            float yMax = height - 0.5f * p.Height;
+                            if (p.y > yMax)
                             {
-                                p.y = 397.0f;
+                                p.y = yMax;
                                 p.vy = -0.5f * p.vy;
                                 p.vx = 0.7f * p.vx;
                             }
@@ -136,21 +126,25 @@ namespace DuckstazyLive.app.game
                             p.a = (float)(Math.Atan2(p.vy, p.vx) - 1.57f);
 
                             break;
+                        }
 
                         case BUBBLE:
-                            p.vy -= 100.0f * dt;
-                            p.vx += (float)(200.0f * Math.Sin((p.p1 + p.t) * 6.2831f) * dt);
+                        {                        
+                            p.vy += FLOATUP_GRAVITY * dt;
+                            p.vx += (float)(300.0f * Math.Sin((p.p1 + p.t) * 6.2831f) * dt);
                             p.x += p.vx * dt;
-                            p.y += p.vy * dt;
-                            if (p.x >= 644.0f)
-                                p.x -= 643.0f;
-                            if (p.y <= -4.0f)
-                                p.y += 647.0f;
+                            p.y += p.vy * dt;                            
+                            float xMax = width + 0.5f * p.Width;
+                            if (p.x >= xMax)
+                                p.x -= xMax;
+                            if (p.x <= -0.5f * p.Width)
+                                p.x += xMax;
 
                             if (p.t < 1.0f)
                                 p.s = p.t;
 
                             break;
+                        }
                         case WARNING:
                             p.a = 8.0f * 3.14f * (p.p1 - p.t);
                             p.s = (float)(Math.Cos(3.14f * 0.5f * (1.0f - p.t / p.p1)));
@@ -178,44 +172,33 @@ namespace DuckstazyLive.app.game
             }
         }
 
-        public void draw(Graphics g)
+        public override void Draw(Graphics g)
         {
-            //int i = 0;
-            //float a;
-            //float s;
+            PreDraw(g);
 
-            //DrawMatrix mat = DrawMatrix.ScaledInstance;
+            int i = 0;
 
-            //foreach (Particle p in pool)
-            //{
-            //    if (i == parts)
-            //        break;
+            foreach (Particle p in pool)
+            {
+                if (i == parts)
+                    break;
 
-            //    if (p.t > 0.0f)
-            //    {
-            //        a = p.a;
-            //        s = p.s;
+                if (p.t > 0.0f)
+                {
+                    image.SetTexture(p.img);
+                    image.rotation = p.a;
+                    image.scaleX = image.scaleY = p.s;
+                    image.x = p.x;
+                    image.y = p.y;
+                    image.ctForm = p.col;
+                    image.Draw(g);
 
-            //        mat.identity();
+                    //mat.tx = p.px;
+                    //mat.ty = p.py;                    
+                }
+            }
 
-            //        mat.tx = p.px;
-            //        mat.ty = p.py;
-            //        if (a != 0.0f)
-            //            mat.rotate(a);
-
-            //        mat.scale(s, s);
-            //        mat.translate(p.x, p.y);
-
-            //        canvas.draw(p.img, mat, p.col);
-
-            //        Env env = GameElements.Env;
-            //        if (env.isHitFaded())
-            //        {
-            //            canvas.draw(p.img, mat, env.blackFade);
-            //        }
-            //        ++i;
-            //    }
-            //}
+            PostDraw(g);
         }
 
         private void setCT(ref ColorTransform color, uint argb)
@@ -254,13 +237,13 @@ namespace DuckstazyLive.app.game
                 p = findDead();
                 if (p != null)
                 {
-                    speed = 10.0f + RandomHelper.rnd() * 190;
+                    speed = 15.0f + RandomHelper.rnd() * 285;
 
                     p.t = 0.2f + RandomHelper.rnd() * 0.5f;
                     p.vx = (float)Math.Cos(a);
                     p.vy = (float)Math.Sin(a);
-                    p.x = 9.0f * p.vx + x;
-                    p.y = 9.0f * p.vy + y;
+                    p.x = 13.5f * p.vx + x;
+                    p.y = 13.5f * p.vy + y;
                     /*if(p.y>=397)
                     {
                         p.y = 379;
@@ -275,7 +258,7 @@ namespace DuckstazyLive.app.game
                     p.py = -7.0f;
                     p.s = 1.0f;
                     p.a = (float)(Math.Atan2(p.vy, p.vx) - 1.57f);
-                    p.img = imgFXAcid;
+                    p.img = GetTexture(imgFXAcid);
 
                     a += 1.0f + RandomHelper.rnd() * 0.5f;
                     ++parts;
@@ -295,8 +278,8 @@ namespace DuckstazyLive.app.game
                 p.p1 = RandomHelper.rnd();
                 p.p2 = 0.5f + RandomHelper.rnd();
                 p.t = 0.5f + RandomHelper.rnd();
-                p.vx = -10.0f + RandomHelper.rnd() * 20.0f;
-                p.vy = -RandomHelper.rnd() * 100;
+                p.vx = -15.0f + RandomHelper.rnd() * 30.0f;
+                p.vy = -RandomHelper.rnd() * 150;
 
                 p.col.MulA = 1.0f;
                 p.col.MulR = 0.5f;
@@ -310,7 +293,7 @@ namespace DuckstazyLive.app.game
                 p.py = -4.0f;
                 p.s = 1.0f;
                 p.a = 0.0f;
-                p.img = imgFXBubble;
+                p.img = GetTexture(imgFXBubble);
                 p.type = BUBBLE;
 
                 ++parts;
@@ -327,8 +310,8 @@ namespace DuckstazyLive.app.game
                 p.p1 = RandomHelper.rnd();
                 p.p2 = 0.5f + RandomHelper.rnd();
                 p.t = 0.5f + RandomHelper.rnd();
-                p.vx = -10.0f + RandomHelper.rnd() * 20.0f;
-                p.vy = -RandomHelper.rnd() * 100.0f;
+                p.vx = -15.0f + RandomHelper.rnd() * 30.0f;
+                p.vy = -RandomHelper.rnd() * 150.0f;
                 //p.col = utils.ARGB2ColorTransform(color);
                 setCT(ref p.col, color);
                 p.alpha = p.col.MulA;
@@ -338,7 +321,7 @@ namespace DuckstazyLive.app.game
                 p.py = -4.0f;
                 p.s = 1.0f;
                 p.a = 0.0f;
-                p.img = imgFXBubble;
+                p.img = GetTexture(imgFXBubble);
                 p.type = BUBBLE;
 
                 ++parts;
@@ -366,7 +349,7 @@ namespace DuckstazyLive.app.game
                 p.py = -4.0f;
                 p.s = 1.0f;
                 p.a = 0.0f;
-                p.img = imgFXBubble;
+                p.img = GetTexture(imgFXBubble);
                 p.type = ACID;
 
                 ++parts;
@@ -411,7 +394,7 @@ namespace DuckstazyLive.app.game
                 p.py = -7.0f;
                 p.s = 1.0f;
                 p.a = RandomHelper.rnd() * 3.14f;
-                p.img = imgFXStar;
+                p.img = GetTexture(imgFXStar);
 
                 ++parts;
             }
@@ -456,7 +439,7 @@ namespace DuckstazyLive.app.game
                 p.py = -7.0f;
                 p.s = 1.0f;
                 p.a = RandomHelper.rnd() * 3.14f;
-                p.img = imgFXStar;
+                p.img = GetTexture(imgFXStar);
 
                 ++parts;
             }
@@ -486,7 +469,7 @@ namespace DuckstazyLive.app.game
                 p.py = -13.0f;
                 p.s = 0.0f;
                 p.a = 0.0f;
-                p.img = imgFXWarning;
+                p.img = GetTexture(imgFXWarning);
                 p.type = WARNING;
 
                 ++parts;
@@ -512,9 +495,9 @@ namespace DuckstazyLive.app.game
                 p.s = 0.0f;
                 p.a = 0.0f;
                 if (radius > 0.0f)
-                    p.img = imgFXOut;
+                    p.img = GetTexture(imgFXOut);
                 else
-                    p.img = imgFXIn;
+                    p.img = GetTexture(imgFXIn);
                 p.type = RING;
 
                 ++parts;
@@ -566,7 +549,7 @@ namespace DuckstazyLive.app.game
                     p.py = -7.0f;
                     p.s = 1.0f;
                     p.a = RandomHelper.rnd() * 3.14f;
-                    p.img = imgFXStar;
+                    p.img = GetTexture(imgFXStar);
 
                     a += 1.0f + RandomHelper.rnd() * 0.5f;
                     ++parts;
@@ -628,7 +611,7 @@ namespace DuckstazyLive.app.game
                     p.py = -7.0f;
                     p.s = 1.0f;
                     p.a = RandomHelper.rnd() * 3.14f;
-                    p.img = imgFXStar;
+                    p.img = GetTexture(imgFXStar);
 
                     c = !c;
                     a += 1.0f + RandomHelper.rnd() * 0.5f; ;
@@ -672,7 +655,7 @@ namespace DuckstazyLive.app.game
                     p.py = -7.0f;
                     p.s = 1.0f;
                     p.a = RandomHelper.rnd() * 3.14f;
-                    p.img = imgFXStar;
+                    p.img = GetTexture(imgFXStar);
 
                     c = !c;
                     a += 1.0f + RandomHelper.rnd() * 0.5f;
@@ -710,7 +693,7 @@ namespace DuckstazyLive.app.game
                     p.py = -4.0f;
                     p.s = 1.0f;
                     p.a = 0.0f;
-                    p.img = imgFXBubble;
+                    p.img = GetTexture(imgFXBubble);
                     p.type = BUBBLE;
 
                     ++parts;
@@ -718,6 +701,11 @@ namespace DuckstazyLive.app.game
                 else break;
                 --i;
             }
+        }
+
+        private GameTexture GetTexture(int id)
+        {
+            return Application.sharedResourceMgr.GetTexture(id);
         }
 
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using asap.util;
+using asap.graphics;
 
 namespace DuckstazyLive.app.game
 {
@@ -22,7 +23,7 @@ namespace DuckstazyLive.app.game
         public float p1;
         public float p2;
 
-        public int img;
+        public GameTexture img;
         public float px;
         public float py;
         public float s;
@@ -30,24 +31,19 @@ namespace DuckstazyLive.app.game
         public float alpha;
         public ColorTransform col = ColorTransform.NONE;
 
-
         public Particle()
         {
             t = 0.0f;
         }
 
-        /*public void draw(bool canvas)
+        public float Width
         {
-            Matrix mat = new Matrix(1.0f, 0.0f, 0.0f, 1.0f, px, py);
-			
-            if(a!=0.0f)
-                mat.rotate(a);
-				
-            mat.scale(s, s);
-            mat.translate(x, y);
+            get { return img.GetWidth(); }
+        }
 
-            canvas.draw(img, mat, col, null, null, true);
-        }*/
-
+        public float Height
+        {
+            get { return img.GetHeight(); }
+        }
     }
 }
