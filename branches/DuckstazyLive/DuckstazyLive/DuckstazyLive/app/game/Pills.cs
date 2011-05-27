@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using asap.graphics;
+using asap.visual;
 
 namespace DuckstazyLive.app.game
 {
-    public class Pills
+    public class Pills : BaseElementContainer
     {
         public const int poolSize = 120;
 
@@ -142,6 +143,11 @@ namespace DuckstazyLive.app.game
             }
         }
 
+        public override void Update(float delta)
+        {
+            Update(delta, 0.0f);
+        }
+
         public void Update(float dt, float power)
         {
             int i = 0;
@@ -157,14 +163,14 @@ namespace DuckstazyLive.app.game
 
                 if (p.state != Pill.DEAD)
                 {
-                    if (p.Update(dt))
+                    if (p.update(dt))
                         actives--;
                     ++i;
                 }
             }
         }
 
-        public void Draw(Graphics g)
+        public override void Draw(Graphics g)
         {
             int i = 0;
 
