@@ -18,6 +18,9 @@ namespace DuckstazyLive.game.levels
         public float vx, vy;
         public float x, y;
 
+        internal const int CELL_WIDTH = 32;
+        internal const int CELL_HEIGHT = 32;
+
         public float cellWidth, cellHeight;
 
         public FigurePattern(byte[] pattern, int cols, int rows)
@@ -26,8 +29,8 @@ namespace DuckstazyLive.game.levels
             this.cols = cols;
             this.rows = rows;
 
-            cellWidth = 1.6f * Pill.DEFAULT_WIDTH;
-            cellHeight = 1.5f * Pill.DEFAULT_HEIGHT;
+            cellWidth = 1.6f * CELL_WIDTH;
+            cellHeight = 1.5f * CELL_HEIGHT;
         }        
 
         public byte at(int x, int y)
@@ -167,7 +170,7 @@ namespace DuckstazyLive.game.levels
             int duckHeight = duckFigure.getRowsCount();
 
             duckFigure.x = 640.0f;
-            duckFigure.y = 0.5f * (400.0f - duckWidth * Pill.DEFAULT_HEIGHT);            
+            duckFigure.y = 0.5f * (400.0f - duckWidth * FigurePattern.CELL_HEIGHT);            
 
             gen.regen = false;            
             gen.start();

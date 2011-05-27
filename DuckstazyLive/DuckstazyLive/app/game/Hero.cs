@@ -342,7 +342,7 @@ namespace DuckstazyLive.app.game
 
         public override void Update(float delta)
         {
-            Update(delta, 0.0f);
+            Update(delta, Level.instance.power);
 
             wingElement.rotation = wingAngle;
         }

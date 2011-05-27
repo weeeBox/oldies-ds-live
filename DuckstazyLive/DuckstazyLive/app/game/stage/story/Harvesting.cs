@@ -5,6 +5,7 @@ using System.Text;
 using DuckstazyLive.game.levels.generator;
 using DuckstazyLive.app.game;
 using asap.graphics;
+using System.Diagnostics;
 
 namespace DuckstazyLive.game.levels
 {
@@ -24,7 +25,7 @@ namespace DuckstazyLive.game.levels
         public override void onStart()
         {
             base.onStart();
-            startX = 293;            
+            startX = 439.5f;            
             prog = 0.0f;
 
             gen = new Generator();
@@ -35,7 +36,7 @@ namespace DuckstazyLive.game.levels
             powers2.userCallback = pillLogic;
             powers3.userCallback = pillLogic;
             gen.regen = true;
-            gen.addLine(powers1, 40, 340, 40, 0, 15);
+            gen.addLine(powers1, 60, 510, 60, 0, 15);
 
             gen.start();            
         }
@@ -57,9 +58,9 @@ namespace DuckstazyLive.game.levels
             foreach (Placer o in gen.map)
             {
                 if (i < 15)
-                    o.y = 380 - heroes.getJumpHeight();
+                    o.y = 570 - heroes.getJumpHeight();
                 else if (i < 30)
-                    o.y = 380 - heroes.getJumpHeight() * 0.5f;
+                    o.y = 570 - heroes.getJumpHeight() * 0.5f;
                 else if (i < 45)
                     break;
                 ++i;
@@ -67,13 +68,13 @@ namespace DuckstazyLive.game.levels
 
             if (gen.map.Count < 30 && level.power > 0.33)
             {
-                i = (int)(380 - heroes.getJumpHeight() * 0.5f);
-                gen.addLine(powers2, 40, i, 40, 0, 15);
+                i = (int)(570 - heroes.getJumpHeight() * 0.5f);
+                gen.addLine(powers2, 60, i, 60, 0, 15);
             }
             else if (gen.map.Count < 45 && level.power > 0.66)
             {
-                i = 370;
-                gen.addLine(powers3, 40, i, 40, 0, 15);
+                i = 570;
+                gen.addLine(powers3, 60, i, 60, 0, 15);
             }
 
         }
@@ -95,14 +96,14 @@ namespace DuckstazyLive.game.levels
                 pill.t1 = t;
 
                 //t = 0.1;
-                //pill.t2 = (1.0f-t)*pill.t2 + t*(380-hero.getJumpHeight());
+                //pill.t2 = (1.0f-t)*pill.t2 + t*(570-hero.getJumpHeight());
 
-                pill.y = (float)(380 - getHeroes().getJumpHeight() * pill.t2 + 10 * Math.Sin(pill.t1 * 6.28f));
+                pill.y = (float)(570 - getHeroes().getJumpHeight() * pill.t2 + 10 * Math.Sin(pill.t1 * 6.28f));                
             }
             else if (msg == "born")
             {
                 pill.t1 = 0.0f;
-                pill.t2 = (380 - pill.y) / getHeroes().getJumpHeight();//pill.y;
+                pill.t2 = (570 - pill.y) / getHeroes().getJumpHeight();//pill.y;
             }
         }        
     }

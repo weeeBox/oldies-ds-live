@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using asap.graphics;
 using asap.visual;
+using System.Diagnostics;
+using DuckstazyLive.app.game.level;
 
 namespace DuckstazyLive.app.game
 {
-    public class Pills : BaseElementContainer
+    public class Pills : BaseElement
     {
         public const int poolSize = 120;
 
@@ -25,10 +27,12 @@ namespace DuckstazyLive.app.game
         public Pills(Heroes heroes, Particles particles)
         {
             this.heroes = heroes;
-
+            
             // Временные переменные
             int i = poolSize - 1;
 
+            drawBorder = true;
+            borderColor = Microsoft.Xna.Framework.Color.Red;
             media = new PillsMedia();
             ps = particles;
 
@@ -145,7 +149,7 @@ namespace DuckstazyLive.app.game
 
         public override void Update(float delta)
         {
-            Update(delta, 0.0f);
+            Update(delta, Level.instance.power);
         }
 
         public void Update(float dt, float power)
@@ -155,7 +159,8 @@ namespace DuckstazyLive.app.game
 
             media.power = power;
 
-            process = actives;
+            process = actives;                       
+
             foreach (Pill p in pool)
             {
                 if (i == process)
@@ -172,6 +177,8 @@ namespace DuckstazyLive.app.game
 
         public override void Draw(Graphics g)
         {
+            PreDraw(g);
+
             int i = 0;
 
             bool hasBlanc = GameElements.Env.isHitFaded();
@@ -182,26 +189,12 @@ namespace DuckstazyLive.app.game
 
                 if (p.state != Pill.DEAD)
                 {
-                    p.dx = (int)(p.x);
-                    p.dy = (int)(p.y);
-                    if (p.isPower())
-                    {
-                        p.drawEmo(g);
-                    }
-                    else if (p.type == Pill.JUMP)
-                    {
-                        p.drawJump(g);
-                    }
-                    else
-                    {
-                        p.draw(g);
-                    }
-
-                    if (hasBlanc)
-                        p.drawBlanc(g);
+                    p.Draw(g);                    
                     ++i;
                 }
             }
+
+            PostDraw(g);
         }
 
         public Pill findDead()
