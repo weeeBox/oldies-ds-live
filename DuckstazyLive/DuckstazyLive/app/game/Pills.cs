@@ -294,7 +294,7 @@ namespace DuckstazyLive.app.game
                                 {
                                     pick = false;
                                     p.kill();
-                                    utils.playSound(attack_snd, 1.0f, p.x);
+                                    Level.playSound(attack_snd, 1.0f, p.x);
                                 }
                                 --toxic_count;
                             }
