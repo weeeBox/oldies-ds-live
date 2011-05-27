@@ -24,6 +24,7 @@ namespace DuckstazyLive.app.game
             // sky            
             AddChild(sky);            
 
+            // level
             level = new SingleLevel(null, 960, 600);            
             level.alignX = level.parentAlignX = ALIGN_CENTER;
             level.alignY = ALIGN_MAX;

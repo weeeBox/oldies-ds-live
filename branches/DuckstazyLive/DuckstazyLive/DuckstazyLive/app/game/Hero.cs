@@ -276,7 +276,7 @@ namespace DuckstazyLive.app.game
 
             blinkTime = 0.0f;
 
-            y = 400;            
+            y = maxY;
             compressCounter = 0.0f;
             jumpedElasped = 0.0f;
 
@@ -470,7 +470,7 @@ namespace DuckstazyLive.app.game
             {
                 updateFlying(dt);
 
-                if (y >= 400 - duck_h2)
+                if (y >= maxY)
                 {
                     doLand();
                     doLandBubbles();
@@ -485,7 +485,7 @@ namespace DuckstazyLive.app.game
         {
             wingLock = false;
             fly = false;
-            y = 400 - duck_h2;
+            y = maxY;
             sleep_collected = 0;
             toxic_collected = 0;
             frags = 0;
@@ -496,9 +496,9 @@ namespace DuckstazyLive.app.game
         private void updateFixPos(float dt)
         {
             if (x < -duck_w)
-                x += 640.0f;
-            if (x > (640.0f - duck_w))
-                x -= 640.0f;
+                x += heroes.width;
+            if (x > (heroes.width - duck_w))
+                x -= heroes.width;
         }
 
         private void updateDropAttack(Hero hero, float dt)
@@ -525,7 +525,7 @@ namespace DuckstazyLive.app.game
             else
             {
                 y += attackVelocity * dt;
-                if (y >= 400 - duck_h2)
+                if (y >= maxY)
                 {
                     stopAttack();
 
@@ -746,12 +746,12 @@ namespace DuckstazyLive.app.game
                 if (dx < 0)
                 {
                     alpha = 1.0f - Math.Abs(dx) / duck_w2;
-                    drawHero(g, dx + 640, dy, 1.0f - alpha);
+                    drawHero(g, dx + heroes.width, dy, 1.0f - alpha);
                 }
-                else if (dx > 640 - duck_w2)
+                else if (dx > heroes.width - duck_w2)
                 {
-                    alpha = 1.0f - (dx - 640 + duck_w2) / duck_w2;
-                    drawHero(g, dx - 640, dy, 1.0f - alpha);
+                    alpha = 1.0f - (dx - heroes.width + duck_w2) / duck_w2;
+                    drawHero(g, dx - heroes.width, dy, 1.0f - alpha);
                 }
                 drawHero(g, dx, dy, alpha);
             }
@@ -1032,8 +1032,8 @@ namespace DuckstazyLive.app.game
             float px = cx;
             float py = cy;
 
-            if (x < 0.0f && px > (630 - duck_w2))
-                px -= 640;
+            if (x < 0.0f && px > (heroes.width - duck_w2))
+                px -= heroes.width;
 
             if (flip)
                 px = 2 * (x + duck_w) - px;
@@ -1326,7 +1326,7 @@ namespace DuckstazyLive.app.game
 
         private bool canDrop()
         {
-            return (canAttack() || attackType == ATTACK_DASH) && y < 400 - 1.5f * duck_h2;
+            return (canAttack() || attackType == ATTACK_DASH) && y < heroes.height - 1.5f * duck_h2;
         }
 
         public void drop()
@@ -1391,7 +1391,7 @@ namespace DuckstazyLive.app.game
             x += hitSpeed * dt;
             rotation += hitDa * dt;
 
-            if (y >= 400 - duck_h2)
+            if (y >= maxY)
             {
                 hitType = 0;
                 movementCallback = null;
@@ -1487,7 +1487,7 @@ namespace DuckstazyLive.app.game
             bool over = false;
 
             if (x < 0.0f && cx > (630 - duck_w2))
-                cx -= 640;
+                cx -= heroes.width;
 
             if (flip)
                 cx = 2 * (x + duck_w) - cx;
@@ -1605,7 +1605,7 @@ namespace DuckstazyLive.app.game
 
         public bool isFlying()
         {
-            return y < 400 - duck_h2;
+            return y < maxY;
         }
 
         public int getPlayerIndex()
@@ -1642,6 +1642,11 @@ namespace DuckstazyLive.app.game
         {
             get { return scaleX < 0; }
             set { scaleX = value ? -Math.Abs(scaleX) : Math.Abs(scaleX); }
+        }
+
+        private float maxY
+        {
+            get { return heroes.height - height; }
         }
     }
 }
