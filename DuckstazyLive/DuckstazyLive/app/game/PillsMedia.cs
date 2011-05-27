@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using app;
 using asap.graphics;
+using DuckstazyLive.app.game.stage.fx;
 
 namespace DuckstazyLive.app.game
 {
@@ -139,6 +140,8 @@ namespace DuckstazyLive.app.game
         public GameTexture imgEyes1;
         public GameTexture imgEyes2;
 
+        public Emo emo;
+
         public float power;
 
         public PillsMedia()
@@ -181,6 +184,8 @@ namespace DuckstazyLive.app.game
             sndToxicBorn = Res.SND_PILL_TOXIC_BORN;
 
             power = 0.0f;
+
+            emo = new Emo(this, imgPPower1.GetWidth(), imgPPower1.GetHeight());
         }
 
         private GameTexture GetTexture(int id)

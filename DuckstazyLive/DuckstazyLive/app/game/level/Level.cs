@@ -220,6 +220,11 @@ namespace DuckstazyLive.app.game.level
                 return true;
             }            
 
+            if (e.code == KeyCode.VK_P)
+            {
+                power = powerUp = 1.0f;
+            }
+
             //if (e.button == Buttons.LeftShoulder || e.key == Keys.PageUp)
             //{
             //    int heroIndex = e.playerIndex;
