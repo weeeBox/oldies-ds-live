@@ -157,9 +157,7 @@ namespace DuckstazyLive.app.game.level
         }        
 
         public override void Update(float dt)
-        {
-            base.Update(dt);
-                        
+        {                        
             float power_drain = 0.0f;
             Heroes heroes = getHeroes();
 
@@ -181,6 +179,8 @@ namespace DuckstazyLive.app.game.level
                 power += dt * 0.05f;
                 if (power > powerUp) power = powerUp;
             }
+
+            base.Update(dt);
 
             //heroes.Update(dt, power);
             //getPills().Update(dt, power);

@@ -40,11 +40,7 @@ namespace DuckstazyLive.app.game
 
         /*public const int HAPPY = 0;
         public const int SHAKE = 1;
-        public const int SMILE = 2;*/
-
-        public const float DEFAULT_RADIUS = 10.0f;
-        public const float DEFAULT_WIDTH = 2 * DEFAULT_RADIUS;
-        public const float DEFAULT_HEIGHT = 2 * DEFAULT_RADIUS;
+        public const int SMILE = 2;*/                
 
         private Rect RC = new Rect(0, 0, 20, 20);
         private Vector2 POINT = Vector2.Zero;
@@ -113,9 +109,10 @@ namespace DuckstazyLive.app.game
         private Particles ps;
         private Heroes heroes;
 
-        private Image imgMain;
-        private Image imgEmo;
-        private Image imgNid;
+        private GameTexture imgMain;
+        private GameTexture imgEmo;
+        private GameTexture imgNid;
+        private GameTexture imgHigh;
 
         // используется для оповещения генератора-родителя
         public ParentCallback parent;
@@ -130,10 +127,7 @@ namespace DuckstazyLive.app.game
 
             media = pillsMedia;
             ps = particles;
-
-            imgMain = new Image();
-            imgEmo = new Image();
-            imgNid = new Image();
+            alignX = alignY = ALIGN_CENTER;            
 
             clear();
         }
@@ -177,9 +171,9 @@ namespace DuckstazyLive.app.game
             high = false;
             highCounter = 0.0f;
             type = Constants.UNDEFINED;
-            imgMain.SetTexture(null);
-            imgEmo.SetTexture(null);
-            imgNid.SetTexture(null);
+            imgMain = (null);
+            imgEmo = (null);
+            imgNid = (null);
             parent = null;
             user = null;            
         }
@@ -227,6 +221,9 @@ namespace DuckstazyLive.app.game
                     if (user != null)
                         user(this, "born", 0.0f);
                     appear = 0.0f;
+                    width = imgMain.GetWidth();
+                    height = imgMain.GetHeight();
+                    rMax = 0.5f * width;
                     r = 0.0f;
                     break;
                 case ALIVE:
@@ -532,8 +529,8 @@ namespace DuckstazyLive.app.game
                         type = POWER1;
                         scores = POWER1_SCORE;
                         power = 0.01f;
-                        imgMain.SetTexture(media.imgPower1);
-                        imgEmo.SetTexture(media.imgPPower1);
+                        imgMain = (media.imgPower1);
+                        imgEmo = (media.imgPPower1);                        
                         break;
                     }
                 case 1:
@@ -541,8 +538,8 @@ namespace DuckstazyLive.app.game
                         type = POWER2;
                         scores = POWER2_SCORE;
                         power = 0.025f;
-                        imgMain.SetTexture(media.imgPower2);
-                        imgEmo.SetTexture(media.imgPPower2);
+                        imgMain = (media.imgPower2);
+                        imgEmo = (media.imgPPower2);
                         break;
                     }
                 case 2:
@@ -550,13 +547,12 @@ namespace DuckstazyLive.app.game
                         type = POWER3;
                         scores = POWER3_SCORE;
                         power = 0.05f;
-                        imgMain.SetTexture(media.imgPower3);
-                        imgEmo.SetTexture(media.imgPPower3);
+                        imgMain = (media.imgPower3);
+                        imgEmo = (media.imgPPower3);
                         break;
                     }
             }
-
-            rMax = DEFAULT_RADIUS;
+            
             damage = 0;
 
             id = ID;
@@ -567,7 +563,7 @@ namespace DuckstazyLive.app.game
             hx = 0.0f;
             hy = 0.0f;
 
-            imgNid.SetTexture(media.imgNids[(int)(RandomHelper.rnd() * 4)]);
+            imgNid = (media.imgNids[(int)(RandomHelper.rnd() * 4)]);
 
             spy = true;
 
@@ -589,9 +585,7 @@ namespace DuckstazyLive.app.game
             y = (int)(py);
             type = JUMP;
 
-            imgMain.SetTexture(media.imgHigh);
-
-            rMax = DEFAULT_RADIUS;
+            imgMain = (media.imgHigh);            
 
             damage = 0;
 
@@ -614,8 +608,7 @@ namespace DuckstazyLive.app.game
             y = (int)(py);
             type = MATRIX;
 
-            imgMain.SetTexture(media.imgHole);
-            rMax = DEFAULT_RADIUS;
+            imgMain = (media.imgHole);            
 
             spy = false;
             hookedHero = Constants.UNDEFINED;
@@ -639,25 +632,24 @@ namespace DuckstazyLive.app.game
             {
                 case TOXIC_SKULL:
                     damage = 1;
-                    imgMain.SetTexture(media.imgToxic);
+                    imgMain = (media.imgToxic);
                     hookedHero = getClosestHeroIndex();
                     hookTime = 3.0f;
                     hookCounter = 0.0f;
                     break;
                 case TOXIC_FORBID:
                     damage = 2;
-                    imgMain.SetTexture(media.imgToxic2);
+                    imgMain = (media.imgToxic2);
                     hookedHero = Constants.UNDEFINED;
                     break;
             }
 
-            id = ID;
+            id = ID;            
 
             warning = 3.0f;
             enabled = false;
 
-            spy = false;
-            rMax = DEFAULT_RADIUS;
+            spy = false;            
             v = 20.0f;
             emo = false;
             high = false;
@@ -682,11 +674,11 @@ namespace DuckstazyLive.app.game
             {
                 case TOXIC_SKULL:
                     damage = 1;
-                    imgMain.SetTexture(media.imgToxic);
+                    imgMain = (media.imgToxic);
                     break;
                 case TOXIC_FORBID:
                     damage = 2;
-                    imgMain.SetTexture(media.imgToxic2);
+                    imgMain = (media.imgToxic2);
                     break;
             }
 
@@ -696,9 +688,7 @@ namespace DuckstazyLive.app.game
 
             enabled = true;
 
-            spy = false;
-
-            rMax = DEFAULT_RADIUS;
+            spy = false;            
 
             v = 20.0f;
 
@@ -720,10 +710,8 @@ namespace DuckstazyLive.app.game
             hookedHero = Constants.UNDEFINED;
             high = false;
             enabled = true;
-
-            rMax = DEFAULT_RADIUS;
-
-            imgMain.SetTexture(media.imgSleep);
+            
+            imgMain = (media.imgSleep);
             setState(BORNING);
 
             ps.startAcid(x, y);
@@ -742,11 +730,9 @@ namespace DuckstazyLive.app.game
             spy = false;
             hookedHero = Constants.UNDEFINED;
             high = false;
-            enabled = true;
+            enabled = true;                      
 
-            rMax = DEFAULT_RADIUS;
-
-            imgMain.SetTexture(media.imgCure);
+            imgMain = (media.imgCure);
 
             setState(BORNING);
 
@@ -811,77 +797,70 @@ namespace DuckstazyLive.app.game
             }
         }
 
+        public override void Draw(Graphics g)
+        {
+            PreDraw(g);
+
+            dx = (int)(x);
+            dy = (int)(y);
+            if (isPower())
+            {
+                drawEmo(g);
+            }
+            else if (type == Pill.JUMP)
+            {
+                drawJump(g);
+            }
+            else
+            {
+                draw(g);
+            }
+
+            PostDraw(g);
+        }
+
         public void drawEmo(Graphics g)
         {
-            //if (media.power < 0.5f)
-            //{
-            //    if (state != ALIVE)
-            //    {
-            //        MAT.tx = MAT.ty = -12;
-            //        MAT.scale(appear, appear);
-            //        MAT.translate(dx, dy);
-            //        canvas.draw(imgMain, MAT);
-            //        MAT.tx = MAT.ty = -10;
-            //        canvas.draw(imgNid, MAT);
-            //    }
-            //    else
-            //    {
-            //        POINT.X = dx - 10.5f;
-            //        POINT.Y = dy - 11;
-            //        canvas.copyPixels(imgMain, RC, POINT);
-            //        POINT.X = dx - 10;
-            //        POINT.Y = dy - 10;
-            //        canvas.copyPixels(imgNid, RC, POINT);
-            //    }
-            //}
-            //else
-            //{
-            //    if (state != ALIVE)
-            //    {
-            //        MAT.tx = MAT.ty = -10.5f;
-            //        MAT.scale(appear, appear);
-            //        MAT.translate(dx, dy);
-            //        canvas.draw(imgEmo, MAT);
-            //    }
-            //    else
-            //    {
-            //        POINT.X = dx - 10.5f;
-            //        POINT.Y = dy - 10.5f;
-            //        canvas.copyPixels(imgEmo, RC, POINT);
-            //    }
+            if (media.power < 0.5f)
+            {
+                g.DrawImage(imgMain, 0, 0);
+                g.DrawImage(imgNid, 0, 0);
+            }
+            else
+            {
+                g.DrawImage(imgNid, 0, 0);
 
-            //    if (emoCounter > 0.0f)
-            //    {
-            //        switch (emoType)
-            //        {
-            //            case 0:
-            //                drawEmoHappy(canvas);
-            //                break;
-            //            case 1:
-            //                drawEmoShake(canvas);
-            //                break;
-            //            case 2:
-            //                drawEmoSmile(canvas);
-            //                break;
-            //        }
-            //    }
-            //    else
-            //        drawNid(canvas);
-            //}
+                if (emoCounter > 0.0f)
+                {
+                    switch (emoType)
+                    {
+                        case 0:
+                            drawEmoHappy(g);
+                            break;
+                        case 1:
+                            drawEmoShake(g);
+                            break;
+                        case 2:
+                            drawEmoSmile(g);
+                            break;
+                    }
+                }
+                else
+                {
+                    drawNid(g);
+                }
+            }
 
-            //if (high && highCounter > 0.5 && state == ALIVE)
-            //{
-            //    MAT.identity();
-            //    MAT.tx = dx - 0.5f * utils.unscale(utils.textureWidth(media.imgHigh));
-            //    MAT.ty = dy - 0.5f * utils.unscale(utils.textureHeight(media.imgHigh));
-            //    COLOR.MulA = 2.0f - highCounter * 2.0f;
-            //    canvas.draw(media.imgHigh, MAT, COLOR);
-            //}
+            if (high && highCounter > 0.5 && state == ALIVE)
+            {                
+                ctForm.MulA = 2.0f - highCounter * 2.0f;
+                g.DrawImage(imgHigh, 0, 0);                
+            }            
         }
 
         public void draw(Graphics g)
         {            
-            imgMain.Draw(g);            
+            g.DrawImage(imgMain, 0, 0);         
         }
 
         public void drawJump(Graphics g)
@@ -902,8 +881,8 @@ namespace DuckstazyLive.app.game
 
             if (state != ALIVE)
                 s *= appear;
-
-            imgMain.Draw(g);            
+            
+            g.DrawImage(imgMain, 0, 0);         
         }
 
         public void drawBlanc(Graphics g)

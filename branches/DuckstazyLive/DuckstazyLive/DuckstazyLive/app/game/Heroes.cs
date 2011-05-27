@@ -8,6 +8,7 @@ using asap.graphics;
 using asap.core;
 using asap.util;
 using asap.visual;
+using DuckstazyLive.app.game.level;
 
 namespace DuckstazyLive.app.game
 {
@@ -77,11 +78,11 @@ namespace DuckstazyLive.app.game
             {
                 hero.clear();
             }
-        }
+        }        
 
-        public void Update(float dt, float newPower)
+        public override void Update(float dt)
         {
-            if (!started) return;
+            float newPower = Level.instance.power;
 
             jumpStartVelocity = Hero.get_jump_start_vel(newPower);
 
