@@ -430,7 +430,7 @@ namespace DuckstazyLive.app.game
                         {
                             getEnv().beat();
                         }
-                        //utils.playSound(media.sndPowers[id], 1.0f, x);
+                        Level.playSound(media.sndPowers[id], 1.0f, x);
 
                         if (high && !hero.isDroppingDown() && hero.doHigh(x, y))
                         {
@@ -576,7 +576,7 @@ namespace DuckstazyLive.app.game
             setState(BORNING);
 
             ps.startAcid(x, y);
-            //utils.playSound(media.sndGenerate, 1.0f, x);
+            Level.playSound(media.sndGenerate, 1.0f, x);
         }
 
         public void startJump(float px, float py)
@@ -599,7 +599,7 @@ namespace DuckstazyLive.app.game
             highCounter = 0.0f;
 
             ps.startAcid(x, y, 0xffffffff);
-            //utils.playSound(media.sndGenerate, 1.0f, x);
+            Level.playSound(media.sndGenerate, 1.0f, x);
         }
 
         public void startMatrix(float px, float py)
@@ -619,7 +619,7 @@ namespace DuckstazyLive.app.game
             setState(BORNING);
 
             ps.startAcid(x, y);
-            // utils.playSound(media.sndGenerate, 1.0f, x);
+            Level.playSound(media.sndGenerate, 1.0f, x);
         }
 
         public void startToxic(float px, float py, int ID)
@@ -715,7 +715,7 @@ namespace DuckstazyLive.app.game
             setState(BORNING);
 
             ps.startAcid(x, y);
-            // utils.playSound(media.sndGenerate, 1.0f, x);
+            Level.playSound(media.sndGenerate, 1.0f, x);
         }
 
         public void startCure(float px, float py)
@@ -737,7 +737,7 @@ namespace DuckstazyLive.app.game
             setState(BORNING);
 
             ps.startAcid(x, y);
-            //utils.playSound(media.sndGenerate, 1.0f, x);
+            Level.playSound(media.sndGenerate, 1.0f, x);
         }
 
         public void kill()

@@ -9,6 +9,7 @@ using app;
 using asap.graphics;
 using asap.core;
 using asap.visual;
+using asap.sound;
 
 namespace DuckstazyLive.app.game.level
 {
@@ -309,6 +310,18 @@ namespace DuckstazyLive.app.game.level
         protected Env getEnv()
         {
             return GameElements.Env;
+        }
+
+        public static void playSound(int snd, float vol, float x)
+        {
+            float halfWidth = 0.5f * instance.width;
+            float pan = (x - halfWidth) / halfWidth;
+
+            if (pan > 1) pan = 1;
+            else if (pan < -1) pan = -1;
+
+            SoundTransform tr = new SoundTransform(vol, pan);            
+            Application.sharedSoundMgr.PlaySound(snd, tr);
         }
     }
 }
