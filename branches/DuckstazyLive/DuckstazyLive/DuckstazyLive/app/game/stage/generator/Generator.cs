@@ -29,7 +29,8 @@ namespace DuckstazyLive.game.levels.generator
             counter = 0.0f;
             speed = 4.0f;
             mapPointer = 0;
-            heroSqrDist = 1200;
+            //heroSqrDist = 1200;
+            heroSqrDist = 2700;
 
             regen = true;
 

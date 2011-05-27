@@ -61,10 +61,16 @@ namespace DuckstazyLive.app.game
         private bool stickDive;
         private float stickMoveCoeff;
 
+/*
         public const int duck_w = 27;
         public const int duck_h = 20;
         public const int duck_w2 = 54;
         public const int duck_h2 = 40;
+*/
+        public const int duck_w = 40;
+        public const int duck_h = 30;
+        public const int duck_w2 = 81;
+        public const int duck_h2 = 38;
 
         private const float COMPRESS_TIMEOUT = 0.25f;
         private float compressCounter;        
@@ -113,7 +119,7 @@ namespace DuckstazyLive.app.game
             new Rect(0, 0, duck_w2, duck_h2)
         };
 
-        private static Rect[] COLLISION_RECTS = 
+        /*private static Rect[] COLLISION_RECTS = 
         {
             new Rect(8.0f, 0.0f, 16.0f, 17.0f),
             new Rect(0.0f, 10.0f, 15.0f, 6.0f),
@@ -129,6 +135,24 @@ namespace DuckstazyLive.app.game
         private static Rect[] VICTIM_RECTS =
         {            
             new Rect(8.0f, 12.0f, 44.0f, 25.0f),
+        };*/
+
+        private static Rect[] COLLISION_RECTS = 
+        {
+            new Rect(12.0f, 0.0f, 24.0f, 25.5f),
+            new Rect(0.0f, 19.0f, 22.5f, 7.0f),
+            new Rect(20.0f, 19.5f, 53.0f, 39.0f),
+            new Rect(43.5f, 52.5f, 18.0f, 9.0f),
+        };
+
+        private static Rect[] ATTACKER_RECTS =
+        {
+            new Rect(21.0f, 18.0f, 52.5f, 37.5f)            
+        };
+
+        private static Rect[] VICTIM_RECTS =
+        {            
+            new Rect(12.0f, 18.0f, 66.0f, 37.5f),
         };
 
         private static Rect[] COLLISION_RECTS_FLIP;
@@ -198,8 +222,6 @@ namespace DuckstazyLive.app.game
 
         public Hero(Heroes heroes, int playerIndex)
         {
-            drawBorder = true;
-
             this.heroes = heroes;
             this.playerIndex = playerIndex;
 
@@ -530,10 +552,14 @@ namespace DuckstazyLive.app.game
             }
 
             // 14.0f, 12.0f, 35.0f, 25.0f
-            attackSweepRect.X = lastPos.X + 14.0f;
-            attackSweepRect.Y = lastPos.Y + 12.0f;
-            attackSweepRect.Z = attackSweepRect.X + 35.0f;
-            attackSweepRect.W = y + 12.0f + 25.0f;
+            //attackSweepRect.X = lastPos.X + 14.0f;
+            //attackSweepRect.Y = lastPos.Y + 12.0f;
+            //attackSweepRect.Z = attackSweepRect.X + 35.0f;
+            //attackSweepRect.W = y + 12.0f + 25.0f;
+            attackSweepRect.X = lastPos.X + 21.0f;
+            attackSweepRect.Y = lastPos.Y + 18.0f;
+            attackSweepRect.Z = attackSweepRect.X + 52.5f;
+            attackSweepRect.W = y + 18.0f + 37.5f;
         }
 
         private void updateDashAttack(Hero hero, float dt)
@@ -773,6 +799,12 @@ namespace DuckstazyLive.app.game
                 eye2Element.ctForm = eyeColor;
 
                 base.Draw(g);
+
+                Rect[] rects = getCollisionRects();
+                foreach (Rect r in rects)
+                {
+                    g.DrawRect(x + r.X, y + r.Y, r.Width, r.Height, Color.Red);
+                }
 
                 //switch (state)
                 //{
@@ -1033,19 +1065,20 @@ namespace DuckstazyLive.app.game
             if (flip)
                 px = 2 * (x + duck_w) - px;
 
-            check = fly && (lastPos.Y + duck_h2) <= py && (y + duck_h2) >= (py - 10);
+            //check = fly && (lastPos.Y + duck_h2) <= py && (y + duck_h2) >= (py - 10);
+            check = fly && (lastPos.Y + duck_h2) <= py && (y + duck_h2) >= (py - 15);
 
             if (isSleep())
             {
                 check = check &&
-                    px >= x + 1 - 9 &&
-                    px <= x + 43 + 9;
+                    px >= x + 1.5f - 13.5f && // px >= x + 1 - 9 &&
+                    px <= x + 64.5f + 13.5f; // px <= x + 43 + 9;
             }
             else
             {
                 check = check &&
-                    px >= x + 14 - 9 &&
-                    px <= x + 50 + 9;
+                    px >= x + 21 - 13.5f && // px >= x + 14 - 9 &&
+                    px <= x + 75 + 13.5f; // px <= x + 50 + 9;
             }
 
             return check;
@@ -1101,7 +1134,8 @@ namespace DuckstazyLive.app.game
         private int killToxic(float cx, float cy, int id, int ret)
         {
             Application.sharedSoundMgr.PlaySound(heroes.media.sndAttack);
-            getParticles().explStarsToxic(cx, cy - 10, id, false);
+            //getParticles().explStarsToxic(cx, cy - 10, id, false);
+            getParticles().explStarsToxic(cx, cy - 15, id, false);
             if (frags < 3) ret = 0;
             else
             {
@@ -1116,7 +1150,8 @@ namespace DuckstazyLive.app.game
         {
             if (isDroppingDown() || checkDive(cx, cy))
             {
-                jump(40);
+                //jump(40);
+                jump(60);
                 return true;
             }
             return false;
@@ -1467,7 +1502,8 @@ namespace DuckstazyLive.app.game
             }
             else
             {
-                if ((pill.y + pill.r > y || pill.y - pill.r < y + 40) && (pill.x + pill.r > x || pill.x - pill.r < x + 54))
+                //if ((pill.y + pill.r > y || pill.y - pill.r < y + 40) && (pill.x + pill.r > x || pill.x - pill.r < x + 54))
+                if ((pill.y + pill.r > y || pill.y - pill.r < y + 60) && (pill.x + pill.r > x || pill.x - pill.r < x + 81))
                 {
                     if (overlapsCircle(pill.x, pill.y, pill.r))
                     {
@@ -1481,7 +1517,7 @@ namespace DuckstazyLive.app.game
         {
             bool over = false;
 
-            if (x < 0.0f && cx > (630 - duck_w2))
+            if (x < 0.0f && cx > (heroes.width - duck_w2))
                 cx -= heroes.width;
 
             if (flip)
@@ -1489,13 +1525,17 @@ namespace DuckstazyLive.app.game
 
             if (isSleep())
             {
-                over = rectCircle(x + 1, y + 11, x + 41, y + 39, cx, cy, r);
+                //over = rectCircle(x + 1, y + 11, x + 41, y + 39, cx, cy, r);
+                over = rectCircle(x + 1.5f, y + 16.5f, x + 61.5f, y + 58.5f, cx, cy, r);
             }
             else
             {
-                over = rectCircle(x + 14.0f, y + 13.0f, x + 49.0f, y + 38.0f, cx, cy, r) ||
-                    rectCircle(x + 9.0f, y + 1.0f, x + 24.0f, y + 17.0f, cx, cy, r) ||
-                    rectCircle(x + 1.0f, y + 13.0f, x + 8.0f, y + 17.0f, cx, cy, r);
+//                over = rectCircle(x + 14.0f, y + 13.0f, x + 49.0f, y + 38.0f, cx, cy, r) ||
+//                    rectCircle(x + 9.0f, y + 1.0f, x + 24.0f, y + 17.0f, cx, cy, r) ||
+//                    rectCircle(x + 1.0f, y + 13.0f, x + 8.0f, y + 17.0f, cx, cy, r);
+                over = rectCircle(x + 21.0f, y + 19.5f, x + 73.5f, y + 57.0f, cx, cy, r) ||
+                    rectCircle(x + 13.5f, y + 1.5f, x + 36.0f, y + 25.5f, cx, cy, r) ||
+                    rectCircle(x + 1.5f, y + 19.5f, x + 12.0f, y + 25.5f, cx, cy, r);
             }
 
             return over;

@@ -29,10 +29,7 @@ namespace DuckstazyLive.app.game
             this.heroes = heroes;
             
             // Временные переменные
-            int i = poolSize - 1;
-
-            drawBorder = true;
-            borderColor = Microsoft.Xna.Framework.Color.Red;
+            int i = poolSize - 1;                        
             media = new PillsMedia();
             ps = particles;
 
@@ -223,7 +220,8 @@ namespace DuckstazyLive.app.game
         {
             bool busy = false;
             int i = 0;
-            if (MathUtils.vec2distSqr(hero.x + 27.0f, hero.y + 20.0f, x, y) >= 3600.0f)
+            //if (MathUtils.vec2distSqr(hero.x + 27.0f, hero.y + 20.0f, x, y) >= 3600.0f)
+            if (MathUtils.vec2distSqr(hero.x + 40.5f, hero.y + 30.0f, x, y) >= 8100.0f)
             {
                 foreach (Pill p in pool)
                 {
@@ -232,7 +230,8 @@ namespace DuckstazyLive.app.game
 
                     if (p.isActive())
                     {
-                        if (MathUtils.vec2distSqr(p.x, p.y, x, y) < 900.0f)
+                        //if (MathUtils.vec2distSqr(p.x, p.y, x, y) < 900.0f)
+                        if (MathUtils.vec2distSqr(p.x, p.y, x, y) < 2025.0f)
                         {
                             busy = true;
                             break;
@@ -259,8 +258,10 @@ namespace DuckstazyLive.app.game
 
         public bool tooCloseHero(Hero hero, float x, float y, float sqrDist)
         {
-            float dx = x - hero.x - 27;
-            float dy = y - hero.y - 20;
+            //float dx = x - hero.x - 27;
+            //float dy = y - hero.y - 20;
+            float dx = x - hero.x - 40.5f;
+            float dy = y - hero.y - 30.0f;
 
             return dx * dx + dy * dy < sqrDist;
         }

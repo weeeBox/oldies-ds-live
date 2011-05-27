@@ -94,10 +94,6 @@ namespace DuckstazyLive.game.levels
                 t += dt * (0.5f + level.power * 0.5f);
                 if (t > 1.0f) t -= (int)(t);
                 pill.t1 = t;
-
-                //t = 0.1;
-                //pill.t2 = (1.0f-t)*pill.t2 + t*(570-hero.getJumpHeight());
-
                 pill.y = (float)(570 - getHeroes().getJumpHeight() * pill.t2 + 10 * Math.Sin(pill.t1 * 6.28f));                
             }
             else if (msg == "born")
