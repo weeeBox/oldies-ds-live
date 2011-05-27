@@ -47,17 +47,16 @@ namespace DuckstazyLive.app.game.level
             stage = null;
             hud = createHud();
 
-            Pills pills = getPills();
-            pills.width = width;
-            pills.height = height;
-            AddChild(pills);
+            AddSetSize(getPills(), width, height);
+            AddSetSize(getHeroes(), width, height);
+            AddSetSize(getParticles(), width, height);            
+        }
 
-            Heroes heroes = getHeroes();
-            heroes.width = width;
-            heroes.Height = height;
-            AddChild(heroes);
-
-
+        private void AddSetSize(BaseElement element, float width, float height)
+        {
+            element.width = width;
+            element.height = height;
+            AddChild(element);
         }
         
         protected abstract LevelStage createStage(int stageIndex);
@@ -142,20 +141,7 @@ namespace DuckstazyLive.app.game.level
         public virtual void draw2()
         {
 
-        }
-
-        private void levelPreDraw()
-        {
-            float tx = Constants.SAFE_OFFSET_X;
-            float ty = Constants.SAFE_OFFSET_Y;
-            AppGraphics.PushMatrix();
-            AppGraphics.Translate(tx, ty);
-        }
-
-        private void levelPostDraw()
-        {
-            AppGraphics.PopMatrix();
-        }        
+        }       
 
         public override void Update(float dt)
         {                        
@@ -192,9 +178,9 @@ namespace DuckstazyLive.app.game.level
             //env.Update(dt, power);
             //env.updateBlanc(dt);
 
-            getParticles().Update(dt);
+            //getParticles().Update(dt);
                         
-            hud.Update(power, dt);
+            //hud.Update(power, dt);
         }
 
         public void gainPower(float gained)

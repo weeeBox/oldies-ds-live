@@ -70,11 +70,10 @@ namespace DuckstazyLive.app.game
         public const int duck_w = 40;
         public const int duck_h = 30;
         public const int duck_w2 = 81;
-        public const int duck_h2 = 38;
+        public const int duck_h2 = 60;
 
         private const float COMPRESS_TIMEOUT = 0.25f;
-        private float compressCounter;        
-        private float rotation;
+        private float compressCounter;                
 
         private const float JUMP_ON_TIMEOUT = 0.5f;
         private float jumpedElasped;
@@ -324,9 +323,9 @@ namespace DuckstazyLive.app.game
 
         private void doStepBubble()
         {
-            float px = x + 4;
-            if (!flip) px = x + 50;
-            getParticles().startStepBubble(px, y + 39);
+            float px = x + 6;
+            if (!flip) px = x + 75;
+            getParticles().startStepBubble(px, y + 58.5f);
         }
 
         private void doDropBubbles()
@@ -341,7 +340,7 @@ namespace DuckstazyLive.app.game
 
             while (i > 0)
             {
-                px = x + 17 + RandomHelper.rnd() * 20;
+                px = x + 25.5f + RandomHelper.rnd() * 30;
                 getParticles().startBubble(px, y + duck_h2, 0xff999999);
                 --i;
             }
@@ -350,13 +349,13 @@ namespace DuckstazyLive.app.game
         private void doCrapBubbles()
         {
             int i = 10;
-            float px = x + 4;
-            if (!flip) px = x + 50;
+            float px = x + 6;
+            if (!flip) px = x + 75;
             while (i > 0)
             {
-                float speed = RandomHelper.rnd_float(50, 150);
+                float speed = RandomHelper.rnd_float(75, 225);
                 float vx = flip ? -speed : speed;
-                float vy = -RandomHelper.rnd_float(10, 100);
+                float vy = -RandomHelper.rnd_float(15, 150);
                 getParticles().startCrapBubble(px, y + duck_h2, vx, vy);
                 --i;
             }
