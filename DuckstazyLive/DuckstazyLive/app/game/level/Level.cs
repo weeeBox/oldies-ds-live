@@ -46,10 +46,17 @@ namespace DuckstazyLive.app.game.level
             stage = null;
             hud = createHud();
 
+            Pills pills = getPills();
+            pills.width = width;
+            pills.height = height;
+            AddChild(pills);
+
             Heroes heroes = getHeroes();
             heroes.width = width;
             heroes.Height = height;
             AddChild(heroes);
+
+
         }
         
         protected abstract LevelStage createStage(int stageIndex);
@@ -175,14 +182,14 @@ namespace DuckstazyLive.app.game.level
                 if (power > powerUp) power = powerUp;
             }
 
-            heroes.Update(dt, power);
-            getPills().Update(dt, power);
+            //heroes.Update(dt, power);
+            //getPills().Update(dt, power);
 
-            Env env = getEnv();
-            env.x = heroes[0].x;
-            env.y = heroes[0].y;
-            env.Update(dt, power);
-            env.updateBlanc(dt);
+            //Env env = getEnv();
+            //env.x = heroes[0].x;
+            //env.y = heroes[0].y;
+            //env.Update(dt, power);
+            //env.updateBlanc(dt);
 
             getParticles().Update(dt);
                         

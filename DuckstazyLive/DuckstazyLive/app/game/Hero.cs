@@ -343,6 +343,8 @@ namespace DuckstazyLive.app.game
         public override void Update(float delta)
         {
             Update(delta, 0.0f);
+
+            wingElement.rotation = wingAngle;
         }
 
         public void Update(float dt, float newPower)
@@ -416,9 +418,9 @@ namespace DuckstazyLive.app.game
                 if (move >= 0.0f) step += move * dt * 15;
                 else step -= move * dt * 15;
 
-                if (step > 3)
+                if (step > 2)
                 {
-                    step -= 3;
+                    step -= 2;
                     if (!fly)
                     {
                         heroes.media.playStep();

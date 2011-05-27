@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using app;
+using asap.graphics;
 
 namespace DuckstazyLive.app.game
 {
@@ -111,59 +112,65 @@ namespace DuckstazyLive.app.game
         public int sndGenerate;
 
         // Основы таблеток
-        public int imgPower1;
-        public int imgPower2;
-        public int imgPower3;
+        public GameTexture imgPower1;
+        public GameTexture imgPower2;
+        public GameTexture imgPower3;
 
-        public int imgPPower1;
-        public int imgPPower2;
-        public int imgPPower3;
+        public GameTexture imgPPower1;
+        public GameTexture imgPPower2;
+        public GameTexture imgPPower3;
 
-        public int[] imgNids;
+        public GameTexture[] imgNids;
 
-        public int imgHigh;
+        public GameTexture imgHigh;
 
-        public int imgToxic;
-        public int imgToxic2;
+        public GameTexture imgToxic;
+        public GameTexture imgToxic2;
 
-        public int imgCure;
-        public int imgHole;
-        public int imgSleep;
+        public GameTexture imgCure;
+        public GameTexture imgHole;
+        public GameTexture imgSleep;
 
         // Эмоции таблеток
         //public var imgEmo:SpriteTexture;
-        public int imgSmile1;
-        public int imgSmile2;
-        public int imgSmile3;
-        public int imgEyes1;
-        public int imgEyes2;
+        public GameTexture imgSmile1;
+        public GameTexture imgSmile2;
+        public GameTexture imgSmile3;
+        public GameTexture imgEyes1;
+        public GameTexture imgEyes2;
 
         public float power;
 
         public PillsMedia()
         {
-            imgPower1 = Res.IMG_PILL_1;
-            imgPower2 = Res.IMG_PILL_2;
-            imgPower3 = Res.IMG_PILL_3;
-            imgPPower1 = Res.IMG_PILL_1P;
-            imgPPower2 = Res.IMG_PILL_2P;
-            imgPPower3 = Res.IMG_PILL_3P;
+            imgPower1 = GetTexture(Res.IMG_PILL_1);
+            imgPower2 = GetTexture(Res.IMG_PILL_2);
+            imgPower3 = GetTexture(Res.IMG_PILL_3);
+            imgPPower1 = GetTexture(Res.IMG_PILL_1P);
+            imgPPower2 = GetTexture(Res.IMG_PILL_2P);
+            imgPPower3 = GetTexture(Res.IMG_PILL_3P);
 
-            imgHole = Res.IMG_PILL_HAL_1;
+            imgHole = GetTexture(Res.IMG_PILL_HAL_1);
 
-            imgNids = new int[] { Res.IMG_POWER_1, Res.IMG_POWER_2, Res.IMG_POWER_3, Res.IMG_POWER_4 };
+            imgNids = new GameTexture[] 
+            { 
+                GetTexture(Res.IMG_POWER_1), 
+                GetTexture(Res.IMG_POWER_2), 
+                GetTexture(Res.IMG_POWER_3), 
+                GetTexture(Res.IMG_POWER_4)
+            };
 
-            imgHigh = Res.IMG_PILL_HIGH;
+            imgHigh = GetTexture(Res.IMG_PILL_HIGH);
 
-            imgToxic = Res.IMG_PILL_TOXIC_1;
-            imgToxic2 = Res.IMG_PILL_TOXIC_2;
-            imgSleep = Res.IMG_PILL_SLEEP;
+            imgToxic = GetTexture(Res.IMG_PILL_TOXIC_1);
+            imgToxic2 = GetTexture(Res.IMG_PILL_TOXIC_2);
+            imgSleep = GetTexture(Res.IMG_PILL_SLEEP);
 
-            imgSmile1 = Res.IMG_SMILE_1;
-            imgSmile2 = Res.IMG_SMILE_2;
-            imgSmile3 = Res.IMG_SMILE_3;
-            imgEyes1 = Res.IMG_EYES_1;
-            imgEyes2 = Res.IMG_EYES_2;
+            imgSmile1 = GetTexture(Res.IMG_SMILE_1);
+            imgSmile2 = GetTexture(Res.IMG_SMILE_2);
+            imgSmile3 = GetTexture(Res.IMG_SMILE_3);
+            imgEyes1 = GetTexture(Res.IMG_EYES_1);
+            imgEyes2 = GetTexture(Res.IMG_EYES_2);
 
             sndPowers = new int[] { Res.SND_PILL_POWER1, Res.SND_PILL_POWER2, Res.SND_PILL_POWER3 };
             sndWarning = Res.SND_PILL_WARNING;
@@ -174,6 +181,11 @@ namespace DuckstazyLive.app.game
             sndToxicBorn = Res.SND_PILL_TOXIC_BORN;
 
             power = 0.0f;
+        }
+
+        private GameTexture GetTexture(int id)
+        {
+            return Application.sharedResourceMgr.GetTexture(id);
         }
     }
 }
