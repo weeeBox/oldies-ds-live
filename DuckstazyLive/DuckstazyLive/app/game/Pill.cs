@@ -277,7 +277,7 @@ namespace DuckstazyLive.app.game
                     ps.startAcid(x, y);
                     if (type == TOXIC)
                     {
-                        //Application.sharedSoundMgr.PlaySound(media.sndToxicBorn, 1.0f, x);
+                        Level.playSound(media.sndToxicBorn, 1.0f, x);
                     }
                 }
             }
@@ -660,7 +660,7 @@ namespace DuckstazyLive.app.game
             else
                 ps.startWarning(x, y, 3.0f, 0.0f, 0.0f, 0.0f);
 
-            // Application.sharedSoundMgr.playSound(media.sndWarning);
+            Application.sharedSoundMgr.PlaySound(media.sndWarning);
         }
 
         public void startMissle(float px, float py, int ID)

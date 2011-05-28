@@ -39,8 +39,8 @@ namespace DuckstazyLive.game.levels
             frog2.speedHands = 5.0f;
 
             frog1.x = 0.0f;
-            frog2.x = 640.0f - 144.0f;
-            frog2.y = frog1.y = 400.0f - 64;
+            frog2.x = 960.0f - 216.0f;
+            frog2.y = frog1.y = 600.0f - 96.0f;
 
             arrow1 = new HintArrow(media);
             arrow2 = new HintArrow(media);
@@ -66,7 +66,7 @@ namespace DuckstazyLive.game.levels
             frogGen1 = new Generator();
             frogGen1.regen = true;
             frogGen1.speed = 4.0f;
-            placer = new Placer(setuper, 72, 346);
+            placer = new Placer(setuper, 108.0f, 519.0f);
             frogGen1.map.Add(placer);
             frogGen1.map.Add(placer);
             frogGen1.map.Add(placer);
@@ -81,7 +81,7 @@ namespace DuckstazyLive.game.levels
             frogGen2 = new Generator();
             frogGen2.regen = true;
             frogGen2.speed = 4.0f;
-            placer = new Placer(setuper, 640 - 72, 346);
+            placer = new Placer(setuper, 960.0f - 108.0f, 519.0f);
             frogGen2.map.Add(placer);
             frogGen2.map.Add(placer);
             frogGen2.map.Add(placer);
@@ -102,11 +102,11 @@ namespace DuckstazyLive.game.levels
             gen.regen = false;
             gen.speed = 4.0f;
 
-            gen.map.Add(new Placer(jumper, 170, 380));
-            gen.map.Add(new Placer(jumper, 470, 380));
+            gen.map.Add(new Placer(jumper, 255.0f, 570.0f));
+            gen.map.Add(new Placer(jumper, 705.0f, 570.0f));
 
-            arrow1.place(190, 360, 3.14f * 0.25f, 0xfff7a0e1, true);
-            arrow2.place(450, 360, -3.14f * 0.25f, 0xfff7a0e1, true);
+            arrow1.place(285.0f, 540.0f, 3.14f * 0.25f, 0xfff7a0e1, true);
+            arrow2.place(675.0f, 540.0f, -3.14f * 0.25f, 0xfff7a0e1, true);
             arrow1.visibleCounter = 0.0f;
             arrow2.visibleCounter = 0.0f;
             arrow1.visible = true;
@@ -115,7 +115,7 @@ namespace DuckstazyLive.game.levels
 
             gen.start();
 
-            startX = 293;
+            startX = 439.5f;
         }        
 
         public override void onWin()
@@ -181,7 +181,7 @@ namespace DuckstazyLive.game.levels
             FrogActor frog;
             if (msg == "jump")
             {
-                if (pill.x > 320)
+                if (pill.x > 480.0f)
                 {
                     frog = frog1;
                     frog1c = 3.0f;
@@ -202,40 +202,40 @@ namespace DuckstazyLive.game.levels
             float friction = 0.7f + level.power * 0.3f;
             if (msg == null && pill.enabled)
             {
-                pill.vy += 300.0f * dt;
+                pill.vy += 450.0f * dt;
                 pill.x += pill.vx * dt;
                 pill.y += pill.vy * dt;
 
-                if (pill.x > 630)
+                if (pill.x > 945.0f)
                 {
                     pill.vx = -pill.vx * friction;
                     pill.vy = pill.vy * friction;
-                    pill.x = 630;
+                    pill.x = 945.0f;
                 }
-                if (pill.x < 10)
+                if (pill.x < 15.0f)
                 {
                     pill.vx = -pill.vx * friction;
                     pill.vy = pill.vy * friction;
-                    pill.x = 10;
+                    pill.x = 15.0f;
                 }
 
-                if (pill.y < 10)
+                if (pill.y < 15.0f)
                 {
                     pill.vy = -pill.vy * friction;
                     pill.vx = pill.vx * friction;
-                    pill.y = 10;
+                    pill.y = 15.0f;
                 }
-                if (pill.y > 390)
+                if (pill.y > 585.0f)
                 {
                     pill.vy = -pill.vy * friction;
                     pill.vx = pill.vx * friction;
-                    pill.y = 390;
+                    pill.y = 585.0f;
                 }
             }
             else if (msg == "born")
             {
-                pill.vx = (150.0f + 150.0f * level.power) * (RandomHelper.rnd() * 2.0f - 1.0f);
-                pill.vy = -100.0f - RandomHelper.rnd() * 200.0f - 200.0f * level.power;
+                pill.vx = (225.0f + 225.0f * level.power) * (RandomHelper.rnd() * 2.0f - 1.0f);
+                pill.vy = -150.0f - RandomHelper.rnd() * 300.0f - 300.0f * level.power;
             }
         }
     }

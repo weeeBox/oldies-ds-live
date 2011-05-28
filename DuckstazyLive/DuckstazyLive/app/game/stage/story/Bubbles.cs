@@ -38,10 +38,10 @@ namespace DuckstazyLive.game.levels
 
         public override void onStart()
         {
-            //float y = 350.0f;
-            //float x0 = 40.0f;
-            //float dx = 110.0f;
-            //float dy = 30.0f;			
+            //float y = 525.0f;
+            //float x0 = 60.0f;
+            //float dx = 165.0f;
+            //float dy = 45.0f;			
 
             base.onStart();
 
@@ -65,7 +65,7 @@ namespace DuckstazyLive.game.levels
                 setuper.sleeps = 0.9f;
                 setuper.toxics = 1.0f;
 
-                setuper.dangerH = 400.0f;
+                setuper.dangerH = 600.0f;
 
                 setuper.jump = 0.1f;
             }
@@ -75,7 +75,7 @@ namespace DuckstazyLive.game.levels
                 setuper.sleeps = 0.8f;
                 setuper.toxics = 1.0f;
 
-                setuper.dangerH = 400.0f;
+                setuper.dangerH = 600.0f;
 
                 setuper.jump = 0.1f;
             }
@@ -84,22 +84,22 @@ namespace DuckstazyLive.game.levels
             gen.regen = false;
             gen.speed = 4.0f;
 
-            gen.map.Add(new Placer(jumper, 320, 380));
-            gen.map.Add(new Placer(jumper, 170, 380));
-            gen.map.Add(new Placer(jumper, 470, 380));
+            gen.map.Add(new Placer(jumper, 480.0f, 570.0f));
+            gen.map.Add(new Placer(jumper, 255.0f, 570.0f));
+            gen.map.Add(new Placer(jumper, 705.0f, 570.0f));
             gen.start();
 
             counter = 0.1f;
             count = 0;
             lostPillsCount = 0;
-            x = 320.0f;
+            x = 480.0f;
 
-            if (RandomHelper.rnd() > 0.5f) startX = 218;
-            else startX = 368;
+            if (RandomHelper.rnd() > 0.5f) startX = 327.0f;
+            else startX = 552.0f;
 
-            arrow1.place(320, 350, 0, 0xffffb300, true);
-            arrow2.place(170, 350, 0, 0xffffb300, true);
-            arrow3.place(470, 350, 0, 0xffffb300, true);
+            arrow1.place(480.0f, 525.0f, 0.0f, 0xffffb300, true);
+            arrow2.place(255.0f, 525.0f, 0.0f, 0xffffb300, true);
+            arrow3.place(705.0f, 525.0f, 0.0f, 0xffffb300, true);
             arrow1.visibleCounter = 0.0f;
             arrow2.visibleCounter = 0.0f;
             arrow3.visibleCounter = 0.0f;
@@ -132,7 +132,7 @@ namespace DuckstazyLive.game.levels
                     p = pills.findDead();
                     if (p != null)
                     {
-                        setuper.start(x - 150.0f + RandomHelper.rnd() * 300, 380, p);
+                        setuper.start(x - 225.0f + RandomHelper.rnd() * 450.0f, 570.0f, p);
                         pills.actives++;
                     }
                     --count;
@@ -173,12 +173,12 @@ namespace DuckstazyLive.game.levels
             Heroes heroes = getHeroes();
             if (msg == null)
             {
-                pill.y = 420 - heroes.getJumpHeight();
-                if (pill.y < 90) pill.y = 90;
+                pill.y = 630.0f - heroes.getJumpHeight();
+                if (pill.y < 135.0f) pill.y = 135.0f;
             }
             else if (msg == "born")
             {
-                pill.y = 420 - heroes.getJumpHeight();
+                pill.y = 630.0f - heroes.getJumpHeight();
             }
             else if (msg == "jump")
             {
@@ -191,27 +191,27 @@ namespace DuckstazyLive.game.levels
         {
             if (msg == null && pill.enabled)
             {
-                pill.vy -= (level.power + 0.1f) * 30.0f * dt;
-                pill.vx += (float)(200.0 * Math.Sin((pill.t1 + pill.t2) * 6.2831) * dt);
+                pill.vy -= (level.power + 0.1f) * 45.0f * dt;
+                pill.vx += (float)(300.0f * Math.Sin((pill.t1 + pill.t2) * 6.2831) * dt);
                 pill.x += pill.vx * dt;
                 pill.y += pill.vy * dt;
 
-                if (pill.x >= 630)
+                if (pill.x >= 945.0f)
                 {
                     pill.vx = -pill.vx;
                     pill.t1 = -pill.t1;
-                    pill.x = 630;
+                    pill.x = 945.0f;
                 }
-                if (pill.x <= 10)
+                if (pill.x <= 15.0f)
                 {
                     pill.vx = -pill.vx;
                     pill.t1 = -pill.t1;
-                    pill.x = 10;
+                    pill.x = 15.0f;
                 }
 
                 pill.t2 += dt;
 
-                if (pill.y <= -10.0f && pill.isAlive())
+                if (pill.y <= -15.0f && pill.isAlive())
                 {
                     pill.kill();
                     getParticles().startAcid(pill.x, pill.y);
@@ -223,8 +223,8 @@ namespace DuckstazyLive.game.levels
             {
                 pill.t1 = RandomHelper.rnd();
                 pill.t2 = 0.5f + RandomHelper.rnd();
-                pill.vx = -10.0f + RandomHelper.rnd() * 20.0f;
-                pill.vy = -5.0f - 50 * level.power * RandomHelper.rnd();
+                pill.vx = -15.0f + RandomHelper.rnd() * 30.0f;
+                pill.vy = -7.5f - 75.0f * level.power * RandomHelper.rnd();
                 //pill.enabled = true;
                 //pill.warning = 0.0;
             }            
