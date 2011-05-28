@@ -7,11 +7,11 @@ using asap.graphics;
 
 namespace DuckstazyLive.app.game.stage.fx
 {
-    public class Emo : BaseElement
+    public class PillDrawHelper : BaseElement
     {
         private PillsMedia media;
 
-        public Emo(PillsMedia media, float width, float height) : base(width, height)
+        public PillDrawHelper(PillsMedia media, float width, float height) : base(width, height)
         {
             this.media = media;
 

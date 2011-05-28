@@ -98,10 +98,10 @@
     <Compile Include="app\game\Pills.cs" />
     <Compile Include="app\game\PillsMedia.cs" />
     <Compile Include="app\game\SingleGameScreen.cs" />
-    <Compile Include="app\game\stage\fx\Emo.cs" />
     <Compile Include="app\game\stage\fx\Firework.cs" />
     <Compile Include="app\game\stage\fx\FrogActor.cs" />
     <Compile Include="app\game\stage\fx\HintArrow.cs" />
+    <Compile Include="app\game\stage\fx\PillDrawHelper.cs" />
     <Compile Include="app\game\stage\fx\Snake.cs" />
     <Compile Include="app\game\stage\generator\FireworkSetuper.cs" />
     <Compile Include="app\game\stage\generator\Generator.cs" />

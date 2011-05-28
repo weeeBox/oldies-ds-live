@@ -140,7 +140,7 @@ namespace DuckstazyLive.app.game
         public GameTexture imgEyes1;
         public GameTexture imgEyes2;
 
-        public Emo emo;
+        public PillDrawHelper emo;
 
         public float power;
 
@@ -185,7 +185,7 @@ namespace DuckstazyLive.app.game
 
             power = 0.0f;
 
-            emo = new Emo(this, imgPPower1.GetWidth(), imgPPower1.GetHeight());
+            emo = new PillDrawHelper(this, imgPPower1.GetWidth(), imgPPower1.GetHeight());
         }
 
         private GameTexture GetTexture(int id)
