@@ -163,9 +163,9 @@ namespace DuckstazyLive.game.levels
 
         public override void draw1(Graphics g)
         {
-            arrow1.draw(g);
-            arrow2.draw(g);
-            arrow3.draw(g);
+            arrow1.Draw(g);
+            arrow2.Draw(g);
+            arrow3.Draw(g);
         }
 
         public void jumpLogic(Pill pill, String msg, float dt)

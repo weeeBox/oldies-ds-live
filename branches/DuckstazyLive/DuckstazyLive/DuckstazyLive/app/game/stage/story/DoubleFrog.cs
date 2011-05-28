@@ -172,8 +172,8 @@ namespace DuckstazyLive.game.levels
         {
             frog1.draw(g);
             frog2.draw(g);
-            arrow1.draw(g);
-            arrow2.draw(g);
+            arrow1.Draw(g);
+            arrow2.Draw(g);
         }        
 
         public void jumpLogic(Pill pill, String msg, float dt)
