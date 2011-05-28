@@ -81,5 +81,16 @@ namespace DuckstazyLive.app.game.stage.fx
 
             PostDraw(g);            
         }
+
+        public void drawJumper(Graphics g, float scale)
+        {
+            scaleX = scaleY = scale;
+
+            PreDraw(g);
+            g.DrawImage(media.imgHigh, 0, 0);
+            PostDraw(g);
+
+            scaleX = scaleY = 1.0f;
+        }
     }
 }

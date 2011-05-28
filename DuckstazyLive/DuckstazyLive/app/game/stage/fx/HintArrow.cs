@@ -15,6 +15,7 @@ namespace DuckstazyLive.game.levels.fx
         private GameTexture img;        
         private float t;        
         public float visibleCounter;
+        public bool visible;
 
         public HintArrow(StageMedia stageMedia)
         {
@@ -31,9 +32,10 @@ namespace DuckstazyLive.game.levels.fx
             this.x = x;
             this.y = y;
             this.rotation = rotation;
+            this.visible = visible;
             ColorUtils.ctSetRGB(ref ctForm, color);
 
-            SetVisible(visible);
+            
             if (visible) visibleCounter = 1.0f;
             else visibleCounter = 0.0f;            
         }
@@ -67,17 +69,7 @@ namespace DuckstazyLive.game.levels.fx
 
                 PreDraw(g);
                 g.DrawImage(img, 0, 0);
-                PostDraw(g);
-
-                //mat.tx = -28;
-                //mat.ty = -63 - r;
-                //mat.scale(sx, sy);
-                //mat.rotate(angle);
-                //mat.translate(x, y);
-
-                //color.alphaMultiplier = visibleCounter;
-
-                //canvas.draw(img, mat, color);                
+                PostDraw(g);          
             }            
         }
 
@@ -102,12 +94,6 @@ namespace DuckstazyLive.game.levels.fx
                     if (visibleCounter < 0.0f) visibleCounter = 0.0f;
                 }
             }
-        }
-
-        public bool visible
-        {
-            get { return IsVisible(); }
-            set { SetVisible(value); }
-        }
+        }        
     }
 }
