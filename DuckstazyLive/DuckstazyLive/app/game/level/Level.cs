@@ -31,6 +31,8 @@ namespace DuckstazyLive.app.game.level
         protected float levelStateElapsed;
 
         public BaseGame controller;
+        public BaseElementContainer preDraw;
+        public BaseElementContainer postDraw;
 
         public Level(BaseGame controller, float width, float height) : base(width, height)
         {
@@ -47,9 +49,14 @@ namespace DuckstazyLive.app.game.level
             stage = null;
             hud = createHud();
 
+            preDraw = new BaseElementContainer();
+            postDraw = new BaseElementContainer();
+
+            AddSetSize(preDraw, width, height);
             AddSetSize(getPills(), width, height);
             AddSetSize(getHeroes(), width, height);
-            AddSetSize(getParticles(), width, height);            
+            AddSetSize(getParticles(), width, height);
+            AddSetSize(postDraw, width, height);
         }
 
         private void AddSetSize(BaseElement element, float width, float height)
@@ -69,7 +76,10 @@ namespace DuckstazyLive.app.game.level
 
             getParticles().clear();
             getPills().clear();            
-            getHeroes().init();            
+            getHeroes().init();
+
+            clearPostDraw();
+            clearPreDraw();
 
             stage = createStage(stageIndex);
             stage.onStart();
@@ -282,6 +292,36 @@ namespace DuckstazyLive.app.game.level
         {
             power = powerUp = newPower;
         }        
+
+        public void addPreDraw(BaseElement element)
+        {
+            preDraw.AddChild(element);
+        }
+
+        public void removePreDraw(BaseElement element)
+        {
+            preDraw.RemoveChild(element);
+        }
+
+        public void clearPreDraw()
+        {
+            preDraw.RemoveAllChilds();
+        }
+
+        public void addPostDraw(BaseElement element)
+        {
+            postDraw.AddChild(element);
+        }
+
+        public void removePostDraw(BaseElement element)
+        {
+            postDraw.RemoveChild(element);
+        }
+
+        public void clearPostDraw()
+        {
+            postDraw.RemoveAllChilds();
+        }
 
         protected Pills getPills()
         {

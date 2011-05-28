@@ -22,6 +22,7 @@ namespace DuckstazyLive.game.levels.fx
             this.width = img.GetWidth();
             this.height = img.GetHeight();
             t = 0.0f;
+            alignX = ALIGN_CENTER;
         }
 
         public void place(float x, float y, float rotation, uint color, bool visible)
@@ -57,8 +58,9 @@ namespace DuckstazyLive.game.levels.fx
                     r = f * 15;
                     sy = sx = 1.0f;
                 }
-
-                rotationCenterY = -r;
+                                
+                translateY = -94.5f - r;
+                rotationCenterY = r;
                 scaleX = sx;
                 scaleY = sy;
                 ctForm.MulA = visibleCounter;
