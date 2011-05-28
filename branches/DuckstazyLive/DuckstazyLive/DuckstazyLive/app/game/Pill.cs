@@ -40,11 +40,10 @@ namespace DuckstazyLive.app.game
 
         /*public const int HAPPY = 0;
         public const int SHAKE = 1;
-        public const int SMILE = 2;*/                
+        public const int SMILE = 2;*/
 
-        private Rect RC = new Rect(0, 0, 20, 20);
-        private Vector2 POINT = Vector2.Zero;
-        private ColorTransform COLOR = ColorTransform.NONE;        
+        private ColorTransform CT_JUMPER_NIGHT = ColorTransform.CreateColorize(Color.White);
+        private ColorTransform CT_JUMPER_DAY = ColorTransform.CreateColorize(Color.Black);
 
         // временный идентификатор
         public int id;
@@ -866,11 +865,11 @@ namespace DuckstazyLive.app.game
         {
             if (getLevel().power >= 0.5f || !getEnv().day)
             {
-                drawJump(g, ref ColorTransform.NONE);
+                drawJump(g, ref CT_JUMPER_NIGHT);
             }
             else
             {
-                drawJump(g, ref ColorTransform.NONE);
+                drawJump(g, ref CT_JUMPER_DAY);
             }
         }
 
@@ -880,8 +879,10 @@ namespace DuckstazyLive.app.game
 
             if (state != ALIVE)
                 s *= appear;
-            
-            g.DrawImage(imgMain, 0, 0);         
+
+            media.drawHelper.ctForm = trans;
+            media.drawHelper.drawJumper(g, s);
+            media.drawHelper.ctForm = ColorTransform.NONE;
         }        
 
         private void drawNid(Graphics g)
