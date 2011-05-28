@@ -24,10 +24,10 @@ namespace DuckstazyLive.game.levels
 
         public override void onStart()
         {
-            float y = 350.0f;
-            float x0 = 40.0f;
-            float dx = 110.0f;
-            float dy = 30.0f;
+            float y = 525.0f;
+            float x0 = 60.0f;
+            float dx = 165.0f;
+            float dy = 45.0f;
 
             base.onStart();
 
@@ -46,7 +46,7 @@ namespace DuckstazyLive.game.levels
                 setuper.sleeps = 0.9f;
                 setuper.toxics = 1.0f;
 
-                setuper.dangerH = 200.0f;
+                setuper.dangerH = 300.0f;
 
                 setuper.jump = 0.1f;
             }
@@ -56,7 +56,7 @@ namespace DuckstazyLive.game.levels
                 setuper.sleeps = 0.8f;
                 setuper.toxics = 1.0f;
 
-                setuper.dangerH = 300.0f;
+                setuper.dangerH = 450.0f;
 
                 setuper.jump = 0.1f;
             }
@@ -65,7 +65,7 @@ namespace DuckstazyLive.game.levels
             gen.speed = 8.0f;
 
 
-            while (y >= 50)
+            while (y >= 75.0f)
             {
                 gen.addLine(setuper, x0 + dx * 0.5f, y, dx, 0, 5);
                 gen.addLine(setuper, x0, y - dy, dx, 0, 6);
@@ -74,7 +74,7 @@ namespace DuckstazyLive.game.levels
 
             gen.start();
 
-            startX = 20.0f + 600.0f * RandomHelper.rnd();            
+            startX = 30.0f + 900.0f * RandomHelper.rnd();            
         }
 
         public override void onWin()
