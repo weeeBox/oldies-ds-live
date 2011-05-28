@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using app;
+using asap.graphics;
 
 namespace DuckstazyLive.app.game.stage
 {
@@ -37,7 +38,7 @@ namespace DuckstazyLive.app.game.stage
         //[Embed(source="gfx/hint_arrow.png")]
         //private Class gfxHintArrow;
 
-        public int imgHintArrow;
+        public GameTexture imgHintArrow;
 
         //[Embed(source="gfx/frog_body.png")]
         //private Class gfxFrogBody;
@@ -82,7 +83,7 @@ namespace DuckstazyLive.app.game.stage
             imgCatSmile = Res.IMG_GFX_CAT_SMILE;
             imgCatHum = Res.IMG_GFX_CAT_HUM;
 
-            imgHintArrow = Res.IMG_FX_HINT_ARROW;
+            imgHintArrow = GetTexture(Res.IMG_FX_HINT_ARROW);
 
             imgFrogBody = Res.IMG_GFX_FROG_BODY;
             imgFrogEmo1 = Res.IMG_GFX_FROG_EMO1;
@@ -92,6 +93,11 @@ namespace DuckstazyLive.app.game.stage
             imgFrogHand1 = Res.IMG_GFX_FROG_HAND1;
             imgFrogHand2 = Res.IMG_GFX_FROG_HAND2;
             imgFrogHead = Res.IMG_GFX_FROG_HEAD;
+        }
+
+        private GameTexture GetTexture(int id)
+        {
+            return Application.sharedResourceMgr.GetTexture(id);
         }
     }
 }

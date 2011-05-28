@@ -6,84 +6,80 @@ using DuckstazyLive.app;
 using asap.util;
 using DuckstazyLive.app.game.stage;
 using asap.graphics;
+using asap.visual;
 
 namespace DuckstazyLive.game.levels.fx
 {
-    public class HintArrow
+    public class HintArrow : BaseElement
     {
-        private int img;
-        public float x;
-        public float y;
-        public float angle;
-        public ColorTransform color = ColorTransform.NONE;
-        private float t;
-        public bool visible;
+        private GameTexture img;        
+        private float t;        
         public float visibleCounter;
 
         public HintArrow(StageMedia stageMedia)
         {
-            img = stageMedia.imgHintArrow;            
+            img = stageMedia.imgHintArrow;
+            this.width = img.GetWidth();
+            this.height = img.GetHeight();
             t = 0.0f;
         }
 
-        public void place(float _x, float _y, float _angle, uint _color, bool _visible)
+        public void place(float x, float y, float rotation, uint color, bool visible)
         {
-            //t = 0.0f;
-            //x = _x;
-            //y = _y;
-            //angle = _angle;
-            //utils.ctSetRGB(ref color, _color);
+            t = 0.0f;
+            this.x = x;
+            this.y = y;
+            this.rotation = rotation;
+            ColorUtils.ctSetRGB(ref ctForm, color);
 
-            //visible = _visible;
-            //if (_visible) visibleCounter = 1.0f;
-            //else visibleCounter = 0.0f;
-
-            throw new NotImplementedException();
+            SetVisible(visible);
+            if (visible) visibleCounter = 1.0f;
+            else visibleCounter = 0.0f;            
         }
 
-        public void draw(Graphics g)
+        public override void Draw(Graphics g)
         {
-            //if (visibleCounter > 0.0f)
-            //{
-            //    float f = (float)(Math.Sin(t * 6.28));
-            //    float r;
-            //    float sy;
-            //    float sx;
-            //    DrawMatrix mat;
+            if (visibleCounter > 0.0f)
+            {
+                float f = (float)(Math.Sin(t * 6.28));
+                float r;
+                float sy;
+                float sx;                
 
-            //    if (f < 0)
-            //    {
-            //        r = 0.0f;
-            //        sy = 0.6f + (f + 1) * 0.4f;
-            //        sx = 1.0f - f * 0.25f;
-            //    }
-            //    else
-            //    {
-            //        r = f * 15;
-            //        sy = sx = 1.0f;
-            //    }
+                if (f < 0)
+                {
+                    r = 0.0f;
+                    sy = 0.6f + (f + 1) * 0.4f;
+                    sx = 1.0f - f * 0.25f;
+                }
+                else
+                {
+                    r = f * 15;
+                    sy = sx = 1.0f;
+                }
 
-            //    mat = DrawMatrix.ScaledInstance;
-            //    mat.tx = -28;
-            //    mat.ty = -63 - r;
-            //    mat.scale(sx, sy);
-            //    mat.rotate(angle);
-            //    mat.translate(x, y);
+                rotationCenterY = -r;
+                scaleX = sx;
+                scaleY = sy;
+                ctForm.MulA = visibleCounter;
 
-            //    color.alphaMultiplier = visibleCounter;
+                PreDraw(g);
+                g.DrawImage(img, 0, 0);
+                PostDraw(g);
 
-            //    canvas.draw(img, mat, color);
+                //mat.tx = -28;
+                //mat.ty = -63 - r;
+                //mat.scale(sx, sy);
+                //mat.rotate(angle);
+                //mat.translate(x, y);
 
-            //    Env env = GameElements.Env;
-            //    if (env.isHitFaded())
-            //    {
-            //        canvas.draw(img, mat, env.blackFade);
-            //    }
-            //}
-            throw new NotImplementedException();
+                //color.alphaMultiplier = visibleCounter;
+
+                //canvas.draw(img, mat, color);                
+            }            
         }
 
-        public void Update(float dt)
+        public override void Update(float dt)
         {
             t += dt;
             if (t > 1.0) t -= (int)(t);
@@ -104,6 +100,12 @@ namespace DuckstazyLive.game.levels.fx
                     if (visibleCounter < 0.0f) visibleCounter = 0.0f;
                 }
             }
+        }
+
+        public bool visible
+        {
+            get { return IsVisible(); }
+            set { SetVisible(value); }
         }
     }
 }

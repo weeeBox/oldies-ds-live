@@ -168,7 +168,7 @@ namespace DuckstazyLive.game.stages.story
         {
             if (isHintVisible())
             {            
-                hintArrow.draw(g);
+                hintArrow.Draw(g);
             }
         }
 

@@ -864,14 +864,14 @@ namespace DuckstazyLive.app.game
 
         public void drawJump(Graphics g)
         {
-            //if (getLevel().power >= 0.5f || !getEnv().day)
-            //{
-            //    drawJump(canvas, ref ColorTransform.NONE);
-            //}
-            //else
-            //{
-            //    drawJump(canvas, ref BLACK);
-            //}
+            if (getLevel().power >= 0.5f || !getEnv().day)
+            {
+                drawJump(g, ref ColorTransform.NONE);
+            }
+            else
+            {
+                drawJump(g, ref ColorTransform.NONE);
+            }
         }
 
         public void drawJump(Graphics g, ref ColorTransform trans)

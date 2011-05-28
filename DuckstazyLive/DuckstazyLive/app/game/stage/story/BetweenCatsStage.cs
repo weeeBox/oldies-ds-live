@@ -300,7 +300,7 @@ namespace DuckstazyLive.game.levels
                         catArrow.x = 532.0f;
                         catArrow.visible = false;
                         catArrow.visibleCounter = 0.0f;
-                        ColorUtils.ctSetRGB(ref catArrow.color, 0xffb300);
+                        ColorUtils.ctSetRGB(ref catArrow.ctForm, 0xffb300);
                     }
                     break;
                 case 2:
