@@ -886,7 +886,7 @@ namespace DuckstazyLive.app.game
 
         private void drawNid(Graphics g)
         {
-            media.emo.drawNid(g, hx, hy);
+            media.drawHelper.drawNid(g, hx, hy);
         }        
 
         private void drawEmoHappy(Graphics g)
@@ -903,7 +903,7 @@ namespace DuckstazyLive.app.game
 
             ang *= Math.Abs(emoParam) * 6.28f;
 
-            media.emo.drawEmoHappy(g, a, ang, hx, hy);         
+            media.drawHelper.drawEmoHappy(g, a, ang, hx, hy);         
         }
 
         private void drawEmoShake(Graphics g)
@@ -920,7 +920,7 @@ namespace DuckstazyLive.app.game
             else if (off >= 0.0f)
                 off = 0.5f;
 
-            media.emo.drawEmoShake(g, a, off, hx, hy);            
+            media.drawHelper.drawEmoShake(g, a, off, hx, hy);            
         }
 
         private void drawEmoSmile(Graphics g)
@@ -931,7 +931,7 @@ namespace DuckstazyLive.app.game
             else if (emoCounter < 0.5f) a = emoCounter;
             a *= 2.0f;
 
-            media.emo.drawEmoSmile(g, a, hx, hy);            
+            media.drawHelper.drawEmoSmile(g, a, hx, hy);            
         }
 
         public int getScore()
