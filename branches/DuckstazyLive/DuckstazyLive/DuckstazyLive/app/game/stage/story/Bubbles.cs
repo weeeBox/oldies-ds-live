@@ -4,6 +4,8 @@ using DuckstazyLive.game.levels.generator;
 using asap.graphics;
 using DuckstazyLive.app.game;
 using asap.util;
+using DuckstazyLive.app.game.stage.fx;
+using DuckstazyLive.app.game.level;
 
 namespace DuckstazyLive.game.levels
 {
@@ -102,11 +104,11 @@ namespace DuckstazyLive.game.levels
             arrow3.place(705.0f, 525.0f, 0.0f, 0xffffb300, true);
             arrow1.visibleCounter = 0.0f;
             arrow2.visibleCounter = 0.0f;
-            arrow3.visibleCounter = 0.0f;
-            arrow1.visible = true;
-            arrow2.visible = true;
-            arrow3.visible = true;
-            arrowHider = 3.0f;            
+            arrow3.visibleCounter = 0.0f;            
+            arrowHider = 3.0f;
+            level.addPreDraw(arrow1);
+            level.addPreDraw(arrow2);
+            level.addPreDraw(arrow3);
         }
 
         public override void onWin()
@@ -152,21 +154,12 @@ namespace DuckstazyLive.game.levels
                 arrowHider -= dt;
                 if (arrowHider <= 0.0f)
                 {
-                    arrow1.visible = arrow2.visible = arrow3.visible = false;
+                    level.removePreDraw(arrow1);
+                    level.removePreDraw(arrow2);
+                    level.removePreDraw(arrow3);
                 }
-            }
-
-            arrow1.Update(dt);
-            arrow2.Update(dt);
-            arrow3.Update(dt);
-        }
-
-        public override void draw1(Graphics g)
-        {
-            arrow1.Draw(g);
-            arrow2.Draw(g);
-            arrow3.Draw(g);
-        }
+            }            
+        }        
 
         public void jumpLogic(Pill pill, String msg, float dt)
         {
@@ -228,6 +221,6 @@ namespace DuckstazyLive.game.levels
                 //pill.enabled = true;
                 //pill.warning = 0.0;
             }            
-        }
+        }        
     }
 }
