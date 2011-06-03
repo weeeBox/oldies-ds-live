@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DuckstazyLive.app
 {
-    //public class ControllerWarning : BaseElementContainer
+    //public class ControllerWarning : DisplayObjectContainer
     //{
     //    private const int CHILD_BACKGROUND = 0;
     //    private const int CHILD_MESSAGE = 1;
@@ -39,13 +39,13 @@ namespace DuckstazyLive.app
     //    public void start()
     //    {
     //        setEnabled(true);
-    //        BaseElement button = getChild(CHILD_BUTTON);
+    //        DisplayObject button = getChild(CHILD_BUTTON);
     //        button.setEnabled(false);
     //    }
         
     //    public void controllerConnected()
     //    {
-    //        BaseElement button = getChild(CHILD_BUTTON);
+    //        DisplayObject button = getChild(CHILD_BUTTON);
     //        button.setEnabled(true);
     //    }
 

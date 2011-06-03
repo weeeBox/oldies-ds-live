@@ -7,7 +7,7 @@ using asap.graphics;
 
 namespace DuckstazyLive.app.game.stage.fx
 {
-    public class PillDrawHelper : BaseElement
+    public class PillDrawHelper : DisplayObject
     {
         private PillsMedia media;
 

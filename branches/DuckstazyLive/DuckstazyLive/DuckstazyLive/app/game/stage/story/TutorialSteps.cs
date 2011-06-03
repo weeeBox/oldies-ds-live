@@ -13,7 +13,7 @@ using asap.core;
 
 namespace DuckstazyLive.game.stages.story
 {
-    public abstract class SingleTutorialStep : BaseElementContainer
+    public abstract class SingleTutorialStep : DisplayObjectContainer
     {
         protected SingleTutorialStage stage;
 
@@ -125,7 +125,7 @@ namespace DuckstazyLive.game.stages.story
             //    innactivityCounter -= delta;
             //    if (innactivityCounter <= 0)
             //    {
-            //        BaseElement e = getChild(CHILD_TRY);
+            //        DisplayObject e = getChild(CHILD_TRY);
             //        e.visible = true;
             //        e.turnTimelineSupportWithMaxKeyFrames(2);
             //        e.scaleX = e.scaleY = 0.1f;
@@ -157,7 +157,7 @@ namespace DuckstazyLive.game.stages.story
 
         //        if (rightPressed && leftPressed)
         //        {                    
-        //            //BaseElement e = getChild(CHILD_MESSAGE);
+        //            //DisplayObject e = getChild(CHILD_MESSAGE);
         //            //e.turnTimelineSupportWithMaxKeyFrames(2);                    
         //            //e.addKeyFrame(new KeyFrame(e.x, e.y, Color.White, 1.0f, 1.0f, 0.0f, 0.2f));
         //            //e.addKeyFrame(new KeyFrame(e.x, e.y, Color.White, 0.1f, 0.1f, 0.0f, 0.2f));
@@ -177,7 +177,7 @@ namespace DuckstazyLive.game.stages.story
         //    return base.KeyPressed(evt);
         //}
 
-        public void elementTimelineFinished(BaseElement e)
+        public void elementTimelineFinished(DisplayObject e)
         {
             nextStep();
         }
@@ -202,7 +202,7 @@ namespace DuckstazyLive.game.stages.story
         //{
         //    if (evt.code == KeyCode.A)
         //    {
-        //        //BaseElement e = getChild(CHILD_MESSAGE);
+        //        //DisplayObject e = getChild(CHILD_MESSAGE);
         //        //e.turnTimelineSupportWithMaxKeyFrames(2);
         //        //e.scaleX = e.scaleY = 1.0f;
         //        //e.addKeyFrame(new KeyFrame(e.x, e.y, Color.White, 0.1f, 0.1f, 0.0f, 0.2f));
@@ -217,7 +217,7 @@ namespace DuckstazyLive.game.stages.story
         //    return base.KeyPressed(evt);
         //}
 
-        public void elementTimelineFinished(BaseElement e)
+        public void elementTimelineFinished(DisplayObject e)
         {
             nextStep();
         }
@@ -247,7 +247,7 @@ namespace DuckstazyLive.game.stages.story
 
         //        //if (hero1.isFlying())
         //        //{
-        //        //    BaseElement e = getChild(CHILD_MESSAGE);
+        //        //    DisplayObject e = getChild(CHILD_MESSAGE);
         //        //    e.turnTimelineSupportWithMaxKeyFrames(2);
         //        //    e.scaleX = e.scaleY = 1.0f;
         //        //    e.addKeyFrame(new KeyFrame(e.x, e.y, Color.White, 0.1f, 0.1f, 0.0f, 0.2f));
@@ -262,7 +262,7 @@ namespace DuckstazyLive.game.stages.story
         //    return base.KeyPressed(ref evt);
         //}
 
-        //public void elementTimelineFinished(BaseElement e)
+        //public void elementTimelineFinished(DisplayObject e)
         //{
         //    nextStep();
         //}

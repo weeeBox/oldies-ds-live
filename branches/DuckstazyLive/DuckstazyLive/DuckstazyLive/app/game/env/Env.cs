@@ -11,7 +11,7 @@ using asap.sound;
 
 namespace DuckstazyLive.app.game.env
 {
-    public class Env : BaseElementContainer
+    public class Env : DisplayObjectContainer
     {
         private const int GROUND_HEIGHT = 48;
 
@@ -458,7 +458,7 @@ namespace DuckstazyLive.app.game.env
             //dammitText.y = Constants.ENV_HEIGHT;
             //dammitText.turnTimelineSupportWithMaxKeyFrames(1);
             //dammitText.color = Color.White;
-            //dammitText.addKeyFrame(new BaseElement.KeyFrame(dammitText.x, -dammitText.height, Color.White * 0.0f, dammitText.scaleX, dammitText.scaleY, 0.0f, 2.5f * ENV_TIMEOUT));
+            //dammitText.addKeyFrame(new DisplayObject.KeyFrame(dammitText.x, -dammitText.height, Color.White * 0.0f, dammitText.scaleX, dammitText.scaleY, 0.0f, 2.5f * ENV_TIMEOUT));
             //dammitText.playTimeline();
         }
 

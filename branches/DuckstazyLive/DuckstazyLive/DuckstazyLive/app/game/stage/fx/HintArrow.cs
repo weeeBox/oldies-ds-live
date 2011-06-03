@@ -10,7 +10,7 @@ using asap.visual;
 
 namespace DuckstazyLive.game.levels.fx
 {
-    public class HintArrow : BaseElement
+    public class HintArrow : DisplayObject
     {
         private GameTexture img;        
         private float t;        

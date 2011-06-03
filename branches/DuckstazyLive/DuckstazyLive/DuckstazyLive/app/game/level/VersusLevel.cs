@@ -12,7 +12,7 @@ using DuckstazyLive.app.game.stage;
 
 namespace DuckstazyLive.app.game.level
 {
-    public class CollectedText : BaseElement
+    public class CollectedText : DisplayObject
     {
         private int heroIndex;
         private BaseFont font;
@@ -154,7 +154,7 @@ namespace DuckstazyLive.app.game.level
         private const int STATE_PLAYING = 1;
         private const int STATE_END = 2;
 
-        private BaseElement[] combos;
+        private DisplayObject[] combos;
         private int comboIndex;
         private float comboCounter;
         private Color[] comboColors;
@@ -199,7 +199,7 @@ namespace DuckstazyLive.app.game.level
             Text comboX8 = createComboText("FUCK\nYEAH!!!");
             Text comboX9 = createComboText("DAMN\nYOU’RE\nGOOD!!!");
 
-            combos = new BaseElement[]
+            combos = new DisplayObject[]
             {
                 comboX2, comboX3, comboX4, comboX5, comboX6, comboX7, comboX8, comboX9
             };
@@ -339,7 +339,7 @@ namespace DuckstazyLive.app.game.level
         {
             if (comboIndex != Constants.UNDEFINED)
             {
-                //BaseElement comboElement = combos[comboIndex];
+                //DisplayObject comboElement = combos[comboIndex];
                 //comboElement.Update(dt);
                 //if (!comboElement.isTimelinePlaying())
                 //{
@@ -369,7 +369,7 @@ namespace DuckstazyLive.app.game.level
 
             if (comboIndex > 4)
             {
-                //BaseElement comboElement = combos[comboIndex];
+                //DisplayObject comboElement = combos[comboIndex];
 
                 //float tx = Constants.SAFE_OFFSET_X;
                 //float ty = Constants.SAFE_OFFSET_Y;
@@ -419,7 +419,7 @@ namespace DuckstazyLive.app.game.level
                 if (combo >= 2 && combo <= 9)
                 {
                     //comboIndex = combo - 2;
-                    //BaseElement comboElement = combos[comboIndex];
+                    //DisplayObject comboElement = combos[comboIndex];
                     //if (combo < 7)
                     //{
                     //    comboElement.x = utils.scale(hero.x + Hero.duck_w);

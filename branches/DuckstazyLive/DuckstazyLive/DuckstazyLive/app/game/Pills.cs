@@ -9,7 +9,7 @@ using DuckstazyLive.app.game.level;
 
 namespace DuckstazyLive.app.game
 {
-    public class Pills : BaseElement
+    public class Pills : DisplayObject
     {
         public const int poolSize = 120;
 

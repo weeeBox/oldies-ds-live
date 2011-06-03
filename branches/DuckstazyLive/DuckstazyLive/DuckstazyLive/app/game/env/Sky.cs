@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace DuckstazyLive.app.game.env
 {
-    public abstract class Sky : BaseElementContainer
+    public abstract class Sky : DisplayObjectContainer
     {
         protected RectShape shape;
 
