@@ -41,7 +41,7 @@ namespace DuckstazyLive.app
         //    base.onShow();
         //    GameElements.Env.startBlanc();
 
-        //    BaseElement titleBack = getChild(CHILD_TITLE_BACK);
+        //    DisplayObject titleBack = getChild(CHILD_TITLE_BACK);
         //    titleBack.turnTimelineSupportWithMaxKeyFrames(1);
         //    titleBack.addKeyFrame(new KeyFrame(titleBack.x, titleBack.y, Color.White, 1.0f, 1.0f, 360.0f, 100.0f));
         //    titleBack.setTimelineLoopType(Timeline.REPLAY);

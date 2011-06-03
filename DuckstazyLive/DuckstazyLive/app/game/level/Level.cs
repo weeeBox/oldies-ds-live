@@ -13,7 +13,7 @@ using asap.sound;
 
 namespace DuckstazyLive.app.game.level
 {
-    public abstract class Level : BaseElementContainer, KeyListener
+    public abstract class Level : DisplayObjectContainer, KeyListener
     {
         public static Level instance;
 
@@ -31,8 +31,8 @@ namespace DuckstazyLive.app.game.level
         protected float levelStateElapsed;
 
         public BaseGame controller;
-        public BaseElementContainer preDraw;
-        public BaseElementContainer postDraw;
+        public DisplayObjectContainer preDraw;
+        public DisplayObjectContainer postDraw;
 
         public Level(BaseGame controller, float width, float height) : base(width, height)
         {
@@ -49,8 +49,8 @@ namespace DuckstazyLive.app.game.level
             stage = null;
             hud = createHud();
 
-            preDraw = new BaseElementContainer();
-            postDraw = new BaseElementContainer();
+            preDraw = new DisplayObjectContainer();
+            postDraw = new DisplayObjectContainer();
 
             AddSetSize(preDraw, width, height);
             AddSetSize(getPills(), width, height);
@@ -59,7 +59,7 @@ namespace DuckstazyLive.app.game.level
             AddSetSize(postDraw, width, height);
         }
 
-        private void AddSetSize(BaseElement element, float width, float height)
+        private void AddSetSize(DisplayObject element, float width, float height)
         {
             element.width = width;
             element.height = height;
@@ -293,12 +293,12 @@ namespace DuckstazyLive.app.game.level
             power = powerUp = newPower;
         }        
 
-        public void addPreDraw(BaseElement element)
+        public void addPreDraw(DisplayObject element)
         {
             preDraw.AddChild(element);
         }
 
-        public void removePreDraw(BaseElement element)
+        public void removePreDraw(DisplayObject element)
         {
             preDraw.RemoveChild(element);
         }
@@ -308,12 +308,12 @@ namespace DuckstazyLive.app.game.level
             preDraw.RemoveAllChilds();
         }
 
-        public void addPostDraw(BaseElement element)
+        public void addPostDraw(DisplayObject element)
         {
             postDraw.AddChild(element);
         }
 
-        public void removePostDraw(BaseElement element)
+        public void removePostDraw(DisplayObject element)
         {
             postDraw.RemoveChild(element);
         }

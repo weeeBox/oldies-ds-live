@@ -10,7 +10,7 @@ using DuckstazyLive.app.game.level;
 
 namespace DuckstazyLive.app.game
 {
-    public class HealthSmile : BaseElementContainer
+    public class HealthSmile : DisplayObjectContainer
     {
         private const int HEALTH_FULL = 3;
         private int health;
@@ -78,7 +78,7 @@ namespace DuckstazyLive.app.game
         }
     }
 
-    public class HealthBar : BaseElementContainer
+    public class HealthBar : DisplayObjectContainer
     {
         private const int HEALTH_CAPACITY = 1;
         private HealthSmile[] healthSmiles;
@@ -96,7 +96,7 @@ namespace DuckstazyLive.app.game
         }
     }
 
-    public abstract class Hud : BaseElementContainer
+    public abstract class Hud : DisplayObjectContainer
     {
         protected Level level;
         protected StageClock clock;
@@ -134,7 +134,7 @@ namespace DuckstazyLive.app.game
         }
     }
 
-    public class StageClock : BaseElementContainer
+    public class StageClock : DisplayObjectContainer
     {
         private const int CHILD_IMAGE = 0;
         private const int CHILD_MINUTES = 1;
@@ -210,7 +210,7 @@ namespace DuckstazyLive.app.game
             //}
         }
 
-        public void elementTimelineFinished(BaseElement e)
+        public void elementTimelineFinished(DisplayObject e)
         {
             //if (scaleX == 0.1f)
             //    visible = false;

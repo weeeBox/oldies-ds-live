@@ -15,7 +15,7 @@ namespace DuckstazyLive.app.game
     public delegate void UserCallback(Pill pill, String msg, float dt);
     public delegate void ParentCallback(Pill pill);
 
-    public class Pill : BaseElement
+    public class Pill : DisplayObject
     {
         public const int POWER1 = 0;
         public const int POWER2 = 1;

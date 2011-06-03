@@ -25,14 +25,14 @@ namespace DuckstazyLive.app.game
     public delegate void HeroCallback(Hero hero, HeroMessage message);
     public delegate void MovementCallback(Hero hero, float dt);
 
-    public class Hero : BaseElementContainer
+    public class Hero : DisplayObjectContainer
     {
-        private BaseElement eye1Element;
-        private BaseElement eye2Element;
-        private BaseElement wingElement;
-        private BaseElement duckElement;
-        private BaseElement sleepElement;
-        private BaseElement deadElement;
+        private DisplayObject eye1Element;
+        private DisplayObject eye2Element;
+        private DisplayObject wingElement;
+        private DisplayObject duckElement;
+        private DisplayObject sleepElement;
+        private DisplayObject deadElement;
 
         // duck logic consts
         private const float duck_jump_start_vel_min = 190.5f;
@@ -231,7 +231,7 @@ namespace DuckstazyLive.app.game
             gameState = new GameState();
             info = new GameInfo(this);
 
-            BaseElementContainer duckContainer = new BaseElementContainer();
+            DisplayObjectContainer duckContainer = new DisplayObjectContainer();
             duckContainer.AddChild(new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_DUCK + playerIndex)));
             eye1Element = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_EYE1));
             eye2Element = new Image(Application.sharedResourceMgr.GetTexture(Res.IMG_EYE2));

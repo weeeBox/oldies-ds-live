@@ -19,9 +19,9 @@ namespace DuckstazyLive.app.menu
         private Color color1;
         private Color color2;
 
-        private BaseElement strokeImage;
-        private BaseElement rotationElement1;
-        private BaseElement rotationElement2;
+        private DisplayObject strokeImage;
+        private DisplayObject rotationElement1;
+        private DisplayObject rotationElement2;
         private Text label;
 
         public string name;

@@ -9,7 +9,7 @@ using asap.visual;
 
 namespace DuckstazyLive.app.game
 {
-    public class Particles : BaseElement
+    public class Particles : DisplayObject
     {
         // направляющие частицы
         public const int ACID = 0;

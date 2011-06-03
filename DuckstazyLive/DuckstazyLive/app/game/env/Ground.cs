@@ -8,7 +8,7 @@ using app;
 
 namespace DuckstazyLive.app.game.env
 {
-    public class Ground : BaseElementContainer
+    public class Ground : DisplayObjectContainer
     {
         private TiledImage grass;
         private RectShape ground;

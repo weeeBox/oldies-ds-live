@@ -12,7 +12,7 @@ using DuckstazyLive.app.game.level;
 
 namespace DuckstazyLive.app.game
 {
-    public class Heroes : BaseElementContainer, IEnumerable<Hero>
+    public class Heroes : DisplayObjectContainer, IEnumerable<Hero>
     {
         private bool started;
 

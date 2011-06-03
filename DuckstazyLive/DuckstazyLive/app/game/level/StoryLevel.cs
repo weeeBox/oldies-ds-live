@@ -105,7 +105,7 @@ namespace DuckstazyLive.app.game.level
             //clock.hide();
         }
 
-        public void elementTimelineFinished(BaseElement e)
+        public void elementTimelineFinished(DisplayObject e)
         {
             //if (e == infoText)
             //{
