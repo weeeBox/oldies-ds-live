@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<font filename="tex_game" charOffset="0" lineOffset="12" spaceWidth="40" fontOffset="0">
+  <char value="D" x="365" y="363" w="129" h="141" ox="0" oy="22"/>
+  <char value="E" x="357" y="182" w="100" h="148" ox="0" oy="12"/>
+  <char value="F" x="927" y="4" w="86" h="148" ox="0" oy="17"/>
+  <char value="G" x="502" y="363" w="148" h="140" ox="0" oy="21"/>
+  <char value="!" x="658" y="363" w="46" h="137" ox="0" oy="20"/>
+  <char value="A" x="512" y="4" w="139" h="150" ox="0" oy="12"/>
+  <char value="C" x="906" y="182" w="112" h="142" ox="0" oy="21"/>
+  <char value="M" x="152" y="363" w="205" h="143" ox="0" oy="19"/>
+  <char value="N" x="360" y="4" w="144" h="152" ox="0" oy="17"/>
+  <char value="O" x="749" y="182" w="149" h="145" ox="0" oy="12"/>
+  <char value="H" x="659" y="4" w="107" h="150" ox="0" oy="17"/>
+  <char value="K" x="4" y="363" w="140" h="144" ox="0" oy="21"/>
+  <char value="U" x="465" y="182" w="117" h="148" ox="0" oy="17"/>
+  <char value="R" x="774" y="4" w="145" h="149" ox="0" oy="17"/>
+  <char value="’" x="261" y="637" w="49" h="64" ox="0" oy="23"/>
+  <char value="Y" x="590" y="182" w="151" h="148" ox="0" oy="17"/>
+</font>

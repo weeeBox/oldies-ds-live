@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<atlas filename="tex_common">
+  <image x="4" y="62" w="50" h="50" ox="0" oy="0"/>
+  <image x="4" y="4" w="50" h="50" ox="0" oy="0"/>
+</atlas>
